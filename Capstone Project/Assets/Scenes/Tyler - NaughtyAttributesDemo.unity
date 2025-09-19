@@ -271,13 +271,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentInspectorShowing: 0
   weaponPower: 0
-  playerSpeed: 0
-  playerMaxHealth: {x: 0, y: 0}
+  playerSpeed: 60
+  health: 120
+  playerMaxHealth: {x: 10, y: 70}
   errorOutput: 
-  animalName: 
-  TagToLookFor: 
+  animalName: dog
+  tagToLookFor: Respawn
+  layerToLookFor: Default
+  sceneToLookFor: SampleScene
   objName: 
-  objDiscription: 
+  tClass:
+    num: 0
+    prefab: {fileID: 0}
+  cube: {fileID: 3684258180436932112, guid: 2eaa4422bdb2f954bb574fa4a1ac1ed5, type: 3}
 --- !u!4 &637459460
 Transform:
   m_ObjectHideFlags: 0
