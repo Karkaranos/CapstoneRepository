@@ -4,58 +4,66 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public List<Tile[,]> grids;
-    public Tile[,] currentGrid;
+    public List<Grid> grids = new List<Grid>();
+    public Grid currentGrid;
+    public GameObject tileMarker;
 
     /// Creates a new square grid and returns the result
     /// <param name="dimensions"></param>: the dimensions of the grid
     /// <param name="tileSize"></param>: The dimensions of the tile
     /// <param name="spawnLocation"></param> this is where the center of the grid will be
     /// has two overloads that are less specific with the parameters
-    public Tile[,] MakeGrid(Vector2 dimensions, Vector2 tileSize, Vector3 spawnLocation)
+    public Grid MakeGrid(Vector2Int dimensions, Vector2 tileSize, Vector3 spawnLocation)
     {
 
-        //finding the starting tile spawn point based off spawnLocation
+        //finding the starting tile spawn point based off the grids spawnLocation
         Vector3 spawnPosition = new Vector3();
-        spawnPosition.x = spawnLocation.x - (dimensions.x / 0.5f - 1f);
-        spawnPosition.y = spawnLocation.y - (dimensions.y / 0.5f - 1f);
-        spawnPosition.z = spawnLocation.z;
+        spawnPosition.x = spawnLocation.x - (dimensions.x / 2f - 0.5f);
+        spawnPosition.y = spawnLocation.y;
+        spawnPosition.z = spawnLocation.z - (dimensions.y / 2f - 0.5f);
 
-        //making grid
-        Tile[,] grid = new Tile[(int)dimensions.x, (int)dimensions.y];
+        //making the grid
+        Tile[,] grid = new Tile[dimensions.x, dimensions.y];
         for (int i = 0; i < dimensions.x; i++)
         {
             for (int j = 0; j < dimensions.y; j++)
             {
-                grid[i, j] = new Tile(spawnPosition, new Vector2(i, j));
-                spawnPosition.y += tileSize.y;
+                Instantiate(tileMarker, spawnPosition, Quaternion.identity);
+                grid[i, j] = new Tile(spawnPosition, new Vector2Int(i, j));
+                spawnPosition.z += tileSize.y;
             }
-            spawnPosition.y -= tileSize.y * dimensions.y;
+            spawnPosition.z -= tileSize.y * dimensions.y;
             spawnPosition.x += tileSize.x;
         }
 
         //finalizing
-        if (currentGrid == null) {
-            currentGrid = grid;
+        Grid newGrid = (new Grid(grid));
+        foreach (Tile tile in grid) { 
+            tile.parentGrid = newGrid;
         }
-        grids.Add(grid);
-        return grid;
+        grids.Add(newGrid);
+        if (currentGrid == null) {
+            currentGrid = newGrid;
+        }
+        return newGrid;
     }
-    public Tile[,] MakeGrid(Vector2 dimensions, Vector2 tileSize)
+    public Grid MakeGrid(Vector2Int dimensions, Vector2 tileSize)
     {
         return MakeGrid(dimensions, tileSize, Vector3.zero);
     }
-    public Tile[,] MakeGrid(Vector2 dimensions) {
+    public Grid MakeGrid(Vector2Int dimensions) {
         return MakeGrid(dimensions, Vector2.one, Vector3.zero);
     }
 
-    public Tile[,] useGrid(int index) {
-        if () { 
+    /// <summary>
+    /// changes the grid that is currently being used returns the new current grid
+    /// </summary>
+    /// <param name="index"></param>: index of the grid that should be used
+    /// <returns></returns> : returns the current grid
+    public Grid useGrid(int index) {
+        if (index >= 0 && index < grids.Count) { 
             currentGrid = grids[index];
         }
         return currentGrid;
-    }
-
-
-
+    }    
 }
