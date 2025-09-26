@@ -1,3 +1,13 @@
+/*************************************************
+Author Names : 		Tyler Hayes 
+Date Created : 		09/20/2025
+Date Last Modified : 09/26/2025
+Brief Description : This is a demo for how naughtyattributes
+				works
+External Resources : 	Naughtyattributes documentation: https://dbrizov.github.io/na-docs/attributes/drawer_attributes/index.html#
+	***************************************************/
+
+
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
