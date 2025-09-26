@@ -7,11 +7,13 @@ public class Tile
     public Vector2Int coordinate;
     public GameObject objectOnTile;
 
+    //class constructor
     public Tile(Vector3 _worldPosition, Vector2Int _coordinate) { 
         worldPosition = _worldPosition;
         coordinate = _coordinate;
         objectOnTile = null;
     }
+
     //these four fnctionsget neighboring tiles
     public Tile GetTopNeighbor() {
         return parentGrid.GetTile(new Vector2Int(coordinate.x, coordinate.y + 1));
@@ -56,8 +58,7 @@ public class Tile
         return neighbors;
     }
 
-
-
+    //returns if the tile has an object on it or not
     public bool isEmpty() {
         if (objectOnTile == null) {
             return true;
