@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    public List<Grid> grids = new List<Grid>();
-    public Grid currentGrid;
-    public GameObject tileMarker;
+    [HideInInspector] public Grid CurrentGrid;
+    
+    [HideInInspector] private List<Grid> grids = new List<Grid>();
+    [SerializeField] private GameObject tileMarker;
 
     /// Creates a new square grid and returns the result
+    /// <param name="name"></param>: name of the grid
     /// <param name="dimensions"></param>: the dimensions of the grid
     /// <param name="tileSize"></param>: The dimensions of the tile
     /// <param name="spawnLocation"></param> this is where the center of the grid will be
-    /// has two overloads that are less specific with the parameters
-    public Grid MakeGrid(Vector2Int dimensions, Vector2 tileSize, Vector3 spawnLocation)
+    /// has tree overloads that are less specific with the parameters
+    public Grid MakeGrid(string name, Vector2Int dimensions, Vector2 tileSize, Vector3 spawnLocation)
     {
 
         //finding the starting tile spawn point based off the grids spawnLocation
@@ -37,15 +39,18 @@ public class GridManager : MonoBehaviour
         }
 
         //finalizing
-        Grid newGrid = (new Grid(grid));
+        Grid newGrid = (new Grid(name, grid));
         foreach (Tile tile in grid) { 
             tile.parentGrid = newGrid;
         }
         grids.Add(newGrid);
-        if (currentGrid == null) {
-            currentGrid = newGrid;
+        if (CurrentGrid == null) {
+            CurrentGrid = newGrid;
         }
         return newGrid;
+    }
+    public Grid MakeGrid(Vector2Int dimensions, Vector2 tileSize, Vector3 spawnLocation) {
+        return MakeGrid("Grid" + grids.Count, dimensions, tileSize, spawnLocation);
     }
     public Grid MakeGrid(Vector2Int dimensions, Vector2 tileSize)
     {
@@ -62,8 +67,26 @@ public class GridManager : MonoBehaviour
     /// <returns></returns> : returns the current grid
     public Grid useGrid(int index) {
         if (index >= 0 && index < grids.Count) { 
-            currentGrid = grids[index];
+            CurrentGrid = grids[index];
+            return CurrentGrid;
         }
-        return currentGrid;
-    }    
+        return null;
+    }
+    /// <summary>
+    /// changes the grid that is currently being used returns the new current grid
+    /// </summary>
+    /// <param name="name"></param>: name of the grid that should be used
+    /// <returns></returns> : returns the current grid
+    public Grid useGrid(string name)
+    {
+        foreach (Grid grid in grids) {
+            if (grid.name == name) { 
+                CurrentGrid = grid;
+                return grid;
+            }
+        }
+        return null;
+    }
+
+
 }

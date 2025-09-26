@@ -6,12 +6,11 @@ public class Tile
     public Vector3 worldPosition;
     public Vector2Int coordinate;
     public GameObject objectOnTile;
-    public int pathingValue;
+
     public Tile(Vector3 _worldPosition, Vector2Int _coordinate) { 
         worldPosition = _worldPosition;
         coordinate = _coordinate;
         objectOnTile = null;
-        pathingValue = 0;
     }
     //these four fnctionsget neighboring tiles
     public Tile GetTopNeighbor() {
