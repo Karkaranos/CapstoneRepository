@@ -16,7 +16,7 @@ public class GridManager : MonoBehaviour
     // -4 is an obstacle occupied tile
     public static int[,] combatGrid;
 
-    public Vector2Int playerPosition;
+    public static Vector2Int playerPosition;
 
     /// <summary>
     /// Sets the grid instance that everything will reference
@@ -56,6 +56,10 @@ public class GridManager : MonoBehaviour
     public static void AddEntity(Vector2Int locationInGrid, int entityType)
     {
         combatGrid[locationInGrid.x, locationInGrid.y] = entityType;
+        if(entityType == -3)
+        {
+            playerPosition = locationInGrid;
+        }
     }
 
     /// <summary>
@@ -68,6 +72,11 @@ public class GridManager : MonoBehaviour
         return combatGrid[tileCoordinates.x, tileCoordinates.y] == -1;
     }
 
+    /// <summary>
+    /// Checks if the attempted tile is in the bounds of the grid
+    /// </summary>
+    /// <param name="tileCoordinates"></param> The position being checked
+    /// <returns></returns> Returns true if the checked tile is in the grid's bounds
     public static bool TileIsInGrid(Vector2Int tileCoordinates)
     {
         if(tileCoordinates.x < 0 || tileCoordinates.x >= combatGrid.GetLength(0))
@@ -79,6 +88,39 @@ public class GridManager : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    /// <summary>
+    /// Updates the grid to show where an entity moved to
+    /// </summary>
+    /// <param name="originalTile"></param> The tile the entity was on before it moved
+    /// <param name="tileMovedTo"></param> The tile  the entity moved to
+    /// <param name="entityType"></param> The int classification of the entity
+    public static void MoveToTile(Vector2Int originalTile ,Vector2Int tileMovedTo, int entityType)
+    {
+        combatGrid[originalTile.x, originalTile.y] = -1;
+        combatGrid[tileMovedTo.x, tileMovedTo.y] = entityType;
+        if(entityType == -3)
+        {
+            playerPosition = tileMovedTo;
+        }
+    }
+
+    /// <summary>
+    /// Used to clear the grid assignments used when pathfinding
+    /// </summary>
+    public static void ClearPathfinding()
+    {
+        for(int i = 0; i < combatGrid.GetLength(0); ++i)
+        {
+            for(int j = 0; j < combatGrid.GetLength(1); ++j)
+            {
+                if(combatGrid[i, j] > 0)
+                {
+                    combatGrid[i, j] = -1;
+                }
+            }
+        }
     }
 
     /// <summary>
