@@ -1,17 +1,19 @@
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    private static List<Grid> grids = new List<Grid>();
-    public static Grid currentGrid;
+    private static List<Tile[,]> grids = new List<Tile[,]>();
+    public static Tile[,] currentGrid;
     /// Creates a new square grid and returns the result
     /// <param name="name"></param>: name of the grid
     /// <param name="dimensions"></param>: the dimensions of the grid
     /// <param name="tileSize"></param>: The dimensions of the tile
     /// <param name="spawnLocation"></param> this is where the center of the grid will be
     /// has tree overloads that are less specific with the parameters
-    public static Grid MakeGrid(string name, Vector2Int dimensions, float radius, Vector3 spawnLocation)
+    public static void MakeGrid(string name, Vector2Int dimensions, float radius, Vector3 spawnLocation)
     {
         //Hex grid math
         float hexWidth = 2f * radius;
@@ -24,7 +26,7 @@ public class GridManager : MonoBehaviour
         startPos.z -= (dimensions.y - 1) * hexHeight / 2f;
 
         // make grid
-        Grid grid = new Grid(name, dimensions);
+        Tile[,] grid = new Tile[dimensions.x, dimensions.y];
 
         for (int x = 0; x < dimensions.x; x++)
         {
@@ -39,7 +41,7 @@ public class GridManager : MonoBehaviour
                 Vector3 tilePos = new Vector3(worldX, spawnLocation.y, worldZ);
 
                 // creating tile at this position
-                grid.tiles[x, y] = new Tile(tilePos, new Vector2Int(x, y));
+                grid[x, y] = new Tile(tilePos, new Vector2Int(x, y));
                 GameObject newTile = Instantiate(Resources.Load<GameObject>("TileMarker"), tilePos, Quaternion.identity);
                 newTile.name = "Tile(" + x.ToString() + ", " + y.ToString() + ")";
             }
@@ -51,8 +53,124 @@ public class GridManager : MonoBehaviour
         if (currentGrid == null) {
             currentGrid = grid;
         }
-        return grid;
     }
 
-    
+    public static bool HasTile(Vector2Int coords) {
+        if ((coords.x >= 0 && coords.x < currentGrid.GetLength(0)) && (coords.y >= 0 && coords.x < currentGrid.GetLength(1))) {
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns the Tile that a certian GameObject is on
+    /// </summary>
+    /// <returns></returns>
+    public static Tile GetObject(GameObject obj) {
+        foreach (Tile tile in currentGrid.tiles) {
+            if (tile.objectOnTile == obj && obj != null) {
+                return tile;
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// returns a list of tiles that have GameObjects with a specified tag attached to them
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    public static List<Tile> GetObjectsWithTag(string tag) {
+        List<Tile> list = new List<Tile>();
+        foreach (Tile tile in currentGrid.tiles) {
+            if (tile.objectOnTile is GameObject obj) {
+                if (obj.tag == tag) {
+                    list.Add(tile);
+                }
+            }
+        }
+        return list;
+    }
+
+    /*public static List<Tile> FindAllNeighbors(Tile tile)
+    {
+        List<Tile> list = new List<Tile>();
+
+    }*/
+
+    /// <summary>
+    /// finds all of the tiles that are currently empty on the grid
+    /// </summary>
+    /// <returns></returns>
+    public static List<Tile> FindEmptyTiles() {
+        List<Tile> list = new List<Tile>();
+        foreach (Tile tile in currentGrid) {
+            if (tile.objectOnTile == null) {
+                list.Add(tile);
+            }
+        }
+        return list;
+    }
+
+    /// <summary>
+    /// Spawns a new object onto the grid at specified coordinates
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="tile"></param>
+    public static GameObject CreateObject(GameObject obj, Vector2Int coords) {
+       
+        Tile tile = GetTile(coords);
+
+        if (HasTile(coords) && tile.objectOnTile == null) {
+            GameObject newObj = Instantiate(obj, tile.worldPosition, Quaternion.identity);
+            tile.objectOnTile = newObj;
+            return newObj;
+        }
+        print("Failed to add" + obj + " at " + coords);
+        return null;
+    }
+
+    /// <summary>
+    /// spawns a new object to the grid on a random tile
+    /// </summary>
+    /// <param name="obj"></param>
+    public static GameObject CreateObject(GameObject obj) {
+        List<Tile> emptyTiles = FindEmptyTiles();
+        if (emptyTiles.Count <= 0)
+        {
+            print("Failed to add " + obj + ", Grid was full");
+            return null;
+        }
+        int randomIndex = Random.Range(0, emptyTiles.Count);
+        return CreateObject(obj, emptyTiles[randomIndex].coordinate);
+    }
+
+    /// <summary>
+    /// removes a gameobject from the current grid if its on there.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns> the object that was removed
+    public static GameObject RemoveObject(GameObject obj) {
+        if (GetObject(obj) is Tile tile) {
+            GameObject objToRemove = tile.objectOnTile;
+            GameObject.Destroy(tile.objectOnTile);
+            tile.objectOnTile = null;
+            return objToRemove;
+        }
+        print("Failed to remove " + obj);
+        return null;
+    }
+
+    /// <summary>
+    /// removes all gameobjects that are on the grid
+    /// </summary>
+    public static void ClearGrid() {
+        foreach (Tile tile in currentGrid.tiles)
+        {
+            if (tile.objectOnTile != null)
+            {
+                RemoveObject(tile.objectOnTile);
+            }
+        }
+    }
 }
