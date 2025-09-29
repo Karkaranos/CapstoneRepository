@@ -16,28 +16,44 @@ using UnityEngine.UI;
 
 public class CommandConsoleBehavior : MonoBehaviour
 {
-    private enum CommandConsoleInspectorOptions
+    // Controls what elements are visible in the inspector
+    private enum InspectorOption
     {
         STATIC_VALUES, VALID_COMMANDS
     }
 
-    [SerializeField] private CommandConsoleInspectorOptions _options;
+    [SerializeField] private InspectorOption _options;
+    [SerializeField] private bool _consoleEnabled = true;
+    [SerializeField] private bool _consoleEnabledOnLoad = true;
 
-    [Foldout("Logger Static Values"), SerializeField, ShowIf("_options", CommandConsoleInspectorOptions.STATIC_VALUES)] private TMP_Text _consoleTextbox;
-    [Foldout("Logger Static Values"), SerializeField, ShowIf("_options", CommandConsoleInspectorOptions.STATIC_VALUES), 
+    #region Logger Static Values
+    [HorizontalLine(4, EColor.Red)]
+    [SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES)] private TMP_Text _consoleTextbox;
+    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES), 
         Tooltip("CSS Tag to set Log Message Display Color")] private string _logColor;
-    [Foldout("Logger Static Values"), SerializeField, ShowIf("_options", CommandConsoleInspectorOptions.STATIC_VALUES), 
+    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES), 
         Tooltip("CSS Tag to set Log Warning Display Color")] private string _warningColor;
-    [Foldout("Logger Static Values"), SerializeField, ShowIf("_options", CommandConsoleInspectorOptions.STATIC_VALUES), 
+    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES), 
         Tooltip("CSS Tag to set Log Error Display Color")] private string _errorColor;
+    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES),
+    Tooltip("CSS Tag to set Log Input Display Color")]
+    private string _inputColor;
+    #endregion
 
-    [Foldout("CommandGroups"), SerializeField, ShowIf("_options", CommandConsoleInspectorOptions.VALID_COMMANDS),
+    #region Command Groups
+    [HorizontalLine(4, EColor.Orange)]
+    [SerializeField, ShowIf("_options", InspectorOption.VALID_COMMANDS),
         Tooltip("Can the Command Console be moved?")] private bool _moveConsoleEnabled;
-    [Foldout("CommandGroups"), SerializeField, ShowIf("_options", CommandConsoleInspectorOptions.VALID_COMMANDS),
+    [SerializeField, ShowIf("_options", InspectorOption.VALID_COMMANDS),
     Tooltip("Can the Command Console greet the user?")] private bool _greetEnabled;
+    #endregion
 
     [Foldout("References"), Required, SerializeField] private TMP_Text _consoleInputBox;
+    [Foldout("References"), Required, SerializeField] private TMP_InputField _consoleInputField;
     [Foldout("References"), Required, SerializeField] private RectTransform _consoleRectTransform;
+    private GameObject _consoleGameObject;
+
+    // must be public as it is static
     [HideInInspector] public static RectTransform RectTransform;
 
     /// <summary>
@@ -45,11 +61,14 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Logger.Initialize(_consoleTextbox, _logColor, _warningColor, _errorColor);
+        Logger.Initialize(_consoleTextbox, _logColor, _warningColor, _errorColor, _inputColor);
         RectTransform = _consoleRectTransform;
         Logger.Log("Testing");
         Logger.Warning("Test Warning");
         Logger.Error("Test Error");
+
+        _consoleGameObject = _consoleRectTransform.gameObject;
+        ToggleConsole(_consoleEnabledOnLoad);
     }
 
     /// <summary>
@@ -59,7 +78,7 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <param name="command">The command entered into the input field</param>
     public void EnterCommand(string command)
     {
-        Logger.Log(">>" + command);
+        Logger.Input(command);
         if (Commands.CommandDictionary.ContainsKey(command.ToLower()))
         {
             switch (Commands.CommandDictionary[command.ToLower()])
@@ -97,6 +116,12 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <param name="s">Whatever is in the text box. Has a default value of empty.</param>
     public void ClearCommand(string command = "")
     {
-        _consoleInputBox.text = string.Empty;
+        _consoleInputField.text = "";
+        _consoleInputBox.text = "";
+    }
+
+    public void ToggleConsole(bool toggle)
+    {
+        _consoleGameObject.SetActive(toggle);
     }
 }

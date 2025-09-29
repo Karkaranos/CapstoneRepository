@@ -37,8 +37,6 @@ public class Commands
 
     /// <summary>
     /// Sets the Console location to one of four pre-set locations
-    /// Currently a little buggy
-    /// 1 should be the Top Left; it sends it to Bottom Right
     /// </summary>
     /// <param name="location"></param>
     public static void SetConsoleLocation(string location)
@@ -54,15 +52,19 @@ public class Commands
         switch (location)
         {
             case "1":
+                // Top Left
                 newValues = new Vector2(0, 1);
                 break;
             case "2":
+                // Top Right
                 newValues = new Vector2(1, 1);
                 break;
             case "3":
+                // Bottom Right
                 newValues = new Vector2(1, 0);
                 break;
             case "4":
+                // Bottom Left
                 // This would be Vector2.zero. As newValues is already initialized to that, 
                 // it would be redundant to set it again. Case exists to ensure proper handling. 
                 break;
@@ -71,11 +73,11 @@ public class Commands
                 return;
         }
 
+        // Sets the pivot, anchor points, and new position
         rectTransform.pivot = newValues;
         rectTransform.anchorMin = newValues;
         rectTransform.anchorMax = newValues;
-        rectTransform.transform.localPosition = Vector2.zero;
+        rectTransform.anchoredPosition3D = Vector3.zero;
     }
-
 
 }
