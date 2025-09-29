@@ -13,10 +13,10 @@ using UnityEngine;
 public class Logger : ILogHandler
 {
     private static TMP_Text consoleTextLog;
-    private static string DebugColor;
-    private static string WarningColor;
-    private static string ErrorColor;
-    private static string InputColor;
+    private static string debugColor;
+    private static string warningColor;
+    private static string errorColor;
+    private static string inputColor;
     public static TMP_Text ConsoleTextLog { get => consoleTextLog; set => consoleTextLog = value; }
     public static ILogHandler Default { get; }
 
@@ -40,10 +40,10 @@ public class Logger : ILogHandler
         string errorColor = "<color=red>", string inputColor = "<color=gray>")
     {
         ConsoleTextLog = consoleTextLog;
-        DebugColor = debugColor;
-        WarningColor = warningColor;
-        ErrorColor = errorColor;
-        InputColor = inputColor;
+        Logger.debugColor = debugColor;
+        Logger.warningColor = warningColor;
+        Logger.errorColor = errorColor;
+        Logger.inputColor = inputColor;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class Logger : ILogHandler
     /// <param name="text">The message to display</param>
     public static void Log(string text)
     {
-        ConsoleTextLog.text += DebugColor + text + "</color>\n";
+        ConsoleTextLog.text += debugColor + text + "</color>\n";
         Debug.Log(text);
     }
 
@@ -63,7 +63,7 @@ public class Logger : ILogHandler
     /// <param name="text">The command the User entered</param>
     public static void Input(string text)
     {
-        ConsoleTextLog.text += InputColor + ">> " + text + "</color>\n";
+        ConsoleTextLog.text += inputColor + ">> " + text + "</color>\n";
         Debug.Log("User Entered " + text);
     }
 
@@ -73,7 +73,7 @@ public class Logger : ILogHandler
     /// <param name="text">The message to display</param>
     public static void Warning(string text)
     {
-        ConsoleTextLog.text += WarningColor + text + "</color>\n";
+        ConsoleTextLog.text += warningColor + text + "</color>\n";
         Debug.LogWarning(text);
     }
 
@@ -83,7 +83,7 @@ public class Logger : ILogHandler
     /// <param name="text">The message to display</param>
     public static void Error(string text)
     {
-        ConsoleTextLog.text += ErrorColor + text + "</color>\n";
+        ConsoleTextLog.text += errorColor + text + "</color>\n";
         Debug.LogError(text);
     }
 

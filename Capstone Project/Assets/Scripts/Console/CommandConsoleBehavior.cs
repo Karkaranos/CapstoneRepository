@@ -23,62 +23,62 @@ public class CommandConsoleBehavior : MonoBehaviour
         STATIC_VALUES, VALID_COMMANDS
     }
 
-    [SerializeField] private InspectorOption _options;
-    [SerializeField] private bool _consoleEnabled = true;
-    [SerializeField] private bool _consoleEnabledOnLoad = true;
+    [SerializeField] private InspectorOption options;
+    [SerializeField] private bool consoleEnabled = true;
+    [SerializeField] private bool consoleEnabledOnLoad = true;
 
     #region Logger Static Values
     [HorizontalLine(4, EColor.Red)]
-    [SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES)] private TMP_Text _consoleTextbox;
-    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES), 
-        Tooltip("CSS Tag to set Log Message Display Color")] private string _logColor;
-    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES), 
-        Tooltip("CSS Tag to set Log Warning Display Color")] private string _warningColor;
-    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES), 
-        Tooltip("CSS Tag to set Log Error Display Color")] private string _errorColor;
-    [Foldout("Log Colors"), SerializeField, ShowIf("_options", InspectorOption.STATIC_VALUES),
+    [SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES)] private TMP_Text consoleTextbox;
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES), 
+        Tooltip("CSS Tag to set Log Message Display Color")] private string logColor;
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES), 
+        Tooltip("CSS Tag to set Log Warning Display Color")] private string warningColor;
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES), 
+        Tooltip("CSS Tag to set Log Error Display Color")] private string errorColor;
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES),
     Tooltip("CSS Tag to set Log Input Display Color")]
-    private string _inputColor;
+    private string inputColor;
     #endregion
 
     #region Command Groups
     [HorizontalLine(4, EColor.Orange)]
     [SerializeField, ShowIf("_options", InspectorOption.VALID_COMMANDS),
-        Tooltip("Can the Command Console be moved?")] private bool _moveConsoleEnabled;
+        Tooltip("Can the Command Console be moved?")] private bool moveConsoleEnabled;
     [SerializeField, ShowIf("_options", InspectorOption.VALID_COMMANDS),
-    Tooltip("Can the Command Console greet the user?")] private bool _greetEnabled;
+    Tooltip("Can the Command Console greet the user?")] private bool greetEnabled;
     #endregion
 
-    [Foldout("References"), Required, SerializeField] private TMP_Text _consoleInputBox;
-    [Foldout("References"), Required, SerializeField] private TMP_InputField _consoleInputField;
-    [Foldout("References"), Required, SerializeField] private RectTransform _consoleRectTransform;
+    [Foldout("References"), Required, SerializeField] private TMP_Text consoleInputBox;
+    [Foldout("References"), Required, SerializeField] private TMP_InputField consoleInputField;
+    [Foldout("References"), Required, SerializeField] private RectTransform consoleRectTransform;
     
-    private GameObject _consoleGameObject;
-    private static RectTransform _rectTransform;
+    private GameObject consoleGameObject;
+    private static RectTransform rectTransform;
 
-    private InputActionMap _actionMap;
-    private InputAction _toggleConsole;
+    private InputActionMap actionMap;
+    private InputAction toggleConsole;
 
-    public static RectTransform RectTransform { get => _rectTransform; set => _rectTransform = value; }
+    public static RectTransform RectTransform { get => rectTransform; set => rectTransform = value; }
 
     /// <summary>
     /// Occurs on the first frame update. Initializes Logger static class
     /// </summary>
     void Start()
     {
-        Logger.Initialize(_consoleTextbox, _logColor, _warningColor, _errorColor, _inputColor);
-        _rectTransform = _consoleRectTransform;
+        Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor);
+        rectTransform = consoleRectTransform;
         Logger.Log("Testing");
         Logger.Warning("Test Warning");
         Logger.Error("Test Error");
 
-        _actionMap = GetComponent<PlayerInput>().currentActionMap;
-        _actionMap.Enable();
-        _toggleConsole = _actionMap.FindAction("Toggle");
-        _toggleConsole.performed += contx => ToggleConsole();
+        actionMap = GetComponent<PlayerInput>().currentActionMap;
+        actionMap.Enable();
+        toggleConsole = actionMap.FindAction("Toggle");
+        toggleConsole.performed += contx => ToggleConsole();
 
-        _consoleGameObject = _consoleRectTransform.gameObject;
-        _consoleGameObject.SetActive(_consoleEnabledOnLoad);
+        consoleGameObject = consoleRectTransform.gameObject;
+        consoleGameObject.SetActive(consoleEnabledOnLoad);
     }
 
     /// <summary>
@@ -94,13 +94,13 @@ public class CommandConsoleBehavior : MonoBehaviour
             switch (Commands.CommandDictionary[command.ToLower()])
             {
                 case Commands.CommandGroup.MOVE_CONSOLE:
-                    if (_moveConsoleEnabled)
+                    if (moveConsoleEnabled)
                     {
                         Commands.SetConsoleLocation(command);
                     }
                     break;
                 case Commands.CommandGroup.GREET:
-                    if (_greetEnabled)
+                    if (greetEnabled)
                     {
                         Commands.Greet();
                     }
@@ -126,15 +126,15 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <param name="s">Whatever is in the text box. Has a default value of empty.</param>
     public void ClearCommand(string command = "")
     {
-        _consoleInputField.text = "";
-        _consoleInputBox.text = "";
+        consoleInputField.text = "";
+        consoleInputBox.text = "";
     }
 
     public void ToggleConsole()
     {
-        if (_consoleEnabled)
+        if (consoleEnabled)
         {
-            _consoleGameObject.SetActive(!_consoleGameObject.activeInHierarchy);
+            consoleGameObject.SetActive(!consoleGameObject.activeInHierarchy);
         }
     }
 }
