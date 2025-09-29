@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/28/2025
-Date Last Modified : 	9/28/2025
+Date Last Modified : 	9/29/2025
 Brief Description : 	Static Logger
                         Displays text in the CommandConsole and Unity Console                        
 External Resources : 	https://docs.unity3d.com/ScriptReference/ILogHandler.html
