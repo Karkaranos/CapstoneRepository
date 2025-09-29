@@ -6,14 +6,21 @@ public class Tile
     public Vector2Int coordinate;
     public GameObject objectOnTile;
 
-    //class constructor
+    /// <summary>
+    /// Class constructor
+    /// </summary>
+    /// <param name="_worldPosition"></param>
+    /// <param name="_coordinate"></param>
     public Tile(Vector3 _worldPosition, Vector2Int _coordinate) { 
         worldPosition = _worldPosition;
         coordinate = _coordinate;
         objectOnTile = null;
     }
 
-    //returns if the tile has an object on it or not
+    /// <summary>
+    /// returns if the tile is empty or not
+    /// </summary>
+    /// <returns></returns>
     public bool isEmpty() {
         if (objectOnTile == null) {
             return true;

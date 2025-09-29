@@ -2,11 +2,14 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GridManager : MonoBehaviour
 {
     private static List<Tile[,]> grids = new List<Tile[,]>();
     public static Tile[,] currentGrid;
+   
+    
     /// Creates a new square grid and returns the result
     /// <param name="name"></param>: name of the grid
     /// <param name="dimensions"></param>: the dimensions of the grid
@@ -55,6 +58,11 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// returns true if the current grid has a tile at the specified coords
+    /// </summary>
+    /// <param name="coords"></param>
+    /// <returns></returns>
     public static bool HasTile(Vector2Int coords) {
         if ((coords.x >= 0 && coords.x < currentGrid.GetLength(0)) && (coords.y >= 0 && coords.x < currentGrid.GetLength(1))) {
             return true;
@@ -63,11 +71,25 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the Tile Object at specific Coordinates
+    /// </summary>
+    /// <param name="coords"></param>
+    /// <returns></returns>
+    public static Tile GetTile(Vector2Int coords)
+    {
+        if (HasTile(coords))
+        {
+            return currentGrid[coords.x, coords.y];
+        }
+        return null;
+    }
+
+    /// <summary>
     /// Returns the Tile that a certian GameObject is on
     /// </summary>
     /// <returns></returns>
-    public static Tile GetObject(GameObject obj) {
-        foreach (Tile tile in currentGrid.tiles) {
+    public static Tile GetTileWithObject(GameObject obj) {
+        foreach (Tile tile in currentGrid) {
             if (tile.objectOnTile == obj && obj != null) {
                 return tile;
             }
@@ -82,7 +104,7 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     public static List<Tile> GetObjectsWithTag(string tag) {
         List<Tile> list = new List<Tile>();
-        foreach (Tile tile in currentGrid.tiles) {
+        foreach (Tile tile in currentGrid) {
             if (tile.objectOnTile is GameObject obj) {
                 if (obj.tag == tag) {
                     list.Add(tile);
@@ -92,11 +114,144 @@ public class GridManager : MonoBehaviour
         return list;
     }
 
-    /*public static List<Tile> FindAllNeighbors(Tile tile)
+    /// <summary>
+    /// These 6 functions return the neighboring tile to the parameter's tile that the function name specifies
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <returns></returns>
+    public static Tile GetUpperNeighbor(Tile tile)
     {
-        List<Tile> list = new List<Tile>();
+        Vector2Int neighbor = new Vector2Int(tile.coordinate.x, tile.coordinate.y + 1);
+        if (HasTile(neighbor)) {
+            return GetTile(neighbor);
+        }
+        return null;
+    }
+    public static Tile GetUpperLeftNeighbor(Tile tile)
+    {
+        Vector2Int neighbor;
+        if (tile.coordinate.x % 2 == 0)
+        {
+            neighbor = new Vector2Int(tile.coordinate.x - 1, tile.coordinate.y);
+        }
+        else {
+            neighbor = new Vector2Int(tile.coordinate.x -1, tile.coordinate.y + 1);
+        }
+        if (HasTile(neighbor))
+        {
+            return GetTile(neighbor);
+        }
+        return null;
+    }
+    public static Tile GetUpperRightNeighbor(Tile tile)
+    {
+        Vector2Int neighbor;
+        if (tile.coordinate.x % 2 == 0)
+        {
+            neighbor = new Vector2Int(tile.coordinate.x + 1, tile.coordinate.y);
+        }
+        else
+        {
+            neighbor = new Vector2Int(tile.coordinate.x + 1, tile.coordinate.y + 1);
+        }
+        if (HasTile(neighbor))
+        {
+            return GetTile(neighbor);
+        }
+        return null;
+    }
+    public static Tile GetLowerNeighbor(Tile tile)
+    {
+        Vector2Int neighbor = new Vector2Int(tile.coordinate.x, tile.coordinate.y - 1);
+        if (HasTile(neighbor))
+        {
+            return GetTile(neighbor);
+        }
+        return null;
+    }
+    public static Tile GetLowerLeftNeighbor(Tile tile)
+    {
+        Vector2Int neighbor;
+        if (tile.coordinate.x % 2 == 0)
+        {
+            neighbor = new Vector2Int(tile.coordinate.x - 1, tile.coordinate.y - 1);
+        }
+        else
+        {
+            neighbor = new Vector2Int(tile.coordinate.x - 1, tile.coordinate.y);
+        }
+        if (HasTile(neighbor))
+        {
+            return GetTile(neighbor);
+        }
+        return null;
+    }
+    public static Tile GetLowerRightNeighbor(Tile tile)
+    {
+        Vector2Int neighbor;
+        if (tile.coordinate.x % 2 == 0)
+        {
+            neighbor = new Vector2Int(tile.coordinate.x + 1, tile.coordinate.y - 1);
+        }
+        else
+        {
+            neighbor = new Vector2Int(tile.coordinate.x + 1, tile.coordinate.y);
+        }
+        if (HasTile(neighbor))
+        {
+            return GetTile(neighbor);
+        }
+        return null;
+    }
 
-    }*/
+    /// <summary>
+    /// returns a list of all the neighboring tiles
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <returns></returns>
+    public static List<Tile> GetAllNeighbors(Tile tile) { 
+        List<Tile> list = new List<Tile>();
+        if (GetUpperNeighbor(tile) != null) {
+            list.Add(GetUpperNeighbor(tile));
+        }
+        if (GetUpperLeftNeighbor(tile) != null)
+        {
+            list.Add(GetUpperLeftNeighbor(tile));
+        }
+        if (GetUpperRightNeighbor(tile) != null)
+        {
+            list.Add(GetUpperRightNeighbor(tile));
+        }
+        if (GetLowerNeighbor(tile) != null)
+        {
+            list.Add(GetLowerNeighbor(tile));
+        }
+        if (GetLowerLeftNeighbor(tile) != null)
+        {
+            list.Add(GetLowerLeftNeighbor(tile));
+        }
+        if (GetLowerRightNeighbor(tile) != null)
+        {
+            list.Add(GetLowerRightNeighbor(tile));
+        }
+        return list;
+    }
+
+    /// <summary>
+    /// returns all empty neighboring tiles
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <returns></returns>
+    public static List<Tile> GetAllEmptyNeighbors(Tile tile) {
+        List<Tile> list = GetAllNeighbors(tile);
+        List<Tile> newList = new List<Tile>();
+        foreach (Tile t in list) {
+            if (t.isEmpty()) { 
+                newList.Add(t);
+            }
+        }
+        return newList;
+    }
 
     /// <summary>
     /// finds all of the tiles that are currently empty on the grid
@@ -118,9 +273,15 @@ public class GridManager : MonoBehaviour
     /// <param name="obj"></param>
     /// <param name="tile"></param>
     public static GameObject CreateObject(GameObject obj, Vector2Int coords) {
-       
-        Tile tile = GetTile(coords);
 
+        if (!HasTile(coords))
+        {
+            print("Grid doesn't have that position");
+            return null;
+            
+        }
+
+        Tile tile = GetTile(coords);
         if (HasTile(coords) && tile.objectOnTile == null) {
             GameObject newObj = Instantiate(obj, tile.worldPosition, Quaternion.identity);
             tile.objectOnTile = newObj;
@@ -151,7 +312,7 @@ public class GridManager : MonoBehaviour
     /// <param name="obj"></param>
     /// <returns></returns> the object that was removed
     public static GameObject RemoveObject(GameObject obj) {
-        if (GetObject(obj) is Tile tile) {
+        if (GetTileWithObject(obj) is Tile tile) {
             GameObject objToRemove = tile.objectOnTile;
             GameObject.Destroy(tile.objectOnTile);
             tile.objectOnTile = null;
@@ -165,7 +326,7 @@ public class GridManager : MonoBehaviour
     /// removes all gameobjects that are on the grid
     /// </summary>
     public static void ClearGrid() {
-        foreach (Tile tile in currentGrid.tiles)
+        foreach (Tile tile in currentGrid)
         {
             if (tile.objectOnTile != null)
             {

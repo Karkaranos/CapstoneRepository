@@ -25,12 +25,12 @@ public class GridTesting : MonoBehaviour
     [Button]
     void ClearGrid()
     {
-        GridManager.currentGrid.ClearGrid();
+        GridManager.ClearGrid();
     }
     [Button]
     void FindPlayerTile()
     {
-        print(GridManager.GetObject(player).coordinate);
+        print(GridManager.GetTileWithObject(player).coordinate);
     }
     [Button]
     void FindEnemyTiles()
@@ -50,6 +50,18 @@ public class GridTesting : MonoBehaviour
         {
             GridManager.RemoveObject(tile.objectOnTile);
         }
+    }
+    [Button]
+    void NextToPlayer()
+    {
+        List<Tile> adjacentTiles = GridManager.GetAllEmptyNeighbors(GridManager.GetTileWithObject(player));
+        string s = "";
+
+        foreach (Tile tile in adjacentTiles)
+        {
+            s += tile.coordinate + "  ";
+        }
+        print(s);
     }
 
 
