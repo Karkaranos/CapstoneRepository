@@ -13,6 +13,7 @@ using TMPro;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class CommandConsoleBehavior : MonoBehaviour
 {
@@ -51,10 +52,14 @@ public class CommandConsoleBehavior : MonoBehaviour
     [Foldout("References"), Required, SerializeField] private TMP_Text _consoleInputBox;
     [Foldout("References"), Required, SerializeField] private TMP_InputField _consoleInputField;
     [Foldout("References"), Required, SerializeField] private RectTransform _consoleRectTransform;
+    
     private GameObject _consoleGameObject;
+    private static RectTransform _rectTransform;
 
-    // must be public as it is static
-    [HideInInspector] public static RectTransform RectTransform;
+    private InputActionMap _actionMap;
+    private InputAction _toggleConsole;
+
+    public static RectTransform RectTransform { get => _rectTransform; set => _rectTransform = value; }
 
     /// <summary>
     /// Occurs on the first frame update. Initializes Logger static class
@@ -62,13 +67,18 @@ public class CommandConsoleBehavior : MonoBehaviour
     void Start()
     {
         Logger.Initialize(_consoleTextbox, _logColor, _warningColor, _errorColor, _inputColor);
-        RectTransform = _consoleRectTransform;
+        _rectTransform = _consoleRectTransform;
         Logger.Log("Testing");
         Logger.Warning("Test Warning");
         Logger.Error("Test Error");
 
+        _actionMap = GetComponent<PlayerInput>().currentActionMap;
+        _actionMap.Enable();
+        _toggleConsole = _actionMap.FindAction("Toggle");
+        _toggleConsole.performed += contx => ToggleConsole();
+
         _consoleGameObject = _consoleRectTransform.gameObject;
-        ToggleConsole(_consoleEnabledOnLoad);
+        _consoleGameObject.SetActive(_consoleEnabledOnLoad);
     }
 
     /// <summary>
@@ -120,8 +130,11 @@ public class CommandConsoleBehavior : MonoBehaviour
         _consoleInputBox.text = "";
     }
 
-    public void ToggleConsole(bool toggle)
+    public void ToggleConsole()
     {
-        _consoleGameObject.SetActive(toggle);
+        if (_consoleEnabled)
+        {
+            _consoleGameObject.SetActive(!_consoleGameObject.activeInHierarchy);
+        }
     }
 }
