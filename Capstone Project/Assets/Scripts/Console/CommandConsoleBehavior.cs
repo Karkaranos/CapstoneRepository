@@ -59,7 +59,7 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <param name="command">The command entered into the input field</param>
     public void EnterCommand(string command)
     {
-        Logger.Log(command);
+        Logger.Log(">>" + command);
         if (Commands.CommandDictionary.ContainsKey(command.ToLower()))
         {
             switch (Commands.CommandDictionary[command.ToLower()])
