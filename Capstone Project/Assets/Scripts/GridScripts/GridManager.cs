@@ -1,92 +1,58 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [HideInInspector] public Grid CurrentGrid;
-    
-    [HideInInspector] private List<Grid> grids = new List<Grid>();
-    [SerializeField] private GameObject tileMarker;
-
+    private static List<Grid> grids = new List<Grid>();
+    public static Grid currentGrid;
     /// Creates a new square grid and returns the result
     /// <param name="name"></param>: name of the grid
     /// <param name="dimensions"></param>: the dimensions of the grid
     /// <param name="tileSize"></param>: The dimensions of the tile
     /// <param name="spawnLocation"></param> this is where the center of the grid will be
     /// has tree overloads that are less specific with the parameters
-    public Grid MakeGrid(string name, Vector2Int dimensions, Vector2 tileSize, Vector3 spawnLocation)
+    public static Grid MakeGrid(string name, Vector2Int dimensions, float radius, Vector3 spawnLocation)
     {
+        //Hex grid math
+        float hexWidth = 2f * radius;
+        float hexHeight = Mathf.Sqrt(3f) * radius;
+        float horizontalSpacing = 0.75f * hexWidth; // Hex Grids have a 3/4 width overlap
 
-        //finding the starting tile spawn point based off the grids spawnLocation
-        Vector3 spawnPosition = new Vector3();
-        spawnPosition.x = spawnLocation.x - (dimensions.x / 2f - 0.5f);
-        spawnPosition.y = spawnLocation.y;
-        spawnPosition.z = spawnLocation.z - (dimensions.y / 2f - 0.5f);
+        // start from center offset
+        Vector3 startPos = spawnLocation;
+        startPos.x -= (dimensions.x - 1) * horizontalSpacing / 2f;
+        startPos.z -= (dimensions.y - 1) * hexHeight / 2f;
 
-        //making the grid
-        Tile[,] grid = new Tile[dimensions.x, dimensions.y];
-        for (int i = 0; i < dimensions.x; i++)
+        // make grid
+        Grid grid = new Grid(name, dimensions);
+
+        for (int x = 0; x < dimensions.x; x++)
         {
-            for (int j = 0; j < dimensions.y; j++)
+            for (int y = 0; y < dimensions.y; y++)
             {
-                Instantiate(tileMarker, spawnPosition, Quaternion.identity);
-                grid[i, j] = new Tile(spawnPosition, new Vector2Int(i, j));
-                spawnPosition.z += tileSize.y;
-            }
-            spawnPosition.z -= tileSize.y * dimensions.y;
-            spawnPosition.x += tileSize.x;
-        }
+                // making the collumns offset
+                float zOffset = (x % 2 == 0) ? 0f : hexHeight / 2f;
 
-        //finalizing
-        Grid newGrid = (new Grid(name, grid));
-        foreach (Tile tile in grid) { 
-            tile.parentGrid = newGrid;
-        }
-        grids.Add(newGrid);
-        if (CurrentGrid == null) {
-            CurrentGrid = newGrid;
-        }
-        return newGrid;
-    }
-    public Grid MakeGrid(Vector2Int dimensions, Vector2 tileSize, Vector3 spawnLocation) {
-        return MakeGrid("Grid" + grids.Count, dimensions, tileSize, spawnLocation);
-    }
-    public Grid MakeGrid(Vector2Int dimensions, Vector2 tileSize)
-    {
-        return MakeGrid(dimensions, tileSize, Vector3.zero);
-    }
-    public Grid MakeGrid(Vector2Int dimensions) {
-        return MakeGrid(dimensions, Vector2.one, Vector3.zero);
-    }
+                float worldX = startPos.x + x * horizontalSpacing;
+                float worldZ = startPos.z + y * hexHeight + zOffset;
 
-    /// <summary>
-    /// changes the grid that is currently being used returns the new current grid
-    /// </summary>
-    /// <param name="index"></param>: index of the grid that should be used
-    /// <returns></returns> : returns the current grid
-    public Grid useGrid(int index) {
-        if (index >= 0 && index < grids.Count) { 
-            CurrentGrid = grids[index];
-            return CurrentGrid;
-        }
-        return null;
-    }
-    /// <summary>
-    /// changes the grid that is currently being used returns the new current grid
-    /// </summary>
-    /// <param name="name"></param>: name of the grid that should be used
-    /// <returns></returns> : returns the current grid
-    public Grid useGrid(string name)
-    {
-        foreach (Grid grid in grids) {
-            if (grid.name == name) { 
-                CurrentGrid = grid;
-                return grid;
+                Vector3 tilePos = new Vector3(worldX, spawnLocation.y, worldZ);
+
+                // creating tile at this position
+                grid.tiles[x, y] = new Tile(tilePos, new Vector2Int(x, y));
+                GameObject newTile = Instantiate(Resources.Load<GameObject>("TileMarker"), tilePos, Quaternion.identity);
+                newTile.name = "Tile(" + x.ToString() + ", " + y.ToString() + ")";
             }
         }
-        return null;
+
+        // finalize
+        grids.Add(grid);
+
+        if (currentGrid == null) {
+            currentGrid = grid;
+        }
+        return grid;
     }
 
-
+    
 }

@@ -8,7 +8,7 @@ public class GridMovement : MonoBehaviour
     private void Start()
     {
         gridManager = FindFirstObjectByType<GridManager>();
-        grid = gridManager.CurrentGrid;
+        //grid = gridManager.currentGrid;
     }
     public void Move(Vector2 direction) {
         gameObject.transform.position = direction;  

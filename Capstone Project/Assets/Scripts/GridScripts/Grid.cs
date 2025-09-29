@@ -3,33 +3,34 @@ using UnityEngine;
 
 public class Grid
 {
-    public Tile[,] grid;
+    public Tile[,] tiles;
     public string name;
 
     //class constructor
-    public Grid(string _name, Tile[,] _grid) {
+    public Grid(string _name, Vector2Int dimensions){
         name = _name;
-        grid = _grid;
+        tiles = new Tile[dimensions.x,dimensions.y];
     }
 
     //returns a Tile at specific coordinates
     public Tile GetTile(Vector2Int coordinates) {
         if (HasTile(coordinates)) {
-            return grid[coordinates.x, coordinates.y];
+            return tiles[coordinates.x, coordinates.y];
         }
         return null;
     }
+
 
     //adds an object to the grid at a specific grid coordinate returns true if succesful
     public bool AddObjectToTile(GameObject obj, Vector2Int coords)
     {
         if (HasTile(coords))
         {
-            Tile tile = grid[(int)coords.x, (int)coords.y];
+            Tile tile = tiles[(int)coords.x, (int)coords.y];
             if (tile.isEmpty())
             {
                 tile.objectOnTile = obj;
-
+                obj.transform.position = tile.worldPosition;
                 return true;
             }
         }
@@ -53,7 +54,7 @@ public class Grid
     {
         if (HasTile(coords))
         {
-            Tile tile = grid[(int)coords.x, (int)coords.y];
+            Tile tile = tiles[(int)coords.x, (int)coords.y];
             GameObject objectRemoved = tile.objectOnTile;
 
             tile.objectOnTile = null;
@@ -65,7 +66,7 @@ public class Grid
     //attempts to remove an object from the grid and then returns if it was succesful or not
     public bool RemoveObjectFromGrid(GameObject obj)
     {
-        foreach (Tile tile in grid) {
+        foreach (Tile tile in tiles) {
             if (tile.objectOnTile == obj) {
                 RemoveObjectFromTile(tile.coordinate);
                 return true;
@@ -76,7 +77,7 @@ public class Grid
 
     //returns the tile that a specific game object is on
     public Tile FindObjectOnGrid(GameObject obj) {
-        foreach (Tile tile in grid) {
+        foreach (Tile tile in tiles) {
             if (tile.objectOnTile == obj) {
                 return tile;
             }
@@ -87,7 +88,7 @@ public class Grid
     //returns a list of all the empty tiles on the grid
     private List<Tile> FindEmptyTiles() {
         List<Tile> emptyTiles = new List<Tile>();
-        foreach (Tile tile in grid) {
+        foreach (Tile tile in tiles) {
             if (tile.isEmpty()) { 
                 emptyTiles.Add(tile);
             }
@@ -99,11 +100,11 @@ public class Grid
     private bool HasTile(Vector2Int coords)
     {
         bool hasTile = true;
-        if (coords.x < 0 || coords.x >= grid.GetLength(0))
+        if (coords.x < 0 || coords.x >= tiles.GetLength(0))
         {
             hasTile = false;
         }
-        if (coords.y < 0 || coords.y >= grid.GetLength(1))
+        if (coords.y < 0 || coords.y >= tiles.GetLength(1))
         {
             hasTile = false;
         }
