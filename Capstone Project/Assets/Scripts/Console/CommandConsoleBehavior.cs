@@ -43,9 +43,9 @@ public class CommandConsoleBehavior : MonoBehaviour
 
     #region Command Groups
     [HorizontalLine(4, EColor.Orange)]
-    [SerializeField, ShowIf("_options", InspectorOption.VALID_COMMANDS),
+    [SerializeField, ShowIf("options", InspectorOption.VALID_COMMANDS),
         Tooltip("Can the Command Console be moved?")] private bool moveConsoleEnabled;
-    [SerializeField, ShowIf("_options", InspectorOption.VALID_COMMANDS),
+    [SerializeField, ShowIf("options", InspectorOption.VALID_COMMANDS),
     Tooltip("Can the Command Console greet the user?")] private bool greetEnabled;
     #endregion
 
