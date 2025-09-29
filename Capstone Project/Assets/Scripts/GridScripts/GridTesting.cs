@@ -23,6 +23,13 @@ public class GridTesting : MonoBehaviour
         GridManager.currentGrid.AddObjectToGrid(obj);
     }
 
+    [Button]
+    void FindPlayerTile()
+    {
+        print()
+        GridManager.currentGrid.AddObjectToGrid(obj);
+    }
+
 
     private void Start()
     {
