@@ -1,13 +1,19 @@
+/*************************************************
+Author Name(s) : 		    Bouchard, Tyler
+Date Created : 		    9/25/2025
+Date Last Modified : 	9/30/2025
+Brief Description :     This class is responsible for managing the grids in the game
+                        It has a bunch of functions that help find and modify tile objects
+                        in the grid
+External Resources : 	
+	***************************************************/
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GridManager : MonoBehaviour
 {
     private static List<Tile[,]> grids = new List<Tile[,]>();
-    public static Tile[,] currentGrid;
+    private static Tile[,] currentGrid;
    
     
     /// Creates a new square grid and returns the result
@@ -16,7 +22,7 @@ public class GridManager : MonoBehaviour
     /// <param name="tileSize"></param>: The dimensions of the tile
     /// <param name="spawnLocation"></param> this is where the center of the grid will be
     /// has tree overloads that are less specific with the parameters
-    public static void MakeGrid(string name, Vector2Int dimensions, float radius, Vector3 spawnLocation)
+    public static void MakeGrid(Vector2Int dimensions, float radius, Vector3 spawnLocation)
     {
         //Hex grid math
         float hexWidth = 2f * radius;
@@ -64,7 +70,7 @@ public class GridManager : MonoBehaviour
     /// <param name="coords"></param>
     /// <returns></returns>
     public static bool HasTile(Vector2Int coords) {
-        if ((coords.x >= 0 && coords.x < currentGrid.GetLength(0)) && (coords.y >= 0 && coords.x < currentGrid.GetLength(1))) {
+        if ((coords.x >= 0 && coords.x < currentGrid.GetLength(0)) && (coords.y >= 0 && coords.y < currentGrid.GetLength(1))) {
             return true;
         }
         return false;
@@ -333,5 +339,21 @@ public class GridManager : MonoBehaviour
                 RemoveObject(tile.objectOnTile);
             }
         }
+    }
+    /// <summary>
+    /// Sets the pathing values of all 
+    /// </summary>
+    public static void ResetPathingValues() {
+        foreach (Tile tile in currentGrid) {
+            tile.pathingValue = -1;
+        }
+    }
+    /// <summary>
+    /// sets the pathing value of the tile to a specified value
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <param name="value"></param>
+    public static void assignPathingValue(Tile tile, int value) {
+        tile.pathingValue = value;
     }
 }

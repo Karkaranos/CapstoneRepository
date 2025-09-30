@@ -1,3 +1,10 @@
+/*************************************************
+Author Name(s) : 		Bouchard, Tyler
+Date Created : 		    9/25/2025
+Date Last Modified : 	9/30/2025
+Brief Description :     This class makes the Tile object
+External Resources : 	
+	***************************************************/
 using System.Collections.Generic;
 using UnityEngine;
 public class Tile
@@ -5,6 +12,7 @@ public class Tile
     public Vector3 worldPosition;
     public Vector2Int coordinate;
     public GameObject objectOnTile;
+    public int pathingValue = -1;
 
     /// <summary>
     /// Class constructor

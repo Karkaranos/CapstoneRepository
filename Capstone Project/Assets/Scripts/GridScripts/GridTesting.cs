@@ -1,3 +1,11 @@
+/*************************************************
+Author Name(s) : 		Bouchard, Tyler
+Date Created : 		    9/25/2025
+Date Last Modified : 	9/30/2025
+Brief Description :     This class has a few functions that test the grid manager, it isnt 
+                        really meant to be used in game
+External Resources : 	
+	***************************************************/
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,6 +78,8 @@ public class GridTesting : MonoBehaviour
         GenerateGrid();
     }
     public void GenerateGrid() {
-        GridManager.MakeGrid("Grid1", gridSize, 1, Vector3.zero);
+        GridManager.MakeGrid(gridSize, 1, Vector3.zero);
     }
+
+
 }
