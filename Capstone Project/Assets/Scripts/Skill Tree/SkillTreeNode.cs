@@ -34,7 +34,7 @@ public class SkillTreeNode : MonoBehaviour
     }
 
     //what setting the inspector is currently in
-    [SerializeField] private Settings currentSettings;
+    [SerializeField, Tooltip("This changes what settings are shown in the inspector")] private Settings currentSettings;
 
     #region SKILL SETTINGS
 
