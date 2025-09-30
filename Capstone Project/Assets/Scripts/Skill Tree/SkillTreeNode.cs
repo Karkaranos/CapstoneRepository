@@ -65,8 +65,20 @@ public class SkillTreeNode : MonoBehaviour
 
     #region NONINSPECTOR VARS
 
+    private NodeStatus status;
+
     //This node's current status
-    [HideInInspector] public NodeStatus Status;
+    public NodeStatus Status
+    {
+        get
+        {
+            return status;
+        }
+        set
+        {
+            status = value;
+        }
+    }
 
     //The button component on the same object as this script
     private Button button;
@@ -200,19 +212,19 @@ public class SkillTreeNode : MonoBehaviour
     private void AnySkillTreeNodePurchased()
     {
         //checks to see if its currently locked and is not permalocked
-        if (Status == NodeStatus.Locked && !isPermaLocked)
+        if (status == NodeStatus.Locked && !isPermaLocked)
         {
             //checks the prereqs
             foreach (SkillTreeNode node in PrereqNodes)
             {
                 //if all prereqs are required, if any prereqs aren't purchased it quits this and stays locked
-                if (node.Status != NodeStatus.Purchased && RequireAllPrereqsBeforeUnlocking)
+                if (node.status != NodeStatus.Purchased && RequireAllPrereqsBeforeUnlocking)
                 {
                     return;
                 }
 
                 //if only one prereq is required, unlocks when one prereq is purchased
-                if (node.Status == NodeStatus.Purchased && !RequireAllPrereqsBeforeUnlocking)
+                if (node.status == NodeStatus.Purchased && !RequireAllPrereqsBeforeUnlocking)
                 {
                     UnlockNode();
                 }
@@ -233,7 +245,7 @@ public class SkillTreeNode : MonoBehaviour
     public void ClickedOn()
     {
         //trys to buy node if node is unlocked.
-        switch (Status)
+        switch (status)
         {
             case NodeStatus.Locked:
                 Debug.Log("Clicked on a locked node - check logic to make sure button is uninteractable here");
