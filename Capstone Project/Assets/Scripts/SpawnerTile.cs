@@ -6,18 +6,38 @@
  * ***************************************************************************/
 using UnityEngine;
 
+[SerializeField]
+enum Entities
+{
+    Enemy,
+    Player,
+    Obstacle
+}
 public class SpawnerTile : MonoBehaviour
 {
     [SerializeField] Vector2Int coordinatesInGrid;
-    [SerializeField] int entityType;
     [SerializeField] GameObject entity;
+    [SerializeField] Entities entityType;
 
     /// <summary>
     /// 
     /// </summary>
     void Start()
     {
+        int eType = -1;
         Instantiate(entity, transform.position, Quaternion.identity);
-        GridManager.AddEntity(coordinatesInGrid, entityType);
+        switch(entityType)
+        {
+            case Entities.Enemy:
+                eType = -2;
+                break;
+            case Entities.Player:
+                eType = -3;
+                break;
+            case Entities.Obstacle:
+                eType = -4;
+                break;
+        }
+        GridManager.AddEntity(coordinatesInGrid, eType);
     }
 }
