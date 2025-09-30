@@ -15,6 +15,8 @@ public enum RuneType
     Lightning,
     Wind
 }
+
+[System.Serializable]
 public class RuneData
 {
     //stores the type of rune
