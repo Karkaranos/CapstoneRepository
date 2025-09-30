@@ -30,7 +30,7 @@ public class SkillTreeManager : MonoBehaviour
             SkillPoints -= cost;
 
             //this will store the data of whats in the node
-            PurchaseNode();
+            UpdatePurchasedNodes();
 
             //tells the node to buy itself
             return true;
@@ -45,7 +45,7 @@ public class SkillTreeManager : MonoBehaviour
     /// skill tree node. Currently blank because character team
     /// has not talked about how we are doing this
     /// </summary>
-    public void PurchaseNode()
+    public void UpdatePurchasedNodes()
     {
 
     }

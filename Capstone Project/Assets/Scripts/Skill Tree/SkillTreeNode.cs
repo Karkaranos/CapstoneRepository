@@ -158,7 +158,7 @@ public class SkillTreeNode : MonoBehaviour
     /// <summary>
     /// Unlocks the node, making it available for purchase
     /// </summary>
-    public void UnlockNode()
+    private void UnlockNode()
     {
         Status = NodeStatus.Unlocked;
         button.interactable = true;
