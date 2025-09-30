@@ -11,23 +11,59 @@ using System.Collections.Generic;
 
 public class GridTesting : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> gridPrefabs = new List<GameObject>();
-    [SerializeField] private List<Vector2Int> gridDimensions = new List<Vector2Int>();
-    [SerializeField] private int gridIndex;
+    private enum GridSettings
+    {
+        GridLoading,
+        GridMovement
+    }
+
+    [SerializeField] private GridSettings selectedSetting;
+
+    #region Grid variables
+    [HorizontalLine(4, EColor.Red)]
+
+    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField]
+    private int gridIndex;
+
+    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
+    private List<GameObject> gridPrefabs = new List<GameObject>();
+
+    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
+    private List<Vector2Int> gridDimensions = new List<Vector2Int>();
+    #endregion
+
+    #region Grid movement variables
+    [HorizontalLine(4, EColor.Blue)]
 
     //Temporary variables for testing purposes
     [Tooltip("The tile that would be where an object starts from")]
-    [SerializeField] private Vector2Int currentMovementTestingTile;
-    [Tooltip("The tile that on object would move to")]
-    [SerializeField] private Vector2Int newMovementTestingTile;
+    [ShowIf(nameof(selectedSetting), GridSettings.GridMovement), SerializeField] 
+    private Vector2Int currentMovementTestingTile;
 
+    [Tooltip("The tile that on object would move to")]
+    [ShowIf(nameof(selectedSetting), GridSettings.GridMovement), SerializeField] 
+    private Vector2Int newMovementTestingTile;
+    #endregion
+
+    #region Buttons
+    //[HorizontalLine(4, EColor.Green)]
+    //[Space]
     /// <summary>
-    /// Shows the grid in the console on button press
+    /// Testing button that shows the grid in the console
     /// </summary>
     [Button("Show Grid In Console")]
     private void ShowGrid()
     {
         GridManager.DisplayGridAsText();
+    }
+
+    /// <summary>
+    /// Testing button for loading the next grid
+    /// </summary>
+    [Button("Load Next Grid")]
+    private void LoadGrid()
+    {
+        LoadNextGrid();
     }
 
     /// <summary>
@@ -38,18 +74,13 @@ public class GridTesting : MonoBehaviour
     {
         GridManager.AddEntity(currentMovementTestingTile, -8);
         GridManager.DisplayGridAsText();
-        if(GridManager.TileIsInGrid(newMovementTestingTile) && GridManager.CanMoveToTile(newMovementTestingTile))
+        if (GridManager.TileIsInGrid(newMovementTestingTile) && GridManager.CanMoveToTile(newMovementTestingTile))
         {
             GridManager.MoveToTile(currentMovementTestingTile, newMovementTestingTile, -8);
         }
         GridManager.DisplayGridAsText();
     }
-
-    [Button("Load Next Grid")]
-    private void LoadGrid()
-    {
-        LoadNextGrid();
-    }
+    #endregion
 
     /// <summary>
     /// Creates an instance of the grid
