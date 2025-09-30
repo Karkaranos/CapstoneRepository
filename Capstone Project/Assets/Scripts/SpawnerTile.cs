@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 9/26/2025
- * Last Modified: 9/26/2025
+ * Last Modified: 9/30/2025
  * Brief: Spawns the appropriate game object on scene start
  * ***************************************************************************/
 using UnityEngine;
@@ -20,12 +20,13 @@ public class SpawnerTile : MonoBehaviour
     [SerializeField] Entities entityType;
 
     /// <summary>
-    /// 
+    /// Spawns the appropriate entity and adds their position to the grid manager
     /// </summary>
     void Start()
     {
         int eType = -1;
-        Instantiate(entity, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(entity, transform.position, Quaternion.identity);
+        obj.transform.SetParent(GetComponentInParent<Transform>().transform);
         switch(entityType)
         {
             case Entities.Enemy:

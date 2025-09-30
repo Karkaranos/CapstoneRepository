@@ -119,6 +119,77 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &260912160 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1270942283141093509, guid: 57180493b5104f240a7c62951a3eb58d, type: 3}
+  m_PrefabInstance: {fileID: 1843900281}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1020623855
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1270942283141093509, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_Name
+      value: TestCombatGrid2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270942283141093509, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417595783208791789, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+--- !u!1 &1020623856 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1270942283141093509, guid: fcdf291fe5969cc4b94682b01143361d, type: 3}
+  m_PrefabInstance: {fileID: 1020623855}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1071410872
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,8 +276,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071410872}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.39, y: 7.81, z: 2.17}
+  m_LocalRotation: {x: 0.47816625, y: 0.15210308, z: -0.0844857, w: 0.8608623}
+  m_LocalPosition: {x: -0.39, y: 10.4, z: -3.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -285,7 +356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f1818018b30184aa867a9af6e9cc50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDimensions: {x: 4, y: 4}
+  gridPrefabs:
+  - {fileID: 260912160}
+  - {fileID: 1020623856}
+  gridDimensions:
+  - {x: 4, y: 4}
+  - {x: 6, y: 6}
+  gridIndex: 0
   currentMovementTestingTile: {x: 0, y: 2}
   newMovementTestingTile: {x: 2, y: 0}
 --- !u!4 &1374937189
@@ -314,6 +391,10 @@ PrefabInstance:
     - target: {fileID: 1270942283141093509, guid: 57180493b5104f240a7c62951a3eb58d, type: 3}
       propertyPath: m_Name
       value: TestCombatGrid
+      objectReference: {fileID: 0}
+    - target: {fileID: 1270942283141093509, guid: 57180493b5104f240a7c62951a3eb58d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2417595783208791789, guid: 57180493b5104f240a7c62951a3eb58d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -489,3 +570,4 @@ SceneRoots:
   - {fileID: 1958803512}
   - {fileID: 1374937189}
   - {fileID: 1843900281}
+  - {fileID: 1020623855}
