@@ -36,7 +36,7 @@ public class SkillTreeNode : MonoBehaviour
     //what setting the inspector is currently in
     [SerializeField, Tooltip("This changes what settings are shown in the inspector")] private Settings currentSettings;
 
-    #region SKILL SETTINGS
+    #region NODE SETTINGS
 
     [HorizontalLine(4, EColor.Red)]
 
@@ -59,6 +59,15 @@ public class SkillTreeNode : MonoBehaviour
         " become permanantly locked when this node is purchased.")] 
     private List<SkillTreeNode> OppositeNodes;
 
+
+    #endregion
+
+    #region SKILL SETTINGS
+
+    [HorizontalLine(4, EColor.Indigo)]
+    //Holds the rune that gets unlocked when the node is purchased
+    [ShowIf(nameof(currentSettings), Settings.SkillSettings), Tooltip("This is the rune that the player unlocks when purchasing this node")]
+    public RuneData NodeRuneData;
 
     #endregion
 
@@ -176,6 +185,9 @@ public class SkillTreeNode : MonoBehaviour
             Status = NodeStatus.Purchased;
             button.interactable = false;
             //Debug.Log("Node Purchased");
+
+            //updates the skill tree manager with the rune that got purchased
+            skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
 
             //If it has any opposite nodes, it permanantly locks them
             if (OppositeNodes.Count > 0)

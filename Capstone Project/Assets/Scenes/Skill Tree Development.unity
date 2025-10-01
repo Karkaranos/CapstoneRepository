@@ -265,15 +265,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 1
   cost: 10
-  IsFirstNode: 0
   PrereqNodes:
   - {fileID: 1066290912}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes:
   - {fileID: 1006338647}
-  Status: 0
+  NodeRuneData:
+    TypeOfRune: 0
+    NumberOnSkillTree: 2
+    RuneName: Lightning 2A
+    RuneDescription: Shoots stronger lightning
 --- !u!114 &299318566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,15 +589,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 1
   cost: 10
-  IsFirstNode: 0
   PrereqNodes:
   - {fileID: 299318565}
   - {fileID: 1006338647}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
-  Status: 0
+  NodeRuneData:
+    TypeOfRune: 0
+    NumberOnSkillTree: 3
+    RuneName: Lightning 3
+    RuneDescription: Shoots Stronger and more powerful lightning
 --- !u!114 &807141724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,15 +928,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 1
   cost: 10
-  IsFirstNode: 0
   PrereqNodes:
   - {fileID: 1066290912}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes:
   - {fileID: 299318565}
-  Status: 0
+  NodeRuneData:
+    TypeOfRune: 0
+    NumberOnSkillTree: 3
+    RuneName: Lightning 2B
+    RuneDescription: Shoots More Lightning
 --- !u!114 &1006338648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,6 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillPoints: 25
+  unlockedRunes: []
 --- !u!4 &1045924352
 Transform:
   m_ObjectHideFlags: 0
@@ -1065,13 +1075,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 1
   cost: 10
-  IsFirstNode: 1
   PrereqNodes: []
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
-  Status: 0
+  NodeRuneData:
+    TypeOfRune: 0
+    NumberOnSkillTree: 1
+    RuneName: Lightning 1
+    RuneDescription: Shoots Lightning
 --- !u!114 &1066290913
 MonoBehaviour:
   m_ObjectHideFlags: 0

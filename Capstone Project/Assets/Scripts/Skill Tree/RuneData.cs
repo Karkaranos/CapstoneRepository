@@ -20,19 +20,27 @@ public enum RuneType
 public class RuneData
 {
     //stores the type of rune
-    public RuneType typeOfRune;
+    public RuneType TypeOfRune;
 
     //stores which version of the element it is
-    public int numberOnSkillTree;
+    public int NumberOnSkillTree;
+
+    //name of the rune
+    public string RuneName;
+
+    //Description of the rune
+    public string RuneDescription;
 
     /// <summary>
     /// constructor
     /// </summary>
     /// <param name="typeOfRune"> The element of rune this is </param>
     /// <param name="numberOnSkillTree"> which version of the element it is </param>
-    public RuneData(RuneType typeOfRune, int numberOnSkillTree)
+    public RuneData(RuneType typeOfRune, int numberOnSkillTree, string RuneName, string RuneDescription)
     {
-        this.typeOfRune = typeOfRune;
-        this.numberOnSkillTree = numberOnSkillTree;
+        this.TypeOfRune = typeOfRune;
+        this.NumberOnSkillTree = numberOnSkillTree;
+        this.RuneName = RuneName;
+        this.RuneDescription = RuneDescription;
     }
 }
