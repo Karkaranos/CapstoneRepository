@@ -7,11 +7,14 @@ Brief Description : This manages the player's skill points
 External Resources : 	
 	***************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillTreeManager : MonoBehaviour
 {
     public int SkillPoints;
+
+    public List<RuneData> unlockedRunes;
 
     //add in the data the node is storing as a parameter here
     //so we can store all the nodes the player's unlocked in a list
@@ -29,9 +32,6 @@ public class SkillTreeManager : MonoBehaviour
             //purchases it
             SkillPoints -= cost;
 
-            //this will store the data of whats in the node
-            UpdatePurchasedNodes();
-
             //tells the node to buy itself
             return true;
         }
@@ -45,8 +45,18 @@ public class SkillTreeManager : MonoBehaviour
     /// skill tree node. Currently blank because character team
     /// has not talked about how we are doing this
     /// </summary>
-    public void UpdatePurchasedNodes()
+    public void UpdatePurchasedNodes(RuneData runePurchased)
     {
-
+        //Makes sure that theres only ever one copy of each rune data in the list
+        if (!unlockedRunes.Contains(runePurchased))
+        {
+            unlockedRunes.Add(runePurchased);
+        }
+        else
+        {
+            //idk what would trigger this but its important to have just in case
+            //maybe messing around in the inspector?
+            throw new System.Exception("Player already owns the rune " + runePurchased.RuneName + " but tried to add it to the runes purchased");
+        }
     }
 }
