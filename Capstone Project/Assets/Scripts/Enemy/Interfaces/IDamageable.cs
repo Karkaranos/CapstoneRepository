@@ -11,6 +11,8 @@ using UnityEngine;
 
 public interface IDamageable
 {
+	float maxHealth { get; set; }
+	float currentHealth { get; set; }
 	public void Die();
 	public void Damage(float damage); 
 }

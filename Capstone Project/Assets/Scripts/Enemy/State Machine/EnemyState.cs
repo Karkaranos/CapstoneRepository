@@ -1,16 +1,24 @@
+/*************************************************
+Author Names : 		Clare Grady, 
+Date Created : 		10/1/2025
+Date Last Modified : 	10/1/2025
+Brief Description : 		Base class for all states
+External Resources : 	
+***************************************************/
 using UnityEngine;
 
-public class EnemyState : MonoBehaviour
+public class EnemyState 
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected Enemy enemy;
+    protected EnemyStateMachine enemyStateMachine;
+
+    public EnemyState(Enemy enemy, EnemyStateMachine enemyStateMachine)
     {
-        
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public virtual void EnterState() { }
+    public virtual void ExitState() { }
+    public virtual void Update() { }
 }
