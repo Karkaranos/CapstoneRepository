@@ -3,6 +3,7 @@
  * Creation Date: 9/26/2025
  * Last Modified: 9/30/2025
  * Brief: Spawns the appropriate game object on scene start
+ * External Resources: N/A
  * ***************************************************************************/
 using UnityEngine;
 
@@ -15,8 +16,11 @@ enum Entities
 }
 public class SpawnerTile : MonoBehaviour
 {
+    [Tooltip("The x and y index inside the grid")]
     [SerializeField] Vector2Int coordinatesInGrid;
+    [Tooltip("The game object that is being spawned")]
     [SerializeField] GameObject entity;
+    [Tooltip("The type of thing being spawned")]
     [SerializeField] Entities entityType;
 
     /// <summary>

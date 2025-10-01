@@ -4,6 +4,7 @@
  * Last Modified: 9/26/2025
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
+ * External Resources: N/A
  * ***************************************************************************/
 using UnityEngine;
 using System.Collections.Generic;

@@ -4,6 +4,7 @@
  * Last Modified: 9/30/2025
  * Brief: Temporary script to test if the grid works. Non-temporary scripts 
  * should be added to the game manager after this is added to working
+ * External Resources: N/A
  * ***************************************************************************/
 using UnityEngine;
 using NaughtyAttributes;
@@ -22,12 +23,15 @@ public class GridTesting : MonoBehaviour
     #region Grid variables
     [HorizontalLine(4, EColor.Red)]
 
+    [Tooltip("Used to determine which grid is being used")]
     [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField]
     private int gridIndex;
 
+    [Tooltip("The list of the different combat grids")]
     [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
     private List<GameObject> gridPrefabs = new List<GameObject>();
 
+    [Tooltip("The list that contains how big each grid is")]
     [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
     private List<Vector2Int> gridDimensions = new List<Vector2Int>();
     #endregion
