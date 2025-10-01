@@ -71,13 +71,14 @@ public class GridTesting : MonoBehaviour
         }
         print(s);
     }
-
-
-    private void Start()
+    [Button]
+    void DestroyGrid()
     {
-        GenerateGrid();
+        GridManager.DestroyGrid();
     }
-    public void GenerateGrid() {
+
+    [Button]
+    void GenerateGrid() {
         GridManager.MakeGrid(gridSize, 1, Vector3.zero);
     }
 

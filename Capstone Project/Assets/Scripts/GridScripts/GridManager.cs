@@ -13,7 +13,7 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     private static List<Tile[,]> grids = new List<Tile[,]>();
-    private static Tile[,] currentGrid;
+    public static Tile[,] currentGrid;
    
     
     /// Creates a new square grid and returns the result
@@ -50,9 +50,12 @@ public class GridManager : MonoBehaviour
                 Vector3 tilePos = new Vector3(worldX, spawnLocation.y, worldZ);
 
                 // creating tile at this position
-                grid[x, y] = new Tile(tilePos, new Vector2Int(x, y));
                 GameObject newTile = Instantiate(Resources.Load<GameObject>("TileMarker"), tilePos, Quaternion.identity);
                 newTile.name = "Tile(" + x.ToString() + ", " + y.ToString() + ")";
+                grid[x, y] = newTile.GetComponent<Tile>();
+
+                grid[x, y].coordinate = new Vector2Int(x, y);
+                grid[x, y].worldPosition = tilePos;
             }
         }
 
@@ -62,6 +65,30 @@ public class GridManager : MonoBehaviour
         if (currentGrid == null) {
             currentGrid = grid;
         }
+    }
+
+    public static void MakeGrid(GridData data) { 
+        MakeGrid(data.dimensions, data.hexRadius, data.spawnLocation);
+    }
+
+    public static void PopulateGrid() { 
+    
+    }
+
+    /// <summary>
+    /// Destroys the currentGrid and all of the objects on it
+    /// </summary>
+    public static void DestroyGrid() {
+        if (currentGrid == null) {
+            return;
+        }
+        foreach (Tile tile in currentGrid) {
+            if (!tile.isEmpty()) {
+                GameObject.Destroy(tile.objectOnTile);
+            }
+            GameObject.Destroy(tile.gameObject);
+        }
+        currentGrid = null;
     }
 
     /// <summary>
@@ -111,8 +138,8 @@ public class GridManager : MonoBehaviour
     public static List<Tile> GetObjectsWithTag(string tag) {
         List<Tile> list = new List<Tile>();
         foreach (Tile tile in currentGrid) {
-            if (tile.objectOnTile is GameObject obj) {
-                if (obj.tag == tag) {
+            if (!tile.isEmpty()) {
+                if (tile.objectOnTile.tag == tag) {
                     list.Add(tile);
                 }
             }
@@ -288,7 +315,7 @@ public class GridManager : MonoBehaviour
         }
 
         Tile tile = GetTile(coords);
-        if (HasTile(coords) && tile.objectOnTile == null) {
+        if (HasTile(coords) && ((tile.objectOnTile == null) || (tile.objectOnTile = obj))) {
             GameObject newObj = Instantiate(obj, tile.worldPosition, Quaternion.identity);
             tile.objectOnTile = newObj;
             return newObj;

@@ -5,24 +5,25 @@ Date Last Modified : 	9/30/2025
 Brief Description :     This class makes the Tile object
 External Resources : 	
 	***************************************************/
+using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
-public class Tile
+public class Tile: MonoBehaviour
 {
-    public Vector3 worldPosition;
-    public Vector2Int coordinate;
     public GameObject objectOnTile;
-    public int pathingValue = -1;
+    [HideInInspector] public Vector3 worldPosition;
+    [HideInInspector] public Vector2Int coordinate;
+    [HideInInspector] public int pathingValue = -1;
 
-    /// <summary>
-    /// Class constructor
-    /// </summary>
-    /// <param name="_worldPosition"></param>
-    /// <param name="_coordinate"></param>
-    public Tile(Vector3 _worldPosition, Vector2Int _coordinate) { 
-        worldPosition = _worldPosition;
-        coordinate = _coordinate;
-        objectOnTile = null;
+    [Button]
+    void addObject()
+    {
+        foreach (Tile tile in GridManager.currentGrid) {
+            print(tile.objectOnTile != null);
+            if (tile.objectOnTile != null) {
+                GridManager.CreateObject(tile.objectOnTile, tile.coordinate);
+            }
+        }
     }
 
     /// <summary>
