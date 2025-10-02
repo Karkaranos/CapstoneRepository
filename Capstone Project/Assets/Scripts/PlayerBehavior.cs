@@ -1,10 +1,14 @@
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerBehavior : MonoBehaviour
 {
     public GameObject player;
-    private Vector3 playerPosition;
+    public GameObject gridTile;
+    public List<Vector3Int> gridPoints = new List<Vector3Int>();
+    private Vector2Int playerPosition;
     private Vector2 tilePosition;
     private TileBehavior tileBehavior;
     private GridManager gridManager;
@@ -19,19 +23,11 @@ public class PlayerBehavior : MonoBehaviour
         gridManager = gridManager.gameObject.GetComponent<GridManager>();
         player = player.gameObject.GetComponent<GameObject>();
         tilePosition = tileBehavior.TileIntPosition;
-        playerPosition = player.gameObject.transform.position;
     }
 
-    void OnMouseDown()
-    {
-        PlayerCanMove = true;
-        if(PlayerCanMove == true)
-        {
-           playerPosition = tilePosition;
-        }
-        else
-        {
-            PlayerCanMove = false;
-        }
-    }
+
+    //void GetPlayerTilePositions()
+    //{
+        
+    //}
 }
