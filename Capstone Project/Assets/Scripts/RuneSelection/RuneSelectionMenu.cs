@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	09/30/2025
-Date Last Modified : 09/30/2025
+Date Last Modified : 10/02/2025
 Brief Description : The in-combat menus for rune selection.
                     Generates and displays buttons.
 				    Displays submenus for the different tiers of spells.
@@ -52,7 +52,6 @@ public class RuneSelectionMenu : MonoBehaviour
 
     [ShowIf(nameof(currentInspectorShowing), Variables.Buttons), SerializeField]
     private List<GameObject> buttons;
-
 
     #endregion BUTTONS
 
