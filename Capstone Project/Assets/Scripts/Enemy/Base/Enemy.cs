@@ -7,11 +7,13 @@ External Resources :
 ***************************************************/
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour
 {
-   [field: SerializeField] public float maxHealth { get; set; } = 5f;
-    public float currentHealth { get; set; }
+    protected float maxHealth;
+    [SerializeField] protected float currentHealth = 5f;
+    [SerializeField] protected float lowHealthPercentage = 0.20f; 
 
+    //Common Enemy Variables
     protected EnemyStateMachine enemyStateMachine;
 
     private void Awake()
@@ -34,4 +36,5 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         print("Enemy is dead!");
     }
+
 }
