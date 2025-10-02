@@ -28,6 +28,11 @@ public class GridBuilder : MonoBehaviour
         }
         GridManager.MakeGrid(grid);
     }
+
+    /// <summary>
+    /// returns a list of all the objects on tiles so that they can be saved
+    /// </summary>
+    /// <returns></returns>
     private List<ObjectOnGrid> SaveGridObjects() {
         List<ObjectOnGrid> gridObjects = new List<ObjectOnGrid>();
         foreach (Tile tile in GridManager.currentGrid) {
@@ -37,7 +42,11 @@ public class GridBuilder : MonoBehaviour
         }
         return gridObjects;
     }
-
+    /// <summary>
+    /// checks if the grid still contains a tile after it updated
+    /// </summary>
+    /// <param name="coords"></param>
+    /// <returns></returns>
     private bool TileExists(Vector2Int coords) {
         if ((coords.x >= 0 && coords.x < dimensions.x) && (coords.y >= 0 && coords.y < dimensions.y))
         {
