@@ -2,8 +2,8 @@
 Author Names : 	Jay Embry
 Date Created : 	09/30/2025
 Date Last Modified : 09/30/2025
-Brief Description : Stores data for the rune selection menu's buttons.
-				Stores submenus?
+Brief Description : Stores button data?
+                    Kind of unnecessary after RuneData but could be used for stylization
 External Resources : 	
 	***************************************************/
 
@@ -24,8 +24,7 @@ public class RuneSelectionButton
     {
 
         Text,
-        Sprites,
-        Function
+        Sprites
 
     }
 
@@ -37,9 +36,6 @@ public class RuneSelectionButton
     #region TEXT PROPERTIES
 
     [HorizontalLine(3, EColor.Red)]
-
-    [ShowIf(nameof(currentInspectorShowing), Properties.Text), SerializeField, AllowNesting]
-    [Tooltip("What is this rune called?")] private string runeName;
 
     [ShowIf(nameof(currentInspectorShowing), Properties.Text), SerializeField, AllowNesting]
     [Tooltip("What size is the text?")] private float textSize;
@@ -61,12 +57,5 @@ public class RuneSelectionButton
     [Tooltip("What are the buttons supposed to look like?")] private Sprite highlightedSprite, pressedSprite, selectedSprite, disabledSprite;
 
     #endregion SPRITE PROPERTIES
-
-
-    #region FUNCTIONS
-
-    //[HorizontalLine(3, EColor.Indigo)]
-
-    #endregion FUNCTIONS
 
 }
