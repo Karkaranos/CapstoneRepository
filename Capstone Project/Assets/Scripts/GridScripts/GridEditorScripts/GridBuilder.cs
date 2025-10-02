@@ -19,7 +19,7 @@ public class GridBuilder : MonoBehaviour
     [Button]
     void UpdateGrid()
     {
-        grid. dimensions = dimensions;
+        grid.dimensions = dimensions;
         grid.hexRadius = hexRadius;
         grid.spawnLocation = spawnLocation;
         grid.objectsOnGrid = SaveGridObjects();
@@ -28,14 +28,21 @@ public class GridBuilder : MonoBehaviour
         }
         GridManager.MakeGrid(grid);
     }
-    private ObjectOnGrid[] SaveGridObjects() {
+    private List<ObjectOnGrid> SaveGridObjects() {
         List<ObjectOnGrid> gridObjects = new List<ObjectOnGrid>();
         foreach (Tile tile in GridManager.currentGrid) {
-            if (!tile.isEmpty()) {
+            if (!tile.isEmpty() && TileExists(tile.coordinate)) {
                 gridObjects.Add(new ObjectOnGrid(tile.coordinate, tile.objectToAdd));
             }
         }
-        ObjectOnGrid[] objects = gridObjects.ToArray();
-        return objects;
+        return gridObjects;
+    }
+
+    private bool TileExists(Vector2Int coords) {
+        if ((coords.x >= 0 && coords.x < dimensions.x) && (coords.y >= 0 && coords.y < dimensions.y))
+        {
+            return true;
+        }
+        return false;
     }
 }

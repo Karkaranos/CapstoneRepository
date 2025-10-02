@@ -77,8 +77,15 @@ public class GridManager : MonoBehaviour
         if (data.objectsOnGrid != null) {
             foreach (ObjectOnGrid objOnGrid in data.objectsOnGrid)
             {
-                GameObject newObj = CreateObject(objOnGrid.obj, objOnGrid.coords);
-                GetTileWithObject(newObj).objectToAdd = objOnGrid.obj;
+                if (GridManager.HasTile(objOnGrid.coords))
+                {
+                    GameObject newObj = CreateObject(objOnGrid.obj, objOnGrid.coords);
+                    GetTileWithObject(newObj).objectToAdd = objOnGrid.obj;
+                }
+                else {
+                    data.objectsOnGrid.Remove(objOnGrid);
+                }
+                
             }
         }   
     }
@@ -326,7 +333,6 @@ public class GridManager : MonoBehaviour
         if (HasTile(coords) && tile.isEmpty()) {
             GameObject newObj = Instantiate(obj, tile.worldPosition, Quaternion.identity);
             tile.objectOnTile = newObj;
-            print(tile.objectOnTile);
             return newObj;
         }
         print("Failed to add" + obj + " at " + coords);
