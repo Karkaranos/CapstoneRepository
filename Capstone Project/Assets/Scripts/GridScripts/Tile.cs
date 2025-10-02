@@ -26,6 +26,13 @@ public class Tile: MonoBehaviour
         }
     }
 
+    [Button]
+    void RemoveObject()
+    {
+        GridManager.RemoveObject(objectOnTile);
+        objectToAdd = null;
+    }
+
     /// <summary>
     /// returns if the tile is empty or not
     /// </summary>
