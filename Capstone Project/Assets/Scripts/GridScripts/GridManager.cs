@@ -67,12 +67,19 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// makes a grid using a reference to a gridData scriptable object
+    /// </summary>
+    /// <param name="data"></param>
     public static void MakeGrid(GridData data) { 
         MakeGrid(data.dimensions, data.hexRadius, data.spawnLocation);
-    }
-
-    public static void PopulateGrid() { 
-    
+        if (data.objectsOnGrid != null) {
+            foreach (ObjectOnGrid objOnGrid in data.objectsOnGrid)
+            {
+                GameObject newObj = CreateObject(objOnGrid.obj, objOnGrid.coords);
+                GetTileWithObject(newObj).objectToAdd = objOnGrid.obj;
+            }
+        }   
     }
 
     /// <summary>
@@ -315,9 +322,10 @@ public class GridManager : MonoBehaviour
         }
 
         Tile tile = GetTile(coords);
-        if (HasTile(coords) && ((tile.objectOnTile == null) || (tile.objectOnTile = obj))) {
+        if (HasTile(coords) && tile.isEmpty()) {
             GameObject newObj = Instantiate(obj, tile.worldPosition, Quaternion.identity);
             tile.objectOnTile = newObj;
+            print(tile.objectOnTile);
             return newObj;
         }
         print("Failed to add" + obj + " at " + coords);
@@ -367,6 +375,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Sets the pathing values of all 
     /// </summary>
@@ -375,6 +384,7 @@ public class GridManager : MonoBehaviour
             tile.pathingValue = -1;
         }
     }
+
     /// <summary>
     /// sets the pathing value of the tile to a specified value
     /// </summary>

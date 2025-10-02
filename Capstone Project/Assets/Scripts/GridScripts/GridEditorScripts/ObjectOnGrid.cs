@@ -1,4 +1,6 @@
 using UnityEngine;
+
+[System.Serializable]
 public class ObjectOnGrid
 {
     public Vector2Int coords;

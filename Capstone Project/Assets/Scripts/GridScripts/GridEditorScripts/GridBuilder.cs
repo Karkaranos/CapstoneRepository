@@ -8,7 +8,6 @@ public class GridBuilder : MonoBehaviour
     [SerializeField] private Vector2Int dimensions;
     [SerializeField] private float hexRadius;
     [SerializeField] private Vector3 spawnLocation;
-    [SerializeField] private List<ObjectOnGrid> objectsOnGrid;
 
     private void Start()
     {
@@ -24,16 +23,19 @@ public class GridBuilder : MonoBehaviour
         grid.hexRadius = hexRadius;
         grid.spawnLocation = spawnLocation;
         grid.objectsOnGrid = SaveGridObjects();
-        GridManager.DestroyGrid();
+        if (GridManager.currentGrid != null) {
+            GridManager.DestroyGrid();
+        }
         GridManager.MakeGrid(grid);
     }
-    private List<ObjectOnGrid> SaveGridObjects() {
+    private ObjectOnGrid[] SaveGridObjects() {
         List<ObjectOnGrid> gridObjects = new List<ObjectOnGrid>();
         foreach (Tile tile in GridManager.currentGrid) {
             if (!tile.isEmpty()) {
-                gridObjects.Add(new ObjectOnGrid(tile.coordinate, tile.objectOnTile));
+                gridObjects.Add(new ObjectOnGrid(tile.coordinate, tile.objectToAdd));
             }
         }
-        return gridObjects;
+        ObjectOnGrid[] objects = gridObjects.ToArray();
+        return objects;
     }
 }

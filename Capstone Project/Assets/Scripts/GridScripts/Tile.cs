@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Tile: MonoBehaviour
 {
-    public GameObject objectOnTile;
+    public GameObject objectToAdd = null;
+    [HideInInspector] public GameObject objectOnTile;
     [HideInInspector] public Vector3 worldPosition;
     [HideInInspector] public Vector2Int coordinate;
     [HideInInspector] public int pathingValue = -1;
@@ -19,9 +20,8 @@ public class Tile: MonoBehaviour
     void addObject()
     {
         foreach (Tile tile in GridManager.currentGrid) {
-            print(tile.objectOnTile != null);
-            if (tile.objectOnTile != null) {
-                GridManager.CreateObject(tile.objectOnTile, tile.coordinate);
+            if (tile.objectToAdd != null) {
+                GridManager.CreateObject(tile.objectToAdd, tile.coordinate);
             }
         }
     }
