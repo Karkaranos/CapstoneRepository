@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9759f5481f71764e8216ce5bdd57600, type: 2}
+  - {fileID: 2100000, guid: def0e36ff2bddd04b8be381cc7dec9d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 1835694474007731463}
   - component: {fileID: 1535624202973427452}
   m_Layer: 0
-  m_Name: TestGridTile
+  m_Name: TestGridAridTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IndexInGrid: {x: 0, y: 0}
   tileDisplacement: {x: 2, y: 1.5}
-  tileStatAffects: []
+  tileStatAffects:
+  - Stat: 2
+    StatChangeValue: -5
 --- !u!65 &1535624202973427452
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -465,7 +467,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9759f5481f71764e8216ce5bdd57600, type: 2}
+  - {fileID: 2100000, guid: def0e36ff2bddd04b8be381cc7dec9d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -683,7 +685,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9759f5481f71764e8216ce5bdd57600, type: 2}
+  - {fileID: 2100000, guid: def0e36ff2bddd04b8be381cc7dec9d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
