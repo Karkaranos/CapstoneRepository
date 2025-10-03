@@ -307,8 +307,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../../../CapstoneSaltRock/CapstoneSaltRock.fspro
-  sourceBankPath: ../../../CapstoneSaltRock/Build
+  sourceProjectPath: Assets/FMOD/FMODSalty/FMODSalty.fspro
+  sourceBankPath: Assets/FMOD/FMODSalty/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
@@ -316,7 +316,7 @@ MonoBehaviour:
   BankLoadType: 0
   AutomaticSampleLoading: 0
   EncryptionKey: 
-  ImportType: 0
+  ImportType: 1
   TargetAssetPath: FMODBanks
   TargetBankFolder: 
   EventLinkage: 0
@@ -329,8 +329,10 @@ MonoBehaviour:
   VirtualChannelSettings: []
   RealChannelSettings: []
   Plugins: []
-  MasterBanks: []
-  Banks: []
+  MasterBanks:
+  - Master
+  Banks:
+  - MainBank
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
