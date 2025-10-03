@@ -7,6 +7,7 @@ Brief Description : This manages the player's skill points
 External Resources : 	
 	***************************************************/
 
+using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class SkillTreeManager : MonoBehaviour
 {
     public int SkillPoints;
 
+    [Expandable]
     public List<RuneData> unlockedRunes;
 
     //add in the data the node is storing as a parameter here

@@ -66,7 +66,8 @@ public class SkillTreeNode : MonoBehaviour
 
     [HorizontalLine(4, EColor.Indigo)]
     //Holds the rune that gets unlocked when the node is purchased
-    [ShowIf(nameof(currentSettings), Settings.SkillSettings), Tooltip("This is the rune that the player unlocks when purchasing this node")]
+    [ShowIf(nameof(currentSettings), Settings.SkillSettings), Expandable, 
+        Tooltip("This is the rune that the player unlocks when purchasing this node")]
     public RuneData NodeRuneData;
 
     #endregion
