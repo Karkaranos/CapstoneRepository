@@ -16,8 +16,8 @@ public enum RuneType
     Wind
 }
 
-[System.Serializable]
-public class RuneData
+[CreateAssetMenu(fileName = "RuneData", menuName = "RuneData")]
+public class RuneData : ScriptableObject
 {
     //stores the type of rune
     public RuneType TypeOfRune;
