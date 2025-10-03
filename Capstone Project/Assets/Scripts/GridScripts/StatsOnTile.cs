@@ -20,5 +20,6 @@ public class StatsOnTile
 
     public TileStats Stat;
 
+    [Tooltip("Has to be an int. Can be negative")]
     public int StatChangeValue;
 }

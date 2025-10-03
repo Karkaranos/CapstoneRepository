@@ -85,7 +85,7 @@ public class GridTesting : MonoBehaviour
         GridManager.DisplayGridAsText();
     }
 
-    [Button("Show Terrarin Affects")]
+    [Button("Show Terrain Affects")]
     private void DisplayTerrainAffectsInConsole()
     {
         TileStatTester[] testers = FindObjectsByType<TileStatTester>(FindObjectsSortMode.None);
