@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class TileStatTester : MonoBehaviour
 {
+    /// <summary>
+    /// Gets the terrain this entity is on and shows in the console how that terrain affects it
+    /// </summary>
     public void DisplayStatChange()
     {
         TileBehaviour myTile = GetComponentInParent<TileBehaviour>();
