@@ -10,15 +10,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using PlayerInputActions;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    private PlayerInput playerInput;
+    private InputSystemActions playerInput;
     public GameObject player;
     public GameObject gridTile;
     public List<Vector2Int> gridPoints = new List<Vector2Int>();
     public List<Vector2Int> playergridPoints = new List<Vector2Int>();
-    private Vector2Int playerPosition;
+    private static Vector2Int playerPosition;
     private Vector2 tilePosition;
     private TileBehavior tileBehavior;
     private GridManager gridManager;
@@ -33,8 +34,8 @@ public class PlayerBehavior : MonoBehaviour
     {
         gridManager = gridManager.gameObject.GetComponent<GridManager>();
         player = player.gameObject.GetComponent<GameObject>();
-        tilePosition = tileBehavior.TileIntPosition;
-        playerInput = new PlayerInput();
+        tilePosition = transform.position;
+        playerInput = new InputSystemActions();
     }
 
 
@@ -68,6 +69,20 @@ public class PlayerBehavior : MonoBehaviour
 
     public void PlayerWillMove()
     {
- 
+        if (MouseIsClicked)
+        {
+            playerPosition = new Vector2Int(0, 0);
+        }
     }
+
+    void OnEnable()
+    {
+        playerInput.Enable();
+    }
+
+    void OnDisable()
+    {
+        playerInput.Disable();
+    }
+
 }
