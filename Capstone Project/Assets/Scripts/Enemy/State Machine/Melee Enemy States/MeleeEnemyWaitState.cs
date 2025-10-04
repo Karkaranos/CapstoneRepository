@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class MeleeEnemyWaitState : EnemyState
+public class MeleeEnemyWaitState : MeleeEnemyState
 {
-    public MeleeEnemyWaitState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    public MeleeEnemyWaitState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {}
 
     public override void EnterState()
@@ -12,6 +12,7 @@ public class MeleeEnemyWaitState : EnemyState
 
     public override void ExitState()
     {
-        base.ExitState();
+        enemy.hasMovedForTurn = false;
+        enemy.hasAttackedTwice = false;
     }
 }

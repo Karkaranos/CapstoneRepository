@@ -1,18 +1,21 @@
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class MeleeEnemyRunState : EnemyState
+public class MeleeEnemyRunState : MeleeEnemyState
 {
-    public MeleeEnemyRunState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
-    {}
+    public MeleeEnemyRunState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    { }
 
     public override void EnterState()
     {
-        base.EnterState();
+        Debug.Log("Enemy is at low health. Running from player");
+        //TODO run logic 
+        //Trigger Enemy End turn 
+        enemyStateMachine.ChangeState(enemy.GetWaitState()); 
     }
 
     public override void ExitState()
     {
-        base.ExitState();
+        Debug.Log("Run state -> wait state");
     }
-
 }

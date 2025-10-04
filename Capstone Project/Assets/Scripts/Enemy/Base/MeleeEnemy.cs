@@ -9,18 +9,26 @@ External Resources :
 ***************************************************/
 using Unity.VisualScripting;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class MeleeEnemy : Enemy
 {
     private MeleeEnemyWaitState enemyWaitState;
     private MeleeEnemyRunState enemyRunState; 
     private MeleeEnemyMoveToPlayerState moveToPlayerState;
+    private MeleeEnemyAttackState attackState;
 
+    public bool hasMovedForTurn = false;
+    public bool canAttackTwice = true;
+    public bool hasAttackedTwice = false;
     private void Awake()
     {
+        enemyStateMachine = new EnemyStateMachine();
         enemyWaitState = new MeleeEnemyWaitState(this, enemyStateMachine);
         enemyRunState = new MeleeEnemyRunState(this,enemyStateMachine);
         moveToPlayerState = new MeleeEnemyMoveToPlayerState(this,enemyStateMachine);
+        attackState = new MeleeEnemyAttackState(this,enemyStateMachine);
+        enemyStateMachine.Initialized(enemyWaitState);
     }
 
     private void OnEnable()
@@ -28,20 +36,29 @@ public class MeleeEnemy : Enemy
         PublicEvents.EnemyTurnStarted += StartEnemyTurn; 
     }
 
+    [Button("Start Enemy Turn")]
     private void StartEnemyTurn()
     {
         if(LowHealthDetection())
         {
+            Debug.Log("Wait -> Run");
             enemyStateMachine.ChangeState(enemyRunState);
             return;
         }
 
-        if (!PlayerInAgroRange())
+        if(PlayerInAttackRange())
         {
-            //TODO wait on design
+            Debug.Log("Wait -> Attack");
+            enemyStateMachine.ChangeState(attackState);
+            return;
         }
-
-        enemyStateMachine.ChangeState(moveToPlayerState);
+        else
+        {
+            Debug.Log("Wait -> Move");
+            hasMovedForTurn = true;
+            enemyStateMachine.ChangeState(moveToPlayerState);
+            return;
+        }
     }
 
     private bool LowHealthDetection()
@@ -49,8 +66,11 @@ public class MeleeEnemy : Enemy
         return (currentHealth / maxHealth <= lowHealthPercentage);
     }
 
-    private bool PlayerInAgroRange()
+    public bool PlayerInAttackRange()
     {
-        return false;
+        return true;
     }
+
+    public MeleeEnemyWaitState GetWaitState() {  return enemyWaitState; }
+    public MeleeEnemyAttackState GetAttackState() {  return attackState; }
 }
