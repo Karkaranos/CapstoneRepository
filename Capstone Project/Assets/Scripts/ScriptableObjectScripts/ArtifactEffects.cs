@@ -5,6 +5,8 @@ Date Last Modified : 	10/5/2025
 Brief Description : 	Helper class for Artifacts                     
 External Resources : 	N/A
 ***************************************************/
+using UnityEngine;
+using NaughtyAttributes;
 [System.Serializable]
 public class ArtifactEffects
 {
