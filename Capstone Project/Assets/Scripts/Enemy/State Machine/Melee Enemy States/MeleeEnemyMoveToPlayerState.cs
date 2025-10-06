@@ -1,3 +1,10 @@
+/*************************************************
+Author Names : 		Clare Grady, 
+Date Created : 		10/1/2025
+Date Last Modified : 	10/6/2025
+Brief Description : 		Melee Enemy Move State
+External Resources : 	
+***************************************************/
 using UnityEngine;
 
 public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
@@ -6,6 +13,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     public MeleeEnemyMoveToPlayerState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     { }
 
+    //Set moveForTurn. If player in range attack else end turn 
     public override void EnterState()
     {
         Debug.Log("Entered Move State");
@@ -15,12 +23,12 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         if(enemy.PlayerInAttackRange())
         {
             Debug.Log("Move -> Attack");
-            enemyStateMachine.ChangeState(enemy.GetAttackState());
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
         }
         else
         {
             Debug.Log("Move -> Wait"); 
-            enemyStateMachine.ChangeState(enemy.GetWaitState());
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
         }
     }
 

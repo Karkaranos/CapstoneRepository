@@ -1,26 +1,52 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/1/2025
+Date Last Modified : 	10/6/2025
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
 External Resources : 	
 ***************************************************/
-using Unity.VisualScripting;
+
 using UnityEngine;
 using NaughtyAttributes;
 
 public class MeleeEnemy : Enemy
 {
+    #region VARS
+
+    //Vars used to show functionality without implementation. TEMPORARY
+    #region TEST VARS
+
+    [HorizontalLine(4, EColor.Green)]
+
+    [ShowIf(nameof(currentSettings), Settings.Testing)]public bool canAttackTwice = true;
+    [ShowIf(nameof(currentSettings), Settings.Testing)] public bool isLowHealth = false;
+    [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playInAttackRange = true;
+
+    #endregion
+
+    //Vars related to the state machine
+    #region STATE MACHINE VARS
+
     private MeleeEnemyWaitState enemyWaitState;
     private MeleeEnemyRunState enemyRunState; 
     private MeleeEnemyMoveToPlayerState moveToPlayerState;
     private MeleeEnemyAttackState attackState;
 
-    public bool hasMovedForTurn = false;
-    public bool canAttackTwice = true;
-    public bool hasAttackedTwice = false;
+    #endregion
+
+    //Other vars needed 
+    #region OTHER NON INSPECTOR VARS
+    [HideInInspector]public bool hasMovedForTurn = false;
+    [HideInInspector]public bool hasAttackedTwice = false;
+
+    #endregion
+    #endregion
+
+    #region FUNCTIONS
+
+    //Initialize all states of the state machine, link them to the state machine, tell the state machine to start in the wait state
     private void Awake()
     {
         enemyStateMachine = new EnemyStateMachine();
@@ -28,9 +54,10 @@ public class MeleeEnemy : Enemy
         enemyRunState = new MeleeEnemyRunState(this,enemyStateMachine);
         moveToPlayerState = new MeleeEnemyMoveToPlayerState(this,enemyStateMachine);
         attackState = new MeleeEnemyAttackState(this,enemyStateMachine);
-        enemyStateMachine.Initialized(enemyWaitState);
+        enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
     }
 
+    //Link EnemyTurnStarted event to StartEnemyTurn function
     private void OnEnable()
     {
         PublicEvents.EnemyTurnStarted += StartEnemyTurn; 
@@ -39,38 +66,50 @@ public class MeleeEnemy : Enemy
     [Button("Start Enemy Turn")]
     private void StartEnemyTurn()
     {
+        //if low health go to run state
         if(LowHealthDetection())
         {
             Debug.Log("Wait -> Run");
-            enemyStateMachine.ChangeState(enemyRunState);
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemyRunState));
             return;
         }
 
+        //Attack if player in range otherwise move towards player
         if(PlayerInAttackRange())
         {
             Debug.Log("Wait -> Attack");
-            enemyStateMachine.ChangeState(attackState);
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
             Debug.Log("Wait -> Move");
             hasMovedForTurn = true;
-            enemyStateMachine.ChangeState(moveToPlayerState);
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveToPlayerState));
             return;
         }
     }
 
+    //Are we at low health. Will filled more for actual functionality
     private bool LowHealthDetection()
     {
-        return (currentHealth / maxHealth <= lowHealthPercentage);
+        return isLowHealth;
     }
 
+    //Is the player in attack ranger 
+    //Will be filled out for actual functionality 
     public bool PlayerInAttackRange()
     {
-        return true;
+        return playInAttackRange;
     }
 
+    #endregion
+
+    #region GETTER AND SETTERS
+
+    //Getters for the states to be accessed by other states (made as needed)
     public MeleeEnemyWaitState GetWaitState() {  return enemyWaitState; }
     public MeleeEnemyAttackState GetAttackState() {  return attackState; }
+
+    #endregion
 }

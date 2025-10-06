@@ -1,3 +1,11 @@
+/*************************************************
+Author Names : 		Clare Grady, 
+Date Created : 		10/1/2025
+Date Last Modified : 	10/6/2025
+Brief Description : 		Run state for Melee Enemy
+External Resources : 	
+***************************************************/
+
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
@@ -8,14 +16,13 @@ public class MeleeEnemyRunState : MeleeEnemyState
 
     public override void EnterState()
     {
-        Debug.Log("Enemy is at low health. Running from player");
+        Debug.Log("Enter Run State");
         //TODO run logic 
-        //Trigger Enemy End turn 
-        enemyStateMachine.ChangeState(enemy.GetWaitState()); 
+        CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
     }
 
     public override void ExitState()
     {
-        Debug.Log("Run state -> wait state");
+        Debug.Log("Run -> Wait");
     }
 }
