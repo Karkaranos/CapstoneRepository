@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1263281845797227211}
   - component: {fileID: 6745039429712349130}
   - component: {fileID: -6374657962691870540}
+  - component: {fileID: -1284018236210482184}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -149,3 +150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d9a42b0153cf54eb6217f6fc0098e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1284018236210482184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675322036123795430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065715b422b430d429c0cf090f0da49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridDirections: []
+  movementRange: 7

@@ -94,6 +94,16 @@ public class GridTesting : MonoBehaviour
             t.DisplayStatChange();
         }
     }
+
+    [Button("Test Pathfinding")]
+    private void Pathfind()
+    {
+        GridPathfinding[] enemies = FindObjectsByType<GridPathfinding>(FindObjectsSortMode.None);
+        foreach(GridPathfinding e in enemies)
+        {
+            e.TestPathfinding();
+        }
+    }
     #endregion
 
     /// <summary>
