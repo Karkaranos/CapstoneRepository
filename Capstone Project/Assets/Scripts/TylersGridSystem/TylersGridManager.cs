@@ -12,8 +12,7 @@ using UnityEngine;
 
 public class TylersGridManager : MonoBehaviour
 {
-    private static List<Tile[,]> grids = new List<Tile[,]>();
-    public static Tile[,] currentGrid;
+    public static Tile[,] grid;
 
     public static void MakeGrid(Vector2Int dimensions, float radius, Vector3 spawnLocation)
     {
@@ -47,18 +46,15 @@ public class TylersGridManager : MonoBehaviour
                 newTile.name = "Tile(" + x.ToString() + ", " + y.ToString() + ")";
                 grid[x, y] = newTile.GetComponent<Tile>();
 
-                print(grid[x, y].coordinate);
                 grid[x, y].coordinate = new Vector2Int(x, y);
                 grid[x, y].worldPosition = tilePos;
             }
         }
 
         // finalize
-        grids.Add(grid);
-
-        if (currentGrid == null)
+        if (TylersGridManager.grid == null)
         {
-            currentGrid = grid;
+            TylersGridManager.grid = grid;
         }
     }
 
@@ -69,16 +65,24 @@ public class TylersGridManager : MonoBehaviour
         {
             foreach (ObjectOnGrid objOnGrid in data.objectsOnGrid)
             {
-                if (HasTile(objOnGrid.coords))
-                {
+                if (objOnGrid.obj != null) {
                     GameObject newObj = CreateObject(objOnGrid.obj, objOnGrid.coords);
                     GetTileWithObject(newObj).objectToAdd = objOnGrid.obj;
                 }
-                else
-                {
-                    data.objectsOnGrid.Remove(objOnGrid);
+                if (objOnGrid.tileType != TileType.Default) {
+                    GetTile(objOnGrid.coords).tileType = objOnGrid.tileType;
+                    GetTile(objOnGrid.coords).UpdateTileType(GetTile(objOnGrid.coords));
                 }
-
+                
+                
+               
+                
+                
+                /*if (HasTile(objOnGrid.coords))
+                {
+                    GameObject newObj = CreateObject(objOnGrid.obj, objOnGrid.coords);
+                    GetTileWithObject(newObj).objectToAdd = objOnGrid.obj;
+                }*/
             }
         }
     }
@@ -88,11 +92,11 @@ public class TylersGridManager : MonoBehaviour
     /// </summary>
     public static void DestroyGrid()
     {
-        if (currentGrid == null)
+        if (grid == null)
         {
             return;
         }
-        foreach (Tile tile in currentGrid)
+        foreach (Tile tile in grid)
         {
             if (!tile.isEmpty())
             {
@@ -100,7 +104,7 @@ public class TylersGridManager : MonoBehaviour
             }
             GameObject.Destroy(tile.gameObject);
         }
-        currentGrid = null;
+        grid = null;
     }
 
     /// <summary>
@@ -110,7 +114,7 @@ public class TylersGridManager : MonoBehaviour
     /// <returns></returns>
     public static bool HasTile(Vector2Int coords)
     {
-        if ((coords.x >= 0 && coords.x < currentGrid.GetLength(0)) && (coords.y >= 0 && coords.y < currentGrid.GetLength(1)))
+        if ((coords.x >= 0 && coords.x < grid.GetLength(0)) && (coords.y >= 0 && coords.y < grid.GetLength(1)))
         {
             return true;
         }
@@ -126,7 +130,7 @@ public class TylersGridManager : MonoBehaviour
     {
         if (HasTile(coords))
         {
-            return currentGrid[coords.x, coords.y];
+            return grid[coords.x, coords.y];
         }
         return null;
     }
@@ -137,7 +141,7 @@ public class TylersGridManager : MonoBehaviour
     /// <returns></returns>
     public static Tile GetTileWithObject(GameObject obj)
     {
-        foreach (Tile tile in currentGrid)
+        foreach (Tile tile in grid)
         {
             if (tile.objectOnTile == obj && obj != null)
             {
@@ -155,7 +159,7 @@ public class TylersGridManager : MonoBehaviour
     public static List<Tile> GetObjectsWithTag(string tag)
     {
         List<Tile> list = new List<Tile>();
-        foreach (Tile tile in currentGrid)
+        foreach (Tile tile in grid)
         {
             if (!tile.isEmpty())
             {
@@ -199,7 +203,7 @@ public class TylersGridManager : MonoBehaviour
         }
         return null;
     }
-    public static Tile GetUpperRightNeighbor(Tile tile)
+    public static Tile GetUpperRightNeighbor (Tile tile)
     {
         Vector2Int neighbor;
         if (tile.coordinate.x % 2 == 0)
@@ -321,7 +325,7 @@ public class TylersGridManager : MonoBehaviour
     public static List<Tile> FindEmptyTiles()
     {
         List<Tile> list = new List<Tile>();
-        foreach (Tile tile in currentGrid)
+        foreach (Tile tile in grid)
         {
             if (tile.objectOnTile == null)
             {
@@ -395,7 +399,7 @@ public class TylersGridManager : MonoBehaviour
     /// </summary>
     public static void ClearGrid()
     {
-        foreach (Tile tile in currentGrid)
+        foreach (Tile tile in grid)
         {
             if (tile.objectOnTile != null)
             {
@@ -409,7 +413,7 @@ public class TylersGridManager : MonoBehaviour
     /// </summary>
     public static void ResetPathingValues()
     {
-        foreach (Tile tile in currentGrid)
+        foreach (Tile tile in grid)
         {
             tile.pathingValue = -1;
         }

@@ -31,9 +31,9 @@ public class GridEditor : MonoBehaviour
 
     private List<ObjectOnGrid> SaveGridObjects() {
         List<ObjectOnGrid> list = new List<ObjectOnGrid>();
-        foreach (Tile tile in TylersGridManager.currentGrid) {
-            if (tile.objectToAdd != null && GridHasTile(tile.coordinate)) {
-                list.Add(new ObjectOnGrid(tile.coordinate, tile.objectToAdd));
+        foreach (Tile tile in TylersGridManager.grid) {
+            if ((tile.objectToAdd != null || tile.tileType != TileType.Default) && GridHasTile(tile.coordinate)) {
+                list.Add(new ObjectOnGrid(tile.coordinate, tile.objectToAdd,tile.tileType));
             }
         }
         return list;
