@@ -14,7 +14,7 @@ public class CursorMovingItemScript : MonoBehaviour
 {
     PlayerInput input;
     InputAction mouseMove;
-    InputAction TrashSpell;
+    InputAction trashSpell;
 
     private void Awake()
     {
@@ -22,19 +22,25 @@ public class CursorMovingItemScript : MonoBehaviour
         input = GetComponent<PlayerInput>();
         input.currentActionMap.Enable();
         mouseMove = input.currentActionMap.FindAction("MousePos");
-        TrashSpell = input.currentActionMap.FindAction("RightClick");
+        trashSpell = input.currentActionMap.FindAction("RightClick");
     }
 
+    /// <summary>
+    /// subscribes to everything when enabled
+    /// </summary>
     private void OnEnable()
     {
         //subscribes to needed funcs
-        TrashSpell.started += TrashSpell_started;
+        trashSpell.started += TrashSpell_started;
     }
 
+    /// <summary>
+    /// unsubscribes from everything when disabled
+    /// </summary>
     private void OnDisable()
     {
         //unsubscribes
-        TrashSpell.started -= TrashSpell_started;
+        trashSpell.started -= TrashSpell_started;
     }
     /// <summary>
     /// Trashes held item when right clicked while holding item
