@@ -19,8 +19,8 @@ public class PlayerBehavior : MonoBehaviour
     public GameObject gridTile;
     public List<Vector2Int> gridPoints = new List<Vector2Int>();
     public List<Vector2Int> playergridPoints = new List<Vector2Int>();
-    private static Vector2Int playerPosition;
-    private Vector2 tilePosition;
+    private Transform playerTransform;
+    private Vector2Int gridPosition;
     private TileBehavior tileBehavior;
     private GridManager gridManager;
     public bool PlayerCanMove;
@@ -32,12 +32,15 @@ public class PlayerBehavior : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gridManager = gridManager.gameObject.GetComponent<GridManager>();
-        player = player.gameObject.GetComponent<GameObject>();
-        tilePosition = transform.position;
+        gridManager = FindFirstObjectByType<GridManager>();
+        playerTransform = transform;
         playerInput = new InputSystemActions();
     }
 
+    private void Update()
+    {
+        //Vector2Int newGridPosition = gridManager.
+    }
 
     public void GetTilePositions()
     {
@@ -71,7 +74,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (MouseIsClicked)
         {
-            playerPosition = new Vector2Int(0, 0);
+            
         }
     }
 
@@ -84,5 +87,12 @@ public class PlayerBehavior : MonoBehaviour
     {
         playerInput.Disable();
     }
+
+
+    private void UpdateGridPosition()
+    {
+        //currentGridPosition = GridManager.SetGrid(playerTransform.position);
+    }
+
 
 }
