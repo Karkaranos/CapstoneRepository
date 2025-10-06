@@ -43,10 +43,11 @@ public class TylersGridManager : MonoBehaviour
                 Vector3 tilePos = new Vector3(worldX, spawnLocation.y, worldZ);
 
                 // creating tile at this position
-                GameObject newTile = Instantiate(Resources.Load<GameObject>("TileMarker"), tilePos, Quaternion.identity);
+                GameObject newTile = Instantiate(Resources.Load<GameObject>("Tile"), tilePos, Quaternion.identity);
                 newTile.name = "Tile(" + x.ToString() + ", " + y.ToString() + ")";
                 grid[x, y] = newTile.GetComponent<Tile>();
 
+                print(grid[x, y].coordinate);
                 grid[x, y].coordinate = new Vector2Int(x, y);
                 grid[x, y].worldPosition = tilePos;
             }
@@ -68,7 +69,7 @@ public class TylersGridManager : MonoBehaviour
         {
             foreach (ObjectOnGrid objOnGrid in data.objectsOnGrid)
             {
-                if (GridManager.HasTile(objOnGrid.coords))
+                if (HasTile(objOnGrid.coords))
                 {
                     GameObject newObj = CreateObject(objOnGrid.obj, objOnGrid.coords);
                     GetTileWithObject(newObj).objectToAdd = objOnGrid.obj;
@@ -337,7 +338,6 @@ public class TylersGridManager : MonoBehaviour
     /// <param name="tile"></param>
     public static GameObject CreateObject(GameObject obj, Vector2Int coords)
     {
-
         if (!HasTile(coords))
         {
             print("Grid doesn't have that position");

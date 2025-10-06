@@ -4,19 +4,19 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     public GameObject objectToAdd = null;
-    [HideInInspector] public GameObject objectOnTile;
-    [HideInInspector] public Vector3 worldPosition;
-    [HideInInspector] public Vector2Int coordinate;
+    [HideInInspector] public GameObject objectOnTile = null;
+    [HideInInspector] public Vector3 worldPosition = new Vector3(0,0,0);
+    [HideInInspector] public Vector2Int coordinate = new Vector2Int(0,0);
     [HideInInspector] public int pathingValue = -1;
 
     [Button]
     void addObject()
     {
-        foreach (Tile tile in GridManager.currentGrid)
+        foreach (Tile tile in TylersGridManager.currentGrid)
         {
             if (tile.objectToAdd != null)
             {
-                GridManager.CreateObject(tile.objectToAdd, tile.coordinate);
+                TylersGridManager.CreateObject(tile.objectToAdd, tile.coordinate);
             }
         }
     }
@@ -24,7 +24,7 @@ public class Tile : MonoBehaviour
     [Button]
     void RemoveObject()
     {
-        GridManager.RemoveObject(objectOnTile);
+        TylersGridManager.RemoveObject(objectOnTile);
         objectToAdd = null;
     }
 
