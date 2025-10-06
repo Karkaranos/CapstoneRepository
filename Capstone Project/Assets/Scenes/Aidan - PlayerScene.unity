@@ -867,6 +867,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464528834}
   m_CullTransparentMesh: 1
+--- !u!1 &525456044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525456045}
+  m_Layer: 0
+  m_Name: playerBattleStation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &525456045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525456044}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.306501, y: 0.07433655, z: 4.551378}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &532917530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,6 +1743,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958541144}
   m_CullTransparentMesh: 1
+--- !u!1 &961552922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 961552923}
+  m_Layer: 0
+  m_Name: enemyBattleStation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &961552923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961552922}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.306501, y: 0.07433655, z: 4.551378}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980781170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,6 +2387,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1299894371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1299894373}
+  - component: {fileID: 1299894372}
+  m_Layer: 0
+  m_Name: TurnBasedBattleSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1299894372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299894371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44939ecf88daefd45aa7ebc1be637944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonManager: {fileID: 1495623845}
+  player: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
+  enemy: {fileID: 3451082450519735141, guid: c4dc8c7e366826f4989c57c613e3c22f, type: 3}
+  State: 0
+  playerBattleStation: {fileID: 525456045}
+  enemyBattleStation: {fileID: 961552923}
+--- !u!4 &1299894373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299894371}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.306501, y: 0.07433655, z: 4.551378}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1495623844
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,17 +2466,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf59d8fe5d81154b86592bb796ffad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCanvas: {fileID: 980781170}
-  MoveCanvas: {fileID: 1721454006}
-  ConfirmCanvas: {fileID: 725537115}
-  MoveButton: {fileID: 1206992157}
-  MoveChoiceButton: {fileID: 837024248}
-  BackButton: {fileID: 464528836}
-  ConfirmButton: {fileID: 456071002}
-  PlayerCanMove: 0
-  PlayerIsGoingToMove: 0
-  BackButtonClicked: 0
-  ConfirmButtonClicked: 0
+  playerCanvas: {fileID: 0}
+  moveCanvas: {fileID: 0}
+  confirmCanvas: {fileID: 0}
+  moveButton: {fileID: 0}
+  moveChoiceButton: {fileID: 0}
+  backButton: {fileID: 0}
+  confirmButton: {fileID: 0}
+  endButton: {fileID: 0}
+  playerCanMove: 0
+  playerIsGoingToMove: 0
+  backButtonClicked: 0
+  confirmButtonClicked: 0
 --- !u!4 &1495623846
 Transform:
   m_ObjectHideFlags: 0
@@ -2948,3 +3061,6 @@ SceneRoots:
   - {fileID: 160606819}
   - {fileID: 2114049504}
   - {fileID: 1495623846}
+  - {fileID: 1299894373}
+  - {fileID: 525456045}
+  - {fileID: 961552923}

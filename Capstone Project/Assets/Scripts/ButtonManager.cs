@@ -11,86 +11,87 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-    public GameObject PlayerCanvas;
-    public GameObject MoveCanvas;
-    public GameObject ConfirmCanvas;
-    public Button MoveButton;
-    public Button MoveChoiceButton;
-    public Button BackButton;
-    public Button ConfirmButton;
+    public GameObject playerCanvas;
+    public GameObject moveCanvas;
+    public GameObject confirmCanvas;
+    public Button moveButton;
+    public Button moveChoiceButton;
+    public Button backButton;
+    public Button confirmButton;
+    public Button endButton;
     //public Button MoveChoiceButton;
-    public bool PlayerCanMove;
-    public bool PlayerIsGoingToMove;
-    public bool BackButtonClicked;
-    public bool ConfirmButtonClicked;
+    public bool playerCanMove;
+    public bool playerIsGoingToMove;
+    public bool backButtonClicked;
+    public bool confirmButtonClicked;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Button mbtn = MoveButton.GetComponent<Button>();
-        Button mcbtn = MoveChoiceButton.GetComponent<Button>();
-        Button bbtn = BackButton.GetComponent<Button>();
-        Button cbtn = ConfirmButton.GetComponent<Button>();
+        Button mbtn = moveButton.GetComponent<Button>();
+        Button mcbtn = moveChoiceButton.GetComponent<Button>();
+        Button bbtn = backButton.GetComponent<Button>();
+        Button cbtn = confirmButton.GetComponent<Button>();
         //Button mcbtn = MoveChoiceButton.GetComponent<Button>();
-        Canvas playerCanvas = PlayerCanvas.GetComponent<Canvas>();
-        Canvas moveCanvas = MoveCanvas.GetComponent<Canvas>();
-        Canvas confirmCanvas = ConfirmCanvas.GetComponent<Canvas>();
+        Canvas pCanvas = playerCanvas.GetComponent<Canvas>();
+        Canvas mCanvas = moveCanvas.GetComponent<Canvas>();
+        Canvas cCanvas = confirmCanvas.GetComponent<Canvas>();
     }
 
     public void MoveButtonOnClick()
     {
         Debug.Log("The player can move!");
-        PlayerCanMove = true;
-        if(PlayerCanMove)
+        playerCanMove = true;
+        if(playerCanMove)
         {
-            MoveCanvas.SetActive(true);
-            PlayerCanvas.SetActive(false);
+            moveCanvas.SetActive(true);
+            playerCanvas.SetActive(false);
         }
         else
         {
-            PlayerCanMove = false;
+            playerCanMove = false;
         }
     }
 
     public void BackButtonOnClick()
     {
         Debug.Log("goin back!");
-        BackButtonClicked = true;
-        if (BackButtonClicked)
+        backButtonClicked = true;
+        if (backButtonClicked)
         {
-            PlayerCanvas.SetActive(true);
-            MoveCanvas.SetActive(false);
+            playerCanvas.SetActive(true);
+            moveCanvas.SetActive(false);
         }
         else
         {
-            BackButtonClicked = false;
+            backButtonClicked = false;
         }
     }
 
     public void MoveChoiceOnClick()
     {
-        PlayerIsGoingToMove = true;
-        if (PlayerIsGoingToMove)
+        playerIsGoingToMove = true;
+        if (playerIsGoingToMove)
         {
-            MoveCanvas.SetActive(false);
-            ConfirmCanvas.SetActive(true);
+            moveCanvas.SetActive(false);
+            confirmCanvas.SetActive(true);
         }
         else
         {
-            PlayerIsGoingToMove = false;
+            playerIsGoingToMove = false;
         }
     }
 
     public void ConfirmOnClick()
     {
-        ConfirmButtonClicked = true;
-        if (ConfirmButtonClicked)
+        confirmButtonClicked = true;
+        if (confirmButtonClicked)
         {
-            ConfirmCanvas.SetActive(false);
+            confirmCanvas.SetActive(false);
         }
         else
         {
-            ConfirmButtonClicked = false;
+            confirmButtonClicked = false;
         }
     }
 
