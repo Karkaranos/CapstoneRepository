@@ -70,7 +70,7 @@ public class GridManager : MonoBehaviour
     /// <returns></returns> Returns true if that tile is empty
     public static bool CanMoveToTile(Vector2Int tileCoordinates)
     {
-        return combatGrid[tileCoordinates.x, tileCoordinates.y] == -1;
+        return combatGrid[tileCoordinates.x, tileCoordinates.y] == -1 || combatGrid[tileCoordinates.x, tileCoordinates.y] == -3;
     }
 
     /// <summary>
@@ -132,9 +132,13 @@ public class GridManager : MonoBehaviour
         string row = "";
         for (int i = combatGrid.GetLength(1) - 1; i >= 0; --i)
         {
+            if(i % 2 == 1)
+            {
+                row += " ";
+            }
             for(int j = 0; j < combatGrid.GetLength(0); ++j)
             {
-                row += combatGrid[j, i];
+                row += combatGrid[j, i] + " ";
             }
             row += "\n";
         }
