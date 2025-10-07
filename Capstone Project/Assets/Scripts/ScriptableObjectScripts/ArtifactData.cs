@@ -11,12 +11,12 @@ using UnityEngine;
 #region Enum Setup
 public enum ArtifactType
 {
-    HAT, CHESTPLATE, BOOT, AMULET, ORB
+    Staff, Tunic, Amulet, Potion, Cannon
 }
 
 public enum Effects
 {
-    LIGHTNING_ATK, WIND_ATK, FIRE_ATK, HEALTH, ATTACK, SPEED, ACTION_POINTS, SPELLS_EQUIPPED
+    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, DamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, MovementSpeedMultiplier
 }
 
 #endregion
