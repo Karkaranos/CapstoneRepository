@@ -15,4 +15,7 @@ public static class PublicEvents
     //this is what triggers the other skill tree nodes to unlock themselves
     //on purchase of a node.
     public static Action SkillTreeNodePurchased;
+
+    //triggered whenever the player turn ends 
+    public static Action EnemyTurnStarted;
 }
