@@ -19,7 +19,7 @@ public class GridPathfinding : MonoBehaviour
     }
     [SerializeField] protected Vector2Int myPosition;
     [SerializeField] protected Vector2Int targetPosition;
-    [SerializeField] private List<string> gridDirections = new List<string>();
+    [SerializeField] protected List<string> gridDirections = new List<string>();
 
     [SerializeField] protected int movementRange;
 
@@ -202,14 +202,14 @@ public class GridPathfinding : MonoBehaviour
         }
 
         GridManager.DisplayGridAsText();
-        StartCoroutine(MoveEnemy());
+        StartCoroutine(MoveEntity());
     }
 
     /// <summary>
     /// Moves the enemy along the grid until they reach their target
     /// </summary>
     /// <returns></returns>
-    private IEnumerator MoveEnemy()
+    protected IEnumerator MoveEntity()
     {
         float tileSizeX = transform.GetComponentInParent<Transform>().localScale.x * 2;
         float tileSizeY = transform.GetComponentInParent<Transform>().localScale.z * 2;
