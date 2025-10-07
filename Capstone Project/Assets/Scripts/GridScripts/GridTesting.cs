@@ -84,6 +84,16 @@ public class GridTesting : MonoBehaviour
         }
         GridManager.DisplayGridAsText();
     }
+
+    [Button("Show Terrain Affects")]
+    private void DisplayTerrainAffectsInConsole()
+    {
+        TileStatTester[] testers = FindObjectsByType<TileStatTester>(FindObjectsSortMode.None);
+        foreach(TileStatTester t in testers)
+        {
+            t.DisplayStatChange();
+        }
+    }
     #endregion
 
     /// <summary>
