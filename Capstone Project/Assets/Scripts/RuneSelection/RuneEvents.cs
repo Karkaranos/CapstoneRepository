@@ -13,6 +13,9 @@ public class RuneEvents : MonoBehaviour
 
     #region INITIALIZATION
 
+    /// <summary>
+    /// Runs whenever this script is loaded into a scene
+    /// </summary>
     private void OnEnable()
     {
 
@@ -21,6 +24,9 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Runs whenever this script is destroyed
+    /// </summary>
     private void OnDisable()
     {
 
@@ -43,10 +49,10 @@ public class RuneEvents : MonoBehaviour
 
         Debug.Log("You used Lightning " + runeNumber + "!");
 
-        if(PublicEvents.EndPlayerTurn != null)
+        if(PublicEvents.EnemyTurnStarted != null)
         {
 
-            PublicEvents.EndPlayerTurn();
+            PublicEvents.EnemyTurnStarted();
 
         }
 
@@ -61,10 +67,10 @@ public class RuneEvents : MonoBehaviour
 
         Debug.Log("You used Wind " + runeNumber + "!");
 
-        if (PublicEvents.EndPlayerTurn != null)
+        if (PublicEvents.EnemyTurnStarted != null)
         {
 
-            PublicEvents.EndPlayerTurn();
+            PublicEvents.EnemyTurnStarted();
 
         }
 

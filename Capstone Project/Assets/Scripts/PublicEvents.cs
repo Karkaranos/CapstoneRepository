@@ -20,7 +20,7 @@ public static class PublicEvents
     public static Action StartBattle;
 
     //Triggers whenever the player is done playing a spell
-    public static Action EndPlayerTurn;
+    public static Action EnemyTurnStarted;
 
 
     #region RUNE EVENTS
