@@ -37,16 +37,16 @@ public class SkillTreeManager : MonoBehaviour
     [HorizontalLine(4, EColor.Indigo)]
 
     //list of containers for each skill tree element
-    [SerializeField] private List<GameObject> DifferentElementSkillTreeContainers;
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private List<GameObject> DifferentElementSkillTreeContainers;
     
     //prefab for the box that follows the cursor
-    [SerializeField] private GameObject FollowCursorPrefab;
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private GameObject FollowCursorPrefab;
 
     //this is all the text that changes
-    [SerializeField] private TMP_Text titleText;
-    [SerializeField] private TMP_Text costText;
-    [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private TMP_Text currentSkillPointsText;
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text titleText;
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text costText;
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text descriptionText;
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text currentSkillPointsText;
 
     #endregion
     #region NONINSPECTOR VARS
@@ -80,7 +80,7 @@ public class SkillTreeManager : MonoBehaviour
             SkillPoints -= cost;
 
             //updates the skill points text to the new value
-            currentSkillPointsText.text = SkillPoints + " skill points";
+            currentSkillPointsText.text = SkillPoints + " EXP";
 
             //tells the node to buy itself
             return true;
@@ -175,7 +175,7 @@ public class SkillTreeManager : MonoBehaviour
         //shows cost if it has one
         if (cost > 0)
         {
-            costText.text = cost + " skill points";
+            costText.text = cost + " EXP";
         }
         else
         {
