@@ -47,6 +47,7 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     protected void PathfindThroughGrid()
     {
+        Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
 
         int stepsTaken = 0;
@@ -136,6 +137,7 @@ public class GridPathfinding : MonoBehaviour
         }
         --stepsTaken;
 
+        myPosition = originalPosition;
         Vector2Int originalTarget = targetPosition;
         //Stores the enemy path as a list of directions
         for (int i = stepsTaken - 1; i >= 0; --i)
@@ -255,9 +257,8 @@ public class GridPathfinding : MonoBehaviour
 
             transform.position = newPosition;
         }
-
-        myPosition = targetPosition;
         GridManager.ClearPathfinding();
-        GridManager.MoveToTile(myPosition, targetPosition, -2);
+        GridManager.combatGrid[myPosition.x, myPosition.y] = -1;
+        myPosition = targetPosition;
     }
 }
