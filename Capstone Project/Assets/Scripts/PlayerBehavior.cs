@@ -17,9 +17,7 @@ public class PlayerBehavior : MonoBehaviour
     private InputSystemActions playerInput;
     public GameObject player;
     public GameObject gridTile;
-    public List<Vector2Int> gridPoints = new List<Vector2Int>();
-    public List<Vector2Int> playergridPoints = new List<Vector2Int>();
-    private Transform playerTransform;
+    private Vector2Int playerPosition;
     private Vector2Int gridPosition;
     private TileBehavior tileBehavior;
     private GridManager gridManager;
@@ -33,50 +31,64 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         gridManager = FindFirstObjectByType<GridManager>();
-        playerTransform = transform;
+        playerPosition = new Vector2Int(1, 1);
         playerInput = new InputSystemActions();
+        gridPosition = GetComponent<TileBehaviour>().IndexInGrid;
     }
 
     private void Update()
     {
-        //Vector2Int newGridPosition = gridManager.
+        
     }
 
-    public void GetTilePositions()
+    public void PlayerWillMove(Vector2Int direction)
     {
-        gridPoints.Add(new Vector2Int(0, 0));
-        gridPoints.Add(new Vector2Int(1, 0));
-        gridPoints.Add(new Vector2Int(2, 0));
-        gridPoints.Add(new Vector2Int(1, 1));
-        gridPoints.Add(new Vector2Int(2, 1));
-        gridPoints.Add(new Vector2Int(3, 1));
-        gridPoints.Add(new Vector2Int(0, 2));
-        gridPoints.Add(new Vector2Int(1, 2));
-        gridPoints.Add(new Vector2Int(2, 2));
-        gridPoints.Add(new Vector2Int(1, 3));
-        gridPoints.Add(new Vector2Int(2, 3));
-        gridPoints.Add(new Vector2Int(3, 3));
-    }
+        Vector2Int newPos = playerPosition + direction;
 
-    public void GetPlayerGridTilePosition()
-    {
-        playergridPoints.Add(new Vector2Int(1, 0));
-        playergridPoints.Add(new Vector2Int(2, 0));
-        playergridPoints.Add(new Vector2Int(1, 1));
-        playergridPoints.Add(new Vector2Int(2, 1));
-        playergridPoints.Add(new Vector2Int(3, 1));
-        playergridPoints.Add(new Vector2Int(0, 2));
-        playergridPoints.Add(new Vector2Int(1, 2));
-        playergridPoints.Add(new Vector2Int(1, 3));
-    }
 
-    public void PlayerWillMove()
-    {
         if (MouseIsClicked)
         {
-            
+
+            playerPosition = newPos;
+
+            player.transform.position = new Vector2(newPos.x, newPos.y);
         }
     }
+
+
+    private void UpdateGridPosition()
+    {
+
+    }
+
+    //public void GetTilePositions()
+    //{
+    //    gridPoints.Add(new Vector2Int(0, 0));
+    //    gridPoints.Add(new Vector2Int(1, 0));
+    //    gridPoints.Add(new Vector2Int(2, 0));
+    //    gridPoints.Add(new Vector2Int(1, 1));
+    //    gridPoints.Add(new Vector2Int(2, 1));
+    //    gridPoints.Add(new Vector2Int(3, 1));
+    //    gridPoints.Add(new Vector2Int(0, 2));
+    //    gridPoints.Add(new Vector2Int(1, 2));
+    //    gridPoints.Add(new Vector2Int(2, 2));
+    //    gridPoints.Add(new Vector2Int(1, 3));
+    //    gridPoints.Add(new Vector2Int(2, 3));
+    //    gridPoints.Add(new Vector2Int(3, 3));
+    //}
+
+    //public void GetPlayerGridTilePosition()
+    //{
+    //    playergridPoints.Add(new Vector2Int(1, 0));
+    //    playergridPoints.Add(new Vector2Int(2, 0));
+    //    playergridPoints.Add(new Vector2Int(1, 1));
+    //    playergridPoints.Add(new Vector2Int(2, 1));
+    //    playergridPoints.Add(new Vector2Int(3, 1));
+    //    playergridPoints.Add(new Vector2Int(0, 2));
+    //    playergridPoints.Add(new Vector2Int(1, 2));
+    //    playergridPoints.Add(new Vector2Int(1, 3));
+    //}
+
 
     void OnEnable()
     {
@@ -87,12 +99,4 @@ public class PlayerBehavior : MonoBehaviour
     {
         playerInput.Disable();
     }
-
-
-    private void UpdateGridPosition()
-    {
-        //currentGridPosition = GridManager.SetGrid(playerTransform.position);
-    }
-
-
 }
