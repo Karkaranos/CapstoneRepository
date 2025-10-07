@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		09/28/2025
-Date Last Modified : 09/28/2025
+Date Last Modified : 10/06/2025
 Brief Description : This manages the individual nodes
                     on the skill tree.
 External Resources : 	
@@ -112,7 +112,7 @@ public class SkillTreeNode : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
-        isPermaLocked = false;
+        isPermaLocked = false; 
     }
 
     /// <summary>
@@ -162,6 +162,7 @@ public class SkillTreeNode : MonoBehaviour
     {
         Status = NodeStatus.Locked;
         button.interactable = false;
+        GetComponent<Image>().color = Color.gray;
         //Debug.Log("Node Locked");
     }
 
@@ -172,6 +173,7 @@ public class SkillTreeNode : MonoBehaviour
     {
         Status = NodeStatus.Unlocked;
         button.interactable = true;
+        GetComponent<Image>().color = Color.white;
         //Debug.Log("Node Unlocked");
     }
 
@@ -184,11 +186,16 @@ public class SkillTreeNode : MonoBehaviour
         if (skillTreeManager.CanPurchaseNode(cost))
         {
             Status = NodeStatus.Purchased;
-            button.interactable = false;
+            //button.interactable = false;
+            GetComponent<Image>().color = Color.green;
             //Debug.Log("Node Purchased");
 
             //updates the skill tree manager with the rune that got purchased
             skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
+
+            //updates the description with this node, but shows that you own it
+            //instead of showing the cost
+            skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
 
             //If it has any opposite nodes, it permanantly locks them
             if (OppositeNodes.Count > 0)
@@ -251,6 +258,16 @@ public class SkillTreeNode : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Picks up the spell so you can equip it when you 
+    /// click on this node while you own it
+    /// </summary>
+    public void SelectNodeWhilePurchased()
+    {
+        skillTreeManager.SelectNode(NodeRuneData);
+        
+    }
+
 
     /// <summary>
     /// This is triggered when the button is clicked on.
@@ -267,11 +284,28 @@ public class SkillTreeNode : MonoBehaviour
                 PurchaseNode();
                 break;
             case NodeStatus.Purchased:
-                Debug.Log("You've already purchased this node!");
+                SelectNodeWhilePurchased();
                 break;
             default:
                 Debug.Log("Tyler update the fucking switch statement in clickedon() in skilltreenode - missing cases");
                 break;
+        }
+    }
+
+    /// <summary>
+    /// triggers when the button is hovered over
+    /// tells the description to update with the data in this node
+    /// </summary>
+    public void OnHover()
+    {
+        //updates the text showing you own it if you own the node
+        if (status == NodeStatus.Purchased)
+        {
+            skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
+        }
+        else
+        {
+            skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, cost);
         }
     }
 
