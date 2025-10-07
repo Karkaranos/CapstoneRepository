@@ -27,7 +27,7 @@ public static class PublicEvents
 
     //Contains the list of runes equipped from SkillAndEquipManager
     //This just needs to be called after a rune is equipped in the pre-combat menu and everything else should work
-    public static Action<RuneData> EquipRunesToCombatMenu;
+    public static Action<int> EquipRunesToCombatMenu;
 
     //Triggered when a button from the in-combat menu is clicked
     //Rune types are assigned from RuneSelectionMenu 

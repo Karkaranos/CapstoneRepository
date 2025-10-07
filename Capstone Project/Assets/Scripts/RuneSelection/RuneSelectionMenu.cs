@@ -25,48 +25,37 @@ public class RuneSelectionMenu : MonoBehaviour
     [System.Serializable] public enum Variables
     {
 
-        Runes,
         Buttons
 
     }
 
     [SerializeField] private Variables currentInspectorShowing;
 
+    SkillAndEquipManager skillAndEquipManager;
+
+    private void Start()
+    {
+
+        skillAndEquipManager = GameObject.FindFirstObjectByType<SkillAndEquipManager>();
+
+    }
+
     #endregion SETUP
 
 
     #region RUNES
 
-    [HorizontalLine(3, EColor.Red)]
-
-    //this should be public so that it can be added onto based on the player's prep?
-    [ShowIf(nameof(currentInspectorShowing), Variables.Runes), SerializeField, Expandable]
-    public List<RuneData> runeData;
-
     public void OnEnable()
     {
 
-        PublicEvents.EquipRunesToCombatMenu += EquipRunes;
-
-    }
-
-
-    /// <summary>
-    /// Grabs what runes the player has equipped from SkillAndEquipManager
-    /// </summary>
-    /// <param name="rune"> Rune equipped </param>
-    public void EquipRunes(RuneData rune)
-    {
-
-        runeData.Add(rune);
-        EquipRunesToButtons(runeData.IndexOf(rune));
+        PublicEvents.EquipRunesToCombatMenu += EquipRunesToButtons;
 
     }
 
     public void OnDisable()
     {
 
-        PublicEvents.EquipRunesToCombatMenu -= EquipRunes;
+        PublicEvents.EquipRunesToCombatMenu -= EquipRunesToButtons;
 
     }
 
@@ -93,7 +82,7 @@ public class RuneSelectionMenu : MonoBehaviour
     void EquipRunesToButtons(int index)
     {
 
-        if (runeData[index] = null)
+        if (skillAndEquipManager.equippedSpells[index] == null)
         {
 
             buttons[index].SetActive(false);
@@ -104,15 +93,15 @@ public class RuneSelectionMenu : MonoBehaviour
 
 
             //Activates button and updates button text
-            buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = runeData[index].RuneName;
+            buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = skillAndEquipManager.equippedSpells[index].RuneName;
             buttons[index].SetActive(true);
 
             //Unnecessary but it'll make upcoming lines of code a bit easier to read
-            int runeNumber = runeData[index].NumberOnSkillTree;
+            int runeNumber = skillAndEquipManager.equippedSpells[index].NumberOnSkillTree;
 
 
             //Links rune effect to button based on rune type
-            switch (runeData[index].TypeOfRune)
+            switch (skillAndEquipManager.equippedSpells[index].TypeOfRune)
             {
 
                 case (RuneType.Lightning):

@@ -93,7 +93,7 @@ public class SkillAndEquipManager : MonoBehaviour
     public void SetIndexOfEquippedSpells(int index, RuneData data)
     {
         equippedSpells[index] = data;
-        PublicEvents.EquipRunesToCombatMenu(data);
+        PublicEvents.EquipRunesToCombatMenu(index);
     }
     
     /// <summary>
