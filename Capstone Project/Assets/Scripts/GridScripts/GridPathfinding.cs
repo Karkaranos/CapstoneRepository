@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/1/2025
+ * Last Modified: 10/7/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -23,18 +23,27 @@ public class GridPathfinding : MonoBehaviour
 
     [SerializeField] protected int movementRange;
 
+    /// <summary>
+    /// Testing function that gets the target location and has the enemy pathfind to it
+    /// </summary>
     public void TestPathfinding()
     {
         SetTarget();
         PathfindThroughGrid();
     }
 
+    /// <summary>
+    /// Currently sets the player as the target position. Will need to be replaced when the actually targeting is implemented
+    /// </summary>
     virtual protected void SetTarget()
     {
         Debug.Log(GridManager.playerPosition);
         targetPosition = GridManager.playerPosition;
     }
 
+    /// <summary>
+    /// Takes the current position and pathfinds to a designated location
+    /// </summary>
     protected void PathfindThroughGrid()
     {
         Vector2Int originalPosition = myPosition;
