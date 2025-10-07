@@ -29,7 +29,7 @@ public class Tile : MonoBehaviour
         foreach (Tile tile in TylersGridManager.grid)
         {
             UpdateTileType(tile);
-            if (tile.objectToAdd != null)
+            if (tile.objectOnTile == null && tile.objectToAdd != null)
             {
                 TylersGridManager.CreateObject(tile.objectToAdd, tile.coordinate);
             }

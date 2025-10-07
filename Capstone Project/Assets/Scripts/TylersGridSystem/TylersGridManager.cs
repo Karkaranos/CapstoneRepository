@@ -52,10 +52,7 @@ public class TylersGridManager : MonoBehaviour
         }
 
         // finalize
-        if (TylersGridManager.grid == null)
-        {
-            TylersGridManager.grid = grid;
-        }
+        TylersGridManager.grid = grid;
     }
 
     public static void MakeGrid(GridData data)
@@ -73,16 +70,6 @@ public class TylersGridManager : MonoBehaviour
                     GetTile(objOnGrid.coords).tileType = objOnGrid.tileType;
                     GetTile(objOnGrid.coords).UpdateTileType(GetTile(objOnGrid.coords));
                 }
-                
-                
-               
-                
-                
-                /*if (HasTile(objOnGrid.coords))
-                {
-                    GameObject newObj = CreateObject(objOnGrid.obj, objOnGrid.coords);
-                    GetTileWithObject(newObj).objectToAdd = objOnGrid.obj;
-                }*/
             }
         }
     }

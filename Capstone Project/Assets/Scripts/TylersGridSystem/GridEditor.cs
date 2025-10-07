@@ -13,21 +13,39 @@ public class GridEditor : MonoBehaviour
 
     private void Start()
     {
+        TylersGridManager.MakeGrid(grid);
         girdDimensions = grid.dimensions;
         HexRadius = grid.hexRadius;
         gridLocation = grid.spawnLocation;
         gridObjects = grid.objectsOnGrid;
-        TylersGridManager.MakeGrid(grid);
+        
     }
+
     [Button]
-    void UpdateAndSaveGrid() {
+    void UpdateAndSaveGrid()
+    {
+
         grid.dimensions = girdDimensions;
         grid.hexRadius = HexRadius;
         grid.spawnLocation = gridLocation;
         grid.objectsOnGrid = SaveGridObjects();
         TylersGridManager.DestroyGrid();
         TylersGridManager.MakeGrid(grid);
+
     }
+
+    [Button]
+    void ReloadGrid()
+    {
+        TylersGridManager.DestroyGrid();
+        TylersGridManager.MakeGrid(grid);
+        girdDimensions = grid.dimensions;
+        HexRadius = grid.hexRadius;
+        gridLocation = grid.spawnLocation;
+        gridObjects = grid.objectsOnGrid;
+    }
+
+    
 
     private List<ObjectOnGrid> SaveGridObjects() {
         List<ObjectOnGrid> list = new List<ObjectOnGrid>();
