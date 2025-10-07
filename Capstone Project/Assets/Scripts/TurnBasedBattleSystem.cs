@@ -9,14 +9,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public enum BattleStates { Start, PlayerTurn, EnemyTurn, Won, Loss }
+public enum battleStates { Start, PlayerTurn, EnemyTurn, Won, Loss }
 
 public class TurnBasedBattleSystem : MonoBehaviour
 {
     public ButtonManager buttonManager;
     public GameObject player;
     public GameObject enemy;
-    public BattleStates State;
+    public battleStates State;
 
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
@@ -25,23 +25,27 @@ public class TurnBasedBattleSystem : MonoBehaviour
     void Start()
     {
         buttonManager = FindFirstObjectByType<ButtonManager>();
-        State = BattleStates.Start;
+        State = battleStates.Start;
         SetUpBattle();
     }
 
+
     IEnumerator SetUpBattle()
     {
+
+        //PublicEvents.StartBattle();
+
         GameObject playerStart = Instantiate(player, playerBattleStation);
         playerStart.GetComponent<PlayerBehavior>();
 
         Instantiate(enemy, enemyBattleStation);
 
-        State = BattleStates.PlayerTurn;
+        State = battleStates.PlayerTurn;
         PlayerTurn();
 
         yield return new WaitForSeconds(5f);
 
-        State = BattleStates.EnemyTurn;
+        State = battleStates.EnemyTurn;
     }
 
     IEnumerator PlayerMove()
@@ -52,6 +56,7 @@ public class TurnBasedBattleSystem : MonoBehaviour
             Debug.Log("PlayerHasMoved!");
 
             yield return new WaitForSeconds(5f);
+            EnemyTurn();
         }
     }
 
@@ -62,6 +67,11 @@ public class TurnBasedBattleSystem : MonoBehaviour
         {
             buttonManager.playerIsGoingToMove = true;
         }
+    }
+
+    void EnemyTurn()
+    {
+
     }
 
 }

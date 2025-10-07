@@ -11,14 +11,16 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using PlayerInputActions;
+using System;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    private InputSystemActions playerInput;
+    public Input playerInput;
+    [SerializeField] private InputAction clickAction;
     public GameObject player;
     public GameObject gridTile;
-    private Vector2Int playerPosition;
-    private Vector2Int gridPosition;
+    private Vector2 playerPosition;
+    private Vector2Int tilePosition;
     private TileBehavior tileBehavior;
     private GridManager gridManager;
     public bool PlayerCanMove;
@@ -31,27 +33,38 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         gridManager = FindFirstObjectByType<GridManager>();
-        playerPosition = new Vector2Int(1, 1);
-        playerInput = new InputSystemActions();
-        gridPosition = GetComponent<TileBehaviour>().IndexInGrid;
+        //playerPosition = new Vector2Int(1, 1);
+        playerPosition = transform.position;
+        tilePosition = GetComponent<TileBehaviour>().IndexInGrid;
+    }
+
+    void OnEnable()
+    {
+        clickAction.Enable();
+        clickAction.performed += OnClickPerformed;
+    }
+
+    void OnDisable()
+    {
+        clickAction.Disable();
+        clickAction.performed -= OnClickPerformed;
+    }
+
+    private void OnClickPerformed(InputAction.CallbackContext context)
+    {
+        MouseIsClicked = true;
     }
 
     private void Update()
     {
-        
+        PlayerWillMove();
     }
 
-    public void PlayerWillMove(Vector2Int direction)
+    public void PlayerWillMove()
     {
-        Vector2Int newPos = playerPosition + direction;
-
-
         if (MouseIsClicked)
         {
-
-            playerPosition = newPos;
-
-            player.transform.position = new Vector2(newPos.x, newPos.y);
+            player.transform.position = new Vector2(tilePosition.x, tilePosition.y);
         }
     }
 
@@ -90,13 +103,5 @@ public class PlayerBehavior : MonoBehaviour
     //}
 
 
-    void OnEnable()
-    {
-        playerInput.Enable();
-    }
 
-    void OnDisable()
-    {
-        playerInput.Disable();
-    }
 }

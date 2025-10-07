@@ -18,7 +18,7 @@ public class ButtonManager : MonoBehaviour
     public Button moveChoiceButton;
     public Button backButton;
     public Button confirmButton;
-    public Button endButton;
+    //public Button endButton;
     //public Button MoveChoiceButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
