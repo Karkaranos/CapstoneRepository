@@ -53,7 +53,7 @@ public class TurnBasedBattleSystem : MonoBehaviour
         //Checks to see if player has moved
         if (buttonManager.confirmButtonClicked)
         {
-            Debug.Log("PlayerHasMoved!");
+            Debug.Log("PlayerTurnDone!");
 
             yield return new WaitForSeconds(5f);
             EnemyTurn();

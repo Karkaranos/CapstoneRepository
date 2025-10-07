@@ -74,6 +74,7 @@ public class ButtonManager : MonoBehaviour
         if (playerIsGoingToMove)
         {
             moveCanvas.SetActive(false);
+
             confirmCanvas.SetActive(true);
         }
         else
