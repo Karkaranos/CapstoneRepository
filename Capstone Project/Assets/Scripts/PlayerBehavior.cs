@@ -33,9 +33,9 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         gridManager = FindFirstObjectByType<GridManager>();
-        //playerPosition = new Vector2Int(1, 1);
+        playerPosition = new Vector2Int(0, 0);
         playerPosition = transform.position;
-        tilePosition = GetComponent<TileBehaviour>().IndexInGrid;
+        //tilePosition = gridTile.transform.position;
     }
 
     void OnEnable()
@@ -57,14 +57,9 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Update()
     {
-        PlayerWillMove();
-    }
-
-    public void PlayerWillMove()
-    {
         if (MouseIsClicked)
         {
-            player.transform.position = new Vector2(tilePosition.x, tilePosition.y);
+            playerPosition = new Vector2(tilePosition.x, tilePosition.y);
         }
     }
 
