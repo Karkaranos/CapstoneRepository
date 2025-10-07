@@ -46,7 +46,10 @@ public class MeleeEnemy : Enemy
 
     #region FUNCTIONS
 
-    //Initialize all states of the state machine, link them to the state machine, tell the state machine to start in the wait state
+    /// <summary>
+    /// Initialize all states of the state machine, link them to the state machine, 
+    /// then tell the state machine to start in the wait state
+    /// </summary>
     private void Awake()
     {
         enemyStateMachine = new EnemyStateMachine();
@@ -57,12 +60,19 @@ public class MeleeEnemy : Enemy
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
     }
 
-    //Link EnemyTurnStarted event to StartEnemyTurn function
+    /// <summary>
+    /// Link EnemyTurnStarted event to StartEnemyTurn function
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.EnemyTurnStarted += StartEnemyTurn; 
     }
 
+    /// <summary>
+    /// Defines under what path the state machine should take 
+    /// under what conditions at the start of the 
+    /// enemies turn 
+    /// </summary>
     [Button("Start Enemy Turn")]
     private void StartEnemyTurn()
     {
@@ -90,14 +100,20 @@ public class MeleeEnemy : Enemy
         }
     }
 
-    //Are we at low health. Will filled more for actual functionality
+    /// <summary>
+    /// Are we at low health. Will filled more for actual functionality
+    /// </summary>
+    /// <returns></returns>
     private bool LowHealthDetection()
     {
         return isLowHealth;
     }
 
-    //Is the player in attack ranger 
-    //Will be filled out for actual functionality 
+    /// <summary>
+    /// Is the player in attack ranger 
+    ///Will be filled out for actual functionality 
+    /// </summary>
+    /// <returns></returns>
     public bool PlayerInAttackRange()
     {
         return playInAttackRange;
@@ -107,7 +123,10 @@ public class MeleeEnemy : Enemy
 
     #region GETTER AND SETTERS
 
-    //Getters for the states to be accessed by other states (made as needed)
+    /// <summary>
+    /// Getters for the states to be accessed by other states (made as needed)
+    /// </summary>
+    /// <returns></returns>
     public MeleeEnemyWaitState GetWaitState() {  return enemyWaitState; }
     public MeleeEnemyAttackState GetAttackState() {  return attackState; }
 

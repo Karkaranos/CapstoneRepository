@@ -12,6 +12,11 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     public MeleeEnemyAttackState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     { }
 
+    /// <summary>
+    /// Enter attack state logic 
+    /// If can attack twice and hasn't yet calls state again
+    /// else return to wait state
+    /// </summary>
     public override void EnterState()
     {
         Debug.Log("Entered Attacking state");
@@ -32,6 +37,9 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
     }
 
+    /// <summary>
+    /// Exit attack state logic 
+    /// </summary>
     public override void ExitState()
     {
         

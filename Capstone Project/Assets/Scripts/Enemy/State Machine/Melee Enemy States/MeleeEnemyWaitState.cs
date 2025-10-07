@@ -11,16 +11,20 @@ public class MeleeEnemyWaitState : MeleeEnemyState
 {
     public MeleeEnemyWaitState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {}
-    
-    //logic for entering the wait state
+
+    /// <summary>
+    /// logic for entering the wait state
+    /// </summary>
     public override void EnterState()
     {
         base.EnterState();
         Debug.Log("Enter Wait State");
     }
 
-    //logic for exiting the wait state 
-    //reset enemies per turn variables 
+    /// <summary>
+    /// logic for exiting the wait state 
+    ///reset enemies per turn variables 
+    /// </summary>
     public override void ExitState()
     {
         enemy.hasMovedForTurn = false;

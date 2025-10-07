@@ -13,8 +13,13 @@ public class MeleeEnemyState : EnemyState
     protected MeleeEnemy enemy;
     protected EnemyStateMachine enemyStateMachine;
 
-    //constructor that specifically passes a Melee enemy 
-    //allows for access to all Melee enemy specific variables that you don't get if you just use Enemy
+    /// <summary>
+    /// constructor that specifically passes a Melee enemy 
+    /// allows for access to all Melee enemy specific variables 
+    /// that you don't get if you just use Enemy
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
     public MeleeEnemyState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine)
     {
         this.enemy = enemy;

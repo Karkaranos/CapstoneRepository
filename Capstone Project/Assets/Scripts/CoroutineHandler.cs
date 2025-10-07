@@ -12,6 +12,9 @@ public class CoroutineHandler : MonoBehaviour
 {
     public static CoroutineHandler Instance { get; private set; }
 
+    /// <summary>
+    /// Make sure that this is a Singleton 
+    /// </summary>
     private void Awake()
     {
         if (Instance == null)
@@ -25,6 +28,11 @@ public class CoroutineHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calls the start Coroutine function from this script so it can be used 
+    /// in non mono behaviour scripts 
+    /// </summary>
+    /// <param name="coroutine"></param>
     public void RunCoroutine(IEnumerator coroutine)
     {
         StartCoroutine(coroutine);

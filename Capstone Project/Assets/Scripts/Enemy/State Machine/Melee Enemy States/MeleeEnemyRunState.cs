@@ -14,6 +14,9 @@ public class MeleeEnemyRunState : MeleeEnemyState
     public MeleeEnemyRunState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     { }
 
+    /// <summary>
+    /// Enter Run State logic
+    /// </summary>
     public override void EnterState()
     {
         Debug.Log("Enter Run State");
@@ -21,6 +24,9 @@ public class MeleeEnemyRunState : MeleeEnemyState
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
     }
 
+    /// <summary>
+    /// Exit Run State Logic
+    /// </summary>
     public override void ExitState()
     {
         Debug.Log("Run -> Wait");

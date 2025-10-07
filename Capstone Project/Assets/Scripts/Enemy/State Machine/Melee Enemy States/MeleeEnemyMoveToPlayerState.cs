@@ -13,7 +13,10 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     public MeleeEnemyMoveToPlayerState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     { }
 
-    //Set moveForTurn. If player in range attack else end turn 
+    /// <summary>
+    /// Enter Move State Logic
+    /// Set moveForTurn. If player in range attack else end turn 
+    /// </summary>
     public override void EnterState()
     {
         Debug.Log("Entered Move State");
@@ -32,6 +35,9 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         }
     }
 
+    /// <summary>
+    /// Exit Move state logic 
+    /// </summary>
     public override void ExitState()
     {
         base.ExitState();

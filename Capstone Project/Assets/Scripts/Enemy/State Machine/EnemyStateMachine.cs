@@ -13,7 +13,11 @@ public class EnemyStateMachine : MonoBehaviour
     private EnemyState currentState;
     private float secondsBetweenStateTransitions;
 
-    //When you initialize the statemachine you tell it what state to start in and how long between state transitions 
+    /// <summary>
+    /// When you initialize the statemachine you tell it what state to start in and how long between state transitions 
+    /// </summary>
+    /// <param name="startingState"></param>
+    /// <param name="secondsBetweenStateTransitions"></param>
     public void Initialized(EnemyState startingState, float secondsBetweenStateTransitions)
     {
         currentState = startingState;
@@ -21,8 +25,12 @@ public class EnemyStateMachine : MonoBehaviour
         currentState.EnterState();
     }
 
-    //Change the state by playing a states exit behaviour and the new states enter behavior 
-    //IEnumerator so this doesn't go at ligth speed 
+    /// <summary>
+    /// //Change the state by playing a states exit behaviour and the new states enter behavior 
+    ///IEnumerator so this doesn't go at ligth speed 
+    /// </summary>
+    /// <param name="newState"></param>
+    /// <returns></returns>
     public IEnumerator ChangeState(EnemyState newState)
     {
         currentState.ExitState();

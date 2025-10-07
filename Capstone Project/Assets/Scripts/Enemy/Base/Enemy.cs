@@ -56,7 +56,9 @@ public class Enemy : MonoBehaviour
 
     #region FUNCTIONS
 
-    //Make state machine for enemy
+    /// <summary>
+    /// Make state machine for enemy
+    /// </summary>
     private void Awake()
     {
         enemyStateMachine = new EnemyStateMachine();
@@ -68,7 +70,10 @@ public class Enemy : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    //Damage function for enemy. Public so states can call it
+    /// <summary>
+    /// Damage function for enemy. Public so states can call it
+    /// </summary>
+    /// <param name="damage"></param>
     public void Damage(float damage)
     {
         currentHealth -= damage;
@@ -80,7 +85,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //Die function for enemy
+    /// <summary>
+    /// Die function for enemy
+    /// </summary>
     private void Die()
     {
         print("Enemy is dead!");
