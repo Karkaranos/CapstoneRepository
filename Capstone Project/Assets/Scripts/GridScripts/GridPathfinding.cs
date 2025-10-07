@@ -216,20 +216,20 @@ public class GridPathfinding : MonoBehaviour
             switch (gridDirections[i])
             {
                 case "Up Left":
-                    newPosition.x -= tileSizeX;
-                    newPosition.z += tileSizeY;
+                    newPosition.x -= (tileSizeX / 2);
+                    newPosition.z += (tileSizeY * .75f);
                     break;
                 case "Up Right":
-                    newPosition.x += tileSizeX;
-                    newPosition.z += tileSizeY;
+                    newPosition.x += (tileSizeX / 2);
+                    newPosition.z += (tileSizeY * .75f);
                     break;
                 case "Down Left":
-                    newPosition.x -= tileSizeX;
-                    newPosition.z -= tileSizeY;
+                    newPosition.x -= (tileSizeX / 2);
+                    newPosition.z -= (tileSizeY * .75f);
                     break;
                 case "Down Right":
-                    newPosition.x += tileSizeX;
-                    newPosition.z -= tileSizeY;
+                    newPosition.x += (tileSizeX / 2);
+                    newPosition.z -= (tileSizeY * .75f);
                     break;
                 case "Right":
                     newPosition.x += tileSizeX;
