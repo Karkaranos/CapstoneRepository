@@ -9,6 +9,7 @@
 using UnityEngine;
 using NaughtyAttributes;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GridTesting : MonoBehaviour
 {
@@ -98,13 +99,27 @@ public class GridTesting : MonoBehaviour
     [Button("Test Pathfinding")]
     private void Pathfind()
     {
-        GridPathfinding[] enemies = FindObjectsByType<GridPathfinding>(FindObjectsSortMode.None);
-        foreach(GridPathfinding e in enemies)
-        {
-            e.TestPathfinding();
-        }
+        StartCoroutine(AllEnemiesPathfind());
+        //GridPathfinding[] enemies = FindObjectsByType<GridPathfinding>(FindObjectsSortMode.None);
+        //foreach(GridPathfinding e in enemies)
+        //{
+        //    e.TestPathfinding();
+        //}
     }
     #endregion
+
+    IEnumerator AllEnemiesPathfind()
+    {
+        GridPathfinding[] enemies = FindObjectsByType<GridPathfinding>(FindObjectsSortMode.None);
+        int listIndex = 0;
+
+        while(listIndex < enemies.Length)
+        {
+            enemies[listIndex].TestPathfinding();
+            yield return new WaitForSeconds(5);
+            ++listIndex;
+        }
+    }
 
     /// <summary>
     /// Creates an instance of the grid
