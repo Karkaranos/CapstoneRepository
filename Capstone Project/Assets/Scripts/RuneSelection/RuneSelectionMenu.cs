@@ -93,27 +93,39 @@ public class RuneSelectionMenu : MonoBehaviour
     void EquipRunesToButtons(int index)
     {
 
-        //Activates button and updates button text
-        buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = runeData[index].RuneName;
-        buttons[index].SetActive(true);
-
-        //Unnecessary but it'll make upcoming lines of code a bit easier to read
-        int runeNumber = runeData[index].NumberOnSkillTree;
-
-
-        //Links rune effect to button based on rune type
-        switch (runeData[index].TypeOfRune)
+        if (runeData[index] = null)
         {
 
-            case (RuneType.Lightning):
+            buttons[index].SetActive(false);
 
-                buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.LightningRuneSelected.Invoke(runeNumber));
-                break;
+        }
+        else
+        {
 
-            case (RuneType.Wind):
 
-                buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.WindRuneSelected.Invoke(runeNumber));
-                break;
+            //Activates button and updates button text
+            buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = runeData[index].RuneName;
+            buttons[index].SetActive(true);
+
+            //Unnecessary but it'll make upcoming lines of code a bit easier to read
+            int runeNumber = runeData[index].NumberOnSkillTree;
+
+
+            //Links rune effect to button based on rune type
+            switch (runeData[index].TypeOfRune)
+            {
+
+                case (RuneType.Lightning):
+
+                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.LightningRuneSelected.Invoke(runeNumber));
+                    break;
+
+                case (RuneType.Wind):
+
+                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.WindRuneSelected.Invoke(runeNumber));
+                    break;
+
+            }
 
         }
 
