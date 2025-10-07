@@ -17,8 +17,8 @@ public class GridPathfinding : MonoBehaviour
         get { return myPosition; }
         set { myPosition = value; }
     }
-    protected Vector2Int myPosition;
-    protected Vector2Int targetPosition;
+    [SerializeField] protected Vector2Int myPosition;
+    [SerializeField] protected Vector2Int targetPosition;
     protected List<string> gridDirections = new List<string>();
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
@@ -47,7 +47,6 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     protected void PathfindThroughGrid()
     {
-        Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
 
         int stepsTaken = 0;
@@ -137,6 +136,7 @@ public class GridPathfinding : MonoBehaviour
         }
         --stepsTaken;
 
+        Vector2Int originalTarget = targetPosition;
         //Stores the enemy path as a list of directions
         for (int i = stepsTaken - 1; i >= 0; --i)
         {
@@ -202,6 +202,7 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
+        targetPosition = originalTarget;
         GridManager.DisplayGridAsText();
         StartCoroutine(MoveEntity());
     }
@@ -255,6 +256,7 @@ public class GridPathfinding : MonoBehaviour
             transform.position = newPosition;
         }
 
+        myPosition = targetPosition;
         GridManager.ClearPathfinding();
         GridManager.MoveToTile(myPosition, targetPosition, -2);
     }
