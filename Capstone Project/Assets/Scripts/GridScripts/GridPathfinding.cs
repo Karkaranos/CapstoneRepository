@@ -17,10 +17,11 @@ public class GridPathfinding : MonoBehaviour
         get { return myPosition; }
         set { myPosition = value; }
     }
-    [SerializeField] protected Vector2Int myPosition;
-    [SerializeField] protected Vector2Int targetPosition;
-    [SerializeField] protected List<string> gridDirections = new List<string>();
+    protected Vector2Int myPosition;
+    protected Vector2Int targetPosition;
+    protected List<string> gridDirections = new List<string>();
 
+    [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
 
     /// <summary>
