@@ -31,6 +31,10 @@ public class SpawnerTile : MonoBehaviour
         coordinatesInGrid = GetComponent<TileBehaviour>().IndexInGrid;
         int eType = -1;
         GameObject obj = Instantiate(entity, transform.position, Quaternion.identity);
+        if(obj.GetComponent<GridPathfinding>() != null)
+        {
+            obj.GetComponent<GridPathfinding>().MyPosition = coordinatesInGrid;
+        }
         //obj.transform.SetParent(GetComponentInParent<Transform>().transform);
         switch(entityType)
         {

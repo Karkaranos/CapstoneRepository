@@ -12,6 +12,11 @@ using System.Collections;
 
 public class GridPathfinding : MonoBehaviour
 {
+    public Vector2Int MyPosition
+    {
+        get { return myPosition; }
+        set { myPosition = value; }
+    }
     [SerializeField] protected Vector2Int myPosition;
     [SerializeField] protected Vector2Int targetPosition;
     [SerializeField] private List<string> gridDirections = new List<string>();
