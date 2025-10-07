@@ -40,8 +40,31 @@ public class RuneSelectionMenu : MonoBehaviour
     [HorizontalLine(3, EColor.Red)]
 
     //this should be public so that it can be added onto based on the player's prep?
-    [ShowIf(nameof(currentInspectorShowing), Variables.Runes), SerializeField]
+    [ShowIf(nameof(currentInspectorShowing), Variables.Runes), SerializeField, Expandable]
     public List<RuneData> runeData;
+
+    public void OnEnable()
+    {
+
+        PublicEvents.EquipRunesToCombatMenu += EquipRunes;
+
+    }
+
+    public void EquipRunes(RuneData rune)
+    {
+
+        runeData.Add(rune);
+        EquipRunesToButtons(runeData.IndexOf(rune));
+
+    }
+
+    public void OnDisable()
+    {
+
+        PublicEvents.EquipRunesToCombatMenu -= EquipRunes;
+
+    }
+
 
     #endregion RUNES
 
@@ -58,15 +81,26 @@ public class RuneSelectionMenu : MonoBehaviour
 
     #region ENABLE BUTTONS
 
-    private void Start()
+    void EquipRunesToButtons(int index)
     {
 
-        //the button should store the rune's effect function eventually
-        for(int i = 0; i < runeData.Count; i++)
+        buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = runeData[index].RuneName;
+        buttons[index].SetActive(true);
+
+        int runeNumber = runeData[index].NumberOnSkillTree;
+
+        switch (runeData[index].TypeOfRune)
         {
 
-            buttons[i].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = runeData[i].RuneName;
-            buttons[i].SetActive(true);
+            case (RuneType.Lightning):
+
+                buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.LightningRuneSelected.Invoke(runeNumber));
+                break;
+
+            case (RuneType.Wind):
+
+                buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.WindRuneSelected.Invoke(runeNumber));
+                break;
 
         }
 
