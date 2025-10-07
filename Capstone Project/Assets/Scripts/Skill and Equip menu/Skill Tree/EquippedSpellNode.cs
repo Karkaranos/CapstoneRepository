@@ -104,6 +104,7 @@ public class EquippedSpellNode : MonoBehaviour
                 RuneData temp = skillTreeManager.currentlySelected;
                 skillTreeManager.SelectNode(heldSpell);
                 heldSpell = temp;
+                skillAndEquipManager.SetIndexOfEquippedSpells(index, heldSpell);
                 GetComponent<Image>().color = Color.green;
             }
             else
