@@ -1,3 +1,11 @@
+/*************************************************
+Author Names : 	Jay Embry
+Date Created : 	10/07/2025
+Date Last Modified : 10/07/2025
+Brief Description : Contains rune types and effects
+External Resources : 	
+	***************************************************/
+
 using UnityEngine;
 
 public class RuneEvents : MonoBehaviour
@@ -26,6 +34,10 @@ public class RuneEvents : MonoBehaviour
 
     #region RUNE EVENTS
 
+    /// <summary>
+    /// Calls lightning rune effect
+    /// </summary>
+    /// <param name="runeNumber"> Grabs where this rune is on the skill tree </param>
     public void LightningRune(int runeNumber)
     {
 
@@ -40,6 +52,10 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Calls wind rune effect
+    /// </summary>
+    /// <param name="runeNumber"> Grabs where this rune is on the skill tree </param>
     public void WindRune(int runeNumber)
     {
 

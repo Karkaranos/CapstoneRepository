@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	09/30/2025
-Date Last Modified : 10/02/2025
+Date Last Modified : 10/07/2025
 Brief Description : The in-combat menus for rune selection.
                     Generates and displays buttons.
 				    Displays submenus for the different tiers of spells.
@@ -50,6 +50,11 @@ public class RuneSelectionMenu : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// Grabs what runes the player has equipped from SkillAndEquipManager
+    /// </summary>
+    /// <param name="rune"> Rune equipped </param>
     public void EquipRunes(RuneData rune)
     {
 
@@ -81,14 +86,22 @@ public class RuneSelectionMenu : MonoBehaviour
 
     #region ENABLE BUTTONS
 
+    /// <summary>
+    /// Links buttons to rune data
+    /// </summary>
+    /// <param name="index"> Index of the rune being referenced from runeData </param>
     void EquipRunesToButtons(int index)
     {
 
+        //Activates button and updates button text
         buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = runeData[index].RuneName;
         buttons[index].SetActive(true);
 
+        //Unnecessary but it'll make upcoming lines of code a bit easier to read
         int runeNumber = runeData[index].NumberOnSkillTree;
 
+
+        //Links rune effect to button based on rune type
         switch (runeData[index].TypeOfRune)
         {
 

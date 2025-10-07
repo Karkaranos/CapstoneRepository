@@ -3,7 +3,7 @@ Author Names : 	Jay Embry
 Date Created : 	09/30/2025
 Date Last Modified : 10/02/2025
 Brief Description : Stores button data?
-                    Kind of unnecessary after RuneData but could be used for stylization
+                    Kind of unnecessary after RuneData's been made but could be used for stylization
 External Resources : 	
 	***************************************************/
 

@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Hayes 
+Author Names : 		Tyler Hayes, Jay Embry 
 Date Created : 		09/28/2025
-Date Last Modified : 09/28/2025
+Date Last Modified : 10/07/2025
 Brief Description : Stores all of the public events used.
 External Resources : 	
 	***************************************************/
