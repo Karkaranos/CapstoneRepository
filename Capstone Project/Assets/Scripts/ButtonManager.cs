@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
+    public PlayerBehavior playerBehavior;
     public GameObject playerCanvas;
     public GameObject moveCanvas;
     public GameObject confirmCanvas;
@@ -28,6 +29,7 @@ public class ButtonManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerBehavior = GetComponent<PlayerBehavior>();
         Button mbtn = moveButton.GetComponent<Button>();
         Button mcbtn = moveChoiceButton.GetComponent<Button>();
         Button bbtn = backButton.GetComponent<Button>();
@@ -74,8 +76,7 @@ public class ButtonManager : MonoBehaviour
         if (playerIsGoingToMove)
         {
             moveCanvas.SetActive(false);
-
-            confirmCanvas.SetActive(true);
+            playerBehavior.MouseIsClicked = true;
         }
         else
         {
