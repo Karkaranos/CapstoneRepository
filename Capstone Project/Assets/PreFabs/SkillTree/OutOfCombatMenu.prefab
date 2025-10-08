@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 25 EXP
+  m_text: 500 EXP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showingSettings: 0
-  SkillPoints: 25
+  SkillPoints: 500
   DifferentElementSkillTreeContainers:
   - {fileID: 5360078777007878381}
   - {fileID: 2104754322847510818}
@@ -2610,9 +2610,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58363c4b312ef3746a96cdcd74787ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InspectorSettings: 1
+  InspectorSettings: 0
   SkillTreeContainer: {fileID: 7500490359046082026}
   EquipMenuContainer: {fileID: 8361467724919245834}
+  OutOfCombatMenuContainer: {fileID: 5245468542074719991}
   NumOfSpellSlots: 4
   equippedSpells:
   - {fileID: 0}
@@ -2982,7 +2983,7 @@ PrefabInstance:
     - target: {fileID: 2264939146813896077, guid: 3203e93dd1929124abb847f0205d07b0, type: 3}
       propertyPath: NodeRuneData
       value: 
-      objectReference: {fileID: 11400000, guid: 62bb0d0f94d7f3b41bc2e24700bb76ae, type: 2}
+      objectReference: {fileID: 11400000, guid: 0ff62a8bbf2e58a43bddaf934cf3f213, type: 2}
     - target: {fileID: 2264939146813896077, guid: 3203e93dd1929124abb847f0205d07b0, type: 3}
       propertyPath: currentSettings
       value: 1
@@ -2998,11 +2999,11 @@ PrefabInstance:
     - target: {fileID: 5525198258010261849, guid: 3203e93dd1929124abb847f0205d07b0, type: 3}
       propertyPath: NodeRuneData
       value: 
-      objectReference: {fileID: 11400000, guid: f733111a02096af44b022149dd160c04, type: 2}
+      objectReference: {fileID: 11400000, guid: ef25dbe29c0e7924bb06ef19bdaffa25, type: 2}
     - target: {fileID: 6107893819398280850, guid: 3203e93dd1929124abb847f0205d07b0, type: 3}
       propertyPath: NodeRuneData
       value: 
-      objectReference: {fileID: 11400000, guid: 040d136657ae2c044bc3731ede8f1639, type: 2}
+      objectReference: {fileID: 11400000, guid: 7393517deaf7d8c4c93c07c40dedbc5f, type: 2}
     - target: {fileID: 6107893819398280850, guid: 3203e93dd1929124abb847f0205d07b0, type: 3}
       propertyPath: currentSettings
       value: 1
@@ -3014,7 +3015,7 @@ PrefabInstance:
     - target: {fileID: 8219496337774472471, guid: 3203e93dd1929124abb847f0205d07b0, type: 3}
       propertyPath: NodeRuneData
       value: 
-      objectReference: {fileID: 11400000, guid: 5f459a85e231ea24db1d53b36a2b3ec9, type: 2}
+      objectReference: {fileID: 11400000, guid: ee49c92034fe31c4cbe2210ba198c713, type: 2}
     - target: {fileID: 8316966548185102347, guid: 3203e93dd1929124abb847f0205d07b0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
