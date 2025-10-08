@@ -7,6 +7,7 @@ External Resources :
 ***************************************************/
 using UnityEngine;
 using NaughtyAttributes;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -38,7 +39,9 @@ public class Enemy : MonoBehaviour
         MaxValue(1),
         Tooltip("Percentage of health the enemy needs to be at to trigger low health status")] protected float lowHealthPercentage = 0.20f;
 
-    [SerializeField, ReadOnly]protected float currentHealth = 5f;
+    [SerializeField, 
+        ShowIf(nameof(currentSettings), Settings.Health),
+        ReadOnly]protected float currentHealth = 5f;
     #endregion
 
     #region STATE MACHINE VARS
@@ -51,6 +54,14 @@ public class Enemy : MonoBehaviour
 
     protected EnemyStateMachine enemyStateMachine;
 
+    #endregion
+
+    #region TEST VARS
+
+    [HorizontalLine(4, EColor.Green)]
+
+    [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
+    
     #endregion
     #endregion
 
