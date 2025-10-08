@@ -20,6 +20,7 @@ public class MeleeEnemyRunState : MeleeEnemyState
     public override void EnterState()
     {
         Debug.Log("Enter Run State");
+        enemy.logText.text = "Running";
         //TODO run logic 
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
     }

@@ -80,7 +80,6 @@ public class MeleeEnemy : Enemy
         if(LowHealthDetection())
         {
             Debug.Log("Wait -> Run");
-            logText.text = "Running";
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemyRunState));
             return;
         }
@@ -89,14 +88,12 @@ public class MeleeEnemy : Enemy
         if(PlayerInAttackRange())
         {
             Debug.Log("Wait -> Attack");
-            logText.text = "Attacking"; 
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
             Debug.Log("Wait -> Move");
-            logText.text = "Moving";
             hasMovedForTurn = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveToPlayerState));
             return;
