@@ -44,15 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5e7ca3b4d52fc4eaea701120c048b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 1
+  settings: 3
   CommandConsole: {fileID: 1704929989082906118, guid: 3ad6c0ab1caa33c44ab70d8171a08f0a, type: 3}
   maxArtifacts: 3
-  allowArtifactTesting: 1
+  allowArtifactTesting: 0
   randomArtifactPool:
   - {fileID: 11400000, guid: cdebfa474e7c2064ea9c0fc41e5fa153, type: 2}
+  - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
   setArtifactPool: []
   testData:
   - {fileID: 11400000, guid: cdebfa474e7c2064ea9c0fc41e5fa153, type: 2}
   - {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
   - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
   - {fileID: 11400000, guid: 650041acff6096044aebf8777a69ae97, type: 2}
+  consoleEnabled: 1
+  consoleEnabledOnLoad: 0
+  moveConsoleEnabled: 1
+  greetEnabled: 1
+  enemiesEnabled: 1

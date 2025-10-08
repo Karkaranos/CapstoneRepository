@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
     [SerializeField,
     ShowIf(nameof(currentSettings), Settings.Combat),
     Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
-    protected float artifactDropChance;
+    protected float artifactDropChance = .5f;
 
     #endregion
 
@@ -117,18 +117,21 @@ public class Enemy : MonoBehaviour
 
     /// <summary>
     /// Generates a random number and checks if an item will drop
+    /// Optional overload to force drops
     /// </summary>
-    private void TryDropItem()
+    public void TryDropItem(float overload = -1f)
     {
+        float dropChance = (overload > 0f ? overload : artifactDropChance);
+        Debug.Log(dropChance);
         float randValue = Random.Range(0f, 1f);
-        if(randValue <= artifactDropChance)
+        if(randValue <= dropChance)
         {
             // this line should be replaced later. 
             // it generates an artifact from the pool and 
-            ArtifactManager.ObtainArtifact(
-                ArtifactManager.GetArtifactFromRAP());
+            ArtifactData ad = ArtifactManager.GetArtifactFromRAP();
+            ArtifactManager.ObtainArtifact(ad);
+            Logger.Log("Dropped " + ad.Name);
         }
-
     }
     #endregion
 }

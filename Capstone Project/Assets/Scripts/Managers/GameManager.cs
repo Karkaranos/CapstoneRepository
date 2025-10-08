@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     //inspector enums
     public enum Settings
     {
-        None, Prefabs, ArtifactManager
+        None, Prefabs, ArtifactManager, ConsoleCommands
     }
 
     public Settings settings;
@@ -29,20 +29,39 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("Obtained upon level completion. Index + 1 is the level number."),
         ShowIf(nameof(settings), Settings.ArtifactManager)] private ArtifactData[] setArtifactPool;
     [SerializeField, Tooltip("Artifact Testing. Will be removed later"),
-       ShowIf(EConditionOperator.And, nameof(allowArtifactTesting), nameof(ArtifactMenu))]
+       ShowIf(EConditionOperator.And, nameof(allowArtifactTesting), nameof(TestForArtifactState))]
     private ArtifactData[] testData;
-    private bool ArtifactMenu => TestSettingValue();
+    private bool TestForArtifactState => TestSettingValue(Settings.ArtifactManager);
 
+    #endregion
+
+    #region Console Commands
+    [HorizontalLine(4, EColor.Yellow)]
+    [SerializeField, ShowIf(nameof(settings), Settings.ConsoleCommands), 
+    Tooltip("Can you use the console?")] private bool consoleEnabled = true;
+    [SerializeField, ShowIf(EConditionOperator.And, nameof(consoleEnabled), nameof(TestForConsoleState)),
+    Tooltip("Does the console start enabled?")] private bool consoleEnabledOnLoad = true;
+    [SerializeField, ShowIf(nameof(settings), Settings.ConsoleCommands),
+    Tooltip("Can the Command Console be moved?")]
+    private bool moveConsoleEnabled;
+    [SerializeField, ShowIf(nameof(settings), Settings.ConsoleCommands),
+    Tooltip("Can the Command Console greet the user?")]
+    private bool greetEnabled;
+    [SerializeField, ShowIf(nameof(settings), Settings.ConsoleCommands),
+    Tooltip("Can the Command Console affect Enemies?")]
+    private bool enemiesEnabled;
+    private bool TestForConsoleState => TestSettingValue(Settings.ConsoleCommands);
     #endregion
 
     /// <summary>
     /// Inspector function
-    /// Converts a specific enum state to true
+    /// Checks if the given enum state is active
+    /// Used for multiconditional show if
     /// </summary>
     /// <returns></returns>
-    private bool TestSettingValue()
+    private bool TestSettingValue(Settings val)
     {
-        return settings == Settings.ArtifactManager;
+        return settings == val;
     }
     
     /// <summary>
@@ -51,9 +70,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        //Assign a reference to ArtifactManager
+        // Console Commands need to be before pretty much everything else
         CommandConsoleRef = Instantiate(CommandConsole, transform.position, Quaternion.identity);
-        CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize();
+        CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled);
+
         ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, allowArtifactTesting, testData);
 
     }
