@@ -52,6 +52,7 @@ public class Logger : ILogHandler
     /// <param name="text">The message to display</param>
     public static void Log(string text)
     {
+        Debug.Log(text);
         ConsoleTextLog.text += debugColor + text + "</color>\n";
         Debug.Log(text);
     }

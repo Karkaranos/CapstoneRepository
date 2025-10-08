@@ -64,13 +64,10 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <summary>
     /// Occurs on the first frame update. Initializes Logger static class
     /// </summary>
-    void Start()
+    public void Initialize()
     {
         Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor);
         rectTransform = consoleRectTransform;
-        Logger.Log("Testing");
-        Logger.Warning("Test Warning");
-        Logger.Error("Test Error");
 
         actionMap = GetComponent<PlayerInput>().currentActionMap;
         actionMap.Enable();

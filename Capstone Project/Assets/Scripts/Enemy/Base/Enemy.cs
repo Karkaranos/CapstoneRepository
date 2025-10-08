@@ -44,6 +44,16 @@ public class Enemy : MonoBehaviour
         ReadOnly]protected float currentHealth = 5f;
     #endregion
 
+    #region COMBAT VARS
+    [HorizontalLine(4, EColor.Pink)]
+
+    [SerializeField,
+    ShowIf(nameof(currentSettings), Settings.Combat),
+    Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
+    protected float artifactDropChance;
+
+    #endregion
+
     #region STATE MACHINE VARS
 
     [HorizontalLine(4, EColor.White)]
@@ -93,6 +103,7 @@ public class Enemy : MonoBehaviour
         if(currentHealth < 0)
         {
             Die();
+            TryDropItem();
         }
     }
 
@@ -102,6 +113,22 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         print("Enemy is dead!");
+    }
+
+    /// <summary>
+    /// Generates a random number and checks if an item will drop
+    /// </summary>
+    private void TryDropItem()
+    {
+        float randValue = Random.Range(0f, 1f);
+        if(randValue <= artifactDropChance)
+        {
+            // this line should be replaced later. 
+            // it generates an artifact from the pool and 
+            ArtifactManager.ObtainArtifact(
+                ArtifactManager.GetArtifactFromRAP());
+        }
+
     }
     #endregion
 }
