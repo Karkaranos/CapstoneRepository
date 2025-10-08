@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/6/2025
+Date Last Modified : 	10/7/2025
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -10,6 +10,7 @@ External Resources :
 
 using UnityEngine;
 using NaughtyAttributes;
+using TMPro;
 
 public class MeleeEnemy : Enemy
 {
@@ -18,11 +19,10 @@ public class MeleeEnemy : Enemy
     //Vars used to show functionality without implementation. TEMPORARY
     #region TEST VARS
 
-    [HorizontalLine(4, EColor.Green)]
-
     [ShowIf(nameof(currentSettings), Settings.Testing)]public bool canAttackTwice = true;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool isLowHealth = false;
-    [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playInAttackRange = true;
+    [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playerInAttackRange = true;
+    
 
     #endregion
 
@@ -80,6 +80,7 @@ public class MeleeEnemy : Enemy
         if(LowHealthDetection())
         {
             Debug.Log("Wait -> Run");
+            logText.text = "Running";
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemyRunState));
             return;
         }
@@ -88,12 +89,14 @@ public class MeleeEnemy : Enemy
         if(PlayerInAttackRange())
         {
             Debug.Log("Wait -> Attack");
+            logText.text = "Attacking"; 
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
             Debug.Log("Wait -> Move");
+            logText.text = "Moving";
             hasMovedForTurn = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveToPlayerState));
             return;
@@ -116,7 +119,7 @@ public class MeleeEnemy : Enemy
     /// <returns></returns>
     public bool PlayerInAttackRange()
     {
-        return playInAttackRange;
+        return playerInAttackRange;
     }
 
     #endregion
