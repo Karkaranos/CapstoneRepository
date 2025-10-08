@@ -19,7 +19,7 @@ public class ButtonManager : MonoBehaviour
     public Button moveChoiceButton;
     public Button backButton;
     public Button confirmButton;
-    //public Button endButton;
+    public Button endButton;
     //public Button MoveChoiceButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
@@ -34,6 +34,7 @@ public class ButtonManager : MonoBehaviour
         Button mcbtn = moveChoiceButton.GetComponent<Button>();
         Button bbtn = backButton.GetComponent<Button>();
         Button cbtn = confirmButton.GetComponent<Button>();
+        Button ebtn = endButton.GetComponent<Button>();
         //Button mcbtn = MoveChoiceButton.GetComponent<Button>();
         Canvas pCanvas = playerCanvas.GetComponent<Canvas>();
         Canvas mCanvas = moveCanvas.GetComponent<Canvas>();

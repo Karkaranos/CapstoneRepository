@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class PlayerBehavior : GridPathfinding
+public class PlayerBehavior : MonoBehaviour
 {
     public Input playerInput;
     [SerializeField] private InputAction playerClick;
@@ -24,6 +24,7 @@ public class PlayerBehavior : GridPathfinding
     public GameObject gridTile;
     private Vector2Int playerPosition;
     public Vector2Int tilePosition;
+    public Vector2Int targetPosition;
     private TileBehavior tileBehavior;
     private GridPathfinding gridPathfinding;
     private GridManager gridManager;
@@ -37,9 +38,8 @@ public class PlayerBehavior : GridPathfinding
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gridManager = FindFirstObjectByType<GridManager>();
         playerPosition = new Vector2Int(GridManager.playerPosition.x, GridManager.playerPosition.y);
-        targetPosition = new Vector2Int(tilePosition.x, tilePosition.y);
+        targetPosition = GetComponentInParent<TileBehaviour>().IndexInGrid;
     }
 
     void OnEnable()
@@ -75,8 +75,10 @@ public class PlayerBehavior : GridPathfinding
             {
                 Debug.Log(targetPosition);
                 Vector3 temp = hit.transform.gameObject.transform.position;
-                targetPosition = new Vector2Int((int)temp.x, (int)temp.z);
+                Vector2Int temp2 = targetPosition;
+                targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid; /*new Vector2Int((int)temp.x, (int)temp.z);*/
                 gameObject.transform.position = temp;
+                GridManager.MoveToTile(temp2, targetPosition, -3);
             }
             MouseIsClicked = false;
         }

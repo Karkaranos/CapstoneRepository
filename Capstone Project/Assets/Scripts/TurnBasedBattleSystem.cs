@@ -38,6 +38,9 @@ public class TurnBasedBattleSystem : MonoBehaviour
         GameObject playerStart = Instantiate(player, playerBattleStation);
         playerStart.GetComponent<PlayerBehavior>();
 
+        GameObject enemyStart = Instantiate(enemy, enemyBattleStation);
+        enemyStart.GetComponent<Enemy>();
+
         Instantiate(enemy, enemyBattleStation);
 
         State = battleStates.PlayerTurn;
