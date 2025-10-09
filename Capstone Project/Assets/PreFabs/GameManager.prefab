@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3158512389431983600}
   - component: {fileID: 774397522224021014}
+  - component: {fileID: 7069175424404703298}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: 3
+  allowArtifacts: 0
   CommandConsole: {fileID: 1704929989082906118, guid: 3ad6c0ab1caa33c44ab70d8171a08f0a, type: 3}
   maxArtifacts: 3
   allowArtifactTesting: 0
@@ -62,3 +64,21 @@ MonoBehaviour:
   moveConsoleEnabled: 1
   greetEnabled: 1
   enemiesEnabled: 1
+--- !u!114 &7069175424404703298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740814544277476685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f1818018b30184aa867a9af6e9cc50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedSetting: 0
+  gridIndex: 0
+  gridPrefabs: []
+  gridDimensions: []
+  currentMovementTestingTile: {x: 0, y: 0}
+  newMovementTestingTile: {x: 0, y: 0}
