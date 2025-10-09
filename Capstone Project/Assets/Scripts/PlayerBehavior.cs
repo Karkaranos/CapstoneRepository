@@ -43,9 +43,9 @@ public class PlayerBehavior : MonoBehaviour
     //target position to the TileBehaviour Index 
     void Start()
     {
-        buttonManager = GetComponent<ButtonManager>();
+        buttonManager = FindFirstObjectByType<ButtonManager>();
         playerPosition = new Vector2Int(GridManager.playerPosition.x, GridManager.playerPosition.y);
-        targetPosition = GetComponentInParent<TileBehaviour>().IndexInGrid;
+        targetPosition = GridManager.playerPosition;
     }
 
     #region player input
@@ -83,20 +83,15 @@ public class PlayerBehavior : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log(targetPosition);
                 Vector3 temp = hit.transform.gameObject.transform.position;
                 Vector2Int temp2 = targetPosition;
                 targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
                 gameObject.transform.position = temp;
                 GridManager.MoveToTile(temp2, targetPosition, -3);
+                buttonManager.confirmCanvas.SetActive(true);
             }
             MouseIsClicked = false;
         }
-        else
-        {
-            MouseIsClicked = false;
-        }
-       
     }
-    #endregion region player input
+    #endregion
 }

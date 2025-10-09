@@ -76,7 +76,7 @@ public class ButtonManager : TurnBasedBattleSystem
         if (playerIsGoingToMove)
         {
             moveCanvas.SetActive(false);
-            GetComponent<PlayerBehavior>().enabled = true;
+            //GetComponent<PlayerBehavior>().enabled = true;
         }
         else
         {
