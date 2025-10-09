@@ -20,7 +20,7 @@ public class CommandConsoleBehavior : MonoBehaviour
     // Controls what elements are visible in the inspector
     private enum InspectorOption
     {
-        STATIC_VALUES, VALID_COMMANDS
+        StaticValues, ValidCommands
     }
 
     [SerializeField] private InspectorOption options;
@@ -29,24 +29,30 @@ public class CommandConsoleBehavior : MonoBehaviour
 
     #region Logger Static Values
     [HorizontalLine(4, EColor.Red)]
-    [SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES)] private TMP_Text consoleTextbox;
-    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES), 
+    [SerializeField, ShowIf("options", InspectorOption.StaticValues)] private TMP_Text consoleTextbox;
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.StaticValues), 
         Tooltip("CSS Tag to set Log Message Display Color")] private string logColor;
-    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES), 
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.StaticValues), 
         Tooltip("CSS Tag to set Log Warning Display Color")] private string warningColor;
-    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES), 
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.StaticValues), 
         Tooltip("CSS Tag to set Log Error Display Color")] private string errorColor;
-    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.STATIC_VALUES),
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.StaticValues),
     Tooltip("CSS Tag to set Log Input Display Color")]
     private string inputColor;
+    [Foldout("Log Colors"), SerializeField, ShowIf("options", InspectorOption.StaticValues),
+    Tooltip("CSS Tag to set Information Display Color")]
+    private string infoColor;
     #endregion
 
     #region Command Groups
     [HorizontalLine(4, EColor.Orange)]
-    [SerializeField, ShowIf("options", InspectorOption.VALID_COMMANDS),
+    [SerializeField, ShowIf("options", InspectorOption.ValidCommands),
         Tooltip("Can the Command Console be moved?")] private bool moveConsoleEnabled;
-    [SerializeField, ShowIf("options", InspectorOption.VALID_COMMANDS),
+    [SerializeField, ShowIf("options", InspectorOption.ValidCommands),
     Tooltip("Can the Command Console greet the user?")] private bool greetEnabled;
+    [SerializeField, ShowIf("options", InspectorOption.ValidCommands),
+    Tooltip("Can the Command Console affect Enemies?")]
+    private bool enemiesEnabled;
     #endregion
 
     [Foldout("References"), Required, SerializeField] private TMP_Text consoleInputBox;
@@ -64,13 +70,10 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <summary>
     /// Occurs on the first frame update. Initializes Logger static class
     /// </summary>
-    void Start()
+    public void Initialize(bool moveConsole = true, bool greet = true, bool enemy = true)
     {
-        Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor);
+        Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor, infoColor);
         rectTransform = consoleRectTransform;
-        Logger.Log("Testing");
-        Logger.Warning("Test Warning");
-        Logger.Error("Test Error");
 
         actionMap = GetComponent<PlayerInput>().currentActionMap;
         actionMap.Enable();
@@ -79,6 +82,10 @@ public class CommandConsoleBehavior : MonoBehaviour
 
         consoleGameObject = consoleRectTransform.gameObject;
         consoleGameObject.SetActive(consoleEnabledOnLoad);
+
+        moveConsoleEnabled = moveConsole;
+        greetEnabled = greet;
+        enemiesEnabled = enemy;
     }
 
     /// <summary>
@@ -93,17 +100,28 @@ public class CommandConsoleBehavior : MonoBehaviour
         {
             switch (Commands.CommandDictionary[command.ToLower()])
             {
-                case Commands.CommandGroup.MOVE_CONSOLE:
+                case Commands.CommandGroup.MoveConsole:
                     if (moveConsoleEnabled)
                     {
                         Commands.SetConsoleLocation(command);
                     }
                     break;
-                case Commands.CommandGroup.GREET:
+                case Commands.CommandGroup.Greet:
                     if (greetEnabled)
                     {
                         Commands.Greet();
                     }
+                    break;
+                case Commands.CommandGroup.Enemies:
+                    {
+                        if (enemiesEnabled)
+                        {
+                            Commands.Enemies(command.ToLower());
+                        }
+                        break;
+                    }
+                case Commands.CommandGroup.None:
+                    Commands.AlwaysAvailable(command.ToLower());
                     break;
                 default:
                     Logger.Warning("Command Group Not Implemented");
@@ -135,6 +153,10 @@ public class CommandConsoleBehavior : MonoBehaviour
         if (consoleEnabled)
         {
             consoleGameObject.SetActive(!consoleGameObject.activeInHierarchy);
+            if (consoleGameObject.activeInHierarchy)
+            {
+                Logger.Info("Type 'menu' for a list of all commands");
+            }
         }
     }
 }
