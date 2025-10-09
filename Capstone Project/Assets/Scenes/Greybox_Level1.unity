@@ -271,6 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1374937189}
   - component: {fileID: 1374937188}
+  - component: {fileID: 1374937190}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -313,6 +314,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1374937190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374937187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6c4fff88bba3f45a811d57f3fdd4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1958803510
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,9 +495,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1582639198759480848, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: df49bb7191255e043a977e74f9feb697, type: 3}
     - target: {fileID: 5731233574024062461, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
       propertyPath: m_Name
       value: Level1Grid
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731233574024062461, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

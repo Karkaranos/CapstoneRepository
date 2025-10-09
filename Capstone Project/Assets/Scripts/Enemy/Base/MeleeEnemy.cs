@@ -22,7 +22,7 @@ public class MeleeEnemy : Enemy
     [ShowIf(nameof(currentSettings), Settings.Testing)]public bool canAttackTwice = true;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool isLowHealth = false;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playerInAttackRange = true;
-    
+ 
 
     #endregion
 

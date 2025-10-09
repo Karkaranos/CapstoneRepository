@@ -31,12 +31,14 @@ public class MeleeEnemyAttackState : MeleeEnemyState
             enemy.logText.text = "Attacking Second Time";
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
+            enemy.gridTesting.Pathfind();
             return;
         }
 
         //Trigger Enemy end turn
         Debug.Log("Attack -> Wait");
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
+        enemy.gridTesting.Pathfind();
     }
 
     /// <summary>

@@ -103,7 +103,7 @@ public class GridTesting : MonoBehaviour
     /// Testing button that tells the enemies to move
     /// </summary>
     [Button("Test Pathfinding")]
-    private void Pathfind()
+     public void Pathfind()
     {
         StartCoroutine(AllEnemiesPathfind());
     }

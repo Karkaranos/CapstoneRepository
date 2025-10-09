@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
     [HorizontalLine(4, EColor.Green)]
 
     [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
-    
+
     #endregion
     #endregion
 
