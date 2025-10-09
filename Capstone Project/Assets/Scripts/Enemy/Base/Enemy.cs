@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        gridTesting = FindFirstObjectByType<GridTesting>();
+        
     }
 
     /// <summary>

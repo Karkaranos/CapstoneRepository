@@ -29,6 +29,9 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         enemy.hasMovedForTurn = true;
 
+        //TEMP LINE FOR MILESTONE
+        enemy.playerInAttackRange = true;
+
         if(enemy.PlayerInAttackRange())
         {
             Debug.Log("Move -> Attack");
@@ -38,10 +41,6 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         {
             Debug.Log("Move -> Wait");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
-            if(enemy.gridTesting == null)
-            {
-                Debug.Log("fuck");
-            }
             enemy.gridTesting.Pathfind();
         }
     }
