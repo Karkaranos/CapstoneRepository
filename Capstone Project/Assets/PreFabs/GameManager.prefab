@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3158512389431983600}
   - component: {fileID: 774397522224021014}
-  - component: {fileID: 7129531992914692291}
+  - component: {fileID: 7069175424404703298}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -64,7 +64,7 @@ MonoBehaviour:
   moveConsoleEnabled: 1
   greetEnabled: 1
   enemiesEnabled: 1
---- !u!114 &7129531992914692291
+--- !u!114 &7069175424404703298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,6 +73,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5740814544277476685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c6c4fff88bba3f45a811d57f3fdd4fd, type: 3}
+  m_Script: {fileID: 11500000, guid: b1f1818018b30184aa867a9af6e9cc50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedSetting: 0
+  gridIndex: 0
+  gridPrefabs: []
+  gridDimensions: []
+  currentMovementTestingTile: {x: 0, y: 0}
+  newMovementTestingTile: {x: 0, y: 0}
