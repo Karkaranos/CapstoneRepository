@@ -88,6 +88,7 @@ public class EquippedSpellNode : MonoBehaviour
                 //sends the spell the player is holding to this node's spell
                 skillTreeManager.SelectNode(heldSpell);
                 heldSpell = null;
+                skillAndEquipManager.SetIndexOfEquippedSpells(index, null);
                 GetComponent<Image>().color = Color.white;
             }
             else
@@ -103,6 +104,7 @@ public class EquippedSpellNode : MonoBehaviour
                 RuneData temp = skillTreeManager.currentlySelected;
                 skillTreeManager.SelectNode(heldSpell);
                 heldSpell = temp;
+                skillAndEquipManager.SetIndexOfEquippedSpells(index, heldSpell);
                 GetComponent<Image>().color = Color.green;
             }
             else
