@@ -100,8 +100,9 @@ public class ButtonManager : TurnBasedBattleSystem
 
     public void EndTurnClick()
     {
+        Debug.Log("button clicked");
         endButtonClicked = true;
-        if (!endButtonClicked)
+        if (endButtonClicked)
         {
             EnemyTurn();
         }

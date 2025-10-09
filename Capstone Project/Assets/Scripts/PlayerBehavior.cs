@@ -85,10 +85,17 @@ public class PlayerBehavior : MonoBehaviour
             {
                 Vector3 temp = hit.transform.gameObject.transform.position;
                 Vector2Int temp2 = targetPosition;
-                targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
-                gameObject.transform.position = temp;
-                GridManager.MoveToTile(temp2, targetPosition, -3);
-                buttonManager.confirmCanvas.SetActive(true);
+                if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() == null)
+                {
+                    Debug.Log("is null" + hit.transform.gameObject.name);
+                }
+                else
+                {
+                    targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
+                    gameObject.transform.position = temp;
+                    GridManager.MoveToTile(temp2, targetPosition, -3);
+                    buttonManager.confirmCanvas.SetActive(true);
+                }
             }
             MouseIsClicked = false;
         }
