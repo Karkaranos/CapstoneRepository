@@ -1,40 +1,59 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    10/5/2025
-Date Last Modified : 	10/7/2025
+Date Last Modified : 	10/8/2025
 Brief Description : 	Controls what artifacts and effects are actively applied                     
-External Resources : 	Length of Enum fron Unity Forums: https://discussions.unity.com/t/enum-count/78841?clickref=1101lBLKDGKd&utm_source=partnerize&utm_medium=affiliate&utm_campaign=unity_affiliate
+External Resources : 	N/A
 ***************************************************/
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class ArtifactManager : MonoBehaviour
+public class ArtifactManager
 {
+
+    [SerializeField] private bool inTestMode;
     // Stores all currently applied Artifacts
-    private List<ArtifactData> currentArtifacts = new List<ArtifactData>();
+    private static List<ArtifactData> currentArtifacts = new List<ArtifactData>();
 
     // Stores all Artifacts not currently in use
-    private List<ArtifactData> inventoryArtifacts = new List<ArtifactData>();
+    private static List<ArtifactData> inventoryArtifacts = new List<ArtifactData>();
 
-    [SerializeField, Tooltip("How many Artifacts can be applied at once")] private int maxArtifacts = 3;
+    [SerializeField, Tooltip("How many Artifacts can be applied at once")] private static int maxArtifacts = 3;
 
-    [SerializeField, Tooltip("Artifact Testing. Will be removed later")] private ArtifactData[] testData;
+
+    private static ArtifactData[] testData;
+    private static ArtifactData[] randomArtifactPool;
+    private static ArtifactData[] setArtifactPool;
+
+    public static int MaxArtifacts { get => maxArtifacts; set => maxArtifacts = value; }
 
     /// <summary>
-    /// Called on the first frame
+    /// Constructor for Artifact Manager
     /// </summary>
-    private void Start()
+    /// <param name="rap">Random Artifact Pool</param>
+    /// <param name="sap">Set Artifact Pool</param>
+    /// <param name="maxArtifact">Maximum Number of Artifacts</param>
+    /// <param name="testing">True if testing functionality</param>
+    /// <param name="testInfo">Data for testing. Please have a minimum length of 4</param>
+    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, bool testing = false, ArtifactData[] testInfo = null)
     {
-        TestArtifacts();
+        randomArtifactPool = rap;
+        setArtifactPool = sap;
+        maxArtifacts = maxArtifact;
+        if(testing)
+        {
+            inTestMode = true;
+            testData = testInfo;
+            TestArtifacts();
+        }
+
     }
-    
+
     /// <summary>
     /// Hardcoded function to show adding/removing
     /// Applies the first three items, then tries to apply a fourth
     /// Removes an item then applies the fourth
-    private void TestArtifacts()
+    public static void TestArtifacts()
     {
         ApplyArtifact(testData[0]);
         ApplyArtifact(testData[1]);
@@ -45,18 +64,33 @@ public class ArtifactManager : MonoBehaviour
 
     }
 
-    public void ObtainArtifact(ArtifactData artifact)
+    public static ArtifactData GetArtifactFromSAP(int level)
+    {
+        if (level <= setArtifactPool.Length)
+        {
+            return setArtifactPool[level];
+        }
+        throw new System.Exception("Cannot access indexes outside of the SAP Array");
+    }
+
+    public static ArtifactData GetArtifactFromRAP()
+    {
+        return randomArtifactPool[Random.Range(0, randomArtifactPool.Length)];
+    }
+
+    public static void ObtainArtifact(ArtifactData artifact)
     {
         inventoryArtifacts.Add(artifact);
+        Logger.Log("Added " + artifact.Name + " to inventory");
     }
 
     /// <summary>
     /// Takes and adds a new Artifact to the currently stored Artifacts
     /// </summary>
     /// <param name="artifact">The artifact to add</param>
-    public void ApplyArtifact(ArtifactData artifact)
+    public static void ApplyArtifact(ArtifactData artifact)
     {
-        if (currentArtifacts.Count < maxArtifacts)
+        if (currentArtifacts.Count < MaxArtifacts)
         {
             currentArtifacts.Add(artifact);
             ChangeEffect(artifact, true);
@@ -64,7 +98,7 @@ public class ArtifactManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Too many Artifacts applied");
+            Logger.Warning("Too many Artifacts applied");
         }
     }
 
@@ -73,7 +107,7 @@ public class ArtifactManager : MonoBehaviour
     /// Reverses its effects
     /// </summary>
     /// <param name="artifact">The artifact to remove</param>
-    public void RemoveArtifact(ArtifactData artifact)
+    public static void RemoveArtifact(ArtifactData artifact)
     {
         if (currentArtifacts.Contains(artifact))
         {
@@ -83,7 +117,7 @@ public class ArtifactManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Could not find Artifact");
+            Logger.Warning("Could not find Artifact");
         }
     }
 
@@ -94,9 +128,9 @@ public class ArtifactManager : MonoBehaviour
     /// </summary>
     /// <param name="artifact">The artifact to be considered</param>
     /// <param name="adding">Whether the artifact is being applied or not</param>
-    private void ChangeEffect(ArtifactData artifact, bool adding = true)
+    private static void ChangeEffect(ArtifactData artifact, bool adding = true)
     {
-        //Debug.LogWarning("Implement Artifact Stat Effects");
+        //Logger.LogWarning("Implement Artifact Stat Effects");
         string s = artifact.Name + " Effects: ";
         foreach(ArtifactEffects e in artifact.Effects)
         {
@@ -139,7 +173,7 @@ public class ArtifactManager : MonoBehaviour
                     s += "Movement Speed multiplied by ";
                     break;
                 default:
-                    Debug.LogWarning("Effect " + e.Effect + " fell through cases");
+                    Logger.Warning("Effect " + e.Effect + " fell through cases");
                     break;
             }
             s += e.StatChangeAmount + " | ";
@@ -147,11 +181,11 @@ public class ArtifactManager : MonoBehaviour
 
         if(adding)
         {
-            Debug.Log(s);
+            Logger.Log(s);
         }
         else
         {
-            Debug.Log("Removed " + artifact.Name);
+            Logger.Log("Removed " + artifact.Name);
         }
 
     }
