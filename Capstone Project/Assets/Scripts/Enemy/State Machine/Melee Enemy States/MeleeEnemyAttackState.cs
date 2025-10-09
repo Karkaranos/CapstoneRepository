@@ -20,7 +20,8 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     public override void EnterState()
     {
         Debug.Log("Entered Attacking state");
-        
+
+        enemy.logText.text = "Attacking";
         //TODO ATTACK LOGIC
         
         //If enemy can attack twice and hasn't yet call Attack state again 
@@ -30,13 +31,14 @@ public class MeleeEnemyAttackState : MeleeEnemyState
             enemy.logText.text = "Attacking Second Time";
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
+            enemy.gridTesting.Pathfind();
             return;
         }
 
         //Trigger Enemy end turn
         Debug.Log("Attack -> Wait");
-        enemy.logText.text = "Waiting";
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
+        enemy.gridTesting.Pathfind();
     }
 
     /// <summary>
