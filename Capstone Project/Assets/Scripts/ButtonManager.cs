@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonManager : MonoBehaviour
+public class ButtonManager : TurnBasedBattleSystem
 {
     public PlayerBehavior playerBehavior;
     public GameObject playerCanvas;
@@ -20,11 +20,11 @@ public class ButtonManager : MonoBehaviour
     public Button backButton;
     public Button confirmButton;
     public Button endButton;
-    //public Button MoveChoiceButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
     public bool confirmButtonClicked;
+    public bool endButtonClicked;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,7 +35,6 @@ public class ButtonManager : MonoBehaviour
         Button bbtn = backButton.GetComponent<Button>();
         Button cbtn = confirmButton.GetComponent<Button>();
         Button ebtn = endButton.GetComponent<Button>();
-        //Button mcbtn = MoveChoiceButton.GetComponent<Button>();
         Canvas pCanvas = playerCanvas.GetComponent<Canvas>();
         Canvas mCanvas = moveCanvas.GetComponent<Canvas>();
         Canvas cCanvas = confirmCanvas.GetComponent<Canvas>();
@@ -77,7 +76,7 @@ public class ButtonManager : MonoBehaviour
         if (playerIsGoingToMove)
         {
             moveCanvas.SetActive(false);
-            playerBehavior.MouseIsClicked = true;
+            GetComponent<PlayerBehavior>().enabled = true;
         }
         else
         {
@@ -91,10 +90,20 @@ public class ButtonManager : MonoBehaviour
         if (confirmButtonClicked)
         {
             confirmCanvas.SetActive(false);
+            playerCanvas.SetActive(true);
         }
         else
         {
             confirmButtonClicked = false;
+        }
+    }
+
+    public void EndTurnClick()
+    {
+        endButtonClicked = true;
+        if (!endButtonClicked)
+        {
+            EnemyTurn();
         }
     }
 

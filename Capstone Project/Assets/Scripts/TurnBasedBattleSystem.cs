@@ -51,10 +51,10 @@ public class TurnBasedBattleSystem : MonoBehaviour
         State = battleStates.EnemyTurn;
     }
 
-    IEnumerator PlayerMove()
+    IEnumerator PlayerChoice()
     {
-        //Checks to see if player has moved
-        if (buttonManager.confirmButtonClicked)
+        //Checks to see if player's turn has ended
+        if (buttonManager.endButtonClicked)
         {
             Debug.Log("PlayerTurnDone!");
 
@@ -66,15 +66,16 @@ public class TurnBasedBattleSystem : MonoBehaviour
 
     void PlayerTurn()
     {
-        if (!buttonManager.playerIsGoingToMove)
+        if(State != battleStates.PlayerTurn)
         {
-            buttonManager.playerIsGoingToMove = true;
+            StartCoroutine(PlayerChoice());
         }
     }
 
-    void EnemyTurn()
+    public void EnemyTurn()
     {
-
+        buttonManager.playerCanvas.gameObject.SetActive(false);
+        Debug.Log("enemy turn has begun");
     }
 
 }
