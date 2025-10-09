@@ -28,7 +28,6 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         if(enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
             Debug.Log("Attack -> Attack");
-            enemy.logText.text = "Attacking Second Time";
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
             enemy.gridTesting.Pathfind();
