@@ -17,6 +17,7 @@ public class Logger : ILogHandler
     private static string warningColor;
     private static string errorColor;
     private static string inputColor;
+    private static string infoColor;
     public static TMP_Text ConsoleTextLog { get => consoleTextLog; set => consoleTextLog = value; }
     public static ILogHandler Default { get; }
 
@@ -37,13 +38,14 @@ public class Logger : ILogHandler
     /// <param name="warningColor">What color warning messages appear. Default is yellow.</param>
     /// <param name="errorColor">What color error messages appear. Default is red.</param>
     public static void Initialize(TMP_Text consoleTextLog, string debugColor = "<color=white>", string warningColor = "<color=yellow>", 
-        string errorColor = "<color=red>", string inputColor = "<color=gray>")
+        string errorColor = "<color=red>", string inputColor = "<color=gray>", string infoColor = "<color=cyan>")
     {
         ConsoleTextLog = consoleTextLog;
         Logger.debugColor = debugColor;
         Logger.warningColor = warningColor;
         Logger.errorColor = errorColor;
         Logger.inputColor = inputColor;
+        Logger.infoColor = infoColor;
     }
 
     /// <summary>
@@ -54,6 +56,15 @@ public class Logger : ILogHandler
     {
         ConsoleTextLog.text += debugColor + text + "</color>\n";
         Debug.Log(text);
+    }
+    
+    /// <summary>
+    /// Displays information about the console
+    /// </summary>
+    /// <param name="text"></param>
+    public static void Info(string text)
+    {
+        ConsoleTextLog.text += infoColor + text + "</color>\n";
     }
 
     /// <summary>
