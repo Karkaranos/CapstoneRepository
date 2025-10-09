@@ -72,11 +72,13 @@ public class TurnBasedBattleSystem : MonoBehaviour
         }
     }
 
-    public void EnemyTurn()
+    public bool EnemyTurn()
     {
-        buttonManager.playerCanvas.gameObject.SetActive(false);
+       // buttonManager.playerCanvas.gameObject.SetActive(false);
+       
         PublicEvents.EnemyTurnStarted.Invoke();
         Debug.Log("enemy turn has begun");
+        return true;
     }
 
 }

@@ -68,6 +68,11 @@ public class MeleeEnemy : Enemy
         PublicEvents.EnemyTurnStarted += StartEnemyTurn; 
     }
 
+    private void OnDisable()
+    {
+        PublicEvents.EnemyTurnStarted -= StartEnemyTurn;
+    }
+
     /// <summary>
     /// Defines under what path the state machine should take 
     /// under what conditions at the start of the 

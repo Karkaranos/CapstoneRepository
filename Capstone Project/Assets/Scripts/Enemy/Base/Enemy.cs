@@ -84,13 +84,13 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         enemyStateMachine = new EnemyStateMachine();
-        gridTesting = FindFirstObjectByType<GridTesting>();
     }
 
     //Start function
     private void Start()
     {
         currentHealth = maxHealth;
+        gridTesting = FindFirstObjectByType<GridTesting>();
     }
 
     /// <summary>

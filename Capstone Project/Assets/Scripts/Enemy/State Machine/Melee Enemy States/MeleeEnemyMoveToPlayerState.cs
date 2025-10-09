@@ -38,6 +38,10 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         {
             Debug.Log("Move -> Wait");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
+            if(enemy.gridTesting == null)
+            {
+                Debug.Log("fuck");
+            }
             enemy.gridTesting.Pathfind();
         }
     }

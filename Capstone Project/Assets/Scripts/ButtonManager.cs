@@ -104,7 +104,10 @@ public class ButtonManager : TurnBasedBattleSystem
         endButtonClicked = true;
         if (endButtonClicked)
         {
-            EnemyTurn();
+            if (EnemyTurn())
+            {
+                playerCanvas.SetActive(false);
+            }
         }
     }
 
