@@ -14,6 +14,12 @@ public class TylersGridManager : MonoBehaviour
 {
     public static Tile[,] grid;
 
+    /// <summary>
+    /// generates the grid with specified dimensions hex radius and spawnLocation
+    /// </summary>
+    /// <param name="dimensions"></param>
+    /// <param name="radius"></param>
+    /// <param name="spawnLocation"></param>
     public static void MakeGrid(Vector2Int dimensions, float radius, Vector3 spawnLocation)
     {
         //Hex grid math
@@ -55,6 +61,10 @@ public class TylersGridManager : MonoBehaviour
         TylersGridManager.grid = grid;
     }
 
+    /// <summary>
+    /// generates the grid using data from a GridData scriptable object
+    /// </summary>
+    /// <param name="data"></param>
     public static void MakeGrid(GridData data)
     {
         MakeGrid(data.dimensions, data.hexRadius, data.spawnLocation);
@@ -75,7 +85,7 @@ public class TylersGridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Destroys the currentGrid and all of the objects on it
+    /// Destroys the currentGrid and all of the objects on it sets the grid to null
     /// </summary>
     public static void DestroyGrid()
     {
@@ -309,7 +319,7 @@ public class TylersGridManager : MonoBehaviour
     /// finds all of the tiles that are currently empty on the grid
     /// </summary>
     /// <returns></returns>
-    public static List<Tile> FindEmptyTiles()
+    public static List<Tile> GetEmptyTiles()
     {
         List<Tile> list = new List<Tile>();
         foreach (Tile tile in grid)
@@ -353,7 +363,7 @@ public class TylersGridManager : MonoBehaviour
     /// <param name="obj"></param>
     public static GameObject CreateObject(GameObject obj)
     {
-        List<Tile> emptyTiles = FindEmptyTiles();
+        List<Tile> emptyTiles = GetEmptyTiles();
         if (emptyTiles.Count <= 0)
         {
             print("Failed to add " + obj + ", Grid was full");
@@ -382,20 +392,6 @@ public class TylersGridManager : MonoBehaviour
     }
 
     /// <summary>
-    /// removes all gameobjects that are on the grid
-    /// </summary>
-    public static void ClearGrid()
-    {
-        foreach (Tile tile in grid)
-        {
-            if (tile.objectOnTile != null)
-            {
-                RemoveObject(tile.objectOnTile);
-            }
-        }
-    }
-
-    /// <summary>
     /// Sets the pathing values of all 
     /// </summary>
     public static void ResetPathingValues()
@@ -404,16 +400,6 @@ public class TylersGridManager : MonoBehaviour
         {
             tile.pathingValue = -1;
         }
-    }
-
-    /// <summary>
-    /// sets the pathing value of the tile to a specified value
-    /// </summary>
-    /// <param name="tile"></param>
-    /// <param name="value"></param>
-    public static void assignPathingValue(Tile tile, int value)
-    {
-        tile.pathingValue = value;
     }
 }
 

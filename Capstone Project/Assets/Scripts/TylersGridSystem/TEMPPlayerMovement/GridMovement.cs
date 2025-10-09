@@ -1,54 +1,46 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
 
 public class GridMovement : MonoBehaviour
 {
     public Tile currentTile;
-
+    public bool moving;
+    public float moveTime = 0.3f; 
 
     void Start()
     {
         currentTile = TylersGridManager.GetTileWithObject(gameObject);
-        if (currentTile == null) { print("cannot find " + gameObject.name); }
     }
-    public void MoveTo(Tile neighbor) {
-        if (neighbor != null && neighbor.isEmpty())
+
+    public void MoveTo(Tile neighbor)
+    {
+        if (neighbor != null && neighbor.isEmpty() && !moving)
         {
             currentTile.objectOnTile = null;
-            transform.position = neighbor.worldPosition;
             currentTile = neighbor;
-            neighbor.objectOnTile = gameObject;
+            currentTile.objectOnTile = gameObject;
+            StartCoroutine(SmoothMove(transform.position, currentTile.worldPosition));
         }
         else
         {
-            print("failed to move up");
+            // print("Can't move to " + neighbor.coordinate);
         }
     }
-   
-    public void MoveDownLeft()
+
+    private IEnumerator SmoothMove(Vector3 startPosition, Vector3 targetPos)
     {
-        Tile neighbor = TylersGridManager.GetLowerLeftNeighbor(currentTile);
-        if (neighbor != null && neighbor.isEmpty())
+        moving = true;
+        float endTime = Time.time + moveTime;
+
+        while (Time.time < endTime)
         {
-            transform.position = neighbor.worldPosition;
-            currentTile = neighbor;
+            float elapsedTime = moveTime - (endTime - Time.time);
+            float percentage = elapsedTime / moveTime;
+            transform.position = Vector3.Lerp(startPosition, targetPos, percentage);
+            yield return null;
         }
-        else
-        {
-            print("failed to move down left");
-        }
-    }
-    public void MoveDownRight()
-    {
-        Tile neighbor = TylersGridManager.GetLowerRightNeighbor(currentTile);
-        if (neighbor != null && neighbor.isEmpty())
-        {
-            transform.position = neighbor.worldPosition;
-            currentTile = neighbor;
-        }
-        else
-        {
-            print("failed to move down right");
-        }
+
+        transform.position = targetPos;
+        moving = false;
     }
 }
