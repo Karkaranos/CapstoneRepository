@@ -1,17 +1,21 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 10/07/2025
+Date Last Modified : 10/09/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using TMPro;
 using UnityEngine;
 
 public class RuneEvents : MonoBehaviour
 {
 
     #region INITIALIZATION
+
+    //temp value for player communication
+    [SerializeField] TMP_Text temp;
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
@@ -47,7 +51,8 @@ public class RuneEvents : MonoBehaviour
     public void LightningRune(int runeNumber)
     {
 
-        Debug.Log("You used Lightning " + runeNumber + "!");
+        //delete later
+        temp.text = "You used Lightning " + runeNumber + "!";
 
         if(PublicEvents.EnemyTurnStarted != null)
         {
@@ -65,7 +70,8 @@ public class RuneEvents : MonoBehaviour
     public void WindRune(int runeNumber)
     {
 
-        Debug.Log("You used Wind " + runeNumber + "!");
+        //delete later
+        temp.text = "You used Wind " + runeNumber + "!";
 
         if (PublicEvents.EnemyTurnStarted != null)
         {
