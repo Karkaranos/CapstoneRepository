@@ -36,7 +36,6 @@ public class MeleeEnemy : Enemy
 
     #endregion
 
-
     //Other vars needed 
     #region OTHER NON INSPECTOR VARS
     [HideInInspector]public bool hasMovedForTurn = false;
