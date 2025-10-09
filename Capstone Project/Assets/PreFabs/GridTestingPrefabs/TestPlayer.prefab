@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1263281845797227211}
   - component: {fileID: 366966636398162920}
   - component: {fileID: -7967983217014525123}
+  - component: {fileID: 6800707061799979485}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -149,3 +150,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d9a42b0153cf54eb6217f6fc0098e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6800707061799979485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675322036123795430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0889be3eb1180374389a7fbfafff0a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPosition: {x: 0, y: 0}
+  targetPosition: {x: 0, y: 0}
+  movementRange: 0
+  playerClick:
+    m_Name: Player Click
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: d7e8e4cb-38fa-4e3e-b7ab-72efbe152cd7
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: c48e569c-ae8b-48da-b5d3-c8987c910bca
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Click
+      m_Flags: 0
+    m_Flags: 0
+  playermoveClick:
+    m_Name: Playermove Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: d6a24116-3038-44ef-8335-4ad51120ef41
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: c819b649-2dd9-4387-ab75-df3f7d27a23f
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Playermove Click
+      m_Flags: 0
+    m_Flags: 0
+  playergridPoints:
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 3}
+  - {x: 4, y: 4}
+  player: {fileID: 6675322036123795430}
+  gridTile: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+  tilePosition: {x: 0, y: 0}
+  PlayerCanMove: 0
+  PlayerHasMoved: 0
+  MouseIsClicked: 0
