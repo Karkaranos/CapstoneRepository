@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public Settings settings;
     [HideInInspector] public static ArtifactManager ArtifactManager;
     [HideInInspector] public static GameObject CommandConsoleRef;
+    public bool allowArtifacts = false;
 
     #region Prefabs
     [HorizontalLine(4, EColor.Red)]

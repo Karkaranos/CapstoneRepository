@@ -103,7 +103,10 @@ public class Enemy : MonoBehaviour
         if(currentHealth < 0)
         {
             Die();
-            TryDropItem();
+            if (FindFirstObjectByType<GameManager>().allowArtifacts)
+            {
+                TryDropItem();
+            }
         }
     }
 
@@ -121,16 +124,20 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void TryDropItem(float overload = -1f)
     {
-        float dropChance = (overload > 0f ? overload : artifactDropChance);
-        Debug.Log(dropChance);
-        float randValue = Random.Range(0f, 1f);
-        if(randValue <= dropChance)
+        if (FindFirstObjectByType<GameManager>().allowArtifacts)
         {
-            // this line should be replaced later. 
-            // it generates an artifact from the pool and 
-            ArtifactData ad = ArtifactManager.GetArtifactFromRAP();
-            ArtifactManager.ObtainArtifact(ad);
-            Logger.Log("Dropped " + ad.Name);
+
+            float dropChance = (overload > 0f ? overload : artifactDropChance);
+            Debug.Log(dropChance);
+            float randValue = Random.Range(0f, 1f);
+            if (randValue <= dropChance)
+            {
+                // this line should be replaced later. 
+                // it generates an artifact from the pool and 
+                ArtifactData ad = ArtifactManager.GetArtifactFromRAP();
+                ArtifactManager.ObtainArtifact(ad);
+                Logger.Log("Dropped " + ad.Name);
+            }
         }
     }
     #endregion
