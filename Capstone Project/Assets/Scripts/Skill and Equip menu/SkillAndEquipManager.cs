@@ -28,6 +28,8 @@ public class SkillAndEquipManager : MonoBehaviour
     //all the containers for the different menus
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
+    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField]
+    private GameObject OutOfCombatMenuContainer;
 
     #endregion
 
@@ -82,7 +84,7 @@ public class SkillAndEquipManager : MonoBehaviour
     /// </summary>
     public void ContinueToNextLevel()
     {
-        Debug.Log("Next Level");
+        OutOfCombatMenuContainer.SetActive(false);
     }
 
     /// <summary>
@@ -93,6 +95,7 @@ public class SkillAndEquipManager : MonoBehaviour
     public void SetIndexOfEquippedSpells(int index, RuneData data)
     {
         equippedSpells[index] = data;
+        PublicEvents.EquipRunesToCombatMenu(index);
     }
     
     /// <summary>

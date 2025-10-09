@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/6/2025
+Date Last Modified : 	10/7/2025
 Brief Description : 		Base class for all states
 External Resources : 	
 ***************************************************/
@@ -27,6 +27,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         if(enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
             Debug.Log("Attack -> Attack");
+            enemy.logText.text = "Attacking Second Time";
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
             return;
@@ -34,6 +35,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
 
         //Trigger Enemy end turn
         Debug.Log("Attack -> Wait");
+        enemy.logText.text = "Waiting";
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
     }
 

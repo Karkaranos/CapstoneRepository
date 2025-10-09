@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 9/26/2025
- * Last Modified: 9/30/2025
+ * Last Modified: 10/7/2025
  * Brief: Temporary script to test if the grid works. Non-temporary scripts 
  * should be added to the game manager after this is added to working
  * External Resources: N/A
@@ -9,6 +9,7 @@
 using UnityEngine;
 using NaughtyAttributes;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GridTesting : MonoBehaviour
 {
@@ -85,6 +86,9 @@ public class GridTesting : MonoBehaviour
         GridManager.DisplayGridAsText();
     }
 
+    /// <summary>
+    /// Testing button that shows in the console which stats are being affected and by how much
+    /// </summary>
     [Button("Show Terrain Affects")]
     private void DisplayTerrainAffectsInConsole()
     {
@@ -94,7 +98,33 @@ public class GridTesting : MonoBehaviour
             t.DisplayStatChange();
         }
     }
+
+    /// <summary>
+    /// Testing button that tells the enemies to move
+    /// </summary>
+    [Button("Test Pathfinding")]
+    private void Pathfind()
+    {
+        StartCoroutine(AllEnemiesPathfind());
+    }
     #endregion
+
+    /// <summary>
+    /// Temporary script that allows enemies to move one at a time
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator AllEnemiesPathfind()
+    {
+        GridPathfinding[] enemies = FindObjectsByType<GridPathfinding>(FindObjectsSortMode.None);
+        int listIndex = 0;
+
+        while(listIndex < enemies.Length)
+        {
+            enemies[listIndex].TestPathfinding();
+            yield return new WaitForSeconds(5);
+            ++listIndex;
+        }
+    }
 
     /// <summary>
     /// Creates an instance of the grid
