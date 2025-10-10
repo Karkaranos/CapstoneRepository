@@ -35,17 +35,17 @@ public class MainMenuBehavior : MonoBehaviour
     {
         if (mainMenu.activeSelf)
         {
-            mainMenu.GetComponent<MenuBehavoir>().ActivateSubMenu(confirmQuit);
+            mainMenu.GetComponent<MenuBehavior>().ActivateSubMenu(confirmQuit);
             return;
         }
         if (settingsMenu.activeSelf)
         {
-            settingsMenu.GetComponent<MenuBehavoir>().Return();
+            settingsMenu.GetComponent<MenuBehavior>().Return();
             return;
         }
         if (confirmQuit.activeSelf)
         {
-            confirmQuit.GetComponent<MenuBehavoir>().Return();
+            confirmQuit.GetComponent<MenuBehavior>().Return();
             return;
         }
     }

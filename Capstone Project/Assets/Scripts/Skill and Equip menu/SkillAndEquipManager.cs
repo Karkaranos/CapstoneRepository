@@ -86,6 +86,7 @@ public class SkillAndEquipManager : MonoBehaviour
     {
         OutOfCombatMenuContainer.SetActive(false);
         FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
+        GameObject.Find("Move Confirmation").SetActive(false);
     }
 
     /// <summary>

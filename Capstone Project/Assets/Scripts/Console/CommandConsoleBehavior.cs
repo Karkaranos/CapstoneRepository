@@ -70,7 +70,7 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <summary>
     /// Occurs on the first frame update. Initializes Logger static class
     /// </summary>
-    public void Initialize(bool moveConsole = true, bool greet = true, bool enemy = true)
+    public void Initialize(bool moveConsole = true, bool greet = true, bool enemy = true, bool enabled = false, bool enabledAtStart = false)
     {
         Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor, infoColor);
         rectTransform = consoleRectTransform;
@@ -81,7 +81,9 @@ public class CommandConsoleBehavior : MonoBehaviour
         toggleConsole.performed += contx => ToggleConsole();
 
         consoleGameObject = consoleRectTransform.gameObject;
-        consoleGameObject.SetActive(consoleEnabledOnLoad);
+        consoleGameObject.SetActive(enabledAtStart);
+        consoleEnabled = enabled;
+        consoleEnabledOnLoad = enabledAtStart;
 
         moveConsoleEnabled = moveConsole;
         greetEnabled = greet;
