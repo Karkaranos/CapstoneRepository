@@ -117,7 +117,11 @@ public class ButtonManager : TurnBasedBattleSystem
         {
             if (EnemyTurn())
             {
-                playerCanvas.SetActive(false);
+                //playerCanvas.SetActive(false);
+            }
+            else
+            {
+                FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
             }
         }
     }

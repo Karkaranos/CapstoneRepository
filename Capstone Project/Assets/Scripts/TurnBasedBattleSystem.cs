@@ -46,10 +46,10 @@ public class TurnBasedBattleSystem : MonoBehaviour
 
         State = battleStates.PlayerTurn;
         PlayerTurn();
+        yield return null;
+        //yield return new WaitForSeconds(5f);
 
-        yield return new WaitForSeconds(5f);
-
-        State = battleStates.EnemyTurn;
+        //State = battleStates.EnemyTurn;
     }
 
     IEnumerator PlayerChoice()
@@ -83,6 +83,15 @@ public class TurnBasedBattleSystem : MonoBehaviour
         foreach (GameObject g in playerMenus)
         {
             g.SetActive(false);
+        }
+        return true;
+    }
+
+    public bool PlayerTurnTime()
+    {
+        foreach (GameObject g in playerMenus)
+        {
+            g.SetActive(true);
         }
         return true;
     }
