@@ -11,6 +11,7 @@ External Resources :
 using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
+using Unity.VisualScripting;
 
 public class MeleeEnemy : Enemy
 {
@@ -22,7 +23,6 @@ public class MeleeEnemy : Enemy
     [ShowIf(nameof(currentSettings), Settings.Testing)]public bool canAttackTwice = true;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool isLowHealth = false;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playerInAttackRange = true;
-    
 
     #endregion
 
@@ -68,6 +68,19 @@ public class MeleeEnemy : Enemy
         PublicEvents.EnemyTurnStarted += StartEnemyTurn; 
     }
 
+    private void OnDisable()
+    {
+        PublicEvents.EnemyTurnStarted -= StartEnemyTurn;
+    }
+
+    private void Start()
+    {
+        gridTesting = FindFirstObjectByType<GridTesting>();
+        if (gridTesting == null)
+        {
+            Debug.Log("grid testing == null");
+        }
+    }
     /// <summary>
     /// Defines under what path the state machine should take 
     /// under what conditions at the start of the 
@@ -80,7 +93,6 @@ public class MeleeEnemy : Enemy
         if(LowHealthDetection())
         {
             Debug.Log("Wait -> Run");
-            logText.text = "Running";
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemyRunState));
             return;
         }
@@ -89,14 +101,12 @@ public class MeleeEnemy : Enemy
         if(PlayerInAttackRange())
         {
             Debug.Log("Wait -> Attack");
-            logText.text = "Attacking"; 
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
             Debug.Log("Wait -> Move");
-            logText.text = "Moving";
             hasMovedForTurn = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveToPlayerState));
             return;

@@ -30,5 +30,6 @@ public class MeleeEnemyWaitState : MeleeEnemyState
     {
         enemy.hasMovedForTurn = false;
         enemy.hasAttackedTwice = false;
+        enemy.playerInAttackRange = false;
     }
 }
