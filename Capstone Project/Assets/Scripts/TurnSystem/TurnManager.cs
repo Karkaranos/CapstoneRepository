@@ -139,13 +139,6 @@ public class TurnManager : MonoBehaviour
                 {
                     targetHearBackNum = TurnPublicEvents.BeginPlayerTurn.GetInvocationList().Length;
 
-                    Debug.Log(TurnPublicEvents.BeginPlayerTurn.GetInvocationList().Length);
-
-                    foreach (var v in  TurnPublicEvents.BeginPlayerTurn.GetInvocationList())
-                    {
-                        Debug.Log(v.ToString());  
-                    }
-
                     breakInfLoop = false;
                 }
                 else

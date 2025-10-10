@@ -90,11 +90,12 @@ public class TurnBasedBattleSystem : MonoBehaviour
         }
     }
 
+
     public bool EnemyTurn()
     {
        // buttonManager.playerCanvas.gameObject.SetActive(false);
        
-        TurnPublicEvents.TurnActionComplete();
+        
 
         //ok i know hardcoding is abd. this should be ripped out and removed elsewhere. i just want the canvas to disappear for now
         foreach (GameObject g in playerMenus)

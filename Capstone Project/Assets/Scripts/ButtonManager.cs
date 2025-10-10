@@ -113,6 +113,8 @@ public class ButtonManager : MonoBehaviour
     {
         Debug.Log("button clicked");
         endButtonClicked = true;
+
+
         TurnPublicEvents.TurnActionComplete();
         /*        if (endButtonClicked)
                 {
