@@ -65,12 +65,14 @@ public class MeleeEnemy : Enemy
     /// </summary>
     private void OnEnable()
     {
-        PublicEvents.EnemyTurnStarted += StartEnemyTurn; 
+        //PublicEvents.EnemyTurnStarted += StartEnemyTurn;
+        TurnPublicEvents.BeginEnemyTurn += StartEnemyTurn;
     }
 
     private void OnDisable()
     {
-        PublicEvents.EnemyTurnStarted -= StartEnemyTurn;
+        //PublicEvents.EnemyTurnStarted -= StartEnemyTurn;
+        TurnPublicEvents.BeginEnemyTurn -= StartEnemyTurn;
     }
 
     private void Start()

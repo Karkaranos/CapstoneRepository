@@ -8,6 +8,7 @@ External Resources : 	https://youtu.be/_1pz_ohupPs
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public enum battleStates { Start, PlayerTurn, EnemyTurn, Won, Loss }
 
@@ -27,7 +28,17 @@ public class TurnBasedBattleSystem : MonoBehaviour
     {
         buttonManager = FindFirstObjectByType<ButtonManager>();
         State = battleStates.Start;
-        SetUpBattle();
+        //SetUpBattle();
+    }
+
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginPlayerTurn += PlayerTurn;
+    }
+
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginPlayerTurn -= PlayerTurn;
     }
 
 
@@ -67,9 +78,15 @@ public class TurnBasedBattleSystem : MonoBehaviour
 
     void PlayerTurn()
     {
-        if(State != battleStates.PlayerTurn)
+        foreach (GameObject g in playerMenus)
         {
-            StartCoroutine(PlayerChoice());
+            g.SetActive(true);
+        }
+
+
+        if (State != battleStates.PlayerTurn)
+        {
+           // StartCoroutine(PlayerChoice());
         }
     }
 
@@ -77,7 +94,7 @@ public class TurnBasedBattleSystem : MonoBehaviour
     {
        // buttonManager.playerCanvas.gameObject.SetActive(false);
        
-        PublicEvents.EnemyTurnStarted.Invoke();
+        TurnPublicEvents.TurnActionComplete();
 
         //ok i know hardcoding is abd. this should be ripped out and removed elsewhere. i just want the canvas to disappear for now
         foreach (GameObject g in playerMenus)
