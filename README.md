@@ -56,7 +56,5 @@ Prototype does not have an end state
 
 Players/Enemy have infinite actions
 
-The Action button softlocks the player
-
-
+If you cannot access Attack and there are two move buttons, click Back
 
