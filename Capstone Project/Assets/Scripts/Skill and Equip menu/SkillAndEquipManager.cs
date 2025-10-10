@@ -85,6 +85,7 @@ public class SkillAndEquipManager : MonoBehaviour
     public void ContinueToNextLevel()
     {
         OutOfCombatMenuContainer.SetActive(false);
+        FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
     }
 
     /// <summary>

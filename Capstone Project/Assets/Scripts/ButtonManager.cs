@@ -15,7 +15,9 @@ public class ButtonManager : TurnBasedBattleSystem
     public GameObject playerCanvas;
     public GameObject moveCanvas;
     public GameObject confirmCanvas;
+    [SerializeField] GameObject runeCanvas;
     public Button moveButton;
+    [SerializeField] Button attackButton;
     public Button moveChoiceButton;
     public Button backButton;
     public Button confirmButton;
@@ -55,6 +57,14 @@ public class ButtonManager : TurnBasedBattleSystem
         }
     }
 
+    public void AttackOnClick()
+    {
+
+        runeCanvas.SetActive(true);
+        playerCanvas.SetActive(false);
+
+    }
+
     public void BackButtonOnClick()
     {
         Debug.Log("goin back!");
@@ -63,6 +73,7 @@ public class ButtonManager : TurnBasedBattleSystem
         {
             playerCanvas.SetActive(true);
             moveCanvas.SetActive(false);
+            runeCanvas.SetActive(false);
         }
         else
         {
