@@ -17,6 +17,9 @@ public class RuneEvents : MonoBehaviour
     //temp value for player communication
     [SerializeField] TMP_Text temp;
 
+    //for menu-swapping purposes
+    [SerializeField] GameObject playerMenu;
+
     /// <summary>
     /// Runs whenever this script is loaded into a scene
     /// </summary>
@@ -61,6 +64,9 @@ public class RuneEvents : MonoBehaviour
 
         }
 
+        playerMenu.SetActive(true);
+        this.gameObject.SetActive(false);
+
     }
 
     /// <summary>
@@ -79,6 +85,9 @@ public class RuneEvents : MonoBehaviour
             PublicEvents.EnemyTurnStarted();
 
         }
+
+        playerMenu.SetActive(true);
+        this.gameObject.SetActive(false);
 
     }
 
