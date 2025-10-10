@@ -76,6 +76,7 @@ public class TurnManager : MonoBehaviour
     /// </summary>
     private void ProcessTurnActionComplete()
     {
+        Debug.Log("Called");
         if (gameHasStarted)
         {
             //ups the number of instances this has heard back from
