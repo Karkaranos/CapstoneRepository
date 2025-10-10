@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonManager : TurnBasedBattleSystem
+public class ButtonManager : MonoBehaviour
 {
     public PlayerBehavior playerBehavior;
     public GameObject playerCanvas;
@@ -113,17 +113,17 @@ public class ButtonManager : TurnBasedBattleSystem
     {
         Debug.Log("button clicked");
         endButtonClicked = true;
-        if (endButtonClicked)
-        {
-            if (EnemyTurn())
-            {
-                //playerCanvas.SetActive(false);
-            }
-            else
-            {
-                FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
-            }
+        TurnPublicEvents.TurnActionComplete();
+        /*        if (endButtonClicked)
+                {
+                    if (EnemyTurn())
+                    {
+                        //playerCanvas.SetActive(false);
+                    }
+                    else
+                    {*/
+        //FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
+         //   }
         }
     }
 
-}
