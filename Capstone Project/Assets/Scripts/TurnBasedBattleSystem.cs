@@ -1,13 +1,13 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe
+Author Names : 		    Aidan Ratcliffe, Cade Naylor
 Date Created : 		    10/6/2025
-Date Last Modified : 	10/6/2025
+Date Last Modified : 	10/10/2025
 Brief Description : 	A script to hold the BattleSystem
 External Resources : 	https://youtu.be/_1pz_ohupPs
 ***************************************************/
-using System;
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum battleStates { Start, PlayerTurn, EnemyTurn, Won, Loss }
 
@@ -20,6 +20,7 @@ public class TurnBasedBattleSystem : MonoBehaviour
 
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
+    [SerializeField] private List<GameObject> playerMenus = new List<GameObject>(); //should be removed and relocated elsewhere
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -77,7 +78,12 @@ public class TurnBasedBattleSystem : MonoBehaviour
        // buttonManager.playerCanvas.gameObject.SetActive(false);
        
         PublicEvents.EnemyTurnStarted.Invoke();
-        Debug.Log("enemy turn has begun");
+
+        //ok i know hardcoding is abd. this should be ripped out and removed elsewhere. i just want the canvas to disappear for now
+        foreach (GameObject g in playerMenus)
+        {
+            g.SetActive(false);
+        }
         return true;
     }
 
