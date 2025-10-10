@@ -32,8 +32,8 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        IndexInGrid.x = Mathf.CeilToInt(transform.position.x / tileDisplacement.x);
-        IndexInGrid.y = Mathf.CeilToInt(transform.position.z / tileDisplacement.y);
+        IndexInGrid.x = (int)(transform.position.x / tileDisplacement.x);
+        IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
     }
 
     /// <summary>
