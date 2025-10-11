@@ -31,7 +31,7 @@ public class ButtonManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerBehavior = GetComponent<PlayerBehavior>();
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
         Button mbtn = moveButton.GetComponent<Button>();
         Button mcbtn = moveChoiceButton.GetComponent<Button>();
         Button bbtn = backButton.GetComponent<Button>();
@@ -45,16 +45,23 @@ public class ButtonManager : MonoBehaviour
     public void MoveButtonOnClick()
     {
         Debug.Log("The player can move!");
-        playerCanMove = true;
-        if(playerCanMove)
+        if(playerBehavior == null)
         {
-            moveCanvas.SetActive(true);
-            playerCanvas.SetActive(false);
+            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
         }
-        else
-        {
-            playerCanMove = false;
-        }
+        playerBehavior.PlayerCanMove = true;
+        confirmCanvas.SetActive(true);
+        playerCanvas.SetActive(false);
+        //playerCanMove = true;
+        //if(playerCanMove)
+        //{
+        //    moveCanvas.SetActive(true);
+        //    playerCanvas.SetActive(false);
+        //}
+        //else
+        //{
+        //    playerCanMove = false;
+        //}
     }
 
     public void AttackOnClick()
@@ -97,16 +104,19 @@ public class ButtonManager : MonoBehaviour
 
     public void ConfirmOnClick()
     {
-        confirmButtonClicked = true;
-        if (confirmButtonClicked)
-        {
-            confirmCanvas.SetActive(false);
-            playerCanvas.SetActive(true);
-        }
-        else
-        {
-            confirmButtonClicked = false;
-        }
+        playerBehavior.PlayerCanMove = false;
+        confirmCanvas.SetActive(false);
+        playerCanvas.SetActive(true);
+        //confirmButtonClicked = true;
+        //if (confirmButtonClicked)
+        //{
+        //    confirmCanvas.SetActive(false);
+        //    playerCanvas.SetActive(true);
+        //}
+        //else
+        //{
+        //    confirmButtonClicked = false;
+        //}
     }
 
     public void EndTurnClick()
