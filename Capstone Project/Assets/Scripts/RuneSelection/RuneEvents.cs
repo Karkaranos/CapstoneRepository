@@ -55,6 +55,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         //delete later
+        Logger.Log("You used Lightning " + runeNumber + "!", false);
         temp.text = "You used Lightning " + runeNumber + "!";
 
         if(PublicEvents.EnemyTurnStarted != null)
