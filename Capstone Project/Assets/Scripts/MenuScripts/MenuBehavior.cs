@@ -46,7 +46,6 @@ public class MenuBehavior : MonoBehaviour
     /// </summary>
     public void Quit()
     {
-        print("quit");
         Application.Quit();
     }
 

@@ -1,22 +1,26 @@
-# Wayward Woods
+# Wayward Woods Updated Prototype
 
 
 
-#### Skill Menu
+### Skill Menu
 
-Left Click to unlock Skills
+
+
+**Left Click** to unlock Skills
 
  	Skills are in a diamond-shaped pattern
 
  	They are white if you can unlock them, Green if unlocked, and Gray if unavailable
 
-Left Click on Existing Skill to Pick Up
+**Left Click** on Existing Skill to Pick Up
 
  	Once picked up, your cursor will have a pink square. Drag it to a white square in the vertical line to equip
 
  	Equipped skills will go into battle with you
 
-Buttons to Otherwise Navigate
+**Right Click** on held skill to drop it
+
+**Buttons** to Otherwise Navigate
 
  	Lightning/Wind swap between Rune sets
 
@@ -24,19 +28,21 @@ Buttons to Otherwise Navigate
 
 
 
-#### Combat Screen
+### Combat Screen
 
-Left Click on a tile to move there
 
- 	Hit the 'Confirm' button
 
 Buttons to Otherwise Navigate
 
- 	Move doesn't do anything for now
-
- 	Attack shows what runes you have equipped
+ 	Attack shows what runes you have equipped and allows you to select one
 
  	End Turn allows the enemy to move
+
+ 	Move allows you to move
+
+**Left Click** on a tile to move there
+
+ 	Hit the 'Confirm' button
 
 `/~ key to toggle console
 
@@ -44,17 +50,19 @@ Buttons to Otherwise Navigate
 
 
 
-#### Project State
+### Project State
 
-Attacks are not currently implemented
+Attacks are not currently implemented. They show as a textbox on screen and in the console
 
-States are shown above an Enemy's head
+States are shown above an Enemy's head and in the console
+
+Enemies take a few seconds of processing time before changing states
 
 Concept Art implemented
 
 Prototype does not have an end state
 
-Players/Enemy have infinite actions
+Players and enemies do not have an equal number of moves- the player can take infinite turns
 
-If you cannot access Attack and there are two move buttons, click Back
+
 

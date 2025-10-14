@@ -36,6 +36,8 @@ public class PlayerBehavior : MonoBehaviour
 
     [Tooltip("bool to check to see if the mouse input is activated")]
     public bool MouseIsClicked;
+
+    public bool PlayerCanMove = false;
     #endregion playervariables
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -76,7 +78,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        if (MouseIsClicked)
+        if (MouseIsClicked && PlayerCanMove)
         {
             Ray ray = Camera.main.ScreenPointToRay(playerClick.ReadValue<Vector2>());
             RaycastHit hit;

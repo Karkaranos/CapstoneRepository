@@ -34,12 +34,12 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         if(enemy.PlayerInAttackRange())
         {
-            Debug.Log("Move -> Attack");
+            Logger.Log("Enemy State: Move -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
         }
         else
         {
-            Debug.Log("Move -> Wait");
+            Logger.Log("Enemy State: Move -> Wait");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
             enemy.gridTesting.Pathfind();
         }

@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonManager : TurnBasedBattleSystem
+public class ButtonManager : MonoBehaviour
 {
     public PlayerBehavior playerBehavior;
     public GameObject playerCanvas;
@@ -31,7 +31,7 @@ public class ButtonManager : TurnBasedBattleSystem
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerBehavior = GetComponent<PlayerBehavior>();
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
         Button mbtn = moveButton.GetComponent<Button>();
         Button mcbtn = moveChoiceButton.GetComponent<Button>();
         Button bbtn = backButton.GetComponent<Button>();
@@ -45,16 +45,23 @@ public class ButtonManager : TurnBasedBattleSystem
     public void MoveButtonOnClick()
     {
         Debug.Log("The player can move!");
-        playerCanMove = true;
-        if(playerCanMove)
+        if(playerBehavior == null)
         {
-            moveCanvas.SetActive(true);
-            playerCanvas.SetActive(false);
+            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
         }
-        else
-        {
-            playerCanMove = false;
-        }
+        playerBehavior.PlayerCanMove = true;
+        confirmCanvas.SetActive(true);
+        playerCanvas.SetActive(false);
+        //playerCanMove = true;
+        //if(playerCanMove)
+        //{
+        //    moveCanvas.SetActive(true);
+        //    playerCanvas.SetActive(false);
+        //}
+        //else
+        //{
+        //    playerCanMove = false;
+        //}
     }
 
     public void AttackOnClick()
@@ -97,29 +104,38 @@ public class ButtonManager : TurnBasedBattleSystem
 
     public void ConfirmOnClick()
     {
-        confirmButtonClicked = true;
-        if (confirmButtonClicked)
-        {
-            confirmCanvas.SetActive(false);
-            playerCanvas.SetActive(true);
-        }
-        else
-        {
-            confirmButtonClicked = false;
-        }
+        playerBehavior.PlayerCanMove = false;
+        confirmCanvas.SetActive(false);
+        playerCanvas.SetActive(true);
+        //confirmButtonClicked = true;
+        //if (confirmButtonClicked)
+        //{
+        //    confirmCanvas.SetActive(false);
+        //    playerCanvas.SetActive(true);
+        //}
+        //else
+        //{
+        //    confirmButtonClicked = false;
+        //}
     }
 
     public void EndTurnClick()
     {
         Debug.Log("button clicked");
         endButtonClicked = true;
-        if (endButtonClicked)
-        {
-            if (EnemyTurn())
-            {
-                playerCanvas.SetActive(false);
-            }
+
+
+        TurnPublicEvents.TurnActionComplete();
+        /*        if (endButtonClicked)
+                {
+                    if (EnemyTurn())
+                    {
+                        //playerCanvas.SetActive(false);
+                    }
+                    else
+                    {*/
+        //FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
+         //   }
         }
     }
 
-}
