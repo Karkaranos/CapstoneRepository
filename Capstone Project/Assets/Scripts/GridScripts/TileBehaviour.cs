@@ -30,10 +30,10 @@ public class TileBehaviour : MonoBehaviour
     /// <summary>
     /// Calculates the tile's index based off the transform and the tileDisplacement variable
     /// </summary>
-    private void Start()
+    private void Awake()
     {
-        IndexInGrid.x = Mathf.CeilToInt(transform.position.x / tileDisplacement.x);
-        IndexInGrid.y = Mathf.CeilToInt(transform.position.z / tileDisplacement.y);
+        IndexInGrid.x = (int)(transform.position.x / tileDisplacement.x);
+        IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
     }
 
     /// <summary>

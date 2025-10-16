@@ -36,7 +36,7 @@ public class GridPathfinding : MonoBehaviour
     /// <summary>
     /// Currently sets the player as the target position. Will need to be replaced when the actually targeting is implemented
     /// </summary>
-    virtual protected void SetTarget()
+    virtual public void SetTarget()
     {
         Debug.Log(GridManager.playerPosition);
         targetPosition = GridManager.playerPosition;
@@ -45,7 +45,7 @@ public class GridPathfinding : MonoBehaviour
     /// <summary>
     /// Takes the current position and pathfinds to a designated location
     /// </summary>
-    protected void PathfindThroughGrid()
+    public void PathfindThroughGrid()
     {
         Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
@@ -95,25 +95,6 @@ public class GridPathfinding : MonoBehaviour
                 }
                 if (myPosition.y % 2 == 0)
                 {
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y - 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y - 1));
-                    }
-                }
-                else
-                {
                     if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y + 1)))
                     {
                         nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y + 1));
@@ -129,6 +110,25 @@ public class GridPathfinding : MonoBehaviour
                     if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x - 1, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x - 1, myPosition.y - 1)))
                     {
                         nextPositions.Add(new Vector2Int(myPosition.x - 1, myPosition.y - 1));
+                    }
+                }
+                else
+                {
+                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y + 1)))
+                    {
+                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y + 1));
+                    }
+                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y + 1)))
+                    {
+                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y + 1));
+                    }
+                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y - 1)))
+                    {
+                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y - 1));
+                    }
+                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y - 1)))
+                    {
+                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y - 1));
                     }
                 }
             }
@@ -154,31 +154,6 @@ public class GridPathfinding : MonoBehaviour
             }
             else if(targetPosition.y % 2 == 1)
             {
-                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1] == i)
-                {
-                    gridDirections.Add("Up Left");
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y - 1] == i)
-                {
-                    gridDirections.Add("Up Right");
-                    --targetPosition.x;
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1] == i)
-                {
-                    gridDirections.Add("Down Left");
-                    ++targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y + 1] == i)
-                {
-                    gridDirections.Add("Down Right");
-                    --targetPosition.x;
-                    ++targetPosition.y;
-                }
-            }
-            else if(targetPosition.y % 2 == 0)
-            {
                 if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y - 1] == i)
                 {
                     gridDirections.Add("Up Left");
@@ -199,6 +174,31 @@ public class GridPathfinding : MonoBehaviour
                 else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1] == i)
                 {
                     gridDirections.Add("Down Right");
+                    ++targetPosition.y;
+                }
+            }
+            else if(targetPosition.y % 2 == 0)
+            {
+                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1] == i)
+                {
+                    gridDirections.Add("Up Left");
+                    --targetPosition.y;
+                }
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y - 1] == i)
+                {
+                    gridDirections.Add("Up Right");
+                    --targetPosition.x;
+                    --targetPosition.y;
+                }
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1] == i)
+                {
+                    gridDirections.Add("Down Left");
+                    ++targetPosition.y;
+                }
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y + 1] == i)
+                {
+                    gridDirections.Add("Down Right");
+                    --targetPosition.x;
                     ++targetPosition.y;
                 }
             }
@@ -226,6 +226,7 @@ public class GridPathfinding : MonoBehaviour
         for (int i = max - 1; i >= 0; --i)
         {
             yield return new WaitForSeconds(.5f);
+            Debug.Log("Wait over");
             switch (gridDirections[i])
             {
                 case "Up Left":
@@ -256,6 +257,7 @@ public class GridPathfinding : MonoBehaviour
             }
 
             transform.position = newPosition;
+            Debug.Log("Moved");
         }
         GridManager.ClearPathfinding();
         GridManager.combatGrid[myPosition.x, myPosition.y] = -1;

@@ -20,6 +20,9 @@ public class MeleeEnemyWaitState : MeleeEnemyState
         base.EnterState();
         Debug.Log("Enter Wait State");
         enemy.logText.text = "Waiting";
+
+        //tells the turn manager the turn is over
+        TurnPublicEvents.TurnActionComplete();
     }
 
     /// <summary>
@@ -30,5 +33,6 @@ public class MeleeEnemyWaitState : MeleeEnemyState
     {
         enemy.hasMovedForTurn = false;
         enemy.hasAttackedTwice = false;
+        enemy.playerInAttackRange = false;
     }
 }

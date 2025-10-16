@@ -52,10 +52,13 @@ public class Logger : ILogHandler
     /// Logs a message in the Command Console and Unity Console
     /// </summary>
     /// <param name="text">The message to display</param>
-    public static void Log(string text)
+    public static void Log(string text, bool d = true)
     {
         ConsoleTextLog.text += debugColor + text + "</color>\n";
-        Debug.Log(text);
+        if (d)
+        {
+            Debug.Log(text);
+        }
     }
     
     /// <summary>
@@ -72,30 +75,40 @@ public class Logger : ILogHandler
     /// Call when the User enters a command
     /// </summary>
     /// <param name="text">The command the User entered</param>
-    public static void Input(string text)
+    public static void Input(string text, bool d = true)
     {
         ConsoleTextLog.text += inputColor + ">> " + text + "</color>\n";
-        Debug.Log("User Entered " + text);
+        if (d)
+        {
+            Debug.Log("User Entered " + text);
+        }
     }
 
     /// <summary>
     /// Logs a warning in the Command Console and Unity Console
     /// </summary>
     /// <param name="text">The message to display</param>
-    public static void Warning(string text)
+    public static void Warning(string text, bool d = true)
     {
         ConsoleTextLog.text += warningColor + text + "</color>\n";
-        Debug.LogWarning(text);
+        if (d)
+        {
+            Debug.LogWarning(text);
+        }
+
     }
 
     /// <summary>
     /// Logs a message in the Command Console and Unity Console
     /// </summary>
     /// <param name="text">The message to display</param>
-    public static void Error(string text)
+    public static void Error(string text, bool d = true)
     {
         ConsoleTextLog.text += errorColor + text + "</color>\n";
-        Debug.LogError(text);
+        if(d)
+        {
+            Debug.LogError(text);
+        }
     }
 
     /// <summary>

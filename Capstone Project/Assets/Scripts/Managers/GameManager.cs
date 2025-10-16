@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         // Console Commands need to be before pretty much everything else
         CommandConsoleRef = Instantiate(CommandConsole, transform.position, Quaternion.identity);
-        CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled);
+        CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled, consoleEnabled, consoleEnabledOnLoad);
 
         ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, allowArtifactTesting, testData);
 

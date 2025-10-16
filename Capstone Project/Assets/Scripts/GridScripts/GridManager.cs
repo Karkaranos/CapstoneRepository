@@ -32,19 +32,7 @@ public class GridManager : MonoBehaviour
         {
             for(int j = 0; j < gridDimensions.x; ++j)
             {
-                //shifts every other line to create a hexagonal grid
-                if (i % 2 == 0 && j == gridDimensions.x - 1)
-                {
-                    combatGrid[j, i] = -4;
-                }
-                else if (i % 2 == 1 && j == 0)
-                {
-                    combatGrid[j, i] = -4;
-                }
-                else
-                {
-                    combatGrid[j, i] = -1;
-                }
+                combatGrid[j, i] = -1;
             }
         }
     }

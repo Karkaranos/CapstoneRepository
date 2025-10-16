@@ -9,9 +9,9 @@ External Resources :
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuBehavoir : MonoBehaviour
+public class MenuBehavior : MonoBehaviour
 {
-    [HideInInspector] public MenuBehavoir previousMenu;
+    [HideInInspector] public MenuBehavior previousMenu;
 
     /// <summary>
     /// Gets a reference to the inputActions and makes sure that the timescale is normal
@@ -25,7 +25,7 @@ public class MenuBehavoir : MonoBehaviour
     /// Loads a specific scene by its name
     /// </summary>
     /// <param name="sceneToLoad"></param>
-    public void LoadScene(string sceneToLoad)
+    public void LoadScene(int sceneToLoad)
     {
         SceneManager.LoadScene(sceneToLoad);
     }
@@ -37,7 +37,7 @@ public class MenuBehavoir : MonoBehaviour
     public void ActivateSubMenu(GameObject obj)
     {
         obj.SetActive(true);
-        obj.GetComponent<MenuBehavoir>().previousMenu = GetComponent<MenuBehavoir>();
+        obj.GetComponent<MenuBehavior>().previousMenu = GetComponent<MenuBehavior>();
         gameObject.SetActive(false);
     }
 
@@ -46,7 +46,6 @@ public class MenuBehavoir : MonoBehaviour
     /// </summary>
     public void Quit()
     {
-        print("quit");
         Application.Quit();
     }
 

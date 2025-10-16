@@ -17,6 +17,9 @@ public class RuneEvents : MonoBehaviour
     //temp value for player communication
     [SerializeField] TMP_Text temp;
 
+    //for menu-swapping purposes
+    [SerializeField] GameObject playerMenu;
+
     /// <summary>
     /// Runs whenever this script is loaded into a scene
     /// </summary>
@@ -52,6 +55,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         //delete later
+        Logger.Log("You used Lightning " + runeNumber + "!", false);
         temp.text = "You used Lightning " + runeNumber + "!";
 
         if(PublicEvents.EnemyTurnStarted != null)
@@ -60,6 +64,9 @@ public class RuneEvents : MonoBehaviour
             PublicEvents.EnemyTurnStarted();
 
         }
+
+        playerMenu.SetActive(true);
+        this.gameObject.SetActive(false);
 
     }
 
@@ -71,6 +78,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         //delete later
+        Logger.Log("You used Wind " + runeNumber + "!", false);
         temp.text = "You used Wind " + runeNumber + "!";
 
         if (PublicEvents.EnemyTurnStarted != null)
@@ -79,6 +87,9 @@ public class RuneEvents : MonoBehaviour
             PublicEvents.EnemyTurnStarted();
 
         }
+
+        playerMenu.SetActive(true);
+        this.gameObject.SetActive(false);
 
     }
 

@@ -11,6 +11,7 @@ External Resources :
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillAndEquipManager : MonoBehaviour
 {
@@ -25,11 +26,16 @@ public class SkillAndEquipManager : MonoBehaviour
 
     #region REFS
 
+    [HorizontalLine(4, EColor.Red)]
+
     //all the containers for the different menus
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField]
     private GameObject OutOfCombatMenuContainer;
+
+    [SerializeField, ShowIf(nameof(InspectorSettings), Settings.References)]
+    private Button continueButton;
 
     #endregion
 
@@ -39,11 +45,24 @@ public class SkillAndEquipManager : MonoBehaviour
     [ShowIf(nameof(InspectorSettings), Settings.TestingAndDebug), SerializeField] public int NumOfSpellSlots;
 
     //master list of all equipped spells the player has
-    [ShowIf(nameof(InspectorSettings), Settings.TestingAndDebug), SerializeField, Expandable] public List<RuneData> equippedSpells;
+    [ShowIf(nameof(InspectorSettings), Settings.TestingAndDebug), SerializeField, Expandable,
+        OnValueChanged(nameof(UpdateContinueButton))] public List<RuneData> equippedSpells;
 
     #endregion
 
     #endregion
+
+    private bool UpdateContinueButton()
+    {
+        foreach (RuneData d in equippedSpells)
+        {
+            if (d != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void OnEnable()
     {
@@ -85,6 +104,8 @@ public class SkillAndEquipManager : MonoBehaviour
     public void ContinueToNextLevel()
     {
         OutOfCombatMenuContainer.SetActive(false);
+        FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
+        //GameObject.Find("Move Confirmation").SetActive(false);
     }
 
     /// <summary>
@@ -96,6 +117,7 @@ public class SkillAndEquipManager : MonoBehaviour
     {
         equippedSpells[index] = data;
         PublicEvents.EquipRunesToCombatMenu(index);
+        continueButton.interactable = UpdateContinueButton();
     }
     
     /// <summary>

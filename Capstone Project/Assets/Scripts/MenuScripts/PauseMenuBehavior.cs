@@ -49,7 +49,7 @@ public class PauseMenuBehavoir : MonoBehaviour
         }
         if (settingsMenu.activeSelf)
         {
-            settingsMenu.GetComponent<MenuBehavoir>().Return();
+            settingsMenu.GetComponent<MenuBehavior>().Return();
             PauseGame();
             return;
         }

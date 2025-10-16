@@ -36,6 +36,8 @@ public class PlayerBehavior : MonoBehaviour
 
     [Tooltip("bool to check to see if the mouse input is activated")]
     public bool MouseIsClicked;
+
+    public bool PlayerCanMove = false;
     #endregion playervariables
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -76,7 +78,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        if (MouseIsClicked)
+        if (MouseIsClicked && PlayerCanMove)
         {
             Ray ray = Camera.main.ScreenPointToRay(playerClick.ReadValue<Vector2>());
             RaycastHit hit;
@@ -85,10 +87,17 @@ public class PlayerBehavior : MonoBehaviour
             {
                 Vector3 temp = hit.transform.gameObject.transform.position;
                 Vector2Int temp2 = targetPosition;
-                targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
-                gameObject.transform.position = temp;
-                GridManager.MoveToTile(temp2, targetPosition, -3);
-                buttonManager.confirmCanvas.SetActive(true);
+                if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() == null)
+                {
+                    Debug.Log("is null" + hit.transform.gameObject.name);
+                }
+                else
+                {
+                    targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
+                    gameObject.transform.position = temp;
+                    GridManager.MoveToTile(temp2, targetPosition, -3);
+                    buttonManager.confirmCanvas.SetActive(true);
+                }
             }
             MouseIsClicked = false;
         }
