@@ -212,6 +212,12 @@ public class TurnManager : MonoBehaviour
 
     #region helperfuncs
 
+    /// <summary>
+    /// Determines the state to go to next.
+    /// Called when the phase is over.
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
     private TurnStates DetermineNextState()
     {
         //creates a null output
