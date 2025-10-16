@@ -40,9 +40,11 @@ public class PlayerBehavior : MonoBehaviour
     public bool PlayerCanMove = false;
     #endregion playervariables
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //Sets player position and target position to reference the grid manager's player position and
-    //target position to the TileBehaviour Index 
+    /// <summary>
+    /// Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// Sets player position and target position to reference the grid manager's player position and
+    /// target position to the TileBehaviour Index 
+    /// </summary>
     void Start()
     {
         buttonManager = FindFirstObjectByType<ButtonManager>();
@@ -51,6 +53,10 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     #region player input
+    
+    /// <summary>
+    /// Enables PlayerClick Input Action
+    /// </summary>
     public void OnEnable()
     {
         playerClick.Enable();
@@ -64,6 +70,9 @@ public class PlayerBehavior : MonoBehaviour
         MouseIsClicked = true;
     }
 
+    /// <summary>
+    /// Disables PlayerClick Input Action
+    /// </summary>
     void OnDisable()
     {
         playerClick.Disable();

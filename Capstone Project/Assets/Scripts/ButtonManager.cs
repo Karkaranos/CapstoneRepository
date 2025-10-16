@@ -28,7 +28,9 @@ public class ButtonManager : MonoBehaviour
     public bool confirmButtonClicked;
     public bool endButtonClicked;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Grabs the player's script and button objects within the scene
+    /// </summary>
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
@@ -42,6 +44,9 @@ public class ButtonManager : MonoBehaviour
         Canvas cCanvas = confirmCanvas.GetComponent<Canvas>();
     }
 
+    /// <summary>
+    /// Controls the player movement and 
+    /// </summary>
     public void MoveButtonOnClick()
     {
         Debug.Log("The player can move!");
@@ -64,6 +69,9 @@ public class ButtonManager : MonoBehaviour
         //}
     }
 
+    /// <summary>
+    /// Sets the runeCanvas to true and playerCanvas to false
+    /// </summary>
     public void AttackOnClick()
     {
 
@@ -72,6 +80,10 @@ public class ButtonManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Sets backButtonClicked to true
+    /// bool sets the PlayerCanvas to true and sets the moveCanvas and runeCanvas to false
+    /// </summary>
     public void BackButtonOnClick()
     {
         Debug.Log("goin back!");
@@ -88,6 +100,9 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the MoveCanvas to false and playerIsGoingToMove bool to true
+    /// </summary>
     public void MoveChoiceOnClick()
     {
         playerIsGoingToMove = true;
@@ -102,6 +117,11 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets PlayerCanMove bool from playerBehavior to false
+    /// Sets confirmCanvas to false
+    /// Sets playerCanvas to true
+    /// </summary>
     public void ConfirmOnClick()
     {
         playerBehavior.PlayerCanMove = false;
@@ -119,6 +139,10 @@ public class ButtonManager : MonoBehaviour
         //}
     }
 
+    /// <summary>
+    /// Enables the endButtonClicked bool to true
+    /// Ends Player Turn once clicked
+    /// </summary>
     public void EndTurnClick()
     {
         Debug.Log("button clicked");
