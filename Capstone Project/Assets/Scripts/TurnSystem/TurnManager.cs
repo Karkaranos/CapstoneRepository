@@ -20,19 +20,29 @@ public enum TurnStates
 }
 public class TurnManager : MonoBehaviour
 {
+    public enum ShownSettings
+    {
+        Debug,
+        None
+    }
+
+    public ShownSettings shownSettings;
+
+    [HorizontalLine(4, EColor.Indigo)]
+
     //current state of the turn
-    public TurnStates currentStatus;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug)] public TurnStates currentStatus;
 
     //how many instances this script has heard back from after 
     //sending out a new phase public event
-    public int currentHearBackNum;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private int currentHearBackNum;
 
     //how many instances this script needs to hear back from
     //before sending out the next public event
-    public int targetHearBackNum;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private int targetHearBackNum;
 
-    bool breakInfLoop = false;
-    bool gameHasStarted = false;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool breakInfLoop = false;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool gameHasStarted = false;
 
     /// <summary>
     /// subscribes to all needed events
@@ -57,6 +67,7 @@ public class TurnManager : MonoBehaviour
     {
         breakInfLoop = false;
         StartCoroutine(StartGame());
+
     }
 
     /// <summary>
