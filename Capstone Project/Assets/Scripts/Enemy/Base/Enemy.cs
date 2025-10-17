@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.StateMachine),
-        Tooltip("Delay between each state transition")]protected float secondsBetweenStateTransitions = 5f;
+        Tooltip("Delay between each state transition")]protected float secondsBetweenStateTransitions = 1f;
 
     protected EnemyStateMachine enemyStateMachine;
 

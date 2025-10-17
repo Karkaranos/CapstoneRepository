@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/7/2025
+Date Last Modified : 	10/17/2025
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -33,6 +33,7 @@ public class MeleeEnemy : Enemy
     private MeleeEnemyRunState enemyRunState; 
     private MeleeEnemyMoveToPlayerState moveToPlayerState;
     private MeleeEnemyAttackState attackState;
+    private MeleeEnemyEndTurnState endTurnState;
 
     #endregion
 
@@ -57,24 +58,28 @@ public class MeleeEnemy : Enemy
         enemyRunState = new MeleeEnemyRunState(this,enemyStateMachine);
         moveToPlayerState = new MeleeEnemyMoveToPlayerState(this,enemyStateMachine);
         attackState = new MeleeEnemyAttackState(this,enemyStateMachine);
+        endTurnState = new MeleeEnemyEndTurnState(this,enemyStateMachine);
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
     }
 
     /// <summary>
-    /// Link EnemyTurnStarted event to StartEnemyTurn function
+    /// Subscribes to BeginEnemyTurn event
     /// </summary>
     private void OnEnable()
     {
-        //PublicEvents.EnemyTurnStarted += StartEnemyTurn;
         TurnPublicEvents.BeginEnemyTurn += StartEnemyTurn;
     }
 
+    /// <summary>
+    /// Unsubscribes to BeginEnemyTurn event
+    /// </summary>
     private void OnDisable()
     {
-        //PublicEvents.EnemyTurnStarted -= StartEnemyTurn;
         TurnPublicEvents.BeginEnemyTurn -= StartEnemyTurn;
     }
 
+
+    //TODO: Come back and seeif needed rn
     private void Start()
     {
         gridTesting = FindFirstObjectByType<GridTesting>();
@@ -83,6 +88,7 @@ public class MeleeEnemy : Enemy
             Debug.Log("grid testing == null");
         }
     }
+
     /// <summary>
     /// Defines under what path the state machine should take 
     /// under what conditions at the start of the 
