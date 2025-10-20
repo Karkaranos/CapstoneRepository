@@ -13,8 +13,8 @@ using UnityEngine;
 public class EnemyHandler : MonoBehaviour
 {
     public static EnemyHandler Instance { get; private set; }
-
-    private Enemy[] enemies;
+    public Enemy[] enemies;
+    private int index = 0;
 
     /// <summary>
     /// Make sure that this is a Singleton 
@@ -40,5 +40,27 @@ public class EnemyHandler : MonoBehaviour
     private void SetEnemyList()
     {
         enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+    }
+
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginEnemyTurn += RunNextEnemyTurn;
+    }
+
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEnemyTurn -= RunNextEnemyTurn;
+    }
+
+    public void RunNextEnemyTurn()
+    {
+        if (index == enemies.Length)
+        {
+            index = 0;
+            TurnPublicEvents.TurnActionComplete();
+            return;
+        }
+        enemies[index].StartEnemyTurn();
+        ++index;
     }
 }

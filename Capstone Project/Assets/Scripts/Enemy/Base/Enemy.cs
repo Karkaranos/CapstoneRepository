@@ -8,6 +8,7 @@ External Resources :
 using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 
 public class Enemy : MonoBehaviour
 {
@@ -94,6 +95,22 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
+    /// Subscribes to BeginEnemyTurn
+    /// </summary>
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginEnemyTurn += RecieveEnemyTurnPing; 
+    }
+
+    /// <summary>
+    /// Unsubscribes from BeginEnemyTurn
+    /// </summary>
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEnemyTurn -= RecieveEnemyTurnPing;
+    }
+
+    /// <summary>
     /// Damage function for enemy. Public so states can call it
     /// </summary>
     /// <param name="damage"></param>
@@ -142,5 +159,12 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    private void RecieveEnemyTurnPing()
+    {
+        Debug.Log("Enemy Turn Ping Recieved");
+    }
+
+    public virtual void StartEnemyTurn() {  }
     #endregion
 }

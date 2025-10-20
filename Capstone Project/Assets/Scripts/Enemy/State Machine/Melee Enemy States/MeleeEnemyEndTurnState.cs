@@ -15,7 +15,7 @@ public class MeleeEnemyEndTurnState : MeleeEnemyState
     public override void EnterState()
     {
         Debug.Log("Enter End Turn");
-
+        EnemyHandler.Instance.RunNextEnemyTurn();
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState(), 0f));
         Debug.Log("End -> Wait");
     }

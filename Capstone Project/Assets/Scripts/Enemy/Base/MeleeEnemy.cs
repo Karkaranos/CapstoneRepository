@@ -62,23 +62,6 @@ public class MeleeEnemy : Enemy
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
     }
 
-    /// <summary>
-    /// Subscribes to BeginEnemyTurn event
-    /// </summary>
-    private void OnEnable()
-    {
-        TurnPublicEvents.BeginEnemyTurn += StartEnemyTurn;
-    }
-
-    /// <summary>
-    /// Unsubscribes to BeginEnemyTurn event
-    /// </summary>
-    private void OnDisable()
-    {
-        TurnPublicEvents.BeginEnemyTurn -= StartEnemyTurn;
-    }
-
-
     //TODO: Come back and seeif needed rn
     private void Start()
     {
@@ -95,7 +78,7 @@ public class MeleeEnemy : Enemy
     /// enemies turn 
     /// </summary>
     [Button("Start Enemy Turn")]
-    private void StartEnemyTurn()
+    public override void StartEnemyTurn()
     {
         //if low health go to run state
         if(LowHealthDetection())
