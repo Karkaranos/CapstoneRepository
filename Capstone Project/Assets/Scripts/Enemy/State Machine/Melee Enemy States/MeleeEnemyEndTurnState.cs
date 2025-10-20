@@ -12,6 +12,10 @@ public class MeleeEnemyEndTurnState : MeleeEnemyState
     public MeleeEnemyEndTurnState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     { }
 
+    /// <summary>
+    /// Enter state logic
+    /// Tells the enemy handler to start the next enemy turn
+    /// </summary>
     public override void EnterState()
     {
         Debug.Log("Enter End Turn");

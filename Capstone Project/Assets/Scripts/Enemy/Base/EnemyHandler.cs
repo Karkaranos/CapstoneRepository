@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/19/2025
-Date Last Modified : 	10/19/2025
+Date Last Modified : 	10/20/2025
 Brief Description : 		Handler for running the enemy 
                     state machines one after another
 External Resources : 	
@@ -12,9 +12,9 @@ using UnityEngine;
 
 public class EnemyHandler : MonoBehaviour
 {
-    public static EnemyHandler Instance { get; private set; }
-    public Enemy[] enemies;
-    private int index = 0;
+    [HideInInspector]public static EnemyHandler Instance { get; private set; }
+    private Enemy[] enemies;
+    private static int index = 0;
 
     /// <summary>
     /// Make sure that this is a Singleton 
@@ -32,26 +32,44 @@ public class EnemyHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Wait 2 seconds after start to set list of enemies in the scene
+    /// </summary>
     private void Start()
     {
         Invoke("SetEnemyList", 2);
     }
 
-    private void SetEnemyList()
+    /// <summary>
+    /// Set list of all enabled enemies 
+    /// public function so it can be called later with the 
+    /// multiple grid loading in the same scene
+    /// </summary>
+    public void SetEnemyList()
     {
         enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
     }
 
+    /// <summary>
+    /// Subscribe to begin enemy turn
+    /// </summary>
     private void OnEnable()
     {
         TurnPublicEvents.BeginEnemyTurn += RunNextEnemyTurn;
     }
 
+    /// <summary>
+    /// Unsubscribe to begin enemy turn
+    /// </summary>
     private void OnDisable()
     {
         TurnPublicEvents.BeginEnemyTurn -= RunNextEnemyTurn;
     }
 
+    /// <summary>
+    /// Run the next enemy in the lists turn 
+    /// If we've gone through the list inform turn manager that EnemyHandler is done
+    /// </summary>
     public void RunNextEnemyTurn()
     {
         if (index == enemies.Length)

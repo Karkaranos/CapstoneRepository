@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/7/2025
+Date Last Modified : 	10/19/2025
 Brief Description : 		Base class for all states
 External Resources : 	
 ***************************************************/
@@ -15,7 +15,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     /// <summary>
     /// Enter attack state logic 
     /// If can attack twice and hasn't yet calls state again
-    /// else return to wait state
+    /// else go to end turn state
     /// </summary>
     public override void EnterState()
     {
@@ -44,7 +44,5 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     /// Exit attack state logic 
     /// </summary>
     public override void ExitState()
-    {
-        
-    }
+    { }
 }

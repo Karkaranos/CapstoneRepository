@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/6/2025
+Date Last Modified : 	10/20/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -160,11 +160,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Needed function for the turn manager to acuratly count how many
+    /// enemies there are in the scene
+    /// </summary>
     private void RecieveEnemyTurnPing()
     {
         Debug.Log("Enemy Turn Ping Recieved");
     }
 
+    /// <summary>
+    /// Virtual method that all specific enemies will define
+    /// that will start their individual state machine
+    /// </summary>
     public virtual void StartEnemyTurn() {  }
     #endregion
 }
