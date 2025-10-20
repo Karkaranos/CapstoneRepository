@@ -14,17 +14,20 @@ public class Commands
     // Categories for commands. Used to control what commands are active at any given point
     public enum CommandGroup
     {
-        MOVE_CONSOLE, GREET
+        MoveConsole, Greet, Enemies, None
     }
 
     // Links all valid commands with their appropriate category
     public static Dictionary<string, CommandGroup> CommandDictionary = new Dictionary<string, CommandGroup>()
     {
-        {"1", CommandGroup.MOVE_CONSOLE},
-        {"2", CommandGroup.MOVE_CONSOLE},
-        {"3", CommandGroup.MOVE_CONSOLE},
-        {"4", CommandGroup.MOVE_CONSOLE},
-        {"hi", CommandGroup.GREET}
+        {"1", CommandGroup.MoveConsole},
+        {"2", CommandGroup.MoveConsole},
+        {"3", CommandGroup.MoveConsole},
+        {"4", CommandGroup.MoveConsole},
+        {"hi", CommandGroup.Greet},
+        {"kae", CommandGroup.Enemies },
+        {"drop", CommandGroup.Enemies },
+        {"menu", CommandGroup.None }
     };
 
     /// <summary>
@@ -78,6 +81,55 @@ public class Commands
         rectTransform.anchorMin = newValues;
         rectTransform.anchorMax = newValues;
         rectTransform.anchoredPosition3D = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Applies a command to all enemies in the scene
+    /// Currently can kill them or make them force drop an item
+    /// </summary>
+    /// <param name="command"></param>
+    public static void Enemies(string command)
+    {
+        Enemy[] AllEnemies = GameObject.FindObjectsByType<Enemy>(findObjectsInactive:FindObjectsInactive.Exclude, sortMode:FindObjectsSortMode.None);
+        foreach(Enemy e in AllEnemies)
+        {
+            switch(command)
+            {
+                case "kae":
+                    e.Damage(9999999);
+                    break;
+                case "drop":
+                    e.TryDropItem(1f);
+                    break;
+                default:
+                    Logger.Warning("Invalid Enemy tag. Fell through Switch.");
+                    return;
+            }
+        }
+    }
+
+    
+    /// <summary>
+    /// Handles commands that are always available to the player
+    /// </summary>
+    /// <param name="command">The user-entered commnd</param>
+    public static void AlwaysAvailable(string command)
+    {
+        switch(command)
+        {
+            // Displays all commands
+            case "menu":
+                string sb = "Available Commands: \n";
+                foreach(string key in CommandDictionary.Keys)
+                {
+                    sb += " - " + key + "\n";
+                }
+                Logger.Info(sb);
+                break;
+            default:
+                Logger.Warning("Fell through Switch.");
+                return;
+        }
     }
 
 }
