@@ -45,7 +45,8 @@ public class ButtonManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Controls the player movement and 
+    /// Controls the player movement, sets confirm canvas to true
+    /// and playerCanvas to false
     /// </summary>
     public void MoveButtonOnClick()
     {
