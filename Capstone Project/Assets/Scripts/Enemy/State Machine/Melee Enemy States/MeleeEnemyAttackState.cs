@@ -35,8 +35,8 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         }
 
         //Trigger Enemy end turn
-        Logger.Log("Enemy State: Attack -> Wait");
-        CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
+        Logger.Log("Enemy State: Attack -> EndTurn");
+        CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
         enemy.gridTesting.Pathfind();
     }
 

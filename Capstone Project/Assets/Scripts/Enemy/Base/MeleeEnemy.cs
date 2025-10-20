@@ -150,6 +150,7 @@ public class MeleeEnemy : Enemy
     /// <returns></returns>
     public MeleeEnemyWaitState GetWaitState() {  return enemyWaitState; }
     public MeleeEnemyAttackState GetAttackState() {  return attackState; }
+    public MeleeEnemyEndTurnState GetEndTurnState() { return endTurnState; }
 
     #endregion
 }

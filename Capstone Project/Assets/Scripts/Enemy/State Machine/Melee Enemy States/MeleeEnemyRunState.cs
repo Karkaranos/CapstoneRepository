@@ -22,7 +22,7 @@ public class MeleeEnemyRunState : MeleeEnemyState
         Debug.Log("Enter Run State");
         enemy.logText.text = "Running";
         //TODO run logic 
-        CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
+        CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
     }
 
     /// <summary>
@@ -30,6 +30,6 @@ public class MeleeEnemyRunState : MeleeEnemyState
     /// </summary>
     public override void ExitState()
     {
-        Debug.Log("Run -> Wait");
+        Debug.Log("Run -> End Turn");
     }
 }

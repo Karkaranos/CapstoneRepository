@@ -39,8 +39,8 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         }
         else
         {
-            Logger.Log("Enemy State: Move -> Wait");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
+            Logger.Log("Enemy State: Move -> EndTurn");
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
             enemy.gridTesting.Pathfind();
         }
     }

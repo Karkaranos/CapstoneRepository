@@ -39,4 +39,13 @@ public class EnemyStateMachine : MonoBehaviour
         currentState = newState;
         currentState.EnterState();
     }
+
+    public IEnumerator ChangeState(EnemyState newState, float seconds)
+    {
+        currentState.ExitState();
+        yield return new WaitForSecondsRealtime(seconds);
+        Debug.Log("Changing State...");
+        currentState = newState;
+        currentState.EnterState();
+    }
 }
