@@ -139,15 +139,35 @@ public class RuneEvents : MonoBehaviour
 
             case (2):
 
-                //CHECK RANGE
+                FindSecondaryTarget(target);
+
                 target.Damage(storedRuneDamage);
+                secondaryTarget.Damage(storedRuneDamage);
                 break;
 
             case (3):
 
                 //CHECK RANGE
 
+                int radius = 3;
+
                 target.Damage(storedRuneDamage);
+
+                Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+                foreach (Enemy enemy in enemies)
+                {
+
+                    if(Vector2.Distance(target.transform.position, enemy.transform.position) <= radius)
+                    {
+
+                        //hardcoding this feels bad i can change this later
+                        enemy.Damage(15);
+
+                    }
+
+                }
+
                 break;
 
             case (4):
@@ -172,6 +192,46 @@ public class RuneEvents : MonoBehaviour
         this.gameObject.SetActive(false);
 
     }
+
+    Enemy secondaryTarget;
+
+    Enemy FindSecondaryTarget(Enemy target)
+    {
+
+        Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+        //Transform[] enemyPositions = new Transform[otherEnemies.Length];
+
+        //for (int i = 0; i < otherEnemies.Length; i++)
+        //{
+
+        //    enemyPositions[i] = otherEnemies[i].transform;
+
+        //}
+
+        float closestDistance = Mathf.Infinity;
+        Vector3 primaryTargetPos = target.gameObject.transform.position;
+
+        foreach(Enemy potentialTarget in otherEnemies)
+        {
+
+            Vector3 dir = potentialTarget.gameObject.transform.position - primaryTargetPos;
+            float distanceFromTarget = dir.sqrMagnitude;
+
+            if(distanceFromTarget < closestDistance)
+            {
+
+                closestDistance = distanceFromTarget;
+                secondaryTarget = potentialTarget;
+
+            }
+
+        }
+
+        return secondaryTarget;
+
+    }
+
 
     /// <summary>
     /// Calls wind rune effect
