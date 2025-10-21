@@ -118,7 +118,7 @@ public class GridTesting : MonoBehaviour
         GridPathfinding[] enemies = FindObjectsByType<GridPathfinding>(FindObjectsSortMode.None);
         int listIndex = 0;
 
-        while(listIndex < enemies.Length)
+        while (listIndex < enemies.Length)
         {
             enemies[listIndex].TestPathfinding();
             yield return new WaitForSeconds(5);
