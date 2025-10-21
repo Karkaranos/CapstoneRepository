@@ -1,13 +1,14 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/6/2025
+Date Last Modified : 	10/20/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
 using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 
 public class Enemy : MonoBehaviour
 {
@@ -60,7 +61,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.StateMachine),
-        Tooltip("Delay between each state transition")]protected float secondsBetweenStateTransitions = 5f;
+        Tooltip("Delay between each state transition")]protected float secondsBetweenStateTransitions = 1f;
 
     protected EnemyStateMachine enemyStateMachine;
 
@@ -91,6 +92,22 @@ public class Enemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         
+    }
+
+    /// <summary>
+    /// Subscribes to BeginEnemyTurn
+    /// </summary>
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginEnemyTurn += RecieveEnemyTurnPing; 
+    }
+
+    /// <summary>
+    /// Unsubscribes from BeginEnemyTurn
+    /// </summary>
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEnemyTurn -= RecieveEnemyTurnPing;
     }
 
     /// <summary>
@@ -142,5 +159,20 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Needed function for the turn manager to acuratly count how many
+    /// enemies there are in the scene
+    /// </summary>
+    private void RecieveEnemyTurnPing()
+    {
+        Debug.Log("Enemy Turn Ping Recieved");
+    }
+
+    /// <summary>
+    /// Virtual method that all specific enemies will define
+    /// that will start their individual state machine
+    /// </summary>
+    public virtual void StartEnemyTurn() {  }
     #endregion
 }
