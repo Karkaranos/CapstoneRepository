@@ -53,9 +53,9 @@ public class GridPathfinding : MonoBehaviour
         this.movementRange = movementRange;
     }
 
-    public void SetAggroRange(int agroRange)
+    public void SetAggroRange(int aggroRange)
     {
-        this.agroRange = agroRange;
+        this.aggroRange = aggroRange;
     }
 
     /// <summary>
