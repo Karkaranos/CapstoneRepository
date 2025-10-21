@@ -18,9 +18,11 @@ public class TargetingBehaviour : MonoBehaviour
     }
     [HideInInspector]
     public TargetingBehaviours behaviours;
-    [HideInInspector]
+    //[HideInInspector]
     public List<Vector2Int> targetLocations = new List<Vector2Int>();
     Vector2Int playerPos;
+    [Tooltip("The attack range of the ranged enemy. Does nothing for enemies without a ranged attack")]
+    [SerializeField] int attackRange;
 
     /// <summary>
     /// Public function that can be called from the statemachine, just make 
@@ -57,7 +59,32 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void RangedTargeting()
     {
-        Debug.Log("I stand still until I get my functionality");
-        //TODO Add the ranged targeting logic and varaibles
+        Debug.Log("HEER");
+        if(attackRange <= 0)
+        {
+            attackRange = 1;
+        }
+
+        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos);
+        List<Vector2Int> newLocations = new List<Vector2Int>();
+        List<Vector2Int> temp = new List<Vector2Int>();
+        for(int i = 1; i < attackRange; ++i)
+        {
+            foreach(Vector2Int v in targetLocations)
+            {
+                temp = GridManager.GetAllValidAdjacentTiles(v);
+                foreach(Vector2Int location in temp)
+                {
+                    newLocations.Add(location);
+                }
+            }
+            targetLocations.Clear();
+
+            foreach(Vector2Int v in newLocations)
+            {
+                targetLocations.Add(v);
+            }
+            newLocations.Clear();
+        }
     }
 }

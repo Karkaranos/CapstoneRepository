@@ -29,7 +29,7 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     public void TestPathfinding()
     {
-        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.melee;
+        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
         GetComponent<TargetingBehaviour>().FindTarget();
         PathfindThroughGrid();
     }
