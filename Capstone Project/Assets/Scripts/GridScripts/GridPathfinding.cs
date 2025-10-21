@@ -53,6 +53,10 @@ public class GridPathfinding : MonoBehaviour
         this.movementRange = movementRange;
     }
 
+    /// <summary>
+    /// Function that enemies call to set their aggro range
+    /// </summary>
+    /// <param name="aggroRange"></param>
     public void SetAggroRange(int aggroRange)
     {
         this.aggroRange = aggroRange;

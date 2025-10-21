@@ -62,7 +62,12 @@ public class MeleeEnemy : Enemy
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
     }
 
-    //TODO: Come back and seeif needed rn
+    /// <summary>
+    /// Start function
+    /// Sets current health = max health 
+    /// Gets componets for GridPathing and targetingbehaviour 
+    /// Sets movement and aggro range 
+    /// </summary>
     private void Start()
     {
         currentHealth = maxHealth;
