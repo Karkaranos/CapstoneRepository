@@ -30,14 +30,14 @@ public class MeleeEnemyAttackState : MeleeEnemyState
             Logger.Log("Enemy State: Attack -> Attack");
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
-            enemy.gridTesting.Pathfind();
+           // enemy.gridTesting.Pathfind();
             return;
         }
 
         //Trigger Enemy end turn
         Logger.Log("Enemy State: Attack -> EndTurn");
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
-        enemy.gridTesting.Pathfind();
+       // enemy.gridTesting.Pathfind();
     }
 
     /// <summary>

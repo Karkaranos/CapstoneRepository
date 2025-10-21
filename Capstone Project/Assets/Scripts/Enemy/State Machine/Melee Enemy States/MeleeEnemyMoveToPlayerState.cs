@@ -41,7 +41,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         {
             Logger.Log("Enemy State: Move -> EndTurn");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
-            enemy.gridTesting.Pathfind();
+            //enemy.gridTesting.Pathfind();
         }
     }
 
