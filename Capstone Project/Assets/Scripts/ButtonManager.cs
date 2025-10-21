@@ -11,17 +11,16 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-    public PlayerBehavior playerBehavior;
-    public GameObject playerCanvas;
-    public GameObject moveCanvas;
-    public GameObject confirmCanvas;
-    [SerializeField] GameObject runeCanvas;
-    public Button moveButton;
-    [SerializeField] Button attackButton;
-    public Button moveChoiceButton;
-    public Button backButton;
-    public Button confirmButton;
-    public Button endButton;
+    private PlayerBehavior playerBehavior;
+    private GameObject playerCanvas;
+    private GameObject moveCanvas;
+    private GameObject confirmCanvas;
+    private GameObject runeCanvas;
+    private Button moveButton;
+    private Button attackButton;
+    private Button backButton;
+    private Button confirmButton;
+    private Button endButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
@@ -34,14 +33,14 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        Button mbtn = moveButton.GetComponent<Button>();
-        Button mcbtn = moveChoiceButton.GetComponent<Button>();
-        Button bbtn = backButton.GetComponent<Button>();
-        Button cbtn = confirmButton.GetComponent<Button>();
-        Button ebtn = endButton.GetComponent<Button>();
-        Canvas pCanvas = playerCanvas.GetComponent<Canvas>();
-        Canvas mCanvas = moveCanvas.GetComponent<Canvas>();
-        Canvas cCanvas = confirmCanvas.GetComponent<Canvas>();
+        Button aButton = FindFirstObjectByType<Button>();
+        Button mbtn = FindFirstObjectByType<Button>();
+        Button bbtn = FindFirstObjectByType<Button>();
+        Button cbtn = FindFirstObjectByType<Button>();
+        Button ebtn = FindFirstObjectByType<Button>();
+        Canvas pCanvas = FindFirstObjectByType<Canvas>();
+        Canvas mCanvas = FindFirstObjectByType<Canvas>();
+        Canvas cCanvas = FindFirstObjectByType<Canvas>();
     }
 
     /// <summary>
@@ -98,23 +97,6 @@ public class ButtonManager : MonoBehaviour
         else
         {
             backButtonClicked = false;
-        }
-    }
-
-    /// <summary>
-    /// Sets the MoveCanvas to false and playerIsGoingToMove bool to true
-    /// </summary>
-    public void MoveChoiceOnClick()
-    {
-        playerIsGoingToMove = true;
-        if (playerIsGoingToMove)
-        {
-            moveCanvas.SetActive(false);
-            //GetComponent<PlayerBehavior>().enabled = true;
-        }
-        else
-        {
-            playerIsGoingToMove = false;
         }
     }
 
