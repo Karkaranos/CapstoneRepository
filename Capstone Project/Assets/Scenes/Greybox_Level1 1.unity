@@ -3339,7 +3339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &627231944
 Transform:
   m_ObjectHideFlags: 0
@@ -12647,9 +12647,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecda01683183da47b41f237838bac9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shownSettings: 0
   currentStatus: 0
   currentHearBackNum: 0
   targetHearBackNum: 99999
+  breakInfLoop: 0
+  gameHasStarted: 0
 --- !u!4 &2031829585
 Transform:
   m_ObjectHideFlags: 0
