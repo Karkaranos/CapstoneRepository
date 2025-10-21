@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
+    #region variables
     private PlayerBehavior playerBehavior;
     private GameObject playerCanvas;
     private GameObject moveCanvas;
@@ -26,6 +27,7 @@ public class ButtonManager : MonoBehaviour
     public bool backButtonClicked;
     public bool confirmButtonClicked;
     public bool endButtonClicked;
+    #endregion
 
     /// <summary>
     /// Grabs the player's script and button objects within the scene
@@ -43,6 +45,7 @@ public class ButtonManager : MonoBehaviour
         Canvas cCanvas = FindFirstObjectByType<Canvas>();
     }
 
+    #region functions
     /// <summary>
     /// Controls the player movement, sets confirm canvas to true
     /// and playerCanvas to false
@@ -144,5 +147,6 @@ public class ButtonManager : MonoBehaviour
         //FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
          //   }
         }
-    }
+    #endregion
+}
 
