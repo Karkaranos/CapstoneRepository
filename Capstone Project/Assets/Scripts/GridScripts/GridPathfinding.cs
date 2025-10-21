@@ -29,7 +29,7 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     public void TestPathfinding()
     {
-        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.melee;
+        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
         GetComponent<TargetingBehaviour>().FindTarget();
         PathfindThroughGrid();
     }
@@ -86,7 +86,7 @@ public class GridPathfinding : MonoBehaviour
             for (int i = 0; i < currentPositions.Count; ++i)
             {
                 myPosition = currentPositions[i];
-                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition);
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition);
 
                 foreach(Vector2Int v in temp)
                 {

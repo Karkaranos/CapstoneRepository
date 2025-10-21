@@ -30,6 +30,7 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     public void FindTarget()
     {
+        targetLocations.Clear();
         playerPos = GridManager.playerPosition;
         switch(behaviours)
         {
@@ -50,7 +51,7 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void MeleeTargeting()
     {
-        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos);
+        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos, GetComponent<GridPathfinding>().MyPosition);
     }
 
     /// <summary>
@@ -65,30 +66,39 @@ public class TargetingBehaviour : MonoBehaviour
             attackRange = 1;
         }
 
-        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos);
+        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos, GetComponent<GridPathfinding>().MyPosition);
+        List<Vector2Int> adTiles = new List<Vector2Int>();
+        foreach (Vector2Int v in targetLocations)
+        {
+            GridManager.combatGrid[v.x, v.y] = 4;
+            adTiles.Add(v);
+        }
         List<Vector2Int> newLocations = new List<Vector2Int>();
-        List<Vector2Int> temp = new List<Vector2Int>();
         for(int i = 1; i < attackRange; ++i)
         {
-            foreach(Vector2Int v in targetLocations)
+            foreach(Vector2Int v in adTiles)
             {
-                temp = GridManager.GetAllValidAdjacentTiles(v);
-                foreach(Vector2Int location in temp)
+                List<Vector2Int> adAdTiles = GridManager.GetAllValidAdjacentTiles(v, GetComponent<GridPathfinding>().MyPosition);
+                foreach(Vector2Int location in adAdTiles)
                 {
                     newLocations.Add(location);
+                    GridManager.combatGrid[location.x, location.y] = 4;
                 }
             }
-            targetLocations.Clear();
-
+            adTiles.Clear();
             foreach(Vector2Int v in newLocations)
             {
-                if (FindIndexDistance(v) >= i)
+                if (FindIndexDistance(v) >= i && !targetLocations.Contains(v))
                 {
                     targetLocations.Add(v);
+                    adTiles.Add(v);
                 }
             }
+            GridManager.DisplayGridAsText();
             newLocations.Clear();
         }
+
+        GridManager.ClearPathfinding();
     }
 
     private int FindIndexDistance(Vector2Int testedTile)
