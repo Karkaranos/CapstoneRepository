@@ -49,6 +49,7 @@ public class GridManager : MonoBehaviour
         {
             playerPosition = locationInGrid;
         }
+        Debug.Log("Add Entity");
     }
 
     /// <summary>
