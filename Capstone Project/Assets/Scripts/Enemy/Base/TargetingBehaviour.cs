@@ -35,6 +35,7 @@ public class TargetingBehaviour : MonoBehaviour
                 MeleeTargeting();
                 break;
             case TargetingBehaviours.ranged:
+                RangedTargeting();
                 break;
             default:
                 Debug.Log("ERROR");
@@ -56,6 +57,7 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void RangedTargeting()
     {
+        Debug.Log("I stand still until I get my functionality");
         //TODO Add the ranged targeting logic and varaibles
     }
 }
