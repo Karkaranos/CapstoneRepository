@@ -115,22 +115,6 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Subscribes to BeginEnemyTurn
-    /// </summary>
-    private void OnEnable()
-    {
-        TurnPublicEvents.BeginEnemyTurn += RecieveEnemyTurnPing; 
-    }
-
-    /// <summary>
-    /// Unsubscribes from BeginEnemyTurn
-    /// </summary>
-    private void OnDisable()
-    {
-        TurnPublicEvents.BeginEnemyTurn -= RecieveEnemyTurnPing;
-    }
-
-    /// <summary>
     /// Damage function for enemy. Public so states can call it
     /// </summary>
     /// <param name="damage"></param>
