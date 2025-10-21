@@ -44,6 +44,15 @@ public class GridPathfinding : MonoBehaviour
     }
 
     /// <summary>
+    /// Function that enemies call to set their movement range
+    /// </summary>
+    /// <param name="movementRange"></param>
+    public void SetMovementRange(int movementRange)
+    {
+        this.movementRange = movementRange;
+    }
+
+    /// <summary>
     /// Takes the current position and pathfinds to a designated location
     /// </summary>
     public void PathfindThroughGrid()
@@ -52,6 +61,7 @@ public class GridPathfinding : MonoBehaviour
         gridDirections.Clear();
 
         int stepsTaken = 0;
+        Debug.Log("Movement Range = " + movementRange);
         List<Vector2Int> nextPositions = new List<Vector2Int>();
         List<Vector2Int> currentPositions = new List<Vector2Int>();
         bool reachedTarget = false;
@@ -176,6 +186,7 @@ public class GridPathfinding : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveEntity()
     {
+        Debug.Log("MOVE ENTITY CORO");
         float tileSizeX = transform.GetComponentInParent<Transform>().localScale.x * 2;
         float tileSizeY = transform.GetComponentInParent<Transform>().localScale.z * 2;
 

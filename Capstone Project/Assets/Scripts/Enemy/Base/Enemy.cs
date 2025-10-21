@@ -62,6 +62,8 @@ public class Enemy : MonoBehaviour
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Movement),
         Tooltip("Movement range of enemy")] protected int movementRange;
+    [HideInInspector] public GridPathfinding gridPathfinding;
+    [HideInInspector] public TargetingBehaviour targetingBehaviour;
 
     #endregion
 
@@ -102,7 +104,9 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        
+        gridPathfinding = GetComponent<GridPathfinding>();
+        targetingBehaviour = GetComponent<TargetingBehaviour>();
+        gridPathfinding.SetMovementRange(movementRange);
     }
 
     /// <summary>

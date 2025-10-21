@@ -9,12 +9,9 @@ using UnityEngine;
 
 public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 {
-    private GridPathfinding gridPathfinding;
 
     public MeleeEnemyMoveToPlayerState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
-    { 
-        gridPathfinding = enemy.GetComponent<GridPathfinding>();
-    }
+    { }
 
     /// <summary>
     /// Enter Move State Logic
@@ -24,14 +21,17 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     {
         Debug.Log("Entered Move State");
         enemy.logText.text = "Moving";
-        gridPathfinding.SetTarget();
-        gridPathfinding.PathfindThroughGrid();
+
+        enemy.targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
+        enemy.targetingBehaviour.FindTarget();
+        enemy.gridPathfinding.PathfindThroughGrid();
 
         enemy.hasMovedForTurn = true;
 
         //TEMP LINE FOR MILESTONE
         enemy.playerInAttackRange = true;
 
+        
         if(enemy.PlayerInAttackRange())
         {
             Logger.Log("Enemy State: Move -> Attack");

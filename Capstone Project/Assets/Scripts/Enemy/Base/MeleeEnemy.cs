@@ -66,6 +66,9 @@ public class MeleeEnemy : Enemy
     private void Start()
     {
         currentHealth = maxHealth;
+        gridPathfinding = GetComponent<GridPathfinding>();
+        targetingBehaviour = GetComponent<TargetingBehaviour>();
+        //gridPathfinding.SetMovementRange(movementRange);
     }
 
     /// <summary>
