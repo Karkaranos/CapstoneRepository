@@ -73,7 +73,7 @@ public class GridPathfinding : MonoBehaviour
         bool reachedTarget = false;
         currentPositions.Add(myPosition);
 
-        while (!reachedTarget && stepsTaken < agroRange)
+        while (!reachedTarget && stepsTaken < aggroRange)
         {
             foreach (Vector2Int v in nextPositions)
             {
