@@ -18,10 +18,10 @@ using UnityEngine.Rendering;
 public class RuneEvents : MonoBehaviour
 {
 
+    #region INITIALIZATION
+
     //for waiting on player input
     bool waitingForThePlayer;
-
-    #region INITIALIZATION
 
     //temp value for player communication
     [SerializeField] TMP_Text temp;
@@ -40,7 +40,7 @@ public class RuneEvents : MonoBehaviour
 
         playerClick.Enable();
         playerClickPerformed.started += playerClickedConfirmed;
-        PublicEvents.RuneSelected += UseSelectedRune;
+        PublicEvents.RuneSelected += StoreSelectedRuneData;
 
     }
 
@@ -52,7 +52,7 @@ public class RuneEvents : MonoBehaviour
 
         playerClick.Disable();
         playerClickPerformed.started -= playerClickedConfirmed;
-        PublicEvents.RuneSelected += UseSelectedRune;
+        PublicEvents.RuneSelected += StoreSelectedRuneData;
 
     }
 
@@ -62,16 +62,21 @@ public class RuneEvents : MonoBehaviour
     #region RUNE EVENTS
 
     private RuneType storedRuneType;
+
     private int storedRuneNumber;
+
     private float storedRuneDamage;
+
     private int storedRuneRange;
 
     /// <summary>
-    /// Stores data for when the player selects an opponent to attack with a rune
+    /// Prepares the rune that the player chooses to attack with
     /// </summary>
-    /// /// <param name="runeType"> Grabs which rune this is </param>
-    /// <param name="runeNumber"> Grabs where this rune is on the skill tree </param>
-    public void UseSelectedRune(RuneType runeType, int runeNumber, float runeDamage, int runeRange)
+    /// /// <param name="runeType"> Rune element </param>
+    /// <param name="runeNumber"> Rune's number on the skill tree </param>
+    /// <param name="runeDamage"> How much damage the rune is supposed to do </param>
+    /// <param name="runeRange"> How close the player has to be to their target </param>
+    public void StoreSelectedRuneData(RuneType runeType, int runeNumber, float runeDamage, int runeRange)
     {
 
         waitingForThePlayer = true;
@@ -97,7 +102,7 @@ public class RuneEvents : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
 
-                if (hit.transform.gameObject.GetComponent<Grid>() != null &&
+                if (hit.transform.gameObject.GetComponent<Enemy>() != null &&
                     Vector2.Distance(hit.transform.position, GridManager.playerPosition) <= storedRuneRange)
                 {
 

@@ -7,6 +7,7 @@ Brief Description : This is the data container for what nodes have
 External Resources : 	
 	***************************************************/
 
+using NaughtyAttributes;
 using UnityEngine;
 
 //this is the general enum for the rune type
@@ -20,31 +21,73 @@ public enum RuneType
 public class RuneData : ScriptableObject
 {
 
-    [Header("ID")]
+    #region SETUP
 
+    public enum Data
+    {
+
+        ID,
+        Stats,
+        VFX
+
+    }
+
+    [SerializeField] private Data currentInspectorShowing;
+
+    #endregion SETUP
+
+
+    #region ID
+
+    [HorizontalLine(4, EColor.Red)]
+
+    [ShowIf(nameof(currentInspectorShowing), Data.ID)]
     //stores the type of rune
     public RuneType TypeOfRune;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.ID)]
     //stores which version of the element it is
     public int NumberOnSkillTree;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.ID)]
     //name of the rune
     public string RuneName;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.ID)]
     //Description of the rune
     public string RuneDescription;
 
+    #endregion ID
 
-    [Header("STATS")]
 
+    #region STATS
+
+    [HorizontalLine(4, EColor.Orange)]
+
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     //Influences how much damage the rune will do
     public float RuneDamage;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     //How far the rune will reach
     public int RuneRange;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     //How many action points this rune will cost to play in combat
     public int RuneActionPoints;
+
+    #endregion STATS
+
+
+    #region VFX
+
+    [HorizontalLine(4, EColor.Yellow)]
+
+    [ShowIf(nameof(currentInspectorShowing), Data.VFX)]
+    //Drop the VFX here!
+    public GameObject RuneVFX;
+
+    #endregion VFX
 
 
     /// <summary>
