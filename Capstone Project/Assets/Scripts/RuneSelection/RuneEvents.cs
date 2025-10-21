@@ -29,12 +29,17 @@ public class RuneEvents : MonoBehaviour
     //for menu-swapping purposes
     [SerializeField] GameObject playerMenu;
 
+    [SerializeField] InputAction playerClick;
+    [SerializeField] InputAction playerClickPerformed;
+
     /// <summary>
     /// Runs whenever this script is loaded into a scene
     /// </summary>
     private void OnEnable()
     {
 
+        playerClick.Enable();
+        playerClickPerformed.started += playerClickedConfirmed;
         PublicEvents.RuneSelected += UseSelectedRune;
 
     }
@@ -45,6 +50,8 @@ public class RuneEvents : MonoBehaviour
     private void OnDisable()
     {
 
+        playerClick.Disable();
+        playerClickPerformed.started -= playerClickedConfirmed;
         PublicEvents.RuneSelected += UseSelectedRune;
 
     }
@@ -78,21 +85,19 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    private void OnMouseDown()
+    private void playerClickedConfirmed(InputAction.CallbackContext context)
     {
-
-        Vector3 mousePos = Input.mousePosition;
 
         if (waitingForThePlayer)
         {
 
-            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            Ray ray = Camera.main.ScreenPointToRay(playerClick.ReadValue<Vector2>());
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
 
-                if (hit.transform.gameObject.GetComponent<Enemy>() != null &&
+                if (hit.transform.gameObject.GetComponent<Grid>() != null &&
                     Vector2.Distance(hit.transform.position, GridManager.playerPosition) <= storedRuneRange)
                 {
 
@@ -128,6 +133,7 @@ public class RuneEvents : MonoBehaviour
     }
 
 
+
     /// <summary>
     /// Calls lightning rune effect
     /// </summary>
@@ -139,22 +145,22 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
-                target.Damage(storedRuneDamage);
+                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
                 break;
 
             case (2):
 
                 FindSecondaryTarget(target);
 
-                target.Damage(storedRuneDamage);
-                secondaryTarget.Damage(storedRuneDamage);
+                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                secondaryTarget.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
                 break;
 
             case (3):
 
                 int radius = 3;
 
-                target.Damage(storedRuneDamage);
+                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
 
                 Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
@@ -165,7 +171,7 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         //hardcoding this feels bad i can change this later
-                        enemy.Damage(15);
+                        enemy.Damage(15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
 
                     }
 
@@ -175,7 +181,7 @@ public class RuneEvents : MonoBehaviour
 
             case (4):
 
-                target.Damage(storedRuneDamage);
+                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
                 break;
 
         }

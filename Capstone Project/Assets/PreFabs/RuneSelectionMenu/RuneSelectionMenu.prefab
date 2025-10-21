@@ -439,10 +439,35 @@ MonoBehaviour:
     m_Name: Player Click
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 7223988f-7e7a-47ae-bcf8-150c8f45d681
+    m_Id: f22f66a7-fb24-4097-b2ef-04f09d81da00
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 88fb3d7a-d229-4bc9-ae96-0324eabe247b
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Click
+      m_Flags: 0
+    m_Flags: 0
+  playerClickPerformed:
+    m_Name: Player Click Performed
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 03eceef4-47c1-44d4-89b3-895a666ac139
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 320a1b6b-bef3-43c2-ba1f-db88ed103fe2
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Click Performed
+      m_Flags: 0
     m_Flags: 0
 --- !u!1 &3039117145697402143
 GameObject:
