@@ -208,20 +208,10 @@ public class RuneEvents : MonoBehaviour
     }
 
     Enemy secondaryTarget;
-
     Enemy FindSecondaryTarget(Enemy target)
     {
 
         Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-
-        //Transform[] enemyPositions = new Transform[otherEnemies.Length];
-
-        //for (int i = 0; i < otherEnemies.Length; i++)
-        //{
-
-        //    enemyPositions[i] = otherEnemies[i].transform;
-
-        //}
 
         float closestDistance = Mathf.Infinity;
         Vector3 primaryTargetPos = target.gameObject.transform.position;
