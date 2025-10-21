@@ -24,6 +24,10 @@ public class MeleeEnemyEndTurnState : MeleeEnemyState
         Debug.Log("End -> Wait");
     }
 
+    /// <summary>
+    /// Exit state logic
+    /// Currently only calls the base which is not implemented 
+    /// </summary>
     public override void ExitState()
     {
         base.ExitState();
