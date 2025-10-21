@@ -23,6 +23,7 @@ public class GridPathfinding : MonoBehaviour
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
+    [SerializeField] protected int aggroRange;
 
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
@@ -52,6 +53,11 @@ public class GridPathfinding : MonoBehaviour
         this.movementRange = movementRange;
     }
 
+    public void SetAggroRange(int agroRange)
+    {
+        this.agroRange = agroRange;
+    }
+
     /// <summary>
     /// Takes the current position and pathfinds to a designated location
     /// </summary>
@@ -67,7 +73,7 @@ public class GridPathfinding : MonoBehaviour
         bool reachedTarget = false;
         currentPositions.Add(myPosition);
 
-        while (!reachedTarget && stepsTaken < movementRange)
+        while (!reachedTarget && stepsTaken < agroRange)
         {
             foreach (Vector2Int v in nextPositions)
             {

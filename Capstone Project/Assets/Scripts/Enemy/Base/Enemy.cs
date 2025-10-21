@@ -53,6 +53,11 @@ public class Enemy : MonoBehaviour
     Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
     protected float artifactDropChance = .5f;
 
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Range player must be in for the enemy to detect them")]
+    protected int aggroRange;
+
     #endregion
 
     #region MOVEMENT VARS
