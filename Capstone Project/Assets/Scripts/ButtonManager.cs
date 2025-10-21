@@ -13,15 +13,15 @@ public class ButtonManager : MonoBehaviour
 {
     #region variables
     private PlayerBehavior playerBehavior;
-    private GameObject playerCanvas;
-    private GameObject moveCanvas;
-    private GameObject confirmCanvas;
-    private GameObject runeCanvas;
-    private Button moveButton;
-    private Button attackButton;
-    private Button backButton;
-    private Button confirmButton;
-    private Button endButton;
+    public GameObject playerCanvas;
+    public GameObject moveCanvas;
+    public GameObject confirmCanvas;
+    public GameObject runeCanvas;
+    public Button moveButton;
+    public Button attackButton;
+    public Button backButton;
+    public Button confirmButton;
+    public Button endButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
@@ -35,14 +35,6 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        Button aButton = FindFirstObjectByType<Button>();
-        Button mbtn = FindFirstObjectByType<Button>();
-        Button bbtn = FindFirstObjectByType<Button>();
-        Button cbtn = FindFirstObjectByType<Button>();
-        Button ebtn = FindFirstObjectByType<Button>();
-        Canvas pCanvas = FindFirstObjectByType<Canvas>();
-        Canvas mCanvas = FindFirstObjectByType<Canvas>();
-        Canvas cCanvas = FindFirstObjectByType<Canvas>();
     }
 
     #region functions
