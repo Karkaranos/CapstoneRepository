@@ -62,14 +62,19 @@ public class MeleeEnemy : Enemy
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
     }
 
-    //TODO: Come back and seeif needed rn
+    /// <summary>
+    /// Start function
+    /// Sets current health = max health 
+    /// Gets componets for GridPathing and targetingbehaviour 
+    /// Sets movement and aggro range 
+    /// </summary>
     private void Start()
     {
-        gridTesting = FindFirstObjectByType<GridTesting>();
-        if (gridTesting == null)
-        {
-            Debug.Log("grid testing == null");
-        }
+        currentHealth = maxHealth;
+        gridPathfinding = GetComponent<GridPathfinding>();
+        targetingBehaviour = GetComponent<TargetingBehaviour>();
+        gridPathfinding.SetMovementRange(movementRange);
+        gridPathfinding.SetAggroRange(aggroRange);
     }
 
     /// <summary>
