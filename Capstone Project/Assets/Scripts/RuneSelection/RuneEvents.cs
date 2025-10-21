@@ -11,6 +11,9 @@ using Mono.Cecil;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using PlayerInputActions;
+using UnityEngine.Rendering;
 
 public class RuneEvents : MonoBehaviour
 {
@@ -65,6 +68,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         waitingForThePlayer = true;
+
         storedRuneType = runeType;
         storedRuneNumber = runeNumber;
         storedRuneDamage = runeDamage;
@@ -85,14 +89,14 @@ public class RuneEvents : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(mousePos);
             RaycastHit hit;
 
-            if(Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit))
             {
 
                 if (hit.transform.gameObject.GetComponent<Enemy>() != null &&
                     Vector2.Distance(hit.transform.position, GridManager.playerPosition) <= storedRuneRange)
                 {
 
-                    switch(storedRuneType)
+                    switch (storedRuneType)
                     {
 
                         case (RuneType.Lightning):
@@ -107,6 +111,8 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
+                    waitingForThePlayer = false;
+
                 }
                 else
                 {
@@ -117,11 +123,10 @@ public class RuneEvents : MonoBehaviour
 
             }
 
-            waitingForThePlayer = false;
-
         }
 
     }
+
 
     /// <summary>
     /// Calls lightning rune effect
@@ -146,8 +151,6 @@ public class RuneEvents : MonoBehaviour
                 break;
 
             case (3):
-
-                //CHECK RANGE
 
                 int radius = 3;
 
@@ -238,6 +241,63 @@ public class RuneEvents : MonoBehaviour
     /// </summary>
     public void SelectWindRune(Enemy target)
     {
+
+        switch (storedRuneNumber)
+        {
+
+            case (1):
+
+                int radius = 3;
+
+                Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+                foreach (Enemy enemy in enemies)
+                {
+
+                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius)
+                    {
+
+                        enemy.Damage(storedRuneDamage);
+                        //PUSH THEM BACK
+
+                    }
+
+                }
+                break;
+
+            case (2):
+
+                target.Damage(storedRuneDamage);
+                break;
+
+            case (3):
+
+                //gulp
+                break;
+
+            case (4):
+
+                int tornadoRadius = 1;
+
+                //MAKE THEM LOSE A TURN
+                target.Damage(storedRuneDamage);
+
+                Enemy[] adjacentEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+                foreach (Enemy enemy in adjacentEnemies)
+                {
+
+                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= tornadoRadius)
+                    {
+
+                        enemy.Damage(storedRuneDamage);
+
+                    }
+
+                }
+                break;
+
+        }
 
         //delete later
         Logger.Log("You used Wind " + storedRuneNumber + "!", false);

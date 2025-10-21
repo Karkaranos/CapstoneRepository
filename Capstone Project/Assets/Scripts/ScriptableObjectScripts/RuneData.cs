@@ -43,6 +43,9 @@ public class RuneData : ScriptableObject
     //How far the rune will reach
     public int RuneRange;
 
+    //How many action points this rune will cost to play in combat
+    public int RuneActionPoints;
+
 
     /// <summary>
     /// constructor
