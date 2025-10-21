@@ -82,9 +82,17 @@ public class TargetingBehaviour : MonoBehaviour
 
             foreach(Vector2Int v in newLocations)
             {
-                targetLocations.Add(v);
+                if (FindIndexDistance(v) >= i)
+                {
+                    targetLocations.Add(v);
+                }
             }
             newLocations.Clear();
         }
+    }
+
+    private int FindIndexDistance(Vector2Int testedTile)
+    {
+        return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - testedTile.y));
     }
 }
