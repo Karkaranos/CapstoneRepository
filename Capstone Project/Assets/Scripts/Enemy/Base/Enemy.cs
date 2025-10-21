@@ -55,6 +55,24 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
+    #region MOVEMENT VARS
+
+    [HorizontalLine(4, EColor.Blue)]
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Movement),
+        Tooltip("Movement range of enemy")] protected int movementRange;
+
+    #endregion
+
+    #region TEST VARS
+
+    [HorizontalLine(4, EColor.Green)]
+
+    [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
+
+    #endregion
+
     #region STATE MACHINE VARS
 
     [HorizontalLine(4, EColor.White)]
@@ -67,14 +85,7 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region TEST VARS
-
-    [HorizontalLine(4, EColor.Green)]
-
-    [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
-    [HideInInspector] public GridTesting gridTesting;
-
-    #endregion
+   
     #endregion
 
     #region FUNCTIONS

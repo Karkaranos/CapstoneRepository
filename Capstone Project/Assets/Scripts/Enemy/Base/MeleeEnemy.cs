@@ -65,11 +65,7 @@ public class MeleeEnemy : Enemy
     //TODO: Come back and seeif needed rn
     private void Start()
     {
-        gridTesting = FindFirstObjectByType<GridTesting>();
-        if (gridTesting == null)
-        {
-            Debug.Log("grid testing == null");
-        }
+        currentHealth = maxHealth;
     }
 
     /// <summary>
