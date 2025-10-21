@@ -196,7 +196,6 @@ public class GridPathfinding : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveEntity()
     {
-        Debug.Log("MOVE ENTITY CORO");
         float tileSizeX = transform.GetComponentInParent<Transform>().localScale.x * 2;
         float tileSizeY = transform.GetComponentInParent<Transform>().localScale.z * 2;
 
