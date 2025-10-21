@@ -39,4 +39,20 @@ public class EnemyStateMachine : MonoBehaviour
         currentState = newState;
         currentState.EnterState();
     }
+
+    /// <summary>
+    /// Change state function that uses chosen seconds rather than the enemy state tranistion time 
+    /// Mainly so the Endstate doesn't need to wait to go to the wait state 
+    /// </summary>
+    /// <param name="newState"></param>
+    /// <param name="seconds"></param>
+    /// <returns></returns>
+    public IEnumerator ChangeState(EnemyState newState, float seconds)
+    {
+        currentState.ExitState();
+        yield return new WaitForSecondsRealtime(seconds);
+        Debug.Log("Changing State...");
+        currentState = newState;
+        currentState.EnterState();
+    }
 }

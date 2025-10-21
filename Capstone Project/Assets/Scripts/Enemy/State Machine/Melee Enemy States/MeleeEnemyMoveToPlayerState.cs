@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/8/2025
+Date Last Modified : 	10/19/2025
 Brief Description : 		Melee Enemy Move State
 External Resources : 	
 ***************************************************/
@@ -39,8 +39,8 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         }
         else
         {
-            Logger.Log("Enemy State: Move -> Wait");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
+            Logger.Log("Enemy State: Move -> EndTurn");
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
             enemy.gridTesting.Pathfind();
         }
     }
