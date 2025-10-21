@@ -5,6 +5,8 @@ Date Last Modified : 	10/2/2025
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
+using NaughtyAttributes;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,16 +14,25 @@ using UnityEngine.UI;
 public class ButtonManager : MonoBehaviour
 {
     #region variables
-    private PlayerBehavior playerBehavior;
-    public GameObject playerCanvas;
-    public GameObject moveCanvas;
-    public GameObject confirmCanvas;
-    public GameObject runeCanvas;
-    public Button moveButton;
-    public Button attackButton;
-    public Button backButton;
-    public Button confirmButton;
-    public Button endButton;
+
+    private enum Buttons
+    {
+        buttonsettings,
+        Refs
+    }
+
+    [SerializeField] private Buttons showingButtons;
+
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private PlayerBehavior playerBehavior;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject confirmCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject runeCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button moveButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button attackButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button backButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button confirmButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button endButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
