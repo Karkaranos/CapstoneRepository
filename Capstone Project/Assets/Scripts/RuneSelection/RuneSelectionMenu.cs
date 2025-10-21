@@ -98,6 +98,8 @@ public class RuneSelectionMenu : MonoBehaviour
 
             //Unnecessary but it'll make upcoming lines of code a bit easier to read
             int runeNumber = skillAndEquipManager.equippedSpells[index].NumberOnSkillTree;
+            float runeDamage = skillAndEquipManager.equippedSpells[index].RuneDamage;
+            int runeRange = skillAndEquipManager.equippedSpells[index].RuneRange;
 
 
             //Links rune effect to button based on rune type
@@ -106,12 +108,12 @@ public class RuneSelectionMenu : MonoBehaviour
 
                 case (RuneType.Lightning):
 
-                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.LightningRuneSelected.Invoke(runeNumber));
+                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke(RuneType.Lightning, runeNumber, runeDamage, runeRange));
                     break;
 
                 case (RuneType.Wind):
 
-                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.WindRuneSelected.Invoke(runeNumber));
+                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke(RuneType.Wind, runeNumber, runeDamage, runeRange));
                     break;
 
             }

@@ -19,6 +19,9 @@ public enum RuneType
 [CreateAssetMenu(fileName = "RuneData", menuName = "RuneData")]
 public class RuneData : ScriptableObject
 {
+
+    [Header("ID")]
+
     //stores the type of rune
     public RuneType TypeOfRune;
 
@@ -31,16 +34,28 @@ public class RuneData : ScriptableObject
     //Description of the rune
     public string RuneDescription;
 
+
+    [Header("STATS")]
+
+    //Influences how much damage the rune will do
+    public float RuneDamage;
+
+    //How far the rune will reach
+    public int RuneRange;
+
+
     /// <summary>
     /// constructor
     /// </summary>
     /// <param name="typeOfRune"> The element of rune this is </param>
     /// <param name="numberOnSkillTree"> which version of the element it is </param>
-    public RuneData(RuneType typeOfRune, int numberOnSkillTree, string RuneName, string RuneDescription)
+    public RuneData(RuneType typeOfRune, int numberOnSkillTree, string RuneName, string RuneDescription, float RuneDamage, int RuneRange)
     {
         this.TypeOfRune = typeOfRune;
         this.NumberOnSkillTree = numberOnSkillTree;
         this.RuneName = RuneName;
         this.RuneDescription = RuneDescription;
+        this.RuneDamage = RuneDamage;
+        this.RuneRange = RuneRange;
     }
 }

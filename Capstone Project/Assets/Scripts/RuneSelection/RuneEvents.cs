@@ -6,11 +6,17 @@ Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using System.Collections;
+using Mono.Cecil;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RuneEvents : MonoBehaviour
 {
+
+    //for waiting on player input
+    bool waitingForThePlayer;
 
     #region INITIALIZATION
 
@@ -26,8 +32,7 @@ public class RuneEvents : MonoBehaviour
     private void OnEnable()
     {
 
-        PublicEvents.LightningRuneSelected += LightningRune;
-        PublicEvents.WindRuneSelected += WindRune;
+        PublicEvents.RuneSelected += UseSelectedRune;
 
     }
 
@@ -37,8 +42,7 @@ public class RuneEvents : MonoBehaviour
     private void OnDisable()
     {
 
-        PublicEvents.LightningRuneSelected -= LightningRune;
-        PublicEvents.WindRuneSelected -= WindRune;
+        PublicEvents.RuneSelected += UseSelectedRune;
 
     }
 
@@ -47,16 +51,115 @@ public class RuneEvents : MonoBehaviour
 
     #region RUNE EVENTS
 
+    private RuneType storedRuneType;
+    private int storedRuneNumber;
+    private float storedRuneDamage;
+    private int storedRuneRange;
+
+    /// <summary>
+    /// Stores data for when the player selects an opponent to attack with a rune
+    /// </summary>
+    /// /// <param name="runeType"> Grabs which rune this is </param>
+    /// <param name="runeNumber"> Grabs where this rune is on the skill tree </param>
+    public void UseSelectedRune(RuneType runeType, int runeNumber, float runeDamage, int runeRange)
+    {
+
+        waitingForThePlayer = true;
+        storedRuneType = runeType;
+        storedRuneNumber = runeNumber;
+        storedRuneDamage = runeDamage;
+        storedRuneRange = runeRange;
+
+        temp.text = "Select a target!";
+
+    }
+
+    private void OnMouseDown()
+    {
+
+        Vector3 mousePos = Input.mousePosition;
+
+        if (waitingForThePlayer)
+        {
+
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            RaycastHit hit;
+
+            if(Physics.Raycast(ray, out hit))
+            {
+
+                if (hit.transform.gameObject.GetComponent<Enemy>() != null &&
+                    Vector2.Distance(hit.transform.position, GridManager.playerPosition) <= storedRuneRange)
+                {
+
+                    switch(storedRuneType)
+                    {
+
+                        case (RuneType.Lightning):
+
+                            SelectLightningRune(hit.transform.gameObject.GetComponent<Enemy>());
+                            break;
+
+                        case (RuneType.Wind):
+
+                            SelectWindRune(hit.transform.gameObject.GetComponent<Enemy>());
+                            break;
+
+                    }
+
+                }
+                else
+                {
+
+                    temp.text = "Attack cancelled! Was the enemy in range?";
+
+                }
+
+            }
+
+            waitingForThePlayer = false;
+
+        }
+
+    }
+
     /// <summary>
     /// Calls lightning rune effect
     /// </summary>
-    /// <param name="runeNumber"> Grabs where this rune is on the skill tree </param>
-    public void LightningRune(int runeNumber)
+    public void SelectLightningRune(Enemy target)
     {
 
+        switch(storedRuneNumber)
+        {
+
+            case (1):
+
+                target.Damage(storedRuneDamage);
+                break;
+
+            case (2):
+
+                //CHECK RANGE
+                target.Damage(storedRuneDamage);
+                break;
+
+            case (3):
+
+                //CHECK RANGE
+
+                target.Damage(storedRuneDamage);
+                break;
+
+            case (4):
+
+                target.Damage(storedRuneDamage);
+                break;
+
+        }
+
         //delete later
-        Logger.Log("You used Lightning " + runeNumber + "!", false);
-        temp.text = "You used Lightning " + runeNumber + "!";
+        Logger.Log("You used Lightning " + storedRuneNumber + "!", false);
+        temp.text = "You used Lightning " + storedRuneNumber + "!";
 
         if(PublicEvents.EnemyTurnStarted != null)
         {
@@ -73,13 +176,12 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// Calls wind rune effect
     /// </summary>
-    /// <param name="runeNumber"> Grabs where this rune is on the skill tree </param>
-    public void WindRune(int runeNumber)
+    public void SelectWindRune(Enemy target)
     {
 
         //delete later
-        Logger.Log("You used Wind " + runeNumber + "!", false);
-        temp.text = "You used Wind " + runeNumber + "!";
+        Logger.Log("You used Wind " + storedRuneNumber + "!", false);
+        temp.text = "You used Wind " + storedRuneNumber + "!";
 
         if (PublicEvents.EnemyTurnStarted != null)
         {
