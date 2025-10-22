@@ -151,11 +151,14 @@ public class GridManager : MonoBehaviour
     /// <param name="entityType"></param> The int classification of the entity
     public static void MoveToTile(Vector2Int originalTile ,Vector2Int tileMovedTo, int entityType)
     {
-        combatGrid[originalTile.x, originalTile.y] = -1;
-        combatGrid[tileMovedTo.x, tileMovedTo.y] = entityType;
-        if(entityType == -3)
+        if (originalTile != tileMovedTo)
         {
-            playerPosition = tileMovedTo;
+            combatGrid[originalTile.x, originalTile.y] = -1;
+            combatGrid[tileMovedTo.x, tileMovedTo.y] = entityType;
+            if (entityType == -3)
+            {
+                playerPosition = tileMovedTo;
+            }
         }
     }
 

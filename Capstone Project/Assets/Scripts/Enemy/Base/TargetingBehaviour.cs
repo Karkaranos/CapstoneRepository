@@ -24,6 +24,9 @@ public class TargetingBehaviour : MonoBehaviour
     [Tooltip("The attack range of the ranged enemy. Does nothing for enemies without a ranged attack")]
     [SerializeField] int attackRange;
 
+    [Tooltip("Set to true if you want the ranged enemy to have to be at it's max range to attack")]
+    [SerializeField] bool moveToAttackRange;
+
     /// <summary>
     /// Public function that can be called from the statemachine, just make 
     /// sure to change the TargetingBehaviours enum first
@@ -60,6 +63,7 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void RangedTargeting()
     {
+        Debug.Log("AR = " + attackRange);
         if(attackRange <= 0)
         {
             attackRange = 1;
@@ -73,8 +77,12 @@ public class TargetingBehaviour : MonoBehaviour
             adTiles.Add(v);
         }
         List<Vector2Int> newLocations = new List<Vector2Int>();
-        for(int i = 1; i < attackRange; ++i)
+        for(int i = 1; i <= attackRange; ++i)
         {
+            if(moveToAttackRange)
+            {
+                targetLocations.Clear();
+            }
             foreach(Vector2Int v in adTiles)
             {
                 if (FindIndexDistance(v) >= i && !targetLocations.Contains(v))

@@ -165,7 +165,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPosition: {x: 0, y: 0}
   targetPosition: {x: 0, y: 0}
-  movementRange: 7
+  nextPos: []
+  gridDirections: []
+  movementRange: 1
+  aggroRange: 9
 --- !u!114 &-6848072721232018019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,4 +183,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviours: 0
   targetLocations: []
-  attackRange: 7
+  attackRange: 2
+  moveToAttackRange: 0

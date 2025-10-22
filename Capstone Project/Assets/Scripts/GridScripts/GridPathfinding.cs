@@ -19,7 +19,8 @@ public class GridPathfinding : MonoBehaviour
     }
     [SerializeField] protected Vector2Int myPosition;
     [SerializeField] protected Vector2Int targetPosition;
-    protected List<string> gridDirections = new List<string>();
+    [SerializeField] List<Vector2Int> nextPos = new List<Vector2Int>();
+    [SerializeField] protected List<string> gridDirections = new List<string>();
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
@@ -67,6 +68,8 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     public void PathfindThroughGrid()
     {
+        nextPos.Clear();
+        nextPos.Add(targetPosition);
         Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
 
@@ -183,6 +186,7 @@ public class GridPathfinding : MonoBehaviour
                     ++targetPosition.y;
                 }
             }
+            nextPos.Add(targetPosition);
         }
 
         targetPosition = originalTarget;
@@ -202,6 +206,8 @@ public class GridPathfinding : MonoBehaviour
         Vector3 newPosition = GetComponentInParent<Transform>().position;
 
         int max = movementRange > gridDirections.Count ? gridDirections.Count : movementRange;
+
+        Vector2Int nextPosition = nextPos[(nextPos.Count - max - 1)];
 
         //Uses a list of directions to move an enemy along a path
         for (int i = max - 1; i >= 0; --i)
@@ -241,7 +247,7 @@ public class GridPathfinding : MonoBehaviour
             Debug.Log("Moved");
         }
         GridManager.ClearPathfinding();
-        GridManager.combatGrid[myPosition.x, myPosition.y] = -1;
-        myPosition = targetPosition;
+        GridManager.MoveToTile(myPosition, nextPosition, -2);
+        myPosition = nextPosition;
     }
 }
