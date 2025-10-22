@@ -53,6 +53,31 @@ public class Enemy : MonoBehaviour
     Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
     protected float artifactDropChance = .5f;
 
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Range player must be in for the enemy to detect them")]
+    protected int aggroRange;
+
+    #endregion
+
+    #region MOVEMENT VARS
+
+    [HorizontalLine(4, EColor.Blue)]
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Movement),
+        Tooltip("Movement range of enemy")] protected int movementRange;
+    [HideInInspector] public GridPathfinding gridPathfinding;
+    [HideInInspector] public TargetingBehaviour targetingBehaviour;
+
+    #endregion
+
+    #region TEST VARS
+
+    [HorizontalLine(4, EColor.Green)]
+
+    [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
+
     #endregion
 
     #region STATE MACHINE VARS
@@ -67,14 +92,7 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region TEST VARS
-
-    [HorizontalLine(4, EColor.Green)]
-
-    [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
-    [HideInInspector] public GridTesting gridTesting;
-
-    #endregion
+   
     #endregion
 
     #region FUNCTIONS
@@ -91,7 +109,9 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        
+        gridPathfinding = GetComponent<GridPathfinding>();
+        targetingBehaviour = GetComponent<TargetingBehaviour>();
+        gridPathfinding.SetMovementRange(movementRange);
     }
 
     /// <summary>
