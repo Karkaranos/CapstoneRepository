@@ -7,6 +7,7 @@ External Resources :
 	***************************************************/
 
 using System;
+using UnityEngine;
 
 public static class PublicEvents
 {
@@ -19,6 +20,8 @@ public static class PublicEvents
 
     //Triggers whenever the player is done playing a spell
     public static Action EnemyTurnStarted;
+
+    public static Action<TileBehavior> SelectTile;
 
 
     #region RUNE EVENTS

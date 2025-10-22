@@ -14,11 +14,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using PlayerInputActions;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
+using NaughtyAttributes;
 
 public class RuneEvents : MonoBehaviour
 {
 
     #region INITIALIZATION
+
+    [SerializeField] TileBehavior tileBehavior;
+
+    [Button("Attack Tile Test")]
+    public void AttackTileTest()
+    {
+
+        storedRuneType = RuneType.Lightning;
+        storedRuneNumber = 1;
+        storedRuneDamage = 40;
+        storedRuneRange = 10;
+        TargetSelectedTile(tileBehavior);
+
+    }
 
     //for waiting on player input
     bool waitingForThePlayer;
@@ -26,11 +42,13 @@ public class RuneEvents : MonoBehaviour
     //temp value for player communication
     [SerializeField] TMP_Text temp;
 
+    public List<GameObject> runeVisuals = new List<GameObject>();
+
     //for menu-swapping purposes
     [SerializeField] GameObject playerMenu;
 
-    [SerializeField] InputAction playerClick;
-    [SerializeField] InputAction playerClickPerformed;
+    //[SerializeField] InputAction playerClick;
+    //[SerializeField] InputAction playerClickPerformed;
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
@@ -38,8 +56,9 @@ public class RuneEvents : MonoBehaviour
     private void OnEnable()
     {
 
-        playerClick.Enable();
-        playerClickPerformed.started += playerClickedConfirmed;
+        //playerClick.Enable();
+        //playerClickPerformed.started += playerClickedConfirmed;
+        PublicEvents.SelectTile += TargetSelectedTile;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
 
     }
@@ -50,9 +69,10 @@ public class RuneEvents : MonoBehaviour
     private void OnDisable()
     {
 
-        playerClick.Disable();
-        playerClickPerformed.started -= playerClickedConfirmed;
-        PublicEvents.RuneSelected += StoreSelectedRuneData;
+        //playerClick.Disable();
+        //playerClickPerformed.started -= playerClickedConfirmed;
+        PublicEvents.SelectTile -= TargetSelectedTile;
+        PublicEvents.RuneSelected -= StoreSelectedRuneData;
 
     }
 
@@ -90,50 +110,66 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    private void playerClickedConfirmed(InputAction.CallbackContext context)
+    //for later
+    GameObject visual;
+
+    public void TargetSelectedTile(TileBehavior tile)
     {
 
-        if (waitingForThePlayer)
+        Debug.Log("You made it!");
+
+        if(waitingForThePlayer && 
+            Vector2.Distance(tile.transform.position, GridManager.playerPosition) <= storedRuneRange &&
+            tile.gameObject.GetComponentInChildren<Enemy>() != null)
         {
 
-            Ray ray = Camera.main.ScreenPointToRay(playerClick.ReadValue<Vector2>());
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-
-                if (hit.transform.gameObject.GetComponent<Enemy>() != null &&
-                    Vector2.Distance(hit.transform.position, GridManager.playerPosition) <= storedRuneRange)
-                {
-
-                    switch (storedRuneType)
+             switch (storedRuneType)
                     {
 
                         case (RuneType.Lightning):
 
-                            SelectLightningRune(hit.transform.gameObject.GetComponent<Enemy>());
+                            //visual = Instantiate(runeVisuals[0]);
+                            //visual.transform.position = FindFirstObjectByType<PlayerBehavior>().transform.position;
+
+                            SelectLightningRune(tile);
                             break;
 
                         case (RuneType.Wind):
 
-                            SelectWindRune(hit.transform.gameObject.GetComponent<Enemy>());
+                            SelectWindRune(tile);
+                            break;
+
+                        default:
                             break;
 
                     }
 
                     waitingForThePlayer = false;
 
-                }
-                else
-                {
+        }
 
-                    temp.text = "Attack cancelled! Was the enemy in range?";
+    }
 
-                }
+    //work on this later
 
-            }
+    IEnumerator LightningRuneAnimation(TileBehavior target)
+    {
+        int timer = 0;
+        Vector3 startingPos = visual.transform.position;
+
+        while (timer < 1)
+        {
+
+            visual.transform.position = Vector3.Lerp
+                (startingPos, target.GetComponentInChildren<Enemy>().transform.position, timer);
+            timer++;
+
+            yield return new WaitForSeconds(1);
 
         }
+
+        visual.transform.position = target.GetComponentInChildren<Enemy>().transform.position;
+        SelectLightningRune(target);
 
     }
 
@@ -142,41 +178,47 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// Calls lightning rune effect
     /// </summary>
-    public void SelectLightningRune(Enemy target)
+    public void SelectLightningRune(TileBehavior target)
     {
 
-        switch(storedRuneNumber)
+        switch (storedRuneNumber)
         {
 
             case (1):
 
-                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                target.GetComponentInChildren<Enemy>().Damage
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
                 break;
 
             case (2):
 
                 FindSecondaryTarget(target);
 
-                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-                secondaryTarget.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                target.GetComponentInChildren<Enemy>().Damage
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                secondaryTarget.GetComponentInChildren<Enemy>().Damage
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
                 break;
 
             case (3):
 
                 int radius = 3;
 
-                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                target.GetComponentInChildren<Enemy>().Damage
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
 
-                Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+                TileBehavior[] enemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
 
-                foreach (Enemy enemy in enemies)
+                foreach (TileBehavior enemy in enemies)
                 {
 
-                    if(Vector2.Distance(target.transform.position, enemy.transform.position) <= radius)
+                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius &&
+                        enemy.GetComponentInChildren<Enemy>() != null)
                     {
 
                         //hardcoding this feels bad i can change this later
-                        enemy.Damage(15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                        enemy.GetComponentInChildren<Enemy>().Damage
+                            (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
 
                     }
 
@@ -186,9 +228,12 @@ public class RuneEvents : MonoBehaviour
 
             case (4):
 
-                target.Damage(storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                target.GetComponentInChildren<Enemy>().Damage
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
                 break;
 
+            default:
+                break;
         }
 
         //delete later
@@ -207,22 +252,22 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    Enemy secondaryTarget;
-    Enemy FindSecondaryTarget(Enemy target)
+    TileBehavior secondaryTarget;
+    TileBehavior FindSecondaryTarget(TileBehavior target)
     {
 
-        Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        TileBehavior[] otherEnemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
 
         float closestDistance = Mathf.Infinity;
         Vector3 primaryTargetPos = target.gameObject.transform.position;
 
-        foreach(Enemy potentialTarget in otherEnemies)
+        foreach(TileBehavior potentialTarget in otherEnemies)
         {
 
             Vector3 dir = potentialTarget.gameObject.transform.position - primaryTargetPos;
             float distanceFromTarget = dir.sqrMagnitude;
 
-            if(distanceFromTarget < closestDistance)
+            if(distanceFromTarget < closestDistance && potentialTarget.GetComponentInChildren<Enemy>() != null)
             {
 
                 closestDistance = distanceFromTarget;
@@ -240,7 +285,7 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// Calls wind rune effect
     /// </summary>
-    public void SelectWindRune(Enemy target)
+    public void SelectWindRune(TileBehavior target)
     {
 
         switch (storedRuneNumber)
@@ -250,15 +295,17 @@ public class RuneEvents : MonoBehaviour
 
                 int radius = 3;
 
-                Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+                TileBehavior[] enemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
 
-                foreach (Enemy enemy in enemies)
+                foreach (TileBehavior enemy in enemies)
                 {
 
-                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius)
+                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius &&
+                        target.GetComponentInChildren<Enemy>() != null)
                     {
 
-                        enemy.Damage(storedRuneDamage);
+                        target.GetComponentInChildren<Enemy>().Damage
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
                         //PUSH THEM BACK
 
                     }
@@ -268,7 +315,8 @@ public class RuneEvents : MonoBehaviour
 
             case (2):
 
-                target.Damage(storedRuneDamage);
+                target.GetComponentInChildren<Enemy>().Damage
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
                 break;
 
             case (3):
@@ -281,17 +329,20 @@ public class RuneEvents : MonoBehaviour
                 int tornadoRadius = 1;
 
                 //MAKE THEM LOSE A TURN
-                target.Damage(storedRuneDamage);
+                target.GetComponentInChildren<Enemy>().Damage
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
 
-                Enemy[] adjacentEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+                TileBehavior[] adjacentEnemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
 
-                foreach (Enemy enemy in adjacentEnemies)
+                foreach (TileBehavior enemy in adjacentEnemies)
                 {
 
-                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= tornadoRadius)
+                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= tornadoRadius &&
+                        target.GetComponentInChildren<Enemy>() != null)
                     {
 
-                        enemy.Damage(storedRuneDamage);
+                        enemy.GetComponentInChildren<Enemy>().Damage
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
 
                     }
 
