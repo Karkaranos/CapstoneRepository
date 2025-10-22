@@ -14,5 +14,5 @@ public class Obstacle : MonoBehaviour
     [SerializeField, ShowIf(nameof(type), ObstacleType.damage)] private float damageAmount;
     [SerializeField, ShowIf(nameof(type), ObstacleType.slow)] private int turnsRemoved;
 
-
+    
 }
