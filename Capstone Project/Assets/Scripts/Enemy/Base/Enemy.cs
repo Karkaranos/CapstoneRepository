@@ -49,11 +49,6 @@ public class Enemy : MonoBehaviour
     [HorizontalLine(4, EColor.Pink)]
 
     [SerializeField,
-    ShowIf(nameof(currentSettings), Settings.Combat),
-    Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
-    protected float artifactDropChance = .5f;
-
-    [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Combat),
         Tooltip("Range player must be in for the enemy to detect them")]
     protected int aggroRange;
@@ -63,6 +58,17 @@ public class Enemy : MonoBehaviour
         Tooltip("Range the player must be in for the enemy to hit them")]
     protected int attackRange;
 
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Amout of damage the enemy does to the player")]
+    public int damage;
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
+    protected float artifactDropChance = .5f;
+
+    // Hidden Vars
     [HideInInspector] public PlayerStats playerStats;
 
     #endregion
@@ -183,9 +189,15 @@ public class Enemy : MonoBehaviour
 
     #region GETTERS AND SETTERS
     
+    /// <summary>
+    /// Getter for if the player is in the attack range of the enemy
+    /// </summary>
+    /// <returns></returns>
     public bool getPlayerInAttackRange()
     {
-        return false;
+        //TODO: Once Brad gets GridPathfinding Fixed
+        // Check if target pos = current pos
+        return true;
     }
 
     #endregion

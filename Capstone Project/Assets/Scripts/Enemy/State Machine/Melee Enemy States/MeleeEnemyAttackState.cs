@@ -22,9 +22,11 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         Debug.Log("Entered Attacking state");
 
         enemy.logText.text = "Attacking";
-        //TODO ATTACK LOGIC
 
-        if(enemy.playerInAttackRange)
+        if (enemy.getPlayerInAttackRange())
+        {
+            enemy.playerStats.TakeDamage(enemy.damage);
+        }
         
         //If enemy can attack twice and hasn't yet call Attack state again 
         if(enemy.canAttackTwice && !enemy.hasAttackedTwice)

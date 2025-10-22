@@ -19,7 +19,8 @@ public class MeleeEnemy : Enemy
 
     //Vars related to Melee enemy combat
     #region COMBAT VARS
-    
+
+    [Header("Melee Enemy Specfic")]
     [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
     
     #endregion
