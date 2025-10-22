@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/7/2025
+ * Last Modified: 10/21/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -23,23 +23,43 @@ public class GridPathfinding : MonoBehaviour
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
+    [SerializeField] protected int aggroRange;
 
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
     /// </summary>
     public void TestPathfinding()
     {
-        SetTarget();
+        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.melee;
+        GetComponent<TargetingBehaviour>().FindTarget();
         PathfindThroughGrid();
     }
 
-    /// <summary>
-    /// Currently sets the player as the target position. Will need to be replaced when the actually targeting is implemented
-    /// </summary>
+    ///// <summary>
+    ///// No longer does anything but is kept because it would cause issues with the state machine if removed
+    ///// </summary>
     virtual public void SetTarget()
     {
-        Debug.Log(GridManager.playerPosition);
-        targetPosition = GridManager.playerPosition;
+        Debug.Log("I do nothing now");
+        //targetPosition = GridManager.playerPosition;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their movement range
+    /// </summary>
+    /// <param name="movementRange"></param>
+    public void SetMovementRange(int movementRange)
+    {
+        this.movementRange = movementRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their aggro range
+    /// </summary>
+    /// <param name="aggroRange"></param>
+    public void SetAggroRange(int aggroRange)
+    {
+        this.aggroRange = aggroRange;
     }
 
     /// <summary>
@@ -51,12 +71,13 @@ public class GridPathfinding : MonoBehaviour
         gridDirections.Clear();
 
         int stepsTaken = 0;
+        Debug.Log("Movement Range = " + movementRange);
         List<Vector2Int> nextPositions = new List<Vector2Int>();
         List<Vector2Int> currentPositions = new List<Vector2Int>();
         bool reachedTarget = false;
         currentPositions.Add(myPosition);
 
-        while (!reachedTarget && stepsTaken < movementRange)
+        while (!reachedTarget && stepsTaken < aggroRange)
         {
             foreach (Vector2Int v in nextPositions)
             {
@@ -66,8 +87,9 @@ public class GridPathfinding : MonoBehaviour
             //Add the potential tiles to be checked for movement or the target
             foreach (Vector2Int currentTile in currentPositions)
             {
-                if (currentTile == targetPosition)
+                if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
                 {
+                    targetPosition = currentTile;
                     reachedTarget = true;
                     currentPositions.Clear();
                     break;
@@ -84,52 +106,11 @@ public class GridPathfinding : MonoBehaviour
             for (int i = 0; i < currentPositions.Count; ++i)
             {
                 myPosition = currentPositions[i];
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition);
 
-                if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y)))
+                foreach(Vector2Int v in temp)
                 {
-                    nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y));
-                }
-                if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x - 1, myPosition.y)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x - 1, myPosition.y)))
-                {
-                    nextPositions.Add(new Vector2Int(myPosition.x - 1, myPosition.y));
-                }
-                if (myPosition.y % 2 == 0)
-                {
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x - 1, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x - 1, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x - 1, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y - 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x - 1, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x - 1, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x - 1, myPosition.y - 1));
-                    }
-                }
-                else
-                {
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y - 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y - 1));
-                    }
+                    nextPositions.Add(v);
                 }
             }
             currentPositions.Clear();

@@ -1,13 +1,14 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/6/2025
+Date Last Modified : 	10/20/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
 using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 
 public class Enemy : MonoBehaviour
 {
@@ -52,17 +53,22 @@ public class Enemy : MonoBehaviour
     Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
     protected float artifactDropChance = .5f;
 
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Range player must be in for the enemy to detect them")]
+    protected int aggroRange;
+
     #endregion
 
-    #region STATE MACHINE VARS
+    #region MOVEMENT VARS
 
-    [HorizontalLine(4, EColor.White)]
+    [HorizontalLine(4, EColor.Blue)]
 
     [SerializeField,
-        ShowIf(nameof(currentSettings), Settings.StateMachine),
-        Tooltip("Delay between each state transition")]protected float secondsBetweenStateTransitions = 5f;
-
-    protected EnemyStateMachine enemyStateMachine;
+        ShowIf(nameof(currentSettings), Settings.Movement),
+        Tooltip("Movement range of enemy")] protected int movementRange;
+    [HideInInspector] public GridPathfinding gridPathfinding;
+    [HideInInspector] public TargetingBehaviour targetingBehaviour;
 
     #endregion
 
@@ -71,9 +77,22 @@ public class Enemy : MonoBehaviour
     [HorizontalLine(4, EColor.Green)]
 
     [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
-    [HideInInspector] public GridTesting gridTesting;
 
     #endregion
+
+    #region STATE MACHINE VARS
+
+    [HorizontalLine(4, EColor.White)]
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.StateMachine),
+        Tooltip("Delay between each state transition")]protected float secondsBetweenStateTransitions = 1f;
+
+    protected EnemyStateMachine enemyStateMachine;
+
+    #endregion
+
+   
     #endregion
 
     #region FUNCTIONS
@@ -90,7 +109,25 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        
+        gridPathfinding = GetComponent<GridPathfinding>();
+        targetingBehaviour = GetComponent<TargetingBehaviour>();
+        gridPathfinding.SetMovementRange(movementRange);
+    }
+
+    /// <summary>
+    /// Subscribes to BeginEnemyTurn
+    /// </summary>
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginEnemyTurn += RecieveEnemyTurnPing; 
+    }
+
+    /// <summary>
+    /// Unsubscribes from BeginEnemyTurn
+    /// </summary>
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEnemyTurn -= RecieveEnemyTurnPing;
     }
 
     /// <summary>
@@ -142,5 +179,20 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Needed function for the turn manager to acuratly count how many
+    /// enemies there are in the scene
+    /// </summary>
+    private void RecieveEnemyTurnPing()
+    {
+        Debug.Log("Enemy Turn Ping Recieved");
+    }
+
+    /// <summary>
+    /// Virtual method that all specific enemies will define
+    /// that will start their individual state machine
+    /// </summary>
+    public virtual void StartEnemyTurn() {  }
     #endregion
 }

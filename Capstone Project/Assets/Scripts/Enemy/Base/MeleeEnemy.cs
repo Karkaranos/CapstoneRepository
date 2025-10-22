@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/7/2025
+Date Last Modified : 	10/20/2025
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -33,6 +33,7 @@ public class MeleeEnemy : Enemy
     private MeleeEnemyRunState enemyRunState; 
     private MeleeEnemyMoveToPlayerState moveToPlayerState;
     private MeleeEnemyAttackState attackState;
+    private MeleeEnemyEndTurnState endTurnState;
 
     #endregion
 
@@ -57,39 +58,32 @@ public class MeleeEnemy : Enemy
         enemyRunState = new MeleeEnemyRunState(this,enemyStateMachine);
         moveToPlayerState = new MeleeEnemyMoveToPlayerState(this,enemyStateMachine);
         attackState = new MeleeEnemyAttackState(this,enemyStateMachine);
+        endTurnState = new MeleeEnemyEndTurnState(this,enemyStateMachine);
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
     }
 
     /// <summary>
-    /// Link EnemyTurnStarted event to StartEnemyTurn function
+    /// Start function
+    /// Sets current health = max health 
+    /// Gets componets for GridPathing and targetingbehaviour 
+    /// Sets movement and aggro range 
     /// </summary>
-    private void OnEnable()
-    {
-        //PublicEvents.EnemyTurnStarted += StartEnemyTurn;
-        TurnPublicEvents.BeginEnemyTurn += StartEnemyTurn;
-    }
-
-    private void OnDisable()
-    {
-        //PublicEvents.EnemyTurnStarted -= StartEnemyTurn;
-        TurnPublicEvents.BeginEnemyTurn -= StartEnemyTurn;
-    }
-
     private void Start()
     {
-        gridTesting = FindFirstObjectByType<GridTesting>();
-        if (gridTesting == null)
-        {
-            Debug.Log("grid testing == null");
-        }
+        currentHealth = maxHealth;
+        gridPathfinding = GetComponent<GridPathfinding>();
+        targetingBehaviour = GetComponent<TargetingBehaviour>();
+        gridPathfinding.SetMovementRange(movementRange);
+        gridPathfinding.SetAggroRange(aggroRange);
     }
+
     /// <summary>
     /// Defines under what path the state machine should take 
     /// under what conditions at the start of the 
     /// enemies turn 
     /// </summary>
     [Button("Start Enemy Turn")]
-    private void StartEnemyTurn()
+    public override void StartEnemyTurn()
     {
         //if low health go to run state
         if(LowHealthDetection())
@@ -144,6 +138,7 @@ public class MeleeEnemy : Enemy
     /// <returns></returns>
     public MeleeEnemyWaitState GetWaitState() {  return enemyWaitState; }
     public MeleeEnemyAttackState GetAttackState() {  return attackState; }
+    public MeleeEnemyEndTurnState GetEndTurnState() { return endTurnState; }
 
     #endregion
 }
