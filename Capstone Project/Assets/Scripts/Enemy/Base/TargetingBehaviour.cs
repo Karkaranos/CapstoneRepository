@@ -60,7 +60,6 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void RangedTargeting()
     {
-        Debug.Log("HEER");
         if(attackRange <= 0)
         {
             attackRange = 1;
@@ -78,23 +77,23 @@ public class TargetingBehaviour : MonoBehaviour
         {
             foreach(Vector2Int v in adTiles)
             {
-                List<Vector2Int> adAdTiles = GridManager.GetAllValidAdjacentTiles(v, GetComponent<GridPathfinding>().MyPosition);
-                foreach(Vector2Int location in adAdTiles)
+                if (FindIndexDistance(v) >= i && !targetLocations.Contains(v))
                 {
-                    newLocations.Add(location);
-                    GridManager.combatGrid[location.x, location.y] = 4;
+                    targetLocations.Add(v);
+                }
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(v, GetComponent<GridPathfinding>().MyPosition);
+                
+                //Populates the next potential tiles to be chosen
+                foreach(Vector2Int j in temp)
+                {
+                    newLocations.Add(j);
                 }
             }
             adTiles.Clear();
             foreach(Vector2Int v in newLocations)
             {
-                if (FindIndexDistance(v) >= i && !targetLocations.Contains(v))
-                {
-                    targetLocations.Add(v);
-                    adTiles.Add(v);
-                }
+                adTiles.Add(v);
             }
-            GridManager.DisplayGridAsText();
             newLocations.Clear();
         }
 
@@ -103,6 +102,11 @@ public class TargetingBehaviour : MonoBehaviour
 
     private int FindIndexDistance(Vector2Int testedTile)
     {
-        return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - testedTile.y));
+        if(testedTile.x <= 0)
+        {
+            Debug.Log("HEHEHEHEHHEHHEHEHE");
+            return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - testedTile.y));
+        }
+        return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - (Mathf.CeilToInt((float) testedTile.y / 2))));
     }
 }
