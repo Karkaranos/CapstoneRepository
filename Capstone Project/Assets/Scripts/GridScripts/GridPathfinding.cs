@@ -93,6 +93,7 @@ public class GridPathfinding : MonoBehaviour
                 if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
                 {
                     targetPosition = currentTile;
+                    nextPos.Add(targetPosition);
                     reachedTarget = true;
                     currentPositions.Clear();
                     break;
@@ -205,12 +206,14 @@ public class GridPathfinding : MonoBehaviour
 
         Vector3 newPosition = GetComponentInParent<Transform>().position;
 
-        int max = movementRange > gridDirections.Count ? gridDirections.Count : movementRange;
+        int max = gridDirections.Count - 1;
+        int min = movementRange > gridDirections.Count ? 0 : gridDirections.Count - movementRange;
+        
 
-        Vector2Int nextPosition = nextPos[(nextPos.Count - max - 1)];
+        Vector2Int nextPosition = nextPos[gridDirections.Count];
 
         //Uses a list of directions to move an enemy along a path
-        for (int i = max - 1; i >= 0; --i)
+        for (int i = max; i >= min; --i)
         {
             yield return new WaitForSeconds(.5f);
             Debug.Log("Wait over");
