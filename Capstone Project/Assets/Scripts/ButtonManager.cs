@@ -24,15 +24,15 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private Buttons showingButtons;
 
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private PlayerBehavior playerBehavior;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject confirmCanvas;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject runeCanvas;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button moveButton;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button attackButton;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button backButton;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button confirmButton;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button endButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject playerCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject moveCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject confirmCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject runeCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public Button moveButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public Button attackButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public Button backButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public Button confirmButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public Button endButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
