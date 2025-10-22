@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/20/2025
- * Last Modified: 10/21/2025
+ * Last Modified: 10/22/2025
  * Brief: Contains the different enemy targeting behaviours that are assigned
  * to enums.
  * External Resources:
@@ -63,7 +63,6 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void RangedTargeting()
     {
-        Debug.Log("AR = " + attackRange);
         if(attackRange <= 0)
         {
             attackRange = 1;
@@ -112,7 +111,6 @@ public class TargetingBehaviour : MonoBehaviour
     {
         if(testedTile.x <= 0)
         {
-            Debug.Log("HEHEHEHEHHEHHEHEHE");
             return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - testedTile.y));
         }
         return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - (Mathf.CeilToInt((float) testedTile.y / 2))));
