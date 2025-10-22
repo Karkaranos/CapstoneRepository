@@ -17,10 +17,16 @@ public class MeleeEnemy : Enemy
 {
     #region VARS
 
+    //Vars related to Melee enemy combat
+    #region COMBAT VARS
+    
+    [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
+    
+    #endregion
+
     //Vars used to show functionality without implementation. TEMPORARY
     #region TEST VARS
 
-    [ShowIf(nameof(currentSettings), Settings.Testing)]public bool canAttackTwice = true;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool isLowHealth = false;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playerInAttackRange = true;
 
@@ -63,18 +69,13 @@ public class MeleeEnemy : Enemy
     }
 
     /// <summary>
-    /// Start function
-    /// Sets current health = max health 
-    /// Gets componets for GridPathing and targetingbehaviour 
-    /// Sets movement and aggro range 
+    /// Currently calls Enemy.Start()
+    /// if there is anything unique needed to be done in Melee start 
+    /// it will be put here
     /// </summary>
-    private void Start()
+    public override void Start()
     {
-        currentHealth = maxHealth;
-        gridPathfinding = GetComponent<GridPathfinding>();
-        targetingBehaviour = GetComponent<TargetingBehaviour>();
-        gridPathfinding.SetMovementRange(movementRange);
-        gridPathfinding.SetAggroRange(aggroRange);
+        base.Start();
     }
 
     /// <summary>
@@ -120,11 +121,12 @@ public class MeleeEnemy : Enemy
 
     /// <summary>
     /// Is the player in attack ranger 
-    ///Will be filled out for actual functionality 
+    /// Will be filled out for actual functionality 
     /// </summary>
     /// <returns></returns>
     public bool PlayerInAttackRange()
     {
+        //TODO: ask Brad best way to determine if player is in range based on grid functionality 
         return playerInAttackRange;
     }
 

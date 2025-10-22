@@ -23,6 +23,8 @@ public class MeleeEnemyAttackState : MeleeEnemyState
 
         enemy.logText.text = "Attacking";
         //TODO ATTACK LOGIC
+
+        if(enemy.playerInAttackRange)
         
         //If enemy can attack twice and hasn't yet call Attack state again 
         if(enemy.canAttackTwice && !enemy.hasAttackedTwice)

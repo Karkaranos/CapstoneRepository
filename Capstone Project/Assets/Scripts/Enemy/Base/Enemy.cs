@@ -58,6 +58,13 @@ public class Enemy : MonoBehaviour
         Tooltip("Range player must be in for the enemy to detect them")]
     protected int aggroRange;
 
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Range the player must be in for the enemy to hit them")]
+    protected int attackRange;
+
+    [HideInInspector] public PlayerStats playerStats;
+
     #endregion
 
     #region MOVEMENT VARS
@@ -106,12 +113,14 @@ public class Enemy : MonoBehaviour
     }
 
     //Start function
-    private void Start()
+    public virtual void Start()
     {
         currentHealth = maxHealth;
         gridPathfinding = GetComponent<GridPathfinding>();
         targetingBehaviour = GetComponent<TargetingBehaviour>();
         gridPathfinding.SetMovementRange(movementRange);
+        gridPathfinding.SetAggroRange(aggroRange);
+        playerStats = FindFirstObjectByType<PlayerStats>();
     }
 
     /// <summary>
@@ -164,19 +173,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Needed function for the turn manager to acuratly count how many
-    /// enemies there are in the scene
-    /// </summary>
-    private void RecieveEnemyTurnPing()
-    {
-        Debug.Log("Enemy Turn Ping Recieved");
-    }
 
     /// <summary>
     /// Virtual method that all specific enemies will define
     /// that will start their individual state machine
     /// </summary>
     public virtual void StartEnemyTurn() {  }
+    #endregion
+
+    #region GETTERS AND SETTERS
+    
+    public bool getPlayerInAttackRange()
+    {
+        return false;
+    }
+
     #endregion
 }
