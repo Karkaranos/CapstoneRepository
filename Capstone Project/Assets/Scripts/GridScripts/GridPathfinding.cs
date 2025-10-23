@@ -21,10 +21,15 @@ public class GridPathfinding : MonoBehaviour
     [SerializeField] protected Vector2Int targetPosition;
     [SerializeField] List<Vector2Int> nextPos = new List<Vector2Int>();
     [SerializeField] protected List<string> gridDirections = new List<string>();
+    List<Vector3> newPositions = new List<Vector3>();
+    Vector2Int nextPosition = Vector2Int.zero;
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
     [SerializeField] protected int aggroRange;
+
+    int breakout = 0;
+    bool isMoving = false;
 
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
@@ -210,7 +215,7 @@ public class GridPathfinding : MonoBehaviour
         int min = movementRange > gridDirections.Count ? 0 : gridDirections.Count - movementRange;
         
 
-        Vector2Int nextPosition = nextPos[gridDirections.Count];
+        nextPosition = nextPos[gridDirections.Count];
 
         //Uses a list of directions to move an enemy along a path
         for (int i = max; i >= min; --i)
@@ -246,11 +251,55 @@ public class GridPathfinding : MonoBehaviour
                     break;
             }
 
-            transform.position = newPosition;
-            Debug.Log("Moved");
+            newPositions.Add(newPosition);
+            //transform.position = newPosition;
+            //Debug.Log("Moved");
         }
-        GridManager.ClearPathfinding();
-        GridManager.MoveToTile(myPosition, nextPosition, -2);
-        myPosition = nextPosition;
+        StartCoroutine(MoveToTile());
+        //GridManager.ClearPathfinding();
+        //GridManager.MoveToTile(myPosition, nextPosition, -2);
+        //myPosition = nextPosition;
     }
+
+    IEnumerator MoveToTile()
+    {
+        for (int i = 0; i < newPositions.Count; ++i)
+        {
+            isMoving = true;
+            while (isMoving)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, newPositions[i], .1f);
+                Debug.Log(transform.position);
+                Debug.Log(gameObject.transform.position);
+                if (transform.position == newPositions[i])
+                {
+                    isMoving = false;
+                    GridManager.ClearPathfinding();
+                    GridManager.MoveToTile(myPosition, nextPosition, -2);
+                    myPosition = nextPosition;
+                }
+
+                yield return new WaitForSeconds(.01f);
+            }
+        }
+    }
+
+    //private void FixedUpdate()
+    //{
+    //    while (isMoving && breakout < 100)
+    //    {
+    //        transform.position = Vector3.MoveTowards(transform.position, newPosition, .1f);
+    //        Debug.Log(transform.position);
+    //        Debug.Log(gameObject.transform.position);
+    //        if (transform.position == newPosition)
+    //        {
+    //            isMoving = false;
+    //            breakout = -1;
+    //            GridManager.ClearPathfinding();
+    //            GridManager.MoveToTile(myPosition, nextPosition, -2);
+    //            myPosition = nextPosition;
+    //        }
+    //        ++breakout;
+    //    }
+    //}
 }
