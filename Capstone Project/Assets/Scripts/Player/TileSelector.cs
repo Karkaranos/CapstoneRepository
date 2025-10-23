@@ -19,12 +19,15 @@ public class TileSelector : MonoBehaviour
     [SerializeField] InputAction playerClick;
     [SerializeField] InputAction playerClickPerformed;
 
+    /// <summary>
+    /// Runs whenever this script is loaded into a scene
+    /// </summary>
     private void OnEnable()
     {
 
         //playerInput.currentActionMap.Enable();
         playerClick.Enable();
-        playerClickPerformed.started += playerClickedConfirmed;
+        playerClickPerformed.started += PlayerClickConfirmed;
 
     }
 
@@ -36,11 +39,14 @@ public class TileSelector : MonoBehaviour
 
         //playerInput.currentActionMap.Disable();
         playerClick.Disable();
-        playerClickPerformed.started -= playerClickedConfirmed;
+        playerClickPerformed.started -= PlayerClickConfirmed;
 
     }
 
-    private void playerClickedConfirmed(InputAction.CallbackContext context)
+    /// <summary>
+    /// Should run whenever the player clicks something
+    /// </summary>
+    private void PlayerClickConfirmed(InputAction.CallbackContext context)
     {
 
         Debug.Log("Clicked!");

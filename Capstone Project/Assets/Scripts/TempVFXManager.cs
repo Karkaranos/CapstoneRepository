@@ -10,7 +10,9 @@ using UnityEngine;
 public class TempVFXManager : MonoBehaviour
 {
 
-    //calls the function that destroys this game object a second after it has popped up
+    /// <summary>
+    /// calls whenever this game object is instantiated
+    /// </summary>
     void Start()
     {
 
