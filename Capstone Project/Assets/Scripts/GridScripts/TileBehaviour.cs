@@ -9,6 +9,7 @@
 using UnityEngine;
 using NaughtyAttributes;
 using System.Collections.Generic;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class TileBehaviour : MonoBehaviour
 {
@@ -18,7 +19,12 @@ public class TileBehaviour : MonoBehaviour
 
     [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")]
     Vector2 tileDisplacement;
-
+    private enum EntityType
+    {
+        Enemy,
+        Player,
+        Obstacle
+    }
     private enum HazardType
     {
         block,
@@ -28,7 +34,8 @@ public class TileBehaviour : MonoBehaviour
 
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
-    [SerializeField, ShowIf(nameof(TileHasEntities)), Foldout("Entities")] private GameObject entityOnTile;
+    [SerializeField, ShowIf(nameof(TileHasEntities)), Foldout("Entities")] private EntityType entityType;
+    [SerializeField, ShowIf(nameof(TileHasEntities)), Foldout("Entities")] private GameObject entityObject;
 
     [SerializeField] private bool TileHasHazards = false;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private HazardType hazardType;
@@ -53,6 +60,50 @@ public class TileBehaviour : MonoBehaviour
     {
         IndexInGrid.x = (int)(transform.position.x / tileDisplacement.x);
         IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
+    }
+
+    private void Start()
+    {
+        AddObjectsToTile();
+    }
+
+    /// <summary>
+    /// adds the entities and hazards to the tile, updates the grid manager with positions
+    /// </summary>
+    private void AddObjectsToTile() {
+        int eType = -1;
+
+        //spawns an Entity if theres one to spawn
+        if (TileHasEntities && entityObject != null) {
+            print("Spawning");
+            GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity);
+
+            // if the entity has a gridpathfinding componet
+            if (obj.GetComponent<GridPathfinding>() != null)
+            {
+                obj.GetComponent<GridPathfinding>().MyPosition = IndexInGrid;
+            }
+
+            switch (entityType)
+            {
+                case EntityType.Enemy:
+                    eType = -2;
+                    break;
+                case EntityType.Player:
+                    eType = -3;
+                    break;
+                case EntityType.Obstacle:
+                    eType = -4;
+                    break;
+            }
+            GridManager.AddEntity(IndexInGrid, eType);
+        }
+
+        //spawns a hazard if theres one to spawn
+        if (TileHasHazards && hazardObject != null)
+        {
+            GameObject obj = Instantiate(hazardObject, transform.position, Quaternion.identity);
+        }
     }
 
     /// <summary>
