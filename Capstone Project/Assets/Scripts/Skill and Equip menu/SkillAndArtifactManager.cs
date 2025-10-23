@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillAndEquipManager : MonoBehaviour
+public class SkillAndArtifactManager : MonoBehaviour
 {
     #region VARS
     private enum Settings
@@ -105,6 +105,8 @@ public class SkillAndEquipManager : MonoBehaviour
     {
         OutOfCombatMenuContainer.SetActive(false);
         FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
+
+        PublicEvents.StartBattle.Invoke();
         //GameObject.Find("Move Confirmation").SetActive(false);
     }
 
