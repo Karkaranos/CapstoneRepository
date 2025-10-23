@@ -48,7 +48,7 @@ public class ActionPointManager : MonoBehaviour
         gm.CurrentActionPoints -= gm.MoveActionPoints;
         if (gm.CurrentActionPoints <= 0)
         {
-            TurnPublicEvents.BeginEnemyTurn();
+            TurnPublicEvents.TurnActionComplete();
         }
     }
 
@@ -70,7 +70,7 @@ public class ActionPointManager : MonoBehaviour
         gm.CurrentActionPoints -= cost;
         if (gm.CurrentActionPoints <= 0)
         {
-            TurnPublicEvents.BeginEnemyTurn();
+            TurnPublicEvents.TurnActionComplete();
         }
     }
 
