@@ -165,6 +165,7 @@ public class RuneEvents : MonoBehaviour
                             break;
 
                         default:
+
                             break;
 
                     }
@@ -193,6 +194,7 @@ public class RuneEvents : MonoBehaviour
                 GameObject vfx = Instantiate(storedRuneVFX, target.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text = 
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
                 break;
 
             case (2):
@@ -214,8 +216,6 @@ public class RuneEvents : MonoBehaviour
                 vfx.GetComponentInChildren<TextMeshPro>().text =
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
 
-                Debug.Log(secondaryTarget);
-
                 break;
 
             case (3):
@@ -224,6 +224,7 @@ public class RuneEvents : MonoBehaviour
 
                 target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+
                 vfx = Instantiate(storedRuneVFX, target.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text =
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
@@ -252,8 +253,6 @@ public class RuneEvents : MonoBehaviour
                         vfx.GetComponentInChildren<TextMeshPro>().text =
                             (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
 
-                        Debug.Log(enemy);
-
                     }
 
                 }
@@ -268,9 +267,11 @@ public class RuneEvents : MonoBehaviour
                 vfx = Instantiate(storedRuneVFX, target.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text =
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
                 break;
 
             default:
+
                 break;
         }
 
