@@ -1,5 +1,5 @@
 /*************************************************
-Author Names : 		Tyler Hayes, Jay Embry 
+Author Names : 		Tyler Hayes, Jay Embry , Cade Naylor
 Date Created : 		09/28/2025
 Date Last Modified : 10/22/2025
 Brief Description : Stores all of the public events used.
@@ -21,6 +21,9 @@ public static class PublicEvents
     //Triggers whenever the player is done playing a spell
     public static Action EnemyTurnStarted;
 
+    //Triggers whenever the player confirms a move
+    public static Action PlayerMove;
+
     //Triggers whenever a tile is selected while in wait mode(?)
     public static Action<TileBehaviour> SelectTile;
 
@@ -33,7 +36,11 @@ public static class PublicEvents
 
     //Triggered when a button from the in-combat menu is clicked
     //Rune types are assigned from RuneSelectionMenu 
-    public static Action<RuneType, int, float, int, GameObject> RuneSelected;
+    public static Action<RuneData> RuneSelected;
+
+
+    //Triggered when a spell is cast
+    public static Action<int> RuneCast;
 
     #endregion RUNE EVENTS
 }
