@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Hayes, Jay Embry 
+Author Names : 		Tyler Hayes, Jay Embry , Cade Naylor
 Date Created : 		09/28/2025
-Date Last Modified : 10/07/2025
+Date Last Modified : 10/22/2025
 Brief Description : Stores all of the public events used.
 External Resources : 	
 	***************************************************/
@@ -19,6 +19,8 @@ public static class PublicEvents
 
     //Triggers whenever the player is done playing a spell
     public static Action EnemyTurnStarted;
+
+    public static Action PlayerMove;
 
 
     #region RUNE EVENTS
