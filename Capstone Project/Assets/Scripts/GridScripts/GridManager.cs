@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 9/26/2025
- * Last Modified: 10/7/2025
+ * Last Modified: 10/21/2025
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
@@ -49,6 +49,7 @@ public class GridManager : MonoBehaviour
         {
             playerPosition = locationInGrid;
         }
+        Debug.Log("Add Entity");
     }
 
     /// <summary>
@@ -77,6 +78,65 @@ public class GridManager : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    /// <summary>
+    /// Returns a list of all the adjacent tiles, of a provided tile, that can be moved to
+    /// </summary>
+    /// <param name="currentTile"></param> The provided tile
+    /// <returns></returns> The list of available adjacent tiles
+    public static List<Vector2Int> GetAllValidAdjacentTiles(Vector2Int currentTile)
+    {
+        List<Vector2Int> validTiles = new List<Vector2Int>();
+
+        if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)) && CanMoveToTile(new Vector2Int(currentTile.x + 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)) && CanMoveToTile(new Vector2Int(currentTile.x - 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y));
+        }
+        if (currentTile.y % 2 == 0)
+        {
+            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y + 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
+            }
+            if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x - 1, currentTile.y + 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y + 1));
+            }
+            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y - 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
+            }
+            if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x - 1, currentTile.y - 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y - 1));
+            }
+        }
+        else
+        {
+            if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x + 1, currentTile.y + 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y + 1));
+            }
+            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y + 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
+            }
+            if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x + 1, currentTile.y - 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y - 1));
+            }
+            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y - 1)))
+            {
+                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
+            }
+        }
+
+        return validTiles;
     }
 
     /// <summary>
