@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/20/2025
+Date Last Modified : 	10/23/2025
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -121,11 +121,6 @@ public class MeleeEnemy : Enemy
         return isLowHealth;
     }
 
-    public IEnumerator Delay(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-    }
-
     #endregion
 
     #region GETTER AND SETTERS
@@ -138,6 +133,11 @@ public class MeleeEnemy : Enemy
     public MeleeEnemyAttackState GetAttackState() {  return attackState; }
     public MeleeEnemyEndTurnState GetEndTurnState() { return endTurnState; }
 
+    /// <summary>
+    /// Logic to determine if enemy is in attack range
+    /// Overriden from Enemy.cs 
+    /// </summary>
+    /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
         Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());

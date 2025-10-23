@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/20/2025
+Date Last Modified : 	10/23/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -191,11 +191,11 @@ public class Enemy : MonoBehaviour
     
     /// <summary>
     /// Getter for if the player is in the attack range of the enemy
-    /// Needs to be overriden for each type of enemy s
+    /// Needs to be overriden for each type of enemy 
     /// </summary>
     /// <returns></returns>
     public virtual bool GetPlayerInAttackRange()
-    {
+    { 
         return false;
     }
 

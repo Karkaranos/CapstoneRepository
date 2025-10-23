@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/19/2025
+Date Last Modified : 	10/23/2025
 Brief Description : 		Melee Enemy Move State
 External Resources : 	
 ***************************************************/
@@ -28,6 +28,8 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         enemy.hasMovedForTurn = true;
 
+        //delay in milliseconds for the grid to update
+        //Based on move coroutine and how many steps an enemy takes per turn 
         await Task.Delay(750);
 
         if(enemy.GetPlayerInAttackRange())
