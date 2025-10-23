@@ -1,14 +1,15 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 10/22/2025
+Date Last Modified : 10/23/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
-using TMPro;
-using UnityEngine;
 using NaughtyAttributes;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class RuneEvents : MonoBehaviour
 {
@@ -148,11 +149,7 @@ public class RuneEvents : MonoBehaviour
     public void TargetSelectedTile(TileBehaviour tile)
     {
 
-        int distance = Mathf.RoundToInt(Vector2.Distance(tile.transform.position, GridManager.playerPosition));
-
-        if (waitingForThePlayer && 
-            (distance/2) <= storedRuneRange &&
-            tile.gameObject.GetComponentInChildren<Enemy>() != null)
+        if (waitingForThePlayer)
         {
 
              switch (storedRuneType)
@@ -174,8 +171,6 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    waitingForThePlayer = false;
-
         }
 
     }
@@ -187,77 +182,105 @@ public class RuneEvents : MonoBehaviour
     public void SelectLightningRune(TileBehaviour target)
     {
 
+        int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
+        GameObject vfx;
+
         switch (storedRuneNumber)
         {
 
             case (1):
 
-                target.GetComponentInChildren<Enemy>().Damage
+                if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    (distance / 2) <= storedRuneRange)
+                {
+
+                    target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
 
-                GameObject vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text = 
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    vfx = Instantiate(storedRuneVFX, target.transform);
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                    EndPlayerAttackPhase();
+
+                }
 
                 break;
 
             case (2):
 
-                FindSecondaryTarget(target);
+                if (target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    (distance / 2) <= storedRuneRange)
+                {
 
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    FindSecondaryTarget(target);
 
-                vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    target.GetComponentInChildren<Enemy>().Damage
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, target.transform);
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
 
 
-                secondaryTarget.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    secondaryTarget.GetComponentInChildren<Enemy>().Damage
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
 
-                vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                    EndPlayerAttackPhase();
+
+                }
 
                 break;
 
             case (3):
 
-                int radius = 3;
 
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-
-                vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
-
-                TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
-
-                foreach (TileBehaviour enemy in enemies)
+                if (target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    (distance / 2) <= storedRuneRange)
                 {
 
-                    if(enemy == target)
+                    int radius = 3;
+
+                    target.GetComponentInChildren<Enemy>().Damage
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, target.transform);
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                    TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+
+                    foreach (TileBehaviour enemy in enemies)
                     {
 
-                        continue;
+                        if (enemy == target)
+                        {
+
+                            continue;
+
+                        }
+
+                        if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                            enemy.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            //hardcoding this feels bad i can change this later
+                            enemy.GetComponentInChildren<Enemy>().Damage
+                                (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+
+                            vfx = Instantiate(storedRuneVFX, enemy.transform);
+                            vfx.GetComponentInChildren<TextMeshPro>().text =
+                                (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                        }
 
                     }
 
-                    if ((Vector2.Distance(target.transform.position, enemy.transform.position)/2) <= radius &&
-                        enemy.GetComponentInChildren<Enemy>() != null)
-                    {
-
-                        //hardcoding this feels bad i can change this later
-                        enemy.GetComponentInChildren<Enemy>().Damage
-                            (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-
-                        vfx = Instantiate(storedRuneVFX, enemy.transform);
-                        vfx.GetComponentInChildren<TextMeshPro>().text =
-                            (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
-
-                    }
+                    EndPlayerAttackPhase();
 
                 }
 
@@ -265,12 +288,20 @@ public class RuneEvents : MonoBehaviour
 
             case (4):
 
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    (distance / 2) <= storedRuneRange)
+                {
 
-                vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    target.GetComponentInChildren<Enemy>().Damage
+                   (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, target.transform);
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                    EndPlayerAttackPhase();
+
+                }
 
                 break;
 
@@ -280,7 +311,6 @@ public class RuneEvents : MonoBehaviour
         }
 
         //delete later
-        temp.text = "You used Lightning " + storedRuneNumber + " for " + storedRuneDamage + " damage!";
 
         if (PublicEvents.EnemyTurnStarted != null)
         {
@@ -342,72 +372,134 @@ public class RuneEvents : MonoBehaviour
     public void SelectWindRune(TileBehaviour target)
     {
 
+        int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
+        GameObject vfx;
+        int radius;
+
         switch (storedRuneNumber)
         {
 
+            //WIP
             case (1):
 
-                int radius = 3;
-
-                TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
-
-                foreach (TileBehaviour enemy in enemies)
+                if (target.gameObject.GetComponentInChildren<PlayerBehavior>() != null)
                 {
 
-                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius &&
-                        target.GetComponentInChildren<Enemy>() != null)
+                    radius = 3;
+
+                    TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+
+                    foreach (TileBehaviour enemy in enemies)
                     {
 
-                        target.GetComponentInChildren<Enemy>().Damage
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
-                        //PUSH THEM BACK
+                        if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                            enemy.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            enemy.GetComponentInChildren<Enemy>().Damage
+                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+
+                            vfx = Instantiate(storedRuneVFX, enemy.transform);
+                            vfx.GetComponentInChildren<TextMeshPro>().text =
+                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                            //PUSH THEM BACK
+
+                        }
 
                     }
 
+                    EndPlayerAttackPhase();
+
                 }
+
                 break;
 
             case (2):
 
-                target.GetComponentInChildren<Enemy>().Damage
+                if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    (distance / 2) <= storedRuneRange)
+                {
+
+                    target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, target.transform);
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                    EndPlayerAttackPhase();
+
+                }
+
                 break;
 
+            //WIP
             case (3):
 
                 //gulp
+
                 break;
 
+            //WIP
             case (4):
 
-                int tornadoRadius = 1;
-
-                //MAKE THEM LOSE A TURN
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
-
-                TileBehaviour[] adjacentEnemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
-
-                foreach (TileBehaviour enemy in adjacentEnemies)
+                if((distance / 2) <= storedRuneRange)
                 {
 
-                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= tornadoRadius &&
-                        target.GetComponentInChildren<Enemy>() != null)
+                    radius = 1;
+
+                    if(target.GetComponentInChildren<Enemy>() != null)
                     {
 
-                        enemy.GetComponentInChildren<Enemy>().Damage
+                        //MAKE THEM LOSE A TURN
+                        target.GetComponentInChildren<Enemy>().Damage
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+
+                        vfx = Instantiate(storedRuneVFX, target.transform);
+                        vfx.GetComponentInChildren<TextMeshPro>().text =
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
 
                     }
 
+                    TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+
+                    foreach (TileBehaviour enemy in enemies)
+                    {
+
+                        if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                            target.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            enemy.GetComponentInChildren<Enemy>().Damage
+                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+
+                            vfx = Instantiate(storedRuneVFX, enemy.transform);
+                            vfx.GetComponentInChildren<TextMeshPro>().text =
+                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+
+                        }
+
+                    }
+
+                    EndPlayerAttackPhase();
+
                 }
+
                 break;
 
         }
 
-        //delete later
-        Logger.Log("You used Wind " + storedRuneNumber + "!", false);
-        temp.text = "You used Wind " + storedRuneNumber + "!";
+    }
+
+    /// <summary>
+    /// runs whenever an enemy is successfully targeted
+    /// made into a function to prevent SOME clutter
+    /// </summary>
+    void EndPlayerAttackPhase()
+    {
+
+        waitingForThePlayer = false;
 
         if (PublicEvents.EnemyTurnStarted != null)
         {
@@ -416,8 +508,7 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        playerMenu.SetActive(true);
-        this.gameObject.SetActive(false);
+        temp.text = "";
 
     }
 
