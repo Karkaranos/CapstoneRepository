@@ -133,6 +133,10 @@ public class RuneEvents : MonoBehaviour
 
         temp.text = "Select a target!";
 
+        //to prevent softlocking FOR NOW
+        playerMenu.SetActive(true);
+        this.gameObject.SetActive(false);
+
     }
 
 
@@ -284,9 +288,6 @@ public class RuneEvents : MonoBehaviour
             PublicEvents.EnemyTurnStarted();
 
         }
-
-        playerMenu.SetActive(true);
-        this.gameObject.SetActive(false);
 
     }
 
