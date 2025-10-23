@@ -255,12 +255,18 @@ public class GridPathfinding : MonoBehaviour
         StartCoroutine(MoveToTile());
     }
 
+    /// <summary>
+    /// Causes the enemy to move from one tile to the next over time
+    /// </summary>
+    /// <returns></returns>
     IEnumerator MoveToTile()
     {
+        //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
             nextPosition = nextPos[gridDirections.Count - i];
             isMoving = true;
+            //Loops until they finish moving to the adjacent tile
             while (isMoving)
             {
                 transform.position = Vector3.MoveTowards(transform.position, newPositions[i], .1f);
@@ -273,10 +279,8 @@ public class GridPathfinding : MonoBehaviour
                     GridManager.MoveToTile(myPosition, nextPosition, -2);
                     myPosition = nextPosition;
                 }
-
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
-            
         }
     }
 }
