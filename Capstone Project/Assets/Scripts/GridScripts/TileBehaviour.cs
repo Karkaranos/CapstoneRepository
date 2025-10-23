@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 10/21/2025 (Tyler Bouchard)
+ * Last Modified: 10/22/2025 (Tyler Bouchard)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -40,17 +40,26 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField] private bool TileHasHazards = false;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private HazardType hazardType;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private GameObject hazardObject;
-    [SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private float damageAmount;
+    [SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
     [SerializeField, ShowIf(nameof(ShowSlowVars)), Foldout("Hazards")] private int movesLost;
 
+    /// <summary>
+    /// checker for the showif function
+    /// </summary>
+    /// <returns></returns>
     private bool ShowDamageVars() {
         return hazardType == HazardType.damage && TileHasHazards;
     }
+    /// <summary>
+    /// checker for the showif function
+    /// </summary>
+    /// <returns></returns>
     private bool ShowSlowVars()
     {
         return hazardType == HazardType.slow && TileHasHazards;
     }
 
+    //IDK what this is, it isnt used but causes errors in another script when removed so it gets to stay -Tyler B
     [HideInInspector] public List<StatsOnTile> tileStatAffects = new List<StatsOnTile>();
 
     /// <summary>
@@ -62,6 +71,9 @@ public class TileBehaviour : MonoBehaviour
         IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
     }
 
+    /// <summary>
+    /// all this does right now is call the add objects to tile function
+    /// </summary>
     private void Start()
     {
         AddObjectsToTile();
@@ -75,7 +87,6 @@ public class TileBehaviour : MonoBehaviour
 
         //spawns an Entity if theres one to spawn
         if (TileHasEntities && entityObject != null) {
-            print("Spawning");
             GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity);
 
             // if the entity has a gridpathfinding componet
@@ -83,18 +94,19 @@ public class TileBehaviour : MonoBehaviour
             {
                 obj.GetComponent<GridPathfinding>().MyPosition = IndexInGrid;
             }
-
-            switch (entityType)
+            
+            
+            if (entityType == EntityType.Enemy) 
             {
-                case EntityType.Enemy:
-                    eType = -2;
-                    break;
-                case EntityType.Player:
-                    eType = -3;
-                    break;
-                case EntityType.Obstacle:
-                    eType = -4;
-                    break;
+                eType = -2;
+            } 
+            else if (entityType == EntityType.Player) 
+            {
+                eType = -3;
+            }
+            else if(entityType == EntityType.Obstacle)
+            {
+                eType = -4;
             }
             GridManager.AddEntity(IndexInGrid, eType);
         }
@@ -114,5 +126,9 @@ public class TileBehaviour : MonoBehaviour
     {
         print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
+        if (collision.gameObject.GetComponent<PlayerStats>() != null) {
+            collision.gameObject.GetComponent<PlayerStats>().TakeDamage(damageAmount);
+        }
+        //call whatever slows the player once that is in
     }
 }
