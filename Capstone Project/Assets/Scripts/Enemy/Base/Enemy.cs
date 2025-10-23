@@ -131,6 +131,7 @@ public class Enemy : MonoBehaviour
                 TryDropItem();
             }
         }
+        print(currentHealth);
     }
 
     /// <summary>
