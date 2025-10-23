@@ -28,7 +28,7 @@ public class SkillTreeManager : MonoBehaviour
 
     [HorizontalLine(4, EColor.Red)]
     //how many skill points the player has
-    [ShowIf(nameof(showingSettings), Settings.SkillSettings)] public int SkillPoints;
+    [ShowIf(nameof(showingSettings), Settings.SkillSettings)] public int ExperiencePoints;
 
     #endregion
 
@@ -36,8 +36,7 @@ public class SkillTreeManager : MonoBehaviour
 
     [HorizontalLine(4, EColor.Indigo)]
 
-    //list of containers for each skill tree element
-    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private List<GameObject> DifferentElementSkillTreeContainers;
+    
     
     //prefab for the box that follows the cursor
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private GameObject FollowCursorPrefab;
@@ -47,6 +46,9 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text costText;
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text descriptionText;
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text currentSkillPointsText;
+
+    //list of containers for each skill tree element
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private List<GameObject> DifferentElementSkillTreeContainers;
 
     #endregion
     #region NONINSPECTOR VARS
@@ -74,13 +76,13 @@ public class SkillTreeManager : MonoBehaviour
     public bool CanPurchaseNode(int cost)
     {
         //checks to see if you can purchase the node
-        if (cost <= SkillPoints)
+        if (cost <= ExperiencePoints)
         {
             //purchases it
-            SkillPoints -= cost;
+            ExperiencePoints -= cost;
 
             //updates the skill points text to the new value
-            currentSkillPointsText.text = SkillPoints + " EXP";
+            currentSkillPointsText.text = ExperiencePoints + " EXP";
 
             //tells the node to buy itself
             return true;

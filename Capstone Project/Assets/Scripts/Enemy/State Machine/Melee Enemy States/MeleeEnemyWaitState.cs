@@ -17,12 +17,8 @@ public class MeleeEnemyWaitState : MeleeEnemyState
     /// </summary>
     public override void EnterState()
     {
-        base.EnterState();
         Debug.Log("Enter Wait State");
         enemy.logText.text = "Waiting";
-
-        //tells the turn manager the turn is over
-        TurnPublicEvents.TurnActionComplete();
     }
 
     /// <summary>

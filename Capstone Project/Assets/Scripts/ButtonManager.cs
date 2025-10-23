@@ -5,43 +5,54 @@ Date Last Modified : 	10/2/2025
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
+using NaughtyAttributes;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-    public PlayerBehavior playerBehavior;
-    public GameObject playerCanvas;
-    public GameObject moveCanvas;
-    public GameObject confirmCanvas;
-    [SerializeField] GameObject runeCanvas;
-    public Button moveButton;
-    [SerializeField] Button attackButton;
-    public Button moveChoiceButton;
-    public Button backButton;
-    public Button confirmButton;
-    public Button endButton;
+    #region variables
+
+    private enum Buttons
+    {
+        buttonsettings,
+        Refs
+    }
+
+    [SerializeField] private Buttons showingButtons;
+
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private PlayerBehavior playerBehavior;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject confirmCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject runeCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button moveButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button attackButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button backButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button confirmButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button endButton;
     public bool playerCanMove;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
     public bool confirmButtonClicked;
     public bool endButtonClicked;
+    #endregion
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Grabs the player's script and button objects within the scene
+    /// </summary>
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        Button mbtn = moveButton.GetComponent<Button>();
-        Button mcbtn = moveChoiceButton.GetComponent<Button>();
-        Button bbtn = backButton.GetComponent<Button>();
-        Button cbtn = confirmButton.GetComponent<Button>();
-        Button ebtn = endButton.GetComponent<Button>();
-        Canvas pCanvas = playerCanvas.GetComponent<Canvas>();
-        Canvas mCanvas = moveCanvas.GetComponent<Canvas>();
-        Canvas cCanvas = confirmCanvas.GetComponent<Canvas>();
     }
 
+    #region functions
+    /// <summary>
+    /// Controls the player movement, sets confirm canvas to true
+    /// and playerCanvas to false
+    /// </summary>
     public void MoveButtonOnClick()
     {
         Debug.Log("The player can move!");
@@ -64,6 +75,9 @@ public class ButtonManager : MonoBehaviour
         //}
     }
 
+    /// <summary>
+    /// Sets the runeCanvas to true and playerCanvas to false
+    /// </summary>
     public void AttackOnClick()
     {
 
@@ -72,6 +86,10 @@ public class ButtonManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Sets backButtonClicked to true
+    /// bool sets the PlayerCanvas to true and sets the moveCanvas and runeCanvas to false
+    /// </summary>
     public void BackButtonOnClick()
     {
         Debug.Log("goin back!");
@@ -88,20 +106,11 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    public void MoveChoiceOnClick()
-    {
-        playerIsGoingToMove = true;
-        if (playerIsGoingToMove)
-        {
-            moveCanvas.SetActive(false);
-            //GetComponent<PlayerBehavior>().enabled = true;
-        }
-        else
-        {
-            playerIsGoingToMove = false;
-        }
-    }
-
+    /// <summary>
+    /// Sets PlayerCanMove bool from playerBehavior to false
+    /// Sets confirmCanvas to false
+    /// Sets playerCanvas to true
+    /// </summary>
     public void ConfirmOnClick()
     {
         playerBehavior.PlayerCanMove = false;
@@ -119,6 +128,10 @@ public class ButtonManager : MonoBehaviour
         //}
     }
 
+    /// <summary>
+    /// Enables the endButtonClicked bool to true
+    /// Ends Player Turn once clicked
+    /// </summary>
     public void EndTurnClick()
     {
         Debug.Log("button clicked");
@@ -137,5 +150,6 @@ public class ButtonManager : MonoBehaviour
         //FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
          //   }
         }
-    }
+    #endregion
+}
 
