@@ -8,7 +8,6 @@ External Resources :
 
 using NaughtyAttributes;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RuneEvents : MonoBehaviour
