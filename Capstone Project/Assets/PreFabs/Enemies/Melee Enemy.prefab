@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 4
+  currentSettings: 2
   maxHealth: 44
   lowHealthPercentage: 0.8
   currentHealth: 5
@@ -400,6 +400,7 @@ MonoBehaviour:
   artifactDropChance: 0.5
   playerStats: {fileID: 0}
   movementRange: 1
+  movementSpeed: 5
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
@@ -436,6 +437,7 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 0}
   nextPos: []
   gridDirections: []
+  movementSpeed: 5
   movementRange: 3
   aggroRange: 50
 --- !u!114 &5895380928361199476

@@ -80,6 +80,10 @@ public class Enemy : MonoBehaviour
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Movement),
         Tooltip("Movement range of enemy")] protected int movementRange;
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Movement),
+        Tooltip("Speed enemy slides to next tile")]
+    protected float movementSpeed;
     [HideInInspector] public GridPathfinding gridPathfinding;
     [HideInInspector] public TargetingBehaviour targetingBehaviour;
 
@@ -126,6 +130,7 @@ public class Enemy : MonoBehaviour
         targetingBehaviour = GetComponent<TargetingBehaviour>();
         gridPathfinding.SetMovementRange(movementRange);
         gridPathfinding.SetAggroRange(aggroRange);
+        gridPathfinding.SetMovementSpeed(movementSpeed);
         playerStats = FindFirstObjectByType<PlayerStats>();
     }
 

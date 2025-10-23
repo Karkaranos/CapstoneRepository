@@ -30,7 +30,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         //delay in milliseconds for the grid to update
         //Based on move coroutine and how many steps an enemy takes per turn 
-        await Task.Delay(750);
+        await Task.Delay(1500);
 
         if(enemy.GetPlayerInAttackRange())
         {

@@ -287,6 +287,15 @@ public class GridPathfinding : MonoBehaviour
     }
 
     /// <summary>
+    /// Function that enemies call to set their movementSpeed
+    /// </summary>
+    /// <param name="movementSpeed"></param>
+    public void SetMovementSpeed(float movementSpeed)
+    {
+        this.movementSpeed = movementSpeed;
+    }
+
+    /// <summary>
     /// Returns a reference to target movement position 
     /// </summary>
     /// <returns></returns>
