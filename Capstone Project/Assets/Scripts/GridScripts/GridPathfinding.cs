@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/22/2025
+ * Last Modified: 10/23/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -21,10 +21,16 @@ public class GridPathfinding : MonoBehaviour
     [SerializeField] protected Vector2Int targetPosition;
     [SerializeField] List<Vector2Int> nextPos = new List<Vector2Int>();
     [SerializeField] protected List<string> gridDirections = new List<string>();
+    List<Vector3> newPositions = new List<Vector3>();
+    Vector2Int nextPosition = Vector2Int.zero;
+    [SerializeField] float movementSpeed;
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
     [SerializeField] protected int aggroRange;
+
+    int breakout = 0;
+    bool isMoving = false;
 
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
@@ -201,6 +207,7 @@ public class GridPathfinding : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveEntity()
     {
+        newPositions.Clear();
         float tileSizeX = transform.GetComponentInParent<Transform>().localScale.x * 2;
         float tileSizeY = transform.GetComponentInParent<Transform>().localScale.z * 2;
 
@@ -208,9 +215,6 @@ public class GridPathfinding : MonoBehaviour
 
         int max = gridDirections.Count - 1;
         int min = movementRange > gridDirections.Count ? 0 : gridDirections.Count - movementRange;
-        
-
-        Vector2Int nextPosition = nextPos[gridDirections.Count];
 
         //Uses a list of directions to move an enemy along a path
         for (int i = max; i >= min; --i)
@@ -246,11 +250,37 @@ public class GridPathfinding : MonoBehaviour
                     break;
             }
 
-            transform.position = newPosition;
-            Debug.Log("Moved");
+            newPositions.Add(newPosition);
         }
-        GridManager.ClearPathfinding();
-        GridManager.MoveToTile(myPosition, nextPosition, -2);
-        myPosition = nextPosition;
+        StartCoroutine(MoveToTile());
+    }
+
+    /// <summary>
+    /// Causes the enemy to move from one tile to the next over time
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator MoveToTile()
+    {
+        //How many tiles the enemy has to move to
+        for (int i = 0; i < newPositions.Count; ++i)
+        {
+            nextPosition = nextPos[gridDirections.Count - i];
+            isMoving = true;
+            //Loops until they finish moving to the adjacent tile
+            while (isMoving)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, newPositions[i], .1f);
+                Debug.Log(transform.position);
+                Debug.Log(gameObject.transform.position);
+                if (transform.position == newPositions[i])
+                {
+                    isMoving = false;
+                    GridManager.ClearPathfinding();
+                    GridManager.MoveToTile(myPosition, nextPosition, -2);
+                    myPosition = nextPosition;
+                }
+                yield return new WaitForSeconds(.1f / movementSpeed);
+            }
+        }
     }
 }
