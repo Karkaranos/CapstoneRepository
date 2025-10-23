@@ -26,6 +26,7 @@ public class ActionPointManager : MonoBehaviour
     {
         PublicEvents.PlayerMove += PlayerHasMoved;
         TurnPublicEvents.BeginPlayerTurn += AllocatePoints;
+        PublicEvents.RuneCast += PlayerCastSpell;
     }
 
 
@@ -36,6 +37,7 @@ public class ActionPointManager : MonoBehaviour
     {
         PublicEvents.PlayerMove -= PlayerHasMoved;
         TurnPublicEvents.BeginPlayerTurn -= AllocatePoints;
+        PublicEvents.RuneCast -= PlayerCastSpell;
     }
 
     /// <summary>
@@ -56,6 +58,16 @@ public class ActionPointManager : MonoBehaviour
     private void AllocatePoints()
     {
         gm.CurrentActionPoints = gm.ActionPointsPerTurn;
+    }
+
+    public void PlayerCastSpell(int cost)
+    {
+        Debug.Log("Calledd");
+        gm.CurrentActionPoints -= cost;
+        if (gm.CurrentActionPoints <= 0)
+        {
+            TurnPublicEvents.BeginEnemyTurn();
+        }
     }
 
 }

@@ -36,7 +36,11 @@ public static class PublicEvents
 
     //Triggered when a button from the in-combat menu is clicked
     //Rune types are assigned from RuneSelectionMenu 
-    public static Action<RuneType, int, float, int, GameObject> RuneSelected;
+    public static Action<RuneData> RuneSelected;
+
+
+    //Triggered when a spell is cast
+    public static Action<int> RuneCast;
 
     #endregion RUNE EVENTS
 }
