@@ -60,9 +60,13 @@ public class ActionPointManager : MonoBehaviour
         gm.CurrentActionPoints = gm.ActionPointsPerTurn;
     }
 
+    /// <summary>
+    /// Removes cost when the player casts a spell
+    /// Ends the player turn if costs are low
+    /// </summary>
+    /// <param name="cost"></param>
     public void PlayerCastSpell(int cost)
     {
-        Debug.Log("Calledd");
         gm.CurrentActionPoints -= cost;
         if (gm.CurrentActionPoints <= 0)
         {
