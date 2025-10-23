@@ -7,6 +7,7 @@ External Resources :
 	***************************************************/
 
 using System;
+using UnityEngine;
 
 public static class PublicEvents
 {
@@ -20,7 +21,11 @@ public static class PublicEvents
     //Triggers whenever the player is done playing a spell
     public static Action EnemyTurnStarted;
 
+    //Triggers whenever the player confirms a move
     public static Action PlayerMove;
+
+    //Triggers whenever a tile is selected while in wait mode(?)
+    public static Action<TileBehaviour> SelectTile;
 
 
     #region RUNE EVENTS
@@ -31,8 +36,7 @@ public static class PublicEvents
 
     //Triggered when a button from the in-combat menu is clicked
     //Rune types are assigned from RuneSelectionMenu 
-    public static Action<int> LightningRuneSelected;
-    public static Action<int> WindRuneSelected;
+    public static Action<RuneType, int, float, int, GameObject> RuneSelected;
 
     #endregion RUNE EVENTS
 }

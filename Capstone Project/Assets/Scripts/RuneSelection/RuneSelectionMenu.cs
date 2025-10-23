@@ -1,19 +1,16 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	09/30/2025
-Date Last Modified : 10/07/2025
+Date Last Modified : 10/22/2025
 Brief Description : The in-combat menus for rune selection.
                     Generates and displays buttons.
 				    Displays submenus for the different tiers of spells.
 External Resources : 	
 	***************************************************/
 
-
-using System.Runtime.CompilerServices;
 using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine.UI;
 using TMPro;
 
@@ -93,28 +90,22 @@ public class RuneSelectionMenu : MonoBehaviour
 
 
             //Activates button and updates button text
-            buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = skillAndEquipManager.equippedSpells[index].RuneName;
+            buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = 
+                skillAndEquipManager.equippedSpells[index].RuneName;
+
             buttons[index].SetActive(true);
 
             //Unnecessary but it'll make upcoming lines of code a bit easier to read
+            RuneType runeType = skillAndEquipManager.equippedSpells[index].TypeOfRune;
             int runeNumber = skillAndEquipManager.equippedSpells[index].NumberOnSkillTree;
+            float runeDamage = skillAndEquipManager.equippedSpells[index].RuneDamage;
+            int runeRange = skillAndEquipManager.equippedSpells[index].RuneRange;
+            GameObject runeVFX = skillAndEquipManager.equippedSpells[index].RuneVFX;
 
 
             //Links rune effect to button based on rune type
-            switch (skillAndEquipManager.equippedSpells[index].TypeOfRune)
-            {
-
-                case (RuneType.Lightning):
-
-                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.LightningRuneSelected.Invoke(runeNumber));
-                    break;
-
-                case (RuneType.Wind):
-
-                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.WindRuneSelected.Invoke(runeNumber));
-                    break;
-
-            }
+            buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke
+            (runeType, runeNumber, runeDamage, runeRange, runeVFX));
 
         }
 
