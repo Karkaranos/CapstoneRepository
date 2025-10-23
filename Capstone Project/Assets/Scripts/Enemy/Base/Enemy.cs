@@ -191,13 +191,12 @@ public class Enemy : MonoBehaviour
     
     /// <summary>
     /// Getter for if the player is in the attack range of the enemy
+    /// Needs to be overriden for each type of enemy s
     /// </summary>
     /// <returns></returns>
-    public bool getPlayerInAttackRange()
+    public virtual bool GetPlayerInAttackRange()
     {
-        //TODO: Once Brad gets GridPathfinding Fixed
-        // Check if target pos = current pos
-        return true;
+        return false;
     }
 
     #endregion

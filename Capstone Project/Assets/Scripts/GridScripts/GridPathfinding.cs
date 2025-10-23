@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/22/2025
+ * Last Modified: 10/23/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -43,24 +43,6 @@ public class GridPathfinding : MonoBehaviour
     {
         Debug.Log("I do nothing now");
         //targetPosition = GridManager.playerPosition;
-    }
-
-    /// <summary>
-    /// Function that enemies call to set their movement range
-    /// </summary>
-    /// <param name="movementRange"></param>
-    public void SetMovementRange(int movementRange)
-    {
-        this.movementRange = movementRange;
-    }
-
-    /// <summary>
-    /// Function that enemies call to set their aggro range
-    /// </summary>
-    /// <param name="aggroRange"></param>
-    public void SetAggroRange(int aggroRange)
-    {
-        this.aggroRange = aggroRange;
     }
 
     /// <summary>
@@ -253,4 +235,35 @@ public class GridPathfinding : MonoBehaviour
         GridManager.MoveToTile(myPosition, nextPosition, -2);
         myPosition = nextPosition;
     }
+
+    #region GETTERS AND SETTERS
+
+    /// <summary>
+    /// Function that enemies call to set their movement range
+    /// </summary>
+    /// <param name="movementRange"></param>
+    public void SetMovementRange(int movementRange)
+    {
+        this.movementRange = movementRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their aggro range
+    /// </summary>
+    /// <param name="aggroRange"></param>
+    public void SetAggroRange(int aggroRange)
+    {
+        this.aggroRange = aggroRange;
+    }
+
+    /// <summary>
+    /// Returns a reference to target movement position 
+    /// </summary>
+    /// <returns></returns>
+    public Vector2Int GetTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    #endregion
 }

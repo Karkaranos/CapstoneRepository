@@ -23,13 +23,11 @@ public class MeleeEnemyAttackState : MeleeEnemyState
 
         enemy.logText.text = "Attacking";
 
-        if (enemy.getPlayerInAttackRange())
-        {
-            enemy.playerStats.TakeDamage(enemy.damage);
-        }
-        
+        enemy.playerStats.TakeDamage(enemy.damage);
+
+
         //If enemy can attack twice and hasn't yet call Attack state again 
-        if(enemy.canAttackTwice && !enemy.hasAttackedTwice)
+        if (enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
             Logger.Log("Enemy State: Attack -> Attack");
             enemy.hasAttackedTwice = true;

@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 4
   maxHealth: 44
   lowHealthPercentage: 0.8
   currentHealth: 5
@@ -399,14 +399,13 @@ MonoBehaviour:
   damage: 5
   artifactDropChance: 0.5
   playerStats: {fileID: 0}
-  movementRange: 3
+  movementRange: 1
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
   secondsBetweenStateTransitions: 1.75
   canAttackTwice: 1
   isLowHealth: 0
-  playerInAttackRange: 0
   hasMovedForTurn: 0
   hasAttackedTwice: 0
 --- !u!114 &3309745930933566544
@@ -435,6 +434,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPosition: {x: 0, y: 0}
   targetPosition: {x: 0, y: 0}
+  nextPos: []
+  gridDirections: []
   movementRange: 3
   aggroRange: 50
 --- !u!114 &5895380928361199476
@@ -451,6 +452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviours: 0
   targetLocations: []
+  attackRange: 0
+  moveToAttackRange: 0
 --- !u!54 &2465258453013156434
 Rigidbody:
   m_ObjectHideFlags: 0

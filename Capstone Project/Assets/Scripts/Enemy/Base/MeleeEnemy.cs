@@ -12,6 +12,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class MeleeEnemy : Enemy
 {
@@ -29,7 +30,6 @@ public class MeleeEnemy : Enemy
     #region TEST VARS
 
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool isLowHealth = false;
-    [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playerInAttackRange = true;
 
     #endregion
 
@@ -77,6 +77,7 @@ public class MeleeEnemy : Enemy
     public override void Start()
     {
         base.Start();
+        targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
     }
 
     /// <summary>
@@ -96,7 +97,7 @@ public class MeleeEnemy : Enemy
         }
 
         //Attack if player in range otherwise move towards player
-        if(PlayerInAttackRange())
+        if(GetPlayerInAttackRange())
         {
             Debug.Log("Wait -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
@@ -120,15 +121,9 @@ public class MeleeEnemy : Enemy
         return isLowHealth;
     }
 
-    /// <summary>
-    /// Is the player in attack ranger 
-    /// Will be filled out for actual functionality 
-    /// </summary>
-    /// <returns></returns>
-    public bool PlayerInAttackRange()
+    public IEnumerator Delay(float seconds)
     {
-        //TODO: ask Brad best way to determine if player is in range based on grid functionality 
-        return playerInAttackRange;
+        yield return new WaitForSeconds(seconds);
     }
 
     #endregion
@@ -142,6 +137,14 @@ public class MeleeEnemy : Enemy
     public MeleeEnemyWaitState GetWaitState() {  return enemyWaitState; }
     public MeleeEnemyAttackState GetAttackState() {  return attackState; }
     public MeleeEnemyEndTurnState GetEndTurnState() { return endTurnState; }
+
+    public override bool GetPlayerInAttackRange()
+    {
+        Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
+        if (targetingBehaviour.targetLocations.Contains(gridPathfinding.MyPosition))
+        { Debug.Log("In Range"); }
+        return targetingBehaviour.targetLocations.Contains(gridPathfinding.MyPosition);
+    }
 
     #endregion
 }
