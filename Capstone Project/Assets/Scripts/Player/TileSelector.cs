@@ -2,7 +2,8 @@
 Author Names : 	Jay Embry
 Date Created : 	10/22/2025
 Date Last Modified : 10/22/2025
-Brief Description : Selects tile
+Brief Description : Selects tile, ideally.
+                    Not quite being used for anything yet.
 External Resources : 	
 	***************************************************/
 
@@ -13,7 +14,7 @@ using UnityEngine.Windows;
 public class TileSelector : MonoBehaviour
 {
 
-    [SerializeField] PlayerInput playerInput;
+    //PlayerInput playerInput;
 
     [SerializeField] InputAction playerClick;
     [SerializeField] InputAction playerClickPerformed;
@@ -21,7 +22,7 @@ public class TileSelector : MonoBehaviour
     private void OnEnable()
     {
 
-        playerInput.currentActionMap.Enable();
+        //playerInput.currentActionMap.Enable();
         playerClick.Enable();
         playerClickPerformed.started += playerClickedConfirmed;
 
@@ -33,7 +34,7 @@ public class TileSelector : MonoBehaviour
     private void OnDisable()
     {
 
-        playerInput.currentActionMap.Disable();
+        //playerInput.currentActionMap.Disable();
         playerClick.Disable();
         playerClickPerformed.started -= playerClickedConfirmed;
 
@@ -50,11 +51,11 @@ public class TileSelector : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
 
-            if (hit.transform.gameObject.GetComponent<TileBehavior>() != null)
+            if (hit.transform.gameObject.GetComponent<TileBehaviour>() != null)
             {
 
                 Debug.Log("Clicked a tile!");
-                PublicEvents.SelectTile.Invoke(hit.transform.gameObject.GetComponent<TileBehavior>());
+                PublicEvents.SelectTile.Invoke(hit.transform.gameObject.GetComponent<TileBehaviour>());
 
             }
 

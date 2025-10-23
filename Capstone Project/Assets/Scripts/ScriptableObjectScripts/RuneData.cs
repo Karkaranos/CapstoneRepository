@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Hayes 
+Author Names : 		Tyler Hayes, Jay Embry
 Date Created : 		09/30/2025
-Date Last Modified : 09/30/2025
+Date Last Modified : 10/22/2025
 Brief Description : This is the data container for what nodes have
                     been unlocked on the skill tree
 External Resources : 	
@@ -95,7 +95,7 @@ public class RuneData : ScriptableObject
     /// </summary>
     /// <param name="typeOfRune"> The element of rune this is </param>
     /// <param name="numberOnSkillTree"> which version of the element it is </param>
-    public RuneData(RuneType typeOfRune, int numberOnSkillTree, string RuneName, string RuneDescription, float RuneDamage, int RuneRange)
+    public RuneData(RuneType typeOfRune, int numberOnSkillTree, string RuneName, string RuneDescription, float RuneDamage, int RuneRange, GameObject RuneVFX)
     {
         this.TypeOfRune = typeOfRune;
         this.NumberOnSkillTree = numberOnSkillTree;
@@ -103,5 +103,6 @@ public class RuneData : ScriptableObject
         this.RuneDescription = RuneDescription;
         this.RuneDamage = RuneDamage;
         this.RuneRange = RuneRange;
+        this.RuneVFX = RuneVFX;
     }
 }

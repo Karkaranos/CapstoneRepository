@@ -1,19 +1,16 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	09/30/2025
-Date Last Modified : 10/07/2025
+Date Last Modified : 10/22/2025
 Brief Description : The in-combat menus for rune selection.
                     Generates and displays buttons.
 				    Displays submenus for the different tiers of spells.
 External Resources : 	
 	***************************************************/
 
-
-using System.Runtime.CompilerServices;
 using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine.UI;
 using TMPro;
 
@@ -100,6 +97,7 @@ public class RuneSelectionMenu : MonoBehaviour
             int runeNumber = skillAndEquipManager.equippedSpells[index].NumberOnSkillTree;
             float runeDamage = skillAndEquipManager.equippedSpells[index].RuneDamage;
             int runeRange = skillAndEquipManager.equippedSpells[index].RuneRange;
+            GameObject runeVFX = skillAndEquipManager.equippedSpells[index].RuneVFX;
 
 
             //Links rune effect to button based on rune type
@@ -108,12 +106,14 @@ public class RuneSelectionMenu : MonoBehaviour
 
                 case (RuneType.Lightning):
 
-                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke(RuneType.Lightning, runeNumber, runeDamage, runeRange));
+                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke
+                    (RuneType.Lightning, runeNumber, runeDamage, runeRange, runeVFX));
                     break;
 
                 case (RuneType.Wind):
 
-                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke(RuneType.Wind, runeNumber, runeDamage, runeRange));
+                    buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke
+                    (RuneType.Wind, runeNumber, runeDamage, runeRange, runeVFX));
                     break;
 
             }

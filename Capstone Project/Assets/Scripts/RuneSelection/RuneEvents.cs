@@ -1,20 +1,13 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 10/09/2025
+Date Last Modified : 10/22/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
-using System.Collections;
-using Mono.Cecil;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using PlayerInputActions;
-using UnityEngine.Rendering;
-using System.Collections.Generic;
 using NaughtyAttributes;
 
 public class RuneEvents : MonoBehaviour
@@ -22,33 +15,18 @@ public class RuneEvents : MonoBehaviour
 
     #region INITIALIZATION
 
-    [SerializeField] TileBehavior tileBehavior;
-
-    [Button("Attack Tile Test")]
-    public void AttackTileTest()
+    public enum Prep
     {
 
-        storedRuneType = RuneType.Lightning;
-        storedRuneNumber = 1;
-        storedRuneDamage = 40;
-        storedRuneRange = 10;
-        TargetSelectedTile(tileBehavior);
+        Visuals,
+        Testing
 
     }
 
+    [SerializeField] private Prep currentInspectorShowing;
+
     //for waiting on player input
     bool waitingForThePlayer;
-
-    //temp value for player communication
-    [SerializeField] TMP_Text temp;
-
-    public List<GameObject> runeVisuals = new List<GameObject>();
-
-    //for menu-swapping purposes
-    [SerializeField] GameObject playerMenu;
-
-    //[SerializeField] InputAction playerClick;
-    //[SerializeField] InputAction playerClickPerformed;
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
@@ -56,8 +34,6 @@ public class RuneEvents : MonoBehaviour
     private void OnEnable()
     {
 
-        //playerClick.Enable();
-        //playerClickPerformed.started += playerClickedConfirmed;
         PublicEvents.SelectTile += TargetSelectedTile;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
 
@@ -69,8 +45,6 @@ public class RuneEvents : MonoBehaviour
     private void OnDisable()
     {
 
-        //playerClick.Disable();
-        //playerClickPerformed.started -= playerClickedConfirmed;
         PublicEvents.SelectTile -= TargetSelectedTile;
         PublicEvents.RuneSelected -= StoreSelectedRuneData;
 
@@ -79,24 +53,74 @@ public class RuneEvents : MonoBehaviour
     #endregion INITIALIZATION
 
 
+    #region VISUALS
+
+    [HorizontalLine(4, EColor.Red)]
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Visuals), SerializeField]
+    //for menu-swapping purposes
+    GameObject playerMenu;
+
+    #endregion VISUALS
+
+
+    #region TESTING
+
+    [HorizontalLine(4, EColor.Yellow)]
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    //temp value for player communication
+    TMP_Text temp;
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    TileBehaviour tileBehaviour;
+
+
+    //stores the rune that the player has most recently selected
+    //they can be shown for now for testing purposes
+    //ideally, these shouldn't be messed with in the future
+    [Header("Test Variables")]
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    RuneType storedRuneType;
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    int storedRuneNumber;
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    float storedRuneDamage;
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    int storedRuneRange;
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    GameObject storedRuneVFX;
+
+
+    //test
+    [Button("Attack Tile Test")]
+    public void AttackTileTest()
+    {
+
+        waitingForThePlayer = true;
+        TargetSelectedTile(tileBehaviour);
+
+    }
+
+    #endregion TESTING
+
+
     #region RUNE EVENTS
-
-    private RuneType storedRuneType;
-
-    private int storedRuneNumber;
-
-    private float storedRuneDamage;
-
-    private int storedRuneRange;
 
     /// <summary>
     /// Prepares the rune that the player chooses to attack with
     /// </summary>
-    /// /// <param name="runeType"> Rune element </param>
+    /// <param name="runeType"> Rune element </param>
     /// <param name="runeNumber"> Rune's number on the skill tree </param>
     /// <param name="runeDamage"> How much damage the rune is supposed to do </param>
     /// <param name="runeRange"> How close the player has to be to their target </param>
-    public void StoreSelectedRuneData(RuneType runeType, int runeNumber, float runeDamage, int runeRange)
+    /// <param name="runeVFX"> Rune's visual effect </param>
+    public void StoreSelectedRuneData(RuneType runeType, int runeNumber, float runeDamage, int runeRange, GameObject runeVFX)
     {
 
         waitingForThePlayer = true;
@@ -105,21 +129,25 @@ public class RuneEvents : MonoBehaviour
         storedRuneNumber = runeNumber;
         storedRuneDamage = runeDamage;
         storedRuneRange = runeRange;
+        storedRuneVFX = runeVFX;
 
         temp.text = "Select a target!";
 
     }
 
-    //for later
-    GameObject visual;
 
-    public void TargetSelectedTile(TileBehavior tile)
+    /// <summary>
+    /// Checks if the selected tile has an enemy in it
+    /// If it does, the player's selected rune will target the enemy on the selected tile
+    /// </summary>
+    /// <param name="tile"> tile that the player has selected </param>
+    public void TargetSelectedTile(TileBehaviour tile)
     {
 
-        Debug.Log("You made it!");
+        int distance = Mathf.RoundToInt(Vector2.Distance(tile.transform.position, GridManager.playerPosition));
 
-        if(waitingForThePlayer && 
-            Vector2.Distance(tile.transform.position, GridManager.playerPosition) <= storedRuneRange &&
+        if (waitingForThePlayer && 
+            (distance/2) <= storedRuneRange &&
             tile.gameObject.GetComponentInChildren<Enemy>() != null)
         {
 
@@ -127,9 +155,6 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         case (RuneType.Lightning):
-
-                            //visual = Instantiate(runeVisuals[0]);
-                            //visual.transform.position = FindFirstObjectByType<PlayerBehavior>().transform.position;
 
                             SelectLightningRune(tile);
                             break;
@@ -150,35 +175,11 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    //work on this later
-
-    IEnumerator LightningRuneAnimation(TileBehavior target)
-    {
-        int timer = 0;
-        Vector3 startingPos = visual.transform.position;
-
-        while (timer < 1)
-        {
-
-            visual.transform.position = Vector3.Lerp
-                (startingPos, target.GetComponentInChildren<Enemy>().transform.position, timer);
-            timer++;
-
-            yield return new WaitForSeconds(1);
-
-        }
-
-        visual.transform.position = target.GetComponentInChildren<Enemy>().transform.position;
-        SelectLightningRune(target);
-
-    }
-
-
-
     /// <summary>
     /// Calls lightning rune effect
     /// </summary>
-    public void SelectLightningRune(TileBehavior target)
+    /// <param name="target"> tile that the player has selected </param>
+    public void SelectLightningRune(TileBehaviour target)
     {
 
         switch (storedRuneNumber)
@@ -188,6 +189,7 @@ public class RuneEvents : MonoBehaviour
 
                 target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                Instantiate(storedRuneVFX, target.transform);
                 break;
 
             case (2):
@@ -196,8 +198,14 @@ public class RuneEvents : MonoBehaviour
 
                 target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                Instantiate(storedRuneVFX, target.transform);
+
                 secondaryTarget.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                Instantiate(storedRuneVFX, secondaryTarget.transform);
+
+                Debug.Log(secondaryTarget);
+
                 break;
 
             case (3):
@@ -206,19 +214,30 @@ public class RuneEvents : MonoBehaviour
 
                 target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                Instantiate(storedRuneVFX, target.transform);
 
-                TileBehavior[] enemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
+                TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
-                foreach (TileBehavior enemy in enemies)
+                foreach (TileBehaviour enemy in enemies)
                 {
 
-                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius &&
+                    if(enemy == target)
+                    {
+
+                        continue;
+
+                    }
+
+                    if ((Vector2.Distance(target.transform.position, enemy.transform.position)/2) <= radius &&
                         enemy.GetComponentInChildren<Enemy>() != null)
                     {
 
                         //hardcoding this feels bad i can change this later
                         enemy.GetComponentInChildren<Enemy>().Damage
                             (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                        Instantiate(storedRuneVFX, enemy.transform);
+
+                        Debug.Log(enemy);
 
                     }
 
@@ -230,6 +249,7 @@ public class RuneEvents : MonoBehaviour
 
                 target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                Instantiate(storedRuneVFX, target.transform);
                 break;
 
             default:
@@ -237,10 +257,9 @@ public class RuneEvents : MonoBehaviour
         }
 
         //delete later
-        Logger.Log("You used Lightning " + storedRuneNumber + "!", false);
-        temp.text = "You used Lightning " + storedRuneNumber + "!";
+        temp.text = "You used Lightning " + storedRuneNumber + " for " + storedRuneDamage + " damage!";
 
-        if(PublicEvents.EnemyTurnStarted != null)
+        if (PublicEvents.EnemyTurnStarted != null)
         {
 
             PublicEvents.EnemyTurnStarted();
@@ -252,17 +271,31 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    TileBehavior secondaryTarget;
-    TileBehavior FindSecondaryTarget(TileBehavior target)
+    //variable that stores the enemy that's closest to the target
+    //for lightning 2
+    TileBehaviour secondaryTarget;
+
+    /// <summary>
+    /// Calls lightning rune effect
+    /// </summary>
+    /// <param name="target"> tile that the player has selected </param>
+    TileBehaviour FindSecondaryTarget(TileBehaviour target)
     {
 
-        TileBehavior[] otherEnemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
+        TileBehaviour[] otherEnemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
         float closestDistance = Mathf.Infinity;
         Vector3 primaryTargetPos = target.gameObject.transform.position;
 
-        foreach(TileBehavior potentialTarget in otherEnemies)
+        foreach(TileBehaviour potentialTarget in otherEnemies)
         {
+
+            if(potentialTarget == target)
+            {
+
+                continue;
+
+            }
 
             Vector3 dir = potentialTarget.gameObject.transform.position - primaryTargetPos;
             float distanceFromTarget = dir.sqrMagnitude;
@@ -285,7 +318,8 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// Calls wind rune effect
     /// </summary>
-    public void SelectWindRune(TileBehavior target)
+    /// <param name="target"> tile that the player has selected </param>
+    public void SelectWindRune(TileBehaviour target)
     {
 
         switch (storedRuneNumber)
@@ -295,9 +329,9 @@ public class RuneEvents : MonoBehaviour
 
                 int radius = 3;
 
-                TileBehavior[] enemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
+                TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
-                foreach (TileBehavior enemy in enemies)
+                foreach (TileBehaviour enemy in enemies)
                 {
 
                     if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius &&
@@ -332,9 +366,9 @@ public class RuneEvents : MonoBehaviour
                 target.GetComponentInChildren<Enemy>().Damage
                     (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
 
-                TileBehavior[] adjacentEnemies = FindObjectsByType<TileBehavior>(FindObjectsSortMode.None);
+                TileBehaviour[] adjacentEnemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
-                foreach (TileBehavior enemy in adjacentEnemies)
+                foreach (TileBehaviour enemy in adjacentEnemies)
                 {
 
                     if (Vector2.Distance(target.transform.position, enemy.transform.position) <= tornadoRadius &&

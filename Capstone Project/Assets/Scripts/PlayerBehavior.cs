@@ -30,7 +30,7 @@ public class PlayerBehavior : MonoBehaviour
     public Vector2Int targetPosition;
 
     [Tooltip("Scripts the playerbehavior is deriving from")]
-    private TileBehavior tileBehavior;
+    private TileBehaviour tileBehavior;
     private GridManager gridManager;
     private ButtonManager buttonManager;
 
