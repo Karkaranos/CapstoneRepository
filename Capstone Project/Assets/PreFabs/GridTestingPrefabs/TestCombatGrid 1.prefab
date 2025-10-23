@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2417595783208791789}
   m_Layer: 0
-  m_Name: TestCombatGrid
+  m_Name: TestCombatGrid 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,8 +431,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6759188907913255077}
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+--- !u!1 &18477721582322315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+  m_PrefabInstance: {fileID: 3433168259186981358}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6759188907913255077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18477721582322315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coordinatesInGrid: {x: 0, y: 0}
+  entity: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+  entityType: 2
 --- !u!4 &9112830325049245835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
