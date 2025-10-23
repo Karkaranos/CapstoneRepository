@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/21/2025
+ * Last Modified: 10/22/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -19,7 +19,8 @@ public class GridPathfinding : MonoBehaviour
     }
     [SerializeField] protected Vector2Int myPosition;
     [SerializeField] protected Vector2Int targetPosition;
-    protected List<string> gridDirections = new List<string>();
+    [SerializeField] List<Vector2Int> nextPos = new List<Vector2Int>();
+    [SerializeField] protected List<string> gridDirections = new List<string>();
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
@@ -30,7 +31,7 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     public void TestPathfinding()
     {
-        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.melee;
+        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
         GetComponent<TargetingBehaviour>().FindTarget();
         PathfindThroughGrid();
     }
@@ -67,6 +68,8 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     public void PathfindThroughGrid()
     {
+        nextPos.Clear();
+        nextPos.Add(targetPosition);
         Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
 
@@ -90,6 +93,7 @@ public class GridPathfinding : MonoBehaviour
                 if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
                 {
                     targetPosition = currentTile;
+                    nextPos.Add(targetPosition);
                     reachedTarget = true;
                     currentPositions.Clear();
                     break;
@@ -106,7 +110,7 @@ public class GridPathfinding : MonoBehaviour
             for (int i = 0; i < currentPositions.Count; ++i)
             {
                 myPosition = currentPositions[i];
-                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition);
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition);
 
                 foreach(Vector2Int v in temp)
                 {
@@ -183,6 +187,7 @@ public class GridPathfinding : MonoBehaviour
                     ++targetPosition.y;
                 }
             }
+            nextPos.Add(targetPosition);
         }
 
         targetPosition = originalTarget;
@@ -201,10 +206,14 @@ public class GridPathfinding : MonoBehaviour
 
         Vector3 newPosition = GetComponentInParent<Transform>().position;
 
-        int max = movementRange > gridDirections.Count ? gridDirections.Count : movementRange;
+        int max = gridDirections.Count - 1;
+        int min = movementRange > gridDirections.Count ? 0 : gridDirections.Count - movementRange;
+        
+
+        Vector2Int nextPosition = nextPos[gridDirections.Count];
 
         //Uses a list of directions to move an enemy along a path
-        for (int i = max - 1; i >= 0; --i)
+        for (int i = max; i >= min; --i)
         {
             yield return new WaitForSeconds(.5f);
             Debug.Log("Wait over");
@@ -241,7 +250,7 @@ public class GridPathfinding : MonoBehaviour
             Debug.Log("Moved");
         }
         GridManager.ClearPathfinding();
-        GridManager.combatGrid[myPosition.x, myPosition.y] = -1;
-        myPosition = targetPosition;
+        GridManager.MoveToTile(myPosition, nextPosition, -2);
+        myPosition = nextPosition;
     }
 }

@@ -54,6 +54,15 @@ public class GameManager : MonoBehaviour
     private bool TestForConsoleState => TestSettingValue(Settings.ConsoleCommands);
     #endregion
 
+    // Should be relocated to PlayerBehavior
+    // This is bad code. These should not be public
+    // However, I needed some action point system to work to remove a blocker
+    #region TEMPORARY 
+    public int CurrentActionPoints;
+    public int MoveActionPoints =2;
+    public int ActionPointsPerTurn = 3;
+    #endregion
+
     /// <summary>
     /// Inspector function
     /// Checks if the given enum state is active

@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe
+Author Names : 		    Aidan Ratcliffe, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	10/2/2025
+Date Last Modified : 	10/22/2025
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -38,6 +38,8 @@ public class ButtonManager : MonoBehaviour
     public bool backButtonClicked;
     public bool confirmButtonClicked;
     public bool endButtonClicked;
+
+    private GameManager gm; // temp variable
     #endregion
 
     /// <summary>
@@ -46,6 +48,7 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        gm = FindFirstObjectByType<GameManager>();
     }
 
     #region functions
@@ -55,14 +58,22 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        Debug.Log("The player can move!");
-        if(playerBehavior == null)
+        if(gm.CurrentActionPoints >= gm.MoveActionPoints)
         {
-            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+            Debug.Log("The player can move!");
+            if (playerBehavior == null)
+            {
+                playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+            }
+            playerBehavior.PlayerCanMove = true;
+            confirmCanvas.SetActive(true);
+            playerCanvas.SetActive(false);
         }
-        playerBehavior.PlayerCanMove = true;
-        confirmCanvas.SetActive(true);
-        playerCanvas.SetActive(false);
+        else
+        {
+            Logger.Warning("Not enough Action Points!");
+        }    
+        
         //playerCanMove = true;
         //if(playerCanMove)
         //{
@@ -116,6 +127,7 @@ public class ButtonManager : MonoBehaviour
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
+        PublicEvents.PlayerMove();
         //confirmButtonClicked = true;
         //if (confirmButtonClicked)
         //{
