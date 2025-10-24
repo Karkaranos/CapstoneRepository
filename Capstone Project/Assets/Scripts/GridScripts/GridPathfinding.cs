@@ -52,24 +52,6 @@ public class GridPathfinding : MonoBehaviour
     }
 
     /// <summary>
-    /// Function that enemies call to set their movement range
-    /// </summary>
-    /// <param name="movementRange"></param>
-    public void SetMovementRange(int movementRange)
-    {
-        this.movementRange = movementRange;
-    }
-
-    /// <summary>
-    /// Function that enemies call to set their aggro range
-    /// </summary>
-    /// <param name="aggroRange"></param>
-    public void SetAggroRange(int aggroRange)
-    {
-        this.aggroRange = aggroRange;
-    }
-
-    /// <summary>
     /// Takes the current position and pathfinds to a designated location
     /// </summary>
     public void PathfindThroughGrid()
@@ -283,4 +265,44 @@ public class GridPathfinding : MonoBehaviour
             }
         }
     }
+
+    #region GETTERS AND SETTERS
+
+    /// <summary>
+    /// Function that enemies call to set their movement range
+    /// </summary>
+    /// <param name="movementRange"></param>
+    public void SetMovementRange(int movementRange)
+    {
+        this.movementRange = movementRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their aggro range
+    /// </summary>
+    /// <param name="aggroRange"></param>
+    public void SetAggroRange(int aggroRange)
+    {
+        this.aggroRange = aggroRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their movementSpeed
+    /// </summary>
+    /// <param name="movementSpeed"></param>
+    public void SetMovementSpeed(float movementSpeed)
+    {
+        this.movementSpeed = movementSpeed;
+    }
+
+    /// <summary>
+    /// Returns a reference to target movement position 
+    /// </summary>
+    /// <returns></returns>
+    public Vector2Int GetTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    #endregion
 }
