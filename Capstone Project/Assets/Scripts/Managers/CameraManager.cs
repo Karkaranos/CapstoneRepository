@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEditor.Rendering;
@@ -6,7 +7,8 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-
+    #region VARS
+    
     private enum Cameras
     {
         Cameras,
@@ -17,45 +19,48 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] private Cameras Cams;
 
-    [SerializeField] public CinemachineCamera level1cam;
-    [SerializeField] public CinemachineCamera level1playcam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
 
-    [SerializeField] public bool transitionStarted;
+    #endregion
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    #region FUNCTIONS
+    /// <summary>
+    /// OnDisable for when the public event StartBattle is called
+    /// </summary>
     public void OnEnable()
     {
         PublicEvents.StartBattle += SwitchesCamerasFromOutOfCombat;
     }
 
+    /// <summary>
+    /// OnDisable for when the public event StartBattle is called
+    /// </summary>
     public void OnDisable()
     {
         PublicEvents.StartBattle -= SwitchesCamerasFromOutOfCombat;
     }
 
+    /// <summary>
+    /// Function to switch the desired camera to "cutscene" camera
+    /// </summary>
     void SwitchesCamerasFromOutOfCombat()
     {
         SwitchCamera(level1cam);
     }
 
+    /// <summary>
+    /// Funtion to switch camera depending on priority.
+    /// 10 = default priority
+    /// 20 = highest priority
+    /// </summary>
+    /// <param name="newActiveCamera"></param>
     void SwitchCamera(CinemachineCamera newActiveCamera)
     {
-        // Deactivate all cameras
-        level1cam.Priority = 10; // Default priority
+        level1cam.Priority = 10; 
         level1playcam.Priority = 10;
 
-        // Activate the new camera by setting its priority higher
-        newActiveCamera.Priority = 20; // A higher priority makes it the active camera
+        newActiveCamera.Priority = 20; 
     }
+    #endregion
 }
