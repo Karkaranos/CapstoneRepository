@@ -122,7 +122,9 @@ public class Enemy : MonoBehaviour
         enemyStateMachine = new EnemyStateMachine();
     }
 
-    //Start function
+    /// <summary>
+    /// Start function
+    /// </summary>
     public virtual void Start()
     {
         currentHealth = maxHealth;
