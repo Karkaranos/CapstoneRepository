@@ -28,12 +28,12 @@ public class RuneSelectionMenu : MonoBehaviour
 
     [SerializeField] private Variables currentInspectorShowing;
 
-    SkillAndEquipManager skillAndEquipManager;
+    SkillAndArtifactManager skillAndEquipManager;
 
     private void Start()
     {
 
-        skillAndEquipManager = GameObject.FindFirstObjectByType<SkillAndEquipManager>();
+        skillAndEquipManager = GameObject.FindFirstObjectByType<SkillAndArtifactManager>();
 
     }
 
