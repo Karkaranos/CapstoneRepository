@@ -1,3 +1,10 @@
+/*************************************************
+Author Names : 		    Aidan Ratcliffe
+Date Created : 		    10/22/2025
+Date Last Modified : 	10/23/2025
+Brief Description : 	Manages Camera Transitions
+External Resources : 	N/A
+***************************************************/
 using NaughtyAttributes;
 using System.Collections.Generic;
 using Unity.Cinemachine;
