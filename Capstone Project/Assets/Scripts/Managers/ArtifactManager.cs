@@ -1,17 +1,24 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    10/5/2025
-Date Last Modified : 	10/8/2025
+Date Last Modified : 	10/26/2025
 Brief Description : 	Controls what artifacts and effects are actively applied                     
-External Resources : 	N/A
+External Resources : 	https://stackoverflow.com/questions/1420186/references-to-variables-in-c
 ***************************************************/
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class ArtifactManager
 {
-
+    #region Variables
     [SerializeField] private bool inTestMode;
+
+    #region Artifacts
     // Stores all currently applied Artifacts
     private static List<ArtifactData> currentArtifacts = new List<ArtifactData>();
 
@@ -27,6 +34,20 @@ public class ArtifactManager
 
     public static int MaxArtifacts { get => maxArtifacts; set => maxArtifacts = value; }
 
+    #endregion Artifacts
+
+    #region Stamps
+    private int markOfSpeedCount = 0;
+    private int markOfStrengthCount = 0;
+    private int markOfRiskCount = 0;
+
+    #endregion Stamps
+
+    private static PlayerStats player;
+    private static GameManager gm;
+
+    #endregion Variables
+
     /// <summary>
     /// Constructor for Artifact Manager
     /// </summary>
@@ -35,11 +56,12 @@ public class ArtifactManager
     /// <param name="maxArtifact">Maximum Number of Artifacts</param>
     /// <param name="testing">True if testing functionality</param>
     /// <param name="testInfo">Data for testing. Please have a minimum length of 4</param>
-    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, bool testing = false, ArtifactData[] testInfo = null)
+    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, PlayerStats p, bool testing = false, ArtifactData[] testInfo = null)
     {
         randomArtifactPool = rap;
         setArtifactPool = sap;
         maxArtifacts = maxArtifact;
+        player = p;
         if(testing)
         {
             inTestMode = true;
@@ -50,20 +72,31 @@ public class ArtifactManager
     }
 
     /// <summary>
+    /// Sets a reference to the PlayerStats script
+    /// </summary>
+    /// <param name="p">PlayerStats</param>
+    /// <returns>Whether the operaation was sucessful or not</returns>
+    public static void SetPlayerReference(PlayerStats p)
+    {
+        player = p;
+    }
+
+    /// <summary>
     /// Hardcoded function to show adding/removing
     /// Applies the first three items, then tries to apply a fourth
     /// Removes an item then applies the fourth
     public static void TestArtifacts()
     {
         ApplyArtifact(testData[0]);
-        ApplyArtifact(testData[1]);
-        ApplyArtifact(testData[2]);
-        ApplyArtifact(testData[3]);
-        RemoveArtifact(testData[0]);
-        ApplyArtifact(testData[3]);
-
     }
 
+    /// <summary>
+    /// Gets an artifact from the Set Artifact Pool
+    /// Returns an artifact based on current level
+    /// </summary>
+    /// <param name="level">Current level, 0-level count-1</param>
+    /// <returns>related ArtifactData</returns>
+    /// <exception cref="System.Exception">Throws out of index exception</exception>
     public static ArtifactData GetArtifactFromSAP(int level)
     {
         if (level <= setArtifactPool.Length)
@@ -73,11 +106,19 @@ public class ArtifactManager
         throw new System.Exception("Cannot access indexes outside of the SAP Array");
     }
 
+    /// <summary>
+    /// Returns an artifact from the RandomArtifactPool
+    /// </summary>
+    /// <returns>Random ArtifactData</returns>
     public static ArtifactData GetArtifactFromRAP()
     {
-        return randomArtifactPool[Random.Range(0, randomArtifactPool.Length)];
+        return randomArtifactPool[UnityEngine.Random.Range(0, randomArtifactPool.Length)];
     }
 
+    /// <summary>
+    /// Adds the ArtifactData to the player's pool
+    /// </summary>
+    /// <param name="artifact">ArtifactData to add</param>
     public static void ObtainArtifact(ArtifactData artifact)
     {
         inventoryArtifacts.Add(artifact);
@@ -85,7 +126,7 @@ public class ArtifactManager
     }
 
     /// <summary>
-    /// Takes and adds a new Artifact to the currently stored Artifacts
+    /// Equips an Artifact and updates the stats accordingly
     /// </summary>
     /// <param name="artifact">The artifact to add</param>
     public static void ApplyArtifact(ArtifactData artifact)
@@ -130,34 +171,41 @@ public class ArtifactManager
     /// <param name="adding">Whether the artifact is being applied or not</param>
     private static void ChangeEffect(ArtifactData artifact, bool adding = true)
     {
-        //Logger.LogWarning("Implement Artifact Stat Effects");
         string s = artifact.Name + " Effects: ";
-        foreach(ArtifactEffects e in artifact.Effects)
+
+        if(player==null)
         {
+            Debug.LogWarning("Player is null");
+            return;
+        }
+        foreach (ArtifactEffects e in artifact.Effects)
+        {
+
             switch (e.Effect)
             {
                 case Effects.LightningAttackMultiplier:
-                    //Player.LightningAttack = (adding ? Player.LightningAttack * e.StatChangeAmount : Player.LightningAttack / e.StatChangeAmount);
+                    AdjustValue(ref player.lightningAttackMultiplier, e.StatChangeAmount, adding);
                     s += "Lightning Attack multiplied by ";
                     break;
                 case Effects.ActionPointChange:
+                    Logger.Warning("Action Point change not implemented");
                     //Player.ActionPoints = (adding ? Player.ActionPoints + e.StatChangeAmount : Player.ActionPoints - e.StatChangeAmount);
                     s += "Action Points changed by ";
                     break;
                 case Effects.AttackMultiplier:
-                    //Player.Attack = (adding ? Player.Attack * e.StatChangeAmount : Player.Attack / e.StatChangeAmount);
+                    AdjustValue(ref player.baseAttackMultiplier, e.StatChangeAmount, adding);
                     s += "Attack multiplied by ";
                     break;
                 case Effects.WindAttackMultiplier:
-                    //Player.WindAttack = (adding ? Player.WindAttack * e.StatChangeAmount : Player.WindAttack / e.StatChangeAmount);
+                    AdjustValue(ref player.windAttackMultiplier, e.StatChangeAmount, adding);
                     s += "Wind Attack multiplied by ";
                     break;
                 case Effects.ResistanceMultiplier:
-                    //Player.Resistance = (adding ? Player.Resistance * e.StatChangeAmount : Player.Resistance / e.StatChangeAmount);
+                    AdjustValue(ref player.resistance, e.StatChangeAmount, adding);
                     s += "Resistance multiplied by ";
                     break;
-                case Effects.DamageTakenMultiplier:
-                    //Player.DamageTaken = (adding ? Player.DamageTaken * e.StatChangeAmount : Player.DamageTaken / e.StatChangeAmount);
+                case Effects.TotalDamageTakenMultiplier:
+                    AdjustValue(ref player.damageTakenMultiplier, e.StatChangeAmount, adding);
                     s += "Damage Taken multiplied by ";
                     break;
                 case Effects.HealthChange:
@@ -168,9 +216,23 @@ public class ArtifactManager
                     //Player.SpellSlots = (adding ? Player.SpellSlots * e.StatChangeAmount : Player.SpellSlots / e.StatChangeAmount);
                     s += "Spell Slot Count changed by ";
                     break;
-                case Effects.MovementSpeedMultiplier:
+                case Effects.MovementRadiusChange:
                     //Player.Speed = (adding ? PlayerAttack * e.StatChangeAmount : PlayerAttack / e.StatChangeAmount);
                     s += "Movement Speed multiplied by ";
+                    break;
+                case Effects.RangedDamageTakenMultiplier:
+                    AdjustValue(ref player.rangedDamageTakenMultiplier, e.StatChangeAmount, adding);
+                    s += "Ranged Damage Taken multiplied by ";
+                    break;
+                case Effects.MeleeDamageTakenMultiplier:
+                    AdjustValue(ref player.meleeDamageTakenMultiplier, e.StatChangeAmount, adding);
+                    s += "Melee Damage Taken multiplied by ";
+                    break;
+                case Effects.Vampiric:
+                    s += "Valpiric effect- to be implemented ";
+                    break;
+                case Effects.Dodge:
+                    s += "Valpiric effect- to be implemented ";
                     break;
                 default:
                     Logger.Warning("Effect " + e.Effect + " fell through cases");
@@ -179,7 +241,7 @@ public class ArtifactManager
             s += e.StatChangeAmount + " | ";
         }
 
-        if(adding)
+        if (adding)
         {
             Logger.Log(s);
         }
@@ -188,5 +250,17 @@ public class ArtifactManager
             Logger.Log("Removed " + artifact.Name);
         }
 
+    }
+
+    /// <summary>
+    /// Used for multiplicative or divisive adjustments to values
+    /// </summary>
+    /// <param name="x">The value to be adjusted</param>
+    /// <param name="y">The value to be multiplied/divided by</param>
+    /// <param name="b">True for multiplication</param>
+    private static void AdjustValue(ref float x, float y, bool b)
+    {
+        y = (y > 1 ? y + 1 : 1 - y);
+        x = x + (b ? x * y : x / y);
     }
 }

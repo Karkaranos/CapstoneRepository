@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
     }
 
     public Settings settings;
-    [HideInInspector] public static ArtifactManager ArtifactManager;
+    [HideInInspector] public ArtifactManager ArtifactManager;
     [HideInInspector] public static GameObject CommandConsoleRef;
+    public static PlayerStats PlayerStats;
     public bool allowArtifacts = false;
 
     #region Prefabs
@@ -84,7 +85,12 @@ public class GameManager : MonoBehaviour
         CommandConsoleRef = Instantiate(CommandConsole, transform.position, Quaternion.identity);
         CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled, consoleEnabled, consoleEnabledOnLoad);
 
-        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, allowArtifactTesting, testData);
+        PlayerStats = GetComponent<PlayerStats>();
+
+        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, PlayerStats, allowArtifactTesting, testData);
+
+        ArtifactManager.SetPlayerReference(PlayerStats);
+
 
     }
 }
