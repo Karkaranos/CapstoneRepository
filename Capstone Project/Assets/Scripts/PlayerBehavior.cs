@@ -1,5 +1,5 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe
+Author Names : 		    Aidan Ratcliffe, Tyler Hayes
 Date Created : 		    10/1/2025
 Date Last Modified : 	10/8/2025
 Brief Description : 	This how the player will detect where the grid is
@@ -37,7 +37,8 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("bool to check to see if the mouse input is activated")]
     public bool MouseIsClicked;
 
-    public bool PlayerCanMove = false;
+    [HideInInspector] public bool PlayerCanMove = false;
+    [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
 
     /// <summary>
@@ -87,8 +88,9 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        if (MouseIsClicked && PlayerCanMove)
+        /*if (MouseIsClicked && (PlayerCanMove || CurrentlyTryingToAttack))
         {
+            MouseIsClicked = false;
             Ray ray = Camera.main.ScreenPointToRay(playerClick.ReadValue<Vector2>());
             RaycastHit hit;
 
@@ -102,14 +104,17 @@ public class PlayerBehavior : MonoBehaviour
                 }
                 else
                 {
-                    targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
-                    gameObject.transform.position = temp;
-                    GridManager.MoveToTile(temp2, targetPosition, -3);
-                    buttonManager.confirmCanvas.SetActive(true);
+                    if (!hit.transform.gameObject.GetComponentInParent<TileBehaviour>().TileHasEntities)
+                    {
+                        targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
+                        gameObject.transform.position = temp;
+                        GridManager.MoveToTile(temp2, targetPosition, -3);
+                        buttonManager.confirmCanvas.SetActive(true);
+                    }
                 }
             }
-            MouseIsClicked = false;
-        }
+            
+        }*/
     }
     #endregion
 }

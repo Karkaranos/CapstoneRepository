@@ -107,7 +107,7 @@ public class ButtonManager : MonoBehaviour
                 playerBehavior = FindFirstObjectByType<PlayerBehavior>();
             }
             playerBehavior.PlayerCanMove = true;
-            confirmCanvas.SetActive(true);
+            //confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
         }
         else
