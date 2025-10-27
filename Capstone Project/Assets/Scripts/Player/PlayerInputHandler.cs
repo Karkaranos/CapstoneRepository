@@ -1,43 +1,60 @@
-using TMPro;
+/*************************************************
+Author Names : 		Tyler Hayes 
+Date Created : 		10/27/2025
+Date Last Modified : 10/27/2025
+Brief Description : Handles all of the player's inputs
+External Resources : 	
+***************************************************/
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerInputHandler : MonoBehaviour
 {
+    #region VARS
+
+    //all of the player's inputactions
     private PlayerInput pInput;
     private InputAction mousePos;
     private InputAction rightClick;
     private InputAction leftClick;
 
+    //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
+    private bool mousePressed = false;
+
+    #endregion VARS
+
     #region INITIALIZATION
 
+    /// <summary>
+    /// sets up actionmap
+    /// </summary>
     private void Awake()
-    {
+    { 
         pInput = GetComponent<PlayerInput>();
         pInput.currentActionMap.Enable();
         mousePos = pInput.currentActionMap.FindAction("MousePos");
         rightClick = pInput.currentActionMap.FindAction("RightClick");
         leftClick = pInput.currentActionMap.FindAction("LeftClick");
 
-        
+        mousePressed = false;
     }
 
-    
 
+    /// <summary>
+    /// subscribes to all needed functions
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.EnablePlayersInputs += EnableOrDisablePlayersInputs;
         rightClick.started += RightClick_started;
         leftClick.started += LeftClick_started;
-
-
-        PublicEvents.RightClicked += RightClicked;
-        PublicEvents.LeftClicked += LeftClicked;
-        PublicEvents.SelectTile += TestingTile;
     }
 
+    /// <summary>
+    /// unsubscribes from all needed functions
+    /// </summary>
     private void OnDisable()
     {
         PublicEvents.EnablePlayersInputs -= EnableOrDisablePlayersInputs;
@@ -45,24 +62,10 @@ public class PlayerInputHandler : MonoBehaviour
         leftClick.started -= LeftClick_started;
     }
 
-    private void TestingTile(TileBehaviour obj)
-    {
-        Debug.Log("Tile Clicked On: " + obj.name);
-    }
-
-    private void RightClicked()
-    {
-        Debug.Log("Right Clicked");
-    }
-
-    private void LeftClicked()
-    {
-        Debug.Log("Left Clicked");
-    }
-
-
-    #endregion INITIALIZATION
-
+    /// <summary>
+    /// call this via the publicevent EnablePlayersInputs to enable/disable the player's actionmap 
+    /// </summary>
+    /// <param name="isEnabled"></param>
     private void EnableOrDisablePlayersInputs(bool isEnabled)
     {
         if (isEnabled)
@@ -75,43 +78,56 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    #endregion INITIALIZATION
+
     #region PLAYERINPUTHANDLERS
 
+    /// <summary>
+    /// called whenever the player left clicks
+    /// </summary>
+    /// <param name="obj"></param>
     private void LeftClick_started(InputAction.CallbackContext obj)
     {
-        Debug.Log("LeftClicked");
+        mousePressed = true;
+
         PublicEvents.LeftClicked?.Invoke();
     }
 
+    /// <summary>
+    /// called whenever the player rightclicks
+    /// </summary>
+    /// <param name="obj"></param>
     private void RightClick_started(InputAction.CallbackContext obj)
     {
-        Ray ray = Camera.main.ScreenPointToRay(mousePos.ReadValue<Vector2>());
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            Vector3 temp = hit.transform.gameObject.transform.position;
-            if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() == null)
-            {
-                Debug.Log("is null" + hit.transform.gameObject.name);
-            }
-            else
-            {
-                PublicEvents.SelectTile(hit.transform.gameObject.GetComponentInParent<TileBehaviour>());
-            }
-        }
-
-        
         PublicEvents.RightClicked?.Invoke();
     }
 
+    /// <summary>
+    /// detects if the player clicked on a tile and sends out the tile clicked on if true
+    /// apparently this only works in update i fucking hate this >:C
+    /// </summary>
     private void FixedUpdate()
     {
-        
+        //only triggers when leftclicked
+        if (mousePressed)
+        {
+            mousePressed = false;
+
+            //creates a raycast based on where the mouse is
+            Ray ray = Camera.main.ScreenPointToRay(mousePos.ReadValue<Vector2>());
+            RaycastHit hit;
+
+            //if it hits something
+            if (Physics.Raycast(ray, out hit))
+            {
+                //if it hits a tilebehavior, sends the publicevent
+                if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() != null)
+                {
+                    PublicEvents.SelectTile?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>());
+                }
+            }
+        }
     }
 
-
     #endregion PLAYERINPUTHANDLERS
-
-
 }

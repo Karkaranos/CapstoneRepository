@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes
 Date Created : 		    10/1/2025
-Date Last Modified : 	10/8/2025
+Date Last Modified : 	10/27/2025
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -63,6 +63,7 @@ public class PlayerBehavior : MonoBehaviour
         playerClick.Enable();
         playermoveClick.Enable();
         playermoveClick.started += playermoveClickPerformed;
+        PublicEvents.SelectTile += HandleTileClicked;
     }
 
     //Sets the boolean to true when left mouse button is clicked
@@ -79,42 +80,30 @@ public class PlayerBehavior : MonoBehaviour
         playerClick.Disable();
         playermoveClick.Disable();
         playermoveClick.started -= playermoveClickPerformed;
+        PublicEvents.SelectTile -= HandleTileClicked;
     }
 
     /// <summary>
-    /// Sends a raycast from the where mouse clicks to the points on the grid.
-    /// Reads the mouse input that sets the MouseIsClicked bool to true, allowing 
-    /// the raycast to hit the player's desired target position on the grid.
+    /// Gets called whenever the player clicks on the tile
+    /// 
+    /// moves the player if they can move to the tile clicked on
     /// </summary>
-    private void FixedUpdate()
+    /// <param name="tBehav"></param>
+    private void HandleTileClicked(TileBehaviour tBehav)
     {
-        /*if (MouseIsClicked && (PlayerCanMove || CurrentlyTryingToAttack))
+        if (PlayerCanMove)
         {
-            MouseIsClicked = false;
-            Ray ray = Camera.main.ScreenPointToRay(playerClick.ReadValue<Vector2>());
-            RaycastHit hit;
+            //moves the player to the selected tile
+            gameObject.transform.position = tBehav.gameObject.transform.position;
+            GridManager.MoveToTile(playerPosition, tBehav.IndexInGrid, -3);
+            playerPosition = tBehav.IndexInGrid;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 temp = hit.transform.gameObject.transform.position;
-                Vector2Int temp2 = targetPosition;
-                if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() == null)
-                {
-                    Debug.Log("is null" + hit.transform.gameObject.name);
-                }
-                else
-                {
-                    if (!hit.transform.gameObject.GetComponentInParent<TileBehaviour>().TileHasEntities)
-                    {
-                        targetPosition = hit.transform.gameObject.GetComponentInParent<TileBehaviour>().IndexInGrid;
-                        gameObject.transform.position = temp;
-                        GridManager.MoveToTile(temp2, targetPosition, -3);
-                        buttonManager.confirmCanvas.SetActive(true);
-                    }
-                }
-            }
-            
-        }*/
+            //turns on the confirmation canvas
+            buttonManager.confirmCanvas.SetActive(true);
+        }
     }
+
+
+    
     #endregion
 }
