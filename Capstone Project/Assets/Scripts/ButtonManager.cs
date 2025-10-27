@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe
+Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
 Date Created : 		    10/1/2025
-Date Last Modified : 	10/2/2025
+Date Last Modified : 	10/23/2025
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -23,6 +23,8 @@ public class ButtonManager : MonoBehaviour
 
     [SerializeField] private Buttons showingButtons;
 
+    [HorizontalLine(4, EColor.Red)]
+
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private PlayerBehavior playerBehavior;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
@@ -38,6 +40,8 @@ public class ButtonManager : MonoBehaviour
     public bool backButtonClicked;
     public bool confirmButtonClicked;
     public bool endButtonClicked;
+
+    private GameManager gm; // temp variable
     #endregion
 
     /// <summary>
@@ -46,23 +50,71 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        gm = FindFirstObjectByType<GameManager>();
     }
 
     #region functions
+
+    /// <summary>
+    /// Subscribes to all public events
+    /// </summary>
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginPlayerTurn += PlayerStartTurn;
+        TurnPublicEvents.BeginEnemyTurn += EnemyTurnStarted;
+    }
+
+    /// <summary>
+    /// Unsubscribes to all public events
+    /// </summary>
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginPlayerTurn -= PlayerStartTurn;
+        TurnPublicEvents.BeginEnemyTurn -= EnemyTurnStarted;
+    }
+
+    /// <summary>
+    /// Turns on the canvas when the player's turn starts
+    /// 
+    /// Does not call turn action complete cus the player's turn ends when they press the button or
+    /// when they run out of AP
+    /// </summary>
+    private void PlayerStartTurn()
+    {
+        playerCanvas.SetActive(true);
+    }
+
+    /// <summary>
+    /// Closes the player's canvas when the enemies turn starts, turns off the canvas
+    /// </summary>
+    private void EnemyTurnStarted()
+    {
+        playerCanvas.SetActive(false);
+        TurnPublicEvents.TurnActionComplete();
+    }
+
     /// <summary>
     /// Controls the player movement, sets confirm canvas to true
     /// and playerCanvas to false
     /// </summary>
     public void MoveButtonOnClick()
     {
-        Debug.Log("The player can move!");
-        if(playerBehavior == null)
+        if(gm.CurrentActionPoints >= gm.MoveActionPoints)
         {
-            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+            Debug.Log("The player can move!");
+            if (playerBehavior == null)
+            {
+                playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+            }
+            playerBehavior.PlayerCanMove = true;
+            //confirmCanvas.SetActive(true);
+            playerCanvas.SetActive(false);
         }
-        playerBehavior.PlayerCanMove = true;
-        confirmCanvas.SetActive(true);
-        playerCanvas.SetActive(false);
+        else
+        {
+            Logger.Warning("Not enough Action Points!");
+        }    
+        
         //playerCanMove = true;
         //if(playerCanMove)
         //{
@@ -93,17 +145,15 @@ public class ButtonManager : MonoBehaviour
     public void BackButtonOnClick()
     {
         Debug.Log("goin back!");
-        backButtonClicked = true;
-        if (backButtonClicked)
+        playerCanvas.SetActive(true);
+        moveCanvas.SetActive(false);
+        runeCanvas.SetActive(false);
+
+        if (playerBehavior != null)
         {
-            playerCanvas.SetActive(true);
-            moveCanvas.SetActive(false);
-            runeCanvas.SetActive(false);
+            playerBehavior.PlayerCanMove = false;
         }
-        else
-        {
-            backButtonClicked = false;
-        }
+
     }
 
     /// <summary>
@@ -116,6 +166,7 @@ public class ButtonManager : MonoBehaviour
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
+        PublicEvents.PlayerMove();
         //confirmButtonClicked = true;
         //if (confirmButtonClicked)
         //{
@@ -137,8 +188,9 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("button clicked");
         endButtonClicked = true;
 
+        playerCanvas.SetActive(false);
 
-        TurnPublicEvents.TurnActionComplete();
+        TurnPublicEvents.ForceEndCurrentPhase();
         /*        if (endButtonClicked)
                 {
                     if (EnemyTurn())

@@ -31,6 +31,9 @@ public class RuneEvents : MonoBehaviour
     //for waiting on player input
     bool waitingForThePlayer;
 
+    //Stores the currently using rune
+    private RuneData storedData;
+
     /// <summary>
     /// Runs whenever this script is loaded into a scene
     /// </summary>
@@ -99,6 +102,9 @@ public class RuneEvents : MonoBehaviour
     [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
     GameObject storedRuneVFX;
 
+    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
+    int storedRuneCost;
+
 
     //test
     [Button("Attack Tile Test")]
@@ -107,6 +113,7 @@ public class RuneEvents : MonoBehaviour
 
         waitingForThePlayer = true;
         TargetSelectedTile(tileBehaviour);
+        storedData = new RuneData(storedRuneType, storedRuneNumber, "Test", "Test Description", storedRuneDamage, storedRuneRange, storedRuneVFX);
 
     }
 
@@ -118,21 +125,20 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// Prepares the rune that the player chooses to attack with
     /// </summary>
-    /// <param name="runeType"> Rune element </param>
-    /// <param name="runeNumber"> Rune's number on the skill tree </param>
-    /// <param name="runeDamage"> How much damage the rune is supposed to do </param>
-    /// <param name="runeRange"> How close the player has to be to their target </param>
-    /// <param name="runeVFX"> Rune's visual effect </param>
-    public void StoreSelectedRuneData(RuneType runeType, int runeNumber, float runeDamage, int runeRange, GameObject runeVFX)
+    /// <param name="rd"> Rune Data </param>
+    public void StoreSelectedRuneData(RuneData rd)
     {
 
         waitingForThePlayer = true;
 
-        storedRuneType = runeType;
-        storedRuneNumber = runeNumber;
-        storedRuneDamage = runeDamage;
-        storedRuneRange = runeRange;
-        storedRuneVFX = runeVFX;
+        storedRuneType = rd.TypeOfRune;
+        storedRuneNumber = rd.NumberOnSkillTree;
+        storedRuneDamage = rd.RuneDamage;
+        storedRuneRange = rd.RuneRange;
+        storedRuneVFX = rd.RuneVFX;
+        storedRuneCost = rd.RuneActionPoints;
+
+        storedData = rd;
 
         temp.text = "Select a target!";
 
@@ -312,6 +318,7 @@ public class RuneEvents : MonoBehaviour
                 break;
         }
 
+        PublicEvents.RuneCast(storedRuneCost);
         //delete later
 
         if (PublicEvents.EnemyTurnStarted != null)
