@@ -31,12 +31,25 @@ public class CameraManager : MonoBehaviour
 
     #endregion
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            SwitchesCamerasFromOutOfCombat();
+        }
+    }
+
+
+
+
     #region FUNCTIONS
     /// <summary>
     /// OnDisable for when the public event StartBattle is called
     /// </summary>
     public void OnEnable()
     {
+        Debug.Log("This is working");
         PublicEvents.StartBattle += SwitchesCamerasFromOutOfCombat;
     }
 
@@ -53,7 +66,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void SwitchesCamerasFromOutOfCombat()
     {
-        SwitchCamera(level1cam);
+        SwitchCamera(level1playcam);
     }
 
     /// <summary>
@@ -62,12 +75,12 @@ public class CameraManager : MonoBehaviour
     /// 20 = highest priority
     /// </summary>
     /// <param name="newActiveCamera"></param>
-    void SwitchCamera(CinemachineCamera newActiveCamera)
+    void SwitchCamera(CinemachineCamera ActiveCamera)
     {
         level1cam.Priority = 10; 
         level1playcam.Priority = 10;
 
-        newActiveCamera.Priority = 20; 
+        ActiveCamera.Priority = 20; 
     }
     #endregion
 }
