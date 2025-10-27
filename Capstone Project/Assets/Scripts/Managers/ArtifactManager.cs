@@ -6,6 +6,7 @@ Brief Description : 	Controls what artifacts and effects are actively applied
 External Resources : 	https://stackoverflow.com/questions/1420186/references-to-variables-in-c
 ***************************************************/
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ArtifactManager
@@ -78,6 +79,22 @@ public class ArtifactManager
     }
 
     /// <summary>
+    /// Creates listeners
+    /// </summary>
+    void OnEnable()
+    {
+        PublicEvents.RuneCast += PlayerAttack;
+    }
+
+    /// <summary>
+    /// Unassigns listeners
+    /// </summary>
+    void OnDisable()
+    {
+        PublicEvents.RuneCast -= PlayerAttack;
+    }
+
+    /// <summary>
     /// Sets a reference to the PlayerStats script
     /// </summary>
     /// <param name="p">PlayerStats</param>
@@ -94,6 +111,10 @@ public class ArtifactManager
     public static void TestArtifacts()
     {
         ApplyArtifact(testData[0]);
+        if (testData[0].TriggerCondition == TriggerCondition.OnAttack)
+        {
+            PlayerAttack(1);
+        }
     }
 
     #endregion
@@ -197,6 +218,19 @@ public class ArtifactManager
     #endregion
 
     #region Effect Triggers
+    /// <summary>
+    /// When the player attacks, trigger all artifacts with the OnAttack trigger
+    /// </summary>
+    /// <param name="cost">should be changed to damage dealt later</param>
+    private static void PlayerAttack(int cost)
+    {
+        foreach(ArtifactData ad in triggerOnAttack)
+        {
+            // Pass damage dealt to this. Defaulted to 10f for now
+            TriggerOnAttackEffect(ad);
+        }
+    }
+
     /// <summary>
     /// Handles what effects are applied on Equipping them
     /// Pass in true when applying effects, false when removing them
@@ -356,6 +390,7 @@ public class ArtifactManager
             {
                 case Effects.Vampiric:
                     player.Heal((int)(damageDealt * e.StatChangeAmount));
+                    Logger.Log("Healed the player by " + (int)(damageDealt * e.StatChangeAmount) + " due to vampirism");
                     break;
                 default:
                     break;
