@@ -1,14 +1,17 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 10/23/2025
+Date Last Modified : 10/26/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using Mono.Cecil;
 using NaughtyAttributes;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RuneEvents : MonoBehaviour
 {
@@ -404,6 +407,8 @@ public class RuneEvents : MonoBehaviour
 
                             //PUSH THEM BACK
 
+                            GridManager.GetAllValidAdjacentTiles(Vector2Int.RoundToInt(target.transform.position));
+
                         }
 
                     }
@@ -433,10 +438,19 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-            //WIP
             case (3):
 
-                //gulp
+                if(target.GetComponentInChildren<PlayerBehavior>() != null)
+                {
+
+                    PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
+                    ShieldBehavior newShield = target.gameObject.AddComponent<ShieldBehavior>();
+
+                    newShield.OnShieldGenerated(target.transform, storedRuneVFX);
+
+                    EndPlayerAttackPhase();
+
+                }
 
                 break;
 
@@ -446,18 +460,21 @@ public class RuneEvents : MonoBehaviour
                 if((distance / 2) <= storedRuneRange)
                 {
 
+                    List<TileBehaviour> validEnemies = new List<TileBehaviour>();
+
                     radius = 1;
 
-                    if(target.GetComponentInChildren<Enemy>() != null)
+                    TornadoBehavior newTornado = target.gameObject.AddComponent<TornadoBehavior>();
+                    newTornado.OnTornadoGenerated(target.transform, storedRuneVFX);
+
+                    if (target.GetComponentInChildren<Enemy>() != null)
                     {
 
-                        //MAKE THEM LOSE A TURN
+                        //do something with this later idk but it'll probably be something like this
+                        //target.GetComponentInChildren<Enemy>().skippedTurn = true;
+
                         target.GetComponentInChildren<Enemy>().Damage
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
-
-                        vfx = Instantiate(storedRuneVFX, target.transform);
-                        vfx.GetComponentInChildren<TextMeshPro>().text =
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
 
                     }
 
@@ -467,17 +484,26 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
-                            target.GetComponentInChildren<Enemy>() != null)
+                            target.GetComponentInChildren<Enemy>() != null &&
+                            validEnemies.Count < 3)
                         {
 
-                            enemy.GetComponentInChildren<Enemy>().Damage
-                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
-
-                            vfx = Instantiate(storedRuneVFX, enemy.transform);
-                            vfx.GetComponentInChildren<TextMeshPro>().text =
-                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                            validEnemies.Add(enemy);
 
                         }
+
+                    }
+
+                    for(int i = 0; i < validEnemies.Count; i++)
+                    {
+
+                        validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                                (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier)/validEnemies.Count));
+
+                        vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+                        vfx.transform.localScale = (vfx.transform.localScale / 2);
+                        vfx.GetComponentInChildren<TextMeshPro>().text =
+                            ((storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier) / validEnemies.Count).ToString();
 
                     }
 
