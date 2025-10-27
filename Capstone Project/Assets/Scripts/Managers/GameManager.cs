@@ -56,9 +56,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     // Should be relocated to PlayerBehavior
-    // This is bad code. These should not be public
-    // However, I needed some action point system to work to remove a blocker
-    #region TEMPORARY 
+    #region ActionPoints
     public int CurrentActionPoints;
     public int MoveActionPoints =2;
     public int ActionPointsPerTurn = 3;
@@ -87,7 +85,7 @@ public class GameManager : MonoBehaviour
 
         PlayerStats = GetComponent<PlayerStats>();
 
-        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, PlayerStats, allowArtifactTesting, testData);
+        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, PlayerStats, this, allowArtifactTesting, testData);
 
         ArtifactManager.SetPlayerReference(PlayerStats);
 

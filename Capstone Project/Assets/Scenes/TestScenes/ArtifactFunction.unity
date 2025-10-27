@@ -12191,11 +12191,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  resistance: 0
-  baseAttackMultiplier: 1
-  lightningAttackMultiplier: 1
-  windAttackMultiplier: 1
+  settings: 1
+  CurrentHealth: 100
+  MaxHealth: 100
+  DodgeChance: 0
+  Resistance: 0
+  DamageTakenMultiplier: 1
+  RangedDamageTakenMultiplier: 1
+  MeleeDamageTakenMultiplier: 1
+  BaseAttackMultiplier: 1
+  LightningAttackMultiplier: 1
+  WindAttackMultiplier: 1
 --- !u!1 &1937952319
 GameObject:
   m_ObjectHideFlags: 0

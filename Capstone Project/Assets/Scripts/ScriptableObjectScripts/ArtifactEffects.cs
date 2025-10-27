@@ -12,5 +12,5 @@ public class ArtifactEffects
 {
     [AllowNesting] public Effects Effect;
     [Tooltip("How much the selected stat is changed. To increase, a value should be greater than 1. For vampiric, do the raw percentage (.5, etc)"), AllowNesting] public float StatChangeAmount;
-    [Tooltip("Chance for this effect to trigger"), AllowNesting, Range(0f, 1f)] public float TriggerChance;
+    [Tooltip("Chance for this effect to trigger"), AllowNesting, Range(0f, 1f)] public float TriggerChance = 1f;
 }
