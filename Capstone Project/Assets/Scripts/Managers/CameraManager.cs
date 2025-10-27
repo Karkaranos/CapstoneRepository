@@ -6,6 +6,7 @@ Brief Description : 	Manages Camera Transitions
 External Resources : 	N/A
 ***************************************************/
 using NaughtyAttributes;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEditor.Rendering;
@@ -22,23 +23,22 @@ public class CameraManager : MonoBehaviour
         Refs
     }
 
-    private EquippedSpellNode equipSpellNode;
-
     [SerializeField] private Cameras Cams;
 
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
-
-
+    public GameObject OutOfCombatCanvas;
     #endregion
 
     #region FUNCTIONS
+
     /// <summary>
     /// OnDisable for when the public event StartBattle is called
     /// </summary>
     public void OnEnable()
     {
-        Debug.Log("This is working");
+        StartCoroutine(SwitchesToOutOfCombatCanvas());
+        PublicEvents.StartBattle += SwitchesCamerasFromOutOfCombat;
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     public void OnDisable()
     {
-
+        PublicEvents.StartBattle -= SwitchesCamerasFromOutOfCombat;
     }
 
     /// <summary>
@@ -55,6 +55,14 @@ public class CameraManager : MonoBehaviour
     void SwitchesCamerasFromOutOfCombat()
     {
         SwitchCamera(level1playcam);
+    }
+
+    IEnumerator SwitchesToOutOfCombatCanvas()
+    {
+        Debug.Log("This happening before the delay");
+        yield return new WaitForSeconds(3f);
+        Debug.Log("This is happening after delay");
+        OutOfCombatCanvas.SetActive(true);
     }
 
     /// <summary>
@@ -68,7 +76,7 @@ public class CameraManager : MonoBehaviour
         level1cam.Priority = 20; 
         level1playcam.Priority = 10;
 
-        ActiveCamera.Priority = 20; 
+        ActiveCamera.Priority = 10; 
     }
     #endregion
 }
