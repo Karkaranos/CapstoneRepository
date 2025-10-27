@@ -29,19 +29,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
 
+
     #endregion
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            SwitchesCamerasFromOutOfCombat();
-        }
-    }
-
-
-
 
     #region FUNCTIONS
     /// <summary>
@@ -50,7 +39,6 @@ public class CameraManager : MonoBehaviour
     public void OnEnable()
     {
         Debug.Log("This is working");
-        PublicEvents.StartBattle += SwitchesCamerasFromOutOfCombat;
     }
 
     /// <summary>
@@ -58,7 +46,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     public void OnDisable()
     {
-        PublicEvents.StartBattle -= SwitchesCamerasFromOutOfCombat;
+
     }
 
     /// <summary>
@@ -77,7 +65,7 @@ public class CameraManager : MonoBehaviour
     /// <param name="newActiveCamera"></param>
     void SwitchCamera(CinemachineCamera ActiveCamera)
     {
-        level1cam.Priority = 10; 
+        level1cam.Priority = 20; 
         level1playcam.Priority = 10;
 
         ActiveCamera.Priority = 20; 
