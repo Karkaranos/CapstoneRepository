@@ -13,7 +13,7 @@ using UnityEngine;
 public class EnemyHandler : MonoBehaviour
 {
     [HideInInspector]public static EnemyHandler Instance { get; private set; }
-    private Enemy[] enemies;
+    private List<Enemy> enemies = new List<Enemy>();
     private static int index = 0;
 
     /// <summary>
@@ -47,7 +47,11 @@ public class EnemyHandler : MonoBehaviour
     /// </summary>
     public void SetEnemyList()
     {
-        enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        Enemy[] array = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        foreach (Enemy enemy in array)
+        {
+            enemies.Add(enemy);
+        }
     }
 
     /// <summary>
@@ -72,7 +76,7 @@ public class EnemyHandler : MonoBehaviour
     /// </summary>
     public void RunNextEnemyTurn()
     {
-        if (index == enemies.Length)
+        if (index == enemies.Count)
         {
             index = 0;
             TurnPublicEvents.TurnActionComplete();
@@ -80,5 +84,17 @@ public class EnemyHandler : MonoBehaviour
         }
         enemies[index].StartEnemyTurn();
         ++index;
+    }
+
+
+    public void RemoveEnemy(Enemy enemy)
+    {
+        enemies.Remove(enemy);
+
+        if(enemies.Count == 0 )
+        {
+            //TODO: End Level logic
+            Debug.Log("Level Ended");
+        }
     }
 }
