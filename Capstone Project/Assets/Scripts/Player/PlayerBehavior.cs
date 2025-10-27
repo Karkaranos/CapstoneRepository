@@ -93,13 +93,19 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (PlayerCanMove)
         {
-            //moves the player to the selected tile
-            gameObject.transform.position = tBehav.gameObject.transform.position;
-            GridManager.MoveToTile(playerPosition, tBehav.IndexInGrid, -3);
-            playerPosition = tBehav.IndexInGrid;
+            if (GridManager.CanMoveToTile(tBehav.IndexInGrid, playerPosition))
+            {
+                //moves the player to the selected tile
+                gameObject.transform.position = tBehav.gameObject.transform.position;
+                GridManager.MoveToTile(playerPosition, tBehav.IndexInGrid, -3);
+                playerPosition = tBehav.IndexInGrid;
 
-            //turns on the confirmation canvas
-            buttonManager.confirmCanvas.SetActive(true);
+                //turns on the confirmation canvas
+                buttonManager.confirmCanvas.SetActive(true);
+
+            }
+
+            
         }
     }
 
