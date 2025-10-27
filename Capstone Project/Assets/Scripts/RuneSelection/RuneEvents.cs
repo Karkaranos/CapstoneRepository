@@ -199,11 +199,11 @@ public class RuneEvents : MonoBehaviour
             case (1):
 
                 target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                 GameObject vfx = Instantiate(storedRuneVFX, target.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text = 
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                 break;
 
@@ -212,19 +212,19 @@ public class RuneEvents : MonoBehaviour
                 FindSecondaryTarget(target);
 
                 target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                 vfx = Instantiate(storedRuneVFX, target.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
 
                 secondaryTarget.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                 vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                 break;
 
@@ -233,11 +233,11 @@ public class RuneEvents : MonoBehaviour
                 int radius = 3;
 
                 target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                 vfx = Instantiate(storedRuneVFX, target.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                 TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
@@ -257,11 +257,11 @@ public class RuneEvents : MonoBehaviour
 
                         //hardcoding this feels bad i can change this later
                         enemy.GetComponentInChildren<Enemy>().Damage
-                            (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                            (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                         vfx = Instantiate(storedRuneVFX, enemy.transform);
                         vfx.GetComponentInChildren<TextMeshPro>().text =
-                            (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                            (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     }
 
@@ -272,11 +272,11 @@ public class RuneEvents : MonoBehaviour
             case (4):
 
                 target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                 vfx = Instantiate(storedRuneVFX, target.transform);
                 vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                 break;
 
@@ -366,7 +366,7 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         target.GetComponentInChildren<Enemy>().Damage
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
                         //PUSH THEM BACK
 
                     }
@@ -377,7 +377,7 @@ public class RuneEvents : MonoBehaviour
             case (2):
 
                 target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
                 break;
 
             case (3):
@@ -391,7 +391,7 @@ public class RuneEvents : MonoBehaviour
 
                 //MAKE THEM LOSE A TURN
                 target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
 
                 TileBehaviour[] adjacentEnemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
@@ -403,7 +403,7 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         enemy.GetComponentInChildren<Enemy>().Damage
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
 
                     }
 
