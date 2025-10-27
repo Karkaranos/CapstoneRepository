@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 public class CameraManager : MonoBehaviour
@@ -33,7 +34,7 @@ public class CameraManager : MonoBehaviour
     #region FUNCTIONS
 
     /// <summary>
-    /// OnDisable for when the public event StartBattle is called
+    /// OnEnable for when the public event StartBattle is called
     /// </summary>
     public void OnEnable()
     {
@@ -50,23 +51,28 @@ public class CameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Function to switch the desired camera to "cutscene" camera
+    /// Function to switch the desired camera from spell choosing to playcam
+    /// Switches playcam to active cam
     /// </summary>
     void SwitchesCamerasFromOutOfCombat()
     {
         SwitchCamera(level1playcam);
+        //level1cam.Priority = 10;
     }
 
+    /// <summary>
+    /// A coroutine to play the cutscene and then switch to the spell canvas
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SwitchesToOutOfCombatCanvas()
     {
-        Debug.Log("This happening before the delay");
         yield return new WaitForSeconds(3f);
-        Debug.Log("This is happening after delay");
         OutOfCombatCanvas.SetActive(true);
     }
 
     /// <summary>
     /// Funtion to switch camera depending on priority.
+    /// Level1cutscenecam needs to be the highest priority on start for this to work
     /// 10 = default priority
     /// 20 = highest priority
     /// </summary>
@@ -76,7 +82,7 @@ public class CameraManager : MonoBehaviour
         level1cam.Priority = 20; 
         level1playcam.Priority = 10;
 
-        ActiveCamera.Priority = 10; 
+        ActiveCamera.Priority = 20; 
     }
     #endregion
 }

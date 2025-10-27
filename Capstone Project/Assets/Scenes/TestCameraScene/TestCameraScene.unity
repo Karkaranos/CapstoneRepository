@@ -4823,6 +4823,7 @@ MonoBehaviour:
   Cams: 1
   level1cam: {fileID: 512512149}
   level1playcam: {fileID: 1356300339}
+  OutOfCombatCanvas: {fileID: 938071253}
 --- !u!1 &612922696
 GameObject:
   m_ObjectHideFlags: 0
@@ -6891,6 +6892,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909476685}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &938071253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2666288005788377712, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+  m_PrefabInstance: {fileID: 1835677424}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &957964589
 GameObject:
   m_ObjectHideFlags: 0
@@ -14964,7 +14970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2666288005788377712, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2726506980644489610, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: m_Pivot.x
@@ -15220,7 +15226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7470834987201379323, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7605447446796153354, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: m_IsActive
