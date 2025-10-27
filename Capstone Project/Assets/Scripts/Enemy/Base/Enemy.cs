@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/20/2025
+Date Last Modified : 	10/23/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -49,14 +49,27 @@ public class Enemy : MonoBehaviour
     [HorizontalLine(4, EColor.Pink)]
 
     [SerializeField,
-    ShowIf(nameof(currentSettings), Settings.Combat),
-    Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
-    protected float artifactDropChance = .5f;
-
-    [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Combat),
         Tooltip("Range player must be in for the enemy to detect them")]
     protected int aggroRange;
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Range the player must be in for the enemy to hit them")]
+    protected int attackRange;
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Amout of damage the enemy does to the player")]
+    public int damage;
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
+    protected float artifactDropChance = .5f;
+
+    // Hidden Vars
+    [HideInInspector] public PlayerStats playerStats;
 
     #endregion
 
@@ -67,6 +80,10 @@ public class Enemy : MonoBehaviour
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Movement),
         Tooltip("Movement range of enemy")] protected int movementRange;
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Movement),
+        Tooltip("Speed enemy slides to next tile")]
+    protected float movementSpeed;
     [HideInInspector] public GridPathfinding gridPathfinding;
     [HideInInspector] public TargetingBehaviour targetingBehaviour;
 
@@ -105,13 +122,18 @@ public class Enemy : MonoBehaviour
         enemyStateMachine = new EnemyStateMachine();
     }
 
-    //Start function
-    private void Start()
+    /// <summary>
+    /// Start function
+    /// </summary>
+    public virtual void Start()
     {
         currentHealth = maxHealth;
         gridPathfinding = GetComponent<GridPathfinding>();
         targetingBehaviour = GetComponent<TargetingBehaviour>();
         gridPathfinding.SetMovementRange(movementRange);
+        gridPathfinding.SetAggroRange(aggroRange);
+        gridPathfinding.SetMovementSpeed(movementSpeed);
+        playerStats = FindFirstObjectByType<PlayerStats>();
     }
 
     /// <summary>
@@ -131,6 +153,7 @@ public class Enemy : MonoBehaviour
                 TryDropItem();
             }
         }
+        print(currentHealth);
     }
 
     /// <summary>
@@ -164,19 +187,25 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Needed function for the turn manager to acuratly count how many
-    /// enemies there are in the scene
-    /// </summary>
-    private void RecieveEnemyTurnPing()
-    {
-        Debug.Log("Enemy Turn Ping Recieved");
-    }
 
     /// <summary>
     /// Virtual method that all specific enemies will define
     /// that will start their individual state machine
     /// </summary>
     public virtual void StartEnemyTurn() {  }
+    #endregion
+
+    #region GETTERS AND SETTERS
+    
+    /// <summary>
+    /// Getter for if the player is in the attack range of the enemy
+    /// Needs to be overriden for each type of enemy 
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool GetPlayerInAttackRange()
+    { 
+        return false;
+    }
+
     #endregion
 }

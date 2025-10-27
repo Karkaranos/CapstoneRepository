@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
     }
 
     public Settings settings;
-    [HideInInspector] public static ArtifactManager ArtifactManager;
+    [HideInInspector] public ArtifactManager ArtifactManager;
     [HideInInspector] public static GameObject CommandConsoleRef;
+    public static PlayerStats PlayerStats;
     public bool allowArtifacts = false;
 
     #region Prefabs
@@ -54,6 +55,13 @@ public class GameManager : MonoBehaviour
     private bool TestForConsoleState => TestSettingValue(Settings.ConsoleCommands);
     #endregion
 
+    // Should be relocated to PlayerBehavior
+    #region ActionPoints
+    public int CurrentActionPoints;
+    public int MoveActionPoints =2;
+    public int ActionPointsPerTurn = 3;
+    #endregion
+
     /// <summary>
     /// Inspector function
     /// Checks if the given enum state is active
@@ -75,7 +83,12 @@ public class GameManager : MonoBehaviour
         CommandConsoleRef = Instantiate(CommandConsole, transform.position, Quaternion.identity);
         CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled, consoleEnabled, consoleEnabledOnLoad);
 
-        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, allowArtifactTesting, testData);
+        PlayerStats = GetComponent<PlayerStats>();
+
+        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, PlayerStats, this, allowArtifactTesting, testData);
+
+        ArtifactManager.SetPlayerReference(PlayerStats);
+
 
     }
 }
