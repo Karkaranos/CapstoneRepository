@@ -19,12 +19,8 @@ public enum Effects
     LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, Vampiric, Dodge
 }
 
-public enum Mark
-{
-    Strength, Speed, Risk, Luck, Restoration, Conquest, Victory, None
-}
 
-public enum TriggerCondition
+public enum ArtifactTriggerCondition
 {
     OnEquip, OnAttack
 }
@@ -38,9 +34,9 @@ public class ArtifactData : ScriptableObject
     public string Description;
 
     [Tooltip("The type of Artifact")] public ArtifactType Type;
-    [Tooltip("When the Artifact effects occur")] public TriggerCondition TriggerCondition;
+    [Tooltip("When the Artifact effects occur")] public ArtifactTriggerCondition TriggerCondition;
     [Tooltip("All effects")] public ArtifactEffects[] Effects;
-    [Tooltip("Used for set combinations")] public Mark Mark;
+    [Tooltip("Used for set combinations")] public MarkType Mark;
     //[Tooltip("Takes 1 point away per fight it's used in. Set it to less than 0 to not use this")] public int Durability;
     [Tooltip("How many slots it takes up")] public int ArtifactSize;
     public Sprite ArtifactSprite;
@@ -53,7 +49,7 @@ public class ArtifactData : ScriptableObject
     /// <param name="type">Type of Artifact</param>
     /// <param name="effects">What stats this affects and their value</param>
     /// <param name="size">Optional size stat. Defaulted paramater sets it to 1y</param>
-    public ArtifactData(string name, string description, ArtifactType type, Mark mark, ArtifactEffects[] effects, int size = 1)
+    public ArtifactData(string name, string description, ArtifactType type, MarkType mark, ArtifactEffects[] effects, int size = 1)
     {
         Name = name;
         Description = description;

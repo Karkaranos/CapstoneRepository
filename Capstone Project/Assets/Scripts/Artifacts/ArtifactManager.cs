@@ -8,6 +8,7 @@ External Resources : 	https://stackoverflow.com/questions/1420186/references-to-
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ArtifactManager
 {
@@ -34,7 +35,7 @@ public class ArtifactManager
     #endregion Artifacts
 
     #region Stamps
-    private static Dictionary<Mark, int> markCount = new Dictionary<Mark, int>();
+    private static Dictionary<MarkType, int> markCount = new Dictionary<MarkType, int>();
     private static List<ArtifactData> triggerOnAttack = new List<ArtifactData>();
 
     #endregion Stamps
@@ -64,9 +65,9 @@ public class ArtifactManager
         gameManager = gm;
 
         // Create an entry in the dictionary for each mark type
-        for(int i=0; i<Mark.GetNames(typeof(Mark)).Length; i++)
+        for(int i=0; i<MarkType.GetNames(typeof(MarkType)).Length; i++)
         {
-            markCount.Add((Mark)i, 0);
+            markCount.Add((MarkType)i, 0);
         }
 
         if (testing)
@@ -111,7 +112,7 @@ public class ArtifactManager
     public static void TestArtifacts()
     {
         ApplyArtifact(testData[0]);
-        if (testData[0].TriggerCondition == TriggerCondition.OnAttack)
+        if (testData[0].TriggerCondition == ArtifactTriggerCondition.OnAttack)
         {
             PlayerAttack(1);
         }
@@ -168,16 +169,17 @@ public class ArtifactManager
         if (currentArtifactWeight + artifact.ArtifactSize <= MaxArtifactWeight)
         {
             currentArtifacts.Add(artifact);
-            if(artifact.TriggerCondition == TriggerCondition.OnEquip)
+            if(artifact.TriggerCondition == ArtifactTriggerCondition.OnEquip)
             {
                 TriggerOnEquipEffect(artifact, true);
             }
-            else if (artifact.TriggerCondition == TriggerCondition.OnAttack)
+            else if (artifact.TriggerCondition == ArtifactTriggerCondition.OnAttack)
             {
                 triggerOnAttack.Add(artifact);
             }
                 inventoryArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, true);
+            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], true, player);
             currentArtifactWeight += artifact.ArtifactSize;
             
         }
@@ -197,15 +199,16 @@ public class ArtifactManager
         if (currentArtifacts.Contains(artifact))
         {
             inventoryArtifacts.Add(artifact);
-            if (artifact.TriggerCondition == TriggerCondition.OnEquip)
+            if (artifact.TriggerCondition == ArtifactTriggerCondition.OnEquip)
             {
                 TriggerOnEquipEffect(artifact, false);
             }
-            else if (artifact.TriggerCondition == TriggerCondition.OnAttack)
+            else if (artifact.TriggerCondition == ArtifactTriggerCondition.OnAttack)
             {
                 triggerOnAttack.Remove(artifact);
             }
             currentArtifacts.Remove(artifact);
+            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], false, player);
             UpdateDictionary(artifact.Mark, false);
             currentArtifactWeight -= artifact.ArtifactSize;
         }
@@ -402,7 +405,7 @@ public class ArtifactManager
     /// </summary>
     /// <param name="key">What mark to find</param>
     /// <param name="adding">Whether the artifact is being added or removed</param>
-    private static void UpdateDictionary(Mark key, bool adding)
+    private static void UpdateDictionary(MarkType key, bool adding)
     {
         markCount[key] = markCount[key] + (adding ? 1 : -1);
     }
