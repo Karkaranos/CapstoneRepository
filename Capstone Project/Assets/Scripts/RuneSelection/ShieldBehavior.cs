@@ -10,7 +10,7 @@ using UnityEngine;
 public class ShieldBehavior : MonoBehaviour
 {
 
-    int shieldPoints = 2;
+    int shieldPoints;
     GameObject shield;
 
     /// <summary>
@@ -21,6 +21,7 @@ public class ShieldBehavior : MonoBehaviour
     public void OnShieldGenerated(Transform target, GameObject vfx)
     {
 
+        shieldPoints = 2;
         shield = Instantiate(vfx, target);
 
     }

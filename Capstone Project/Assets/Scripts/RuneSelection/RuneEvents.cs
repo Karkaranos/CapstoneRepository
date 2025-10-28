@@ -157,7 +157,8 @@ public class RuneEvents : MonoBehaviour
     public void TargetSelectedTile(TileBehaviour tile)
     {
 
-        if (waitingForThePlayer)
+        if (waitingForThePlayer &&
+            FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedRuneCost)
         {
 
              switch (storedRuneType)
@@ -196,6 +197,7 @@ public class RuneEvents : MonoBehaviour
         switch (storedRuneNumber)
         {
 
+            //targets one opponent for moderate damage
             case (1):
 
                 if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
@@ -203,11 +205,11 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     EndPlayerAttackPhase();
 
@@ -215,6 +217,8 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
+            //targets two opponents
+            //one is directly targeted, and the other is the closest to the original target
             case (2):
 
                 if (target.gameObject.GetComponentInChildren<Enemy>() != null &&
@@ -224,19 +228,19 @@ public class RuneEvents : MonoBehaviour
                     FindSecondaryTarget(target);
 
                     target.GetComponentInChildren<Enemy>().Damage
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
 
                     secondaryTarget.GetComponentInChildren<Enemy>().Damage
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                     vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     EndPlayerAttackPhase();
 
@@ -244,6 +248,7 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
+            //targets one opponent and all other opponents in range for less damage
             case (3):
 
 
@@ -254,11 +259,11 @@ public class RuneEvents : MonoBehaviour
                     int radius = 3;
 
                     target.GetComponentInChildren<Enemy>().Damage
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
@@ -278,11 +283,11 @@ public class RuneEvents : MonoBehaviour
 
                             //hardcoding this feels bad i can change this later
                             enemy.GetComponentInChildren<Enemy>().Damage
-                                (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                                (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
-                                (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                                (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                         }
 
@@ -294,6 +299,7 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
+            //targets one opponent for a large amount of damage
             case (4):
 
                 if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
@@ -301,11 +307,11 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
-                   (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                   (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     EndPlayerAttackPhase();
 
@@ -406,15 +412,15 @@ public class RuneEvents : MonoBehaviour
                         {
 
                             enemy.GetComponentInChildren<Enemy>().Damage
-                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
 
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
-                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
 
-                            //PUSH THEM BACK
-
-                            GridManager.GetAllValidAdjacentTiles(Vector2Int.RoundToInt(target.transform.position));
+                            Vector3 dir = target.transform.position - enemy.transform.position;
+                            
+                            
 
                         }
 
@@ -426,6 +432,9 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
+            //targets an opponent for moderate damage
+            //MAYBE it will target another opponent
+            //will need more concrete information
             case (2):
 
                 if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
@@ -433,11 +442,11 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
 
                     EndPlayerAttackPhase();
 
@@ -445,6 +454,7 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
+            //creates a shield on the player's tile
             case (3):
 
                 if(target.GetComponentInChildren<PlayerBehavior>() != null)
@@ -480,8 +490,10 @@ public class RuneEvents : MonoBehaviour
                         //do something with this later idk but it'll probably be something like this
                         //target.GetComponentInChildren<Enemy>().skippedTurn = true;
 
+                        target.GetComponentInChildren<Enemy>().DelayedTurnStatus(true);
+
                         target.GetComponentInChildren<Enemy>().Damage
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
 
                     }
 
@@ -505,12 +517,12 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                                (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier)/validEnemies.Count));
+                                (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier)/validEnemies.Count));
 
                         vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
                         vfx.transform.localScale = (vfx.transform.localScale / 2);
                         vfx.GetComponentInChildren<TextMeshPro>().text =
-                            ((storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier) / validEnemies.Count).ToString();
+                            ((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count).ToString();
 
                     }
 
