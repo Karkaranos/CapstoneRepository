@@ -92,7 +92,7 @@ public class TileBehaviour : MonoBehaviour
     private void Start()
     {
         AddObjectsToTile();
-        TurnPublicEvents.BeginStartTurn.AddListener(ApplyTileEffects);
+        //TurnPublicEvents.BeginStartTurn.AddListener(ApplyTileEffects);
     }
 
     /// <summary>
