@@ -1,11 +1,10 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	10/19/2025
 Brief Description : 		Melee Enemy Move State
 External Resources : 	
 ***************************************************/
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
@@ -18,29 +17,30 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     /// Enter Move State Logic
     /// Set moveForTurn. If player in range attack else end turn 
     /// </summary>
-    public async override void EnterState()
+    public override void EnterState()
     {
         Debug.Log("Entered Move State");
         enemy.logText.text = "Moving";
 
+        enemy.targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
         enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.PathfindThroughGrid();
 
         enemy.hasMovedForTurn = true;
 
-        //delay in milliseconds for the grid to update
-        //Based on move coroutine and how many steps an enemy takes per turn 
-        await Task.Delay(1500);
+        //TEMP LINE FOR MILESTONE
+        enemy.playerInAttackRange = true;
 
-        if(enemy.GetPlayerInAttackRange())
+        
+        if(enemy.PlayerInAttackRange())
         {
             Logger.Log("Enemy State: Move -> Attack");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState(), 0));
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
         }
         else
         {
             Logger.Log("Enemy State: Move -> EndTurn");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState(), 0));
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
         }
     }
 
@@ -51,5 +51,4 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     {
         base.ExitState();
     }
-
 }

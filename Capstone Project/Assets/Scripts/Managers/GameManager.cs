@@ -10,9 +10,8 @@ public class GameManager : MonoBehaviour
     }
 
     public Settings settings;
-    [HideInInspector] public ArtifactManager ArtifactManager;
+    [HideInInspector] public static ArtifactManager ArtifactManager;
     [HideInInspector] public static GameObject CommandConsoleRef;
-    public static PlayerStats PlayerStats;
     public bool allowArtifacts = false;
 
     #region Prefabs
@@ -56,7 +55,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     // Should be relocated to PlayerBehavior
-    #region ActionPoints
+    // This is bad code. These should not be public
+    // However, I needed some action point system to work to remove a blocker
+    #region TEMPORARY 
     public int CurrentActionPoints;
     public int MoveActionPoints =2;
     public int ActionPointsPerTurn = 3;
@@ -83,12 +84,7 @@ public class GameManager : MonoBehaviour
         CommandConsoleRef = Instantiate(CommandConsole, transform.position, Quaternion.identity);
         CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled, consoleEnabled, consoleEnabledOnLoad);
 
-        PlayerStats = GetComponent<PlayerStats>();
-
-        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, PlayerStats, this, allowArtifactTesting, testData);
-
-        ArtifactManager.SetPlayerReference(PlayerStats);
-
+        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, allowArtifactTesting, testData);
 
     }
 }

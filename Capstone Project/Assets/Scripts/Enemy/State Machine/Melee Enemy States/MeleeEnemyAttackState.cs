@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	10/19/2025
 Brief Description : 		Base class for all states
 External Resources : 	
 ***************************************************/
@@ -22,13 +22,10 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         Debug.Log("Entered Attacking state");
 
         enemy.logText.text = "Attacking";
-
-        //damage player
-        enemy.playerStats.TakeDamage(enemy.damage);
-
-
+        //TODO ATTACK LOGIC
+        
         //If enemy can attack twice and hasn't yet call Attack state again 
-        if (enemy.canAttackTwice && !enemy.hasAttackedTwice)
+        if(enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
             Logger.Log("Enemy State: Attack -> Attack");
             enemy.hasAttackedTwice = true;

@@ -1,15 +1,13 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		10/9/2025
-Date Last Modified : 10/23/2025
+Date Last Modified : 10/9/2025
 Brief Description : Handles the changing of the phases of the turn
 External Resources : 	
 ***************************************************/
 
 using NaughtyAttributes;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 //this is the enum that dictates what state the turn is in
@@ -24,21 +22,11 @@ public class TurnManager : MonoBehaviour
 {
     public enum ShownSettings
     {
-        Balancing,
         Debug,
-        Refs,
         None
     }
 
     public ShownSettings shownSettings;
-
-    #region Debug
-    [HorizontalLine(4, EColor.Red)]
-
-    //how much time the turn manager waits before actually starting
-    [ShowIf(nameof(shownSettings), ShownSettings.Balancing), SerializeField, Range(0, 1),
-        Tooltip("This is how long it waits before actually starting combat. Probably should be around 0.1")]
-    private float StartCombatDelay;
 
     [HorizontalLine(4, EColor.Indigo)]
 
@@ -54,15 +42,7 @@ public class TurnManager : MonoBehaviour
     [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private int targetHearBackNum;
 
     [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool breakInfLoop = false;
-
-    #endregion
-    #region Refs
-
-    [HorizontalLine(4, EColor.Gray)]
-
-    [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject playerCanvas;
-
-    #endregion
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool gameHasStarted = false;
 
     /// <summary>
     /// subscribes to all needed events
@@ -70,8 +50,6 @@ public class TurnManager : MonoBehaviour
     private void OnEnable()
     {
         TurnPublicEvents.TurnActionComplete += ProcessTurnActionComplete;
-        PublicEvents.StartBattle += StartCombat;
-        TurnPublicEvents.ForceEndCurrentPhase += NextPhase;
     }
 
     /// <summary>
@@ -80,8 +58,6 @@ public class TurnManager : MonoBehaviour
     private void OnDisable()
     {
         TurnPublicEvents.TurnActionComplete -= ProcessTurnActionComplete;
-        PublicEvents.StartBattle -= StartCombat;
-        TurnPublicEvents.ForceEndCurrentPhase -= NextPhase;
     }
 
     /// <summary>
@@ -90,124 +66,20 @@ public class TurnManager : MonoBehaviour
     private void Start()
     {
         breakInfLoop = false;
+        StartCoroutine(StartGame());
+
     }
 
     /// <summary>
-    /// Starts combat after a set delay to let everything spawn in
-    /// </summary>
-    private void StartCombat()
-    {
-        StartCoroutine(DelayStartCombat());
-    }
-
-    /// <summary>
-    /// Has the actual delay for starting combat
+    /// waits a frame before starting the game
     /// </summary>
     /// <returns></returns>
-    private IEnumerator DelayStartCombat()
+    private IEnumerator StartGame()
     {
-        yield return new WaitForSeconds(StartCombatDelay);
-        SetPhase(TurnStates.Start);
-    }
-
-
-    /// <summary>
-    /// Sets the phase to whatever the parameter is
-    /// </summary>
-    /// <param name="phaseToSetTo"> The phase to change to </param>
-    /// <exception cref="System.Exception"></exception>
-    private void SetPhase(TurnStates phaseToSetTo)
-    {
-        currentHearBackNum = 0;
-
-        switch (phaseToSetTo)
-        {
-            case TurnStates.Start:
-
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginStartTurn?.Invoke();
-
-                //sets the target number of instances to hear back from equal to the number of listeners
-                //on the event
-                if (TurnPublicEvents.BeginStartTurn?.GetInvocationList().Length > 0)
-                {
-                    targetHearBackNum = TurnPublicEvents.BeginStartTurn.GetInvocationList().Length;
-
-                    breakInfLoop = false;
-                }
-                else
-                {
-                    NextPhase();
-                }
-
-                break;
-            case TurnStates.PlayerTurn:
-
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginPlayerTurn?.Invoke();
-
-                //sets the target number of instances to hear back from equal to the number of listeners
-                //on the event
-                if (TurnPublicEvents.BeginPlayerTurn?.GetInvocationList().Length > 0)
-                {
-                    targetHearBackNum = TurnPublicEvents.BeginPlayerTurn.GetInvocationList().Length;
-
-                    breakInfLoop = false;
-                }
-                else
-                {
-                    NextPhase();
-                }
-
-
-
-                break;
-            case TurnStates.EnemyTurn:
-
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEnemyTurn?.Invoke();
-
-                //sets the target number of instances to hear back from equal to the number of listeners
-                //on the event
-                if (TurnPublicEvents.BeginEnemyTurn?.GetInvocationList().Length > 0)
-                {
-                    targetHearBackNum = TurnPublicEvents.BeginEnemyTurn.GetInvocationList().Length;
-                    breakInfLoop = false;
-                }
-                else
-                {
-                    NextPhase();
-                }
-
-                break;
-            case TurnStates.End:
-
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEndTurn?.Invoke();
-
-                //sets the target number of instances to hear back from equal to the number of listeners
-                //on the event
-                if (TurnPublicEvents.BeginEndTurn?.GetInvocationList().Length > 0)
-                {
-                    targetHearBackNum = TurnPublicEvents.BeginEndTurn.GetInvocationList().Length;
-                    breakInfLoop = false;
-                }
-                else
-                {
-                    if (breakInfLoop)
-                    {
-                        Debug.Log("No listeners to the turnmanager, had to break an inf loop");
-                        break;
-                    }
-                    breakInfLoop = true;
-                    NextPhase();
-                }
-
-
-                break;
-            default:
-                throw new System.Exception("Check NextPhase() in TurnManager, the switch statement is broken or is missing cases");
-        }
+        //temp hardcoded delay - will be removed and fixed post-milestone
+        yield return new WaitForSecondsRealtime(5f);
+        gameHasStarted = true;
+        NextPhase();
     }
 
     /// <summary>
@@ -216,19 +88,20 @@ public class TurnManager : MonoBehaviour
     private void ProcessTurnActionComplete()
     {
         Debug.Log("Called");
-
-        //ups the number of instances this has heard back from
-        currentHearBackNum++;
-
-        //checks to see if its heard back from everything
-        if (currentHearBackNum >= targetHearBackNum)
+        if (gameHasStarted)
         {
-            //goes to next phase if it has
+            //ups the number of instances this has heard back from
+            currentHearBackNum++;
 
-            NextPhase();
+            //checks to see if its heard back from everything
+            if (currentHearBackNum >= targetHearBackNum)
+            {
+                //goes to next phase if it has
+
+                NextPhase();
+            }
         }
-
-
+        
     }
 
     /// <summary>
@@ -268,7 +141,7 @@ public class TurnManager : MonoBehaviour
 
                 break;
             case TurnStates.PlayerTurn:
-
+                
                 //throws out the public event to start the phase
                 TurnPublicEvents.BeginPlayerTurn?.Invoke();
 
@@ -305,7 +178,7 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
-                break;
+                    break;
             case TurnStates.End:
 
                 //throws out the public event to start the phase
@@ -330,7 +203,7 @@ public class TurnManager : MonoBehaviour
                 }
 
 
-                break;
+                    break;
             default:
                 throw new System.Exception("Check NextPhase() in TurnManager, the switch statement is broken or is missing cases");
         }

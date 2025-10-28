@@ -2,7 +2,7 @@
  * Author: Brad Dixon
  * Creation Date: 9/26/2025
  * Last Modified: 10/2/2025
- * Brief: (This script should be obsolete) Spawns the appropriate game object on scene start
+ * Brief: Spawns the appropriate game object on scene start
  * External Resources: N/A
  * ***************************************************************************/
 using UnityEngine;

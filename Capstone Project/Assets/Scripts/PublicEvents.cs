@@ -21,30 +21,8 @@ public static class PublicEvents
     //Triggers whenever the player is done playing a spell
     public static Action EnemyTurnStarted;
 
-    #region PLAYER  
-
     //Triggers whenever the player confirms a move
     public static Action PlayerMove;
-
-    //triggers whenever the player selects a rune to use as an attack
-    public static Action PlayerTryingToAttack;
-
-    public static Action PlayerNoLongerTryingToAttack;
-
-    #endregion PLAYER
-
-    #region INPUTS
-
-    //called whenever the player rightclicks
-    public static Action RightClicked;
-
-    //called whenever the player leftclicks
-    public static Action LeftClicked;
-
-    //call this to enable / disable the player's inputs
-    public static Action<bool> EnablePlayersInputs;
-
-    #endregion INPUTS
 
     //Triggers whenever a tile is selected while in wait mode(?)
     public static Action<TileBehaviour> SelectTile;
