@@ -88,6 +88,15 @@ public class MeleeEnemy : Enemy
     [Button("Start Enemy Turn")]
     public override void StartEnemyTurn()
     {
+
+        if(turnDelayed)
+        {
+
+            enemyStateMachine.ChangeState(endTurnState, 0);
+            return;
+
+        }
+
         //if low health go to run state
         if(LowHealthDetection())
         {
