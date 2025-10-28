@@ -1678,52 +1678,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293376872}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &325380534
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 325380536}
-  - component: {fileID: 325380535}
-  m_Layer: 0
-  m_Name: MaarkManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &325380535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 325380534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1628a7a896b65844fb2203529eef3ef5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  marks:
-  - {fileID: 11400000, guid: 43bc61277254109479353e410ff894bd, type: 2}
---- !u!4 &325380536
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 325380534}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 873.5095, y: 140.1812, z: 1.6606402}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &331328092
 GameObject:
   m_ObjectHideFlags: 0
@@ -12905,6 +12859,30 @@ PrefabInstance:
       propertyPath: consoleEnabledOnLoad
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: validMarks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: 'validMarks.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 43bc61277254109479353e410ff894bd, type: 2}
+    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: randomArtifactPool.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: 'randomArtifactPool.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
+    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: 'randomArtifactPool.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cdebfa474e7c2064ea9c0fc41e5fa153, type: 2}
+    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: 'randomArtifactPool.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
     - target: {fileID: 3158512389431983600, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.8705568
@@ -14043,4 +14021,3 @@ SceneRoots:
   - {fileID: 627231944}
   - {fileID: 2059550773}
   - {fileID: 69856342}
-  - {fileID: 325380536}

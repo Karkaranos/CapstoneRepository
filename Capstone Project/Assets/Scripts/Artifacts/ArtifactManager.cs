@@ -112,9 +112,12 @@ public class ArtifactManager
     public static void TestArtifacts()
     {
         ApplyArtifact(testData[0]);
+        ApplyArtifact(testData[1]);
+        //ApplyArtifact(testData[2]);
+        RemoveArtifact(testData[1]);
         if (testData[0].TriggerCondition == ArtifactTriggerCondition.OnAttack)
         {
-            PlayerAttack(1);
+            //PlayerAttack(1);
         }
     }
 
@@ -177,9 +180,9 @@ public class ArtifactManager
             {
                 triggerOnAttack.Add(artifact);
             }
-                inventoryArtifacts.Remove(artifact);
+            inventoryArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, true);
-            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], true, player);
+            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], true);
             currentArtifactWeight += artifact.ArtifactSize;
             
         }
@@ -208,8 +211,8 @@ public class ArtifactManager
                 triggerOnAttack.Remove(artifact);
             }
             currentArtifacts.Remove(artifact);
-            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], false, player);
             UpdateDictionary(artifact.Mark, false);
+            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], false);
             currentArtifactWeight -= artifact.ArtifactSize;
         }
         else

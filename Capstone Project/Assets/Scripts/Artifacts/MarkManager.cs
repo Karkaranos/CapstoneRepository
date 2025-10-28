@@ -12,14 +12,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MarkManager : MonoBehaviour
+public class MarkManager
 {
-    // should be private later
     private static List<MarkData> Marks;
-    public List<MarkData> marks;
-    private void Start()
+
+    private static GameManager gm;
+    private static PlayerStats player;
+    public MarkManager(List<MarkData> marks, GameManager game, PlayerStats p)
     {
         Marks = marks;
+        gm = game;
+        player = p;
     }
     /// <summary>
     /// Clear any effects from battle-related marks
@@ -29,7 +32,7 @@ public class MarkManager : MonoBehaviour
     /// <param name="mark">Mark</param>
     /// <param name="markCount">How many of the mark are at play</param>
     /// <param name="player">Reference to playerStats</param>
-    public static void ClearBattleMarkEffects(MarkData mark, int markCount, PlayerStats player)
+    public static void ClearBattleMarkEffects(MarkData mark, int markCount)
     {
         // Add the enem
         if(mark.TriggerCondition == MarkTriggerCondition.HealthPercent || mark.TriggerCondition == MarkTriggerCondition.EnemyDeath)
@@ -40,14 +43,14 @@ public class MarkManager : MonoBehaviour
             {
                 foreach (MarkEffectsLinked me in mark.EffectsWith3)
                 {
-                    UpdateEffect(me.Effect, me.valueChange, player, false, 3);
+                    UpdateEffect(me.Effect, me.valueChange, false, 3);
                 }
             }
             else if (markCount == 2)
             {
                 foreach (MarkEffectsLinked me in mark.EffectsWith2)
                 {
-                    UpdateEffect(me.Effect, me.valueChange, player, false, 2);
+                    UpdateEffect(me.Effect, me.valueChange, false, 2);
                 }
             }
         }
@@ -63,7 +66,7 @@ public class MarkManager : MonoBehaviour
     /// <param name="mark">The mark</param>
     /// <param name="markCount">How many of the mark there are</param>
     /// <param name="player">Reference to PlayerStats</param>
-    public static void HealthValueChanged(float percent, MarkData mark, int markCount, PlayerStats player)
+    public static void HealthValueChanged(float percent, MarkData mark, int markCount)
     {
         bool add = true;
         // Allows the effect to trigger the next time the condition is met
@@ -83,44 +86,71 @@ public class MarkManager : MonoBehaviour
         {
             foreach(MarkEffectsLinked e in mark.EffectsWith2)
             {
-                UpdateEffect(e.Effect, e.valueChange, player, add);
+                UpdateEffect(e.Effect, e.valueChange, add);
             }
         }
         else if(markCount == 3)
         {
             foreach (MarkEffectsLinked e in mark.EffectsWith3)
             {
-                UpdateEffect(e.Effect, e.valueChange, player, add);
+                UpdateEffect(e.Effect, e.valueChange, add);
             }
         }
     }
 
     /// <summary>
     /// Called when adding or removing Artifacts
+    /// This is messy af but it works
     /// </summary>
     /// <param name="mark"></param>
     /// <param name="markCount"></param>
     /// <param name="adding"></param>
     /// <param name="player"></param>
-    public static void EquipValueChanged(MarkType mark, int markCount, bool adding, PlayerStats player)
+    public static void EquipValueChanged(MarkType mark, int markCount, bool adding)
     {
-        Debug.Log("Called");
-        foreach(MarkData md in Marks)
+        if (markCount == 0 || (markCount == 1 && adding))
+        {
+            return;
+        }
+        foreach (MarkData md in Marks)
         {
             if(md.MarkType == mark)
             {
-                if (markCount == 2)
+                if (markCount < 2)
                 {
                     foreach (MarkEffectsLinked e in md.EffectsWith2)
                     {
-                        UpdateEffect(e.Effect, e.valueChange, player, adding);
+                        UpdateEffect(e.Effect, e.valueChange, false);
+                    }
+                }
+                else if (markCount == 2 && adding)
+                {
+                    foreach (MarkEffectsLinked e in md.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, true);
                     }
                 }
                 else if (markCount == 3)
                 {
+                    foreach (MarkEffectsLinked e in md.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, false);
+                    }
                     foreach (MarkEffectsLinked e in md.EffectsWith3)
                     {
-                        UpdateEffect(e.Effect, e.valueChange, player, adding);
+                        UpdateEffect(e.Effect, e.valueChange, true);
+                    }
+                }
+                else if(markCount == 2 && !adding)
+                {
+
+                    foreach (MarkEffectsLinked e in md.EffectsWith3)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, false);
+                    }
+                    foreach (MarkEffectsLinked e in md.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, true);
                     }
                 }
             }
@@ -135,7 +165,7 @@ public class MarkManager : MonoBehaviour
     /// <param name="player">Reference to PlayerStats</param>
     /// <param name="adding">Whether the effect is being added or removed</param>
     /// <param name="markCount">How many marks of this type</param>
-    private static void UpdateEffect(MarkEffects e, float val, PlayerStats player, bool adding = true, int? markCount = 2, int? turnCount = 0)
+    private static void UpdateEffect(MarkEffects e, float val, bool adding = true, int? markCount = 2, int? turnCount = 0)
     {
         switch (e)
         {
@@ -148,18 +178,18 @@ public class MarkManager : MonoBehaviour
             case MarkEffects.MovementCost:
                 if(adding)
                 {
-                    FindFirstObjectByType<GameManager>().MoveActionPoints = (int)val;
+                    gm.MoveActionPoints = (int)val;
                 }
                 else
                 {
                     if(markCount == 3)
                     {
                         // not good to hardcode; gameManager isn't availble rn and I want to test
-                        FindFirstObjectByType<GameManager>().MoveActionPoints = 1;
+                        gm.MoveActionPoints = 1;
                     }
                     else
                     {
-                        FindFirstObjectByType<GameManager>().MoveActionPoints = 2;
+                        gm.MoveActionPoints = 2;
                     }
                 }
                 break;
@@ -169,7 +199,7 @@ public class MarkManager : MonoBehaviour
                 break;
             case MarkEffects.APOnEnemyDeath:
                 // since it occurs on death it shouldnt be affected when removed
-                FindFirstObjectByType<GameManager>().CurrentActionPoints++;
+                gm.CurrentActionPoints++;
                 break;
             case MarkEffects.IncreasedXP:
                 Logger.Warning("Implement XP Drop on Enemy Death");

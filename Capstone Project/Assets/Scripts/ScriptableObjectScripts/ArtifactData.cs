@@ -9,10 +9,6 @@ using NaughtyAttributes;
 using UnityEngine;
 
 #region Enum Setup
-public enum ArtifactType
-{
-    Tunic, Helmet, Boots, Amulet, Potion, Staff, Cannon, Other
-}
 
 public enum Effects
 {
@@ -33,7 +29,6 @@ public class ArtifactData : ScriptableObject
     public string Name;
     public string Description;
 
-    [Tooltip("The type of Artifact")] public ArtifactType Type;
     [Tooltip("When the Artifact effects occur")] public ArtifactTriggerCondition TriggerCondition;
     [Tooltip("All effects")] public ArtifactEffects[] Effects;
     [Tooltip("Used for set combinations")] public MarkType Mark;
@@ -49,11 +44,10 @@ public class ArtifactData : ScriptableObject
     /// <param name="type">Type of Artifact</param>
     /// <param name="effects">What stats this affects and their value</param>
     /// <param name="size">Optional size stat. Defaulted paramater sets it to 1y</param>
-    public ArtifactData(string name, string description, ArtifactType type, MarkType mark, ArtifactEffects[] effects, int size = 1)
+    public ArtifactData(string name, string description, MarkType mark, ArtifactEffects[] effects, int size = 1)
     {
         Name = name;
         Description = description;
-        Type = type;
         Mark = mark;
         Effects = effects;
         ArtifactSize = size;
@@ -67,7 +61,6 @@ public class ArtifactData : ScriptableObject
     {
         Name = ad.Name;
         Description = ad.Description;
-        Type = ad.Type;
         Mark = ad.Mark;
         Effects = ad.Effects;
         ArtifactSize = ad.ArtifactSize;
