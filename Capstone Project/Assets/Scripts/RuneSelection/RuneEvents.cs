@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 10/26/2025
+Date Last Modified : 10/28/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
@@ -204,7 +204,8 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -228,6 +229,7 @@ public class RuneEvents : MonoBehaviour
 
                     target.GetComponentInChildren<Enemy>().Damage
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -236,6 +238,7 @@ public class RuneEvents : MonoBehaviour
 
                     secondaryTarget.GetComponentInChildren<Enemy>().Damage
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    CheckRuneCombination(secondaryTarget.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -259,6 +262,7 @@ public class RuneEvents : MonoBehaviour
 
                     target.GetComponentInChildren<Enemy>().Damage
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -283,6 +287,7 @@ public class RuneEvents : MonoBehaviour
                             //hardcoding this feels bad i can change this later
                             enemy.GetComponentInChildren<Enemy>().Damage
                                 (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                            CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
 
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -306,7 +311,8 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
-                   (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -324,14 +330,6 @@ public class RuneEvents : MonoBehaviour
         }
 
         PublicEvents.RuneCast(storedRuneCost);
-        //delete later
-
-        if (PublicEvents.EnemyTurnStarted != null)
-        {
-
-            PublicEvents.EnemyTurnStarted();
-
-        }
 
     }
 
@@ -414,6 +412,7 @@ public class RuneEvents : MonoBehaviour
 
                             enemy.GetComponentInChildren<Enemy>().Damage
                                 (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                            CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
 
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -447,7 +446,8 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -494,6 +494,7 @@ public class RuneEvents : MonoBehaviour
 
                         target.GetComponentInChildren<Enemy>().Damage
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                        CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                         vfx.GetComponentInChildren<TextMeshPro>().text =
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
@@ -530,6 +531,7 @@ public class RuneEvents : MonoBehaviour
 
                             validEnemies[i].GetComponentInChildren<Enemy>().Damage
                                     (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count));
+                            CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                             vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -604,6 +606,19 @@ public class RuneEvents : MonoBehaviour
         movedEnemy.transform.localPosition  = new Vector3 (0, 0, 0);
 
     }
+
+    /// <summary>
+    /// checks if the enemy has been hit by a spell prior
+    /// if so, a combo is triggered
+    /// </summary>
+    /// <param name="enemy"> target </param>
+    void CheckRuneCombination(Enemy enemy)
+    {
+
+
+
+    }
+
 
     /// <summary>
     /// runs whenever an enemy is successfully targeted
