@@ -619,6 +619,16 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// calls lightning and wind combo effect
+    /// </summary>
+    void LightningAndWindCombo(Enemy enemy)
+    {
+
+
+
+    }
+
 
     /// <summary>
     /// runs whenever an enemy is successfully targeted
