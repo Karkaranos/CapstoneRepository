@@ -107,7 +107,7 @@ public class ButtonManager : MonoBehaviour
                 playerBehavior = FindFirstObjectByType<PlayerBehavior>();
             }
             playerBehavior.PlayerCanMove = true;
-            confirmCanvas.SetActive(true);
+            //confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
         }
         else
@@ -145,17 +145,15 @@ public class ButtonManager : MonoBehaviour
     public void BackButtonOnClick()
     {
         Debug.Log("goin back!");
-        backButtonClicked = true;
-        if (backButtonClicked)
+        playerCanvas.SetActive(true);
+        moveCanvas.SetActive(false);
+        runeCanvas.SetActive(false);
+
+        if (playerBehavior != null)
         {
-            playerCanvas.SetActive(true);
-            moveCanvas.SetActive(false);
-            runeCanvas.SetActive(false);
+            playerBehavior.PlayerCanMove = false;
         }
-        else
-        {
-            backButtonClicked = false;
-        }
+
     }
 
     /// <summary>

@@ -40,10 +40,6 @@ public class TurnManager : MonoBehaviour
         Tooltip("This is how long it waits before actually starting combat. Probably should be around 0.1")]
     private float StartCombatDelay;
 
-
-
-
-
     [HorizontalLine(4, EColor.Indigo)]
 
     //current state of the turn
@@ -58,9 +54,6 @@ public class TurnManager : MonoBehaviour
     [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private int targetHearBackNum;
 
     [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool breakInfLoop = false;
-    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool gameHasStarted = false;
-
-    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private System.Delegate[] WaitingOn;
 
     #endregion
     #region Refs

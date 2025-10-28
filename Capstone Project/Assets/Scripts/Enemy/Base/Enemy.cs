@@ -70,6 +70,7 @@ public class Enemy : MonoBehaviour
 
     // Hidden Vars
     [HideInInspector] public PlayerStats playerStats;
+    [HideInInspector] protected bool turnDelayed;
 
     #endregion
 
@@ -205,6 +206,16 @@ public class Enemy : MonoBehaviour
     public virtual bool GetPlayerInAttackRange()
     { 
         return false;
+    }
+
+    /// <summary>
+    /// Sets whether or not the enemy's turn has been delayed 
+    /// </summary>
+    public void DelayedTurnStatus(bool isTurnDelayed)
+    {
+
+        turnDelayed = isTurnDelayed;
+
     }
 
     #endregion
