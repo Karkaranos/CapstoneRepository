@@ -53,6 +53,16 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Removes the location of a destory entity from the grid
+    /// </summary>
+    /// <param name="locationInGrid"></param>
+    public static void RemoveEntity(Vector2Int locationInGrid)
+    {
+        combatGrid[locationInGrid.x, locationInGrid.y] = -1;
+        Debug.Log("Remove Entity");
+    }
+
+    /// <summary>
     /// Checks if a tile is empty
     /// </summary>
     /// <param name="locationInGrid"></param> The tile in the grid that is being checked
