@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/19/2025
-Date Last Modified : 	10/20/2025
+Date Last Modified : 	10/28/2025
 Brief Description : 		Handler for running the enemy 
                     state machines one after another
 External Resources : 	
@@ -94,6 +94,7 @@ public class EnemyHandler : MonoBehaviour
         if(enemies.Count == 0 )
         {
             //TODO: End Level logic
+            PublicEvents.EndBattle.Invoke();
             Debug.Log("Level Ended");
         }
     }
