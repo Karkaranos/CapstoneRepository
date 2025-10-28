@@ -67,6 +67,7 @@ public class ActionPointManager : MonoBehaviour
     /// <param name="cost"></param>
     public void PlayerCastSpell(int cost)
     {
+        Debug.Log("Cost of Spell is " + cost);
         gm.CurrentActionPoints -= cost;
         if (gm.CurrentActionPoints <= 0)
         {
