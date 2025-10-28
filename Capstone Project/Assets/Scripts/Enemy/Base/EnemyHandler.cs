@@ -98,7 +98,7 @@ public class EnemyHandler : MonoBehaviour
         if(enemies.Count == 0 )
         {
             //TODO: End Level logic
-            PublicEvents.EndBattle.Invoke();
+            //PublicEvents.EndBattle.Invoke();
             Debug.Log("Level Ended");
         }
     }
