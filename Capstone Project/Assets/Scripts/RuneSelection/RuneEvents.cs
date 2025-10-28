@@ -12,6 +12,7 @@ using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class RuneEvents : MonoBehaviour
 {
@@ -140,11 +141,9 @@ public class RuneEvents : MonoBehaviour
 
         storedData = rd;
 
-        temp.text = "Select a target!";
-
         //to prevent softlocking FOR NOW
-        playerMenu.SetActive(true);
-        this.gameObject.SetActive(false);
+        //playerMenu.SetActive(true);
+        //this.gameObject.SetActive(false);
 
     }
 
@@ -394,17 +393,19 @@ public class RuneEvents : MonoBehaviour
         switch (storedRuneNumber)
         {
 
-            //WIP
+            //knocks adjacent enemies backwards and damages them
             case (1):
 
-                if (target.gameObject.GetComponentInChildren<PlayerBehavior>() != null)
+                if ((distance / 2) <= storedRuneRange)
                 {
 
-                    radius = 3;
+                    radius = 2;
 
-                    TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+                    TileBehaviour[] tiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
-                    foreach (TileBehaviour enemy in enemies)
+                    List<TileBehaviour> enemies = tiles.ToList();
+
+                    foreach (TileBehaviour enemy in tiles)
                     {
 
                         if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
@@ -418,9 +419,13 @@ public class RuneEvents : MonoBehaviour
                             vfx.GetComponentInChildren<TextMeshPro>().text =
                                 (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
 
-                            Vector3 dir = target.transform.position - enemy.transform.position;
-                            
-                            
+                            //moves enemy backwards
+                            if(enemy != target)
+                            {
+
+                                SendEnemyBackwards(target, enemy, enemies);
+
+                            }
 
                         }
 
@@ -471,7 +476,7 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-            //WIP
+            //delays target's turn and damages surrounding enemies
             case (4):
 
                 if((distance / 2) <= storedRuneRange)
@@ -479,16 +484,13 @@ public class RuneEvents : MonoBehaviour
 
                     List<TileBehaviour> validEnemies = new List<TileBehaviour>();
 
-                    radius = 1;
+                    radius = 3;
 
                     TornadoBehavior newTornado = target.gameObject.AddComponent<TornadoBehavior>();
                     newTornado.OnTornadoGenerated(target.transform, storedRuneVFX);
 
                     if (target.GetComponentInChildren<Enemy>() != null)
                     {
-
-                        //do something with this later idk but it'll probably be something like this
-                        //target.GetComponentInChildren<Enemy>().skippedTurn = true;
 
                         target.GetComponentInChildren<Enemy>().DelayedTurnStatus(true);
 
@@ -502,9 +504,15 @@ public class RuneEvents : MonoBehaviour
                     foreach (TileBehaviour enemy in enemies)
                     {
 
+                        if(enemy == target)
+                        {
+
+                            continue;
+
+                        }
+
                         if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
-                            target.GetComponentInChildren<Enemy>() != null &&
-                            validEnemies.Count < 3)
+                            enemy.GetComponentInChildren<Enemy>() != null)
                         {
 
                             validEnemies.Add(enemy);
@@ -513,16 +521,21 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    for(int i = 0; i < validEnemies.Count; i++)
+                    if(validEnemies.Count > 0)
                     {
 
-                        validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                                (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier)/validEnemies.Count));
+                        for (int i = 0; i < validEnemies.Count; i++)
+                        {
 
-                        vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-                        vfx.transform.localScale = (vfx.transform.localScale / 2);
-                        vfx.GetComponentInChildren<TextMeshPro>().text =
-                            ((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count).ToString();
+                            validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                                    (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count));
+
+                            vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+                            vfx.transform.localScale = (vfx.transform.localScale / 2);
+                            vfx.GetComponentInChildren<TextMeshPro>().text =
+                                (Mathf.RoundToInt(storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count).ToString();
+
+                        }
 
                     }
 
@@ -533,6 +546,62 @@ public class RuneEvents : MonoBehaviour
                 break;
 
         }
+
+    }
+
+    /// <summary>
+    /// finds the tile in the opposite direction from the player adjacent to an enemy and moves them there
+    /// sorry if this is a fucked way of going about this. i'm just glad this works
+    /// </summary>
+    /// <param name="originalTarget"> original tile that the player had targeted </param>
+    /// <param name="enemy"> the enemy getting blown back </param>
+    /// <param name="enemies"> the rest of the tiles with enemies on them </param>
+    void SendEnemyBackwards(TileBehaviour originalTarget, TileBehaviour enemy, List<TileBehaviour> enemies)
+    {
+
+        Vector3 newTilePos;
+        if(originalTarget.transform.position.z != enemy.transform.position.z)
+        {
+
+            newTilePos.x = (Mathf.Sign(enemy.transform.position.x - originalTarget.transform.position.x) + enemy.transform.position.x);
+            newTilePos.z = ((Mathf.Sign(enemy.transform.position.z - originalTarget.transform.position.z) * 1.5f) + enemy.transform.position.z);
+
+        }
+        else
+        {
+
+            newTilePos.x = ((Mathf.Sign(enemy.transform.position.x - originalTarget.transform.position.x) * 2) + enemy.transform.position.x);
+            newTilePos.z = enemy.transform.position.z;
+
+        }
+
+        newTilePos.y = 0f;
+
+        TileBehaviour newTile = enemies.Find(x => x.transform.position == newTilePos);
+
+        if(newTile == null)
+        {
+
+            return;
+
+        }
+
+        if (newTile.GetComponentInChildren<SpriteRenderer>() != null && newTile.GetComponentInChildren<Enemy>() != null)
+        {
+
+            if(newTile.GetComponentInChildren<Enemy>() != null)
+            {
+
+                SendEnemyBackwards(originalTarget, newTile, enemies);
+
+            }
+            else { return; }
+
+        }
+
+        Enemy movedEnemy = enemy.GetComponentInChildren<Enemy>();
+        movedEnemy.gameObject.transform.parent = newTile.transform;
+        movedEnemy.transform.localPosition  = new Vector3 (0, 0, 0);
 
     }
 
@@ -552,7 +621,8 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        temp.text = "";
+        playerMenu.SetActive(true);
+        this.gameObject.SetActive(false);
 
     }
 

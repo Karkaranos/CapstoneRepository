@@ -21,7 +21,7 @@ public class ShieldBehavior : MonoBehaviour
     public void OnShieldGenerated(Transform target, GameObject vfx)
     {
 
-        shieldPoints = 2;
+        shieldPoints = 3;
         shield = Instantiate(vfx, target);
 
     }

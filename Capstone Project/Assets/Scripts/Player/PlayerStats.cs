@@ -84,6 +84,10 @@ public class PlayerStats : MonoBehaviour
         {
 
             this.gameObject.GetComponentInParent<ShieldBehavior>().TakeDamage();
+
+            //how much damage is this negating?? is this negating damage, or simply taking a hit for the player??
+            //discuss this more later
+            //for now, it's eating a hit for the player
             return;
 
         }
