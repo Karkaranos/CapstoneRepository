@@ -77,6 +77,21 @@ public class PlayerStats : MonoBehaviour
     /// <param name="source">Where the damage came from</param>
     public void TakeDamage(int amount, DamageSource source = DamageSource.None)
     {
+
+        //i could move this to a different script if that would be more efficient
+        //for now, this checks if the player's tile will "take damage" for them
+        if(this.gameObject.GetComponentInParent<ShieldBehavior>() != null)
+        {
+
+            this.gameObject.GetComponentInParent<ShieldBehavior>().TakeDamage();
+
+            //how much damage is this negating?? is this negating damage, or simply taking a hit for the player??
+            //discuss this more later
+            //for now, it's eating a hit for the player
+            return;
+
+        }
+
         // Check if the player dodges the attack
         // Return before dealing damage
         float dodgeCheck = UnityEngine.Random.Range(0f, 1f);
