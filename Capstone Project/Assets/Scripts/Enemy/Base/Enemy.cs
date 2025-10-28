@@ -211,7 +211,6 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Sets whether or not the enemy's turn has been delayed 
     /// </summary>
-    /// <returns></returns>
     public void DelayedTurnStatus(bool isTurnDelayed)
     {
 
