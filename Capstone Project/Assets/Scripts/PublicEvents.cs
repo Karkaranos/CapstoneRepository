@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Hayes, Jay Embry , Cade Naylor
+Author Names : 		Tyler Hayes, Jay Embry , Cade Naylor, Clare
 Date Created : 		09/28/2025
-Date Last Modified : 10/22/2025
+Date Last Modified : 10/28/2025
 Brief Description : Stores all of the public events used.
 External Resources : 	
 	***************************************************/
@@ -17,6 +17,8 @@ public static class PublicEvents
     public static Action SkillTreeNodePurchased;
 
     public static Action StartBattle;
+
+    public static Action EndBattle;
 
     //Triggers whenever the player is done playing a spell
     public static Action EnemyTurnStarted;
