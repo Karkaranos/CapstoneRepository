@@ -86,7 +86,11 @@ public class EnemyHandler : MonoBehaviour
         ++index;
     }
 
-
+    /// <summary>
+    /// Removes the enemy from the list of enemies 
+    /// Checks if all enemies are dead if they are end battle
+    /// </summary>
+    /// <param name="enemy"></param>
     public void RemoveEnemy(Enemy enemy)
     {
         enemies.Remove(enemy);
