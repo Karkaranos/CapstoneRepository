@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	    	Tyler Bouchard, Cade Naylor
 Date Created : 		    10/16/2025
-Date Last Modified : 	10/26/2025
+Date Last Modified : 	10/28/2025 (Tyler Bouchard)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
                         Also it seems like the stats have to be public to work with refs and encapsulation doesn't work :(
@@ -10,6 +10,7 @@ External Resources :
 using UnityEngine;
 using System;
 using NaughtyAttributes;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     [SerializeField] private Settings settings; 
+    [SerializeField] private Slider healthBar; 
 
 
     #region GeneralStats
@@ -67,6 +69,7 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         CurrentHealth = MaxHealth;
+        healthBar.maxValue = MaxHealth;
     }
 
     /// <summary>
@@ -118,6 +121,8 @@ public class PlayerStats : MonoBehaviour
         }
         if ((int)damageToTake < 0) { damageToTake = 0; }
         CurrentHealth -= (int)damageToTake;
+
+        UpdateHealthBar();
     }
 
     /// <summary>
@@ -131,5 +136,14 @@ public class PlayerStats : MonoBehaviour
         {
             CurrentHealth = MaxHealth;
         }
+        UpdateHealthBar();
+    }
+
+    /// <summary>
+    /// updates the health bar slider
+    /// </summary>
+    private void UpdateHealthBar()
+    {
+        healthBar.value = CurrentHealth;
     }
 }
