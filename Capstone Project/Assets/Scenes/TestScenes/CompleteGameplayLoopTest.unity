@@ -1579,61 +1579,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237933924}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &261495548
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 261495550}
-  - component: {fileID: 261495549}
-  m_Layer: 0
-  m_Name: PlayerStatsTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &261495549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261495548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: 0
-  CurrentHealth: 100
-  MaxHealth: 100
-  DodgeChance: 0
-  Resistance: 0
-  DamageTakenMultiplier: 1
-  RangedDamageTakenMultiplier: 1
-  MeleeDamageTakenMultiplier: 1
-  BaseAttackMultiplier: 1
-  LightningAttackMultiplier: 1
-  WindAttackMultiplier: 1
---- !u!4 &261495550
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261495548}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &275243804
 GameObject:
   m_ObjectHideFlags: 0
@@ -15049,4 +14994,3 @@ SceneRoots:
   - {fileID: 999916406}
   - {fileID: 1963198446}
   - {fileID: 915931684}
-  - {fileID: 261495550}
