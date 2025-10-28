@@ -164,6 +164,7 @@ public class TileBehaviour : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Deals the damage to the object on the tile
     /// </summary>
