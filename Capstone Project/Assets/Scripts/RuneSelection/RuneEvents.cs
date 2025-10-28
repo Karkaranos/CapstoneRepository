@@ -465,7 +465,6 @@ public class RuneEvents : MonoBehaviour
                 if(target.GetComponentInChildren<PlayerBehavior>() != null)
                 {
 
-                    PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
                     ShieldBehavior newShield = target.gameObject.AddComponent<ShieldBehavior>();
 
                     newShield.OnShieldGenerated(target.transform, storedRuneVFX);
@@ -486,8 +485,7 @@ public class RuneEvents : MonoBehaviour
 
                     radius = 3;
 
-                    TornadoBehavior newTornado = target.gameObject.AddComponent<TornadoBehavior>();
-                    newTornado.OnTornadoGenerated(target.transform, storedRuneVFX);
+                    vfx = Instantiate(storedRuneVFX, target.transform);
 
                     if (target.GetComponentInChildren<Enemy>() != null)
                     {
@@ -496,6 +494,9 @@ public class RuneEvents : MonoBehaviour
 
                         target.GetComponentInChildren<Enemy>().Damage
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+                        vfx.GetComponentInChildren<TextMeshPro>().text =
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
 
                     }
 
@@ -531,7 +532,6 @@ public class RuneEvents : MonoBehaviour
                                     (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count));
 
                             vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-                            vfx.transform.localScale = (vfx.transform.localScale / 2);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
                                 (Mathf.RoundToInt(storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count).ToString();
 
