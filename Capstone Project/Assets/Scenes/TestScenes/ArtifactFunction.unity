@@ -12174,34 +12174,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889696996}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1930172202 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5740814544277476685, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-  m_PrefabInstance: {fileID: 2059550773}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1930172217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1930172202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: 2
-  CurrentHealth: 100
-  MaxHealth: 100
-  DodgeChance: 0
-  Resistance: 0
-  DamageTakenMultiplier: 1
-  RangedDamageTakenMultiplier: 1
-  MeleeDamageTakenMultiplier: 1
-  BaseAttackMultiplier: 1
-  LightningAttackMultiplier: 1
-  WindAttackMultiplier: 1
 --- !u!1 &1937952319
 GameObject:
   m_ObjectHideFlags: 0
@@ -12835,54 +12807,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: settings
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: allowArtifacts
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: ActionPointsPerTurn
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: CurrentActionPoints
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: allowArtifactTesting
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: consoleEnabledOnLoad
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: validMarks.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: 'validMarks.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 43bc61277254109479353e410ff894bd, type: 2}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: randomArtifactPool.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: 'randomArtifactPool.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: 'randomArtifactPool.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: cdebfa474e7c2064ea9c0fc41e5fa153, type: 2}
-    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: 'randomArtifactPool.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
     - target: {fileID: 3158512389431983600, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.8705568
@@ -12943,21 +12867,10 @@ PrefabInstance:
       propertyPath: gridDimensions.Array.data[0].y
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 8091632299168050969, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: shownSettings
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8091632299168050969, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      propertyPath: StartCombatDelay
-      value: 0.1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5740814544277476685, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1930172217}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
 --- !u!1 &2061012282
 GameObject:
