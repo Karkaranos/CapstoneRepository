@@ -13,12 +13,11 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class TileBehaviour : MonoBehaviour
 {
-    [Header("Tile Info")]
-    [Tooltip("The index the tile is inside the grid")]
-    public Vector2Int IndexInGrid;
-
-    [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")]
-    Vector2 tileDisplacement;
+    private enum TileType
+    {
+        Default,
+        Water,
+    }
     private enum EntityType
     {
         Enemy,
@@ -29,8 +28,24 @@ public class TileBehaviour : MonoBehaviour
     {
         block,
         damage,
-        slow 
+        slow
     }
+
+    [Header("Tile Info")]
+    public GameObject objectOnTile = null;
+    public Vector2Int IndexInGrid;
+
+    [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")]
+    private Vector2 tileDisplacement;
+
+    [SerializeField] TileType tileType;
+    
+    //Water Tile Variables
+    [SerializeField, ShowIf("tileType", TileType.Water)] private int damageWhenElectric;
+    [ShowIf("tileType", TileType.Water)] public bool isElectrified;
+    [ShowIf("tileType", TileType.Water)] public int electrificationEffectDuration;
+    [ShowIf("tileType", TileType.Water)] public int turnsSinceElectrification;
+
 
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
@@ -77,6 +92,7 @@ public class TileBehaviour : MonoBehaviour
     private void Start()
     {
         AddObjectsToTile();
+        TurnPublicEvents.BeginStartTurn.AddListener(ApplyTileEffects);
     }
 
     /// <summary>
@@ -119,6 +135,53 @@ public class TileBehaviour : MonoBehaviour
     }
 
     /// <summary>
+    /// makes the tile electrifyed
+    /// </summary>
+    public void ElectrifyTile() {
+        if (tileType == TileType.Water) {
+            isElectrified = true;
+            turnsSinceElectrification = 0;
+        } 
+    }
+
+    /// <summary>
+    /// applys all of the effects that the tile is suposed to dish out when called
+    /// </summary>
+    public void ApplyTileEffects() {
+        //damage hazard effect
+        if (hazardType == HazardType.damage)
+        {
+            DealDamageToEntity(damageAmount);
+        }
+
+        //electrifyed water effect
+        if (tileType == TileType.Water && isElectrified)
+        {
+            DealDamageToEntity(damageWhenElectric);
+            turnsSinceElectrification++;
+            if (turnsSinceElectrification >= electrificationEffectDuration) { 
+                isElectrified = false; 
+            }
+        }
+    }
+    /// <summary>
+    /// Deals the damage to the object on the tile
+    /// </summary>
+    /// <param name="amount"></param>
+    private void DealDamageToEntity(int amount) {
+        if (objectOnTile != null) {
+            if (objectOnTile.GetComponent<PlayerStats>() != null)
+            {
+                objectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
+            }
+            if (objectOnTile.GetComponent<MeleeEnemy>() != null)
+            {
+                objectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
+            }
+        }
+    }
+
+    /// <summary>
     /// Sets an entity to be a child of a tile
     /// </summary>
     /// <param name="collision"></param>
@@ -126,19 +189,6 @@ public class TileBehaviour : MonoBehaviour
     {
         print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
-
-        //dealing damage to the player and enemy if aplicable
-        if (hazardType == HazardType.damage) {
-            if (collision.gameObject.GetComponent<PlayerStats>() != null)
-            {
-                collision.gameObject.GetComponent<PlayerStats>().TakeDamage(damageAmount);
-            }
-            if (collision.gameObject.GetComponent<MeleeEnemy>() != null)
-            {
-                collision.gameObject.GetComponent<MeleeEnemy>().Damage(damageAmount);
-            }
-        }
-
-        //call whatever slows the player once that is in
+        objectOnTile = collision.gameObject;
     }
 }
