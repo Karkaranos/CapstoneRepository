@@ -394,16 +394,19 @@ MonoBehaviour:
   maxHealth: 44
   lowHealthPercentage: 0.8
   currentHealth: 5
-  artifactDropChance: 0.5
   aggroRange: 10
-  movementRange: 3
+  attackRange: 1
+  damage: 5
+  artifactDropChance: 0.5
+  playerStats: {fileID: 0}
+  movementRange: 1
+  movementSpeed: 5
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
   secondsBetweenStateTransitions: 1.75
   canAttackTwice: 1
   isLowHealth: 0
-  playerInAttackRange: 0
   hasMovedForTurn: 0
   hasAttackedTwice: 0
 --- !u!114 &3309745930933566544
@@ -432,6 +435,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPosition: {x: 0, y: 0}
   targetPosition: {x: 0, y: 0}
+  nextPos: []
+  gridDirections: []
+  movementSpeed: 5
   movementRange: 3
   aggroRange: 50
 --- !u!114 &5895380928361199476
@@ -448,6 +454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviours: 0
   targetLocations: []
+  attackRange: 0
+  moveToAttackRange: 0
 --- !u!54 &2465258453013156434
 Rigidbody:
   m_ObjectHideFlags: 0

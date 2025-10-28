@@ -49,7 +49,7 @@ public class EquippedSpellNode : MonoBehaviour
     #region NONINSPECTOR
 
     //refs to needed managers in scene
-    private SkillAndEquipManager skillAndEquipManager;
+    private SkillAndArtifactManager skillAndEquipManager;
     private SkillTreeManager skillTreeManager;
 
     #endregion
@@ -61,7 +61,7 @@ public class EquippedSpellNode : MonoBehaviour
     private void Start()
     {
         //finds the managers
-        skillAndEquipManager = FindFirstObjectByType<SkillAndEquipManager>();
+        skillAndEquipManager = FindFirstObjectByType<SkillAndArtifactManager>();
         skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
 
         //populates this node with the equipped spell at this node's index
