@@ -103,6 +103,10 @@ public class SkillTreeManager : MonoBehaviour
         if (!unlockedRunes.Contains(runePurchased))
         {
             unlockedRunes.Add(runePurchased);
+            if (runePurchased.NumberOnSkillTree == 4)
+            {
+                PublicEvents.MasteryRunePurchased?.Invoke(runePurchased.TypeOfRune);
+            }
         }
         else
         {
