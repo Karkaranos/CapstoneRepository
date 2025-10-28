@@ -232,17 +232,21 @@ public class RuneEvents : MonoBehaviour
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
-                    //vfx.GetComponentInChildren<TextMeshPro>().text =
-                        //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
-
-
-                    secondaryTarget.GetComponentInChildren<Enemy>().Damage
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-                    CheckRuneCombination(secondaryTarget.GetComponentInChildren<Enemy>());
-
-                    vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+                    if(secondaryTarget != null)
+                    {
+
+                        secondaryTarget.GetComponentInChildren<Enemy>().Damage
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                        CheckRuneCombination(secondaryTarget.GetComponentInChildren<Enemy>());
+
+                        vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
+                        vfx.GetComponentInChildren<TextMeshPro>().text =
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+                    }
 
                     EndPlayerAttackPhase();
 
@@ -265,8 +269,8 @@ public class RuneEvents : MonoBehaviour
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
-                    //vfx.GetComponentInChildren<TextMeshPro>().text =
-                        //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
@@ -615,17 +619,239 @@ public class RuneEvents : MonoBehaviour
     void CheckRuneCombination(Enemy enemy)
     {
 
+        if (!enemy.HasStatusEffect)
+        {
 
+            enemy.GetComponentInChildren<Enemy>().RuneStatusEffect = storedRuneType;
+            enemy.GetComponentInChildren<Enemy>().RuneStatusEffectNumber = storedRuneNumber;
+
+            enemy.HasStatusEffect = true;
+
+        }
+        else
+        {
+
+            switch (storedRuneType, enemy.RuneStatusEffect)
+            {
+
+                case (RuneType.Lightning, RuneType.Wind):
+
+                    LightningAndWindCombo(enemy, storedRuneNumber, enemy.RuneStatusEffectNumber);
+
+                    break;
+
+                case (RuneType.Wind, RuneType.Lightning):
+
+                    LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedRuneNumber);
+
+                    break;
+
+                default:
+
+                    break;
+            }
+
+            enemy.HasStatusEffect = false;
+
+        }
 
     }
 
     /// <summary>
     /// calls lightning and wind combo effect
     /// </summary>
-    void LightningAndWindCombo(Enemy enemy)
+    void LightningAndWindCombo(Enemy enemy, int lightning, int wind)
     {
 
+        GameObject vfx;
+        int radius = 2;
 
+        TileBehaviour[] tiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+        List<TileBehaviour> validEnemies = new List<TileBehaviour>();
+
+        foreach (TileBehaviour tile in tiles)
+        {
+
+            if (tile == enemy.GetComponentInParent<TileBehaviour>())
+            {
+
+                continue;
+
+            }
+
+            if ((Vector2.Distance(enemy.transform.position, tile.transform.position) / 2) <= radius &&
+               tile.GetComponentInChildren<Enemy>() != null)
+            {
+
+                validEnemies.Add(tile);
+
+            }
+
+        }
+
+        switch (lightning)
+        {
+
+            case (1):
+
+
+                for (int i = 0; i < validEnemies.Count; i++)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                        (10 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (10 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+                }
+
+                break;
+
+            case (2):
+
+
+                for (int i = 0; i < validEnemies.Count; i++)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+                }
+
+
+                break;
+
+            case (3):
+
+
+                for (int i = 0; i < validEnemies.Count; i++)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+                }
+
+
+                break;
+
+            case (4):
+
+
+
+                for (int i = 0; i < validEnemies.Count; i++)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                        (20 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (20 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+                }
+
+                break;
+
+            default:
+
+                break;
+        }
+
+
+        switch (wind)
+        {
+
+            case (1):
+
+                enemy.Damage(40 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+                vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+
+                vfx.GetComponentInChildren<TextMeshPro>().text =
+                    (40 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+                for (int i = 0; i < validEnemies.Count; i++)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                        (10 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (10 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+                }
+
+                break;
+
+            case (2):
+
+                enemy.Damage(50 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+                vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+
+                vfx.GetComponentInChildren<TextMeshPro>().text =
+                    (50 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+                for (int i = 0; i < validEnemies.Count; i++)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                        (15 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (15 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+                }
+
+                break;
+
+            case (4):
+
+                enemy.Damage(60 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+                vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+
+                vfx.GetComponentInChildren<TextMeshPro>().text =
+                    (60 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+                for (int i = 0; i < validEnemies.Count; i++)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                        (20 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                    vfx.GetComponentInChildren<TextMeshPro>().text =
+                        (20 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+                }
+
+                break;
+
+            default:
+
+                break;
+        }
 
     }
 

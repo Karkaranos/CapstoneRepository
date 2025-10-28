@@ -72,6 +72,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] protected bool turnDelayed;
 
+    [HideInInspector] public bool HasStatusEffect = false;
     [HideInInspector] public RuneType RuneStatusEffect;
     [HideInInspector] public int RuneStatusEffectNumber;
 
