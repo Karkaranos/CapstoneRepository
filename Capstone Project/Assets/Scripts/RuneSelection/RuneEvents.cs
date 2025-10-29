@@ -44,6 +44,8 @@ public class RuneEvents : MonoBehaviour
         PublicEvents.SelectTile += TargetSelectedTile;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
 
+        PublicEvents.MasteryRunePurchased += MasteryUnlocked;
+
     }
 
     /// <summary>
@@ -54,6 +56,41 @@ public class RuneEvents : MonoBehaviour
 
         PublicEvents.SelectTile -= TargetSelectedTile;
         PublicEvents.RuneSelected -= StoreSelectedRuneData;
+
+        PublicEvents.MasteryRunePurchased -= MasteryUnlocked;
+
+    }
+
+    private bool lightningMastered;
+    private bool windMastered;
+
+    /// <summary>
+    /// called whenever a rune's highest tier has been purchased
+    /// </summary>
+    /// <param name="runeType"> the rune's element </param>
+    void MasteryUnlocked(RuneType runeType)
+    {
+
+        switch (runeType)
+        {
+
+            case (RuneType.Lightning):
+
+                lightningMastered = true;
+
+                break;
+
+            case (RuneType.Wind):
+
+                windMastered = true;
+
+                break;
+
+            default:
+
+                break;
+
+        }
 
     }
 
@@ -660,8 +697,10 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// calls lightning and wind combo effect
     /// </summary>
-    void LightningAndWindCombo(Enemy enemy, int lightning, int wind)
+    void LightningAndWindCombo(Enemy enemy, int lightningTier, int windTier)
     {
+
+        //PART 1: FINDING TARGETS
 
         GameObject vfx;
         int radius = 2;
@@ -689,168 +728,167 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        switch (lightning)
+
+        //PART 2: LIGHTNING DAMAGE
+
+        int lightningDamage;
+        int lightningTargetDamage;
+
+        switch (lightningTier)
         {
 
             case (1):
 
+                lightningDamage = 10;
 
-                for (int i = 0; i < validEnemies.Count; i++)
-                {
-
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                        (10 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-
-                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (10 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
-
-                }
+                lightningTargetDamage = 20;
 
                 break;
 
             case (2):
 
+                lightningDamage = 15;
 
-                for (int i = 0; i < validEnemies.Count; i++)
-                {
-
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-
-                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
-
-                }
-
+                lightningTargetDamage = 40;
 
                 break;
 
             case (3):
 
+                lightningDamage = 15;
 
-                for (int i = 0; i < validEnemies.Count; i++)
-                {
-
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-
-                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
-
-                }
-
+                lightningTargetDamage = 40;
 
                 break;
 
             case (4):
 
+                lightningDamage = 20;
 
-
-                for (int i = 0; i < validEnemies.Count; i++)
-                {
-
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                        (20 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-
-                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (20 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
-
-                }
+                lightningTargetDamage = 60;
 
                 break;
 
             default:
 
+                lightningDamage = 0;
+
+                lightningTargetDamage = 0;
+
                 break;
         }
 
+        for (int i = 0; i < validEnemies.Count; i++)
+        {
 
-        switch (wind)
+            validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+            vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+            vfx.GetComponentInChildren<TextMeshPro>().text =
+                (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+        }
+
+        if(lightningMastered)
+        {
+
+            enemy.Damage(lightningTargetDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+            for (int i = 0; i < validEnemies.Count; i++)
+            {
+
+                validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                    (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+                vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+                vfx.GetComponentInChildren<TextMeshPro>().text =
+                    (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+            }
+
+        }
+
+
+        //PART 3: WIND DAMAGE
+
+        int windPrimaryDamage;
+
+        int windSecondaryDamage;
+
+        int windTempHealth;
+
+        switch (windTier)
         {
 
             case (1):
 
-                enemy.Damage(40 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                windPrimaryDamage = 40;
 
-                vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+                windSecondaryDamage = 10;
 
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (40 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
-
-                for (int i = 0; i < validEnemies.Count; i++)
-                {
-
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                        (10 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
-
-                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (10 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
-
-                }
+                windTempHealth = 10;
 
                 break;
 
             case (2):
 
-                enemy.Damage(50 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                windPrimaryDamage = 50;
 
-                vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+                windSecondaryDamage = 15;
 
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (50 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
-
-                for (int i = 0; i < validEnemies.Count; i++)
-                {
-
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                        (15 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
-
-                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (15 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
-
-                }
+                windTempHealth = 20;
 
                 break;
 
             case (4):
 
-                enemy.Damage(60 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                windPrimaryDamage = 60;
 
-                vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+                windSecondaryDamage = 20;
 
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (60 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
-
-                for (int i = 0; i < validEnemies.Count; i++)
-                {
-
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                        (20 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
-
-                    vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (20 * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
-
-                }
+                windTempHealth = 30;
 
                 break;
 
             default:
 
+                windPrimaryDamage = 0;
+
+                windSecondaryDamage = 0;
+
+                windTempHealth = 0;
+
                 break;
+        }
+
+        enemy.Damage(windPrimaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+        vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+
+        vfx.GetComponentInChildren<TextMeshPro>().text =
+            (windPrimaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+        for (int i = 0; i < validEnemies.Count; i++)
+        {
+
+            validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                (windSecondaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+
+            vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+
+            vfx.GetComponentInChildren<TextMeshPro>().text =
+                (windSecondaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+
+        }
+
+        if(windMastered)
+        {
+
+            //add temp health here
+
         }
 
     }
