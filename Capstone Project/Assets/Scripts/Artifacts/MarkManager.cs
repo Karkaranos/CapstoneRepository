@@ -208,7 +208,7 @@ public class MarkManager
                 Logger.Warning("Implement RAP Drop on Enemy Death");
                 break;
             case MarkEffects.Luck:
-                Logger.Warning("Implement Luck");
+                AdjustValueAOrG(ref player.LuckModifier, val, adding);
                 break;
             default:
                 break;
@@ -232,8 +232,20 @@ public class MarkManager
     /// <param name="x">The value to be adjusted</param>
     /// <param name="y">The value being added/subtracted</param>
     /// <param name="b">True for adding an artifact</param>
-    private static void AdjustValueArithmetically(ref int x, int y, bool b)
+    private static void AdjustValueArithmetically(ref float x, float y, bool b)
     {
         x = x + (b ? y : y * -1);
+    }
+
+    private static void AdjustValueAOrG(ref float x, float y, bool b)
+    {
+        if (x > 0f)
+        {
+            AdjustValueGeometrically(ref x, y, b);
+        }
+        else
+        {
+            AdjustValueArithmetically(ref x, y, b);
+        }
     }
 }
