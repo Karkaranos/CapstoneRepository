@@ -1,47 +1,46 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/8/2025
+Date Last Modified : 	10/23/2025
 Brief Description : 		Melee Enemy Move State
 External Resources : 	
 ***************************************************/
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 {
-    private GridPathfinding gridPathfinding;
 
     public MeleeEnemyMoveToPlayerState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
-    { 
-        gridPathfinding = enemy.GetComponent<GridPathfinding>();
-    }
+    { }
 
     /// <summary>
     /// Enter Move State Logic
     /// Set moveForTurn. If player in range attack else end turn 
     /// </summary>
-    public override void EnterState()
+    public async override void EnterState()
     {
         Debug.Log("Entered Move State");
         enemy.logText.text = "Moving";
-        gridPathfinding.SetTarget();
-        gridPathfinding.PathfindThroughGrid();
+
+        enemy.targetingBehaviour.FindTarget();
+        enemy.gridPathfinding.PathfindThroughGrid();
 
         enemy.hasMovedForTurn = true;
 
-        //TEMP LINE FOR MILESTONE
-        enemy.playerInAttackRange = true;
+        //delay in milliseconds for the grid to update
+        //Based on move coroutine and how many steps an enemy takes per turn 
+        await Task.Delay(1500);
 
-        if(enemy.PlayerInAttackRange())
+        if(enemy.GetPlayerInAttackRange())
         {
             Logger.Log("Enemy State: Move -> Attack");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState(), 0));
         }
         else
         {
-            Logger.Log("Enemy State: Move -> Wait");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
-            enemy.gridTesting.Pathfind();
+            Logger.Log("Enemy State: Move -> EndTurn");
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState(), 0));
         }
     }
 
@@ -52,4 +51,5 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     {
         base.ExitState();
     }
+
 }

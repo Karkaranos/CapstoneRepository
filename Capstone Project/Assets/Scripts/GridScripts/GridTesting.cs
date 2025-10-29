@@ -72,21 +72,6 @@ public class GridTesting : MonoBehaviour
     }
 
     /// <summary>
-    /// Testing button used to test movement in the grid and shows it in the console
-    /// </summary>
-    [Button("Tests Movement In Grid")]
-    private void TestMovement()
-    {
-        GridManager.AddEntity(currentMovementTestingTile, -8);
-        GridManager.DisplayGridAsText();
-        if (GridManager.TileIsInGrid(newMovementTestingTile) && GridManager.CanMoveToTile(newMovementTestingTile))
-        {
-            GridManager.MoveToTile(currentMovementTestingTile, newMovementTestingTile, -8);
-        }
-        GridManager.DisplayGridAsText();
-    }
-
-    /// <summary>
     /// Testing button that shows in the console which stats are being affected and by how much
     /// </summary>
     [Button("Show Terrain Affects")]
@@ -118,7 +103,7 @@ public class GridTesting : MonoBehaviour
         GridPathfinding[] enemies = FindObjectsByType<GridPathfinding>(FindObjectsSortMode.None);
         int listIndex = 0;
 
-        while(listIndex < enemies.Length)
+        while (listIndex < enemies.Length)
         {
             enemies[listIndex].TestPathfinding();
             yield return new WaitForSeconds(5);

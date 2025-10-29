@@ -278,6 +278,8 @@ GameObject:
   - component: {fileID: 658231946167928873}
   - component: {fileID: 3309745930933566544}
   - component: {fileID: 1926217171810170677}
+  - component: {fileID: 5895380928361199476}
+  - component: {fileID: 2465258453013156434}
   m_Layer: 0
   m_Name: Melee Enemy
   m_TagString: Untagged
@@ -388,17 +390,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 3
+  currentSettings: 4
   maxHealth: 44
   lowHealthPercentage: 0.8
   currentHealth: 5
+  aggroRange: 10
+  attackRange: 1
+  damage: 5
   artifactDropChance: 0.5
-  secondsBetweenStateTransitions: 5
+  playerStats: {fileID: 0}
+  movementRange: 1
+  movementSpeed: 5
+  gridPathfinding: {fileID: 0}
+  targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
-  gridTesting: {fileID: 0}
+  secondsBetweenStateTransitions: 1.75
   canAttackTwice: 1
   isLowHealth: 0
-  playerInAttackRange: 0
   hasMovedForTurn: 0
   hasAttackedTwice: 0
 --- !u!114 &3309745930933566544
@@ -427,4 +435,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPosition: {x: 0, y: 0}
   targetPosition: {x: 0, y: 0}
-  movementRange: 7
+  nextPos: []
+  gridDirections: []
+  movementSpeed: 5
+  movementRange: 3
+  aggroRange: 50
+--- !u!114 &5895380928361199476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3914d3dac6013f7458ee70ac48a4ecd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours: 0
+  targetLocations: []
+  attackRange: 0
+  moveToAttackRange: 0
+--- !u!54 &2465258453013156434
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0

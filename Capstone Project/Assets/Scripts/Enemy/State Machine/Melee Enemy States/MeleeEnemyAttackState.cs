@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/7/2025
+Date Last Modified : 	10/23/2025
 Brief Description : 		Base class for all states
 External Resources : 	
 ***************************************************/
@@ -15,36 +15,35 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     /// <summary>
     /// Enter attack state logic 
     /// If can attack twice and hasn't yet calls state again
-    /// else return to wait state
+    /// else go to end turn state
     /// </summary>
     public override void EnterState()
     {
         Debug.Log("Entered Attacking state");
 
         enemy.logText.text = "Attacking";
-        //TODO ATTACK LOGIC
-        
+
+        //damage player
+        enemy.playerStats.TakeDamage(enemy.damage);
+
+
         //If enemy can attack twice and hasn't yet call Attack state again 
-        if(enemy.canAttackTwice && !enemy.hasAttackedTwice)
+        if (enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
             Logger.Log("Enemy State: Attack -> Attack");
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
-            enemy.gridTesting.Pathfind();
             return;
         }
 
         //Trigger Enemy end turn
-        Logger.Log("Enemy State: Attack -> Wait");
-        CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState()));
-        enemy.gridTesting.Pathfind();
+        Logger.Log("Enemy State: Attack -> EndTurn");
+        CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
     }
 
     /// <summary>
     /// Exit attack state logic 
     /// </summary>
     public override void ExitState()
-    {
-        
-    }
+    { }
 }

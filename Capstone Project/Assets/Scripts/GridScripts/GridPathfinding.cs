@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/7/2025
+ * Last Modified: 10/23/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -19,27 +19,36 @@ public class GridPathfinding : MonoBehaviour
     }
     [SerializeField] protected Vector2Int myPosition;
     [SerializeField] protected Vector2Int targetPosition;
-    protected List<string> gridDirections = new List<string>();
+    [SerializeField] List<Vector2Int> nextPos = new List<Vector2Int>();
+    [SerializeField] protected List<string> gridDirections = new List<string>();
+    List<Vector3> newPositions = new List<Vector3>();
+    Vector2Int nextPosition = Vector2Int.zero;
+    [SerializeField] float movementSpeed;
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
+    [SerializeField] protected int aggroRange;
+
+    int breakout = 0;
+    bool isMoving = false;
 
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
     /// </summary>
     public void TestPathfinding()
     {
-        SetTarget();
+        GetComponent<TargetingBehaviour>().behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
+        GetComponent<TargetingBehaviour>().FindTarget();
         PathfindThroughGrid();
     }
 
-    /// <summary>
-    /// Currently sets the player as the target position. Will need to be replaced when the actually targeting is implemented
-    /// </summary>
+    ///// <summary>
+    ///// No longer does anything but is kept because it would cause issues with the state machine if removed
+    ///// </summary>
     virtual public void SetTarget()
     {
-        Debug.Log(GridManager.playerPosition);
-        targetPosition = GridManager.playerPosition;
+        Debug.Log("I do nothing now");
+        //targetPosition = GridManager.playerPosition;
     }
 
     /// <summary>
@@ -47,16 +56,19 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     public void PathfindThroughGrid()
     {
+        nextPos.Clear();
+        nextPos.Add(targetPosition);
         Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
 
         int stepsTaken = 0;
+        Debug.Log("Movement Range = " + movementRange);
         List<Vector2Int> nextPositions = new List<Vector2Int>();
         List<Vector2Int> currentPositions = new List<Vector2Int>();
         bool reachedTarget = false;
         currentPositions.Add(myPosition);
 
-        while (!reachedTarget && stepsTaken < movementRange)
+        while (!reachedTarget && stepsTaken < aggroRange)
         {
             foreach (Vector2Int v in nextPositions)
             {
@@ -66,8 +78,10 @@ public class GridPathfinding : MonoBehaviour
             //Add the potential tiles to be checked for movement or the target
             foreach (Vector2Int currentTile in currentPositions)
             {
-                if (currentTile == targetPosition)
+                if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
                 {
+                    targetPosition = currentTile;
+                    nextPos.Add(targetPosition);
                     reachedTarget = true;
                     currentPositions.Clear();
                     break;
@@ -84,52 +98,11 @@ public class GridPathfinding : MonoBehaviour
             for (int i = 0; i < currentPositions.Count; ++i)
             {
                 myPosition = currentPositions[i];
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition);
 
-                if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y)))
+                foreach(Vector2Int v in temp)
                 {
-                    nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y));
-                }
-                if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x - 1, myPosition.y)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x - 1, myPosition.y)))
-                {
-                    nextPositions.Add(new Vector2Int(myPosition.x - 1, myPosition.y));
-                }
-                if (myPosition.y % 2 == 0)
-                {
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x - 1, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x - 1, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x - 1, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y - 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x - 1, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x - 1, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x - 1, myPosition.y - 1));
-                    }
-                }
-                else
-                {
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y + 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y + 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y + 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x + 1, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x + 1, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x + 1, myPosition.y - 1));
-                    }
-                    if (GridManager.TileIsInGrid(new Vector2Int(myPosition.x, myPosition.y - 1)) && GridManager.CanMoveToTile(new Vector2Int(myPosition.x, myPosition.y - 1)))
-                    {
-                        nextPositions.Add(new Vector2Int(myPosition.x, myPosition.y - 1));
-                    }
+                    nextPositions.Add(v);
                 }
             }
             currentPositions.Clear();
@@ -202,6 +175,7 @@ public class GridPathfinding : MonoBehaviour
                     ++targetPosition.y;
                 }
             }
+            nextPos.Add(targetPosition);
         }
 
         targetPosition = originalTarget;
@@ -215,15 +189,17 @@ public class GridPathfinding : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveEntity()
     {
+        newPositions.Clear();
         float tileSizeX = transform.GetComponentInParent<Transform>().localScale.x * 2;
         float tileSizeY = transform.GetComponentInParent<Transform>().localScale.z * 2;
 
         Vector3 newPosition = GetComponentInParent<Transform>().position;
 
-        int max = movementRange > gridDirections.Count ? gridDirections.Count : movementRange;
+        int max = gridDirections.Count - 1;
+        int min = movementRange > gridDirections.Count ? 0 : gridDirections.Count - movementRange;
 
         //Uses a list of directions to move an enemy along a path
-        for (int i = max - 1; i >= 0; --i)
+        for (int i = max; i >= min; --i)
         {
             yield return new WaitForSeconds(.5f);
             Debug.Log("Wait over");
@@ -256,11 +232,77 @@ public class GridPathfinding : MonoBehaviour
                     break;
             }
 
-            transform.position = newPosition;
-            Debug.Log("Moved");
+            newPositions.Add(newPosition);
         }
-        GridManager.ClearPathfinding();
-        GridManager.combatGrid[myPosition.x, myPosition.y] = -1;
-        myPosition = targetPosition;
+        StartCoroutine(MoveToTile());
     }
+
+    /// <summary>
+    /// Causes the enemy to move from one tile to the next over time
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator MoveToTile()
+    {
+        //How many tiles the enemy has to move to
+        for (int i = 0; i < newPositions.Count; ++i)
+        {
+            nextPosition = nextPos[gridDirections.Count - i];
+            isMoving = true;
+            //Loops until they finish moving to the adjacent tile
+            while (isMoving)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, newPositions[i], .1f);
+                Debug.Log(transform.position);
+                Debug.Log(gameObject.transform.position);
+                if (transform.position == newPositions[i])
+                {
+                    isMoving = false;
+                    GridManager.ClearPathfinding();
+                    GridManager.MoveToTile(myPosition, nextPosition, -2);
+                    myPosition = nextPosition;
+                }
+                yield return new WaitForSeconds(.1f / movementSpeed);
+            }
+        }
+    }
+
+    #region GETTERS AND SETTERS
+
+    /// <summary>
+    /// Function that enemies call to set their movement range
+    /// </summary>
+    /// <param name="movementRange"></param>
+    public void SetMovementRange(int movementRange)
+    {
+        this.movementRange = movementRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their aggro range
+    /// </summary>
+    /// <param name="aggroRange"></param>
+    public void SetAggroRange(int aggroRange)
+    {
+        this.aggroRange = aggroRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their movementSpeed
+    /// </summary>
+    /// <param name="movementSpeed"></param>
+    public void SetMovementSpeed(float movementSpeed)
+    {
+        this.movementSpeed = movementSpeed;
+    }
+
+    /// <summary>
+    /// Returns a reference to target movement position 
+    /// </summary>
+    /// <returns></returns>
+    public Vector2Int GetTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    #endregion
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6745039429712349130}
   - component: {fileID: -6374657962691870540}
   - component: {fileID: -1284018236210482184}
+  - component: {fileID: -6848072721232018019}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -162,5 +163,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 065715b422b430d429c0cf090f0da49f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDirections: []
+  myPosition: {x: 0, y: 0}
+  targetPosition: {x: 0, y: 0}
   movementRange: 7
+--- !u!114 &-6848072721232018019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675322036123795430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3914d3dac6013f7458ee70ac48a4ecd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours: 0
+  targetLocations: []
