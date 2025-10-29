@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 10/28/2025
+Date Last Modified : 10/29/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
@@ -697,12 +697,15 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// calls lightning and wind combo effect
     /// </summary>
+    /// <param name="enemy"> initial target </param>
+    /// <param name="lightningTier"> which lightning rune was last used on this enemy </param>
+    /// <param name="windTier"> which wind rune was last used on this enemy </param>
     void LightningAndWindCombo(Enemy enemy, int lightningTier, int windTier)
     {
 
         //PART 1: FINDING TARGETS
 
-        GameObject vfx;
+        //until we get actual vfx for this i'm leaving it blank because it will be sooooo cluttered
         int radius = 2;
 
         TileBehaviour[] tiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
@@ -784,28 +787,36 @@ public class RuneEvents : MonoBehaviour
             validEnemies[i].GetComponentInChildren<Enemy>().Damage
                 (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
-            vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
-
-            vfx.GetComponentInChildren<TextMeshPro>().text =
-                (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+            Debug.Log(validEnemies[i] + " took " + lightningDamage + " damage!");
 
         }
 
         if(lightningMastered)
         {
 
-            enemy.Damage(lightningTargetDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+            if(enemy != null)
+            {
+
+                enemy.Damage(lightningTargetDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+
+                Debug.Log(enemy + " took " + lightningTargetDamage + " damage!");
+
+            }
 
             for (int i = 0; i < validEnemies.Count; i++)
             {
 
-                validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                if (validEnemies[i] != null)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
                     (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
-                vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+                    Debug.Log(validEnemies[i] + " took " + lightningDamage + " damage!");
 
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+                }
+
+                Debug.Log("Mastery worked!");
 
             }
 
@@ -864,23 +875,28 @@ public class RuneEvents : MonoBehaviour
                 break;
         }
 
-        enemy.Damage(windPrimaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+        if(enemy != null)
+        {
 
-        vfx = Instantiate(storedRuneVFX, enemy.GetComponentInParent<TileBehaviour>().transform);
+            enemy.Damage(windPrimaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
 
-        vfx.GetComponentInChildren<TextMeshPro>().text =
-            (windPrimaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+            Debug.Log(enemy + " took " + windPrimaryDamage + " damage!");
+
+        }
 
         for (int i = 0; i < validEnemies.Count; i++)
         {
 
-            validEnemies[i].GetComponentInChildren<Enemy>().Damage
+
+            if (validEnemies[i] != null)
+            {
+
+                validEnemies[i].GetComponentInChildren<Enemy>().Damage
                 (windSecondaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
 
-            vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
+                Debug.Log(validEnemies[i] + " took " + windSecondaryDamage + " damage!");
 
-            vfx.GetComponentInChildren<TextMeshPro>().text =
-                (windSecondaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
+            }
 
         }
 
