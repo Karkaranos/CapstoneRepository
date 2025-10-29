@@ -1,18 +1,29 @@
+/*************************************************
+Author Names : 		Cade Naylor
+Date Created : 		???/2025
+Date Last Modified : 10/28/2025
+Brief Description : Game Manager
+                    Creates and holds static references to other managers
+External Resources : 	
+	***************************************************/
 using NaughtyAttributes;
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     //inspector enums
     public enum Settings
     {
-        None, Prefabs, ArtifactManager, ConsoleCommands
+        None, Prefabs, ArtifactManager, ConsoleCommands, MarkManager
     }
 
     public Settings settings;
     [HideInInspector] public ArtifactManager ArtifactManager;
     [HideInInspector] public static GameObject CommandConsoleRef;
     public static PlayerStats PlayerStats;
+    public static MarkManager MarkManager;
     public bool allowArtifacts = false;
 
     #region Prefabs
@@ -55,6 +66,13 @@ public class GameManager : MonoBehaviour
     private bool TestForConsoleState => TestSettingValue(Settings.ConsoleCommands);
     #endregion
 
+    #region MarkManager
+    [HorizontalLine(4, EColor.Green)]
+    [SerializeField, ShowIf(nameof(settings), Settings.MarkManager),
+    Tooltip("All Currently Enabled Marks")]
+    private List<MarkData> validMarks = new List<MarkData>();
+    #endregion
+
     // Should be relocated to PlayerBehavior
     #region ActionPoints
     public int CurrentActionPoints;
@@ -84,6 +102,8 @@ public class GameManager : MonoBehaviour
         CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled, consoleEnabled, consoleEnabledOnLoad);
 
         PlayerStats = GetComponent<PlayerStats>();
+
+        MarkManager = new MarkManager(validMarks, this, PlayerStats);
 
         ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, PlayerStats, this, allowArtifactTesting, testData);
 
