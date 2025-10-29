@@ -92,6 +92,8 @@ public class RuneEvents : MonoBehaviour
 
         }
 
+        Debug.Log(runeType + " mastery unlocked!");
+
     }
 
     #endregion INITIALIZATION
@@ -664,6 +666,8 @@ public class RuneEvents : MonoBehaviour
 
             enemy.HasStatusEffect = true;
 
+            Debug.Log("Status effect added!");
+
         }
         else
         {
@@ -674,12 +678,14 @@ public class RuneEvents : MonoBehaviour
                 case (RuneType.Lightning, RuneType.Wind):
 
                     LightningAndWindCombo(enemy, storedRuneNumber, enemy.RuneStatusEffectNumber);
+                    Debug.Log("Combo called!");
 
                     break;
 
                 case (RuneType.Wind, RuneType.Lightning):
 
                     LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedRuneNumber);
+                    Debug.Log("Combo called!");
 
                     break;
 
@@ -816,9 +822,9 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                Debug.Log("Mastery worked!");
-
             }
+
+
 
         }
 
@@ -903,7 +909,9 @@ public class RuneEvents : MonoBehaviour
         if(windMastered)
         {
 
-            //add temp health here
+            FindFirstObjectByType<PlayerStats>().AddTempHealth(windTempHealth);
+
+            Debug.Log("Wind mastery worked!");
 
         }
 
