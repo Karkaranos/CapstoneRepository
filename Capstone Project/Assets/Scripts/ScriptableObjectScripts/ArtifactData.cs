@@ -12,14 +12,15 @@ using UnityEngine;
 
 public enum Effects
 {
-    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, Vampiric, Dodge
+    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, Vampiric, Dodge, ChanceToAvoidUsingPoints, Instakill, Miss, Luck
 }
 
 
 public enum ArtifactTriggerCondition
 {
-    OnEquip, OnAttack
+    OnEquip, OnAttack, SpellCount
 }
+
 
 #endregion
 
@@ -30,6 +31,8 @@ public class ArtifactData : ScriptableObject
     public string Description;
 
     [Tooltip("When the Artifact effects occur")] public ArtifactTriggerCondition TriggerCondition;
+    [Tooltip("How many spells this effect triggers after"), ShowIf(nameof(TriggerCondition), ArtifactTriggerCondition.SpellCount)] public int TriggerCount;
+    [HideInInspector] public int Counter = 0;
     [Tooltip("All effects")] public ArtifactEffects[] Effects;
     [Tooltip("Used for set combinations")] public MarkType Mark;
     //[Tooltip("Takes 1 point away per fight it's used in. Set it to less than 0 to not use this")] public int Durability;
