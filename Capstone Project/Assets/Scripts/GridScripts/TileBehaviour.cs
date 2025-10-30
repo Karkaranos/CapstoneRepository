@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 10/22/2025 (Tyler Bouchard)
+ * Last Modified: 10/30/2025 (Brad Dixon)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -72,14 +72,6 @@ public class TileBehaviour : MonoBehaviour
         IndexInGrid.x = (int)(transform.position.x / tileDisplacement.x);
         IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
     }
-
-    /// <summary>
-    /// all this does right now is call the add objects to tile function
-    /// </summary>
-    //private void Start()
-    //{
-    //    AddObjectsToTile();
-    //}
 
     /// <summary>
     /// adds the entities and hazards to the tile, updates the grid manager with positions
