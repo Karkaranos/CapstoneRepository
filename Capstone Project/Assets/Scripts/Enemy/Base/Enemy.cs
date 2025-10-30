@@ -162,6 +162,11 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        EnemyHandler.Instance.RemoveEnemy(this);
+
+        GridManager.RemoveEntity(gridPathfinding.MyPosition);
+
+        Destroy(this.gameObject);
         print("Enemy is dead!");
     }
 
