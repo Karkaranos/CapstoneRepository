@@ -18,11 +18,11 @@ public class ArtifactManager
 
     #region Artifacts
     // Stores all currently applied Artifacts
-    private static List<ArtifactData> currentArtifacts = new List<ArtifactData>();
+    public static List<ArtifactData> currentArtifacts = new List<ArtifactData>();
     private static int currentArtifactWeight = 0;
 
     // Stores all Artifacts not currently in use
-    private static List<ArtifactData> inventoryArtifacts = new List<ArtifactData>();
+    public static List<ArtifactData> inventoryArtifacts = new List<ArtifactData>();
 
     [SerializeField, Tooltip("How many Artifacts can be applied at once")] private static int maxArtifactWeight = 3;
 
@@ -113,10 +113,15 @@ public class ArtifactManager
     /// Removes an item then applies the fourth
     public static void TestArtifacts()
     {
-        ApplyArtifact(testData[0]);
-        ApplyArtifact(testData[1]);
+        foreach (ArtifactData d in testData)
+        {
+            ObtainArtifact(d);
+            ObtainArtifact(d);
+        }
+        //ApplyArtifact(testData[0]);
+        //ApplyArtifact(testData[1]);
         //ApplyArtifact(testData[2]);
-        RemoveArtifact(testData[1]);
+        //RemoveArtifact(testData[1]);
         if (testData[0].TriggerCondition == ArtifactTriggerCondition.OnAttack)
         {
             //PlayerAttack(1);
@@ -169,7 +174,7 @@ public class ArtifactManager
     /// Equips an Artifact and updates the stats accordingly
     /// </summary>
     /// <param name="artifact">The artifact to add</param>
-    public static void ApplyArtifact(ArtifactData artifact)
+    public static bool ApplyArtifact(ArtifactData artifact)
     {
         if (currentArtifactWeight + artifact.ArtifactSize <= MaxArtifactWeight)
         {
@@ -190,11 +195,14 @@ public class ArtifactManager
             UpdateDictionary(artifact.Mark, true);
             MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], true);
             currentArtifactWeight += artifact.ArtifactSize;
-            
+
+            return true;
         }
         else
         {
             Logger.Warning("Too many Artifacts applied");
+
+            return false;
         }
     }
 

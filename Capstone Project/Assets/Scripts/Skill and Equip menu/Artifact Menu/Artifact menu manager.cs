@@ -7,28 +7,23 @@ External Resources :
 	***************************************************/
 
 using NaughtyAttributes;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ArtifactMenuManager : MonoBehaviour
 {
     #region VARS
     private enum Settings
     {
-        Debug,
         Refs,
+        TextRefs,
         None
     }
 
     [SerializeField] private Settings ShownSettings;
-
-    #region DEBUG
-    [HorizontalLine(4, EColor.Red)]
-
-    [SerializeField, ShowIf(nameof(ShownSettings), Settings.Debug)] private List<ArtifactData> TEMPListOfInventoryArtifacts;
-    [SerializeField, ShowIf(nameof(ShownSettings), Settings.Debug)] private List<ArtifactData> TEMPListOfEquippedArtifacts;
-
-    #endregion DEBUG
     #region REFS
     [HorizontalLine(4, EColor.Indigo)]
 
@@ -37,7 +32,17 @@ public class ArtifactMenuManager : MonoBehaviour
 
     #endregion
 
+    #region TEXTREFS
+    [HorizontalLine(4, EColor.Blue)]
+
+    [SerializeField, ShowIf(nameof(ShownSettings), Settings.TextRefs)] private TMP_Text artifactNameText;
+    [SerializeField, ShowIf(nameof(ShownSettings), Settings.TextRefs)] private TMP_Text artifactWeightText;
+    [SerializeField, ShowIf(nameof(ShownSettings), Settings.TextRefs)] private TMP_Text artifactDescriptionText;
+    #endregion
+
     private ArtifactData heldArtifact;
+
+    private ArtifactManager AM;
 
     #endregion VARS
 
@@ -47,7 +52,14 @@ public class ArtifactMenuManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        PopulatePossibleEquippedArtifacts(); 
+        AM = FindFirstObjectByType<GameManager>().ArtifactManager;
+        StartCoroutine(DelayedPopulate());
+    }
+
+    private IEnumerator DelayedPopulate()
+    {
+        yield return null;
+        PopulatePossibleEquippedArtifacts();
     }
 
     /// <summary>
@@ -55,10 +67,14 @@ public class ArtifactMenuManager : MonoBehaviour
     /// </summary>
     private void PopulatePossibleEquippedArtifacts()
     {
-        foreach (ArtifactData a in TEMPListOfEquippedArtifacts)
+        foreach (ArtifactData a in ArtifactManager.inventoryArtifacts)
         {
-
+            InventoryButton temp = Instantiate(InventoryButtonPrefab, scrollBarContainer.transform).GetComponent<InventoryButton>();
+            temp.SetArtifactData(a);
+            temp.InsVars();
         }
+
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(scrollBarContainer.GetComponentInParent<ScrollRect>().content);
     }
 
     /// <summary>
@@ -69,4 +85,17 @@ public class ArtifactMenuManager : MonoBehaviour
     {
 
     }
+
+    public void ArtifactPickedUp(ArtifactData data, bool isInInventory)
+    {
+        heldArtifact = data;
+    }
+
+    public void ButtonHovered(ArtifactData data)
+    {
+        artifactNameText.text = data.Name;
+        artifactWeightText.text = data.ArtifactSize + " Slots";
+        artifactDescriptionText.text = data.Description;
+    }
+
 }
