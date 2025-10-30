@@ -1,3 +1,10 @@
+/*************************************************
+Author Names : 		    Jake Gorski
+Date Created : 		    10/30/2025
+Date Last Modified : 	10/30/2025
+Brief Description : 	When an object with the "TreeMainPoint" animator and labeled with the "Background" can be set to either Flip or Unflip based on the function activated in the inspector. 
+External Resources : 	N/A
+***************************************************/
 using UnityEngine;
 using NaughtyAttributes;
 using System.Linq;
@@ -12,14 +19,14 @@ public class PopUpScript : MonoBehaviour
     private List<GameObject> backgrounds; //lists of all background objects.
     void Start()
     {
-        backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();
+        backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();//grabs all "background" objects
 
-        backgrounds = backgrounds.OrderBy(obj => Vector3.Distance(transform.position, obj.transform.position)).ToList();
+        backgrounds = backgrounds.OrderBy(obj => Vector3.Distance(transform.position, obj.transform.position)).ToList();//orders by distance.
 
-        StartCoroutine(Flip());
+        //StartCoroutine(Flip());
     }
     [Button]
-    public IEnumerator Flip()
+    public IEnumerator Flip()//objects that are laying down get flipped up. 
     {
         foreach (var obj in backgrounds)
         {
@@ -37,7 +44,7 @@ public class PopUpScript : MonoBehaviour
         }
     }
     [Button]
-    public IEnumerator UnFlip()
+    public IEnumerator UnFlip()//takes the objects that are currently popped up and flattens them back out.
     {
         float maxDistance = backgrounds.Max(obj => Vector3.Distance(transform.position, obj.transform.position));
 
@@ -56,8 +63,4 @@ public class PopUpScript : MonoBehaviour
             Debug.Log("Flipping " + obj.name + " at " + invertedDelay + " seconds");
         }
     }
-
-   
-    //when the book opens to a level begin flipping object upright
-    //grab a list of all items 
 }
