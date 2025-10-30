@@ -46,6 +46,8 @@ public class RuneEvents : MonoBehaviour
 
         PublicEvents.MasteryRunePurchased += MasteryUnlocked;
 
+        PublicEvents.RightClicked += CancelCasting;
+
     }
 
     /// <summary>
@@ -103,9 +105,16 @@ public class RuneEvents : MonoBehaviour
 
     [HorizontalLine(4, EColor.Red)]
 
-    [ShowIf(nameof(currentInspectorShowing), Prep.Visuals), SerializeField]
     //for menu-swapping purposes
+    [ShowIf(nameof(currentInspectorShowing), Prep.Visuals), SerializeField]
     GameObject playerMenu;
+
+    //early testing stuff
+    [ShowIf(nameof(currentInspectorShowing), Prep.Visuals), SerializeField]
+    TMP_Text debugText;
+
+    [ShowIf(nameof(currentInspectorShowing), Prep.Visuals), SerializeField]
+    TMP_Text debugComboText;
 
     #endregion VISUALS
 
@@ -186,6 +195,17 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// exits attack menu when the right mouse button is clicked
+    /// can be changed to something else later
+    /// </summary>
+    void CancelCasting()
+    {
+
+        playerMenu.SetActive(true);
+        this.gameObject.SetActive(false);
+
+    }
 
     /// <summary>
     /// Checks if the selected tile has an enemy in it
@@ -246,6 +266,14 @@ public class RuneEvents : MonoBehaviour
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
+                    if(debugText != null)
+                    {
+
+                        debugText.text = ("Target hit for " +
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier) + " damage!");
+
+                    }
+
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -271,8 +299,8 @@ public class RuneEvents : MonoBehaviour
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+                    //vfx.GetComponentInChildren<TextMeshPro>().text =
+                        //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     if(secondaryTarget != null)
                     {
@@ -281,9 +309,29 @@ public class RuneEvents : MonoBehaviour
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
                         CheckRuneCombination(secondaryTarget.GetComponentInChildren<Enemy>());
 
+                        if (debugText != null)
+                        {
+
+                            debugText.text = ("Targets hit for " +
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier) + " damage!");
+
+                        }
+
                         vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
-                        vfx.GetComponentInChildren<TextMeshPro>().text =
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+                        //vfx.GetComponentInChildren<TextMeshPro>().text =
+                            //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+
+                    }
+                    else
+                    {
+
+                        if (debugText != null)
+                        {
+
+                            debugText.text = ("Target hit for " +
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier) + " damage!");
+
+                        }
 
                     }
 
@@ -307,9 +355,17 @@ public class RuneEvents : MonoBehaviour
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
+                    if (debugText != null)
+                    {
+
+                        debugText.text = ("Target hit for " +
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier) + " damage!");
+
+                    }
+
                     vfx = Instantiate(storedRuneVFX, target.transform);
-                    vfx.GetComponentInChildren<TextMeshPro>().text =
-                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+                    //vfx.GetComponentInChildren<TextMeshPro>().text =
+                        //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                     TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
 
@@ -332,9 +388,16 @@ public class RuneEvents : MonoBehaviour
                                 (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
                             CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
 
+                            if (debugText != null)
+                            {
+
+                                debugText.text = "Multiple targets hit!";
+
+                            }
+
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
-                            vfx.GetComponentInChildren<TextMeshPro>().text =
-                                (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
+                            //vfx.GetComponentInChildren<TextMeshPro>().text =
+                                //(15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
 
                         }
 
@@ -356,6 +419,14 @@ public class RuneEvents : MonoBehaviour
                     target.GetComponentInChildren<Enemy>().Damage
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                    if (debugText != null)
+                    {
+
+                        debugText.text = ("Target hit for " +
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier) + " damage!");
+
+                    }
 
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -457,6 +528,14 @@ public class RuneEvents : MonoBehaviour
                                 (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
                             CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
 
+                            if (debugText != null)
+                            {
+
+                                debugText.text = ("Target(s) hit for " +
+                                (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) + " damage!");
+
+                            }
+
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
                                 (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
@@ -492,6 +571,14 @@ public class RuneEvents : MonoBehaviour
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
+                    if (debugText != null)
+                    {
+
+                        debugText.text = ("Target hit for " +
+                        (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) + " damage!");
+
+                    }
+
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     vfx.GetComponentInChildren<TextMeshPro>().text =
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
@@ -509,6 +596,13 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     ShieldBehavior newShield = target.gameObject.AddComponent<ShieldBehavior>();
+
+                    if (debugText != null)
+                    {
+
+                        debugText.text = "Shield added!";
+
+                    }
 
                     newShield.OnShieldGenerated(target.transform, storedRuneVFX);
 
@@ -538,6 +632,14 @@ public class RuneEvents : MonoBehaviour
                         target.GetComponentInChildren<Enemy>().Damage
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
                         CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                        if (debugText != null)
+                        {
+
+                            debugText.text = ("Target hit for " +
+                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) + " damage!");
+
+                        }
 
                         vfx.GetComponentInChildren<TextMeshPro>().text =
                             (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier).ToString();
@@ -575,6 +677,13 @@ public class RuneEvents : MonoBehaviour
                             validEnemies[i].GetComponentInChildren<Enemy>().Damage
                                     (Mathf.RoundToInt((storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count));
                             CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                            if (debugText != null)
+                            {
+
+                                debugText.text = "Multiple targets hit!";
+
+                            }
 
                             vfx = Instantiate(storedRuneVFX, validEnemies[i].transform);
                             vfx.GetComponentInChildren<TextMeshPro>().text =
@@ -680,12 +789,26 @@ public class RuneEvents : MonoBehaviour
                     LightningAndWindCombo(enemy, storedRuneNumber, enemy.RuneStatusEffectNumber);
                     Debug.Log("Combo called!");
 
+                    if (debugComboText != null)
+                    {
+
+                        debugComboText.text = "Lighting/Wind Combo!";
+
+                    }
+
                     break;
 
                 case (RuneType.Wind, RuneType.Lightning):
 
                     LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedRuneNumber);
                     Debug.Log("Combo called!");
+
+                    if (debugComboText != null)
+                    {
+
+                        debugComboText.text = "Wind/Lightning Combo!";
+
+                    }
 
                     break;
 
@@ -936,6 +1059,31 @@ public class RuneEvents : MonoBehaviour
 
         playerMenu.SetActive(true);
         this.gameObject.SetActive(false);
+
+        Invoke("ClearText", 1);
+
+    }
+
+    /// <summary>
+    /// evil temporary code for evil temporary text
+    /// clears debug text
+    /// </summary>
+    void ClearText()
+    {
+
+        if(debugText != null)
+        {
+
+            debugText.text = "";
+
+        }
+
+        if(debugComboText != null)
+        {
+
+            debugComboText.text = "";
+
+        }
 
     }
 
