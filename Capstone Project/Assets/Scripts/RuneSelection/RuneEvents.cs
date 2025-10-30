@@ -189,6 +189,13 @@ public class RuneEvents : MonoBehaviour
 
         storedData = rd;
 
+        if(debugText != null)
+        {
+
+            debugText.text = "Waiting on a target...";
+
+        }
+
         //to prevent softlocking FOR NOW
         //playerMenu.SetActive(true);
         //this.gameObject.SetActive(false);
@@ -204,6 +211,20 @@ public class RuneEvents : MonoBehaviour
 
         playerMenu.SetActive(true);
         this.gameObject.SetActive(false);
+
+        if(waitingForThePlayer)
+        {
+
+            waitingForThePlayer = false;
+
+            if (debugText != null)
+            {
+
+                debugText.text = "";
+
+            }
+
+        }
 
     }
 
