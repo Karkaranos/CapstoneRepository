@@ -16,6 +16,8 @@ public class TileBehaviour : MonoBehaviour
     [Header("Tile Info")]
     [Tooltip("The index the tile is inside the grid")]
     public Vector2Int IndexInGrid;
+    [HideInInspector]
+    public int entityOnGrid;
 
     [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")]
     Vector2 tileDisplacement;
@@ -74,15 +76,15 @@ public class TileBehaviour : MonoBehaviour
     /// <summary>
     /// all this does right now is call the add objects to tile function
     /// </summary>
-    private void Start()
-    {
-        AddObjectsToTile();
-    }
+    //private void Start()
+    //{
+    //    AddObjectsToTile();
+    //}
 
     /// <summary>
     /// adds the entities and hazards to the tile, updates the grid manager with positions
     /// </summary>
-    private void AddObjectsToTile() {
+    public void AddObjectsToTile() {
         int eType = -1;
 
         //spawns an Entity if theres one to spawn

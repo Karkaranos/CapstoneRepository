@@ -114,10 +114,10 @@ public class GridTesting : MonoBehaviour
     /// <summary>
     /// Creates an instance of the grid
     /// </summary>
-    private void Awake()
+    private void Start()
     {
-        GridManager.SetGrid(gridDimensions[gridIndex]);
         gridPrefabs[gridIndex].SetActive(true);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class GridTesting : MonoBehaviour
     public void LoadNextGrid()
     {
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
-        GridManager.SetGrid(gridDimensions[gridIndex]);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         LoadGridPrefab();
     }
 
