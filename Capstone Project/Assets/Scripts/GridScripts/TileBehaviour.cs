@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 10/22/2025 (Tyler Bouchard)
+ * Last Modified: 10/30/2025 (Brad Dixon)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -13,11 +13,14 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class TileBehaviour : MonoBehaviour
 {
-    private enum TileType
-    {
-        Default,
-        Water,
-    }
+    [Header("Tile Info")]
+    [Tooltip("The index the tile is inside the grid")]
+    public Vector2Int IndexInGrid;
+    [HideInInspector]
+    public int entityOnGrid;
+
+    [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")]
+    Vector2 tileDisplacement;
     private enum EntityType
     {
         Enemy,
@@ -28,24 +31,8 @@ public class TileBehaviour : MonoBehaviour
     {
         block,
         damage,
-        slow
+        slow 
     }
-
-    [Header("Tile Info")]
-    public GameObject objectOnTile = null;
-    public Vector2Int IndexInGrid;
-
-    [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")]
-    private Vector2 tileDisplacement;
-
-    [SerializeField] TileType tileType;
-    
-    //Water Tile Variables
-    [SerializeField, ShowIf("tileType", TileType.Water)] private int damageWhenElectric;
-    [ShowIf("tileType", TileType.Water)] public bool isElectrified;
-    [ShowIf("tileType", TileType.Water)] public int electrificationEffectDuration;
-    [ShowIf("tileType", TileType.Water)] public int turnsSinceElectrification;
-
 
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
@@ -77,7 +64,6 @@ public class TileBehaviour : MonoBehaviour
     //IDK what this is, it isnt used but causes errors in another script when removed so it gets to stay -Tyler B
     [HideInInspector] public List<StatsOnTile> tileStatAffects = new List<StatsOnTile>();
 
-
     /// <summary>
     /// Calculates the tile's index based off the transform and the tileDisplacement variable
     /// </summary>
@@ -88,18 +74,9 @@ public class TileBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// all this does right now is call the add objects to tile function
-    /// </summary>
-    private void Start()
-    {
-        AddObjectsToTile();
-        
-    }
-
-    /// <summary>
     /// adds the entities and hazards to the tile, updates the grid manager with positions
     /// </summary>
-    private void AddObjectsToTile() {
+    public void AddObjectsToTile() {
         int eType = -1;
 
         //spawns an Entity if theres one to spawn
@@ -136,56 +113,6 @@ public class TileBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// makes the tile electrifyed
-    /// </summary>
-    public void ElectrifyTile() {
-        if (tileType == TileType.Water) {
-            isElectrified = true;
-            turnsSinceElectrification = 0;
-        } 
-    }
-
-    /// <summary>
-    /// applys all of the effects that the tile is suposed to dish out when called
-    /// </summary>
-    public void ApplyTileEffects() {
-        //damage hazard effect
-        if (hazardType == HazardType.damage)
-        {
-            DealDamageToEntity(damageAmount);
-        }
-
-        //electrifyed water effect
-        if (tileType == TileType.Water && isElectrified)
-        {
-            DealDamageToEntity(damageWhenElectric);
-            turnsSinceElectrification++;
-            if (turnsSinceElectrification >= electrificationEffectDuration) { 
-                isElectrified = false; 
-            }
-        }
-
-        //TurnPublicEvents.TurnActionComplete();
-    }
-
-    /// <summary>
-    /// Deals the damage to the object on the tile
-    /// </summary>
-    /// <param name="amount"></param>
-    private void DealDamageToEntity(int amount) {
-        if (objectOnTile != null) {
-            if (objectOnTile.GetComponent<PlayerStats>() != null)
-            {
-                objectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
-            }
-            if (objectOnTile.GetComponent<MeleeEnemy>() != null)
-            {
-                objectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
-            }
-        }
-    }
-
-    /// <summary>
     /// Sets an entity to be a child of a tile
     /// </summary>
     /// <param name="collision"></param>
@@ -193,16 +120,19 @@ public class TileBehaviour : MonoBehaviour
     {
         print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
-        objectOnTile = collision.gameObject;
-    }
 
-   /* private void OnEnable()
-    {
-        TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
-    }
-    private void OnDisable()
-    {
-        TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
+        //dealing damage to the player and enemy if aplicable
+        if (hazardType == HazardType.damage) {
+            if (collision.gameObject.GetComponent<PlayerStats>() != null)
+            {
+                collision.gameObject.GetComponent<PlayerStats>().TakeDamage(damageAmount);
+            }
+            if (collision.gameObject.GetComponent<MeleeEnemy>() != null)
+            {
+                collision.gameObject.GetComponent<MeleeEnemy>().Damage(damageAmount);
+            }
+        }
 
-    }*/
+        //call whatever slows the player once that is in
+    }
 }
