@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3506325697463372161}
   - component: {fileID: 1309085514034639551}
   - component: {fileID: 3932241730522942511}
+  - component: {fileID: 4913722977223475094}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,12 +52,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5e7ca3b4d52fc4eaea701120c048b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 3
-  allowArtifacts: 0
+  settings: 2
+  allowArtifacts: 1
   CommandConsole: {fileID: 1704929989082906118, guid: 3ad6c0ab1caa33c44ab70d8171a08f0a, type: 3}
   maxArtifacts: 3
-  allowArtifactTesting: 0
+  allowArtifactTesting: 1
   randomArtifactPool:
+  - {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
   - {fileID: 11400000, guid: cdebfa474e7c2064ea9c0fc41e5fa153, type: 2}
   - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
   setArtifactPool: []
@@ -70,6 +72,8 @@ MonoBehaviour:
   moveConsoleEnabled: 1
   greetEnabled: 1
   enemiesEnabled: 1
+  validMarks:
+  - {fileID: 11400000, guid: 43bc61277254109479353e410ff894bd, type: 2}
   CurrentActionPoints: 3
   MoveActionPoints: 2
   ActionPointsPerTurn: 3
@@ -117,13 +121,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecda01683183da47b41f237838bac9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shownSettings: 0
+  shownSettings: 1
   StartCombatDelay: 0.1
   currentStatus: 0
   currentHearBackNum: 0
   targetHearBackNum: 0
   breakInfLoop: 0
-  gameHasStarted: 0
   playerCanvas: {fileID: 0}
 --- !u!114 &7363244820257217404
 MonoBehaviour:
@@ -191,3 +194,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc7c8967f915a6468c840333a5acf3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4913722977223475094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740814544277476685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: 2
+  CurrentHealth: 100
+  MaxHealth: 100
+  DodgeChance: 0
+  Resistance: 0
+  DamageTakenMultiplier: 1
+  RangedDamageTakenMultiplier: 1
+  MeleeDamageTakenMultiplier: 1
+  BaseAttackMultiplier: 1
+  LightningAttackMultiplier: 1
+  WindAttackMultiplier: 1

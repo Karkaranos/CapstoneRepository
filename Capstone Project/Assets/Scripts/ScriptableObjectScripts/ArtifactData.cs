@@ -9,25 +9,18 @@ using NaughtyAttributes;
 using UnityEngine;
 
 #region Enum Setup
-public enum ArtifactType
-{
-    Tunic, Helmet, Boots, Amulet, Potion, Staff, Cannon, Other
-}
 
 public enum Effects
 {
-    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, Vampiric, Dodge
+    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, Vampiric, Dodge, ChanceToAvoidUsingPoints, Instakill, Miss, Luck
 }
 
-public enum Mark
+
+public enum ArtifactTriggerCondition
 {
-    Strength, Speed, Risk, Luck, Restoration, Conquest, Victory, None
+    OnEquip, OnAttack, SpellCount
 }
 
-public enum TriggerCondition
-{
-    OnEquip, OnAttack
-}
 
 #endregion
 
@@ -37,10 +30,11 @@ public class ArtifactData : ScriptableObject
     public string Name;
     public string Description;
 
-    [Tooltip("The type of Artifact")] public ArtifactType Type;
-    [Tooltip("When the Artifact effects occur")] public TriggerCondition TriggerCondition;
+    [Tooltip("When the Artifact effects occur")] public ArtifactTriggerCondition TriggerCondition;
+    [Tooltip("How many spells this effect triggers after"), ShowIf(nameof(TriggerCondition), ArtifactTriggerCondition.SpellCount)] public int TriggerCount;
+    [HideInInspector] public int Counter = 0;
     [Tooltip("All effects")] public ArtifactEffects[] Effects;
-    [Tooltip("Used for set combinations")] public Mark Mark;
+    [Tooltip("Used for set combinations")] public MarkType Mark;
     //[Tooltip("Takes 1 point away per fight it's used in. Set it to less than 0 to not use this")] public int Durability;
     [Tooltip("How many slots it takes up")] public int ArtifactSize;
     public Sprite ArtifactSprite;
@@ -53,11 +47,10 @@ public class ArtifactData : ScriptableObject
     /// <param name="type">Type of Artifact</param>
     /// <param name="effects">What stats this affects and their value</param>
     /// <param name="size">Optional size stat. Defaulted paramater sets it to 1y</param>
-    public ArtifactData(string name, string description, ArtifactType type, Mark mark, ArtifactEffects[] effects, int size = 1)
+    public ArtifactData(string name, string description, MarkType mark, ArtifactEffects[] effects, int size = 1)
     {
         Name = name;
         Description = description;
-        Type = type;
         Mark = mark;
         Effects = effects;
         ArtifactSize = size;
@@ -71,7 +64,6 @@ public class ArtifactData : ScriptableObject
     {
         Name = ad.Name;
         Description = ad.Description;
-        Type = ad.Type;
         Mark = ad.Mark;
         Effects = ad.Effects;
         ArtifactSize = ad.ArtifactSize;
