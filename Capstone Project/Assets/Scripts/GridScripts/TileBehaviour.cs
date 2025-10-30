@@ -77,6 +77,7 @@ public class TileBehaviour : MonoBehaviour
     //IDK what this is, it isnt used but causes errors in another script when removed so it gets to stay -Tyler B
     [HideInInspector] public List<StatsOnTile> tileStatAffects = new List<StatsOnTile>();
 
+
     /// <summary>
     /// Calculates the tile's index based off the transform and the tileDisplacement variable
     /// </summary>
@@ -92,7 +93,7 @@ public class TileBehaviour : MonoBehaviour
     private void Start()
     {
         AddObjectsToTile();
-        //TurnPublicEvents.BeginStartTurn.AddListener(ApplyTileEffects);
+        
     }
 
     /// <summary>
@@ -163,6 +164,8 @@ public class TileBehaviour : MonoBehaviour
                 isElectrified = false; 
             }
         }
+
+        //TurnPublicEvents.TurnActionComplete();
     }
 
     /// <summary>
@@ -192,4 +195,14 @@ public class TileBehaviour : MonoBehaviour
         collision.transform.SetParent(transform);
         objectOnTile = collision.gameObject;
     }
+
+   /* private void OnEnable()
+    {
+        TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
+    }
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
+
+    }*/
 }
