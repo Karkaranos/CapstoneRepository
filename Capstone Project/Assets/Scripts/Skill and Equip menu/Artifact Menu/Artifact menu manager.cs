@@ -42,7 +42,11 @@ public class ArtifactMenuManager : MonoBehaviour
 
     private ArtifactData heldArtifact;
 
+    private List<GameObject> artifactEquippedSlotButtons;
+    private List<InventoryButton> inventoryButtons;
+
     private ArtifactManager AM;
+    private SkillAndArtifactManager skillArtifactManager;
 
     #endregion VARS
 
@@ -53,6 +57,8 @@ public class ArtifactMenuManager : MonoBehaviour
     void Start()
     {
         AM = FindFirstObjectByType<GameManager>().ArtifactManager;
+        skillArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
+
         StartCoroutine(DelayedPopulate());
     }
 
@@ -70,11 +76,10 @@ public class ArtifactMenuManager : MonoBehaviour
         foreach (ArtifactData a in ArtifactManager.inventoryArtifacts)
         {
             InventoryButton temp = Instantiate(InventoryButtonPrefab, scrollBarContainer.transform).GetComponent<InventoryButton>();
+            inventoryButtons.Add(temp);
             temp.SetArtifactData(a);
             temp.InsVars();
         }
-
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(scrollBarContainer.GetComponentInParent<ScrollRect>().content);
     }
 
     /// <summary>
@@ -89,6 +94,21 @@ public class ArtifactMenuManager : MonoBehaviour
     public void ArtifactPickedUp(ArtifactData data, bool isInInventory)
     {
         heldArtifact = data;
+
+        if (isInInventory)
+        {
+            for (int i = 0; i < inventoryButtons.Count; i++) 
+                if (inventoryButtons[i].GetArtifactData() == data)
+                {
+                    Destroy(inventoryButtons[i].gameObject);
+                    inventoryButtons.RemoveAt(i);
+                    break;
+                }
+            
+        }
+
+        skillArtifactManager.SpawnCursorBox();
+        
     }
 
     public void ButtonHovered(ArtifactData data)

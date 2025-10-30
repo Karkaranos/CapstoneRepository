@@ -37,6 +37,9 @@ public class SkillAndArtifactManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(InspectorSettings), Settings.References)]
     private Button continueButton;
 
+    [SerializeField, ShowIf(nameof(InspectorSettings), Settings.References)]
+    private GameObject cursorBoxPrefab;
+
     #endregion
 
     #region TESTING AND DEBUG
@@ -48,7 +51,11 @@ public class SkillAndArtifactManager : MonoBehaviour
     [ShowIf(nameof(InspectorSettings), Settings.TestingAndDebug), SerializeField, Expandable,
         OnValueChanged(nameof(UpdateContinueButton))] public List<RuneData> equippedSpells;
 
+
     #endregion
+
+    
+    private GameObject spawnedCursorBox;
 
     #endregion
 
@@ -96,6 +103,12 @@ public class SkillAndArtifactManager : MonoBehaviour
             SkillTreeContainer.SetActive(false);
             EquipMenuContainer.SetActive(true);
         }
+
+        if (spawnedCursorBox != null)
+        {
+            Destroy(spawnedCursorBox);
+            spawnedCursorBox = null;
+        }
     }
 
     /// <summary>
@@ -130,6 +143,23 @@ public class SkillAndArtifactManager : MonoBehaviour
     public RuneData GetIndexOfEquippedSpells(int index)
     {
         return equippedSpells[index];
+    }
+
+    public void SpawnCursorBox()
+    {
+        if (spawnedCursorBox == null)
+        {
+            spawnedCursorBox = Instantiate(cursorBoxPrefab, transform);
+        }
+    }
+
+    public void DeleteCursorBox()
+    {
+        if (spawnedCursorBox != null)
+        {
+            Destroy(spawnedCursorBox);
+            spawnedCursorBox = null;
+        }
     }
 
 }
