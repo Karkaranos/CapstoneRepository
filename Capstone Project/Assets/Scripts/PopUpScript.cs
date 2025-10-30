@@ -1,47 +1,63 @@
 using UnityEngine;
 using NaughtyAttributes;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PopUpScript : MonoBehaviour
 {
-    [SerializeField] private GameObject backgroundObj;
-    [SerializeField] private GameObject[] backObjs;
+    [SerializeField] private string targetTag = "Background"; //change tag to whatever is needed to affect all background objects.
+    [SerializeField] private float delayMultiplier = 0.1f; //controls how much distance affects delay.
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private List<GameObject> backgrounds; //lists of all background objects.
     void Start()
     {
-        //scan for closest animators
-        
-        if (backObjs != null)
+        backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();
+
+        backgrounds = backgrounds.OrderBy(obj => Vector3.Distance(transform.position, obj.transform.position)).ToList();
+
+        StartCoroutine(Flip());
+    }
+    [Button]
+    public IEnumerator Flip()
+    {
+        foreach (var obj in backgrounds)
         {
-            backObjs = GameObject.FindGameObjectsWithTag("Background");
+            Animator anim = obj.GetComponent<Animator>();
+            if (anim != null)
+            {
+                anim.SetTrigger("Flip");
+            }
+
+            float distance = Vector3.Distance(transform.position, obj.transform.position);
+            float delay = distance * delayMultiplier;
+
+            yield return new WaitForSeconds(delay);
+            Debug.Log("Flipping " + obj.name + " at " + delay + " seconds");
+        }
+    }
+    [Button]
+    public IEnumerator UnFlip()
+    {
+        float maxDistance = backgrounds.Max(obj => Vector3.Distance(transform.position, obj.transform.position));
+
+        foreach (var obj in backgrounds)
+        {
+            Animator anim = obj.GetComponent<Animator>();
+            if (anim != null)
+            {
+                anim.SetTrigger("UnFlip");
+            }
+
+            float distance = Vector3.Distance(transform.position, obj.transform.position);
+            float invertedDelay = (maxDistance - distance) * delayMultiplier;
+
+            yield return new WaitForSeconds(invertedDelay);
+            Debug.Log("Flipping " + obj.name + " at " + invertedDelay + " seconds");
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    void Flip()
-    {
-        foreach (GameObject backgroundObj in backObjs)
-        {
-            backgroundObj.GetComponent<Animator>().SetTrigger("Flip");
-        }
-    }
-
-    void UnFlip()
-    {
-        foreach (GameObject backgroundObj in backObjs)
-        {
-            backgroundObj.GetComponent<Animator>().SetTrigger("UnFlip");
-        }
-    }
-
-    IEnumerator Flipping()
-
+   
     //when the book opens to a level begin flipping object upright
     //grab a list of all items 
 }
