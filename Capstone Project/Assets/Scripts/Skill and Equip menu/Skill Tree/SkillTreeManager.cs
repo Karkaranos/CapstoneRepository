@@ -73,6 +73,16 @@ public class SkillTreeManager : MonoBehaviour
         skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
     }
 
+    private void OnEnable()
+    {
+        PublicEvents.TrashHeldOOCObject += ConfirmEquipSpell;
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.TrashHeldOOCObject -= ConfirmEquipSpell;
+    }
+
 
     //add in the data the node is storing as a parameter here
     //so we can store all the nodes the player's unlocked in a list

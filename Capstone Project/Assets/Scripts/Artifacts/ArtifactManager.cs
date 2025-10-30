@@ -19,7 +19,7 @@ public class ArtifactManager
     #region Artifacts
     // Stores all currently applied Artifacts
     public static List<ArtifactData> currentArtifacts = new List<ArtifactData>();
-    private static int currentArtifactWeight = 0;
+    public static int currentArtifactWeight = 0;
 
     // Stores all Artifacts not currently in use
     public static List<ArtifactData> inventoryArtifacts = new List<ArtifactData>();

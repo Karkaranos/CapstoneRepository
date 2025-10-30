@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,7 @@ public class ArtifactMenuManager : MonoBehaviour
 
     [SerializeField, ShowIf(nameof(ShownSettings), Settings.Refs)] private GameObject scrollBarContainer;
     [SerializeField, ShowIf(nameof(ShownSettings), Settings.Refs)] private GameObject InventoryButtonPrefab;
+    [SerializeField, ShowIf(nameof(ShownSettings), Settings.Refs)] private List<EquippedArtifactButton> artifactEquippedSlotButtons;
 
     #endregion
 
@@ -42,11 +44,12 @@ public class ArtifactMenuManager : MonoBehaviour
 
     private ArtifactData heldArtifact;
 
-    private List<GameObject> artifactEquippedSlotButtons;
-    private List<InventoryButton> inventoryButtons;
+
+    private List<InventoryButton> inventoryButtons = new List<InventoryButton>();
 
     private ArtifactManager AM;
     private SkillAndArtifactManager skillArtifactManager;
+    private int numberOfEquippedSlotsAvailable;
 
     #endregion VARS
 
@@ -58,8 +61,17 @@ public class ArtifactMenuManager : MonoBehaviour
     {
         AM = FindFirstObjectByType<GameManager>().ArtifactManager;
         skillArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
-
         StartCoroutine(DelayedPopulate());
+    }
+
+    private void OnEnable()
+    {
+        PublicEvents.TrashHeldOOCObject += ArtifactDropped;
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.TrashHeldOOCObject -= ArtifactDropped;
     }
 
     private IEnumerator DelayedPopulate()
@@ -75,10 +87,7 @@ public class ArtifactMenuManager : MonoBehaviour
     {
         foreach (ArtifactData a in ArtifactManager.inventoryArtifacts)
         {
-            InventoryButton temp = Instantiate(InventoryButtonPrefab, scrollBarContainer.transform).GetComponent<InventoryButton>();
-            inventoryButtons.Add(temp);
-            temp.SetArtifactData(a);
-            temp.InsVars();
+            CreateNewInventoryItem(a);
         }
     }
 
@@ -88,8 +97,94 @@ public class ArtifactMenuManager : MonoBehaviour
     /// <param name="index"></param>
     public void EquipArtifact(int index)
     {
+        EquippedArtifactButton buttonThatHasBeenClicked = null;
 
+        foreach (EquippedArtifactButton button in artifactEquippedSlotButtons)
+        {
+            if (button.index == index)
+            {
+                buttonThatHasBeenClicked = button;
+            }
+        }
+
+        if (buttonThatHasBeenClicked != null)
+        {
+            if (heldArtifact == null && buttonThatHasBeenClicked.GetArtifactData() != null)
+            {
+                heldArtifact = buttonThatHasBeenClicked.GetArtifactData();
+                buttonThatHasBeenClicked.SetArtifactData(null);
+
+                if (heldArtifact.ArtifactSize > 1)
+                {
+                    int i = 1;
+                    foreach (EquippedArtifactButton eButton in artifactEquippedSlotButtons)
+                    {
+                        if (eButton.GetArtifactData() == null && !eButton.gameObject.activeInHierarchy)
+                        {
+                            eButton.gameObject.SetActive(true);
+                            i++;
+                            if (i >= heldArtifact.ArtifactSize)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            skillArtifactManager.SpawnCursorBox();
+
+
+        }
+        if (heldArtifact != null)
+        {
+            if (buttonThatHasBeenClicked.GetArtifactData() != null)
+            {
+                ArtifactData temp = buttonThatHasBeenClicked.GetArtifactData();
+
+                ArtifactManager.RemoveArtifact(temp);
+
+                if (ArtifactManager.ApplyArtifact(heldArtifact))
+                {
+                    buttonThatHasBeenClicked.SetArtifactData(heldArtifact);
+
+                    if (heldArtifact.ArtifactSize > 1)
+                    {
+                        int i = 1;
+                        foreach (EquippedArtifactButton eButton in artifactEquippedSlotButtons)
+                        {
+                            if (eButton.GetArtifactData() == null)
+                            {
+                                eButton.gameObject.SetActive(false);
+                                i++;
+                                if (i >= heldArtifact.ArtifactSize)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    heldArtifact = temp;
+
+
+                }
+                else
+                {
+                    ArtifactManager.ApplyArtifact(temp);
+                }
+
+
+            }
+            else
+            {
+                buttonThatHasBeenClicked.SetArtifactData(heldArtifact);
+                heldArtifact = null;
+                skillArtifactManager.DeleteCursorBox();
+            }
+        }
     }
+
 
     public void ArtifactPickedUp(ArtifactData data, bool isInInventory)
     {
@@ -97,18 +192,23 @@ public class ArtifactMenuManager : MonoBehaviour
 
         if (isInInventory)
         {
-            for (int i = 0; i < inventoryButtons.Count; i++) 
+            for (int i = 0; i < inventoryButtons.Count; i++)
                 if (inventoryButtons[i].GetArtifactData() == data)
                 {
                     Destroy(inventoryButtons[i].gameObject);
                     inventoryButtons.RemoveAt(i);
                     break;
                 }
-            
+
         }
 
         skillArtifactManager.SpawnCursorBox();
-        
+
+    }
+
+    private void ArtifactDropped()
+    {
+
     }
 
     public void ButtonHovered(ArtifactData data)
@@ -118,4 +218,11 @@ public class ArtifactMenuManager : MonoBehaviour
         artifactDescriptionText.text = data.Description;
     }
 
+    private void CreateNewInventoryItem(ArtifactData data)
+    {
+        InventoryButton temp = Instantiate(InventoryButtonPrefab, scrollBarContainer.transform).GetComponent<InventoryButton>();
+        inventoryButtons.Add(temp);
+        temp.SetArtifactData(data);
+        temp.InsVars();
+    }
 }
