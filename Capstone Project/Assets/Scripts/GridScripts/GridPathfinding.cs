@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/23/2025
+ * Last Modified: 10/30/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -28,8 +28,6 @@ public class GridPathfinding : MonoBehaviour
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
     [SerializeField] protected int aggroRange;
-
-    int breakout = 0;
     bool isMoving = false;
 
     /// <summary>
@@ -88,7 +86,7 @@ public class GridPathfinding : MonoBehaviour
                 }
                 else
                 {
-                    GridManager.combatGrid[currentTile.x, currentTile.y] = stepsTaken;
+                    GridManager.combatGrid[currentTile.x, currentTile.y].entityOnGrid = stepsTaken;
                 }
             }
 
@@ -115,36 +113,36 @@ public class GridPathfinding : MonoBehaviour
         //Stores the enemy path as a list of directions
         for (int i = stepsTaken - 1; i >= 0; --i)
         {
-            if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y] == i)
+            if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y].entityOnGrid == i)
             {
                 gridDirections.Add("Left");
                 ++targetPosition.x;
             }
-            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y] == i)
+            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y].entityOnGrid == i)
             {
                 gridDirections.Add("Right");
                 --targetPosition.x;
             }
             else if(targetPosition.y % 2 == 1)
             {
-                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y - 1] == i)
+                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y - 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Up Left");
                     ++targetPosition.x;
                     --targetPosition.y;
                 }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1] == i)
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Up Right");
                     --targetPosition.y;
                 }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y + 1] == i)
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y + 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Down Left");
                     ++targetPosition.x;
                     ++targetPosition.y;
                 }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1] == i)
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Down Right");
                     ++targetPosition.y;
@@ -152,23 +150,23 @@ public class GridPathfinding : MonoBehaviour
             }
             else if(targetPosition.y % 2 == 0)
             {
-                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1] == i)
+                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Up Left");
                     --targetPosition.y;
                 }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y - 1] == i)
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y - 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Up Right");
                     --targetPosition.x;
                     --targetPosition.y;
                 }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1] == i)
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Down Left");
                     ++targetPosition.y;
                 }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y + 1] == i)
+                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y + 1].entityOnGrid == i)
                 {
                     gridDirections.Add("Down Right");
                     --targetPosition.x;
