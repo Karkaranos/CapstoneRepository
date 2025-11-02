@@ -73,8 +73,6 @@ public class TileBehaviour : MonoBehaviour
     //IDK what this is, it isnt used but causes errors in another script when removed so it gets to stay -Tyler B
     [HideInInspector] public List<StatsOnTile> tileStatAffects = new List<StatsOnTile>();
 
-    
-
     /// <summary>
     /// Calculates the tile's index based off the transform and the tileDisplacement variable
     /// </summary>
@@ -179,18 +177,6 @@ public class TileBehaviour : MonoBehaviour
         print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
 
-        //dealing damage to the player and enemy if aplicable
-        if (hazardType == HazardType.damage) {
-            if (collision.gameObject.GetComponent<PlayerStats>() != null)
-            {
-                collision.gameObject.GetComponent<PlayerStats>().TakeDamage(damageAmount);
-            }
-            if (collision.gameObject.GetComponent<MeleeEnemy>() != null)
-            {
-                collision.gameObject.GetComponent<MeleeEnemy>().Damage(damageAmount);
-            }
-        }
-
-        //call whatever slows the player once that is in
+        ObjectOnTile = collision.gameObject;
     }
 }
