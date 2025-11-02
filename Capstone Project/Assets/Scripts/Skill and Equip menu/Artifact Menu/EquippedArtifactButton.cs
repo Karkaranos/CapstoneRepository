@@ -37,14 +37,14 @@ public class EquippedArtifactButton : MonoBehaviour
 
     public void ButtonClicked()
     {
-        menuManager.EquipArtifact(index);
+        menuManager.EquipArtifact(this);
     }
 
     private void UpdateName(bool isNull)
     {
         if (isNull)
         {
-            buttonText.text = string.Empty;
+            buttonText.text = "Artifact Slot";
         }
         else
         {
