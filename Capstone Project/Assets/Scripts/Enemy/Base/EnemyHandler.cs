@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/19/2025
-Date Last Modified : 	10/28/2025
+Date Last Modified : 	11/2/2025
 Brief Description : 		Handler for running the enemy 
                     state machines one after another
 External Resources : 	
@@ -15,6 +15,9 @@ public class EnemyHandler : MonoBehaviour
     [HideInInspector]public static EnemyHandler Instance { get; private set; }
     private List<Enemy> enemies = new List<Enemy>();
     private static int index = 0;
+
+    //temp variable for 
+    [SerializeField] private EndLevelMenu endLevelMenu;
 
     /// <summary>
     /// Make sure that this is a Singleton 
@@ -98,7 +101,7 @@ public class EnemyHandler : MonoBehaviour
         if(enemies.Count == 0 )
         {
             //TODO: End Level logic
-            //PublicEvents.EndBattle.Invoke();
+            endLevelMenu.ToggleEndMenuUi();
             Debug.Log("Level Ended");
         }
     }
