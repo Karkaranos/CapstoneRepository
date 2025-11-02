@@ -68,7 +68,7 @@ public class EquippedArtifactButton : MonoBehaviour
     /// <summary>
     /// updates the name on the button
     /// </summary>
-    /// <param name="isNull"> if the new bool is null </param>
+    /// <param name="isNull"> if the bool is null it sets the text to default</param>
     private void UpdateName(bool isNull)
     {
         if (isNull)
