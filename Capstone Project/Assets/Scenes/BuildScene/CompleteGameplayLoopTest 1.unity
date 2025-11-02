@@ -825,9 +825,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
-  entityType: 0
 --- !u!43 &115382474
 Mesh:
   m_ObjectHideFlags: 0
@@ -3032,6 +3029,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 15688702998988428, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15688702998988428, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15688702998988428, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 15688702998988428, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2666288005788377712, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: m_Name
       value: MainCanvas
@@ -3151,6 +3164,26 @@ PrefabInstance:
     - target: {fileID: 7470834987201379323, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605447446796153354, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142399956818263058, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142399956818263058, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142399956818263058, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142399956818263058, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5130,9 +5163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
-  entityType: 0
 --- !u!1 &748079556
 GameObject:
   m_ObjectHideFlags: 0
