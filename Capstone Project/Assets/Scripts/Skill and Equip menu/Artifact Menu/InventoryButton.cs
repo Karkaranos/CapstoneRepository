@@ -32,12 +32,12 @@ public class InventoryButton : MonoBehaviour
     public void InsVars()
     {
         AMM = FindFirstObjectByType<ArtifactMenuManager>();
-        buttonTxt.text = data.name;
+        buttonTxt.text = data.Name;
     }
 
     public void ButtonClicked()
     {
-        AMM.ArtifactPickedUp(data, true);
+        AMM.ArtifactPickedUp(data);
     }
 
     public void OnHover()

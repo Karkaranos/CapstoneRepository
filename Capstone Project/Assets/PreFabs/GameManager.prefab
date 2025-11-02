@@ -67,6 +67,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
   - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
   - {fileID: 11400000, guid: 650041acff6096044aebf8777a69ae97, type: 2}
+  - {fileID: 11400000, guid: 1efe212ce72729040853e18c0be93aaa, type: 2}
+  - {fileID: 11400000, guid: c154310e123d50f45ac945dded7b671e, type: 2}
   consoleEnabled: 1
   consoleEnabledOnLoad: 0
   moveConsoleEnabled: 1
@@ -207,9 +209,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: 2
+  healthBar: {fileID: 0}
   CurrentHealth: 100
   MaxHealth: 100
   DodgeChance: 0
+  LuckModifier: 0
   Resistance: 0
   DamageTakenMultiplier: 1
   RangedDamageTakenMultiplier: 1
@@ -217,3 +221,7 @@ MonoBehaviour:
   BaseAttackMultiplier: 1
   LightningAttackMultiplier: 1
   WindAttackMultiplier: 1
+  SpellsCastThisTurn: 0
+  MissChance: 0
+  InstaKillChance: 0
+  NoActionPointCostChance: 0

@@ -48,7 +48,7 @@ public class EquippedArtifactButton : MonoBehaviour
         }
         else
         {
-            buttonText.text = data.name;
+            buttonText.text = data.Name;
         }
     }
 }

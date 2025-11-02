@@ -77,7 +77,9 @@ public class ArtifactMenuManager : MonoBehaviour
     private IEnumerator DelayedPopulate()
     {
         yield return null;
-        PopulatePossibleEquippedArtifacts();
+        // PopulatePossibleEquippedArtifacts();
+
+        UpdateInventoryGameObjects();
     }
 
     /// <summary>
@@ -106,7 +108,7 @@ public class ArtifactMenuManager : MonoBehaviour
                 ArtifactManager.RemoveArtifact(heldArtifact);
                 buttonPressed.SetArtifactData(null);
 
-                if (heldArtifact.ArtifactSize > 1)
+                /*if (heldArtifact.ArtifactSize > 1)
                 {
                     int i = 1;
                     foreach (EquippedArtifactButton eButton in artifactEquippedSlotButtons)
@@ -121,12 +123,13 @@ public class ArtifactMenuManager : MonoBehaviour
                             }
                         }
                     }
-                }
+                }*/
+
+                UpdateNumberOfEquippedButtons();
 
                 skillArtifactManager.SpawnCursorBox();
             }
-
-            if (heldArtifact != null)
+            else if (heldArtifact != null)
             {
                 if (buttonPressed.GetArtifactData() != null)
                 {
@@ -138,7 +141,7 @@ public class ArtifactMenuManager : MonoBehaviour
                     {
                         buttonPressed.SetArtifactData(heldArtifact);
 
-                        if (heldArtifact.ArtifactSize > 1)
+                        /*if (heldArtifact.ArtifactSize > 1)
                         {
                             int i = 1;
                             foreach (EquippedArtifactButton eButton in artifactEquippedSlotButtons)
@@ -153,7 +156,9 @@ public class ArtifactMenuManager : MonoBehaviour
                                     }
                                 }
                             }
-                        }
+                        }*/
+
+                        UpdateNumberOfEquippedButtons();
 
                         heldArtifact = temp;
 
@@ -173,7 +178,7 @@ public class ArtifactMenuManager : MonoBehaviour
                         Debug.Log("Artifact applied");
                         buttonPressed.SetArtifactData(heldArtifact);
 
-                        if (heldArtifact.ArtifactSize > 1)
+                        /*if (heldArtifact.ArtifactSize > 1)
                         {
                             int i = 1;
                             foreach (EquippedArtifactButton eButton in artifactEquippedSlotButtons)
@@ -188,7 +193,10 @@ public class ArtifactMenuManager : MonoBehaviour
                                     }
                                 }
                             }
-                        }
+                        }*/
+
+                        UpdateNumberOfEquippedButtons();
+
 
                         heldArtifact = null;
                         skillArtifactManager.DeleteCursorBox();
@@ -206,21 +214,63 @@ public class ArtifactMenuManager : MonoBehaviour
         }
     }
 
-
-    public void ArtifactPickedUp(ArtifactData data, bool isInInventory)
+    private void UpdateNumberOfEquippedButtons()
     {
+        //all the buttons that have stuff in them
+        int currentlyEquippedButtons = 0;
+        foreach (EquippedArtifactButton button in artifactEquippedSlotButtons)
+        {
+            if (button.GetArtifactData() != null)
+            {
+                currentlyEquippedButtons++;
+            }
+        }
+
+        Debug.Log("Art manager has " + ArtifactManager.currentArtifactWeight + " weight, while currentlyEquippedButtons is " + currentlyEquippedButtons);
+
+        //sets the right number of buttons to shown/hidden depending on the difference between
+        //the number of buttons that have stuff to the number of available space
+        if (ArtifactManager.currentArtifactWeight != currentlyEquippedButtons)
+        {
+            
+            //the weight can only ever go over the current number of artifacts so we run this loop for each time it's over
+            for (int i = 0; i < (ArtifactManager.currentArtifactWeight - currentlyEquippedButtons); i++)
+            {
+                //bool breakOnlyTheForeach = false;
+                //goes through all the buttons and turns off the first one that's empty
+                foreach (EquippedArtifactButton button in artifactEquippedSlotButtons)
+                {
+                    if (button.GetArtifactData() == null && button.gameObject.activeInHierarchy)
+                    {
+                        button.gameObject.SetActive(false);
+                        //breakOnlyTheForeach = true;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            //if there are no artifacts that take up more than one slot, everything should be on.
+            foreach (EquippedArtifactButton button in artifactEquippedSlotButtons)
+            {
+                button.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void ArtifactPickedUp(ArtifactData data)
+    {
+        if (heldArtifact != null)
+        {
+            ArtifactManager.ObtainArtifact(heldArtifact);
+            heldArtifact = null;
+        }
+
         heldArtifact = data;
 
-        if (isInInventory)
-        {
-            for (int i = 0; i < inventoryButtons.Count; i++)
-                if (inventoryButtons[i].GetArtifactData() == data)
-                {
-                    inventoryButtons[i].gameObject.SetActive(false);
-                    break;
-                }
+        ArtifactManager.RemoveArtifactFromInventory(data);
 
-        }
 
         UpdateInventoryGameObjects();
 
@@ -233,6 +283,8 @@ public class ArtifactMenuManager : MonoBehaviour
         ArtifactManager.ObtainArtifact(heldArtifact);
         heldArtifact = null;
         skillArtifactManager.DeleteCursorBox();
+
+        UpdateInventoryGameObjects();
     }
 
     public void ButtonHovered(ArtifactData data)
@@ -249,12 +301,34 @@ public class ArtifactMenuManager : MonoBehaviour
         temp.SetArtifactData(data);
         temp.InsVars();
     }
-    
+
     private void UpdateInventoryGameObjects()
     {
         foreach (InventoryButton button in inventoryButtons)
         {
-
+            button.gameObject.SetActive(false);
         }
+
+        foreach (ArtifactData data in ArtifactManager.inventoryArtifacts)
+        {
+            bool hasButton = false;
+
+            foreach (InventoryButton button in inventoryButtons)
+            {
+                if (button.GetArtifactData() == data)
+                {
+                    hasButton = true;
+                    button.gameObject.SetActive(true);
+                    break;
+                }
+            }
+
+            if (!hasButton)
+            {
+                CreateNewInventoryItem(data);
+            }
+        }
+
+
     }
 }

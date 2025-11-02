@@ -116,7 +116,6 @@ public class ArtifactManager
         foreach (ArtifactData d in testData)
         {
             ObtainArtifact(d);
-            ObtainArtifact(d);
         }
         //ApplyArtifact(testData[0]);
         //ApplyArtifact(testData[1]);
@@ -168,6 +167,16 @@ public class ArtifactManager
     {
         inventoryArtifacts.Add(artifact);
         Logger.Log("Added " + artifact.Name + " to inventory");
+    }
+
+    /// <summary>
+    /// Removes the ArtifactData from the player's pool
+    /// </summary>
+    /// <param name="artifact">ArtifactData to remove</param>
+    public static void RemoveArtifactFromInventory(ArtifactData artifact)
+    {
+        inventoryArtifacts.Remove(artifact);
+        Logger.Log("Removed " + artifact.Name + " from inventory");
     }
 
     /// <summary>
