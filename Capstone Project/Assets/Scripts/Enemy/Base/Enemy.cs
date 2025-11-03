@@ -9,6 +9,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
 using Unity.IO.LowLevel.Unsafe;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -29,6 +30,11 @@ public class Enemy : MonoBehaviour
     #region HEALTH VARS
 
     [HorizontalLine(4, EColor.Red)]
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Health),
+        Tooltip("Max health of enemy")]
+    protected Slider healthBarSlider;
 
     [SerializeField, 
         ShowIf(nameof(currentSettings), Settings.Health),
@@ -71,6 +77,10 @@ public class Enemy : MonoBehaviour
     // Hidden Vars
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] protected bool turnDelayed;
+
+    [HideInInspector] public bool HasStatusEffect = false;
+    [HideInInspector] public RuneType RuneStatusEffect;
+    [HideInInspector] public int RuneStatusEffectNumber;
 
     #endregion
 
@@ -129,6 +139,7 @@ public class Enemy : MonoBehaviour
     public virtual void Start()
     {
         currentHealth = maxHealth;
+        healthBarSlider.maxValue = maxHealth;
         gridPathfinding = GetComponent<GridPathfinding>();
         targetingBehaviour = GetComponent<TargetingBehaviour>();
         gridPathfinding.SetMovementRange(movementRange);
@@ -145,8 +156,8 @@ public class Enemy : MonoBehaviour
     {
         currentHealth -= damage;
         print("Enemy takes damage");
-
-        if(currentHealth < 0)
+        healthBarSlider.value = currentHealth;
+        if (currentHealth < 0)
         {
             Die();
             if (FindFirstObjectByType<GameManager>().allowArtifacts)
@@ -192,7 +203,6 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
 
     /// <summary>
     /// Virtual method that all specific enemies will define

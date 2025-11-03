@@ -1,13 +1,15 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    10/5/2025
-Date Last Modified : 	10/26/2025
+Date Last Modified : 	10/28/2025
 Brief Description : 	Controls what artifacts and effects are actively applied                     
 External Resources : 	https://stackoverflow.com/questions/1420186/references-to-variables-in-c
 ***************************************************/
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ArtifactManager
 {
@@ -16,11 +18,11 @@ public class ArtifactManager
 
     #region Artifacts
     // Stores all currently applied Artifacts
-    private static List<ArtifactData> currentArtifacts = new List<ArtifactData>();
-    private static int currentArtifactWeight = 0;
+    public static List<ArtifactData> CurrentArtifacts = new List<ArtifactData>();
+    public static int CurrentArtifactWeight = 0;
 
     // Stores all Artifacts not currently in use
-    private static List<ArtifactData> inventoryArtifacts = new List<ArtifactData>();
+    public static List<ArtifactData> InventoryArtifacts = new List<ArtifactData>();
 
     [SerializeField, Tooltip("How many Artifacts can be applied at once")] private static int maxArtifactWeight = 3;
 
@@ -34,8 +36,9 @@ public class ArtifactManager
     #endregion Artifacts
 
     #region Stamps
-    private static Dictionary<Mark, int> markCount = new Dictionary<Mark, int>();
+    private static Dictionary<MarkType, int> markCount = new Dictionary<MarkType, int>();
     private static List<ArtifactData> triggerOnAttack = new List<ArtifactData>();
+    private static List<ArtifactData> counters = new List<ArtifactData>();
 
     #endregion Stamps
 
@@ -64,9 +67,9 @@ public class ArtifactManager
         gameManager = gm;
 
         // Create an entry in the dictionary for each mark type
-        for(int i=0; i<Mark.GetNames(typeof(Mark)).Length; i++)
+        for(int i=0; i<MarkType.GetNames(typeof(MarkType)).Length; i++)
         {
-            markCount.Add((Mark)i, 0);
+            markCount.Add((MarkType)i, 0);
         }
 
         if (testing)
@@ -110,10 +113,17 @@ public class ArtifactManager
     /// Removes an item then applies the fourth
     public static void TestArtifacts()
     {
-        ApplyArtifact(testData[0]);
-        if (testData[0].TriggerCondition == TriggerCondition.OnAttack)
+        foreach (ArtifactData d in testData)
         {
-            PlayerAttack(1);
+            ObtainArtifact(d);
+        }
+        //ApplyArtifact(testData[0]);
+        //ApplyArtifact(testData[1]);
+        //ApplyArtifact(testData[2]);
+        //RemoveArtifact(testData[1]);
+        if (testData[0].TriggerCondition == ArtifactTriggerCondition.OnAttack)
+        {
+            //PlayerAttack(1);
         }
     }
 
@@ -155,35 +165,53 @@ public class ArtifactManager
     /// <param name="artifact">ArtifactData to add</param>
     public static void ObtainArtifact(ArtifactData artifact)
     {
-        inventoryArtifacts.Add(artifact);
+        InventoryArtifacts.Add(artifact);
         Logger.Log("Added " + artifact.Name + " to inventory");
+    }
+
+    /// <summary>
+    /// Removes the ArtifactData from the player's pool
+    /// </summary>
+    /// <param name="artifact">ArtifactData to remove</param>
+    public static void RemoveArtifactFromInventory(ArtifactData artifact)
+    {
+        InventoryArtifacts.Remove(artifact);
+        Logger.Log("Removed " + artifact.Name + " from inventory");
     }
 
     /// <summary>
     /// Equips an Artifact and updates the stats accordingly
     /// </summary>
     /// <param name="artifact">The artifact to add</param>
-    public static void ApplyArtifact(ArtifactData artifact)
+    public static bool ApplyArtifact(ArtifactData artifact)
     {
-        if (currentArtifactWeight + artifact.ArtifactSize <= MaxArtifactWeight)
+        if (CurrentArtifactWeight + artifact.ArtifactSize <= MaxArtifactWeight)
         {
-            currentArtifacts.Add(artifact);
-            if(artifact.TriggerCondition == TriggerCondition.OnEquip)
+            CurrentArtifacts.Add(artifact);
+            if (artifact.TriggerCondition == ArtifactTriggerCondition.OnEquip)
             {
                 TriggerOnEquipEffect(artifact, true);
             }
-            else if (artifact.TriggerCondition == TriggerCondition.OnAttack)
+            else if (artifact.TriggerCondition == ArtifactTriggerCondition.OnAttack)
             {
                 triggerOnAttack.Add(artifact);
             }
-                inventoryArtifacts.Remove(artifact);
+            else if (artifact.TriggerCondition == ArtifactTriggerCondition.SpellCount)
+            {
+                counters.Add(artifact);
+            }
+            InventoryArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, true);
-            currentArtifactWeight += artifact.ArtifactSize;
-            
+            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], true);
+            CurrentArtifactWeight += artifact.ArtifactSize;
+
+            return true;
         }
         else
         {
             Logger.Warning("Too many Artifacts applied");
+
+            return false;
         }
     }
 
@@ -194,20 +222,21 @@ public class ArtifactManager
     /// <param name="artifact">The artifact to remove</param>
     public static void RemoveArtifact(ArtifactData artifact)
     {
-        if (currentArtifacts.Contains(artifact))
+        if (CurrentArtifacts.Contains(artifact))
         {
-            inventoryArtifacts.Add(artifact);
-            if (artifact.TriggerCondition == TriggerCondition.OnEquip)
+            InventoryArtifacts.Add(artifact);
+            if (artifact.TriggerCondition == ArtifactTriggerCondition.OnEquip)
             {
                 TriggerOnEquipEffect(artifact, false);
             }
-            else if (artifact.TriggerCondition == TriggerCondition.OnAttack)
+            else if (artifact.TriggerCondition == ArtifactTriggerCondition.OnAttack)
             {
                 triggerOnAttack.Remove(artifact);
             }
-            currentArtifacts.Remove(artifact);
+            CurrentArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, false);
-            currentArtifactWeight -= artifact.ArtifactSize;
+            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], false);
+            CurrentArtifactWeight -= artifact.ArtifactSize;
         }
         else
         {
@@ -224,10 +253,31 @@ public class ArtifactManager
     /// <param name="cost">should be changed to damage dealt later</param>
     private static void PlayerAttack(int cost)
     {
-        foreach(ArtifactData ad in triggerOnAttack)
+        //temporary until runeevents is free
+        float dmgDealt = 10f;
+
+
+        foreach (ArtifactData ad in triggerOnAttack)
         {
             // Pass damage dealt to this. Defaulted to 10f for now
-            TriggerOnAttackEffect(ad);
+            foreach (ArtifactEffects e in ad.Effects)
+            {
+                // Some artifacts have a chance to be triggered
+                // If the chance is not met, continue to the next effect
+                float chance = Random.Range(0f, 1f);
+                if (chance > e.TriggerChance)
+                {
+                    continue;
+                }
+
+                //Set value for now
+                EffectHandling(true, e, dmgDealt);
+            }
+        }
+
+        foreach(ArtifactData ad in counters)
+        {
+            TriggerOnAttackCount(ad);
         }
     }
 
@@ -239,23 +289,6 @@ public class ArtifactManager
     /// <param name="adding">Whether the artifact is being applied or not</param>
     private static void TriggerOnEquipEffect(ArtifactData artifact, bool adding = true)
     {
-        Debug.Log("Called");
-
-        // Returns if the player does not exist
-        if(player==null)
-        {
-            Debug.LogWarning("Player is null");
-            return;
-        }
-
-        if(gameManager == null)
-        {
-            Debug.LogWarning("GameManager is null");
-            return;
-        }
-
-
-        string s = artifact.Name + " Effects: ";
         // Adjusts the related effect
         foreach (ArtifactEffects e in artifact.Effects)
         {
@@ -267,142 +300,125 @@ public class ArtifactManager
                 continue;
             }
 
-
-            // The effect should be triggered
             // Trigger the appropriate stat change
-            switch (e.Effect)
+            EffectHandling(adding, e);
+        }
+
+
+    }
+
+ 
+
+    /// <summary>
+    /// Used for events that trigger on a set number of spells cast
+    /// </summary>
+    /// <param name="artifact">Related Artifact</param>
+    public static void TriggerOnAttackCount(ArtifactData artifact)
+    {
+        artifact.Counter++;
+
+        bool adding = true;
+        if(artifact.Counter < artifact.TriggerCount || artifact.Counter > artifact.TriggerCount +1)
+        {
+            return;
+        }
+
+        if(artifact.Counter == artifact.TriggerCount +1)
+        {
+            adding = false;
+        }
+        // Adjusts the related effect
+        foreach (ArtifactEffects e in artifact.Effects)
+        {
+            // Some artifacts have a chance to be triggered
+            // If the chance is not met, continue to the next effect
+            float chance = Random.Range(0f, 1f);
+            if (chance > e.TriggerChance)
             {
-                case Effects.LightningAttackMultiplier:
-                    AdjustValueGeometrically(ref player.LightningAttackMultiplier, e.StatChangeAmount, adding);
-                    s += "Lightning Attack multiplied by ";
-                    break;
-                case Effects.AttackMultiplier:
-                    AdjustValueGeometrically(ref player.BaseAttackMultiplier, e.StatChangeAmount, adding);
-                    s += "Attack multiplied by ";
-                    break;
-                case Effects.WindAttackMultiplier:
-                    AdjustValueGeometrically(ref player.WindAttackMultiplier, e.StatChangeAmount, adding);
-                    s += "Wind Attack multiplied by ";
-                    break;
-                case Effects.ActionPointChange:
-                    AdjustValueArithmetically(ref gameManager.ActionPointsPerTurn, (int)e.StatChangeAmount, adding);
-                    s += "Action Points changed by ";
-                    break;
-                // Special case as their resistance may be 0
-                // Add if their resistance is 0, otherwise multiply
-                case Effects.ResistanceMultiplier:
-                    if(player.Resistance > 0f)
-                    {
-                        AdjustValueGeometrically(ref player.Resistance, e.StatChangeAmount, adding);
-                        s += "Resistance multiplied by ";
-                    }
-                    else
-                    {
-                        AdjustValueArithmetically(ref player.Resistance, e.StatChangeAmount, adding);
-                        s += "Resistance increased by ";
-                    }
-                    break;
-                case Effects.TotalDamageTakenMultiplier:
-                    AdjustValueGeometrically(ref player.DamageTakenMultiplier, e.StatChangeAmount, adding);
-                    s += "Damage Taken multiplied by ";
-                    break;
-                // Special case to adjust the player's health (may be cut/unneeded)
-                // Saves the current health percent and sets the updated health value to it
-                case Effects.HealthChange:
-                    float healthPercent = player.CurrentHealth / player.MaxHealth;
-                    AdjustValueArithmetically(ref player.MaxHealth, (int)e.StatChangeAmount, adding);
-                    player.CurrentHealth = (int)(player.MaxHealth * healthPercent);
-                    if(player.CurrentHealth > player.MaxHealth)
-                    {
-                        player.CurrentHealth = player.MaxHealth;
-                    }
-                    s += "Health changed by ";
-                    break;
-                case Effects.SpellSlotsChange:
-                    Logger.Warning("Implement Spell Slot Change later");
-                    s += "Spell Slot Count changed by ";
-                    break;
-                /*case Effects.MovementRadiusChange:
-                    Logger.Warning("Implement Movement Radius later");
-                    s += "Movement Speed multiplied by ";
-                    break;*/
-                case Effects.RangedDamageTakenMultiplier:
-                    AdjustValueGeometrically(ref player.RangedDamageTakenMultiplier, e.StatChangeAmount, adding);
-                    s += "Ranged Damage Taken multiplied by ";
-                    break;
-                case Effects.MeleeDamageTakenMultiplier:
-                    AdjustValueGeometrically(ref player.MeleeDamageTakenMultiplier, e.StatChangeAmount, adding);
-                    s += "Melee Damage Taken multiplied by ";
-                    break;
-                // Special case as their dodge may be 0
-                // Add if their dodge is 0, otherwise multiply
-                case Effects.Dodge:
-                    if (player.DodgeChance > 0f)
-                    {
-                        AdjustValueGeometrically(ref player.DodgeChance, e.StatChangeAmount, adding);
-                        s += "Dodge multiplied by ";
-                    }
-                    else
-                    {
-                        AdjustValueArithmetically(ref player.DodgeChance, e.StatChangeAmount, adding);
-                        s += "Dodge increased by ";
-                    }
-                    break;
-                default:
-                    break;
+                continue;
             }
-            s += e.StatChangeAmount + " | ";
-        }
 
-        if (adding)
-        {
-            Logger.Log(s);
+            EffectHandling(adding, e);
         }
-        else
-        {
-            Logger.Log("Removed " + artifact.Name);
-        }
-
     }
 
     /// <summary>
-    /// Handles what effects are applied on Equipping them
-    /// Pass in true when applying effects, false when removing them
+    /// Extracted method to avoid repeated code
     /// </summary>
-    /// <param name="artifact">The artifact to be considered</param>
-    /// <param name="damageDealt">How much damage the player dealt</param>
-    public static void TriggerOnAttackEffect(ArtifactData artifact, float damageDealt = 10f)
+    /// <param name="adding">Whether the affect is being added or not</param>
+    /// <param name="e">The related effect</param>
+    /// <param name="damageDealt">Optional paramater for when attacking</param>
+    private static void EffectHandling(bool adding, ArtifactEffects e, float damageDealt = 0f)
     {
-        // Adjusts the related effect
-        foreach (ArtifactEffects e in artifact.Effects)
+        switch (e.Effect)
         {
-            // Some artifacts have a chance to be triggered
-            // If the chance is not met, continue to the next effect
-            float chance = Random.Range(0f, 1f);
-            if (chance > e.TriggerChance)
-            {
-                continue;
-            }
-
-            // The effect should be triggered
-            // Trigger the appropriate stat change
-            switch (e.Effect)
-            {
-                case Effects.Vampiric:
-                    player.Heal((int)(damageDealt * e.StatChangeAmount));
-                    Logger.Log("Healed the player by " + (int)(damageDealt * e.StatChangeAmount) + " due to vampirism");
-                    break;
-                default:
-                    break;
-            }
+            case Effects.LightningAttackMultiplier:
+                AdjustValueGeometrically(ref player.LightningAttackMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.AttackMultiplier:
+                AdjustValueGeometrically(ref player.BaseAttackMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.WindAttackMultiplier:
+                AdjustValueGeometrically(ref player.WindAttackMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.ActionPointChange:
+                AdjustValueArithmetically(ref gameManager.ActionPointsPerTurn, (int)e.StatChangeAmount, adding);
+                break;
+            case Effects.ResistanceMultiplier:
+                AdjustValueAOrG(ref player.Resistance, e.StatChangeAmount, adding);
+                break;
+            case Effects.TotalDamageTakenMultiplier:
+                AdjustValueGeometrically(ref player.DamageTakenMultiplier, e.StatChangeAmount, adding);
+                break;
+            // Special case to adjust the player's health (may be cut/unneeded)
+            // Saves the current health percent and sets the updated health value to it
+            case Effects.HealthChange:
+                float healthPercent = player.CurrentHealth / player.MaxHealth;
+                AdjustValueArithmetically(ref player.MaxHealth, (int)e.StatChangeAmount, adding);
+                player.CurrentHealth = (int)(player.MaxHealth * healthPercent);
+                if (player.CurrentHealth > player.MaxHealth)
+                {
+                    player.CurrentHealth = player.MaxHealth;
+                }
+                break;
+            case Effects.SpellSlotsChange:
+                Logger.Warning("Implement Spell Slot Change later");
+                break;
+            case Effects.RangedDamageTakenMultiplier:
+                AdjustValueGeometrically(ref player.RangedDamageTakenMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.MeleeDamageTakenMultiplier:
+                AdjustValueGeometrically(ref player.MeleeDamageTakenMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.Dodge:
+                AdjustValueAOrG(ref player.DodgeChance, e.StatChangeAmount, adding);
+                break;
+            case Effects.Vampiric:
+                player.Heal((int)(damageDealt * e.StatChangeAmount));
+                break;
+            case Effects.ChanceToAvoidUsingPoints:
+                AdjustValueAOrG(ref player.NoActionPointCostChance, e.StatChangeAmount, adding);
+                break;
+            case Effects.Instakill:
+                AdjustValueAOrG(ref player.InstaKillChance, e.StatChangeAmount, adding);
+                break;
+            case Effects.Luck:
+                AdjustValueAOrG(ref player.LuckModifier, e.StatChangeAmount, adding);
+                break;
+            case Effects.Miss:
+                AdjustValueAOrG(ref player.MissChance, e.StatChangeAmount, adding);
+                break;
+            default:
+                break;
         }
     }
+
     /// <summary>
     /// Update the Mark dictionary to reflect the number of marks
     /// </summary>
     /// <param name="key">What mark to find</param>
     /// <param name="adding">Whether the artifact is being added or removed</param>
-    private static void UpdateDictionary(Mark key, bool adding)
+    private static void UpdateDictionary(MarkType key, bool adding)
     {
         markCount[key] = markCount[key] + (adding ? 1 : -1);
     }
@@ -442,6 +458,18 @@ public class ArtifactManager
     private static void AdjustValueArithmetically(ref float x, float y, bool b)
     {
         x = x + (b ? y : y * -1);
+    }
+
+    private static void AdjustValueAOrG(ref float x, float y, bool b)
+    {
+        if (x > 0f)
+        {
+            AdjustValueGeometrically(ref x, y, b);
+        }
+        else
+        {
+            AdjustValueArithmetically(ref x, y, b);
+        }
     }
 
     #endregion
