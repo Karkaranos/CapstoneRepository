@@ -29,7 +29,6 @@ public class ActionPointManager : MonoBehaviour
         PublicEvents.RuneCast += PlayerCastSpell;
     }
 
-
     /// <summary>
     /// unsubscribes from all public events
     /// </summary>
@@ -45,11 +44,7 @@ public class ActionPointManager : MonoBehaviour
     /// </summary>
     private void PlayerHasMoved()
     {
-        gm.CurrentActionPoints -= gm.MoveActionPoints;
-        if (gm.CurrentActionPoints <= 0)
-        {
-            TurnPublicEvents.ForceEndCurrentPhase();
-        }
+        gm.UpdateActionPoints(gm.MoveActionPoints);
     }
 
     /// <summary>
@@ -57,7 +52,7 @@ public class ActionPointManager : MonoBehaviour
     /// </summary>
     private void AllocatePoints()
     {
-        gm.CurrentActionPoints = gm.ActionPointsPerTurn;
+        gm.ResetActionPoints();
     }
 
     /// <summary>
@@ -68,11 +63,6 @@ public class ActionPointManager : MonoBehaviour
     public void PlayerCastSpell(int cost)
     {
         Debug.Log("Cost of Spell is " + cost);
-        gm.CurrentActionPoints -= cost;
-        if (gm.CurrentActionPoints <= 0)
-        {
-            TurnPublicEvents.ForceEndCurrentPhase();
-        }
+        gm.UpdateActionPoints(cost);
     }
-
 }

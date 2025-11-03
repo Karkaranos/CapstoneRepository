@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -75,10 +76,33 @@ public class GameManager : MonoBehaviour
 
     // Should be relocated to PlayerBehavior
     #region ActionPoints
+    [SerializeField] public Text ActionPointVisualizer;
     public int CurrentActionPoints;
-    public int MoveActionPoints =2;
+    public int MoveActionPoints = 2;
     public int ActionPointsPerTurn = 3;
     #endregion
+
+    /// <summary>
+    /// updated the action points, right now its called from ActionPointManager
+    /// </summary>
+    /// <param name="amount"></param>
+    public void UpdateActionPoints(int amount) {
+        CurrentActionPoints -= amount;
+        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        print("called");
+        if (CurrentActionPoints <= 0)
+        {
+            TurnPublicEvents.ForceEndCurrentPhase();
+        }
+    }
+
+    /// <summary>
+    /// sets the current action points baclk to the max
+    /// </summary>
+    public void ResetActionPoints() {
+        CurrentActionPoints = ActionPointsPerTurn;
+        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+    }
 
     /// <summary>
     /// Inspector function
@@ -109,6 +133,6 @@ public class GameManager : MonoBehaviour
 
         ArtifactManager.SetPlayerReference(PlayerStats);
 
-
+        ResetActionPoints();
     }
 }
