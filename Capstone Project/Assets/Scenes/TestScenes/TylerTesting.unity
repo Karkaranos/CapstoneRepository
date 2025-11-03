@@ -223,6 +223,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1026331067216107859, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
+      propertyPath: tileType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1504094630627716939, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -546,6 +550,10 @@ PrefabInstance:
     - target: {fileID: 5801665489637386443, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
       propertyPath: TileHasObjects
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849500172801041067, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
+      propertyPath: tileType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5871269786692666135, guid: 3853266e0d7468f4cbde8d78249ea0d4, type: 3}
       propertyPath: m_Mesh
@@ -1694,11 +1702,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownSettings: 0
+  StartCombatDelay: 0
   currentStatus: 0
   currentHearBackNum: 0
   targetHearBackNum: 99999
   breakInfLoop: 0
   gameHasStarted: 0
+  playerCanvas: {fileID: 0}
 --- !u!4 &1144917616
 Transform:
   m_ObjectHideFlags: 0
