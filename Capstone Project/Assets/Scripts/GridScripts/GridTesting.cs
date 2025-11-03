@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 9/26/2025
- * Last Modified: 10/7/2025
+ * Last Modified: 10/30/2025
  * Brief: Temporary script to test if the grid works. Non-temporary scripts 
  * should be added to the game manager after this is added to working
  * External Resources: N/A
@@ -114,10 +114,10 @@ public class GridTesting : MonoBehaviour
     /// <summary>
     /// Creates an instance of the grid
     /// </summary>
-    private void Awake()
+    private void Start()
     {
-        GridManager.SetGrid(gridDimensions[gridIndex]);
         gridPrefabs[gridIndex].SetActive(true);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class GridTesting : MonoBehaviour
     public void LoadNextGrid()
     {
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
-        GridManager.SetGrid(gridDimensions[gridIndex]);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         LoadGridPrefab();
     }
 

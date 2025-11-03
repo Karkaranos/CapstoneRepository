@@ -72,7 +72,7 @@ public class TargetingBehaviour : MonoBehaviour
         List<Vector2Int> adTiles = new List<Vector2Int>();
         foreach (Vector2Int v in targetLocations)
         {
-            GridManager.combatGrid[v.x, v.y] = 4;
+            GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
             adTiles.Add(v);
         }
         List<Vector2Int> newLocations = new List<Vector2Int>();
