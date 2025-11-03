@@ -13,7 +13,7 @@ public class EndLevelMenu : MonoBehaviour
 {
     #region VARS
 
-    [SerializeField] private GameObject endMenuUi;
+    [SerializeField] private CanvasGroup endMenuUi;
 
     #endregion
 
@@ -24,15 +24,19 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        endMenuUi.SetActive(false);
+        endMenuUi.alpha = 0;
+        endMenuUi.interactable = false;
+        endMenuUi.blocksRaycasts = false;
     }
 
     /// <summary>
-    /// Toggles ig the EndMenuUi is on or off 
+    /// Enables the EndMenuUi is on or off 
     /// </summary>
-    public void ToggleEndMenuUi()
+    public void EnableEndMenuUi()
     {
-        endMenuUi.SetActive(!endMenuUi.activeSelf);
+        endMenuUi.alpha = 1;
+        endMenuUi.interactable = true;
+        endMenuUi.blocksRaycasts = true;
     }
 
     /// <summary>
