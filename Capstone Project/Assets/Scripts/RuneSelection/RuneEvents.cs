@@ -209,11 +209,11 @@ public class RuneEvents : MonoBehaviour
     void CancelCasting()
     {
 
-        playerMenu.SetActive(true);
-        this.gameObject.SetActive(false);
-
         if(waitingForThePlayer)
         {
+
+            playerMenu.SetActive(true);
+            this.gameObject.SetActive(false);
 
             waitingForThePlayer = false;
 
