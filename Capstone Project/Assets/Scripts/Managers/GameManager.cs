@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Cade Naylor
+Author Names : 		Cade Naylor, Tyler Bouchard
 Date Created : 		???/2025
-Date Last Modified : 10/28/2025
+Date Last Modified : 11/3/2025 (Tyler Bouchard)
 Brief Description : Game Manager
                     Creates and holds static references to other managers
 External Resources : 	

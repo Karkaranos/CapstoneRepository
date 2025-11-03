@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Cade Naylor
+Author Names : 		Cade Naylor, Tyler Bouchard
 Date Created : 		10/22/2025
-Date Last Modified : 10/22/2025
+Date Last Modified : 11/3/2025 (Tyler Bouchard)
 Brief Description : Controls action points. This is a temporary script while all player scripts are checked out
 External Resources : 	
 	***************************************************/
