@@ -41,7 +41,6 @@ public class GridManager : MonoBehaviour
         {
             combatGrid[t.IndexInGrid.x, t.IndexInGrid.y] = t;
             combatGrid[t.IndexInGrid.x, t.IndexInGrid.y].entityOnGrid = -1;
-            //t.AddObjectsToTile();
         }
     }
 

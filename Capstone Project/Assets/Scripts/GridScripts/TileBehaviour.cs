@@ -73,6 +73,9 @@ public class TileBehaviour : MonoBehaviour
         IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
     }
 
+    /// <summary>
+    /// Spawns entities on start
+    /// </summary>
     private void Start()
     {
         AddObjectsToTile();
