@@ -16,9 +16,6 @@ public class EnemyHandler : MonoBehaviour
     private List<Enemy> enemies = new List<Enemy>();
     private static int index = 0;
 
-    //temp variable for 
-    [SerializeField] private EndLevelMenu endLevelMenu;
-
     /// <summary>
     /// Make sure that this is a Singleton 
     /// </summary>
@@ -101,7 +98,8 @@ public class EnemyHandler : MonoBehaviour
         if(enemies.Count == 0 )
         {
             //TODO: End Level logic
-            endLevelMenu.ToggleEndMenuUi();
+            EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
+            endLevelMenu.EnableEndMenuUi();
             Debug.Log("Level Ended");
         }
     }
