@@ -73,6 +73,11 @@ public class TileBehaviour : MonoBehaviour
         IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
     }
 
+    private void Start()
+    {
+        AddObjectsToTile();
+    }
+
     /// <summary>
     /// adds the entities and hazards to the tile, updates the grid manager with positions
     /// </summary>
