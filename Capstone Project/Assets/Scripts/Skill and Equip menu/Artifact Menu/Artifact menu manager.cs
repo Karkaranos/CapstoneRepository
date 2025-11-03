@@ -226,7 +226,7 @@ public class ArtifactMenuManager : MonoBehaviour
         }
 
         //turns on or creates a new button for each item in the inventory
-        foreach (ArtifactData data in ArtifactManager.inventoryArtifacts)
+        foreach (ArtifactData data in ArtifactManager.InventoryArtifacts)
         {
             //saves a check to see if they already have a button
             bool hasButton = false;
@@ -300,15 +300,15 @@ public class ArtifactMenuManager : MonoBehaviour
             }
         }
 
-        Debug.Log("Art manager has " + ArtifactManager.currentArtifactWeight + " weight, while currentlyEquippedButtons is " + currentlyEquippedButtons);
+        Debug.Log("Art manager has " + ArtifactManager.CurrentArtifactWeight + " weight, while currentlyEquippedButtons is " + currentlyEquippedButtons);
 
         //sets the right number of buttons to shown/hidden depending on the difference between
         //the number of buttons that have stuff to the number of available space
-        if (ArtifactManager.currentArtifactWeight != currentlyEquippedButtons)
+        if (ArtifactManager.CurrentArtifactWeight != currentlyEquippedButtons)
         {
 
             //the weight can only ever go over the current number of artifacts so we run this loop for each time it's over
-            for (int i = 0; i < (ArtifactManager.currentArtifactWeight - currentlyEquippedButtons); i++)
+            for (int i = 0; i < (ArtifactManager.CurrentArtifactWeight - currentlyEquippedButtons); i++)
             {
                 //bool breakOnlyTheForeach = false;
                 //goes through all the buttons and turns off the first one that's empty

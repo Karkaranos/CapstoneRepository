@@ -165,7 +165,7 @@ public class ArtifactManager
     /// <param name="artifact">ArtifactData to add</param>
     public static void ObtainArtifact(ArtifactData artifact)
     {
-        inventoryArtifacts.Add(artifact);
+        InventoryArtifacts.Add(artifact);
         Logger.Log("Added " + artifact.Name + " to inventory");
     }
 
@@ -175,7 +175,7 @@ public class ArtifactManager
     /// <param name="artifact">ArtifactData to remove</param>
     public static void RemoveArtifactFromInventory(ArtifactData artifact)
     {
-        inventoryArtifacts.Remove(artifact);
+        InventoryArtifacts.Remove(artifact);
         Logger.Log("Removed " + artifact.Name + " from inventory");
     }
 
@@ -185,9 +185,9 @@ public class ArtifactManager
     /// <param name="artifact">The artifact to add</param>
     public static bool ApplyArtifact(ArtifactData artifact)
     {
-        if (currentArtifactWeight + artifact.ArtifactSize <= MaxArtifactWeight)
+        if (CurrentArtifactWeight + artifact.ArtifactSize <= MaxArtifactWeight)
         {
-            currentArtifacts.Add(artifact);
+            CurrentArtifacts.Add(artifact);
             if (artifact.TriggerCondition == ArtifactTriggerCondition.OnEquip)
             {
                 TriggerOnEquipEffect(artifact, true);
@@ -200,10 +200,10 @@ public class ArtifactManager
             {
                 counters.Add(artifact);
             }
-            inventoryArtifacts.Remove(artifact);
+            InventoryArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, true);
             MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], true);
-            currentArtifactWeight += artifact.ArtifactSize;
+            CurrentArtifactWeight += artifact.ArtifactSize;
 
             return true;
         }
@@ -222,9 +222,9 @@ public class ArtifactManager
     /// <param name="artifact">The artifact to remove</param>
     public static void RemoveArtifact(ArtifactData artifact)
     {
-        if (currentArtifacts.Contains(artifact))
+        if (CurrentArtifacts.Contains(artifact))
         {
-            inventoryArtifacts.Add(artifact);
+            InventoryArtifacts.Add(artifact);
             if (artifact.TriggerCondition == ArtifactTriggerCondition.OnEquip)
             {
                 TriggerOnEquipEffect(artifact, false);
@@ -233,10 +233,10 @@ public class ArtifactManager
             {
                 triggerOnAttack.Remove(artifact);
             }
-            currentArtifacts.Remove(artifact);
+            CurrentArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, false);
             MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], false);
-            currentArtifactWeight -= artifact.ArtifactSize;
+            CurrentArtifactWeight -= artifact.ArtifactSize;
         }
         else
         {
