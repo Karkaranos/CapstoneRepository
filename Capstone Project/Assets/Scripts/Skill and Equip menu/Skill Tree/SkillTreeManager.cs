@@ -62,8 +62,36 @@ public class SkillTreeManager : MonoBehaviour
 
     //holds a ref to the box it spawns when trying to equip
     private GameObject spawnedCursorFollowBox;
+
+    private SkillAndArtifactManager skillAndArtifactManager;
+
     #endregion
     #endregion
+
+    /// <summary>
+    /// Initializes refs
+    /// </summary>
+    private void Start()
+    {
+        skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
+    }
+
+    /// <summary>
+    /// subscribes to needed public events
+    /// </summary>
+    private void OnEnable()
+    {
+        PublicEvents.TrashHeldOOCObject += ConfirmEquipSpell;
+    }
+
+    /// <summary>
+    /// unsubscribes from public events
+    /// </summary>
+    private void OnDisable()
+    {
+        PublicEvents.TrashHeldOOCObject -= ConfirmEquipSpell;
+    }
+
 
     //add in the data the node is storing as a parameter here
     //so we can store all the nodes the player's unlocked in a list
@@ -150,11 +178,7 @@ public class SkillTreeManager : MonoBehaviour
         currentlySelected = data;
         //Debug.Log("now currently holding " + currentlySelected.name);
 
-        //creates the box to follow the players mouse
-        if (spawnedCursorFollowBox == null)
-        {
-            spawnedCursorFollowBox = Instantiate(FollowCursorPrefab, transform);
-        }
+        skillAndArtifactManager.SpawnCursorBox();
     }
 
     /// <summary>
@@ -164,11 +188,7 @@ public class SkillTreeManager : MonoBehaviour
     {
         currentlySelected = null;
 
-        if (spawnedCursorFollowBox != null)
-        {
-            Destroy(spawnedCursorFollowBox);
-            spawnedCursorFollowBox = null;
-        }
+        skillAndArtifactManager.DeleteCursorBox();
     }
 
     /// <summary>
