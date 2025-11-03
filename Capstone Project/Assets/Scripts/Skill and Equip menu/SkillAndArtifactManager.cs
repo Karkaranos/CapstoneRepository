@@ -59,6 +59,10 @@ public class SkillAndArtifactManager : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Updates whether or not the player can move on from the menu
+    /// </summary>
+    /// <returns></returns>
     private bool UpdateContinueButton()
     {
         foreach (RuneData d in equippedSpells)
@@ -71,6 +75,9 @@ public class SkillAndArtifactManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// sets up the number of spell slots
+    /// </summary>
     private void OnEnable()
     {
         //sets the spell menu active
@@ -145,6 +152,9 @@ public class SkillAndArtifactManager : MonoBehaviour
         return equippedSpells[index];
     }
 
+    /// <summary>
+    /// controls the temporary box to follow the cursor
+    /// </summary>
     public void SpawnCursorBox()
     {
         if (spawnedCursorBox == null)
@@ -153,6 +163,9 @@ public class SkillAndArtifactManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// deletes the box
+    /// </summary>
     public void DeleteCursorBox()
     {
         if (spawnedCursorBox != null)

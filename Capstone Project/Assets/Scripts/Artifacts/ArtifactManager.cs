@@ -18,11 +18,11 @@ public class ArtifactManager
 
     #region Artifacts
     // Stores all currently applied Artifacts
-    public static List<ArtifactData> currentArtifacts = new List<ArtifactData>();
-    public static int currentArtifactWeight = 0;
+    public static List<ArtifactData> CurrentArtifacts = new List<ArtifactData>();
+    public static int CurrentArtifactWeight = 0;
 
     // Stores all Artifacts not currently in use
-    public static List<ArtifactData> inventoryArtifacts = new List<ArtifactData>();
+    public static List<ArtifactData> InventoryArtifacts = new List<ArtifactData>();
 
     [SerializeField, Tooltip("How many Artifacts can be applied at once")] private static int maxArtifactWeight = 3;
 

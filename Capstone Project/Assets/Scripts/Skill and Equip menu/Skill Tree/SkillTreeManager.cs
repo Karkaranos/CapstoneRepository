@@ -68,16 +68,25 @@ public class SkillTreeManager : MonoBehaviour
     #endregion
     #endregion
 
+    /// <summary>
+    /// Initializes refs
+    /// </summary>
     private void Start()
     {
         skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
     }
 
+    /// <summary>
+    /// subscribes to needed public events
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.TrashHeldOOCObject += ConfirmEquipSpell;
     }
 
+    /// <summary>
+    /// unsubscribes from public events
+    /// </summary>
     private void OnDisable()
     {
         PublicEvents.TrashHeldOOCObject -= ConfirmEquipSpell;
