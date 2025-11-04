@@ -7,11 +7,8 @@ External Resources : 	N/A
 ***************************************************/
 using NaughtyAttributes;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Cinemachine;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 public class CameraManager : MonoBehaviour
