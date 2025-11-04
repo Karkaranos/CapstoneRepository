@@ -721,6 +721,7 @@ public class RuneEvents : MonoBehaviour
                 break;
 
         }
+        PublicEvents.RuneCast(storedRuneCost);
 
     }
 
