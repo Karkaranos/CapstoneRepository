@@ -87,7 +87,7 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        AddObjectsToTile();
+        Invoke("AddObjectsToTile", 1.5f);
     }
 
     /// <summary>
