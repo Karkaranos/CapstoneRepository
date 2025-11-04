@@ -161,7 +161,7 @@ public class ArtifactMenuManager : MonoBehaviour
             }
         }
     }
-    
+
     /// <summary>
     /// Handles picking up an artifact from the inventory
     /// </summary>
@@ -187,7 +187,7 @@ public class ArtifactMenuManager : MonoBehaviour
         //spawn the box
         skillArtifactManager.SpawnCursorBox();
     }
-   
+
     /// <summary>
     /// Updates all of the text descriptions when a button is hovered over
     /// currently broken for the inventory
@@ -195,9 +195,22 @@ public class ArtifactMenuManager : MonoBehaviour
     /// <param name="data"> the data to update the button for </param>
     public void ButtonHovered(ArtifactData data)
     {
-        artifactNameText.text = data.Name;
-        artifactWeightText.text = data.ArtifactSize + " Slots";
-        artifactDescriptionText.text = data.Description;
+        if (data != null)
+        {
+            artifactNameText.text = data.Name;
+
+            //changes plurality depending on if theres more than one
+            if (data.ArtifactSize != 1)
+            {
+                artifactWeightText.text = data.ArtifactSize + " Slots";
+            }
+            else
+            {
+                artifactWeightText.text = data.ArtifactSize + " Slot";
+            }
+
+            artifactDescriptionText.text = data.Description;
+        }
     }
 
     #endregion
@@ -300,7 +313,7 @@ public class ArtifactMenuManager : MonoBehaviour
             }
         }
 
-        Debug.Log("Art manager has " + ArtifactManager.CurrentArtifactWeight + " weight, while currentlyEquippedButtons is " + currentlyEquippedButtons);
+        //Debug.Log("Art manager has " + ArtifactManager.CurrentArtifactWeight + " weight, while currentlyEquippedButtons is " + currentlyEquippedButtons);
 
         //sets the right number of buttons to shown/hidden depending on the difference between
         //the number of buttons that have stuff to the number of available space
