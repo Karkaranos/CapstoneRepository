@@ -315,6 +315,9 @@ public class SkillTreeNode : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Re-enables the node if the player doesn't have it equipped
+    /// </summary>
     private void TurnNodeBackOnMaybe()
     {
         if (!skillAndArtifactManager.equippedSpells.Contains(NodeRuneData))
