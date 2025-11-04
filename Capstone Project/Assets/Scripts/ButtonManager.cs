@@ -148,6 +148,7 @@ public class ButtonManager : MonoBehaviour
         playerCanvas.SetActive(true);
         moveCanvas.SetActive(false);
         runeCanvas.SetActive(false);
+        confirmCanvas.SetActive(false);
 
         if (playerBehavior != null)
         {

@@ -37,6 +37,9 @@ public class SkillAndArtifactManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(InspectorSettings), Settings.References)]
     private Button continueButton;
 
+    [SerializeField, ShowIf(nameof(InspectorSettings), Settings.References)]
+    private GameObject cursorBoxPrefab;
+
     #endregion
 
     #region TESTING AND DEBUG
@@ -48,10 +51,18 @@ public class SkillAndArtifactManager : MonoBehaviour
     [ShowIf(nameof(InspectorSettings), Settings.TestingAndDebug), SerializeField, Expandable,
         OnValueChanged(nameof(UpdateContinueButton))] public List<RuneData> equippedSpells;
 
-    #endregion
 
     #endregion
 
+    
+    private GameObject spawnedCursorBox;
+
+    #endregion
+
+    /// <summary>
+    /// Updates whether or not the player can move on from the menu
+    /// </summary>
+    /// <returns></returns>
     private bool UpdateContinueButton()
     {
         foreach (RuneData d in equippedSpells)
@@ -64,6 +75,9 @@ public class SkillAndArtifactManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// sets up the number of spell slots
+    /// </summary>
     private void OnEnable()
     {
         //sets the spell menu active
@@ -95,6 +109,12 @@ public class SkillAndArtifactManager : MonoBehaviour
         {
             SkillTreeContainer.SetActive(false);
             EquipMenuContainer.SetActive(true);
+        }
+
+        if (spawnedCursorBox != null)
+        {
+            Destroy(spawnedCursorBox);
+            spawnedCursorBox = null;
         }
     }
 
@@ -130,6 +150,29 @@ public class SkillAndArtifactManager : MonoBehaviour
     public RuneData GetIndexOfEquippedSpells(int index)
     {
         return equippedSpells[index];
+    }
+
+    /// <summary>
+    /// controls the temporary box to follow the cursor
+    /// </summary>
+    public void SpawnCursorBox()
+    {
+        if (spawnedCursorBox == null)
+        {
+            spawnedCursorBox = Instantiate(cursorBoxPrefab, transform);
+        }
+    }
+
+    /// <summary>
+    /// deletes the box
+    /// </summary>
+    public void DeleteCursorBox()
+    {
+        if (spawnedCursorBox != null)
+        {
+            Destroy(spawnedCursorBox);
+            spawnedCursorBox = null;
+        }
     }
 
 }

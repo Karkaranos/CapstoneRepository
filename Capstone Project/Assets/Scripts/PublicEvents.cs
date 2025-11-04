@@ -17,6 +17,8 @@ public static class PublicEvents
     public static Action SkillTreeNodePurchased;
     public static Action<RuneType> MasteryRunePurchased;
 
+    public static Action TrashHeldOOCObject;
+
     public static Action StartBattle;
 
     public static Action EndBattle;
