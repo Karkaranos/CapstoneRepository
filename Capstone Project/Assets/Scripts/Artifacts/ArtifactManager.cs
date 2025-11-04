@@ -65,6 +65,7 @@ public class ArtifactManager
         maxArtifactWeight = maxArtifact;
         gameManager = gm;
 
+
         // Create an entry in the dictionary for each mark type
         for(int i=0; i < MarkType.GetNames(typeof(MarkType)).Length; i++)
         {
@@ -75,13 +76,14 @@ public class ArtifactManager
             }
         }
 
-        /*
         if (testing)
         {
-            inTestMode = true;
             testData = testInfo;
-            TestArtifacts();
-        }*/
+            foreach (ArtifactData d in testInfo)
+            {
+                ObtainArtifact(d);
+            }
+        }
 
     }
 

@@ -128,11 +128,10 @@ public class GameManager : MonoBehaviour
 
         PlayerStats = GetComponent<PlayerStats>();
 
-        MarkManager = new MarkManager(validMarks, this, PlayerStats);
+        MarkManager = new MarkManager(validMarks, this);
 
         ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, this, allowArtifactTesting, testData);
 
-        ArtifactManager.SetPlayerReference(PlayerStats);
 
         ResetActionPoints();
     }
