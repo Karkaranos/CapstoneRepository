@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638956027354869590
+  lastModified: 638973230714808657
   FileSizes:
   - Name: Desktop
-    Value: 712
+    Value: 864
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -35,14 +35,64 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: -4248251816724568309}
   - {fileID: 6195613853421016593}
-  EditorEvents: []
+  - {fileID: 5545828153951462697}
+  EditorEvents:
+  - {fileID: 340486988870510789}
+  - {fileID: 9157133313647471255}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6195613853421016593}
   StringsBanks:
   - {fileID: -4248251816724568309}
-  cacheTime: 638956027354869590
+  cacheTime: 638973230715012956
   cacheVersion: 131632
+--- !u!114 &340486988870510789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Wind Spell
+  m_EditorClassIdentifier: 
+  Path: event:/Wind Spell
+  Guid:
+    Data1: 1077038961
+    Data2: 1098177491
+    Data3: 1389332379
+    Data4: 1386760008
+  Banks:
+  - {fileID: 5545828153951462697}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5400
+--- !u!114 &5545828153951462697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/FMODSalty/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 638973230715012956
+  FileSizes:
+  - Name: Desktop
+    Value: 1370432
+  Exists: 1
 --- !u!114 &6195613853421016593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,8 +108,35 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638956027354869590
+  lastModified: 638966045970192616
   FileSizes:
   - Name: Desktop
     Value: 1036
   Exists: 1
+--- !u!114 &9157133313647471255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Lightning Spell
+  m_EditorClassIdentifier: 
+  Path: event:/Lightning Spell
+  Guid:
+    Data1: 1220905362
+    Data2: 1223981043
+    Data3: 2113482651
+    Data4: -1726436650
+  Banks:
+  - {fileID: 5545828153951462697}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7000

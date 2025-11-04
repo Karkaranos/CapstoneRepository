@@ -13,6 +13,8 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using FMODUnity;
+using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
 {
@@ -66,10 +68,9 @@ public class RuneEvents : MonoBehaviour
     private bool lightningMastered;
     private bool windMastered;
 
-    /// <summary>
-    /// called whenever a rune's highest tier has been purchased
-    /// </summary>
-    /// <param name="runeType"> the rune's element </param>
+    //Event reference for sound
+    [SerializeField] private EventReference lightningSpellCastedSFX;
+
     void MasteryUnlocked(RuneType runeType)
     {
 
@@ -294,7 +295,7 @@ public class RuneEvents : MonoBehaviour
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier) + " damage!");
 
                     }
-
+                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -319,6 +320,7 @@ public class RuneEvents : MonoBehaviour
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
+                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -384,6 +386,7 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
+                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -416,6 +419,7 @@ public class RuneEvents : MonoBehaviour
 
                             }
 
+                            AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
                             //vfx.GetComponentInChildren<TextMeshPro>().text =
                                 //(15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -449,6 +453,7 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
+                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -548,7 +553,7 @@ public class RuneEvents : MonoBehaviour
                             enemy.GetComponentInChildren<Enemy>().Damage
                                 (storedRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
                             CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
-
+                            
                             if (debugText != null)
                             {
 
