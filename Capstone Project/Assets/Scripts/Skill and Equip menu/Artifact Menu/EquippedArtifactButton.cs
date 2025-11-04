@@ -82,6 +82,10 @@ public class EquippedArtifactButton : MonoBehaviour, IPointerEnterHandler
         }
     }
 
+    /// <summary>
+    /// Updates the description when the player's mouse enters the button's hitbox
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
         menuManager.ButtonHovered(data);
