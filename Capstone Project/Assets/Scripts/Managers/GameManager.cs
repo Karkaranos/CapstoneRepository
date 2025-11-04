@@ -132,7 +132,6 @@ public class GameManager : MonoBehaviour
 
         ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, this, allowArtifactTesting, testData);
 
-
         ResetActionPoints();
     }
 }
