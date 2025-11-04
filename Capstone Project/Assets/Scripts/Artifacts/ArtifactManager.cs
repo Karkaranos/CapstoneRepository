@@ -67,9 +67,13 @@ public class ArtifactManager
         gameManager = gm;
 
         // Create an entry in the dictionary for each mark type
-        for(int i=0; i<MarkType.GetNames(typeof(MarkType)).Length; i++)
+        for(int i=0; i < MarkType.GetNames(typeof(MarkType)).Length; i++)
         {
-            markCount.Add((MarkType)i, 0);
+            MarkType currentMark = (MarkType)i; 
+            if(!markCount.ContainsKey(currentMark))
+            {
+                markCount.Add(currentMark, 0);
+            }
         }
 
         if (testing)

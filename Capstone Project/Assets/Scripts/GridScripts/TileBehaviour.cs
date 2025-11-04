@@ -83,6 +83,14 @@ public class TileBehaviour : MonoBehaviour
     }
 
     /// <summary>
+    /// Spawns entities on start
+    /// </summary>
+    private void Start()
+    {
+        Invoke("AddObjectsToTile", 1.5f);
+    }
+
+    /// <summary>
     /// adds the entities and hazards to the tile, updates the grid manager with positions
     /// </summary>
     public void AddObjectsToTile() {
