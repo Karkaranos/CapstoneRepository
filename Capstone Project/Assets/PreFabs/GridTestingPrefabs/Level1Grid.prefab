@@ -888,6 +888,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 498194417557047393}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1888399839581997708, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -947,31 +955,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6446116101038545024}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
---- !u!1 &68179280043380975 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 3393054975563606922}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6446116101038545024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 68179280043380975}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
-  entityType: 0
 --- !u!4 &9134666962509271791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
@@ -1429,6 +1414,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 498194417557047393}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1888399839581997708, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1488,36 +1485,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3662976791505751204}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
 --- !u!4 &1486414736036603752 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
   m_PrefabInstance: {fileID: 5004230232968109581}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7680376613342913896 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 5004230232968109581}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3662976791505751204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7680376613342913896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
-  entityType: 2
 --- !u!1001 &5012253792434234540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1526,6 +1500,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 498194417557047393}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1888399839581997708, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1585,36 +1571,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7788469454450738701}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
 --- !u!4 &1467413669786557897 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
   m_PrefabInstance: {fileID: 5012253792434234540}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7668415689991233481 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 5012253792434234540}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7788469454450738701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7668415689991233481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
-  entityType: 0
 --- !u!1001 &5157843094063802910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1845,6 +1808,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 498194417557047393}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1888399839581997708, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1904,36 +1875,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4232416557254300112}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
 --- !u!4 &2251634666181637621 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
   m_PrefabInstance: {fileID: 5687271710571465872}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6992271943687583733 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 5687271710571465872}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4232416557254300112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6992271943687583733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
-  entityType: 2
 --- !u!1001 &5862933132467609120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2016,6 +1964,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 498194417557047393}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1888399839581997708, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -2075,36 +2031,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1582639198759480848}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
 --- !u!4 &25531150734516302 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
   m_PrefabInstance: {fileID: 5875195044712372523}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9109752867247841870 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 5875195044712372523}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1582639198759480848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9109752867247841870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
-  entityType: 0
 --- !u!1001 &5934430660738293542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2261,6 +2194,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 498194417557047393}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1888399839581997708, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -2320,36 +2265,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2591627590526111484}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
 --- !u!4 &3603108550363339779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
   m_PrefabInstance: {fileID: 7192959522789385574}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5491633588888657411 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 7192959522789385574}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2591627590526111484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5491633588888657411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
-  entityType: 1
 --- !u!1001 &7411707270133576712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2580,6 +2502,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 498194417557047393}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1888399839581997708, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -2639,36 +2573,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2897631343149144023}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
 --- !u!4 &3030885575115888460 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
   m_PrefabInstance: {fileID: 8925440595852848681}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6068949981828011340 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 8925440595852848681}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2897631343149144023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6068949981828011340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
-  entityType: 2
 --- !u!1001 &8967757080106166492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2687,7 +2598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5829847745530061648, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Mesh
@@ -2740,36 +2651,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8339280976273182719}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
 --- !u!4 &3288060096159109561 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5895870182941505893, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
   m_PrefabInstance: {fileID: 8967757080106166492}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6023400370882532281 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
-  m_PrefabInstance: {fileID: 8967757080106166492}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8339280976273182719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023400370882532281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f474cc407c2bc64aa4515b84de23be3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coordinatesInGrid: {x: 0, y: 0}
-  entity: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
-  entityType: 0
 --- !u!1001 &8988343325050172631
 PrefabInstance:
   m_ObjectHideFlags: 0

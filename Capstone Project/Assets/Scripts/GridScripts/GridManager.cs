@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 9/26/2025
- * Last Modified: 10/21/2025
+ * Last Modified: 10/30/2025
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
@@ -15,7 +15,7 @@ public class GridManager : MonoBehaviour
     // -2 is an enemy occupied tile
     // -3 is a player occupied tile
     // -4 is an obstacle occupied tile
-    public static int[,] combatGrid;
+    public static TileBehaviour[,] combatGrid;
 
     public static Vector2Int playerPosition;
 
@@ -24,16 +24,23 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="gridPrefab"></param> The grid game object
     /// <param name="gridDimensions"></param> How long and wide the grid is
-    public static void SetGrid(Vector2Int gridDimensions)
+    public static void SetGrid(Vector2Int gridDimensions, GameObject gridPrefab)
     {
-        combatGrid = new int[gridDimensions.x, gridDimensions.y];
+        combatGrid = new TileBehaviour[gridDimensions.x, gridDimensions.y];
 
-        for(int i = 0; i < gridDimensions.y; ++i)
+        for (int i = 0; i < gridDimensions.y; ++i)
         {
-            for(int j = 0; j < gridDimensions.x; ++j)
+            for (int j = 0; j < gridDimensions.x; ++j)
             {
-                combatGrid[j, i] = -1;
+                combatGrid[j, i] = null;
             }
+        }
+
+        TileBehaviour[] tiles = gridPrefab.GetComponentsInChildren<TileBehaviour>();
+        foreach(TileBehaviour t in tiles)
+        {
+            combatGrid[t.IndexInGrid.x, t.IndexInGrid.y] = t;
+            combatGrid[t.IndexInGrid.x, t.IndexInGrid.y].entityOnGrid = -1;
         }
     }
 
@@ -44,12 +51,22 @@ public class GridManager : MonoBehaviour
     /// <param name="entityType"></param> The int classification of the entity
     public static void AddEntity(Vector2Int locationInGrid, int entityType)
     {
-        combatGrid[locationInGrid.x, locationInGrid.y] = entityType;
+        combatGrid[locationInGrid.x, locationInGrid.y].entityOnGrid = entityType;
         if(entityType == -3)
         {
             playerPosition = locationInGrid;
         }
         Debug.Log("Add Entity");
+    }
+
+    /// <summary>
+    /// Removes the location of a destory entity from the grid
+    /// </summary>
+    /// <param name="locationInGrid"></param>
+    public static void RemoveEntity(Vector2Int locationInGrid)
+    {
+        combatGrid[locationInGrid.x, locationInGrid.y].entityOnGrid = -1;
+        Debug.Log("Remove Entity");
     }
 
     /// <summary>
@@ -63,7 +80,7 @@ public class GridManager : MonoBehaviour
         {
             return true;
         }
-        return combatGrid[tileCoordinates.x, tileCoordinates.y] == -1 || combatGrid[tileCoordinates.x, tileCoordinates.y] == -3;
+        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 || combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
     }
 
     /// <summary>
@@ -78,6 +95,10 @@ public class GridManager : MonoBehaviour
             return false;
         }
         if (tileCoordinates.y < 0 || tileCoordinates.y >= combatGrid.GetLength(1))
+        {
+            return false;
+        }
+        if (combatGrid[tileCoordinates.x, tileCoordinates.y] == null)
         {
             return false;
         }
@@ -153,8 +174,8 @@ public class GridManager : MonoBehaviour
     {
         if (originalTile != tileMovedTo)
         {
-            combatGrid[originalTile.x, originalTile.y] = -1;
-            combatGrid[tileMovedTo.x, tileMovedTo.y] = entityType;
+            combatGrid[originalTile.x, originalTile.y].entityOnGrid = -1;
+            combatGrid[tileMovedTo.x, tileMovedTo.y].entityOnGrid = entityType;
             if (entityType == -3)
             {
                 playerPosition = tileMovedTo;
@@ -171,9 +192,9 @@ public class GridManager : MonoBehaviour
         {
             for(int j = 0; j < combatGrid.GetLength(1); ++j)
             {
-                if(combatGrid[i, j] > 0)
+                if(combatGrid[i, j].entityOnGrid > 0)
                 {
-                    combatGrid[i, j] = -1;
+                    combatGrid[i, j].entityOnGrid = -1;
                 }
             }
         }
@@ -193,7 +214,7 @@ public class GridManager : MonoBehaviour
             }
             for(int j = 0; j < combatGrid.GetLength(0); ++j)
             {
-                row += combatGrid[j, i] + " ";
+                row += combatGrid[j, i].entityOnGrid + " ";
             }
             row += "\n";
         }
