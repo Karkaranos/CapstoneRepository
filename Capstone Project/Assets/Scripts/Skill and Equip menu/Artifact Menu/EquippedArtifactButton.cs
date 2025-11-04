@@ -8,8 +8,9 @@ External Resources :
 
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class EquippedArtifactButton : MonoBehaviour
+public class EquippedArtifactButton : MonoBehaviour, IPointerEnterHandler
 {
     #region VARS
     //not enough vars in the inspector to justify having the naughtyattributes stuff
@@ -79,5 +80,10 @@ public class EquippedArtifactButton : MonoBehaviour
         {
             buttonText.text = data.Name;
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        menuManager.ButtonHovered(data);
     }
 }
