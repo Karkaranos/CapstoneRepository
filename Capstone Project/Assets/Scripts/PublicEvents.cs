@@ -16,6 +16,7 @@ public static class PublicEvents
     //on purchase of a node.
     public static Action SkillTreeNodePurchased;
     public static Action<RuneType> MasteryRunePurchased;
+    
 
     public static Action TrashHeldOOCObject;
 
