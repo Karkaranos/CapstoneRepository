@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/30/2025
+ * Last Modified: 11/2/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -24,10 +24,11 @@ public class GridPathfinding : MonoBehaviour
     List<Vector3> newPositions = new List<Vector3>();
     Vector2Int nextPosition = Vector2Int.zero;
     [SerializeField] float movementSpeed;
+    protected bool isEnemy = true;
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
-    [SerializeField] protected int aggroRange;
+    protected int pathfindingLimit;
     bool isMoving = false;
 
     /// <summary>
@@ -40,19 +41,15 @@ public class GridPathfinding : MonoBehaviour
         PathfindThroughGrid();
     }
 
-    ///// <summary>
-    ///// No longer does anything but is kept because it would cause issues with the state machine if removed
-    ///// </summary>
-    virtual public void SetTarget()
+    private void Start()
     {
-        Debug.Log("I do nothing now");
-        //targetPosition = GridManager.playerPosition;
+        isEnemy = true;
     }
 
     /// <summary>
     /// Takes the current position and pathfinds to a designated location
     /// </summary>
-    public void PathfindThroughGrid()
+    virtual public void PathfindThroughGrid()
     {
         nextPos.Clear();
         nextPos.Add(targetPosition);
@@ -66,7 +63,7 @@ public class GridPathfinding : MonoBehaviour
         bool reachedTarget = false;
         currentPositions.Add(myPosition);
 
-        while (!reachedTarget && stepsTaken < aggroRange)
+        while (!reachedTarget && stepsTaken < pathfindingLimit)
         {
             foreach (Vector2Int v in nextPositions)
             {
@@ -76,17 +73,34 @@ public class GridPathfinding : MonoBehaviour
             //Add the potential tiles to be checked for movement or the target
             foreach (Vector2Int currentTile in currentPositions)
             {
-                if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
+                if (isEnemy)
                 {
-                    targetPosition = currentTile;
-                    nextPos.Add(targetPosition);
-                    reachedTarget = true;
-                    currentPositions.Clear();
-                    break;
+                    if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
+                    {
+                        targetPosition = currentTile;
+                        nextPos.Add(targetPosition);
+                        reachedTarget = true;
+                        currentPositions.Clear();
+                        break;
+                    }
+                    else
+                    {
+                        GridManager.combatGrid[currentTile.x, currentTile.y].entityOnGrid = stepsTaken;
+                    }
                 }
                 else
                 {
-                    GridManager.combatGrid[currentTile.x, currentTile.y].entityOnGrid = stepsTaken;
+                    if (targetPosition == currentTile)
+                    {
+                        nextPos.Add(targetPosition);
+                        reachedTarget = true;
+                        currentPositions.Clear();
+                        break;
+                    }
+                    else
+                    {
+                        GridManager.combatGrid[currentTile.x, currentTile.y].entityOnGrid = stepsTaken;
+                    }
                 }
             }
 
@@ -106,7 +120,10 @@ public class GridPathfinding : MonoBehaviour
             currentPositions.Clear();
             ++stepsTaken;
         }
-        --stepsTaken;
+        if (stepsTaken != pathfindingLimit)
+        {
+            --stepsTaken;
+        }
 
         myPosition = originalPosition;
         Vector2Int originalTarget = targetPosition;
@@ -200,7 +217,6 @@ public class GridPathfinding : MonoBehaviour
         for (int i = max; i >= min; --i)
         {
             yield return new WaitForSeconds(.5f);
-            Debug.Log("Wait over");
             switch (gridDirections[i])
             {
                 case "Up Left":
@@ -241,26 +257,30 @@ public class GridPathfinding : MonoBehaviour
     /// <returns></returns>
     IEnumerator MoveToTile()
     {
+        int eType = isEnemy ? -2 : -3;
+        GridManager.ClearPathfinding();
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
-            nextPosition = nextPos[gridDirections.Count - i];
+            nextPosition = nextPos[gridDirections.Count - 1];
             isMoving = true;
             //Loops until they finish moving to the adjacent tile
             while (isMoving)
             {
                 transform.position = Vector3.MoveTowards(transform.position, newPositions[i], .1f);
-                Debug.Log(transform.position);
-                Debug.Log(gameObject.transform.position);
                 if (transform.position == newPositions[i])
                 {
                     isMoving = false;
-                    GridManager.ClearPathfinding();
-                    GridManager.MoveToTile(myPosition, nextPosition, -2);
+                    GridManager.MoveToTile(myPosition, nextPosition, eType);
                     myPosition = nextPosition;
                 }
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
+        }
+
+        if(!isEnemy)
+        {
+            PublicEvents.PlayerMove();
         }
     }
 
@@ -281,7 +301,7 @@ public class GridPathfinding : MonoBehaviour
     /// <param name="aggroRange"></param>
     public void SetAggroRange(int aggroRange)
     {
-        this.aggroRange = aggroRange;
+        pathfindingLimit = aggroRange;
     }
 
     /// <summary>
