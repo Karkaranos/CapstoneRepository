@@ -99,6 +99,9 @@ public class SkillTreeNode : MonoBehaviour
     //A reference to the skill tree manager in the scene
     private SkillTreeManager skillTreeManager;
 
+    //A Reference to the artifactandskilltree manager in the scene
+    private SkillAndArtifactManager skillAndArtifactManager;
+
     #endregion
     #endregion
 
@@ -121,6 +124,7 @@ public class SkillTreeNode : MonoBehaviour
     private void OnEnable()
     {
         PublicEvents.SkillTreeNodePurchased += AnySkillTreeNodePurchased;
+        PublicEvents.TrashHeldOOCObject += TurnNodeBackOnMaybe;
     }
 
     /// <summary>
@@ -129,6 +133,7 @@ public class SkillTreeNode : MonoBehaviour
     private void OnDisable()
     {
         PublicEvents.SkillTreeNodePurchased -= AnySkillTreeNodePurchased;
+        PublicEvents.TrashHeldOOCObject -= TurnNodeBackOnMaybe;
     }
 
     /// <summary>
@@ -136,8 +141,9 @@ public class SkillTreeNode : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        //finds the skill tree manager in scene
+        //finds the refs in scene
         skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
 
         //starts locked/unlocked depending on if it has any prereqs
         if (PrereqNodes.Count > 0)
@@ -265,7 +271,7 @@ public class SkillTreeNode : MonoBehaviour
     public void SelectNodeWhilePurchased()
     {
         skillTreeManager.SelectNode(NodeRuneData);
-        
+        button.interactable = false;
     }
 
 
@@ -309,6 +315,16 @@ public class SkillTreeNode : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Re-enables the node if the player doesn't have it equipped
+    /// </summary>
+    private void TurnNodeBackOnMaybe()
+    {
+        if (!skillAndArtifactManager.equippedSpells.Contains(NodeRuneData))
+        {
+            button.interactable = true;
+        }
+    }
     #endregion
 
     #endregion
