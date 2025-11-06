@@ -41,6 +41,9 @@ public class GridPathfinding : MonoBehaviour
         PathfindThroughGrid();
     }
 
+    /// <summary>
+    /// Lets the pathfinding know if its the player or enemy trying to pathfind
+    /// </summary>
     private void Start()
     {
         isEnemy = true;

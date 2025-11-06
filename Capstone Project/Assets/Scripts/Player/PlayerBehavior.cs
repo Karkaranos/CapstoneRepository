@@ -102,6 +102,10 @@ public class PlayerBehavior : GridPathfinding
         }
     }
 
+    /// <summary>
+    /// Finds all the adjacent tiles that are x distance away from the player
+    /// and highlights them
+    /// </summary>
     private void EnableMovableTiles()
     {
         if (gm.CurrentActionPoints - gm.MoveActionPoints >= 0)
