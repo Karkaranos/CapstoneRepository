@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638973230714808657
+  lastModified: 638977988583600341
   FileSizes:
   - Name: Desktop
-    Value: 864
+    Value: 1006
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -36,15 +36,18 @@ MonoBehaviour:
   - {fileID: -4248251816724568309}
   - {fileID: 6195613853421016593}
   - {fileID: 5545828153951462697}
+  - {fileID: 5558602051313320242}
   EditorEvents:
   - {fileID: 340486988870510789}
   - {fileID: 9157133313647471255}
+  - {fileID: 6666887629456067383}
+  - {fileID: 2101318856044829726}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6195613853421016593}
   StringsBanks:
   - {fileID: -4248251816724568309}
-  cacheTime: 638973230715012956
+  cacheTime: 638979658665083632
   cacheVersion: 131632
 --- !u!114 &340486988870510789
 MonoBehaviour:
@@ -72,7 +75,34 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 5400
+  Length: 5700
+--- !u!114 &2101318856044829726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Frost_Ice Spell
+  m_EditorClassIdentifier: 
+  Path: event:/Frost_Ice Spell
+  Guid:
+    Data1: -1207220753
+    Data2: 1231472790
+    Data3: 2112774590
+    Data4: 1383741979
+  Banks:
+  - {fileID: 5545828153951462697}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8308
 --- !u!114 &5545828153951462697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,10 +118,30 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638973230715012956
+  lastModified: 638979658665083632
   FileSizes:
   - Name: Desktop
-    Value: 1370432
+    Value: 1900928
+  Exists: 1
+--- !u!114 &5558602051313320242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Ambience.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/FMODSalty/Build/Desktop/Ambience.bank
+  Name: Ambience
+  StudioPath: bank:/Ambience
+  lastModified: 638979658663629037
+  FileSizes:
+  - Name: Desktop
+    Value: 2351872
   Exists: 1
 --- !u!114 &6195613853421016593
 MonoBehaviour:
@@ -108,11 +158,38 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638966045970192616
+  lastModified: 638977988583580027
   FileSizes:
   - Name: Desktop
     Value: 1036
   Exists: 1
+--- !u!114 &6666887629456067383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LVL 1  Ambience
+  m_EditorClassIdentifier: 
+  Path: event:/LVL 1  Ambience
+  Guid:
+    Data1: 1921456255
+    Data2: 1265774329
+    Data3: -1975528819
+    Data4: 1422544363
+  Banks:
+  - {fileID: 5558602051313320242}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 28200
 --- !u!114 &9157133313647471255
 MonoBehaviour:
   m_ObjectHideFlags: 0
