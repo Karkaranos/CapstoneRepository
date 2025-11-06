@@ -168,7 +168,8 @@ public class ButtonManager : MonoBehaviour
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
-        PublicEvents.PlayerMove();
+        playerBehavior.PathfindThroughGrid();
+        //PublicEvents.PlayerMove();
         //confirmButtonClicked = true;
         //if (confirmButtonClicked)
         //{

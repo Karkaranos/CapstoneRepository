@@ -124,9 +124,6 @@ public class TurnManager : MonoBehaviour
         {
             case TurnStates.Start:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginStartTurn?.Invoke();
-
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
                 if (TurnPublicEvents.BeginStartTurn?.GetInvocationList().Length > 0)
@@ -140,11 +137,11 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginStartTurn?.Invoke();
+
                 break;
             case TurnStates.PlayerTurn:
-
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginPlayerTurn?.Invoke();
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -159,13 +156,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
-
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginPlayerTurn?.Invoke();
 
                 break;
             case TurnStates.EnemyTurn:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -179,11 +176,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
                 break;
             case TurnStates.End:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEndTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -203,6 +202,8 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEndTurn?.Invoke();
 
                 break;
             default:
@@ -218,7 +219,7 @@ public class TurnManager : MonoBehaviour
         Debug.Log("Called");
 
         //ups the number of instances this has heard back from
-        currentHearBackNum++;
+        ++currentHearBackNum;
 
         //checks to see if its heard back from everything
         if (currentHearBackNum >= targetHearBackNum)
@@ -251,8 +252,7 @@ public class TurnManager : MonoBehaviour
         {
             case TurnStates.Start:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginStartTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -266,11 +266,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginStartTurn?.Invoke();
+
                 break;
             case TurnStates.PlayerTurn:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginPlayerTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -285,13 +287,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
-
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginPlayerTurn?.Invoke();
 
                 break;
             case TurnStates.EnemyTurn:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -305,11 +307,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
                 break;
             case TurnStates.End:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEndTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -329,6 +333,8 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEndTurn?.Invoke();
 
                 break;
             default:

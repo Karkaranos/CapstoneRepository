@@ -35,6 +35,7 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")] Vector2 tileDisplacement;
     [SerializeField] private TileType tileType;
     [SerializeField] private GameObject ObjectOnTile;
+    public GameObject tileHighlight;
 
     [Header("Water Tile Vars"), SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
@@ -53,6 +54,8 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private GameObject hazardObject;
     [SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
     [SerializeField, ShowIf(nameof(ShowSlowVars)), Foldout("Hazards")] private int movesLost;
+
+    public bool inPlayerRange;
 
     /// <summary>
     /// checker for the showif function
@@ -80,6 +83,7 @@ public class TileBehaviour : MonoBehaviour
     {
         IndexInGrid.x = (int)(transform.position.x / tileDisplacement.x);
         IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
+        inPlayerRange = false;
     }
 
     /// <summary>
@@ -87,7 +91,9 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        Invoke("AddObjectsToTile", 1.5f);
+        AddObjectsToTile();
+        tileHighlight.SetActive(false);
+        //Invoke("AddObjectsToTile", 1.5f);
     }
 
     /// <summary>
@@ -186,5 +192,44 @@ public class TileBehaviour : MonoBehaviour
         collision.transform.SetParent(transform);
 
         ObjectOnTile = collision.gameObject;
+    }
+
+    /// <summary>
+    /// Lets the tile listen for unity events
+    /// </summary>
+    //private void OnEnable()
+    //{
+    //    TurnPublicEvents.BeginEnemyTurn += DisableHighlight;
+    //}
+
+    ///// <summary>
+    ///// Used so it doesn't listen to a null reference of unity events
+    ///// </summary>
+    //private void OnDisable()
+    //{
+    //    TurnPublicEvents.BeginEnemyTurn -= DisableHighlight;
+    //}
+
+    /// <summary>
+    /// Disables the highlight that was enables for tiles that the player could move to
+    /// </summary>
+    public void DisableHighlight()
+    {
+        tileHighlight.SetActive(false);
+        inPlayerRange = false;
+        //if(inPlayerRange)
+        //{
+        //    inPlayerRange = false;
+        //    //TurnPublicEvents.TurnActionComplete();
+        //}
+        //TurnPublicEvents.TurnActionComplete();
+    }
+
+    /// <summary>
+    /// Makes the highlight game object active or not active based off a bool
+    /// </summary>
+    private void Update()
+    {
+        //tileHighlight.SetActive(inPlayerRange);
     }
 }
