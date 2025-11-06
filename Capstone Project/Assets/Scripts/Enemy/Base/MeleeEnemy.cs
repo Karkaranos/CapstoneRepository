@@ -149,9 +149,11 @@ public class MeleeEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
+        targetingBehaviour.FindTarget();
+        gridPathfinding.PathfindThroughGrid();
         Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
         Debug.Log("Target Pos: " + gridPathfinding.GetTargetPosition().ToString());
-        targetingBehaviour.FindTarget();
+        
         if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { Debug.Log("In Range");  }
         return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
     }

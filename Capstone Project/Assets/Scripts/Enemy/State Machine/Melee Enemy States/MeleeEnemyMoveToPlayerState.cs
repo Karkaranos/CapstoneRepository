@@ -25,6 +25,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.PathfindThroughGrid();
+        enemy.gridPathfinding.StartMoveCoroutine();
 
         enemy.hasMovedForTurn = true;
 
