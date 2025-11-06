@@ -11,6 +11,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
 
     // Should be relocated to PlayerBehavior
     #region ActionPoints
-    [SerializeField] public Text ActionPointVisualizer;
+    [SerializeField] public TMP_Text ActionPointVisualizer;
     public int CurrentActionPoints;
     public int MoveActionPoints = 2;
     public int ActionPointsPerTurn = 3;
@@ -127,11 +128,9 @@ public class GameManager : MonoBehaviour
 
         PlayerStats = GetComponent<PlayerStats>();
 
-        MarkManager = new MarkManager(validMarks, this, PlayerStats);
+        MarkManager = new MarkManager(validMarks, this);
 
-        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, PlayerStats, this, allowArtifactTesting, testData);
-
-        ArtifactManager.SetPlayerReference(PlayerStats);
+        ArtifactManager = new ArtifactManager(randomArtifactPool, setArtifactPool, maxArtifacts, this, allowArtifactTesting, testData);
 
         ResetActionPoints();
     }
