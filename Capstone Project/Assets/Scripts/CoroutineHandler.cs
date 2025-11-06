@@ -15,12 +15,11 @@ public class CoroutineHandler : MonoBehaviour
     /// <summary>
     /// Make sure that this is a Singleton 
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {

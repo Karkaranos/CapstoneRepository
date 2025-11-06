@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     /// Called on the first frame update
     /// Creates static references
     /// </summary>
-    void Awake()
+    void Start()
     {
         // Console Commands need to be before pretty much everything else
         CommandConsoleRef = Instantiate(CommandConsole, transform.position, Quaternion.identity);

@@ -19,26 +19,20 @@ public class EnemyHandler : MonoBehaviour
     /// <summary>
     /// Make sure that this is a Singleton 
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-    }
 
-    /// <summary>
-    /// Wait 2 seconds after start to set list of enemies in the scene
-    /// </summary>
-    private void Start()
-    {
         Invoke("SetEnemyList", 2);
     }
+
 
     /// <summary>
     /// Set list of all enabled enemies 
