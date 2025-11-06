@@ -35,7 +35,7 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")] Vector2 tileDisplacement;
     [SerializeField] private TileType tileType;
     [SerializeField] private GameObject ObjectOnTile;
-    [SerializeField] private GameObject tileHighlight;
+    public GameObject tileHighlight;
 
     [Header("Water Tile Vars"), SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
@@ -197,30 +197,32 @@ public class TileBehaviour : MonoBehaviour
     /// <summary>
     /// Lets the tile listen for unity events
     /// </summary>
-    private void OnEnable()
-    {
-        TurnPublicEvents.BeginEnemyTurn += DisableHighlight;
-    }
+    //private void OnEnable()
+    //{
+    //    TurnPublicEvents.BeginEnemyTurn += DisableHighlight;
+    //}
 
-    /// <summary>
-    /// Used so it doesn't listen to a null reference of unity events
-    /// </summary>
-    private void OnDisable()
-    {
-        TurnPublicEvents.BeginEnemyTurn -= DisableHighlight;
-    }
+    ///// <summary>
+    ///// Used so it doesn't listen to a null reference of unity events
+    ///// </summary>
+    //private void OnDisable()
+    //{
+    //    TurnPublicEvents.BeginEnemyTurn -= DisableHighlight;
+    //}
 
     /// <summary>
     /// Disables the highlight that was enables for tiles that the player could move to
     /// </summary>
-    private void DisableHighlight()
+    public void DisableHighlight()
     {
-        if(inPlayerRange)
-        {
-            inPlayerRange = false;
-            //TurnPublicEvents.TurnActionComplete();
-        }
-        TurnPublicEvents.TurnActionComplete();
+        tileHighlight.SetActive(false);
+        inPlayerRange = false;
+        //if(inPlayerRange)
+        //{
+        //    inPlayerRange = false;
+        //    //TurnPublicEvents.TurnActionComplete();
+        //}
+        //TurnPublicEvents.TurnActionComplete();
     }
 
     /// <summary>
@@ -228,6 +230,6 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        tileHighlight.SetActive(inPlayerRange);
+        //tileHighlight.SetActive(inPlayerRange);
     }
 }

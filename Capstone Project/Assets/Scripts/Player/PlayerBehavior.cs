@@ -38,7 +38,7 @@ public class PlayerBehavior : GridPathfinding
     [HideInInspector] public bool PlayerCanMove = false;
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
-
+    List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -107,12 +107,17 @@ public class PlayerBehavior : GridPathfinding
 
     private void EnableMovableTiles()
     {
+        tilesInRange.Clear();
         GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
+        GridManager.combatGrid[MyPosition.x, MyPosition.y].tileHighlight.SetActive(true);
+        tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
         List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition);
         foreach(Vector2Int v in tilePositions)
         {
             GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
             GridManager.combatGrid[v.x, v.y].entityOnGrid = 5;
+            GridManager.combatGrid[v.x, v.y].tileHighlight.SetActive(true);
+            tilesInRange.Add(GridManager.combatGrid[v.x, v.y]);
         }
 
         for (int i = 1; i < movementRange; ++i)
@@ -134,6 +139,8 @@ public class PlayerBehavior : GridPathfinding
                         tilePositions.Add(newPos);
                         GridManager.combatGrid[newPos.x, newPos.y].inPlayerRange = true;
                         GridManager.combatGrid[newPos.x, newPos.y].entityOnGrid = 5;
+                        GridManager.combatGrid[newPos.x, newPos.y].tileHighlight.SetActive(true);
+                        tilesInRange.Add(GridManager.combatGrid[newPos.x, newPos.y]);
                     }
                 }
             }
@@ -148,6 +155,10 @@ public class PlayerBehavior : GridPathfinding
     {
         isEnemy = false;
         pathfindingLimit = movementRange;
+        foreach(TileBehaviour t in tilesInRange)
+        {
+            t.DisableHighlight();
+        }
         base.PathfindThroughGrid();
     }
 
