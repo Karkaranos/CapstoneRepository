@@ -90,8 +90,9 @@ public class RuneSelectionMenu : MonoBehaviour
 
 
             //Activates button and updates button text
-            buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text = 
-                skillAndEquipManager.equippedSpells[index].RuneName;
+            //buttons and text will have to be adjusted to fit all of this in but that's already something that's being worked on i think
+            buttons[index].GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().text =
+                skillAndEquipManager.equippedSpells[index].RuneName + " (AP: " + skillAndEquipManager.equippedSpells[index].RuneActionPoints + ")";
 
             buttons[index].SetActive(true);
 
