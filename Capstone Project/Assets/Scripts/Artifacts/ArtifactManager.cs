@@ -58,13 +58,13 @@ public class ArtifactManager
     /// <param name="maxArtifact">Maximum Number of Artifacts</param>
     /// <param name="testing">True if testing functionality</param>
     /// <param name="testInfo">Data for testing. Please have a minimum length of 4</param>
-    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, PlayerStats p, GameManager gm, bool testing = false, ArtifactData[] testInfo = null)
+    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, GameManager gm, bool testing = false, ArtifactData[] testInfo = null)
     {
         randomArtifactPool = rap;
         setArtifactPool = sap;
         maxArtifactWeight = maxArtifact;
-        player = p;
         gameManager = gm;
+
 
         // Create an entry in the dictionary for each mark type
         for(int i=0; i < MarkType.GetNames(typeof(MarkType)).Length; i++)
@@ -78,9 +78,11 @@ public class ArtifactManager
 
         if (testing)
         {
-            inTestMode = true;
             testData = testInfo;
-            TestArtifacts();
+            foreach (ArtifactData d in testInfo)
+            {
+                ObtainArtifact(d);
+            }
         }
 
     }
