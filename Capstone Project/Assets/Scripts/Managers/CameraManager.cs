@@ -7,11 +7,9 @@ External Resources : 	N/A
 ***************************************************/
 using NaughtyAttributes;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Cinemachine;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.Video;
 
 
 public class CameraManager : MonoBehaviour
@@ -29,6 +27,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript popUpScript;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer videoPlayer;
     public GameObject OutOfCombatCanvas;
     #endregion
 
@@ -68,7 +67,22 @@ public class CameraManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator SwitchesToOutOfCombatCanvas()
     {
-        yield return new WaitForSeconds(3f);
+        videoPlayer.Prepare();
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null; // Wait until preparation is complete
+        }
+
+        // Play the video
+        videoPlayer.Play();
+
+        // Wait until the video finishes playing
+        while (videoPlayer.isPlaying)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1f);
         OutOfCombatCanvas.SetActive(true);
     }
 
