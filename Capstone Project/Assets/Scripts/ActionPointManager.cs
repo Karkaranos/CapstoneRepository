@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Cade Naylor
+Author Names : 		Cade Naylor, Tyler Bouchard
 Date Created : 		10/22/2025
-Date Last Modified : 10/22/2025
+Date Last Modified : 11/3/2025 (Tyler Bouchard)
 Brief Description : Controls action points. This is a temporary script while all player scripts are checked out
 External Resources : 	
 	***************************************************/
@@ -29,7 +29,6 @@ public class ActionPointManager : MonoBehaviour
         PublicEvents.RuneCast += PlayerCastSpell;
     }
 
-
     /// <summary>
     /// unsubscribes from all public events
     /// </summary>
@@ -45,11 +44,7 @@ public class ActionPointManager : MonoBehaviour
     /// </summary>
     private void PlayerHasMoved()
     {
-        gm.CurrentActionPoints -= gm.MoveActionPoints;
-        if (gm.CurrentActionPoints <= 0)
-        {
-            TurnPublicEvents.ForceEndCurrentPhase();
-        }
+        gm.UpdateActionPoints(gm.MoveActionPoints);
     }
 
     /// <summary>
@@ -57,7 +52,7 @@ public class ActionPointManager : MonoBehaviour
     /// </summary>
     private void AllocatePoints()
     {
-        gm.CurrentActionPoints = gm.ActionPointsPerTurn;
+        gm.ResetActionPoints();
     }
 
     /// <summary>
@@ -68,11 +63,6 @@ public class ActionPointManager : MonoBehaviour
     public void PlayerCastSpell(int cost)
     {
         Debug.Log("Cost of Spell is " + cost);
-        gm.CurrentActionPoints -= cost;
-        if (gm.CurrentActionPoints <= 0)
-        {
-            TurnPublicEvents.ForceEndCurrentPhase();
-        }
+        gm.UpdateActionPoints(cost);
     }
-
 }
