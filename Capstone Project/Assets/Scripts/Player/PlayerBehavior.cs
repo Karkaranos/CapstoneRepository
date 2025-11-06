@@ -39,6 +39,7 @@ public class PlayerBehavior : GridPathfinding
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
     public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    GameManager gm;
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -47,6 +48,7 @@ public class PlayerBehavior : GridPathfinding
     void Start()
     {
         buttonManager = FindFirstObjectByType<ButtonManager>();
+        gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
     }
 
     #region player input
@@ -107,45 +109,48 @@ public class PlayerBehavior : GridPathfinding
 
     private void EnableMovableTiles()
     {
-        tilesInRange.Clear();
-        GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
-        GridManager.combatGrid[MyPosition.x, MyPosition.y].tileHighlight.SetActive(true);
-        tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
-        List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition);
-        foreach(Vector2Int v in tilePositions)
+        if (gm.CurrentActionPoints - gm.MoveActionPoints >= 0)
         {
-            GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
-            GridManager.combatGrid[v.x, v.y].entityOnGrid = 5;
-            GridManager.combatGrid[v.x, v.y].tileHighlight.SetActive(true);
-            tilesInRange.Add(GridManager.combatGrid[v.x, v.y]);
-        }
-
-        for (int i = 1; i < movementRange; ++i)
-        {
-            List<Vector2Int> adPositions = new List<Vector2Int>();
-            foreach(Vector2Int v in tilePositions)
+            tilesInRange.Clear();
+            GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
+            GridManager.combatGrid[MyPosition.x, MyPosition.y].tileHighlight.SetActive(true);
+            tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
+            List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition);
+            foreach (Vector2Int v in tilePositions)
             {
-                adPositions.Add(v);
+                GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
+                GridManager.combatGrid[v.x, v.y].entityOnGrid = 5;
+                GridManager.combatGrid[v.x, v.y].tileHighlight.SetActive(true);
+                tilesInRange.Add(GridManager.combatGrid[v.x, v.y]);
             }
 
-            tilePositions.Clear();
-            foreach (Vector2Int v in adPositions)
+            for (int i = 1; i < movementRange; ++i)
             {
-                List<Vector2Int> adAdPositions = GridManager.GetAllValidAdjacentTiles(v, myPosition);
-                foreach(Vector2Int newPos in adAdPositions)
+                List<Vector2Int> adPositions = new List<Vector2Int>();
+                foreach (Vector2Int v in tilePositions)
                 {
-                    if(newPos != myPosition)
+                    adPositions.Add(v);
+                }
+
+                tilePositions.Clear();
+                foreach (Vector2Int v in adPositions)
+                {
+                    List<Vector2Int> adAdPositions = GridManager.GetAllValidAdjacentTiles(v, myPosition);
+                    foreach (Vector2Int newPos in adAdPositions)
                     {
-                        tilePositions.Add(newPos);
-                        GridManager.combatGrid[newPos.x, newPos.y].inPlayerRange = true;
-                        GridManager.combatGrid[newPos.x, newPos.y].entityOnGrid = 5;
-                        GridManager.combatGrid[newPos.x, newPos.y].tileHighlight.SetActive(true);
-                        tilesInRange.Add(GridManager.combatGrid[newPos.x, newPos.y]);
+                        if (newPos != myPosition)
+                        {
+                            tilePositions.Add(newPos);
+                            GridManager.combatGrid[newPos.x, newPos.y].inPlayerRange = true;
+                            GridManager.combatGrid[newPos.x, newPos.y].entityOnGrid = 5;
+                            GridManager.combatGrid[newPos.x, newPos.y].tileHighlight.SetActive(true);
+                            tilesInRange.Add(GridManager.combatGrid[newPos.x, newPos.y]);
+                        }
                     }
                 }
             }
+            GridManager.ClearPathfinding();
         }
-        GridManager.ClearPathfinding();
     }
 
     /// <summary>

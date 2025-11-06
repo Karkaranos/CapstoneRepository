@@ -281,10 +281,10 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
-        if(!isEnemy)
-        {
-            PublicEvents.PlayerMove();
-        }
+        //if(!isEnemy)
+        //{
+        //    PublicEvents.PlayerMove();
+        //}
     }
 
     #region GETTERS AND SETTERS
