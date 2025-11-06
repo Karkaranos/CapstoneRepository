@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon
 Date Created : 		    10/1/2025
-Date Last Modified : 	11/2/2025 (Brad Dixon)
+Date Last Modified : 	11/6/2025 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -95,11 +95,6 @@ public class PlayerBehavior : GridPathfinding
         {
             if (GridManager.CanMoveToTile(tBehav.IndexInGrid, myPosition))
             {
-                ////moves the player to the selected tile
-                //gameObject.transform.position = tBehav.gameObject.transform.position;
-                //GridManager.MoveToTile(myPosition, tBehav.IndexInGrid, -3);
-                //myPosition = tBehav.IndexInGrid;
-
                 //turns on the confirmation canvas
                 targetPosition = tBehav.IndexInGrid;
                 buttonManager.confirmCanvas.SetActive(true);

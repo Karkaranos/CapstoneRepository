@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
 Date Created : 		    10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	11/6/2025
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -115,17 +115,6 @@ public class ButtonManager : MonoBehaviour
         {
             Logger.Warning("Not enough Action Points!");
         }    
-        
-        //playerCanMove = true;
-        //if(playerCanMove)
-        //{
-        //    moveCanvas.SetActive(true);
-        //    playerCanvas.SetActive(false);
-        //}
-        //else
-        //{
-        //    playerCanMove = false;
-        //}
     }
 
     /// <summary>
@@ -169,17 +158,6 @@ public class ButtonManager : MonoBehaviour
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
         playerBehavior.PathfindThroughGrid();
-        //PublicEvents.PlayerMove();
-        //confirmButtonClicked = true;
-        //if (confirmButtonClicked)
-        //{
-        //    confirmCanvas.SetActive(false);
-        //    playerCanvas.SetActive(true);
-        //}
-        //else
-        //{
-        //    confirmButtonClicked = false;
-        //}
     }
 
     /// <summary>
@@ -202,16 +180,6 @@ public class ButtonManager : MonoBehaviour
         }
 
         TurnPublicEvents.ForceEndCurrentPhase();
-        /*        if (endButtonClicked)
-                {
-                    if (EnemyTurn())
-                    {
-                        //playerCanvas.SetActive(false);
-                    }
-                    else
-                    {*/
-        //FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
-         //   }
         }
     #endregion
 }

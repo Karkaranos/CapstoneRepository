@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 11/2/2025
+ * Last Modified: 11/6/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -280,11 +280,6 @@ public class GridPathfinding : MonoBehaviour
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
         }
-
-        //if(!isEnemy)
-        //{
-        //    PublicEvents.PlayerMove();
-        //}
     }
 
     #region GETTERS AND SETTERS
