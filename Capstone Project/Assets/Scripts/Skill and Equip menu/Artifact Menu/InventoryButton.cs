@@ -8,8 +8,9 @@ External Resources :
 
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InventoryButton : MonoBehaviour
+public class InventoryButton : MonoBehaviour, IPointerEnterHandler
 {
     #region VARS
     //not enough vars in the inspector to justify having the naughtyattributes stuff
@@ -65,9 +66,8 @@ public class InventoryButton : MonoBehaviour
     /// tells the artifact manager when the button is hovered over
     /// currently broken - fuck scroll bars
     /// </summary>
-    public void OnHover()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         AMM.ButtonHovered(data);
     }
-
 }
