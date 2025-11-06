@@ -162,6 +162,7 @@ public class TileBehaviour : MonoBehaviour
                 isElectrified = false;
             }
         }
+        TurnPublicEvents.TurnActionComplete();
     }
 
     /// <summary>
@@ -170,16 +171,18 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="amount"></param>
     private void DamageEntity(int amount) {
         //calls the player damage
-        if (ObjectOnTile.GetComponent<PlayerStats>() != null)
-        {
-            ObjectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
-        }
+        if (ObjectOnTile != null) {
+            if (ObjectOnTile.GetComponent<PlayerStats>() != null)
+            {
+                ObjectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
+            }
 
-        //calls the enemy damage
-        if (ObjectOnTile.GetComponent<MeleeEnemy>() != null)
-        {
-            ObjectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
-        }
+            //calls the enemy damage
+            if (ObjectOnTile.GetComponent<MeleeEnemy>() != null)
+            {
+                ObjectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
+            }
+        }       
     }
 
     /// <summary>
@@ -231,5 +234,14 @@ public class TileBehaviour : MonoBehaviour
     private void Update()
     {
         //tileHighlight.SetActive(inPlayerRange);
+    }
+
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
+    }
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
     }
 }
