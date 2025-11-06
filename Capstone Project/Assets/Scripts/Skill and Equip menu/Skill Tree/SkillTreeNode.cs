@@ -228,6 +228,7 @@ public class SkillTreeNode : MonoBehaviour
     public void PermanantlyLockNode()
     {
         LockNode();
+        gameObject.SetActive(false);
         isPermaLocked = true;
     }
 
