@@ -6,7 +6,9 @@ Brief Description : 		Temporary End Level Menu handler for
                     vertical slice
 External Resources : 	
 ***************************************************/
+using TMPro;
 using UnityEngine;
+
 using UnityEngine.SceneManagement;
 
 public class EndLevelMenu : MonoBehaviour
@@ -14,6 +16,7 @@ public class EndLevelMenu : MonoBehaviour
     #region VARS
 
     [SerializeField] private CanvasGroup endMenuUi;
+    [SerializeField] private TMP_Text text;
 
     #endregion
 
@@ -39,20 +42,15 @@ public class EndLevelMenu : MonoBehaviour
         endMenuUi.blocksRaycasts = true;
     }
 
-    /// <summary>
-    /// Logic for when the restart button is clicked
-    /// </summary>
-    public void RestartLevelClicked()
+    public void QuitGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+        Application.Quit();
     }
 
-    /// <summary>
-    /// Logic for when the main menu button is pressed
-    /// </summary>
-    public void MainMenuButtonClicked()
+    public void SetText(string text)
     {
-        SceneManager.LoadScene(0);
+        this.text.text = text;
     }
+    
     #endregion
 }

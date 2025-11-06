@@ -144,6 +144,13 @@ public class PlayerStats : MonoBehaviour
 
         }
 
+        //if player dead end level pop up 
+        if(CurrentHealth < 0)
+        {
+            EndLevelPopup();
+            return;
+        }
+
         UpdateHealthBar();
     }
 
@@ -192,5 +199,16 @@ public class PlayerStats : MonoBehaviour
     private void UpdateHealthBar()
     {
         healthBar.value = (CurrentHealth - tempHealth);
+    }
+
+    /// <summary>
+    /// Sets the text for the end level when player dies 
+    /// called by TakeDamage 
+    /// </summary>
+    private void EndLevelPopup()
+    {
+        EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
+        endLevelMenu.SetText("You Died");
+        endLevelMenu.EnableEndMenuUi();
     }
 }
