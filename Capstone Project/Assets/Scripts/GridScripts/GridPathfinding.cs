@@ -52,7 +52,10 @@ public class GridPathfinding : MonoBehaviour
     virtual public void PathfindThroughGrid()
     {
         nextPos.Clear();
-        nextPos.Add(targetPosition);
+        if (!isEnemy)
+        {
+            nextPos.Add(targetPosition);
+        }
         Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
 
@@ -262,7 +265,7 @@ public class GridPathfinding : MonoBehaviour
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
-            nextPosition = nextPos[gridDirections.Count - 1];
+            nextPosition = nextPos[gridDirections.Count - 1 - i];
             isMoving = true;
             //Loops until they finish moving to the adjacent tile
             while (isMoving)

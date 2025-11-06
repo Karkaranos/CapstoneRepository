@@ -38,7 +38,7 @@ public class PlayerBehavior : GridPathfinding
     [HideInInspector] public bool PlayerCanMove = false;
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
-    List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and

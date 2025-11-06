@@ -192,6 +192,14 @@ public class ButtonManager : MonoBehaviour
 
         playerCanvas.SetActive(false);
 
+        if(playerBehavior.tilesInRange.Count > 0)
+        {
+            foreach(TileBehaviour t in playerBehavior.tilesInRange)
+            {
+                t.DisableHighlight();
+            }
+        }
+
         TurnPublicEvents.ForceEndCurrentPhase();
         /*        if (endButtonClicked)
                 {
