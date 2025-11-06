@@ -261,7 +261,7 @@ public class GridPathfinding : MonoBehaviour
     /// Causes the enemy to move from one tile to the next over time
     /// </summary>
     /// <returns></returns>
-    IEnumerator MoveToTile()
+    private IEnumerator MoveToTile()
     {
         int eType = isEnemy ? -2 : -3;
         GridManager.ClearPathfinding();
@@ -283,7 +283,18 @@ public class GridPathfinding : MonoBehaviour
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
         }
+
+        if(!isEnemy)
+        {
+            ReEnableActionCanvas();
+        }
     }
+
+    /// <summary>
+    /// Does nothing in the base script, because trying to overwrite coroutines causes problems
+    /// </summary>
+    virtual protected void ReEnableActionCanvas()
+    { }
 
     #region GETTERS AND SETTERS
 

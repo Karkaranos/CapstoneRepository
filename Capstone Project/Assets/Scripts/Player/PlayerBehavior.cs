@@ -8,6 +8,7 @@ External Resources : 	N/A
 using NUnit.Framework;
 using PlayerInputActions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -166,5 +167,15 @@ public class PlayerBehavior : GridPathfinding
         base.PathfindThroughGrid();
     }
 
+    /// <summary>
+    /// Turns the action canvas back on when the player is done moving to their selected tile
+    /// </summary>
+    /// <returns></returns>
+    protected override void ReEnableActionCanvas()
+    {
+        gm.UpdateActionPoints(gm.MoveActionPoints);
+        buttonManager.ReEnableActionCanvas();
+        EnableMovableTiles();
+    }
     #endregion
 }

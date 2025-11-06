@@ -91,6 +91,7 @@ public class ButtonManager : MonoBehaviour
     {
         playerCanvas.SetActive(false);
         runeCanvas.SetActive(false);
+        moveButton.interactable = true;
         TurnPublicEvents.TurnActionComplete();
     }
 
@@ -156,8 +157,19 @@ public class ButtonManager : MonoBehaviour
     {
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
-        playerCanvas.SetActive(true);
         playerBehavior.PathfindThroughGrid();
+    }
+
+    /// <summary>
+    /// Turns the action canvas back on and disables the move button if needed
+    /// </summary>
+    public void ReEnableActionCanvas()
+    {
+        if (gm.CurrentActionPoints - gm.MoveActionPoints < 0)
+        {
+            moveButton.interactable = false;
+        }
+        playerCanvas.SetActive(true);
     }
 
     /// <summary>
