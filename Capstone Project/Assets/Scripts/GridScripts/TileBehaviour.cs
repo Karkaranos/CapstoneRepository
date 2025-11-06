@@ -91,9 +91,9 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        AddObjectsToTile();
+        //AddObjectsToTile();
         tileHighlight.SetActive(false);
-        //Invoke("AddObjectsToTile", 1.5f);
+        Invoke("AddObjectsToTile", 1.5f);
     }
 
     /// <summary>
