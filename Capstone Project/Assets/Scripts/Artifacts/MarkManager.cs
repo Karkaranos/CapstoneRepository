@@ -18,10 +18,18 @@ public class MarkManager
 
     private static GameManager gm;
     private static PlayerStats player;
-    public MarkManager(List<MarkData> marks, GameManager game, PlayerStats p)
+    public MarkManager(List<MarkData> marks, GameManager game)
     {
         Marks = marks;
         gm = game;
+    }
+
+    /// <summary>
+    /// Sets a reference to the player
+    /// </summary>
+    /// <param name="p"></param>
+    public static void SetPlayer(PlayerStats p)
+    {
         player = p;
     }
     /// <summary>

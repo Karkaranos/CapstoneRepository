@@ -81,6 +81,8 @@ public class PlayerStats : MonoBehaviour
     {
         CurrentHealth = MaxHealth;
         healthBar.maxValue = MaxHealth;
+        ArtifactManager.SetPlayerReference(this);
+        MarkManager.SetPlayer(this);
     }
 
     /// <summary>

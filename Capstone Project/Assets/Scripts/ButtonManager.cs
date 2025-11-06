@@ -90,6 +90,7 @@ public class ButtonManager : MonoBehaviour
     private void EnemyTurnStarted()
     {
         playerCanvas.SetActive(false);
+        runeCanvas.SetActive(false);
         TurnPublicEvents.TurnActionComplete();
     }
 
