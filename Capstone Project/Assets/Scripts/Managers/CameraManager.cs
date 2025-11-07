@@ -29,6 +29,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript popUpScript;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer videoPlayer;
     public GameObject OutOfCombatCanvas;
+    public GameObject VideoCanvas;
     #endregion
 
     #region FUNCTIONS
@@ -56,6 +57,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void SwitchesCamerasFromOutOfCombat()
     {
+        VideoCanvas.SetActive(false);
         popUpScript.StartCoroutine(popUpScript.Flip());
         SwitchCamera(level1playcam);
         //level1cam.Priority = 10;
