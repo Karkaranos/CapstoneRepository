@@ -1,20 +1,21 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe, Tyler Hayes
+Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon
 Date Created : 		    10/1/2025
-Date Last Modified : 	10/27/2025
+Date Last Modified : 	11/6/2025 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
 using NUnit.Framework;
 using PlayerInputActions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class PlayerBehavior : MonoBehaviour
+public class PlayerBehavior : GridPathfinding
 {
     #region player variables
     [Tooltip("reference to the player movement and its actions")]
@@ -25,13 +26,11 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("references the player's game object")]
     public GameObject player;
 
-    [Tooltip("Player Position and the position it wants to go to")]
-    private Vector2Int playerPosition;
-    public Vector2Int targetPosition;
+    //[Tooltip("Player Position and the position it wants to go to")]
+    //private Vector2Int playerPosition;
+    //public Vector2Int clickedTile;
 
     [Tooltip("Scripts the playerbehavior is deriving from")]
-    private TileBehavior tileBehavior;
-    private GridManager gridManager;
     private ButtonManager buttonManager;
 
     [Tooltip("bool to check to see if the mouse input is activated")]
@@ -40,7 +39,8 @@ public class PlayerBehavior : MonoBehaviour
     [HideInInspector] public bool PlayerCanMove = false;
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
-
+    public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    GameManager gm;
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -49,8 +49,7 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         buttonManager = FindFirstObjectByType<ButtonManager>();
-        playerPosition = new Vector2Int(GridManager.playerPosition.x, GridManager.playerPosition.y);
-        targetPosition = GridManager.playerPosition;
+        gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
     }
 
     #region player input
@@ -64,6 +63,7 @@ public class PlayerBehavior : MonoBehaviour
         playermoveClick.Enable();
         playermoveClick.started += playermoveClickPerformed;
         PublicEvents.SelectTile += HandleTileClicked;
+        TurnPublicEvents.BeginPlayerTurn += EnableMovableTiles;
     }
 
     //Sets the boolean to true when left mouse button is clicked
@@ -81,6 +81,7 @@ public class PlayerBehavior : MonoBehaviour
         playermoveClick.Disable();
         playermoveClick.started -= playermoveClickPerformed;
         PublicEvents.SelectTile -= HandleTileClicked;
+        TurnPublicEvents.BeginPlayerTurn -= EnableMovableTiles;
     }
 
     /// <summary>
@@ -91,25 +92,90 @@ public class PlayerBehavior : MonoBehaviour
     /// <param name="tBehav"></param>
     private void HandleTileClicked(TileBehaviour tBehav)
     {
-        if (PlayerCanMove)
+        if (PlayerCanMove && tBehav.inPlayerRange)
         {
-            if (GridManager.CanMoveToTile(tBehav.IndexInGrid, playerPosition))
+            if (GridManager.CanMoveToTile(tBehav.IndexInGrid, myPosition))
             {
-                //moves the player to the selected tile
-                gameObject.transform.position = tBehav.gameObject.transform.position;
-                GridManager.MoveToTile(playerPosition, tBehav.IndexInGrid, -3);
-                playerPosition = tBehav.IndexInGrid;
-
                 //turns on the confirmation canvas
+                targetPosition = tBehav.IndexInGrid;
                 buttonManager.confirmCanvas.SetActive(true);
-
-            }
-
-            
+            }    
         }
     }
 
+    /// <summary>
+    /// Finds all the adjacent tiles that are x distance away from the player
+    /// and highlights them
+    /// </summary>
+    private void EnableMovableTiles()
+    {
+        if (gm.CurrentActionPoints - gm.MoveActionPoints >= 0)
+        {
+            tilesInRange.Clear();
+            GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
+            GridManager.combatGrid[MyPosition.x, MyPosition.y].tileHighlight.SetActive(true);
+            tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
+            List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition);
+            foreach (Vector2Int v in tilePositions)
+            {
+                GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
+                GridManager.combatGrid[v.x, v.y].entityOnGrid = 5;
+                GridManager.combatGrid[v.x, v.y].tileHighlight.SetActive(true);
+                tilesInRange.Add(GridManager.combatGrid[v.x, v.y]);
+            }
 
-    
+            for (int i = 1; i < movementRange; ++i)
+            {
+                List<Vector2Int> adPositions = new List<Vector2Int>();
+                foreach (Vector2Int v in tilePositions)
+                {
+                    adPositions.Add(v);
+                }
+
+                tilePositions.Clear();
+                foreach (Vector2Int v in adPositions)
+                {
+                    List<Vector2Int> adAdPositions = GridManager.GetAllValidAdjacentTiles(v, myPosition);
+                    foreach (Vector2Int newPos in adAdPositions)
+                    {
+                        if (newPos != myPosition)
+                        {
+                            tilePositions.Add(newPos);
+                            GridManager.combatGrid[newPos.x, newPos.y].inPlayerRange = true;
+                            GridManager.combatGrid[newPos.x, newPos.y].entityOnGrid = 5;
+                            GridManager.combatGrid[newPos.x, newPos.y].tileHighlight.SetActive(true);
+                            tilesInRange.Add(GridManager.combatGrid[newPos.x, newPos.y]);
+                        }
+                    }
+                }
+            }
+            GridManager.ClearPathfinding();
+        }
+    }
+
+    /// <summary>
+    /// Allows the player to move from tile to tile instead of teleport
+    /// </summary>
+    public override void PathfindThroughGrid()
+    {
+        isEnemy = false;
+        pathfindingLimit = movementRange;
+        foreach(TileBehaviour t in tilesInRange)
+        {
+            t.DisableHighlight();
+        }
+        base.PathfindThroughGrid();
+    }
+
+    /// <summary>
+    /// Turns the action canvas back on when the player is done moving to their selected tile
+    /// </summary>
+    /// <returns></returns>
+    protected override void ReEnableActionCanvas()
+    {
+        gm.UpdateActionPoints(gm.MoveActionPoints);
+        buttonManager.ReEnableActionCanvas();
+        EnableMovableTiles();
+    }
     #endregion
 }

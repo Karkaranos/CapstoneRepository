@@ -577,6 +577,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0889be3eb1180374389a7fbfafff0a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myPosition: {x: 0, y: 0}
+  targetPosition: {x: 0, y: 0}
+  nextPos: []
+  gridDirections: []
+  movementSpeed: 2
+  movementRange: 2
   playerClick:
     m_Name: Player Click
     m_Type: 0
@@ -612,7 +618,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   player: {fileID: 6675322036123795430}
-  targetPosition: {x: 0, y: 0}
   MouseIsClicked: 0
   PlayerCanMove: 0
   CurrentlyTryingToAttack: 0

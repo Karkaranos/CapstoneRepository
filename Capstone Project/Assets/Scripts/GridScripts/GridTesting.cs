@@ -105,6 +105,7 @@ public class GridTesting : MonoBehaviour
 
         while (listIndex < enemies.Length)
         {
+            enemies[listIndex].SetAggroRange(10);
             enemies[listIndex].TestPathfinding();
             yield return new WaitForSeconds(5);
             ++listIndex;
