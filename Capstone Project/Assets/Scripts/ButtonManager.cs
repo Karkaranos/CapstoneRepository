@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
 Date Created : 		    10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	11/6/2025
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -90,6 +90,8 @@ public class ButtonManager : MonoBehaviour
     private void EnemyTurnStarted()
     {
         playerCanvas.SetActive(false);
+        runeCanvas.SetActive(false);
+        moveButton.interactable = true;
         TurnPublicEvents.TurnActionComplete();
     }
 
@@ -114,17 +116,6 @@ public class ButtonManager : MonoBehaviour
         {
             Logger.Warning("Not enough Action Points!");
         }    
-        
-        //playerCanMove = true;
-        //if(playerCanMove)
-        //{
-        //    moveCanvas.SetActive(true);
-        //    playerCanvas.SetActive(false);
-        //}
-        //else
-        //{
-        //    playerCanMove = false;
-        //}
     }
 
     /// <summary>
@@ -166,18 +157,19 @@ public class ButtonManager : MonoBehaviour
     {
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
+        playerBehavior.PathfindThroughGrid();
+    }
+
+    /// <summary>
+    /// Turns the action canvas back on and disables the move button if needed
+    /// </summary>
+    public void ReEnableActionCanvas()
+    {
+        if (gm.CurrentActionPoints - gm.MoveActionPoints < 0)
+        {
+            moveButton.interactable = false;
+        }
         playerCanvas.SetActive(true);
-        PublicEvents.PlayerMove();
-        //confirmButtonClicked = true;
-        //if (confirmButtonClicked)
-        //{
-        //    confirmCanvas.SetActive(false);
-        //    playerCanvas.SetActive(true);
-        //}
-        //else
-        //{
-        //    confirmButtonClicked = false;
-        //}
     }
 
     /// <summary>
@@ -191,17 +183,15 @@ public class ButtonManager : MonoBehaviour
 
         playerCanvas.SetActive(false);
 
+        if(playerBehavior.tilesInRange.Count > 0)
+        {
+            foreach(TileBehaviour t in playerBehavior.tilesInRange)
+            {
+                t.DisableHighlight();
+            }
+        }
+
         TurnPublicEvents.ForceEndCurrentPhase();
-        /*        if (endButtonClicked)
-                {
-                    if (EnemyTurn())
-                    {
-                        //playerCanvas.SetActive(false);
-                    }
-                    else
-                    {*/
-        //FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
-         //   }
         }
     #endregion
 }
