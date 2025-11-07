@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon
 Date Created : 		    10/1/2025
-Date Last Modified : 	11/6/2025 (Brad Dixon)
+Date Last Modified : 	11/7/2025 (Clare Grady)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -165,6 +165,7 @@ public class PlayerBehavior : GridPathfinding
             t.DisableHighlight();
         }
         base.PathfindThroughGrid();
+        StartMoveCoroutine();
     }
 
     /// <summary>
