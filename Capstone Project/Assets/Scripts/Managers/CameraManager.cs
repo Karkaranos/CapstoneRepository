@@ -7,11 +7,8 @@ External Resources : 	N/A
 ***************************************************/
 using NaughtyAttributes;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Cinemachine;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 public class CameraManager : MonoBehaviour
@@ -28,6 +25,7 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript popUpScript;
     public GameObject OutOfCombatCanvas;
     #endregion
 
@@ -56,6 +54,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void SwitchesCamerasFromOutOfCombat()
     {
+        popUpScript.StartCoroutine(popUpScript.Flip());
         SwitchCamera(level1playcam);
         //level1cam.Priority = 10;
     }
