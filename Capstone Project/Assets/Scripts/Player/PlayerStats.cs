@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	    	Tyler Bouchard, Cade Naylor
 Date Created : 		    10/16/2025
-Date Last Modified : 	10/29/2025
+Date Last Modified : 	11/7/2025 (Clare Grady)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
                         Also it seems like the stats have to be public to work with refs and encapsulation doesn't work :(
@@ -144,6 +144,13 @@ public class PlayerStats : MonoBehaviour
 
         }
 
+        //if player dead end level pop up 
+        if(CurrentHealth < 0)
+        {
+            EndLevelPopup();
+            return;
+        }
+
         UpdateHealthBar();
     }
 
@@ -192,5 +199,16 @@ public class PlayerStats : MonoBehaviour
     private void UpdateHealthBar()
     {
         healthBar.value = (CurrentHealth - tempHealth);
+    }
+
+    /// <summary>
+    /// Sets the text for the end level when player dies 
+    /// called by TakeDamage 
+    /// </summary>
+    private void EndLevelPopup()
+    {
+        EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
+        endLevelMenu.SetText("You Died");
+        endLevelMenu.EnableEndMenuUi();
     }
 }
