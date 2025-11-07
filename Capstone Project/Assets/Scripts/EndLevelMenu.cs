@@ -42,12 +42,20 @@ public class EndLevelMenu : MonoBehaviour
         endMenuUi.blocksRaycasts = true;
     }
 
+    /// <summary>
+    /// Quits the application
+    /// Called when the quit button is pressed in the end level ui
+    /// </summary>
     public void QuitGame()
     {
         Debug.Log("Application.Quit called");
         Application.Quit();
     }
 
+    /// <summary>
+    /// Sets the text that will appear at the end of the level 
+    /// </summary>
+    /// <param name="text"></param>
     public void SetText(string text)
     {
         this.text.text = text;

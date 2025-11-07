@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	    	Tyler Bouchard, Cade Naylor
 Date Created : 		    10/16/2025
-Date Last Modified : 	10/29/2025
+Date Last Modified : 	11/7/2025 (Clare Grady)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
                         Also it seems like the stats have to be public to work with refs and encapsulation doesn't work :(
