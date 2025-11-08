@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Cade Naylor, Tyler Bouchard
 Date Created : 		???/2025
-Date Last Modified : 11/3/2025 (Tyler Bouchard)
+Date Last Modified : 11/7/2025 (Clare Grady)
 Brief Description : Game Manager
                     Creates and holds static references to other managers
 External Resources : 	
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void UpdateActionPoints(int amount) {
         CurrentActionPoints -= amount;
-        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        //ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
         print("called");
         if (CurrentActionPoints <= 0)
         {
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ResetActionPoints() {
         CurrentActionPoints = ActionPointsPerTurn;
-        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        //ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
     }
 
     /// <summary>
