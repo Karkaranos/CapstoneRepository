@@ -297,7 +297,8 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -322,7 +323,7 @@ public class RuneEvents : MonoBehaviour
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
-                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -342,6 +343,8 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
+                        //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                        //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
                         vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
                         //vfx.GetComponentInChildren<TextMeshPro>().text =
                             //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -387,8 +390,8 @@ public class RuneEvents : MonoBehaviour
                         (storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier) + " damage!");
 
                     }
-
-                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -421,7 +424,8 @@ public class RuneEvents : MonoBehaviour
 
                             }
 
-                            AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
+                            //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                            //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
                             vfx = Instantiate(storedRuneVFX, enemy.transform);
                             //vfx.GetComponentInChildren<TextMeshPro>().text =
                                 //(15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
@@ -456,7 +460,7 @@ public class RuneEvents : MonoBehaviour
                     }
 
                     // SFX Play
-                    AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
                     vfx = Instantiate(storedRuneVFX, target.transform);
                     //vfx.GetComponentInChildren<TextMeshPro>().text =
                         //(storedRuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier).ToString();
