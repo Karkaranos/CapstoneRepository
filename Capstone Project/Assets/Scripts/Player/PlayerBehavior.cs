@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon
 Date Created : 		    10/1/2025
-Date Last Modified : 	11/6/2025 (Brad Dixon)
+Date Last Modified : 	11/8/2025 (Clare Grady)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -92,6 +92,11 @@ public class PlayerBehavior : GridPathfinding
     /// <param name="tBehav"></param>
     private void HandleTileClicked(TileBehaviour tBehav)
     {
+        if(buttonManager == null )
+        {
+            buttonManager = FindFirstObjectByType<ButtonManager>();
+        }
+
         if (PlayerCanMove && tBehav.inPlayerRange)
         {
             if (GridManager.CanMoveToTile(tBehav.IndexInGrid, myPosition))
@@ -165,6 +170,7 @@ public class PlayerBehavior : GridPathfinding
             t.DisableHighlight();
         }
         base.PathfindThroughGrid();
+        StartMoveCoroutine();
     }
 
     /// <summary>
