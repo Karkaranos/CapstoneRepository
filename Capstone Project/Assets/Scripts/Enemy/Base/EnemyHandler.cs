@@ -99,6 +99,7 @@ public class EnemyHandler : MonoBehaviour
         {
             //TODO: End Level logic
             EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
+            endLevelMenu.SetText("You Beat the Level!");
             endLevelMenu.EnableEndMenuUi();
             Debug.Log("Level Ended");
         }
