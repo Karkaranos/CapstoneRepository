@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/19/2025
-Date Last Modified : 	11/2/2025
+Date Last Modified : 	11/7/2025
 Brief Description : 		Handler for running the enemy 
                     state machines one after another
 External Resources : 	
@@ -19,26 +19,20 @@ public class EnemyHandler : MonoBehaviour
     /// <summary>
     /// Make sure that this is a Singleton 
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-    }
 
-    /// <summary>
-    /// Wait 2 seconds after start to set list of enemies in the scene
-    /// </summary>
-    private void Start()
-    {
         Invoke("SetEnemyList", 2);
     }
+
 
     /// <summary>
     /// Set list of all enabled enemies 
