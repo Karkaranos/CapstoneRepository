@@ -4,6 +4,8 @@ Wayward Woods
 
 Left Click to interact
 Right Click to drop held Spell/Artifact
+~/` to open console
+ESC to open pause menu
 
 --Helpful Information--
 
