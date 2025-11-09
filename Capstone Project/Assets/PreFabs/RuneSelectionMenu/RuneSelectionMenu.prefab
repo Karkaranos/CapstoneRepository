@@ -433,44 +433,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d02e00acd81d54391fd2ad05163172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temp: {fileID: 0}
-  runeVisuals:
-  - {fileID: 4672248652198873798, guid: 0b6f70b0c68637b4e81f55e507b5402c, type: 3}
+  currentInspectorShowing: 0
+  lightningSpellCastedSFX:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  audioListenerObject: {fileID: 0}
   playerMenu: {fileID: 0}
-  playerClick:
-    m_Name: Player Click
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: f22f66a7-fb24-4097-b2ef-04f09d81da00
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 88fb3d7a-d229-4bc9-ae96-0324eabe247b
-      m_Path: <Mouse>/position
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Player Click
-      m_Flags: 0
-    m_Flags: 0
-  playerClickPerformed:
-    m_Name: Player Click Performed
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 03eceef4-47c1-44d4-89b3-895a666ac139
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 320a1b6b-bef3-43c2-ba1f-db88ed103fe2
-      m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Player Click Performed
-      m_Flags: 0
-    m_Flags: 0
+  debugText: {fileID: 0}
+  debugComboText: {fileID: 0}
+  temp: {fileID: 0}
+  tileBehaviour: {fileID: 0}
+  storedRuneType: 0
+  storedRuneNumber: 0
+  storedRuneDamage: 0
+  storedRuneRange: 0
+  storedRuneVFX: {fileID: 0}
+  storedRuneCost: 0
 --- !u!1 &3039117145697402143
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,8 +545,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -699,8 +681,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1183,8 +1165,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1319,8 +1301,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1455,8 +1437,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1712,8 +1694,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
