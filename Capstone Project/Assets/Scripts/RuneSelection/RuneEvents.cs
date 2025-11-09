@@ -615,61 +615,62 @@ public class RuneEvents : MonoBehaviour
     /// <param name="enemy"> target </param>
     void CheckRuneCombination(Enemy enemy)
     {
-
-        if (!enemy.HasStatusEffect)
+        if (enemy != null)
         {
-
-            enemy.GetComponentInChildren<Enemy>().RuneStatusEffect = storedData.TypeOfRune;
-            enemy.GetComponentInChildren<Enemy>().RuneStatusEffectNumber = storedData.NumberOnSkillTree;
-
-            enemy.HasStatusEffect = true;
-
-            Debug.Log("Status effect added!");
-
-        }
-        else
-        {
-
-            switch (storedData.TypeOfRune, enemy.RuneStatusEffect)
+            if (!enemy.HasStatusEffect)
             {
 
-                case (RuneType.Lightning, RuneType.Wind):
+                enemy.GetComponentInChildren<Enemy>().RuneStatusEffect = storedData.TypeOfRune;
+                enemy.GetComponentInChildren<Enemy>().RuneStatusEffectNumber = storedData.NumberOnSkillTree;
 
-                    LightningAndWindCombo(enemy, storedData.NumberOnSkillTree, enemy.RuneStatusEffectNumber);
-                    Debug.Log("Combo called!");
+                enemy.HasStatusEffect = true;
 
-                    if (debugComboText != null)
-                    {
+                Debug.Log("Status effect added!");
 
-                        debugComboText.text = "Lighting/Wind Combo!";
-
-                    }
-
-                    break;
-
-                case (RuneType.Wind, RuneType.Lightning):
-
-                    LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedData.NumberOnSkillTree);
-                    Debug.Log("Combo called!");
-
-                    if (debugComboText != null)
-                    {
-
-                        debugComboText.text = "Wind/Lightning Combo!";
-
-                    }
-
-                    break;
-
-                default:
-
-                    break;
             }
+            else
+            {
 
-            enemy.HasStatusEffect = false;
+                switch (storedData.TypeOfRune, enemy.RuneStatusEffect)
+                {
 
+                    case (RuneType.Lightning, RuneType.Wind):
+
+                        LightningAndWindCombo(enemy, storedData.NumberOnSkillTree, enemy.RuneStatusEffectNumber);
+                        Debug.Log("Combo called!");
+
+                        if (debugComboText != null)
+                        {
+
+                            debugComboText.text = "Lighting/Wind Combo!";
+
+                        }
+
+                        break;
+
+                    case (RuneType.Wind, RuneType.Lightning):
+
+                        LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedData.NumberOnSkillTree);
+                        Debug.Log("Combo called!");
+
+                        if (debugComboText != null)
+                        {
+
+                            debugComboText.text = "Wind/Lightning Combo!";
+
+                        }
+
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+                enemy.HasStatusEffect = false;
+
+            }
         }
-
     }
 
     /// <summary>

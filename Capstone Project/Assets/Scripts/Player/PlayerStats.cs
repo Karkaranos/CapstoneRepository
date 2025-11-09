@@ -145,7 +145,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         //if player dead end level pop up 
-        if(CurrentHealth < 0)
+        if(CurrentHealth <= 0)
         {
             EndLevelPopup();
             return;
