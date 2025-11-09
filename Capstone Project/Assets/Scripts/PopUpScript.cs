@@ -40,7 +40,7 @@ public class PopUpScript : MonoBehaviour
             float delay = distance * delayMultiplier;
 
             yield return new WaitForSeconds(delay);
-            Debug.Log("Flipping " + obj.name + " at " + delay + " seconds");
+            //Debug.Log("Flipping " + obj.name + " at " + delay + " seconds");
         }
     }
     [Button]

@@ -192,7 +192,7 @@ public class GridManager : MonoBehaviour
         {
             for(int j = 0; j < combatGrid.GetLength(1); ++j)
             {
-                if(combatGrid[i, j].entityOnGrid > 0)
+                if(combatGrid[i, j].entityOnGrid >= 0)
                 {
                     combatGrid[i, j].entityOnGrid = -1;
                 }

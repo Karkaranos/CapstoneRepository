@@ -193,7 +193,7 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        print("added " + collision.name + " to " + gameObject.name);
+        //print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
 
         ObjectOnTile = collision.gameObject;
