@@ -128,7 +128,7 @@ public class Commands
                 }
                 Logger.Info(sb);
                 break;
-            case "skip":
+            case "skipcut":
                 cs.SkipCutscene();
                 break;
             default:
