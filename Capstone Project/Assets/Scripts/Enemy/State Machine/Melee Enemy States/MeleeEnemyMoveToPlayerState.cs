@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	11/7/2025 Clare Grady
 Brief Description : 		Melee Enemy Move State
 External Resources : 	
 ***************************************************/
@@ -24,7 +24,8 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         enemy.logText.text = "Moving";
 
         enemy.targetingBehaviour.FindTarget();
-        enemy.gridPathfinding.PathfindThroughGrid();
+       // enemy.gridPathfinding.PathfindThroughGrid();
+        enemy.gridPathfinding.StartMoveCoroutine();
 
         enemy.hasMovedForTurn = true;
 
