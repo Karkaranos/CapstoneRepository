@@ -8,7 +8,7 @@ External Resources : 	https://www.youtube.com/watch?v=RQd44qSaqww
 using System.Collections;
 using UnityEngine;
 
-public class EnemyStateMachine : MonoBehaviour
+public class EnemyStateMachine 
 {
     private EnemyState currentState;
     private float secondsBetweenStateTransitions;
