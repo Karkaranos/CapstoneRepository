@@ -27,7 +27,9 @@ public class Commands
         {"hi", CommandGroup.Greet},
         {"kae", CommandGroup.Enemies },
         {"drop", CommandGroup.Enemies },
-        {"menu", CommandGroup.None }
+        {"menu", CommandGroup.None },
+        {"skipcut", CommandGroup.None }
+
     };
 
     /// <summary>
@@ -113,7 +115,7 @@ public class Commands
     /// Handles commands that are always available to the player
     /// </summary>
     /// <param name="command">The user-entered commnd</param>
-    public static void AlwaysAvailable(string command)
+    public static void AlwaysAvailable(string command, CameraManager cs = null)
     {
         switch(command)
         {
@@ -125,6 +127,9 @@ public class Commands
                     sb += " - " + key + "\n";
                 }
                 Logger.Info(sb);
+                break;
+            case "skip":
+                cs.SkipCutscene();
                 break;
             default:
                 Logger.Warning("Fell through Switch.");
