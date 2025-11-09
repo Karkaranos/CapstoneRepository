@@ -45,8 +45,6 @@ public class RuneEvents : MonoBehaviour
 
         PublicEvents.MasteryRunePurchased += MasteryUnlocked;
 
-        PublicEvents.RightClicked += CancelCasting;
-
     }
 
     /// <summary>
@@ -202,14 +200,10 @@ public class RuneEvents : MonoBehaviour
     }
 
     /// <summary>
-    /// exits attack menu when the right mouse button is clicked
-    /// can be changed to something else later
+    /// exits attack menu if waiting on a target
     /// </summary>
-    void CancelCasting()
+    public void CancelCasting()
     {
-
-        playerMenu.SetActive(true);
-        this.gameObject.SetActive(false);
 
         if(waitingForThePlayer)
         {

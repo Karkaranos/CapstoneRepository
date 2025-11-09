@@ -138,6 +138,7 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("goin back!");
         playerCanvas.SetActive(true);
         moveCanvas.SetActive(false);
+        runeCanvas.GetComponent<RuneEvents>().CancelCasting();
         runeCanvas.SetActive(false);
         confirmCanvas.SetActive(false);
 
