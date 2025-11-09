@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/6/2025
-Date Last Modified : 	10/6/2025
+Date Last Modified : 	11/7/2025
 Brief Description : 		Coroutine Handler singleton needed for state machine
 External Resources : 	
 ***************************************************/
@@ -15,12 +15,11 @@ public class CoroutineHandler : MonoBehaviour
     /// <summary>
     /// Make sure that this is a Singleton 
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
