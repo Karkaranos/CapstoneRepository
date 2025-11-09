@@ -720,33 +720,33 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
+                lightningDamage = 5;
+
+                lightningTargetDamage = 10;
+
+                break;
+
+            case (2):
+
+                lightningDamage = 5;
+
+                lightningTargetDamage = 15;
+
+                break;
+
+            case (3):
+
                 lightningDamage = 10;
 
                 lightningTargetDamage = 20;
 
                 break;
 
-            case (2):
-
-                lightningDamage = 15;
-
-                lightningTargetDamage = 40;
-
-                break;
-
-            case (3):
-
-                lightningDamage = 15;
-
-                lightningTargetDamage = 40;
-
-                break;
-
             case (4):
 
-                lightningDamage = 20;
+                lightningDamage = 15;
 
-                lightningTargetDamage = 60;
+                lightningTargetDamage = 25;
 
                 break;
 
@@ -814,7 +814,17 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
-                windPrimaryDamage = 40;
+                windPrimaryDamage = 10;
+
+                windSecondaryDamage = 5;
+
+                windTempHealth = 5;
+
+                break;
+
+            case (2):
+
+                windPrimaryDamage = 15;
 
                 windSecondaryDamage = 10;
 
@@ -822,23 +832,13 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-            case (2):
+            case (4):
 
-                windPrimaryDamage = 50;
+                windPrimaryDamage = 20;
 
                 windSecondaryDamage = 15;
 
-                windTempHealth = 20;
-
-                break;
-
-            case (4):
-
-                windPrimaryDamage = 60;
-
-                windSecondaryDamage = 20;
-
-                windTempHealth = 30;
+                windTempHealth = 15;
 
                 break;
 
