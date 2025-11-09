@@ -9,13 +9,14 @@ Right Click to drop held Spell/Artifact
 
 You will need to equip at least 1 spell before entering combat; artifacts are optional
 To cast a spell, you must click the tile an enemy is on
-
+You can only have one spell of each type at a time
 
 --Known Bugs--
 Enemies can pass through other enemies
 Enemies can stand on the same tile
 Enemies die before the attack VFX show
 The only spell that works with multiple enemies on the same tile is Lightning 4- Lightning Strikes
+Clicking on an enemy out of range to cast a spell consumes Action Points
 
 --Missing Feedback--
 Action Points need more feedback
