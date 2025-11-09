@@ -201,7 +201,7 @@ public class RuneEvents : MonoBehaviour
             case (1):
 
                 if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
-                    (distance / 2) <= storedData.RuneRange)
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
@@ -223,7 +223,7 @@ public class RuneEvents : MonoBehaviour
             case (2):
 
                 if (target.gameObject.GetComponentInChildren<Enemy>() != null &&
-                    (distance / 2) <= storedData.RuneRange)
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
                     FindSecondaryTarget(target);
@@ -259,7 +259,7 @@ public class RuneEvents : MonoBehaviour
 
 
                 if (target.gameObject.GetComponentInChildren<Enemy>() != null &&
-                    (distance / 2) <= storedData.RuneRange)
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
                     int radius = 3;
@@ -284,7 +284,7 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                        if (Mathf.RoundToInt(Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
                             enemy.GetComponentInChildren<Enemy>() != null)
                         {
 
@@ -311,7 +311,7 @@ public class RuneEvents : MonoBehaviour
             case (4):
 
                 if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
-                    (distance / 2) <= storedData.RuneRange)
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
@@ -396,7 +396,7 @@ public class RuneEvents : MonoBehaviour
             //knocks adjacent enemies backwards and damages them
             case (1):
 
-                if ((distance / 2) <= storedData.RuneRange)
+                if (Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
                     radius = 2;
@@ -408,7 +408,7 @@ public class RuneEvents : MonoBehaviour
                     foreach (TileBehaviour enemy in tiles)
                     {
 
-                        if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                        if (Mathf.RoundToInt(Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
                             enemy.GetComponentInChildren<Enemy>() != null)
                         {
 
@@ -443,7 +443,7 @@ public class RuneEvents : MonoBehaviour
             case (2):
 
                 if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
-                    (distance / 2) <= storedData.RuneRange)
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage
@@ -484,7 +484,7 @@ public class RuneEvents : MonoBehaviour
             //delays target's turn and damages surrounding enemies
             case (4):
 
-                if((distance / 2) <= storedData.RuneRange)
+                if(Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
                     List<TileBehaviour> validEnemies = new List<TileBehaviour>();
@@ -516,7 +516,7 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        if ((Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                        if (Mathf.RoundToInt(Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
                             enemy.GetComponentInChildren<Enemy>() != null)
                         {
 
@@ -699,7 +699,7 @@ public class RuneEvents : MonoBehaviour
 
             }
 
-            if ((Vector2.Distance(enemy.transform.position, tile.transform.position) / 2) <= radius &&
+            if (Mathf.RoundToInt(Vector2.Distance(enemy.transform.position, tile.transform.position) / 2) <= radius &&
                tile.GetComponentInChildren<Enemy>() != null)
             {
 
