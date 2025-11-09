@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 3506325697463372161}
   - component: {fileID: 1309085514034639551}
   - component: {fileID: 3932241730522942511}
-  - component: {fileID: 4913722977223475094}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -76,6 +75,7 @@ MonoBehaviour:
   enemiesEnabled: 1
   validMarks:
   - {fileID: 11400000, guid: 43bc61277254109479353e410ff894bd, type: 2}
+  ActionPointVisualizer: {fileID: 0}
   CurrentActionPoints: 3
   MoveActionPoints: 2
   ActionPointsPerTurn: 3
@@ -123,13 +123,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecda01683183da47b41f237838bac9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shownSettings: 1
+  shownSettings: 0
   StartCombatDelay: 0.1
   currentStatus: 0
   currentHearBackNum: 0
   targetHearBackNum: 0
   breakInfLoop: 0
   playerCanvas: {fileID: 0}
+  turnIndicatorPrefab: {fileID: 4808714204469960702, guid: 38ace1e574717c043844f9d2c2d144cf, type: 3}
 --- !u!114 &7363244820257217404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,32 +197,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc7c8967f915a6468c840333a5acf3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4913722977223475094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5740814544277476685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: 2
-  healthBar: {fileID: 0}
-  CurrentHealth: 100
-  MaxHealth: 100
-  DodgeChance: 0
-  LuckModifier: 0
-  Resistance: 0
-  DamageTakenMultiplier: 1
-  RangedDamageTakenMultiplier: 1
-  MeleeDamageTakenMultiplier: 1
-  BaseAttackMultiplier: 1
-  LightningAttackMultiplier: 1
-  WindAttackMultiplier: 1
-  SpellsCastThisTurn: 0
-  MissChance: 0
-  InstaKillChance: 0
-  NoActionPointCostChance: 0

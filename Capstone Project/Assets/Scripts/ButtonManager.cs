@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
 Date Created : 		    10/1/2025
-Date Last Modified : 	11/6/2025
+Date Last Modified : 	11/7/2025 Clare Grady
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -42,6 +42,8 @@ public class ButtonManager : MonoBehaviour
     public bool endButtonClicked;
 
     private GameManager gm; // temp variable
+
+    private bool isPlayersTurn;
     #endregion
 
     /// <summary>
@@ -81,6 +83,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     private void PlayerStartTurn()
     {
+        isPlayersTurn = true;
         playerCanvas.SetActive(true);
     }
 
@@ -89,6 +92,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     private void EnemyTurnStarted()
     {
+        isPlayersTurn = false;
         playerCanvas.SetActive(false);
         runeCanvas.SetActive(false);
         moveButton.interactable = true;
@@ -138,6 +142,7 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("goin back!");
         playerCanvas.SetActive(true);
         moveCanvas.SetActive(false);
+        runeCanvas.GetComponent<RuneEvents>().CancelCasting();
         runeCanvas.SetActive(false);
         confirmCanvas.SetActive(false);
 
@@ -165,11 +170,14 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void ReEnableActionCanvas()
     {
-        if (gm.CurrentActionPoints - gm.MoveActionPoints < 0)
+        if (isPlayersTurn)
         {
-            moveButton.interactable = false;
+            if (gm.CurrentActionPoints - gm.MoveActionPoints < 0)
+            {
+                moveButton.interactable = false;
+            }
+            playerCanvas.SetActive(true);
         }
-        playerCanvas.SetActive(true);
     }
 
     /// <summary>
@@ -182,7 +190,8 @@ public class ButtonManager : MonoBehaviour
         endButtonClicked = true;
 
         playerCanvas.SetActive(false);
-
+        
+        if(playerBehavior == null) { playerBehavior = FindFirstObjectByType<PlayerBehavior>(); }
         if(playerBehavior.tilesInRange.Count > 0)
         {
             foreach(TileBehaviour t in playerBehavior.tilesInRange)
@@ -192,7 +201,8 @@ public class ButtonManager : MonoBehaviour
         }
 
         TurnPublicEvents.ForceEndCurrentPhase();
-        }
+     }
+
     #endregion
 }
 

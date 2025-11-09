@@ -9,6 +9,7 @@ using NaughtyAttributes;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Video;
 
 
 public class CameraManager : MonoBehaviour
@@ -26,7 +27,9 @@ public class CameraManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript popUpScript;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer videoPlayer;
     public GameObject OutOfCombatCanvas;
+    public GameObject VideoCanvas;
     #endregion
 
     #region FUNCTIONS
@@ -54,6 +57,7 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     void SwitchesCamerasFromOutOfCombat()
     {
+        VideoCanvas.SetActive(false);
         popUpScript.StartCoroutine(popUpScript.Flip());
         SwitchCamera(level1playcam);
         //level1cam.Priority = 10;
@@ -65,7 +69,22 @@ public class CameraManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator SwitchesToOutOfCombatCanvas()
     {
-        yield return new WaitForSeconds(3f);
+        videoPlayer.Prepare();
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null; // Wait until preparation is complete
+        }
+
+        // Play the video
+        videoPlayer.Play();
+
+        // Wait until the video finishes playing
+        while (videoPlayer.isPlaying)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1f);
         OutOfCombatCanvas.SetActive(true);
     }
 

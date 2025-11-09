@@ -37,7 +37,8 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField] private GameObject ObjectOnTile;
     public GameObject tileHighlight;
 
-    [Header("Water Tile Vars"), SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [Header("Water Tile Vars"), SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject WaterTileVisualizer;
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
@@ -132,6 +133,10 @@ public class TileBehaviour : MonoBehaviour
         if (TileHasHazards && hazardObject != null)
         {
             GameObject obj = Instantiate(hazardObject, transform.position, Quaternion.identity);
+        }
+
+        if (tileType == TileType.Water) {
+            GameObject obj = Instantiate(WaterTileVisualizer, transform.position, Quaternion.identity);
         }
     }
 
