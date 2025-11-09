@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	11/8/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
