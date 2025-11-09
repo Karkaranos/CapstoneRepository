@@ -128,6 +128,15 @@ public class AudioManager : MonoBehaviour
         // this is the pattern you would follow
         //PlayOneShot(FMODEventsManager.instance.TimerWarnings[personIndex], worldPos);
     }
+    private void Start()
+    {
+        InitializeAmmbience(AudioMA.instance.ambienceEventRef);
+    }
+    public void InitializeAmmbience(EventReference ambienceEventRef)
+    {
+        ambienceEventRef.start();
+
+    }
 
     #endregion
 }
