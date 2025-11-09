@@ -901,7 +901,11 @@ public class RuneEvents : MonoBehaviour
 
         PublicEvents.RuneCast(storedData.RuneActionPoints);
 
-        playerMenu.SetActive(true);
+        if (TurnManager.currentStatus == TurnStates.PlayerTurn)
+        {
+            playerMenu.SetActive(true);
+        }
+        
         this.gameObject.SetActive(false);
 
         Invoke("ClearText", 1);
