@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
 Date Created : 		    10/1/2025
-Date Last Modified : 	11/6/2025
+Date Last Modified : 	11/7/2025 Clare Grady
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -182,7 +182,8 @@ public class ButtonManager : MonoBehaviour
         endButtonClicked = true;
 
         playerCanvas.SetActive(false);
-
+        
+        if(playerBehavior == null) { playerBehavior = FindFirstObjectByType<PlayerBehavior>(); }
         if(playerBehavior.tilesInRange.Count > 0)
         {
             foreach(TileBehaviour t in playerBehavior.tilesInRange)
@@ -192,7 +193,8 @@ public class ButtonManager : MonoBehaviour
         }
 
         TurnPublicEvents.ForceEndCurrentPhase();
-        }
+     }
+
     #endregion
 }
 
