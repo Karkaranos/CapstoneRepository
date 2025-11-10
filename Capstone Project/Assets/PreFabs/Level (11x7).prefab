@@ -179,8 +179,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
     - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: entityType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: ObjectOnTile
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: entityObject
@@ -189,6 +197,18 @@ PrefabInstance:
     - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: TileHasEntities
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
@@ -463,6 +483,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
     - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: entityType
       value: 2
       objectReference: {fileID: 0}
@@ -473,6 +497,18 @@ PrefabInstance:
     - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: TileHasEntities
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
@@ -722,6 +758,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
       value: TestGridTile (62)
@@ -1226,6 +1278,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
       value: TestGridTile (29)
@@ -2142,6 +2210,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
       value: TestGridTile (40)
@@ -2716,6 +2800,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
       value: TestGridTile (5)
@@ -3508,6 +3608,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
       value: TestGridTile (28)
@@ -4298,6 +4414,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1375306290745098227}
     m_Modifications:
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: WaterTileVisualizer
+      value: 
+      objectReference: {fileID: 4450810593526174905, guid: 25fc8090739aad347949c28b5faf9fb4, type: 3}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1835694474007731463, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
+      propertyPath: electrificationDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3451082450519735141, guid: 033da47db3279ee4ea18c3895a1dc787, type: 3}
       propertyPath: m_Name
       value: TestGridTile (16)
