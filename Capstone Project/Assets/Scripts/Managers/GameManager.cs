@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void UpdateActionPoints(int amount) {
         CurrentActionPoints -= amount;
-        //ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
         print("called");
         if (CurrentActionPoints <= 0)
         {
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ResetActionPoints() {
         CurrentActionPoints = ActionPointsPerTurn;
-        //ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
     }
 
     /// <summary>
@@ -134,4 +134,5 @@ public class GameManager : MonoBehaviour
 
         ResetActionPoints();
     }
+
 }

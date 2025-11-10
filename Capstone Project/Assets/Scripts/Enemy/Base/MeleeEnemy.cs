@@ -60,13 +60,7 @@ public class MeleeEnemy : Enemy
     /// </summary>
     private void Awake()
     {
-        enemyStateMachine = new EnemyStateMachine();
-        enemyWaitState = new MeleeEnemyWaitState(this, enemyStateMachine);
-        enemyRunState = new MeleeEnemyRunState(this,enemyStateMachine);
-        moveToPlayerState = new MeleeEnemyMoveToPlayerState(this,enemyStateMachine);
-        attackState = new MeleeEnemyAttackState(this,enemyStateMachine);
-        endTurnState = new MeleeEnemyEndTurnState(this,enemyStateMachine);
-        enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
+        
     }
 
     /// <summary>
@@ -76,6 +70,13 @@ public class MeleeEnemy : Enemy
     /// </summary>
     public override void Start()
     {
+        enemyStateMachine = new EnemyStateMachine();
+        enemyWaitState = new MeleeEnemyWaitState(this, enemyStateMachine);
+        enemyRunState = new MeleeEnemyRunState(this, enemyStateMachine);
+        moveToPlayerState = new MeleeEnemyMoveToPlayerState(this, enemyStateMachine);
+        attackState = new MeleeEnemyAttackState(this, enemyStateMachine);
+        endTurnState = new MeleeEnemyEndTurnState(this, enemyStateMachine);
+        enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
     }
@@ -91,8 +92,8 @@ public class MeleeEnemy : Enemy
 
         if(turnDelayed)
         {
-
-            enemyStateMachine.ChangeState(endTurnState, 0);
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(endTurnState));
+            //enemyStateMachine.ChangeState(endTurnState, 0);
             return;
 
         }
