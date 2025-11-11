@@ -6,10 +6,7 @@ Brief Description : 	Controls what artifacts and effects are actively applied
 External Resources : 	https://stackoverflow.com/questions/1420186/references-to-variables-in-c
 ***************************************************/
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ArtifactManager
 {
@@ -295,6 +292,7 @@ public class ArtifactManager
     /// <param name="adding">Whether the artifact is being applied or not</param>
     private static void TriggerOnEquipEffect(ArtifactData artifact, bool adding = true)
     {
+
         // Adjusts the related effect
         foreach (ArtifactEffects e in artifact.Effects)
         {
@@ -305,6 +303,7 @@ public class ArtifactManager
             {
                 continue;
             }
+
 
             // Trigger the appropriate stat change
             EffectHandling(adding, e);

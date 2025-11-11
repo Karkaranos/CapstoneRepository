@@ -96,6 +96,15 @@ public class ButtonManager : MonoBehaviour
         playerCanvas.SetActive(false);
         runeCanvas.SetActive(false);
         moveButton.interactable = true;
+
+        if (playerBehavior.tilesInRange.Count > 0)
+        {
+            foreach (TileBehaviour t in playerBehavior.tilesInRange)
+            {
+                t.DisableHighlight();
+            }
+        }
+
         TurnPublicEvents.TurnActionComplete();
     }
 
@@ -192,13 +201,7 @@ public class ButtonManager : MonoBehaviour
         playerCanvas.SetActive(false);
         
         if(playerBehavior == null) { playerBehavior = FindFirstObjectByType<PlayerBehavior>(); }
-        if(playerBehavior.tilesInRange.Count > 0)
-        {
-            foreach(TileBehaviour t in playerBehavior.tilesInRange)
-            {
-                t.DisableHighlight();
-            }
-        }
+       
 
         TurnPublicEvents.ForceEndCurrentPhase();
      }

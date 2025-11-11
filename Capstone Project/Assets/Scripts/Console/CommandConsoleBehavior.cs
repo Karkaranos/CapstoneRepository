@@ -123,7 +123,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                         break;
                     }
                 case Commands.CommandGroup.None:
-                    Commands.AlwaysAvailable(command.ToLower());
+                    Commands.AlwaysAvailable(command.ToLower(), FindFirstObjectByType<CameraManager>());
                     break;
                 default:
                     Logger.Warning("Command Group Not Implemented");

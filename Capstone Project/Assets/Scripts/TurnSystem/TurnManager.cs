@@ -44,7 +44,7 @@ public class TurnManager : MonoBehaviour
     [HorizontalLine(4, EColor.Indigo)]
 
     //current state of the turn
-    [ShowIf(nameof(shownSettings), ShownSettings.Debug)] public TurnStates currentStatus;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug)] public static TurnStates currentStatus;
 
     //how many instances this script has heard back from after 
     //sending out a new phase public event

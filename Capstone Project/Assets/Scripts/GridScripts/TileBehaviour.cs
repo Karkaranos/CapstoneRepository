@@ -167,6 +167,7 @@ public class TileBehaviour : MonoBehaviour
                 isElectrified = false;
             }
         }
+        TurnPublicEvents.TurnActionComplete();
     }
 
     /// <summary>
@@ -175,15 +176,17 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="amount"></param>
     private void DamageEntity(int amount) {
         //calls the player damage
-        if (ObjectOnTile.GetComponent<PlayerStats>() != null)
-        {
-            ObjectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
-        }
+        if (ObjectOnTile != null) {
+            if (ObjectOnTile.GetComponent<PlayerStats>() != null)
+            {
+                ObjectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
+            }
 
-        //calls the enemy damage
-        if (ObjectOnTile.GetComponent<MeleeEnemy>() != null)
-        {
-            ObjectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
+            //calls the enemy damage
+            if (ObjectOnTile.GetComponent<MeleeEnemy>() != null)
+            {
+                ObjectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
+            }
         }
     }
 
@@ -193,7 +196,7 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        print("added " + collision.name + " to " + gameObject.name);
+        //print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
 
         ObjectOnTile = collision.gameObject;
@@ -202,18 +205,18 @@ public class TileBehaviour : MonoBehaviour
     /// <summary>
     /// Lets the tile listen for unity events
     /// </summary>
-    //private void OnEnable()
-    //{
-    //    TurnPublicEvents.BeginEnemyTurn += DisableHighlight;
-    //}
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
+    }
 
     ///// <summary>
     ///// Used so it doesn't listen to a null reference of unity events
     ///// </summary>
-    //private void OnDisable()
-    //{
-    //    TurnPublicEvents.BeginEnemyTurn -= DisableHighlight;
-    //}
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
+    }
 
     /// <summary>
     /// Disables the highlight that was enables for tiles that the player could move to
@@ -222,19 +225,5 @@ public class TileBehaviour : MonoBehaviour
     {
         tileHighlight.SetActive(false);
         inPlayerRange = false;
-        //if(inPlayerRange)
-        //{
-        //    inPlayerRange = false;
-        //    //TurnPublicEvents.TurnActionComplete();
-        //}
-        //TurnPublicEvents.TurnActionComplete();
-    }
-
-    /// <summary>
-    /// Makes the highlight game object active or not active based off a bool
-    /// </summary>
-    private void Update()
-    {
-        //tileHighlight.SetActive(inPlayerRange);
     }
 }
