@@ -96,15 +96,6 @@ public class RuneSelectionMenu : MonoBehaviour
 
             buttons[index].SetActive(true);
 
-            //Unnecessary but it'll make upcoming lines of code a bit easier to read
-            RuneType runeType = skillAndEquipManager.equippedSpells[index].TypeOfRune;
-            int runeNumber = skillAndEquipManager.equippedSpells[index].NumberOnSkillTree;
-            float runeDamage = skillAndEquipManager.equippedSpells[index].RuneDamage;
-            int runeRange = skillAndEquipManager.equippedSpells[index].RuneRange;
-            GameObject runeVFX = skillAndEquipManager.equippedSpells[index].RuneVFX;
-            int runeCost = skillAndEquipManager.equippedSpells[index].RuneActionPoints;
-
-
             //Links rune effect to button based on rune type
             buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke
             (skillAndEquipManager.equippedSpells[index]));
