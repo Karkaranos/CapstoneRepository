@@ -30,6 +30,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer videoPlayer;
     public GameObject OutOfCombatCanvas;
     public GameObject VideoCanvas;
+    public static GameObject VideoCanvasStatic;
     #endregion
 
     #region FUNCTIONS
@@ -41,6 +42,7 @@ public class CameraManager : MonoBehaviour
     {
         StartCoroutine(SwitchesToOutOfCombatCanvas());
         PublicEvents.StartBattle += SwitchesCamerasFromOutOfCombat;
+        VideoCanvasStatic = VideoCanvas;
     }
 
     /// <summary>
@@ -101,6 +103,22 @@ public class CameraManager : MonoBehaviour
         level1playcam.Priority = 10;
 
         ActiveCamera.Priority = 20; 
+    }
+
+    /// <summary>
+    /// Static function to skip the cutscene
+    /// </summary>
+    public static void SkipCutsceneStatic()
+    {
+        VideoCanvasStatic.SetActive(false);
+    }
+
+    /// <summary>
+    /// function to skip the cutscene
+    /// </summary>
+    public void SkipCutscene()
+    {
+        VideoCanvas.SetActive(false);
     }
     #endregion
 }

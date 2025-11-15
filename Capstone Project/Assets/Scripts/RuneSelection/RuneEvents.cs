@@ -191,6 +191,9 @@ public class RuneEvents : MonoBehaviour
     public void SelectLightningRune(TileBehaviour target)
     {
 
+        float damageDealt = storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
+            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier;
+
         int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
         GameObject vfx;
 
@@ -204,8 +207,7 @@ public class RuneEvents : MonoBehaviour
                     Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
-                    target.GetComponentInChildren<Enemy>().Damage
-                        (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
@@ -228,8 +230,7 @@ public class RuneEvents : MonoBehaviour
 
                     FindSecondaryTarget(target);
 
-                    target.GetComponentInChildren<Enemy>().Damage
-                        (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
@@ -238,8 +239,7 @@ public class RuneEvents : MonoBehaviour
                     if(secondaryTarget != null)
                     {
 
-                        secondaryTarget.GetComponentInChildren<Enemy>().Damage
-                            (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                        secondaryTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
                         CheckRuneCombination(secondaryTarget.GetComponentInChildren<Enemy>());
 
                         //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
@@ -264,8 +264,7 @@ public class RuneEvents : MonoBehaviour
 
                     int radius = 3;
 
-                    target.GetComponentInChildren<Enemy>().Damage
-                        (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
@@ -290,7 +289,7 @@ public class RuneEvents : MonoBehaviour
 
                             //hardcoding this feels bad i can change this later
                             enemy.GetComponentInChildren<Enemy>().Damage
-                                (15 * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                                (15 * damageDealt);
                             CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
 
                             //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
@@ -314,8 +313,7 @@ public class RuneEvents : MonoBehaviour
                     Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
-                    target.GetComponentInChildren<Enemy>().Damage
-                        (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     // SFX Play
@@ -386,6 +384,9 @@ public class RuneEvents : MonoBehaviour
     public void SelectWindRune(TileBehaviour target)
     {
 
+        float damageDealt = storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier;
+
         int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
         GameObject vfx;
         int radius;
@@ -412,8 +413,7 @@ public class RuneEvents : MonoBehaviour
                             enemy.GetComponentInChildren<Enemy>() != null)
                         {
 
-                            enemy.GetComponentInChildren<Enemy>().Damage
-                                (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                            enemy.GetComponentInChildren<Enemy>().Damage(damageDealt);
                             CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
                             
 
@@ -446,8 +446,7 @@ public class RuneEvents : MonoBehaviour
                     Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
-                    target.GetComponentInChildren<Enemy>().Damage
-                        (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     vfx = Instantiate(storedData.RuneVFX, target.transform);
@@ -498,8 +497,7 @@ public class RuneEvents : MonoBehaviour
 
                         target.GetComponentInChildren<Enemy>().DelayedTurnStatus(true);
 
-                        target.GetComponentInChildren<Enemy>().Damage
-                            (storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
+                        target.GetComponentInChildren<Enemy>().Damage(damageDealt);
                         CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     }
@@ -533,7 +531,7 @@ public class RuneEvents : MonoBehaviour
                         {
 
                             validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                                    (Mathf.RoundToInt((storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier) / validEnemies.Count));
+                                    (Mathf.RoundToInt(damageDealt/ validEnemies.Count));
                             CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                             vfx = Instantiate(storedData.RuneVFX, validEnemies[i].transform);
@@ -615,61 +613,62 @@ public class RuneEvents : MonoBehaviour
     /// <param name="enemy"> target </param>
     void CheckRuneCombination(Enemy enemy)
     {
-
-        if (!enemy.HasStatusEffect)
+        if (enemy != null)
         {
-
-            enemy.GetComponentInChildren<Enemy>().RuneStatusEffect = storedData.TypeOfRune;
-            enemy.GetComponentInChildren<Enemy>().RuneStatusEffectNumber = storedData.NumberOnSkillTree;
-
-            enemy.HasStatusEffect = true;
-
-            Debug.Log("Status effect added!");
-
-        }
-        else
-        {
-
-            switch (storedData.TypeOfRune, enemy.RuneStatusEffect)
+            if (!enemy.HasStatusEffect)
             {
 
-                case (RuneType.Lightning, RuneType.Wind):
+                enemy.GetComponentInChildren<Enemy>().RuneStatusEffect = storedData.TypeOfRune;
+                enemy.GetComponentInChildren<Enemy>().RuneStatusEffectNumber = storedData.NumberOnSkillTree;
 
-                    LightningAndWindCombo(enemy, storedData.NumberOnSkillTree, enemy.RuneStatusEffectNumber);
-                    Debug.Log("Combo called!");
+                enemy.HasStatusEffect = true;
 
-                    if (debugComboText != null)
-                    {
+                Debug.Log("Status effect added!");
 
-                        debugComboText.text = "Lighting/Wind Combo!";
-
-                    }
-
-                    break;
-
-                case (RuneType.Wind, RuneType.Lightning):
-
-                    LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedData.NumberOnSkillTree);
-                    Debug.Log("Combo called!");
-
-                    if (debugComboText != null)
-                    {
-
-                        debugComboText.text = "Wind/Lightning Combo!";
-
-                    }
-
-                    break;
-
-                default:
-
-                    break;
             }
+            else
+            {
 
-            enemy.HasStatusEffect = false;
+                switch (storedData.TypeOfRune, enemy.RuneStatusEffect)
+                {
 
+                    case (RuneType.Lightning, RuneType.Wind):
+
+                        LightningAndWindCombo(enemy, storedData.NumberOnSkillTree, enemy.RuneStatusEffectNumber);
+                        Debug.Log("Combo called!");
+
+                        if (debugComboText != null)
+                        {
+
+                            debugComboText.text = "Lighting/Wind Combo!";
+
+                        }
+
+                        break;
+
+                    case (RuneType.Wind, RuneType.Lightning):
+
+                        LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedData.NumberOnSkillTree);
+                        Debug.Log("Combo called!");
+
+                        if (debugComboText != null)
+                        {
+
+                            debugComboText.text = "Wind/Lightning Combo!";
+
+                        }
+
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+                enemy.HasStatusEffect = false;
+
+            }
         }
-
     }
 
     /// <summary>
@@ -720,33 +719,33 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
+                lightningDamage = 5;
+
+                lightningTargetDamage = 10;
+
+                break;
+
+            case (2):
+
+                lightningDamage = 5;
+
+                lightningTargetDamage = 15;
+
+                break;
+
+            case (3):
+
                 lightningDamage = 10;
 
                 lightningTargetDamage = 20;
 
                 break;
 
-            case (2):
-
-                lightningDamage = 15;
-
-                lightningTargetDamage = 40;
-
-                break;
-
-            case (3):
-
-                lightningDamage = 15;
-
-                lightningTargetDamage = 40;
-
-                break;
-
             case (4):
 
-                lightningDamage = 20;
+                lightningDamage = 15;
 
-                lightningTargetDamage = 60;
+                lightningTargetDamage = 25;
 
                 break;
 
@@ -814,7 +813,17 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
-                windPrimaryDamage = 40;
+                windPrimaryDamage = 10;
+
+                windSecondaryDamage = 5;
+
+                windTempHealth = 5;
+
+                break;
+
+            case (2):
+
+                windPrimaryDamage = 15;
 
                 windSecondaryDamage = 10;
 
@@ -822,23 +831,13 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-            case (2):
+            case (4):
 
-                windPrimaryDamage = 50;
+                windPrimaryDamage = 20;
 
                 windSecondaryDamage = 15;
 
-                windTempHealth = 20;
-
-                break;
-
-            case (4):
-
-                windPrimaryDamage = 60;
-
-                windSecondaryDamage = 20;
-
-                windTempHealth = 30;
+                windTempHealth = 15;
 
                 break;
 
@@ -901,7 +900,11 @@ public class RuneEvents : MonoBehaviour
 
         PublicEvents.RuneCast(storedData.RuneActionPoints);
 
-        playerMenu.SetActive(true);
+        if (TurnManager.currentStatus == TurnStates.PlayerTurn)
+        {
+            playerMenu.SetActive(true);
+        }
+        
         this.gameObject.SetActive(false);
 
         Invoke("ClearText", 1);

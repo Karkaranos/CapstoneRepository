@@ -200,6 +200,7 @@ public class GridPathfinding : MonoBehaviour
         }
 
         targetPosition = originalTarget;
+        GridManager.ClearPathfinding();
         GridManager.DisplayGridAsText();
     }
 
@@ -268,7 +269,7 @@ public class GridPathfinding : MonoBehaviour
     private IEnumerator MoveToTile()
     {
         int eType = isEnemy ? -2 : -3;
-        GridManager.ClearPathfinding();
+        //GridManager.ClearPathfinding();
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
