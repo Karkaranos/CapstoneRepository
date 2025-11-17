@@ -59,6 +59,7 @@ public class Commands
         //{"apply-.*-.*", CommandGroup.Artifacts}
     };
 
+#region Command Groups
     /// <summary>
     /// Sets the Console location to one of four pre-set locations
     /// </summary>
@@ -121,6 +122,8 @@ public class Commands
     {
         Enemy[] AllEnemies = GameObject.FindObjectsByType<Enemy>(findObjectsInactive:FindObjectsInactive.Exclude, sortMode:FindObjectsSortMode.None);
         Debug.LogWarning(AllEnemies.Length);
+        
+        // Commands that affect all enemies
         if(command.Contains("enemies") || command.Contains("drop"))
         {
             foreach(Enemy e in AllEnemies)
@@ -136,6 +139,7 @@ public class Commands
                     case "enemies-godmode":
                         e.ToggleInvincibility();
                         break;
+                    // Cases that use variables
                     default:
                         if(command.Contains("enemies-health-"))
                         {
@@ -152,6 +156,7 @@ public class Commands
                 }
             }
         }
+        // Commands that affect a single enemy
         else
         {
             if(command.Contains("kill-enemy-"))
@@ -159,10 +164,10 @@ public class Commands
                 int index = (int)ConvertToNumber(command.Substring(11, command.Length-11));
                 AllEnemies[index].Damage(99999999);
             }
+            // I don't feel like using regex again lol
             else if (command.Contains("enemy-") && command.Contains("-health-"))
             {
                 int[] allIndexes = GetAllIndexes(command, '-');
-                if(allIndexes.Length < 4)
                 int index = (int)ConvertToNumber(command.Substring(allIndexes[0]+1, (allIndexes[1]-allIndexes[0]-1)));
                 float health = ConvertToNumber(command.Substring(allIndexes[2]+1, command.Length-allIndexes[2]-1));
                 AllEnemies[index].SetHealth(health);
@@ -198,15 +203,33 @@ public class Commands
         }
     }
 
+    /// <summary>
+    /// Will be implemented later
+    /// Handles Player commands
+    /// </summary>
+    /// <param name="command">the entered command</param>
     public static void Player(string command)
     {}
 
+    /// <summary>
+    /// Will be implemented later
+    /// Handles Navigation commands
+    /// </summary>
+    /// <param name="command">the entered command</param>
     public static void Navigation(string command)
     {}
 
+    /// <summary>
+    /// Will be implemented later
+    /// Handles Artifact commands
+    /// </summary>
+    /// <param name="command">the entered command</param>
     public static void Artifacts(string command)
     {}
 
+    #endregion
+
+#region  Helper Functions
     /// <summary>
     /// Converts a string into a floating point number
     /// Is there an existing function to do this? probably
@@ -301,4 +324,7 @@ public class Commands
         Array.Copy(temp, result, numHits);
         return result;
     }
+
+    #endregion
+
 } 

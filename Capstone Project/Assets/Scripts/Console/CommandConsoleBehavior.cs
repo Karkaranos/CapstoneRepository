@@ -1,12 +1,12 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/26/2025
-Date Last Modified : 	9/29/2025
+Date Last Modified : 	11/15/2025
 Brief Description : 	Handles behavior for the Command Console
                         - Reads Value
                         - Calls appropriate static functions
                         - Controls what commands are available in the current scene
-External Resources : 	N/A
+External Resources : 	https://www.programiz.com/csharp-programming/regex
 ***************************************************/
 
 using TMPro;
@@ -229,6 +229,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                     bool matchFound = false;
                     foreach(string key in Commands.PartialCommands2.Keys)
                     {
+                        // pattern matching key
                         Regex r = new Regex(key);
                         if(!matchFound && r.IsMatch(command))
                         {
@@ -316,6 +317,9 @@ public class CommandConsoleBehavior : MonoBehaviour
         consoleInputBox.text = "";
     }
 
+    /// <summary>
+    /// Controls whether the console is enabled or not
+    /// </summary>
     public void ToggleConsole()
     {
         if (consoleEnabled)
