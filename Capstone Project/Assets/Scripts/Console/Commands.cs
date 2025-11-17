@@ -30,14 +30,14 @@ public class Commands
         {"kill-enemies", CommandGroup.Enemies },
         {"enemies-godmode", CommandGroup.Enemies},
         {"drop", CommandGroup.Enemies },
-        {"no-cost", CommandGroup.Player},
-        {"max-xp", CommandGroup.Player},
-        {"unlock-all-spells", CommandGroup.Player},
-        {"godmode", CommandGroup.Player},
-        {"r", CommandGroup.Navigation},
+        //{"no-cost", CommandGroup.Player},
+        //{"max-xp", CommandGroup.Player},
+        //{"unlock-all-spells", CommandGroup.Player},
+        //{"godmode", CommandGroup.Player},
+        //{"r", CommandGroup.Navigation},
         {"menu", CommandGroup.None },
         {"skipcut", CommandGroup.None },
-        {"giveall", CommandGroup.Artifacts},
+        //{"giveall", CommandGroup.Artifacts},
 
     };
 
@@ -46,17 +46,17 @@ public class Commands
     {
         {"kill-enemy-", CommandGroup.Enemies},
         {"enemies-health-", CommandGroup.Enemies},
-        {"health-", CommandGroup.Player},
-        {"lvl-", CommandGroup.Navigation},
-        {"give-", CommandGroup.Artifacts}
+        //{"health-", CommandGroup.Player},
+        //{"lvl-", CommandGroup.Navigation},
+        //{"give-", CommandGroup.Artifacts}
     };
 
     // links all commands with 2 variables to their command group
     public static Dictionary<string, CommandGroup> PartialCommands2 = new Dictionary<string, CommandGroup>()
     {
         {"enemy-.*-health-.*", CommandGroup.Enemies},
-        {".*-dmg-.*", CommandGroup.Player},
-        {"apply-.*-.*", CommandGroup.Artifacts}
+        //{".*-dmg-.*", CommandGroup.Player},
+        //{"apply-.*-.*", CommandGroup.Artifacts}
     };
 
     /// <summary>
