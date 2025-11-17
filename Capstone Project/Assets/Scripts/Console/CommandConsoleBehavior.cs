@@ -14,6 +14,9 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Text.RegularExpressions;
+using System.Collections;
+using System;
 
 public class CommandConsoleBehavior : MonoBehaviour
 {
@@ -223,7 +226,71 @@ public class CommandConsoleBehavior : MonoBehaviour
                 }
                 else
                 {
-                    Logger.Error("Could not find partial key " + command.Substring(0,lastIndex));
+                    bool matchFound = false;
+                    foreach(string key in Commands.PartialCommands2.Keys)
+                    {
+                        Regex r = new Regex(key);
+                        if(!matchFound && r.IsMatch(command))
+                        {
+                            switch (Commands.PartialCommands2[key])
+                            {
+                                case Commands.CommandGroup.MoveConsole:
+                                    if (moveConsoleEnabled)
+                                    {
+                                        Commands.SetConsoleLocation(command);
+                                    }
+                                    break;
+                                case Commands.CommandGroup.Greet:
+                                    if (greetEnabled)
+                                    {
+                                        Commands.Greet();
+                                    }
+                                    break;
+                                case Commands.CommandGroup.Enemies:
+                                    {
+                                        if (enemiesEnabled)
+                                        {
+                                            Commands.Enemies(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.Player:
+                                    {
+                                        if(playerEnabled)
+                                        {
+                                            Commands.Player(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.Navigation:
+                                    {
+                                        if(navigationEnabled)
+                                        {
+                                            Commands.Navigation(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.Artifacts:
+                                    {
+                                        if(artifactsEnabled)
+                                        {
+                                            Commands.Artifacts(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.None:
+                                    Commands.AlwaysAvailable(command, FindFirstObjectByType<CameraManager>());
+                                    break;
+                                default:
+                                    Logger.Warning("Command Group Not Implemented");
+                                    break;
+                            }
+                            matchFound = true;
+                            break;
+                        }
+                    }
+                    if(!matchFound)
+                        Logger.Error("Could not find partial key by regex" + command.Substring(0,lastIndex));
                 }
             }
             else

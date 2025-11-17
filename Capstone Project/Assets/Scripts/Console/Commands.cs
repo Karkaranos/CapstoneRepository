@@ -8,6 +8,8 @@ External Resources : 	N/A
 ***************************************************/
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using System;
 
 public class Commands
 {
@@ -52,9 +54,9 @@ public class Commands
     // links all commands with 2 variables to their command group
     public static Dictionary<string, CommandGroup> PartialCommands2 = new Dictionary<string, CommandGroup>()
     {
-        {"enemy-#-health-$", CommandGroup.Enemies},
-        {"#-dmg-$", CommandGroup.Player},
-        {"apply-#-$", CommandGroup.Artifacts}
+        {"enemy-.*-health-.*", CommandGroup.Enemies},
+        {".*-dmg-.*", CommandGroup.Player},
+        {"apply-.*-.*", CommandGroup.Artifacts}
     };
 
     /// <summary>
@@ -152,7 +154,20 @@ public class Commands
         }
         else
         {
-            
+            if(command.Contains("kill-enemy-"))
+            {
+                int index = (int)ConvertToNumber(command.Substring(11, command.Length-11));
+                AllEnemies[index].Damage(99999999);
+            }
+            else if (command.Contains("enemy-") && command.Contains("-health-"))
+            {
+                int[] allIndexes = GetAllIndexes(command, '-');
+                if(allIndexes.Length < 4)
+                int index = (int)ConvertToNumber(command.Substring(allIndexes[0]+1, (allIndexes[1]-allIndexes[0]-1)));
+                float health = ConvertToNumber(command.Substring(allIndexes[2]+1, command.Length-allIndexes[2]-1));
+                AllEnemies[index].SetHealth(health);
+            }
+
         }
     }
 
@@ -260,5 +275,30 @@ public class Commands
                     default:
                         return 0;
                 }
+    }
+
+    /// <summary>
+    /// Gets all indexes of a specified character in a string
+    /// </summary>
+    /// <param name="s">String to search through</param>
+    /// <param name="c">Character to find</param>
+    /// <returns>All known indexes as an int array </returns>
+    private static int[] GetAllIndexes(string s, char c)
+    {
+        int[] temp = new int[s.Length];
+        int numHits = 0;
+        for(int i=0; i<s.Length-1; i++)
+        {
+            if(s[i] == c)
+            {
+                temp[numHits] = i;
+                numHits ++;
+            }
+        }
+        
+
+        int[] result = new int[numHits];
+        Array.Copy(temp, result, numHits);
+        return result;
     }
 } 
