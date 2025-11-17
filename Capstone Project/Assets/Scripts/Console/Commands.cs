@@ -30,6 +30,9 @@ public class Commands
         {"kill-enemies", CommandGroup.Enemies },
         {"enemies-godmode", CommandGroup.Enemies},
         {"drop", CommandGroup.Enemies },
+        {"kill-enemy-#", CommandGroup.Enemies},
+        {"enemies-health-#", CommandGroup.Enemies},
+        {"enemy-#-health-$", CommandGroup.Enemies},
         //{"no-cost", CommandGroup.Player},
         //{"max-xp", CommandGroup.Player},
         //{"unlock-all-spells", CommandGroup.Player},
@@ -161,14 +164,24 @@ public class Commands
         {
             if(command.Contains("kill-enemy-"))
             {
-                int index = (int)ConvertToNumber(command.Substring(11, command.Length-11));
+                int index = (int)ConvertToNumber(command.Substring(11, command.Length-11))-1;
+                if(index >= AllEnemies.Length)
+                {
+                    Logger.Warning("Enemy out of range");
+                    return;
+                }
                 AllEnemies[index].Damage(99999999);
             }
             // I don't feel like using regex again lol
             else if (command.Contains("enemy-") && command.Contains("-health-"))
             {
                 int[] allIndexes = GetAllIndexes(command, '-');
-                int index = (int)ConvertToNumber(command.Substring(allIndexes[0]+1, (allIndexes[1]-allIndexes[0]-1)));
+                int index = (int)ConvertToNumber(command.Substring(allIndexes[0]+1, allIndexes[1]-allIndexes[0]-1))-1;
+                if(index >= AllEnemies.Length)
+                {
+                    Logger.Warning("Enemy out of range");
+                    return;
+                }
                 float health = ConvertToNumber(command.Substring(allIndexes[2]+1, command.Length-allIndexes[2]-1));
                 AllEnemies[index].SetHealth(health);
             }
