@@ -283,7 +283,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     Commands.AlwaysAvailable(command, FindFirstObjectByType<CameraManager>());
                                     break;
                                 default:
-                                    Logger.Warning("Command Group Not Implemented");
+                                    Logger.Warning("Command Group Not Implemented", false);
                                     break;
                             }
                             matchFound = true;
@@ -291,12 +291,12 @@ public class CommandConsoleBehavior : MonoBehaviour
                         }
                     }
                     if(!matchFound)
-                        Logger.Error("Could not find partial key by regex" + command.Substring(0,lastIndex));
+                        Logger.Error("Could not find partial key by regex", false);
                 }
             }
             else
             {   
-                Logger.Error("Could not find key" + command);
+                Logger.Error("Could not find key" + command, false);
             }
         }
 

@@ -165,7 +165,7 @@ public class Commands
             if(command.Contains("kill-enemy-"))
             {
                 int index = (int)ConvertToNumber(command.Substring(11, command.Length-11))-1;
-                if(index >= AllEnemies.Length)
+                if(index >= AllEnemies.Length || index < 0)
                 {
                     Logger.Warning("Enemy out of range");
                     return;
@@ -177,7 +177,7 @@ public class Commands
             {
                 int[] allIndexes = GetAllIndexes(command, '-');
                 int index = (int)ConvertToNumber(command.Substring(allIndexes[0]+1, allIndexes[1]-allIndexes[0]-1))-1;
-                if(index >= AllEnemies.Length)
+                if(index >= AllEnemies.Length || index < 0)
                 {
                     Logger.Warning("Enemy out of range");
                     return;
