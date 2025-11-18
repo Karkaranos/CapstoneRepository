@@ -37,6 +37,7 @@ public class MarkData : ScriptableObject
 {
     public MarkType Name;
     [ShowAssetPreview] public Sprite MarkVisual;
+    [Space(30)]
     [Tooltip("Describes when Mark Effects are triggered")] public MarkTriggerCondition TriggerCondition;
 
     [Tooltip("True if Effects trigger if the percent is above the provided value, false if Effects trigger when percent is below"),
