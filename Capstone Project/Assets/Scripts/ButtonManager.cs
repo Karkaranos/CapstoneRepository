@@ -101,7 +101,7 @@ public class ButtonManager : MonoBehaviour
         {
             foreach (TileBehaviour t in playerBehavior.tilesInRange)
             {
-                t.DisableHighlight();
+                t.ShowHighlight(true);
             }
         }
 
