@@ -186,7 +186,7 @@ public class SkillTreeNode : MonoBehaviour
     /// <summary>
     /// This handles the logic for purchasing the node
     /// </summary>
-    private void PurchaseNode()
+    public void PurchaseNode()
     {
         //Checks with the skill tree manager to see if it can be purchased
         if (skillTreeManager.CanPurchaseNode(cost))
@@ -201,7 +201,7 @@ public class SkillTreeNode : MonoBehaviour
 
             //updates the description with this node, but shows that you own it
             //instead of showing the cost
-            skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
+            //skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
 
             //If it has any opposite nodes, it permanantly locks them
             if (OppositeNodes.Count > 0)
@@ -228,7 +228,8 @@ public class SkillTreeNode : MonoBehaviour
     public void PermanantlyLockNode()
     {
         LockNode();
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        button.interactable = false;
         isPermaLocked = true;
     }
 
@@ -288,9 +289,11 @@ public class SkillTreeNode : MonoBehaviour
                 Debug.Log("Clicked on a locked node - check logic to make sure button is uninteractable here");
                 break;
             case NodeStatus.Unlocked:
+               // OnHover();
                 PurchaseNode();
                 break;
             case NodeStatus.Purchased:
+                //temporarily being left uncommented
                 SelectNodeWhilePurchased();
                 break;
             default:
@@ -308,11 +311,11 @@ public class SkillTreeNode : MonoBehaviour
         //updates the text showing you own it if you own the node
         if (status == NodeStatus.Purchased)
         {
-            skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
+            skillTreeManager.UpdateSpellDescriptionText(this, -1);
         }
         else
         {
-            skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, cost);
+            skillTreeManager.UpdateSpellDescriptionText(this, cost);
         }
     }
 

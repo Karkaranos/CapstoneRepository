@@ -10,6 +10,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using System.Collections.Generic;
 using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.Animations;
 
 public class TileBehaviour : MonoBehaviour
 {
@@ -31,19 +32,20 @@ public class TileBehaviour : MonoBehaviour
         slow 
     }
 
-    [Header("Tile Info"), Tooltip("The index the tile is inside the grid")] public Vector2Int IndexInGrid;
-    [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")] Vector2 tileDisplacement;
+    [Header("Tile Info")] 
+    [HideInInspector] public Vector2Int IndexInGrid;
+    [HideInInspector] public bool inPlayerRange;
+    [HideInInspector] public int entityOnGrid;
+    [HideInInspector] private GameObject ObjectOnTile;
     [SerializeField] private TileType tileType;
-    [SerializeField] private GameObject ObjectOnTile;
-    public GameObject tileHighlight;
-
-    [Header("Water Tile Vars"), SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject WaterTileVisualizer;
+    [SerializeField] private GameObject tileHighlight;
+    
+    [Header("Water Tile Vars")]
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject WaterTileVisualizer;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
-
-    [HideInInspector] public int entityOnGrid; 
 
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
@@ -56,7 +58,7 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
     [SerializeField, ShowIf(nameof(ShowSlowVars)), Foldout("Hazards")] private int movesLost;
 
-    public bool inPlayerRange;
+    
 
     /// <summary>
     /// checker for the showif function
@@ -82,8 +84,14 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        IndexInGrid.x = (int)(transform.position.x / tileDisplacement.x);
-        IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
+        //finding the tile coords
+        Transform parentTransform = transform.parent.gameObject.transform;
+        IndexInGrid.x = (int)(transform.position.x - parentTransform.position.x / transform.localScale.x);
+        IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
+
+        //renaming the tile for easier debuging and such
+        gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
+
         inPlayerRange = false;
     }
 
@@ -171,6 +179,22 @@ public class TileBehaviour : MonoBehaviour
     }
 
     /// <summary>
+    /// turns the highlight of the tile on or off
+    /// </summary>
+    public void ShowHighlight(bool active) {
+        tileHighlight.SetActive(active);
+    }
+
+    /// <summary>
+    /// changes the color of the highlight
+    /// </summary>
+    /// <param name="color"></param>
+    public void SetHighlightColor(Color color)
+    {
+        tileHighlight.GetComponent<SpriteRenderer>().color = color;
+    }
+
+    /// <summary>
     /// applys the damage to the entities
     /// </summary>
     /// <param name="amount"></param>
@@ -196,9 +220,7 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        //print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
-
         ObjectOnTile = collision.gameObject;
     }
 
@@ -216,14 +238,5 @@ public class TileBehaviour : MonoBehaviour
     private void OnDisable()
     {
         TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
-    }
-
-    /// <summary>
-    /// Disables the highlight that was enables for tiles that the player could move to
-    /// </summary>
-    public void DisableHighlight()
-    {
-        tileHighlight.SetActive(false);
-        inPlayerRange = false;
     }
 }

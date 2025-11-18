@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using TMPro;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class Enemy : MonoBehaviour
 {
@@ -77,6 +78,8 @@ public class Enemy : MonoBehaviour
     // Hidden Vars
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] protected bool turnDelayed;
+
+    [HideInInspector] protected bool invincible = false;
 
     [HideInInspector] public bool HasStatusEffect = false;
     [HideInInspector] public RuneType RuneStatusEffect;
@@ -152,13 +155,18 @@ public class Enemy : MonoBehaviour
     /// Damage function for enemy. Public so states can call it
     /// </summary>
     /// <param name="damage"></param>
-    public void Damage(float damage)
+    public async void Damage(float damage)
     {
+        if(invincible)
+        {
+            return;
+        }
         currentHealth -= damage;
         print("Enemy takes damage");
         healthBarSlider.value = currentHealth;
         if (currentHealth < 0)
         {
+            await Task.Delay(500);
             Die();
             if (FindFirstObjectByType<GameManager>().allowArtifacts)
             {
@@ -204,6 +212,38 @@ public class Enemy : MonoBehaviour
                 Logger.Log("Dropped " + ad.Name);
             }
         }
+    }
+
+    /// <summary>
+    /// Sets the Enemy's health
+    /// If the new value is greater than the max health, sets the max health as well
+    /// </summary>
+    /// <param name="health">New health value</param>
+    public void SetHealth(float health)
+    {
+        if(health > maxHealth)
+        {
+            maxHealth = health;
+            healthBarSlider.maxValue = health;
+        }
+        currentHealth = health;
+        healthBarSlider.value = currentHealth;
+        if (currentHealth < 0)
+        {
+            Die();
+            if (FindFirstObjectByType<GameManager>().allowArtifacts)
+            {
+                TryDropItem();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Toggles whether the enemy can take damage or not
+    /// </summary>
+    public void ToggleInvincibility()
+    {
+        invincible = !invincible;
     }
 
     /// <summary>
