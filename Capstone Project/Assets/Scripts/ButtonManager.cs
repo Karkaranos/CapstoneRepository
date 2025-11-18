@@ -165,6 +165,10 @@ public class ButtonManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Skips the cutscene on button click
+    /// Sets VideoCanvas to false
+    /// </summary>
     public void SkipCutscene()
     {
         cutsceneSkipped = true;
