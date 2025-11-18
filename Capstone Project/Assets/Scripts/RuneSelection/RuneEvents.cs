@@ -808,33 +808,41 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
-                lightningDamage = lightningDamageTierOne;
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                lightningMasteredDamage = lightningMasteredDamageTierOne;
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
                 break;
 
             case (2):
 
-                lightningDamage = lightningDamageTierTwo;
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                lightningMasteredDamage = lightningMasteredDamageTierTwo;
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
                 break;
 
             case (3):
 
-                lightningDamage = lightningDamageTierTwo;
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                lightningMasteredDamage = lightningMasteredDamageTierTwo;
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
                 break;
 
             case (4):
 
-                lightningDamage = lightningDamageTierThree;
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                lightningMasteredDamage = lightningMasteredDamageTierThree;
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
                 break;
 
@@ -850,10 +858,7 @@ public class RuneEvents : MonoBehaviour
         for (int i = 0; i < validEnemies.Count; i++)
         {
 
-            validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-
-            Debug.Log(validEnemies[i] + " took " + lightningDamage + " damage!");
+            validEnemies[i].GetComponentInChildren<Enemy>().Damage(lightningDamage);
 
         }
 
@@ -863,9 +868,7 @@ public class RuneEvents : MonoBehaviour
             if(enemy != null)
             {
 
-                enemy.Damage(lightningMasteredDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-
-                Debug.Log(enemy + " took " + lightningMasteredDamage + " damage!");
+                enemy.Damage(lightningMasteredDamage);
 
             }
 
@@ -875,10 +878,7 @@ public class RuneEvents : MonoBehaviour
                 if (validEnemies[i] != null)
                 {
 
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                    (lightningDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
-
-                    Debug.Log(validEnemies[i] + " took " + lightningDamage + " damage!");
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage(lightningDamage);
 
                 }
 
@@ -902,9 +902,11 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
-                windPrimaryDamage = windPrimaryDamageTierOne;
+                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                windSecondaryDamage = windSecondaryDamageTierOne;
+                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
                 windTempHealth = windMasteredTempHealthTierOne;
 
@@ -912,9 +914,11 @@ public class RuneEvents : MonoBehaviour
 
             case (2):
 
-                windPrimaryDamage = windPrimaryDamageTierTwo;
+                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                windSecondaryDamage = windSecondaryDamageTierTwo;
+                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
                 windTempHealth = windMasteredTempHealthTierTwo;
 
@@ -922,9 +926,11 @@ public class RuneEvents : MonoBehaviour
 
             case (4):
 
-                windPrimaryDamage = windPrimaryDamageTierThree;
+                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                windSecondaryDamage = windSecondaryDamageTierThree;
+                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
                 windTempHealth = windMasteredTempHealthTierThree;
 
@@ -944,9 +950,7 @@ public class RuneEvents : MonoBehaviour
         if(enemy != null)
         {
 
-            enemy.Damage(windPrimaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
-
-            Debug.Log(enemy + " took " + windPrimaryDamage + " damage!");
+            enemy.Damage(windPrimaryDamage);
 
         }
 
@@ -957,10 +961,7 @@ public class RuneEvents : MonoBehaviour
             if (validEnemies[i] != null)
             {
 
-                validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                (windSecondaryDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier);
-
-                Debug.Log(validEnemies[i] + " took " + windSecondaryDamage + " damage!");
+                validEnemies[i].GetComponentInChildren<Enemy>().Damage(windSecondaryDamage);
 
             }
 
@@ -970,8 +971,6 @@ public class RuneEvents : MonoBehaviour
         {
 
             FindFirstObjectByType<PlayerStats>().AddTempHealth(windTempHealth);
-
-            Debug.Log("Wind mastery worked!");
 
         }
 
