@@ -228,7 +228,8 @@ public class SkillTreeNode : MonoBehaviour
     public void PermanantlyLockNode()
     {
         LockNode();
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        button.interactable = false;
         isPermaLocked = true;
     }
 
@@ -291,6 +292,7 @@ public class SkillTreeNode : MonoBehaviour
                 PurchaseNode();
                 break;
             case NodeStatus.Purchased:
+                //temporarily being left uncommented
                 SelectNodeWhilePurchased();
                 break;
             default:
