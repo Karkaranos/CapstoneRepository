@@ -280,8 +280,8 @@ public class RuneEvents : MonoBehaviour
     public void SelectLightningRune(TileBehaviour target)
     {
 
-        float damageDealt = storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
-            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier;
+        float damageDealt = Mathf.CeilToInt(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
+            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
         int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
         GameObject vfx;
@@ -377,8 +377,7 @@ public class RuneEvents : MonoBehaviour
                         {
 
                             //hardcoding this feels bad i can change this later
-                            enemy.GetComponentInChildren<Enemy>().Damage
-                                (15 * damageDealt);
+                            enemy.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(0.40f * damageDealt));
                             CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
 
                             //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
@@ -473,8 +472,8 @@ public class RuneEvents : MonoBehaviour
     public void SelectWindRune(TileBehaviour target)
     {
 
-        float damageDealt = storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier;
+        float damageDealt = Mathf.Ceil(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
         int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
         GameObject vfx;
@@ -620,7 +619,7 @@ public class RuneEvents : MonoBehaviour
                         {
 
                             validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                                    (Mathf.RoundToInt(damageDealt/ validEnemies.Count));
+                                    (Mathf.CeilToInt(damageDealt/ validEnemies.Count));
                             CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                             vfx = Instantiate(storedData.RuneVFX, validEnemies[i].transform);
