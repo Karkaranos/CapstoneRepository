@@ -426,6 +426,7 @@ public class ArtifactManager
     private static void UpdateDictionary(MarkType key, bool adding)
     {
         markCount[key] = markCount[key] + (adding ? 1 : -1);
+        MarkManager.UpdateDictionary(key, markCount[key]);
     }
 
 #endregion 

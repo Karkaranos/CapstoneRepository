@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 	    	Tyler Bouchard, Cade Naylor
+Author Names : 	    	Tyler Bouchard, Cade Naylor, Clare Grady
 Date Created : 		    10/16/2025
-Date Last Modified : 	11/7/2025 (Clare Grady)
+Date Last Modified : 	11/18/2025 (Cade Naylor)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
                         Also it seems like the stats have to be public to work with refs and encapsulation doesn't work :(
@@ -144,6 +144,7 @@ public class PlayerStats : MonoBehaviour
 
         }
 
+        MarkManager.HealthValueChanged(CurrentHealth/MaxHealth);
         //if player dead end level pop up 
         if(CurrentHealth <= 0)
         {

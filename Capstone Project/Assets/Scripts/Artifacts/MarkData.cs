@@ -2,8 +2,7 @@
 Author Names : 		    Cade Naylor
 Date Created : 		    10/27/2025
 Date Last Modified : 	11/18/2025
-Brief Description : 	Data container for all Marks   
-                        Anything commented out is not needed for VS and will be returned to
+Brief Description : 	Data container for all Marks
 External Resources : 	N/A
 ***************************************************/
 using NaughtyAttributes;

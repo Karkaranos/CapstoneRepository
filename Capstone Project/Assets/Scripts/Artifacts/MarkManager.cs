@@ -15,6 +15,7 @@ using UnityEngine;
 public class MarkManager
 {
     private static List<MarkData> Marks;
+    private static Dictionary<MarkType, int> MarkCount;
 
     private static GameManager gm;
     private static PlayerStats player;
@@ -74,8 +75,24 @@ public class MarkManager
     /// <param name="mark">The mark</param>
     /// <param name="markCount">How many of the mark there are</param>
     /// <param name="player">Reference to PlayerStats</param>
-    public static void HealthValueChanged(float percent, MarkData mark, int markCount)
+    public static void HealthValueChanged(float percent)
     {
+        Debug.Log("Called health change");
+        MarkData mark = null;
+        foreach(MarkData m in Marks)
+        {
+            // Hardcoded
+            if(m.MarkType == MarkType.Strength)
+            {
+                mark = m;
+            }
+        }
+
+        if(mark=null)
+        {
+            return;
+        }
+
         bool add = true;
         // Allows the effect to trigger the next time the condition is met
         if((mark.Percent < percent && mark.TriggerIfAbove || (mark.Percent > percent && !mark.TriggerIfAbove)))
@@ -90,14 +107,14 @@ public class MarkManager
             return;
         }
 
-        if(markCount ==2)
+        if(MarkCount[mark.MarkType] ==2)
         {
             foreach(MarkEffectsLinked e in mark.EffectsWith2)
             {
                 UpdateEffect(e.Effect, e.valueChange, add);
             }
         }
-        else if(markCount == 3)
+        else if(MarkCount[mark.MarkType] == 3)
         {
             foreach (MarkEffectsLinked e in mark.EffectsWith3)
             {
@@ -184,7 +201,6 @@ public class MarkManager
                 AdjustValueGeometrically(ref player.DamageTakenMultiplier, val, adding);
                 break;
             case MarkEffects.Heal:
-                // does this handle removing a healing mark? no. No currently plnned marks mess with max hp
                 player.Heal((int)(val));
                 break;
             case MarkEffects.APOnEnemyDeath:
@@ -203,6 +219,21 @@ public class MarkManager
             default:
                 break;
         }
+    }
+
+    public static void UpdateTurnCondition()
+    {
+        
+    }
+
+    /// <summary>
+    /// Update the internal Mark count to align with ArtifactManager
+    /// </summary>
+    /// <param name="key">Key to update</param>
+    /// <param name="val">Stored val</param>
+    public static void UpdateDictionary(MarkType key, int val)
+    {
+        MarkCount[key] = val;
     }
 
     /// <summary>
