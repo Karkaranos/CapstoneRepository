@@ -79,6 +79,8 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] protected bool turnDelayed;
 
+    [HideInInspector] protected bool invincible = false;
+
     [HideInInspector] public bool HasStatusEffect = false;
     [HideInInspector] public RuneType RuneStatusEffect;
     [HideInInspector] public int RuneStatusEffectNumber;
@@ -155,6 +157,10 @@ public class Enemy : MonoBehaviour
     /// <param name="damage"></param>
     public async void Damage(float damage)
     {
+        if(invincible)
+        {
+            return;
+        }
         currentHealth -= damage;
         print("Enemy takes damage");
         healthBarSlider.value = currentHealth;
@@ -206,6 +212,38 @@ public class Enemy : MonoBehaviour
                 Logger.Log("Dropped " + ad.Name);
             }
         }
+    }
+
+    /// <summary>
+    /// Sets the Enemy's health
+    /// If the new value is greater than the max health, sets the max health as well
+    /// </summary>
+    /// <param name="health">New health value</param>
+    public void SetHealth(float health)
+    {
+        if(health > maxHealth)
+        {
+            maxHealth = health;
+            healthBarSlider.maxValue = health;
+        }
+        currentHealth = health;
+        healthBarSlider.value = currentHealth;
+        if (currentHealth < 0)
+        {
+            Die();
+            if (FindFirstObjectByType<GameManager>().allowArtifacts)
+            {
+                TryDropItem();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Toggles whether the enemy can take damage or not
+    /// </summary>
+    public void ToggleInvincibility()
+    {
+        invincible = !invincible;
     }
 
     /// <summary>
