@@ -37,15 +37,15 @@ public class TileBehaviour : MonoBehaviour
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
     [HideInInspector] private GameObject ObjectOnTile;
+    [HideInInspector] private GameObject tileHighlight;
     [SerializeField] private TileType tileType;
-    [SerializeField] private GameObject tileHighlight;
     
     [Header("Water Tile Vars")]
-    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject WaterTileVisualizer;
-    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
-    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
+    
 
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
@@ -91,6 +91,7 @@ public class TileBehaviour : MonoBehaviour
 
         //renaming the tile for easier debuging and such
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
+        tileHighlight = transform.GetChild(0).gameObject;
 
         inPlayerRange = false;
     }
@@ -141,10 +142,6 @@ public class TileBehaviour : MonoBehaviour
         if (TileHasHazards && hazardObject != null)
         {
             GameObject obj = Instantiate(hazardObject, transform.position, Quaternion.identity);
-        }
-
-        if (tileType == TileType.Water) {
-            GameObject obj = Instantiate(WaterTileVisualizer, transform.position, Quaternion.identity);
         }
     }
 
