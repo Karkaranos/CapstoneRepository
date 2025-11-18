@@ -15,6 +15,117 @@ using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
 {
+    #region SETUP
+
+    public enum Variables
+    {
+
+        ComboVariables,
+        VisualsAndDebugging,
+        Audio
+
+    }
+
+    [SerializeField] private Variables currentInspectorShowing;
+
+    #endregion SETUP
+
+
+    #region COMBO VARIABLES
+
+    [HorizontalLine(4, EColor.Red)]
+
+    [Header("Lightning/Wind")]
+
+    [Space(10)]
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningMasteredDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windPrimaryDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windSecondaryDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windMasteredTempHealthTierOne;
+
+
+    [Space(10)]
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningMasteredDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windPrimaryDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windSecondaryDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windMasteredTempHealthTierTwo;
+
+
+    [Space(10)]
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningMasteredDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windPrimaryDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windSecondaryDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windMasteredTempHealthTierThree;
+
+    #endregion COMBO VARIABLES
+
+
+    #region AUDIO
+
+    [HorizontalLine(4, EColor.Orange)]
+
+    //Event reference for sound
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellCastedSFX;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private GameObject audioListenerObject;
+
+    #endregion AUDIO
+
+
+    #region VISUALS AND DEBUGGING
+
+    [HorizontalLine(4, EColor.Yellow)]
+
+    //for menu-swapping purposes
+    [ShowIf(nameof(currentInspectorShowing), Variables.VisualsAndDebugging), SerializeField]
+    GameObject playerMenu;
+
+    [Header("Temporary Textboxes")]
+
+    //early testing stuff
+    [ShowIf(nameof(currentInspectorShowing), Variables.VisualsAndDebugging), SerializeField]
+    TMP_Text debugText;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.VisualsAndDebugging), SerializeField]
+    TMP_Text debugComboText;
+
+    #endregion VISUALS AND DEBUGGING
+
 
     #region INITIALIZATION
 
@@ -53,10 +164,6 @@ public class RuneEvents : MonoBehaviour
     private bool lightningMastered;
     private bool windMastered;
 
-    //Event reference for sound
-    [SerializeField] private EventReference lightningSpellCastedSFX;
-    [SerializeField] private GameObject audioListenerObject;
-
     void MasteryUnlocked(RuneType runeType)
     {
 
@@ -86,24 +193,6 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion INITIALIZATION
-
-
-    #region VISUALS
-
-    [HorizontalLine(4, EColor.Red)]
-
-    //for menu-swapping purposes
-    [SerializeField]
-    GameObject playerMenu;
-
-    //early testing stuff
-    [SerializeField]
-    TMP_Text debugText;
-
-    [SerializeField]
-    TMP_Text debugComboText;
-
-    #endregion VISUALS
 
 
     #region RUNE EVENTS
@@ -712,40 +801,40 @@ public class RuneEvents : MonoBehaviour
         //PART 2: LIGHTNING DAMAGE
 
         int lightningDamage;
-        int lightningTargetDamage;
+        int lightningMasteredDamage;
 
         switch (lightningTier)
         {
 
             case (1):
 
-                lightningDamage = 5;
+                lightningDamage = lightningDamageTierOne;
 
-                lightningTargetDamage = 10;
+                lightningMasteredDamage = lightningMasteredDamageTierOne;
 
                 break;
 
             case (2):
 
-                lightningDamage = 5;
+                lightningDamage = lightningDamageTierTwo;
 
-                lightningTargetDamage = 15;
+                lightningMasteredDamage = lightningMasteredDamageTierTwo;
 
                 break;
 
             case (3):
 
-                lightningDamage = 10;
+                lightningDamage = lightningDamageTierTwo;
 
-                lightningTargetDamage = 20;
+                lightningMasteredDamage = lightningMasteredDamageTierTwo;
 
                 break;
 
             case (4):
 
-                lightningDamage = 15;
+                lightningDamage = lightningDamageTierThree;
 
-                lightningTargetDamage = 25;
+                lightningMasteredDamage = lightningMasteredDamageTierThree;
 
                 break;
 
@@ -753,7 +842,7 @@ public class RuneEvents : MonoBehaviour
 
                 lightningDamage = 0;
 
-                lightningTargetDamage = 0;
+                lightningMasteredDamage = 0;
 
                 break;
         }
@@ -774,9 +863,9 @@ public class RuneEvents : MonoBehaviour
             if(enemy != null)
             {
 
-                enemy.Damage(lightningTargetDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
+                enemy.Damage(lightningMasteredDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier);
 
-                Debug.Log(enemy + " took " + lightningTargetDamage + " damage!");
+                Debug.Log(enemy + " took " + lightningMasteredDamage + " damage!");
 
             }
 
@@ -813,31 +902,31 @@ public class RuneEvents : MonoBehaviour
 
             case (1):
 
-                windPrimaryDamage = 10;
+                windPrimaryDamage = windPrimaryDamageTierOne;
 
-                windSecondaryDamage = 5;
+                windSecondaryDamage = windSecondaryDamageTierOne;
 
-                windTempHealth = 5;
+                windTempHealth = windMasteredTempHealthTierOne;
 
                 break;
 
             case (2):
 
-                windPrimaryDamage = 15;
+                windPrimaryDamage = windPrimaryDamageTierTwo;
 
-                windSecondaryDamage = 10;
+                windSecondaryDamage = windSecondaryDamageTierTwo;
 
-                windTempHealth = 10;
+                windTempHealth = windMasteredTempHealthTierTwo;
 
                 break;
 
             case (4):
 
-                windPrimaryDamage = 20;
+                windPrimaryDamage = windPrimaryDamageTierThree;
 
-                windSecondaryDamage = 15;
+                windSecondaryDamage = windSecondaryDamageTierThree;
 
-                windTempHealth = 15;
+                windTempHealth = windMasteredTempHealthTierThree;
 
                 break;
 
