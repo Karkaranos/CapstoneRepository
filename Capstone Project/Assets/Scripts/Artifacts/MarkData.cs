@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    10/27/2025
-Date Last Modified : 	10/27/2025
+Date Last Modified : 	11/18/2025
 Brief Description : 	Data container for all Marks   
                         Anything commented out is not needed for VS and will be returned to
 External Resources : 	N/A
@@ -51,8 +51,8 @@ public class MarkData : ScriptableObject
     [Tooltip("Post-Turn Condition Effects When 2 of this Mark is equipped"), AllowNesting, ShowIf(nameof(TriggerCondition), MarkTriggerCondition.TurnCount)] public MarkEffectsLinked[] PostTurnEffectsWith2;
     [Tooltip("Effects When 3 of this Mark is equipped"), AllowNesting] public MarkEffectsLinked[] EffectsWith3;
     [Tooltip("Post-Turn Condition Effects When 3 of this Mark is equipped"), AllowNesting, ShowIf(nameof(TriggerCondition), MarkTriggerCondition.TurnCount)] public MarkEffectsLinked[] PostTurnEffectsWith3;
-    [Tooltip("How many times this effect can trigger with 2 of this Mark"), AllowNesting, ShowIf(nameof(TriggerCondition), MarkTriggerCondition.EnemyDeath)] public int maxTriggerWith2;
-     [Tooltip("How many times this effect can trigger with 3 of this Mark"), AllowNesting, ShowIf(nameof(TriggerCondition), MarkTriggerCondition.EnemyDeath)] public int maxTriggerWith3;
+    [Tooltip("How many times this effect can trigger with 2 of this Mark. Ignore for non AP"), AllowNesting, ShowIf(nameof(TriggerCondition), MarkTriggerCondition.EnemyDeath)] public int maxTriggerWith2;
+     [Tooltip("How many times this effect can trigger with 3 of this Mark. Ignore for non AP"), AllowNesting, ShowIf(nameof(TriggerCondition), MarkTriggerCondition.EnemyDeath)] public int maxTriggerWith3;
 
     [HideInInspector] public bool EffectCanTrigger = false;
 
