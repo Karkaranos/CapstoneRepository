@@ -19,6 +19,8 @@ public class GridManager : MonoBehaviour
 
     public static Vector2Int playerPosition;
 
+    public static Vector2 MoveDistances = new Vector2();
+
     /// <summary>
     /// Sets the grid instance that everything will reference
     /// </summary>
@@ -28,6 +30,7 @@ public class GridManager : MonoBehaviour
     {
         combatGrid = new TileBehaviour[gridDimensions.x, gridDimensions.y];
         TileBehaviour[] tiles = gridPrefab.GetComponentsInChildren<TileBehaviour>();
+        MoveDistances = new Vector2(tiles[0].GetComponent<BoxCollider>().bounds.size.x, tiles[0].GetComponent<BoxCollider>().bounds.size.z);
 
         for (int i = 0; i < gridDimensions.y; ++i)
         {
