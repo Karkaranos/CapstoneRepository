@@ -118,14 +118,14 @@ public class PlayerBehavior : GridPathfinding
         {
             tilesInRange.Clear();
             GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
-            GridManager.combatGrid[MyPosition.x, MyPosition.y].tileHighlight.SetActive(true);
+            GridManager.combatGrid[MyPosition.x, MyPosition.y].ShowHighlight(true);
             tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
             List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition);
             foreach (Vector2Int v in tilePositions)
             {
                 GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
                 GridManager.combatGrid[v.x, v.y].entityOnGrid = 5;
-                GridManager.combatGrid[v.x, v.y].tileHighlight.SetActive(true);
+                GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                 tilesInRange.Add(GridManager.combatGrid[v.x, v.y]);
             }
 
@@ -148,7 +148,7 @@ public class PlayerBehavior : GridPathfinding
                             tilePositions.Add(newPos);
                             GridManager.combatGrid[newPos.x, newPos.y].inPlayerRange = true;
                             GridManager.combatGrid[newPos.x, newPos.y].entityOnGrid = 5;
-                            GridManager.combatGrid[newPos.x, newPos.y].tileHighlight.SetActive(true);
+                            GridManager.combatGrid[newPos.x, newPos.y].ShowHighlight(true);
                             tilesInRange.Add(GridManager.combatGrid[newPos.x, newPos.y]);
                         }
                     }
@@ -167,7 +167,7 @@ public class PlayerBehavior : GridPathfinding
         pathfindingLimit = movementRange;
         foreach(TileBehaviour t in tilesInRange)
         {
-            t.DisableHighlight();
+            t.ShowHighlight(true);
         }
         base.PathfindThroughGrid();
         StartMoveCoroutine();
