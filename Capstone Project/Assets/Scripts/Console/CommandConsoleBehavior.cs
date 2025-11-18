@@ -1,12 +1,12 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/26/2025
-Date Last Modified : 	9/29/2025
+Date Last Modified : 	11/15/2025
 Brief Description : 	Handles behavior for the Command Console
                         - Reads Value
                         - Calls appropriate static functions
                         - Controls what commands are available in the current scene
-External Resources : 	N/A
+External Resources : 	https://www.programiz.com/csharp-programming/regex
 ***************************************************/
 
 using TMPro;
@@ -14,6 +14,9 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Text.RegularExpressions;
+using System.Collections;
+using System;
 
 public class CommandConsoleBehavior : MonoBehaviour
 {
@@ -52,7 +55,10 @@ public class CommandConsoleBehavior : MonoBehaviour
     Tooltip("Can the Command Console greet the user?")] private bool greetEnabled;
     [SerializeField, ShowIf("options", InspectorOption.ValidCommands),
     Tooltip("Can the Command Console affect Enemies?")]
-    private bool enemiesEnabled;
+    private bool enemiesEnabled = true;
+    private bool playerEnabled = true;
+    private bool navigationEnabled = true;
+    private bool artifactsEnabled = true;
     #endregion
 
     [Foldout("References"), Required, SerializeField] private TMP_Text consoleInputBox;
@@ -98,9 +104,10 @@ public class CommandConsoleBehavior : MonoBehaviour
     public void EnterCommand(string command)
     {
         Logger.Input(command);
-        if (Commands.CommandDictionary.ContainsKey(command.ToLower()))
+        command = command.ToLower();
+        if (Commands.CommandDictionary.ContainsKey(command))
         {
-            switch (Commands.CommandDictionary[command.ToLower()])
+            switch (Commands.CommandDictionary[command])
             {
                 case Commands.CommandGroup.MoveConsole:
                     if (moveConsoleEnabled)
@@ -118,12 +125,36 @@ public class CommandConsoleBehavior : MonoBehaviour
                     {
                         if (enemiesEnabled)
                         {
-                            Commands.Enemies(command.ToLower());
+                            Commands.Enemies(command);
+                        }
+                        break;
+                    }
+                case Commands.CommandGroup.Player:
+                    {
+                        if(playerEnabled)
+                        {
+                            Commands.Player(command);
+                        }
+                        break;
+                    }
+                case Commands.CommandGroup.Navigation:
+                    {
+                        if(navigationEnabled)
+                        {
+                            Commands.Navigation(command);
+                        }
+                        break;
+                    }
+                case Commands.CommandGroup.Artifacts:
+                    {
+                        if(artifactsEnabled)
+                        {
+                            Commands.Artifacts(command);
                         }
                         break;
                     }
                 case Commands.CommandGroup.None:
-                    Commands.AlwaysAvailable(command.ToLower(), FindFirstObjectByType<CameraManager>());
+                    Commands.AlwaysAvailable(command, FindFirstObjectByType<CameraManager>());
                     break;
                 default:
                     Logger.Warning("Command Group Not Implemented");
@@ -132,12 +163,148 @@ public class CommandConsoleBehavior : MonoBehaviour
         }
         else
         {
-            Logger.Error("Invalid Command Entered");
+            // Hardcoded cases with variables for now; will look into
+            // how to do this more efficiently
+            if(command.Contains('-'))
+            {
+                int lastIndex = command.LastIndexOf('-')+1;
+                if(Commands.PartialCommands1.ContainsKey(command.Substring(0,lastIndex)))
+                {
+                    switch (Commands.PartialCommands1[command.Substring(0,lastIndex)])
+                    {
+                        case Commands.CommandGroup.MoveConsole:
+                            if (moveConsoleEnabled)
+                            {
+                                Commands.SetConsoleLocation(command);
+                            }
+                            break;
+                        case Commands.CommandGroup.Greet:
+                            if (greetEnabled)
+                            {
+                                Commands.Greet();
+                            }
+                            break;
+                        case Commands.CommandGroup.Enemies:
+                            {
+                                if (enemiesEnabled)
+                                {
+                                    Commands.Enemies(command);
+                                }
+                                break;
+                            }
+                        case Commands.CommandGroup.Player:
+                            {
+                                if(playerEnabled)
+                                {
+                                    Commands.Player(command);
+                                }
+                                break;
+                            }
+                        case Commands.CommandGroup.Navigation:
+                            {
+                                if(navigationEnabled)
+                                {
+                                    Commands.Navigation(command);
+                                }
+                                break;
+                            }
+                        case Commands.CommandGroup.Artifacts:
+                            {
+                                if(artifactsEnabled)
+                                {
+                                    Commands.Artifacts(command);
+                                }
+                                break;
+                            }
+                        case Commands.CommandGroup.None:
+                            Commands.AlwaysAvailable(command, FindFirstObjectByType<CameraManager>());
+                            break;
+                        default:
+                            Logger.Warning("Command Group Not Implemented");
+                            break;
+                    }
+                }
+                else
+                {
+                    bool matchFound = false;
+                    foreach(string key in Commands.PartialCommands2.Keys)
+                    {
+                        // pattern matching key
+                        Regex r = new Regex(key);
+                        if(!matchFound && r.IsMatch(command))
+                        {
+                            switch (Commands.PartialCommands2[key])
+                            {
+                                case Commands.CommandGroup.MoveConsole:
+                                    if (moveConsoleEnabled)
+                                    {
+                                        Commands.SetConsoleLocation(command);
+                                    }
+                                    break;
+                                case Commands.CommandGroup.Greet:
+                                    if (greetEnabled)
+                                    {
+                                        Commands.Greet();
+                                    }
+                                    break;
+                                case Commands.CommandGroup.Enemies:
+                                    {
+                                        if (enemiesEnabled)
+                                        {
+                                            Commands.Enemies(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.Player:
+                                    {
+                                        if(playerEnabled)
+                                        {
+                                            Commands.Player(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.Navigation:
+                                    {
+                                        if(navigationEnabled)
+                                        {
+                                            Commands.Navigation(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.Artifacts:
+                                    {
+                                        if(artifactsEnabled)
+                                        {
+                                            Commands.Artifacts(command);
+                                        }
+                                        break;
+                                    }
+                                case Commands.CommandGroup.None:
+                                    Commands.AlwaysAvailable(command, FindFirstObjectByType<CameraManager>());
+                                    break;
+                                default:
+                                    Logger.Warning("Command Group Not Implemented", false);
+                                    break;
+                            }
+                            matchFound = true;
+                            break;
+                        }
+                    }
+                    if(!matchFound)
+                        Logger.Error("Could not find partial key by regex", false);
+                }
+            }
+            else
+            {   
+                Logger.Error("Could not find key" + command, false);
+            }
         }
 
         ClearCommand();
         
     }
+
+
 
     /// <summary>
     /// Called when the input box is deselected and from other functions
@@ -150,6 +317,9 @@ public class CommandConsoleBehavior : MonoBehaviour
         consoleInputBox.text = "";
     }
 
+    /// <summary>
+    /// Controls whether the console is enabled or not
+    /// </summary>
     public void ToggleConsole()
     {
         if (consoleEnabled)
