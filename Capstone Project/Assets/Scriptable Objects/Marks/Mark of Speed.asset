@@ -13,13 +13,20 @@ MonoBehaviour:
   m_Name: Mark of Speed
   m_EditorClassIdentifier: 
   Name: 1
-  TriggerCondition: 0
+  MarkVisual: {fileID: 0}
+  TriggerCondition: 4
   TriggerIfAbove: 0
   Percent: 0
+  TwoMarkTurnChange: 0
+  ThreeMarkTurnChange: 0
   EffectsWith2:
   - Effect: 2
     valueChange: 1
+  PostTurnEffectsWith2: []
   EffectsWith3:
   - Effect: 2
     valueChange: 1
+  PostTurnEffectsWith3: []
+  maxTriggerWith2: 0
+  maxTriggerWith3: 0
   EffectCanTrigger: 0

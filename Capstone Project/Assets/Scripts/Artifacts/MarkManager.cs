@@ -183,24 +183,6 @@ public class MarkManager
             case MarkEffects.DamageTaken:
                 AdjustValueGeometrically(ref player.DamageTakenMultiplier, val, adding);
                 break;
-            case MarkEffects.MovementCost:
-                if(adding)
-                {
-                    gm.MoveActionPoints = (int)val;
-                }
-                else
-                {
-                    if(markCount == 3)
-                    {
-                        // not good to hardcode; gameManager isn't availble rn and I want to test
-                        gm.MoveActionPoints = 1;
-                    }
-                    else
-                    {
-                        gm.MoveActionPoints = 2;
-                    }
-                }
-                break;
             case MarkEffects.Heal:
                 // does this handle removing a healing mark? no. No currently plnned marks mess with max hp
                 player.Heal((int)(val));
