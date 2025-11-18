@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using TMPro;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class Enemy : MonoBehaviour
 {
@@ -152,13 +153,14 @@ public class Enemy : MonoBehaviour
     /// Damage function for enemy. Public so states can call it
     /// </summary>
     /// <param name="damage"></param>
-    public void Damage(float damage)
+    public async void Damage(float damage)
     {
         currentHealth -= damage;
         print("Enemy takes damage");
         healthBarSlider.value = currentHealth;
         if (currentHealth < 0)
         {
+            await Task.Delay(500);
             Die();
             if (FindFirstObjectByType<GameManager>().allowArtifacts)
             {
