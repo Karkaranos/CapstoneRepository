@@ -56,7 +56,6 @@ public class GridManager : MonoBehaviour
         {
             playerPosition = locationInGrid;
         }
-        Debug.Log("Add Entity");
     }
 
     /// <summary>
@@ -66,7 +65,6 @@ public class GridManager : MonoBehaviour
     public static void RemoveEntity(Vector2Int locationInGrid)
     {
         combatGrid[locationInGrid.x, locationInGrid.y].entityOnGrid = -1;
-        Debug.Log("Remove Entity");
     }
 
     /// <summary>
@@ -122,45 +120,15 @@ public class GridManager : MonoBehaviour
         {
             validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y));
         }
-        if (currentTile.y % 2 == 0)
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y + 1), myPos))
         {
-            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y + 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
-            }
-            if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x - 1, currentTile.y + 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y + 1));
-            }
-            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y - 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
-            }
-            if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x - 1, currentTile.y - 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y - 1));
-            }
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
         }
-        else
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y - 1), myPos))
         {
-            if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x + 1, currentTile.y + 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y + 1));
-            }
-            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y + 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
-            }
-            if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x + 1, currentTile.y - 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y - 1));
-            }
-            if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y - 1), myPos))
-            {
-                validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
-            }
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
         }
-
+        
         return validTiles;
     }
 
