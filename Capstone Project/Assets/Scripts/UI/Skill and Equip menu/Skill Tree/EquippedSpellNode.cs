@@ -128,7 +128,7 @@ public class EquippedSpellNode : MonoBehaviour
         if (heldSpell != null)
         {
             //tells the skill tree manager to update the text
-            skillTreeManager.UpdateSpellDescriptionText(heldSpell, -1);
+            //skillTreeManager.UpdateSpellDescriptionText(heldSpell, -1);
         }
     }
 }

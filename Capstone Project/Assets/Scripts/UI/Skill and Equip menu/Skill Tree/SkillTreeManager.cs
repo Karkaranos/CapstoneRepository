@@ -65,6 +65,8 @@ public class SkillTreeManager : MonoBehaviour
 
     private SkillAndArtifactManager skillAndArtifactManager;
 
+    private SkillTreeNode nodeSelected;
+
     #endregion
     #endregion
 
@@ -196,7 +198,7 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     /// <param name="dataToDisplay"> the data to display now, whatever rune should be shown </param>
     /// <param name="cost"> how much the rune costs to purchase, -1 if already owned </param>
-    public void UpdateSpellDescriptionText(RuneData dataToDisplay, int cost)
+    public void UpdateSpellDescriptionText(SkillTreeNode dataToDisplay, int cost)
     {
         //shows cost if it has one
         if (cost > 0)
@@ -209,7 +211,14 @@ public class SkillTreeManager : MonoBehaviour
         }
 
         //updates the rest of the text
-        titleText.text = dataToDisplay.name;
-        descriptionText.text = dataToDisplay.RuneDescription;
+        titleText.text = dataToDisplay.NodeRuneData.RuneName;
+        descriptionText.text = dataToDisplay.NodeRuneData.RuneDescription;
+
+        nodeSelected = dataToDisplay;
+    }
+
+    public void PurchaseSpell()
+    {
+        nodeSelected.PurchaseNode();
     }
 }
