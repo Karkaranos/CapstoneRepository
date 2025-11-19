@@ -1,0 +1,46 @@
+/*************************************************
+Author Names : 		Clare Grady, 
+Date Created : 		11/19/2025
+Date Last Modified : 	11/19/2025
+Brief Description : 		Ranged enemy move state
+External Resources : 	
+***************************************************/
+using UnityEngine;
+
+public class RangedEnemyMoveState : RangedEnemyState
+{
+    public RangedEnemyMoveState(RangedEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    {  }
+
+    /// <summary>
+    /// Enter move state logic
+    /// </summary>
+    public override void EnterState()
+    {
+        enemy.logText.text = "Moving";
+
+        /*
+         * Check if player to close 
+         * Pathfinding Logic HERE (move to or away from player) 
+         * Move Coroutine 
+         * await delay 
+         */
+
+        if (enemy.GetPlayerInAttackRange() && enemy.GetPlayerInLineOfSight())
+        {
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState(), 0));
+        }
+        else
+        {
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState(), 0));
+        }
+    }
+
+    /// <summary>
+    /// Exit move state logic 
+    /// </summary>
+    public override void ExitState()
+    {
+        base.ExitState();
+    }
+}
