@@ -36,6 +36,8 @@ public class PlayerStats : MonoBehaviour
     [Tooltip("The player's maximum health at a given point"), ShowIf(nameof(settings), Settings.GeneralStats)] public int MaxHealth = 100;
     [Tooltip("The chance a player dodges the attack"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f,1f)] public float DodgeChance = 0f;
     [Tooltip("The player's luck modifier"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f, 1f)] public float LuckModifier = 0f;
+    [Tooltip("What XP is multiplied by when an enemy dies"), ShowIf(nameof(settings), Settings.GeneralStats)] public float XPMultiplier = 1f;
+    [Tooltip("An additional modifier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 0f; 
 
     private int tempHealth;
     #endregion

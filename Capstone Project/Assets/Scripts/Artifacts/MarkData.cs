@@ -16,7 +16,7 @@ public enum MarkType
 
 public enum MarkTriggerCondition
 {
-    OnEquip, HealthPercent, LevelStart, TurnStart, TurnCount, EnemyDeath
+    OnEquip, HealthPercent, TurnStart, TurnCount, EnemyDeath
 }
 
 public enum MarkEffects
@@ -54,6 +54,9 @@ public class MarkData : ScriptableObject
      [Tooltip("How many times this effect can trigger with 3 of this Mark. Ignore for non AP"), AllowNesting, ShowIf(nameof(TriggerCondition), MarkTriggerCondition.EnemyDeath)] public int maxTriggerWith3;
 
     [HideInInspector] public bool EffectCanTrigger = false;
+    [HideInInspector] public bool TwoConditionTrigger = true;
+    [HideInInspector] public bool ThreeConditionTrigger = true;
+    [HideInInspector] public int TimesTriggered = 0;
 
     public MarkType MarkType { get; internal set; }
 }
