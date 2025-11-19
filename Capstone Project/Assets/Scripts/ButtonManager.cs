@@ -29,13 +29,16 @@ public class ButtonManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject confirmCanvas;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject videoCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject runeCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button moveButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button attackButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button backButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button confirmButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button endButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button skipcutButton;
     public bool playerCanMove;
+    public bool cutsceneSkipped;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
     public bool confirmButtonClicked;
@@ -161,6 +164,20 @@ public class ButtonManager : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// Skips the cutscene on button click
+    /// Sets VideoCanvas to false
+    /// </summary>
+    public void SkipCutscene()
+    {
+        cutsceneSkipped = true;
+        if (cutsceneSkipped)
+        {
+            videoCanvas.SetActive(false);
+        }
+    }
+
 
     /// <summary>
     /// Sets PlayerCanMove bool from playerBehavior to false

@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 11/7/2025
+ * Last Modified: 11/18/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -146,55 +146,15 @@ public class GridPathfinding : MonoBehaviour
                 gridDirections.Add("Right");
                 --targetPosition.x;
             }
-            else if(targetPosition.y % 2 == 1)
+            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1].entityOnGrid == i)
             {
-                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y - 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Up Left");
-                    ++targetPosition.x;
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Up Right");
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y + 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Down Left");
-                    ++targetPosition.x;
-                    ++targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Down Right");
-                    ++targetPosition.y;
-                }
+                gridDirections.Add("Down");
+                ++targetPosition.y;
             }
-            else if(targetPosition.y % 2 == 0)
+            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1].entityOnGrid == i)
             {
-                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Up Left");
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y - 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Up Right");
-                    --targetPosition.x;
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Down Left");
-                    ++targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y + 1].entityOnGrid == i)
-                {
-                    gridDirections.Add("Down Right");
-                    --targetPosition.x;
-                    ++targetPosition.y;
-                }
+                gridDirections.Add("Up");
+                --targetPosition.y;
             }
             nextPos.Add(targetPosition);
         }
@@ -216,8 +176,6 @@ public class GridPathfinding : MonoBehaviour
     protected IEnumerator MoveEntity()
     {
         newPositions.Clear();
-        float tileSizeX = transform.GetComponentInParent<Transform>().localScale.x * 2;
-        float tileSizeY = transform.GetComponentInParent<Transform>().localScale.z * 2;
 
         Vector3 newPosition = GetComponentInParent<Transform>().position;
 
@@ -230,27 +188,17 @@ public class GridPathfinding : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             switch (gridDirections[i])
             {
-                case "Up Left":
-                    newPosition.x -= (tileSizeX / 2);
-                    newPosition.z += (tileSizeY * .75f);
-                    break;
-                case "Up Right":
-                    newPosition.x += (tileSizeX / 2);
-                    newPosition.z += (tileSizeY * .75f);
-                    break;
-                case "Down Left":
-                    newPosition.x -= (tileSizeX / 2);
-                    newPosition.z -= (tileSizeY * .75f);
-                    break;
-                case "Down Right":
-                    newPosition.x += (tileSizeX / 2);
-                    newPosition.z -= (tileSizeY * .75f);
-                    break;
                 case "Right":
-                    newPosition.x += tileSizeX;
+                    newPosition.x += GridManager.MoveDistances.x;
                     break;
                 case "Left":
-                    newPosition.x -= tileSizeX;
+                    newPosition.x -= GridManager.MoveDistances.x;
+                    break;
+                case "Up":
+                    newPosition.z += GridManager.MoveDistances.y;
+                    break;
+                case "Down":
+                    newPosition.z -= GridManager.MoveDistances.y;
                     break;
                 default:
                     Debug.Log("Error!!!");
@@ -269,7 +217,6 @@ public class GridPathfinding : MonoBehaviour
     private IEnumerator MoveToTile()
     {
         int eType = isEnemy ? -2 : -3;
-        //GridManager.ClearPathfinding();
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
