@@ -33,15 +33,9 @@ public class MarkManager
                 MarkCount.Add(currentMark, 0);
             }
         }
-    }
-
-    /// <summary>
-    /// Subscribes to the BeginPlayerTurn event
-    /// </summary>
-    public void OnEnable()
-    {
         TurnPublicEvents.BeginPlayerTurn += TurnStart;
     }
+
 
     /// <summary>
     /// Unsubscribes from the BeginPlayerTurn event
@@ -143,6 +137,7 @@ public class MarkManager
     /// </summary>
     public static void TurnStart()
     {
+
         turnCount++;
         foreach(MarkData m in Marks)
         {
