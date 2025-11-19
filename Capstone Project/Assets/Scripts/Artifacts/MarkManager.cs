@@ -15,7 +15,7 @@ using UnityEngine;
 public class MarkManager
 {
     private static List<MarkData> Marks;
-    private static Dictionary<MarkType, int> MarkCount;
+    private static Dictionary<MarkType, int> MarkCount = new Dictionary<MarkType, int>();
 
     private static GameManager gm;
     private static PlayerStats player;
@@ -24,6 +24,15 @@ public class MarkManager
     {
         Marks = marks;
         gm = game;
+
+        for(int i=0; i < MarkType.GetNames(typeof(MarkType)).Length; i++)
+        {
+            MarkType currentMark = (MarkType)i; 
+            if(!MarkCount.ContainsKey(currentMark))
+            {
+                MarkCount.Add(currentMark, 0);
+            }
+        }
     }
 
     /// <summary>
