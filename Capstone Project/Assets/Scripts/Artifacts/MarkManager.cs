@@ -27,6 +27,22 @@ public class MarkManager
     }
 
     /// <summary>
+    /// Subscribes to the BeginPlayerTurn event
+    /// </summary>
+    public void OnEnable()
+    {
+        TurnPublicEvents.BeginPlayerTurn += TurnStart;
+    }
+
+    /// <summary>
+    /// Unsubscribes from the BeginPlayerTurn event
+    /// </summary>
+    public void OnDisable()
+    {
+        TurnPublicEvents.BeginPlayerTurn -= TurnStart;
+    }
+
+    /// <summary>
     /// Sets a reference to the player
     /// </summary>
     /// <param name="p"></param>
