@@ -334,6 +334,8 @@ public class RuneEvents : MonoBehaviour
                         //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                         //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
                         vfx = Instantiate(storedData.RuneVFX, secondaryTarget.transform);
+
+                        secondaryTarget = null;
                       
                     }
 
@@ -503,15 +505,18 @@ public class RuneEvents : MonoBehaviour
 
                             enemy.GetComponentInChildren<Enemy>().Damage(damageDealt);
                             CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
-                            
-
-                            vfx = Instantiate(storedData.RuneVFX, enemy.transform);
 
                             //moves enemy backwards
                             if(enemy != target)
                             {
 
                                 SendEnemyBackwards(target, enemy, enemies);
+
+                            }
+                            else
+                            {
+
+                                vfx = Instantiate(storedData.RuneVFX, enemy.transform);
 
                             }
 
@@ -621,8 +626,6 @@ public class RuneEvents : MonoBehaviour
                             validEnemies[i].GetComponentInChildren<Enemy>().Damage
                                     (Mathf.CeilToInt(damageDealt/ validEnemies.Count));
                             CheckRuneCombination(target.GetComponentInChildren<Enemy>());
-
-                            vfx = Instantiate(storedData.RuneVFX, validEnemies[i].transform);
                             
                         }
 
