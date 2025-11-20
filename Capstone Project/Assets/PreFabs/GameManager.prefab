@@ -51,12 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5e7ca3b4d52fc4eaea701120c048b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 3
-  allowArtifacts: 0
+  settings: 2
+  allowArtifacts: 1
   CommandConsole: {fileID: 1704929989082906118, guid: 3ad6c0ab1caa33c44ab70d8171a08f0a, type: 3}
   maxArtifacts: 3
-  allowArtifactTesting: 0
+  allowArtifactTesting: 1
   randomArtifactPool:
+  - {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
   - {fileID: 11400000, guid: cdebfa474e7c2064ea9c0fc41e5fa153, type: 2}
   - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
   setArtifactPool: []
@@ -65,11 +66,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
   - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
   - {fileID: 11400000, guid: 650041acff6096044aebf8777a69ae97, type: 2}
+  - {fileID: 11400000, guid: 1efe212ce72729040853e18c0be93aaa, type: 2}
+  - {fileID: 11400000, guid: c154310e123d50f45ac945dded7b671e, type: 2}
   consoleEnabled: 1
   consoleEnabledOnLoad: 0
   moveConsoleEnabled: 1
   greetEnabled: 1
   enemiesEnabled: 1
+  validMarks:
+  - {fileID: 11400000, guid: 43bc61277254109479353e410ff894bd, type: 2}
+  ActionPointVisualizer: {fileID: 0}
   CurrentActionPoints: 3
   MoveActionPoints: 2
   ActionPointsPerTurn: 3
@@ -123,8 +129,8 @@ MonoBehaviour:
   currentHearBackNum: 0
   targetHearBackNum: 0
   breakInfLoop: 0
-  gameHasStarted: 0
   playerCanvas: {fileID: 0}
+  turnIndicatorPrefab: {fileID: 4808714204469960702, guid: 38ace1e574717c043844f9d2c2d144cf, type: 3}
 --- !u!114 &7363244820257217404
 MonoBehaviour:
   m_ObjectHideFlags: 0

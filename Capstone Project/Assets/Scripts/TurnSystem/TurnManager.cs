@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		10/9/2025
-Date Last Modified : 10/23/2025
+Date Last Modified : 11/7/2025
 Brief Description : Handles the changing of the phases of the turn
 External Resources : 	
 ***************************************************/
@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 
 //this is the enum that dictates what state the turn is in
@@ -43,7 +44,7 @@ public class TurnManager : MonoBehaviour
     [HorizontalLine(4, EColor.Indigo)]
 
     //current state of the turn
-    [ShowIf(nameof(shownSettings), ShownSettings.Debug)] public TurnStates currentStatus;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug)] public static TurnStates currentStatus;
 
     //how many instances this script has heard back from after 
     //sending out a new phase public event
@@ -61,8 +62,11 @@ public class TurnManager : MonoBehaviour
     [HorizontalLine(4, EColor.Gray)]
 
     [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject playerCanvas;
+    [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject turnIndicatorPrefab;
+    private TMP_Text turnIndicatorText;
 
     #endregion
+
 
     /// <summary>
     /// subscribes to all needed events
@@ -107,6 +111,11 @@ public class TurnManager : MonoBehaviour
     private IEnumerator DelayStartCombat()
     {
         yield return new WaitForSeconds(StartCombatDelay);
+
+        //attaching the turn indicator to the button manager because its on the main canvas and doesnt get disabled
+        GameObject turnIndic = Instantiate(turnIndicatorPrefab, FindFirstObjectByType<ButtonManager>().transform);
+        turnIndicatorText = turnIndic.GetComponentInChildren<TMP_Text>();
+
         SetPhase(TurnStates.Start);
     }
 
@@ -124,9 +133,6 @@ public class TurnManager : MonoBehaviour
         {
             case TurnStates.Start:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginStartTurn?.Invoke();
-
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
                 if (TurnPublicEvents.BeginStartTurn?.GetInvocationList().Length > 0)
@@ -140,11 +146,11 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginStartTurn?.Invoke();
+
                 break;
             case TurnStates.PlayerTurn:
-
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginPlayerTurn?.Invoke();
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -159,13 +165,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
-
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginPlayerTurn?.Invoke();
 
                 break;
             case TurnStates.EnemyTurn:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -179,11 +185,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
                 break;
             case TurnStates.End:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEndTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -203,11 +211,15 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEndTurn?.Invoke();
 
                 break;
             default:
                 throw new System.Exception("Check NextPhase() in TurnManager, the switch statement is broken or is missing cases");
         }
+
+        UpdateText();
     }
 
     /// <summary>
@@ -218,7 +230,7 @@ public class TurnManager : MonoBehaviour
         Debug.Log("Called");
 
         //ups the number of instances this has heard back from
-        currentHearBackNum++;
+        ++currentHearBackNum;
 
         //checks to see if its heard back from everything
         if (currentHearBackNum >= targetHearBackNum)
@@ -251,8 +263,7 @@ public class TurnManager : MonoBehaviour
         {
             case TurnStates.Start:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginStartTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -266,11 +277,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginStartTurn?.Invoke();
+
                 break;
             case TurnStates.PlayerTurn:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginPlayerTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -285,13 +298,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
-
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginPlayerTurn?.Invoke();
 
                 break;
             case TurnStates.EnemyTurn:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -305,11 +318,13 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEnemyTurn?.Invoke();
+
                 break;
             case TurnStates.End:
 
-                //throws out the public event to start the phase
-                TurnPublicEvents.BeginEndTurn?.Invoke();
+
 
                 //sets the target number of instances to hear back from equal to the number of listeners
                 //on the event
@@ -329,11 +344,15 @@ public class TurnManager : MonoBehaviour
                     NextPhase();
                 }
 
+                //throws out the public event to start the phase
+                TurnPublicEvents.BeginEndTurn?.Invoke();
 
                 break;
             default:
                 throw new System.Exception("Check NextPhase() in TurnManager, the switch statement is broken or is missing cases");
         }
+
+        UpdateText();
     }
 
 
@@ -370,6 +389,31 @@ public class TurnManager : MonoBehaviour
         }
 
         return output;
+    }
+
+    /// <summary>
+    /// Updates the text for the turn indicator. Will also call other between turn stuff eventually
+    /// </summary>
+    /// <exception cref="System.Exception"></exception>
+    private void UpdateText()
+    {
+        switch (currentStatus)
+        {
+            case TurnStates.Start:
+                turnIndicatorText.text = "Start Turn";
+                break;
+            case TurnStates.PlayerTurn:
+                turnIndicatorText.text = "Player's Turn";
+                break;
+            case TurnStates.EnemyTurn:
+                turnIndicatorText.text = "Enemy's Turn";
+                break;
+            case TurnStates.End:
+                turnIndicatorText.text = "End of Turn";
+                break;
+            default:
+                throw new System.Exception("Check UpdateText() in TurnManager, the switch statement is broken or is missing cases");
+        }
     }
 
     #endregion

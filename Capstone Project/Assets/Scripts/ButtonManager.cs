@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
 Date Created : 		    10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	11/7/2025 Clare Grady
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -42,6 +42,8 @@ public class ButtonManager : MonoBehaviour
     public bool endButtonClicked;
 
     private GameManager gm; // temp variable
+
+    private bool isPlayersTurn;
     #endregion
 
     /// <summary>
@@ -81,6 +83,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     private void PlayerStartTurn()
     {
+        isPlayersTurn = true;
         playerCanvas.SetActive(true);
     }
 
@@ -89,7 +92,19 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     private void EnemyTurnStarted()
     {
+        isPlayersTurn = false;
         playerCanvas.SetActive(false);
+        runeCanvas.SetActive(false);
+        moveButton.interactable = true;
+
+        if (playerBehavior.tilesInRange.Count > 0)
+        {
+            foreach (TileBehaviour t in playerBehavior.tilesInRange)
+            {
+                t.DisableHighlight();
+            }
+        }
+
         TurnPublicEvents.TurnActionComplete();
     }
 
@@ -114,17 +129,6 @@ public class ButtonManager : MonoBehaviour
         {
             Logger.Warning("Not enough Action Points!");
         }    
-        
-        //playerCanMove = true;
-        //if(playerCanMove)
-        //{
-        //    moveCanvas.SetActive(true);
-        //    playerCanvas.SetActive(false);
-        //}
-        //else
-        //{
-        //    playerCanMove = false;
-        //}
     }
 
     /// <summary>
@@ -147,7 +151,9 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("goin back!");
         playerCanvas.SetActive(true);
         moveCanvas.SetActive(false);
+        runeCanvas.GetComponent<RuneEvents>().CancelCasting();
         runeCanvas.SetActive(false);
+        confirmCanvas.SetActive(false);
 
         if (playerBehavior != null)
         {
@@ -165,18 +171,22 @@ public class ButtonManager : MonoBehaviour
     {
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
-        playerCanvas.SetActive(true);
-        PublicEvents.PlayerMove();
-        //confirmButtonClicked = true;
-        //if (confirmButtonClicked)
-        //{
-        //    confirmCanvas.SetActive(false);
-        //    playerCanvas.SetActive(true);
-        //}
-        //else
-        //{
-        //    confirmButtonClicked = false;
-        //}
+        playerBehavior.PathfindThroughGrid();
+    }
+
+    /// <summary>
+    /// Turns the action canvas back on and disables the move button if needed
+    /// </summary>
+    public void ReEnableActionCanvas()
+    {
+        if (isPlayersTurn)
+        {
+            if (gm.CurrentActionPoints - gm.MoveActionPoints < 0)
+            {
+                moveButton.interactable = false;
+            }
+            playerCanvas.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -189,19 +199,13 @@ public class ButtonManager : MonoBehaviour
         endButtonClicked = true;
 
         playerCanvas.SetActive(false);
+        
+        if(playerBehavior == null) { playerBehavior = FindFirstObjectByType<PlayerBehavior>(); }
+       
 
         TurnPublicEvents.ForceEndCurrentPhase();
-        /*        if (endButtonClicked)
-                {
-                    if (EnemyTurn())
-                    {
-                        //playerCanvas.SetActive(false);
-                    }
-                    else
-                    {*/
-        //FindFirstObjectByType<TurnBasedBattleSystem>().PlayerTurnTime();
-         //   }
-        }
+     }
+
     #endregion
 }
 

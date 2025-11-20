@@ -48,7 +48,7 @@ public class CursorMovingItemScript : MonoBehaviour
     /// <param name="obj"></param>
     private void TrashSpell_started(InputAction.CallbackContext obj)
     {
-        FindFirstObjectByType<SkillTreeManager>().ConfirmEquipSpell();
+        PublicEvents.TrashHeldOOCObject?.Invoke();
     }
 
     void Update()

@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 10/22/2025 (Tyler Bouchard)
+ * Last Modified: 11/2/2025 (Tyler Bouchard)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -13,12 +13,11 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class TileBehaviour : MonoBehaviour
 {
-    [Header("Tile Info")]
-    [Tooltip("The index the tile is inside the grid")]
-    public Vector2Int IndexInGrid;
-
-    [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")]
-    Vector2 tileDisplacement;
+    private enum TileType
+    {
+        Default,
+        Water
+    }
     private enum EntityType
     {
         Enemy,
@@ -32,6 +31,20 @@ public class TileBehaviour : MonoBehaviour
         slow 
     }
 
+    [Header("Tile Info"), Tooltip("The index the tile is inside the grid")] public Vector2Int IndexInGrid;
+    [SerializeField, Tooltip("How far a tile's transform must move in order to be adjacent to another tile")] Vector2 tileDisplacement;
+    [SerializeField] private TileType tileType;
+    [SerializeField] private GameObject ObjectOnTile;
+    public GameObject tileHighlight;
+
+    [Header("Water Tile Vars"), SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject WaterTileVisualizer;
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
+
+    [HideInInspector] public int entityOnGrid; 
+
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
     [SerializeField, ShowIf(nameof(TileHasEntities)), Foldout("Entities")] private EntityType entityType;
@@ -42,6 +55,8 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private GameObject hazardObject;
     [SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
     [SerializeField, ShowIf(nameof(ShowSlowVars)), Foldout("Hazards")] private int movesLost;
+
+    public bool inPlayerRange;
 
     /// <summary>
     /// checker for the showif function
@@ -69,20 +84,23 @@ public class TileBehaviour : MonoBehaviour
     {
         IndexInGrid.x = (int)(transform.position.x / tileDisplacement.x);
         IndexInGrid.y = (int)(transform.position.z / tileDisplacement.y);
+        inPlayerRange = false;
     }
 
     /// <summary>
-    /// all this does right now is call the add objects to tile function
+    /// Spawns entities on start
     /// </summary>
     private void Start()
     {
-        AddObjectsToTile();
+        //AddObjectsToTile();
+        tileHighlight.SetActive(false);
+        Invoke("AddObjectsToTile", 1.5f);
     }
 
     /// <summary>
     /// adds the entities and hazards to the tile, updates the grid manager with positions
     /// </summary>
-    private void AddObjectsToTile() {
+    public void AddObjectsToTile() {
         int eType = -1;
 
         //spawns an Entity if theres one to spawn
@@ -116,6 +134,60 @@ public class TileBehaviour : MonoBehaviour
         {
             GameObject obj = Instantiate(hazardObject, transform.position, Quaternion.identity);
         }
+
+        if (tileType == TileType.Water) {
+            GameObject obj = Instantiate(WaterTileVisualizer, transform.position, Quaternion.identity);
+        }
+    }
+
+    /// <summary>
+    /// This is what should be called whenever the tile is struck with electricity
+    /// </summary>
+    public void ElectrifyTile()
+    {
+        if (tileType == TileType.Water) {
+            isElectrified = true;
+            turnsSinceElectrification = 0;
+        }
+    }
+
+    /// <summary>
+    /// applys all the effects that the tile should deal out to whatever is on it durring the tiles turn
+    /// </summary>
+    public void ApplyTileEffects() {
+        if (hazardType == HazardType.damage)
+        {
+            DamageEntity(damageAmount);
+        }
+
+        if (tileType == TileType.Water && isElectrified) {
+            DamageEntity(damageWhenElectrified);
+            turnsSinceElectrification++;
+            if (turnsSinceElectrification >= electrificationDuration) { 
+                isElectrified = false;
+            }
+        }
+        TurnPublicEvents.TurnActionComplete();
+    }
+
+    /// <summary>
+    /// applys the damage to the entities
+    /// </summary>
+    /// <param name="amount"></param>
+    private void DamageEntity(int amount) {
+        //calls the player damage
+        if (ObjectOnTile != null) {
+            if (ObjectOnTile.GetComponent<PlayerStats>() != null)
+            {
+                ObjectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
+            }
+
+            //calls the enemy damage
+            if (ObjectOnTile.GetComponent<MeleeEnemy>() != null)
+            {
+                ObjectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
+            }
+        }
     }
 
     /// <summary>
@@ -124,21 +196,34 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        print("added " + collision.name + " to " + gameObject.name);
+        //print("added " + collision.name + " to " + gameObject.name);
         collision.transform.SetParent(transform);
 
-        //dealing damage to the player and enemy if aplicable
-        if (hazardType == HazardType.damage) {
-            if (collision.gameObject.GetComponent<PlayerStats>() != null)
-            {
-                collision.gameObject.GetComponent<PlayerStats>().TakeDamage(damageAmount);
-            }
-            if (collision.gameObject.GetComponent<MeleeEnemy>() != null)
-            {
-                collision.gameObject.GetComponent<MeleeEnemy>().Damage(damageAmount);
-            }
-        }
+        ObjectOnTile = collision.gameObject;
+    }
 
-        //call whatever slows the player once that is in
+    /// <summary>
+    /// Lets the tile listen for unity events
+    /// </summary>
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
+    }
+
+    ///// <summary>
+    ///// Used so it doesn't listen to a null reference of unity events
+    ///// </summary>
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
+    }
+
+    /// <summary>
+    /// Disables the highlight that was enables for tiles that the player could move to
+    /// </summary>
+    public void DisableHighlight()
+    {
+        tileHighlight.SetActive(false);
+        inPlayerRange = false;
     }
 }
