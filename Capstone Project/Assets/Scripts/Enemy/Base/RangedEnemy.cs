@@ -73,17 +73,20 @@ public class RangedEnemy : Enemy
     {
         if(turnDelayed)
         {
+            Debug.Log("Turn Delayed");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(endTurnState));
             return;
         }
 
         if(GetPlayerInAttackRange() && GetPlayerInLineOfSight())
         {
+            Debug.Log("Wait -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
+            Debug.Log("Wait -> Move");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveState));
             return;
         }

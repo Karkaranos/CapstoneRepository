@@ -24,6 +24,7 @@ public class RangedEnemyAttackState : RangedEnemyState
         if (enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
             enemy.hasAttackedTwice = true;
+            Debug.Log("Attack -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
             return;
         }

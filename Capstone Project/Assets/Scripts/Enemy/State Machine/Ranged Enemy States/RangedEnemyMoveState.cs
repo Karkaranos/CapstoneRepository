@@ -28,6 +28,7 @@ public class RangedEnemyMoveState : RangedEnemyState
 
         if (enemy.GetPlayerInAttackRange() && enemy.GetPlayerInLineOfSight())
         {
+            Debug.Log("Move -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
         }
         else
