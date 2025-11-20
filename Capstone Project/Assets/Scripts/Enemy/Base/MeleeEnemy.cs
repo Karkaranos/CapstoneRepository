@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/20/2025
+Date Last Modified : 	11/7/2025
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -12,17 +12,24 @@ using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class MeleeEnemy : Enemy
 {
     #region VARS
 
+    //Vars related to Melee enemy combat
+    #region COMBAT VARS
+
+    [Header("Melee Enemy Specfic")]
+    [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
+    
+    #endregion
+
     //Vars used to show functionality without implementation. TEMPORARY
     #region TEST VARS
 
-    [ShowIf(nameof(currentSettings), Settings.Testing)]public bool canAttackTwice = true;
     [ShowIf(nameof(currentSettings), Settings.Testing)] public bool isLowHealth = false;
-    [ShowIf(nameof(currentSettings), Settings.Testing)] public bool playerInAttackRange = true;
 
     #endregion
 
@@ -53,28 +60,25 @@ public class MeleeEnemy : Enemy
     /// </summary>
     private void Awake()
     {
-        enemyStateMachine = new EnemyStateMachine();
-        enemyWaitState = new MeleeEnemyWaitState(this, enemyStateMachine);
-        enemyRunState = new MeleeEnemyRunState(this,enemyStateMachine);
-        moveToPlayerState = new MeleeEnemyMoveToPlayerState(this,enemyStateMachine);
-        attackState = new MeleeEnemyAttackState(this,enemyStateMachine);
-        endTurnState = new MeleeEnemyEndTurnState(this,enemyStateMachine);
-        enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
+        
     }
 
     /// <summary>
-    /// Start function
-    /// Sets current health = max health 
-    /// Gets componets for GridPathing and targetingbehaviour 
-    /// Sets movement and aggro range 
+    /// Currently calls Enemy.Start()
+    /// if there is anything unique needed to be done in Melee start 
+    /// it will be put here
     /// </summary>
-    private void Start()
+    public override void Start()
     {
-        currentHealth = maxHealth;
-        gridPathfinding = GetComponent<GridPathfinding>();
-        targetingBehaviour = GetComponent<TargetingBehaviour>();
-        gridPathfinding.SetMovementRange(movementRange);
-        gridPathfinding.SetAggroRange(aggroRange);
+        enemyStateMachine = new EnemyStateMachine();
+        enemyWaitState = new MeleeEnemyWaitState(this, enemyStateMachine);
+        enemyRunState = new MeleeEnemyRunState(this, enemyStateMachine);
+        moveToPlayerState = new MeleeEnemyMoveToPlayerState(this, enemyStateMachine);
+        attackState = new MeleeEnemyAttackState(this, enemyStateMachine);
+        endTurnState = new MeleeEnemyEndTurnState(this, enemyStateMachine);
+        enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
+        base.Start();
+        targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
     }
 
     /// <summary>
@@ -85,6 +89,15 @@ public class MeleeEnemy : Enemy
     [Button("Start Enemy Turn")]
     public override void StartEnemyTurn()
     {
+
+        if(turnDelayed)
+        {
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(endTurnState));
+            //enemyStateMachine.ChangeState(endTurnState, 0);
+            return;
+
+        }
+
         //if low health go to run state
         if(LowHealthDetection())
         {
@@ -94,7 +107,7 @@ public class MeleeEnemy : Enemy
         }
 
         //Attack if player in range otherwise move towards player
-        if(PlayerInAttackRange())
+        if(GetPlayerInAttackRange())
         {
             Debug.Log("Wait -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
@@ -118,16 +131,6 @@ public class MeleeEnemy : Enemy
         return isLowHealth;
     }
 
-    /// <summary>
-    /// Is the player in attack ranger 
-    ///Will be filled out for actual functionality 
-    /// </summary>
-    /// <returns></returns>
-    public bool PlayerInAttackRange()
-    {
-        return playerInAttackRange;
-    }
-
     #endregion
 
     #region GETTER AND SETTERS
@@ -139,6 +142,22 @@ public class MeleeEnemy : Enemy
     public MeleeEnemyWaitState GetWaitState() {  return enemyWaitState; }
     public MeleeEnemyAttackState GetAttackState() {  return attackState; }
     public MeleeEnemyEndTurnState GetEndTurnState() { return endTurnState; }
+
+    /// <summary>
+    /// Logic to determine if enemy is in attack range
+    /// Overriden from Enemy.cs 
+    /// </summary>
+    /// <returns></returns>
+    public override bool GetPlayerInAttackRange()
+    {
+        targetingBehaviour.FindTarget();
+        gridPathfinding.PathfindThroughGrid();
+        Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
+        Debug.Log("Target Pos: " + gridPathfinding.GetTargetPosition().ToString());
+        
+        if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { Debug.Log("In Range");  }
+        return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
+    }
 
     #endregion
 }

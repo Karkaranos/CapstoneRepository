@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 10/23/2025
+ * Last Modified: 11/18/2025
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -24,12 +24,11 @@ public class GridPathfinding : MonoBehaviour
     List<Vector3> newPositions = new List<Vector3>();
     Vector2Int nextPosition = Vector2Int.zero;
     [SerializeField] float movementSpeed;
+    protected bool isEnemy = true;
 
     [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
     [SerializeField] protected int movementRange;
-    [SerializeField] protected int aggroRange;
-
-    int breakout = 0;
+    protected int pathfindingLimit;
     bool isMoving = false;
 
     /// <summary>
@@ -42,40 +41,24 @@ public class GridPathfinding : MonoBehaviour
         PathfindThroughGrid();
     }
 
-    ///// <summary>
-    ///// No longer does anything but is kept because it would cause issues with the state machine if removed
-    ///// </summary>
-    virtual public void SetTarget()
-    {
-        Debug.Log("I do nothing now");
-        //targetPosition = GridManager.playerPosition;
-    }
-
     /// <summary>
-    /// Function that enemies call to set their movement range
+    /// Lets the pathfinding know if its the player or enemy trying to pathfind
     /// </summary>
-    /// <param name="movementRange"></param>
-    public void SetMovementRange(int movementRange)
+    private void Start()
     {
-        this.movementRange = movementRange;
-    }
-
-    /// <summary>
-    /// Function that enemies call to set their aggro range
-    /// </summary>
-    /// <param name="aggroRange"></param>
-    public void SetAggroRange(int aggroRange)
-    {
-        this.aggroRange = aggroRange;
+        isEnemy = true;
     }
 
     /// <summary>
     /// Takes the current position and pathfinds to a designated location
     /// </summary>
-    public void PathfindThroughGrid()
+    virtual public void PathfindThroughGrid()
     {
         nextPos.Clear();
-        nextPos.Add(targetPosition);
+        if (!isEnemy)
+        {
+            nextPos.Add(targetPosition);
+        }
         Vector2Int originalPosition = myPosition;
         gridDirections.Clear();
 
@@ -86,7 +69,7 @@ public class GridPathfinding : MonoBehaviour
         bool reachedTarget = false;
         currentPositions.Add(myPosition);
 
-        while (!reachedTarget && stepsTaken < aggroRange)
+        while (!reachedTarget && stepsTaken < pathfindingLimit)
         {
             foreach (Vector2Int v in nextPositions)
             {
@@ -96,17 +79,34 @@ public class GridPathfinding : MonoBehaviour
             //Add the potential tiles to be checked for movement or the target
             foreach (Vector2Int currentTile in currentPositions)
             {
-                if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
+                if (isEnemy)
                 {
-                    targetPosition = currentTile;
-                    nextPos.Add(targetPosition);
-                    reachedTarget = true;
-                    currentPositions.Clear();
-                    break;
+                    if (GetComponent<TargetingBehaviour>().targetLocations.Contains(currentTile))
+                    {
+                        targetPosition = currentTile;
+                        nextPos.Add(targetPosition);
+                        reachedTarget = true;
+                        currentPositions.Clear();
+                        break;
+                    }
+                    else
+                    {
+                        GridManager.combatGrid[currentTile.x, currentTile.y].entityOnGrid = stepsTaken;
+                    }
                 }
                 else
                 {
-                    GridManager.combatGrid[currentTile.x, currentTile.y] = stepsTaken;
+                    if (targetPosition == currentTile)
+                    {
+                        nextPos.Add(targetPosition);
+                        reachedTarget = true;
+                        currentPositions.Clear();
+                        break;
+                    }
+                    else
+                    {
+                        GridManager.combatGrid[currentTile.x, currentTile.y].entityOnGrid = stepsTaken;
+                    }
                 }
             }
 
@@ -126,78 +126,46 @@ public class GridPathfinding : MonoBehaviour
             currentPositions.Clear();
             ++stepsTaken;
         }
-        --stepsTaken;
+        if (stepsTaken != pathfindingLimit)
+        {
+            --stepsTaken;
+        }
 
         myPosition = originalPosition;
         Vector2Int originalTarget = targetPosition;
         //Stores the enemy path as a list of directions
         for (int i = stepsTaken - 1; i >= 0; --i)
         {
-            if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y] == i)
+            if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y].entityOnGrid == i)
             {
                 gridDirections.Add("Left");
                 ++targetPosition.x;
             }
-            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y] == i)
+            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y].entityOnGrid == i)
             {
                 gridDirections.Add("Right");
                 --targetPosition.x;
             }
-            else if(targetPosition.y % 2 == 1)
+            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1].entityOnGrid == i)
             {
-                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y - 1] == i)
-                {
-                    gridDirections.Add("Up Left");
-                    ++targetPosition.x;
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1] == i)
-                {
-                    gridDirections.Add("Up Right");
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x + 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x + 1, targetPosition.y + 1] == i)
-                {
-                    gridDirections.Add("Down Left");
-                    ++targetPosition.x;
-                    ++targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1] == i)
-                {
-                    gridDirections.Add("Down Right");
-                    ++targetPosition.y;
-                }
+                gridDirections.Add("Down");
+                ++targetPosition.y;
             }
-            else if(targetPosition.y % 2 == 0)
+            else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1].entityOnGrid == i)
             {
-                if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y - 1] == i)
-                {
-                    gridDirections.Add("Up Left");
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y - 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y - 1] == i)
-                {
-                    gridDirections.Add("Up Right");
-                    --targetPosition.x;
-                    --targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x, targetPosition.y + 1] == i)
-                {
-                    gridDirections.Add("Down Left");
-                    ++targetPosition.y;
-                }
-                else if (GridManager.TileIsInGrid(new Vector2Int(targetPosition.x - 1, targetPosition.y + 1)) && GridManager.combatGrid[targetPosition.x - 1, targetPosition.y + 1] == i)
-                {
-                    gridDirections.Add("Down Right");
-                    --targetPosition.x;
-                    ++targetPosition.y;
-                }
+                gridDirections.Add("Up");
+                --targetPosition.y;
             }
             nextPos.Add(targetPosition);
         }
 
         targetPosition = originalTarget;
+        GridManager.ClearPathfinding();
         GridManager.DisplayGridAsText();
+    }
+
+    public void StartMoveCoroutine()
+    {
         StartCoroutine(MoveEntity());
     }
 
@@ -208,8 +176,6 @@ public class GridPathfinding : MonoBehaviour
     protected IEnumerator MoveEntity()
     {
         newPositions.Clear();
-        float tileSizeX = transform.GetComponentInParent<Transform>().localScale.x * 2;
-        float tileSizeY = transform.GetComponentInParent<Transform>().localScale.z * 2;
 
         Vector3 newPosition = GetComponentInParent<Transform>().position;
 
@@ -220,30 +186,19 @@ public class GridPathfinding : MonoBehaviour
         for (int i = max; i >= min; --i)
         {
             yield return new WaitForSeconds(.5f);
-            Debug.Log("Wait over");
             switch (gridDirections[i])
             {
-                case "Up Left":
-                    newPosition.x -= (tileSizeX / 2);
-                    newPosition.z += (tileSizeY * .75f);
-                    break;
-                case "Up Right":
-                    newPosition.x += (tileSizeX / 2);
-                    newPosition.z += (tileSizeY * .75f);
-                    break;
-                case "Down Left":
-                    newPosition.x -= (tileSizeX / 2);
-                    newPosition.z -= (tileSizeY * .75f);
-                    break;
-                case "Down Right":
-                    newPosition.x += (tileSizeX / 2);
-                    newPosition.z -= (tileSizeY * .75f);
-                    break;
                 case "Right":
-                    newPosition.x += tileSizeX;
+                    newPosition.x += GridManager.MoveDistances.x;
                     break;
                 case "Left":
-                    newPosition.x -= tileSizeX;
+                    newPosition.x -= GridManager.MoveDistances.x;
+                    break;
+                case "Up":
+                    newPosition.z += GridManager.MoveDistances.y;
+                    break;
+                case "Down":
+                    newPosition.z -= GridManager.MoveDistances.y;
                     break;
                 default:
                     Debug.Log("Error!!!");
@@ -259,28 +214,77 @@ public class GridPathfinding : MonoBehaviour
     /// Causes the enemy to move from one tile to the next over time
     /// </summary>
     /// <returns></returns>
-    IEnumerator MoveToTile()
+    private IEnumerator MoveToTile()
     {
+        int eType = isEnemy ? -2 : -3;
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
-            nextPosition = nextPos[gridDirections.Count - i];
+            nextPosition = nextPos[gridDirections.Count - 1 - i];
             isMoving = true;
             //Loops until they finish moving to the adjacent tile
             while (isMoving)
             {
                 transform.position = Vector3.MoveTowards(transform.position, newPositions[i], .1f);
-                Debug.Log(transform.position);
-                Debug.Log(gameObject.transform.position);
                 if (transform.position == newPositions[i])
                 {
                     isMoving = false;
-                    GridManager.ClearPathfinding();
-                    GridManager.MoveToTile(myPosition, nextPosition, -2);
+                    GridManager.MoveToTile(myPosition, nextPosition, eType);
                     myPosition = nextPosition;
                 }
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
         }
+
+        if(!isEnemy)
+        {
+            ReEnableActionCanvas();
+        }
     }
+
+    /// <summary>
+    /// Does nothing in the base script, because trying to overwrite coroutines causes problems
+    /// </summary>
+    virtual protected void ReEnableActionCanvas()
+    { }
+
+    #region GETTERS AND SETTERS
+
+    /// <summary>
+    /// Function that enemies call to set their movement range
+    /// </summary>
+    /// <param name="movementRange"></param>
+    public void SetMovementRange(int movementRange)
+    {
+        this.movementRange = movementRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their aggro range
+    /// </summary>
+    /// <param name="aggroRange"></param>
+    public void SetAggroRange(int aggroRange)
+    {
+        pathfindingLimit = aggroRange;
+    }
+
+    /// <summary>
+    /// Function that enemies call to set their movementSpeed
+    /// </summary>
+    /// <param name="movementSpeed"></param>
+    public void SetMovementSpeed(float movementSpeed)
+    {
+        this.movementSpeed = movementSpeed;
+    }
+
+    /// <summary>
+    /// Returns a reference to target movement position 
+    /// </summary>
+    /// <returns></returns>
+    public Vector2Int GetTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    #endregion
 }

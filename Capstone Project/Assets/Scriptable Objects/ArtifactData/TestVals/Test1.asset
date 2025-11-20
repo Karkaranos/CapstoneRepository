@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8869b7f82bbc00c48b89e58fe7134f2b, type: 3}
   m_Name: Test1
   m_EditorClassIdentifier: 
-  Name: Devious Potion
+  Name: Resistance+
   Description: Drink it...if you dare
-  Type: 3
+  TriggerCondition: 0
+  TriggerCount: 0
+  Counter: 0
   Effects:
-  - Effect: 6
-    StatChangeAmount: -10
-  Durability: -1
+  - Effect: 9
+    StatChangeAmount: 0.5
+    TriggerChance: 1
+  Mark: 0
+  ArtifactSize: 1
+  ArtifactSprite: {fileID: 0}

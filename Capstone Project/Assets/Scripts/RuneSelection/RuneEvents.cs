@@ -1,29 +1,133 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 10/22/2025
+Date Last Modified : 11/08/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-using NaughtyAttributes;
+using System.Collections.Generic;
+using System.Linq;
+using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
 {
+    #region SETUP
 
-    #region INITIALIZATION
-
-    public enum Prep
+    public enum Variables
     {
 
-        Visuals,
-        Testing
+        ComboVariables,
+        VisualsAndDebugging,
+        Audio
 
     }
 
-    [SerializeField] private Prep currentInspectorShowing;
+    [SerializeField] private Variables currentInspectorShowing;
+
+    #endregion SETUP
+
+
+    #region COMBO VARIABLES
+
+    [HorizontalLine(4, EColor.Red)]
+
+    [Header("Lightning/Wind")]
+
+    [Space(10)]
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningMasteredDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windPrimaryDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windSecondaryDamageTierOne;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windMasteredTempHealthTierOne;
+
+
+    [Space(10)]
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningMasteredDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windPrimaryDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windSecondaryDamageTierTwo;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windMasteredTempHealthTierTwo;
+
+
+    [Space(10)]
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int lightningMasteredDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windPrimaryDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windSecondaryDamageTierThree;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
+    int windMasteredTempHealthTierThree;
+
+    #endregion COMBO VARIABLES
+
+
+    #region AUDIO
+
+    [HorizontalLine(4, EColor.Orange)]
+
+    //Event reference for sound
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellCastedSFX;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private GameObject audioListenerObject;
+
+    #endregion AUDIO
+
+
+    #region VISUALS AND DEBUGGING
+
+    [HorizontalLine(4, EColor.Yellow)]
+
+    //for menu-swapping purposes
+    [ShowIf(nameof(currentInspectorShowing), Variables.VisualsAndDebugging), SerializeField]
+    GameObject playerMenu;
+
+    [Header("Temporary Textboxes")]
+
+    //early testing stuff
+    [ShowIf(nameof(currentInspectorShowing), Variables.VisualsAndDebugging), SerializeField]
+    TMP_Text debugText;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.VisualsAndDebugging), SerializeField]
+    TMP_Text debugComboText;
+
+    #endregion VISUALS AND DEBUGGING
+
+
+    #region INITIALIZATION
 
     //for waiting on player input
     bool waitingForThePlayer;
@@ -40,6 +144,8 @@ public class RuneEvents : MonoBehaviour
         PublicEvents.SelectTile += TargetSelectedTile;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
 
+        PublicEvents.MasteryRunePurchased += MasteryUnlocked;
+
     }
 
     /// <summary>
@@ -51,70 +157,42 @@ public class RuneEvents : MonoBehaviour
         PublicEvents.SelectTile -= TargetSelectedTile;
         PublicEvents.RuneSelected -= StoreSelectedRuneData;
 
+        PublicEvents.MasteryRunePurchased -= MasteryUnlocked;
+
+    }
+
+    private bool lightningMastered;
+    private bool windMastered;
+
+    void MasteryUnlocked(RuneType runeType)
+    {
+
+        switch (runeType)
+        {
+
+            case (RuneType.Lightning):
+
+                lightningMastered = true;
+
+                break;
+
+            case (RuneType.Wind):
+
+                windMastered = true;
+
+                break;
+
+            default:
+
+                break;
+
+        }
+
+        Debug.Log(runeType + " mastery unlocked!");
+
     }
 
     #endregion INITIALIZATION
-
-
-    #region VISUALS
-
-    [HorizontalLine(4, EColor.Red)]
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Visuals), SerializeField]
-    //for menu-swapping purposes
-    GameObject playerMenu;
-
-    #endregion VISUALS
-
-
-    #region TESTING
-
-    [HorizontalLine(4, EColor.Yellow)]
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    //temp value for player communication
-    TMP_Text temp;
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    TileBehaviour tileBehaviour;
-
-
-    //stores the rune that the player has most recently selected
-    //they can be shown for now for testing purposes
-    //ideally, these shouldn't be messed with in the future
-    [Header("Test Variables")]
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    RuneType storedRuneType;
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    int storedRuneNumber;
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    float storedRuneDamage;
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    int storedRuneRange;
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    GameObject storedRuneVFX;
-
-    [ShowIf(nameof(currentInspectorShowing), Prep.Testing), SerializeField]
-    int storedRuneCost;
-
-
-    //test
-    [Button("Attack Tile Test")]
-    public void AttackTileTest()
-    {
-
-        waitingForThePlayer = true;
-        TargetSelectedTile(tileBehaviour);
-        storedData = new RuneData(storedRuneType, storedRuneNumber, "Test", "Test Description", storedRuneDamage, storedRuneRange, storedRuneVFX);
-
-    }
-
-    #endregion TESTING
 
 
     #region RUNE EVENTS
@@ -128,23 +206,37 @@ public class RuneEvents : MonoBehaviour
 
         waitingForThePlayer = true;
 
-        storedRuneType = rd.TypeOfRune;
-        storedRuneNumber = rd.NumberOnSkillTree;
-        storedRuneDamage = rd.RuneDamage;
-        storedRuneRange = rd.RuneRange;
-        storedRuneVFX = rd.RuneVFX;
-        storedRuneCost = rd.RuneActionPoints;
-
         storedData = rd;
 
-        temp.text = "Select a target!";
+        if(debugText != null)
+        {
 
-        //to prevent softlocking FOR NOW
-        playerMenu.SetActive(true);
-        this.gameObject.SetActive(false);
+            debugText.text = "Waiting on a target...";
 
+        }
     }
 
+    /// <summary>
+    /// exits attack menu if waiting on a target
+    /// </summary>
+    public void CancelCasting()
+    {
+
+        if(waitingForThePlayer)
+        {
+
+            waitingForThePlayer = false;
+
+            if (debugText != null)
+            {
+
+                debugText.text = "";
+
+            }
+
+        }
+
+    }
 
     /// <summary>
     /// Checks if the selected tile has an enemy in it
@@ -154,15 +246,11 @@ public class RuneEvents : MonoBehaviour
     public void TargetSelectedTile(TileBehaviour tile)
     {
 
-        int distance = Mathf.RoundToInt(Vector2.Distance(tile.transform.position, GridManager.playerPosition));
-
-        if (waitingForThePlayer && 
-            (distance/2) <= storedRuneRange &&
-            tile.gameObject.GetComponentInChildren<Enemy>() != null && 
-            FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedRuneCost)
+        if (waitingForThePlayer &&
+            FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints)
         {
 
-             switch (storedRuneType)
+             switch (storedData.TypeOfRune)
                     {
 
                         case (RuneType.Lightning):
@@ -181,8 +269,6 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    waitingForThePlayer = false;
-
         }
 
     }
@@ -193,107 +279,144 @@ public class RuneEvents : MonoBehaviour
     /// <param name="target"> tile that the player has selected </param>
     public void SelectLightningRune(TileBehaviour target)
     {
-        switch (storedRuneNumber)
+
+        float damageDealt = Mathf.CeilToInt(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
+            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+        int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
+        GameObject vfx;
+
+        switch (storedData.NumberOnSkillTree)
         {
 
+            //targets one opponent for moderate damage
             case (1):
 
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-
-                GameObject vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text = 
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
-
-                break;
-
-            case (2):
-
-                FindSecondaryTarget(target);
-
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-
-                vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
-
-
-                secondaryTarget.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-
-                vfx = Instantiate(storedRuneVFX, secondaryTarget.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
-
-                break;
-
-            case (3):
-
-                int radius = 3;
-
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-
-                vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
-
-                TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
-
-                foreach (TileBehaviour enemy in enemies)
+                if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
                 {
 
-                    if(enemy == target)
-                    {
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
-                        continue;
-
-                    }
-
-                    if ((Vector2.Distance(target.transform.position, enemy.transform.position)/2) <= radius &&
-                        enemy.GetComponentInChildren<Enemy>() != null)
-                    {
-
-                        //hardcoding this feels bad i can change this later
-                        enemy.GetComponentInChildren<Enemy>().Damage
-                            (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
-
-                        vfx = Instantiate(storedRuneVFX, enemy.transform);
-                        vfx.GetComponentInChildren<TextMeshPro>().text =
-                            (15 * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
-
-                    }
+                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    vfx = Instantiate(storedData.RuneVFX, target.transform);
+                  
+                    EndPlayerAttackPhase();
 
                 }
 
                 break;
 
+            //targets two opponents
+            //one is directly targeted, and the other is the closest to the original target
+            case (2):
+
+                if (target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
+                {
+
+                    FindSecondaryTarget(target);
+
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    vfx = Instantiate(storedData.RuneVFX, target.transform);
+                   
+                    if(secondaryTarget != null)
+                    {
+
+                        secondaryTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                        CheckRuneCombination(secondaryTarget.GetComponentInChildren<Enemy>());
+
+                        //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                        //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                        vfx = Instantiate(storedData.RuneVFX, secondaryTarget.transform);
+                      
+                    }
+
+                    EndPlayerAttackPhase();
+
+                }
+
+                break;
+
+            //targets one opponent and all other opponents in range for less damage
+            case (3):
+
+
+                if (target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
+                {
+
+                    int radius = 3;
+
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    vfx = Instantiate(storedData.RuneVFX, target.transform);
+                   
+                    TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+
+                    foreach (TileBehaviour enemy in enemies)
+                    {
+
+                        if (enemy == target)
+                        {
+
+                            continue;
+
+                        }
+
+                        if (Mathf.RoundToInt(Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                            enemy.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            //hardcoding this feels bad i can change this later
+                            enemy.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(0.40f * damageDealt));
+                            CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
+
+                            //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
+                            //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
+                            vfx = Instantiate(storedData.RuneVFX, enemy.transform);
+                          
+                        }
+
+                    }
+
+                    EndPlayerAttackPhase();
+
+                }
+
+                break;
+
+            //targets one opponent for a large amount of damage
             case (4):
 
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier);
+                if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
+                {
 
-                vfx = Instantiate(storedRuneVFX, target.transform);
-                vfx.GetComponentInChildren<TextMeshPro>().text =
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().lightningAttackMultiplier).ToString();
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                    // SFX Play
+                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
+                    vfx = Instantiate(storedData.RuneVFX, target.transform);
+                  
+                    EndPlayerAttackPhase();
+
+                }
 
                 break;
 
             default:
 
                 break;
-        }
-
-        PublicEvents.RuneCast(storedRuneCost);
-        //delete later
-        temp.text = "You used Lightning " + storedRuneNumber + " for " + storedRuneDamage + " damage!";
-
-        if (PublicEvents.EnemyTurnStarted != null)
-        {
-
-            PublicEvents.EnemyTurnStarted();
-
         }
 
     }
@@ -349,82 +472,552 @@ public class RuneEvents : MonoBehaviour
     public void SelectWindRune(TileBehaviour target)
     {
 
-        switch (storedRuneNumber)
+        float damageDealt = Mathf.Ceil(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+        int distance = Mathf.RoundToInt(Vector2.Distance(target.transform.position, GridManager.playerPosition));
+        GameObject vfx;
+        int radius;
+
+        switch (storedData.NumberOnSkillTree)
+        {
+
+            //knocks adjacent enemies backwards and damages them
+            case (1):
+
+                if (Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
+                {
+
+                    radius = 2;
+
+                    TileBehaviour[] tiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+
+                    List<TileBehaviour> enemies = tiles.ToList();
+
+                    foreach (TileBehaviour enemy in tiles)
+                    {
+
+                        if (Mathf.RoundToInt(Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                            enemy.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            enemy.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                            CheckRuneCombination(enemy.GetComponentInChildren<Enemy>());
+                            
+
+                            vfx = Instantiate(storedData.RuneVFX, enemy.transform);
+
+                            //moves enemy backwards
+                            if(enemy != target)
+                            {
+
+                                SendEnemyBackwards(target, enemy, enemies);
+
+                            }
+
+                        }
+
+                    }
+
+                    EndPlayerAttackPhase();
+
+                }
+
+                break;
+
+            //targets an opponent for moderate damage
+            //MAYBE it will target another opponent
+            //will need more concrete information
+            case (2):
+
+                if(target.gameObject.GetComponentInChildren<Enemy>() != null &&
+                    Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
+                {
+
+                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                    vfx = Instantiate(storedData.RuneVFX, target.transform);
+
+                    EndPlayerAttackPhase();
+
+                }
+
+                break;
+
+            //creates a shield on the player's tile
+            case (3):
+
+                if(target.GetComponentInChildren<PlayerBehavior>() != null)
+                {
+
+                    ShieldBehavior newShield = target.gameObject.AddComponent<ShieldBehavior>();
+
+                    if (debugText != null)
+                    {
+
+                        debugText.text = "Shield added!";
+
+                    }
+
+                    newShield.OnShieldGenerated(target.transform, storedData.RuneVFX);
+
+                    EndPlayerAttackPhase();
+
+                }
+
+                break;
+
+            //delays target's turn and damages surrounding enemies
+            case (4):
+
+                if(Mathf.RoundToInt(distance / 2) <= storedData.RuneRange)
+                {
+
+                    List<TileBehaviour> validEnemies = new List<TileBehaviour>();
+
+                    radius = 3;
+
+                    vfx = Instantiate(storedData.RuneVFX, target.transform);
+
+                    if (target.GetComponentInChildren<Enemy>() != null)
+                    {
+
+                        target.GetComponentInChildren<Enemy>().DelayedTurnStatus(true);
+
+                        target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                        CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                    }
+
+                    TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+
+                    foreach (TileBehaviour enemy in enemies)
+                    {
+
+                        if(enemy == target)
+                        {
+
+                            continue;
+
+                        }
+
+                        if (Mathf.RoundToInt(Vector2.Distance(target.transform.position, enemy.transform.position) / 2) <= radius &&
+                            enemy.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            validEnemies.Add(enemy);
+
+                        }
+
+                    }
+
+                    if(validEnemies.Count > 0)
+                    {
+
+                        for (int i = 0; i < validEnemies.Count; i++)
+                        {
+
+                            validEnemies[i].GetComponentInChildren<Enemy>().Damage
+                                    (Mathf.CeilToInt(damageDealt/ validEnemies.Count));
+                            CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                            vfx = Instantiate(storedData.RuneVFX, validEnemies[i].transform);
+                            
+                        }
+
+                    }
+
+                    EndPlayerAttackPhase();
+
+                }
+
+                break;
+
+        }
+
+    }
+
+    /// <summary>
+    /// finds the tile in the opposite direction from the player adjacent to an enemy and moves them there
+    /// sorry if this is a fucked way of going about this. i'm just glad this works
+    /// </summary>
+    /// <param name="originalTarget"> original tile that the player had targeted </param>
+    /// <param name="enemy"> the enemy getting blown back </param>
+    /// <param name="enemies"> the rest of the tiles with enemies on them </param>
+    void SendEnemyBackwards(TileBehaviour originalTarget, TileBehaviour enemy, List<TileBehaviour> enemies)
+    {
+
+        Vector3 newTilePos;
+        if(originalTarget.transform.position.z != enemy.transform.position.z)
+        {
+
+            newTilePos.x = (Mathf.Sign(enemy.transform.position.x - originalTarget.transform.position.x) + enemy.transform.position.x);
+            newTilePos.z = ((Mathf.Sign(enemy.transform.position.z - originalTarget.transform.position.z) * 1.5f) + enemy.transform.position.z);
+
+        }
+        else
+        {
+
+            newTilePos.x = ((Mathf.Sign(enemy.transform.position.x - originalTarget.transform.position.x) * 2) + enemy.transform.position.x);
+            newTilePos.z = enemy.transform.position.z;
+
+        }
+
+        newTilePos.y = 0f;
+
+        TileBehaviour newTile = enemies.Find(x => x.transform.position == newTilePos);
+
+        if(newTile == null)
+        {
+
+            return;
+
+        }
+
+        if (newTile.GetComponentInChildren<SpriteRenderer>() != null && newTile.GetComponentInChildren<Enemy>() != null)
+        {
+
+            if(newTile.GetComponentInChildren<Enemy>() != null)
+            {
+
+                SendEnemyBackwards(originalTarget, newTile, enemies);
+
+            }
+            else { return; }
+
+        }
+
+        Enemy movedEnemy = enemy.GetComponentInChildren<Enemy>();
+        movedEnemy.gameObject.transform.parent = newTile.transform;
+        movedEnemy.transform.localPosition  = new Vector3 (0, 0, 0);
+
+    }
+
+    /// <summary>
+    /// checks if the enemy has been hit by a spell prior
+    /// if so, a combo is triggered
+    /// </summary>
+    /// <param name="enemy"> target </param>
+    void CheckRuneCombination(Enemy enemy)
+    {
+        if (enemy != null)
+        {
+            if (!enemy.HasStatusEffect)
+            {
+
+                enemy.GetComponentInChildren<Enemy>().RuneStatusEffect = storedData.TypeOfRune;
+                enemy.GetComponentInChildren<Enemy>().RuneStatusEffectNumber = storedData.NumberOnSkillTree;
+
+                enemy.HasStatusEffect = true;
+
+                Debug.Log("Status effect added!");
+
+            }
+            else
+            {
+
+                switch (storedData.TypeOfRune, enemy.RuneStatusEffect)
+                {
+
+                    case (RuneType.Lightning, RuneType.Wind):
+
+                        LightningAndWindCombo(enemy, storedData.NumberOnSkillTree, enemy.RuneStatusEffectNumber);
+                        Debug.Log("Combo called!");
+
+                        if (debugComboText != null)
+                        {
+
+                            debugComboText.text = "Lighting/Wind Combo!";
+
+                        }
+
+                        break;
+
+                    case (RuneType.Wind, RuneType.Lightning):
+
+                        LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, storedData.NumberOnSkillTree);
+                        Debug.Log("Combo called!");
+
+                        if (debugComboText != null)
+                        {
+
+                            debugComboText.text = "Wind/Lightning Combo!";
+
+                        }
+
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+                enemy.HasStatusEffect = false;
+
+            }
+        }
+    }
+
+    /// <summary>
+    /// calls lightning and wind combo effect
+    /// </summary>
+    /// <param name="enemy"> initial target </param>
+    /// <param name="lightningTier"> which lightning rune was last used on this enemy </param>
+    /// <param name="windTier"> which wind rune was last used on this enemy </param>
+    void LightningAndWindCombo(Enemy enemy, int lightningTier, int windTier)
+    {
+
+        //PART 1: FINDING TARGETS
+
+        //until we get actual vfx for this i'm leaving it blank because it will be sooooo cluttered
+        int radius = 2;
+
+        TileBehaviour[] tiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+        List<TileBehaviour> validEnemies = new List<TileBehaviour>();
+
+        foreach (TileBehaviour tile in tiles)
+        {
+
+            if (tile == enemy.GetComponentInParent<TileBehaviour>())
+            {
+
+                continue;
+
+            }
+
+            if (Mathf.RoundToInt(Vector2.Distance(enemy.transform.position, tile.transform.position) / 2) <= radius &&
+               tile.GetComponentInChildren<Enemy>() != null)
+            {
+
+                validEnemies.Add(tile);
+
+            }
+
+        }
+
+
+        //PART 2: LIGHTNING DAMAGE
+
+        int lightningDamage;
+        int lightningMasteredDamage;
+
+        switch (lightningTier)
         {
 
             case (1):
 
-                int radius = 3;
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                TileBehaviour[] enemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                foreach (TileBehaviour enemy in enemies)
-                {
-
-                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= radius &&
-                        target.GetComponentInChildren<Enemy>() != null)
-                    {
-
-                        target.GetComponentInChildren<Enemy>().Damage
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
-                        //PUSH THEM BACK
-
-                    }
-
-                }
                 break;
 
             case (2):
 
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
                 break;
 
             case (3):
 
-                //gulp
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
                 break;
 
             case (4):
 
-                int tornadoRadius = 1;
+                lightningDamage = Mathf.CeilToInt(lightningDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                //MAKE THEM LOSE A TURN
-                target.GetComponentInChildren<Enemy>().Damage
-                    (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
+                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-                TileBehaviour[] adjacentEnemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
-
-                foreach (TileBehaviour enemy in adjacentEnemies)
-                {
-
-                    if (Vector2.Distance(target.transform.position, enemy.transform.position) <= tornadoRadius &&
-                        target.GetComponentInChildren<Enemy>() != null)
-                    {
-
-                        enemy.GetComponentInChildren<Enemy>().Damage
-                            (storedRuneDamage * FindFirstObjectByType<PlayerStats>().windAttackMultiplier);
-
-                    }
-
-                }
                 break;
 
+            default:
+
+                lightningDamage = 0;
+
+                lightningMasteredDamage = 0;
+
+                break;
         }
 
-        //delete later
-        Logger.Log("You used Wind " + storedRuneNumber + "!", false);
-        temp.text = "You used Wind " + storedRuneNumber + "!";
-
-        if (PublicEvents.EnemyTurnStarted != null)
+        for (int i = 0; i < validEnemies.Count; i++)
         {
 
-            PublicEvents.EnemyTurnStarted();
+            validEnemies[i].GetComponentInChildren<Enemy>().Damage(lightningDamage);
 
         }
 
-        playerMenu.SetActive(true);
+        if(lightningMastered)
+        {
+
+            if(enemy != null)
+            {
+
+                enemy.Damage(lightningMasteredDamage);
+
+            }
+
+            for (int i = 0; i < validEnemies.Count; i++)
+            {
+
+                if (validEnemies[i] != null)
+                {
+
+                    validEnemies[i].GetComponentInChildren<Enemy>().Damage(lightningDamage);
+
+                }
+
+            }
+
+
+
+        }
+
+
+        //PART 3: WIND DAMAGE
+
+        int windPrimaryDamage;
+
+        int windSecondaryDamage;
+
+        int windTempHealth;
+
+        switch (windTier)
+        {
+
+            case (1):
+
+                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                windTempHealth = windMasteredTempHealthTierOne;
+
+                break;
+
+            case (2):
+
+                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                windTempHealth = windMasteredTempHealthTierTwo;
+
+                break;
+
+            case (4):
+
+                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
+                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                windTempHealth = windMasteredTempHealthTierThree;
+
+                break;
+
+            default:
+
+                windPrimaryDamage = 0;
+
+                windSecondaryDamage = 0;
+
+                windTempHealth = 0;
+
+                break;
+        }
+
+        if(enemy != null)
+        {
+
+            enemy.Damage(windPrimaryDamage);
+
+        }
+
+        for (int i = 0; i < validEnemies.Count; i++)
+        {
+
+
+            if (validEnemies[i] != null)
+            {
+
+                validEnemies[i].GetComponentInChildren<Enemy>().Damage(windSecondaryDamage);
+
+            }
+
+        }
+
+        if(windMastered)
+        {
+
+            FindFirstObjectByType<PlayerStats>().AddTempHealth(windTempHealth);
+
+        }
+
+    }
+
+
+    /// <summary>
+    /// runs whenever an enemy is successfully targeted
+    /// made into a function to prevent SOME clutter
+    /// </summary>
+    void EndPlayerAttackPhase()
+    {
+
+        waitingForThePlayer = false;
+
+        PublicEvents.RuneCast(storedData.RuneActionPoints);
+
+        if (TurnManager.currentStatus == TurnStates.PlayerTurn)
+        {
+            playerMenu.SetActive(true);
+        }
+        
         this.gameObject.SetActive(false);
+
+        Invoke("ClearText", 1);
+
+    }
+
+    /// <summary>
+    /// evil temporary code for evil temporary text
+    /// clears debug text
+    /// </summary>
+    void ClearText()
+    {
+
+        if(debugText != null)
+        {
+
+            debugText.text = "";
+
+        }
+
+        if(debugComboText != null)
+        {
+
+            debugComboText.text = "";
+
+        }
 
     }
 

@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/19/2025
-Date Last Modified : 	10/20/2025
+Date Last Modified : 	11/7/2025
 Brief Description : 		Handler for running the enemy 
                     state machines one after another
 External Resources : 	
@@ -13,32 +13,26 @@ using UnityEngine;
 public class EnemyHandler : MonoBehaviour
 {
     [HideInInspector]public static EnemyHandler Instance { get; private set; }
-    private Enemy[] enemies;
+    private List<Enemy> enemies = new List<Enemy>();
     private static int index = 0;
 
     /// <summary>
     /// Make sure that this is a Singleton 
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-    }
 
-    /// <summary>
-    /// Wait 2 seconds after start to set list of enemies in the scene
-    /// </summary>
-    private void Start()
-    {
         Invoke("SetEnemyList", 2);
     }
+
 
     /// <summary>
     /// Set list of all enabled enemies 
@@ -47,7 +41,11 @@ public class EnemyHandler : MonoBehaviour
     /// </summary>
     public void SetEnemyList()
     {
-        enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        Enemy[] array = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        foreach (Enemy enemy in array)
+        {
+            enemies.Add(enemy);
+        }
     }
 
     /// <summary>
@@ -72,7 +70,7 @@ public class EnemyHandler : MonoBehaviour
     /// </summary>
     public void RunNextEnemyTurn()
     {
-        if (index == enemies.Length)
+        if (index == enemies.Count)
         {
             index = 0;
             TurnPublicEvents.TurnActionComplete();
@@ -80,5 +78,24 @@ public class EnemyHandler : MonoBehaviour
         }
         enemies[index].StartEnemyTurn();
         ++index;
+    }
+
+    /// <summary>
+    /// Removes the enemy from the list of enemies 
+    /// Checks if all enemies are dead if they are end battle
+    /// </summary>
+    /// <param name="enemy"></param>
+    public void RemoveEnemy(Enemy enemy)
+    {
+        enemies.Remove(enemy);
+
+        if(enemies.Count == 0 )
+        {
+            //TODO: End Level logic
+            EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
+            endLevelMenu.SetText("You Beat the Level!");
+            endLevelMenu.EnableEndMenuUi();
+            Debug.Log("Level Ended");
+        }
     }
 }

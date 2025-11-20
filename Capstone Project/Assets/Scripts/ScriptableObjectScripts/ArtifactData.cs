@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    10/5/2025
-Date Last Modified : 	10/5/2025
+Date Last Modified : 	10/22/2025
 Brief Description : 	Data container for all types of Artifacts, or Equipment                       
 External Resources : 	N/A
 ***************************************************/
@@ -9,15 +9,18 @@ using NaughtyAttributes;
 using UnityEngine;
 
 #region Enum Setup
-public enum ArtifactType
-{
-    Staff, Tunic, Amulet, Potion, Cannon
-}
 
 public enum Effects
 {
-    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, DamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, MovementSpeedMultiplier
+    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, Vampiric, Dodge, ChanceToAvoidUsingPoints, Instakill, Miss, Luck
 }
+
+
+public enum ArtifactTriggerCondition
+{
+    OnEquip, OnAttack, SpellCount
+}
+
 
 #endregion
 
@@ -27,9 +30,14 @@ public class ArtifactData : ScriptableObject
     public string Name;
     public string Description;
 
-    [Tooltip("The type of Artifact")] public ArtifactType Type;
+    [Tooltip("When the Artifact effects occur")] public ArtifactTriggerCondition TriggerCondition;
+    [Tooltip("How many spells this effect triggers after"), ShowIf(nameof(TriggerCondition), ArtifactTriggerCondition.SpellCount)] public int TriggerCount;
+    [HideInInspector] public int Counter = 0;
     [Tooltip("All effects")] public ArtifactEffects[] Effects;
-    [Tooltip("Takes 1 point away per fight it's used in. Set it to less than 0 to not use this")] public int Durability;
+    [Tooltip("Used for set combinations")] public MarkType Mark;
+    //[Tooltip("Takes 1 point away per fight it's used in. Set it to less than 0 to not use this")] public int Durability;
+    [Tooltip("How many slots it takes up")] public int ArtifactSize;
+    public Sprite ArtifactSprite;
 
     /// <summary>
     /// Constructor for ArtifactData in case some Artifacts are generated at runtime
@@ -38,14 +46,14 @@ public class ArtifactData : ScriptableObject
     /// <param name="description">Description for the Artifact</param>
     /// <param name="type">Type of Artifact</param>
     /// <param name="effects">What stats this affects and their value</param>
-    /// <param name="durability">Optional durability stat. Defaulted paramater sets it to not lose durability</param>
-    public ArtifactData(string name, string description, ArtifactType type, ArtifactEffects[] effects, int durability = -1)
+    /// <param name="size">Optional size stat. Defaulted paramater sets it to 1y</param>
+    public ArtifactData(string name, string description, MarkType mark, ArtifactEffects[] effects, int size = 1)
     {
         Name = name;
         Description = description;
-        Type = type;
+        Mark = mark;
         Effects = effects;
-        Durability = durability;
+        ArtifactSize = size;
     }
 
     /// <summary>
@@ -56,9 +64,9 @@ public class ArtifactData : ScriptableObject
     {
         Name = ad.Name;
         Description = ad.Description;
-        Type = ad.Type;
+        Mark = ad.Mark;
         Effects = ad.Effects;
-        Durability = ad.Durability;
+        ArtifactSize = ad.ArtifactSize;
     }
 
 }
