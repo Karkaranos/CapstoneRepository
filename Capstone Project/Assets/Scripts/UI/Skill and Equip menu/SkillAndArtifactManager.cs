@@ -12,6 +12,7 @@ using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class SkillAndArtifactManager : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class SkillAndArtifactManager : MonoBehaviour
     }
 
     [SerializeField] private Settings InspectorSettings;
+
+    [SerializeField] private EventReference ambienceEventRefSFX;
+    [SerializeField] private GameObject audioListenerObject;
 
     #region REFS
 
@@ -128,6 +132,9 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         PublicEvents.StartBattle.Invoke();
         //GameObject.Find("Move Confirmation").SetActive(false);
+
+        AudioManager.instance.CreateEventInstance(ambienceEventRefSFX);
+        AudioManager.instance.PlayOneShot(ambienceEventRefSFX, audioListenerObject.transform.position);
     }
 
     /// <summary>
