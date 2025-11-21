@@ -179,11 +179,6 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     public void ShowHighlight(bool active) {
         tileHighlight.SetActive(active);
-
-        //starts the tile higlight pulse coroutine if the tile is being turned on
-        if (active) {
-            tileHighlight.GetComponent<HighlightPulse>().startPulse();
-        }
     }
 
     /// <summary>
