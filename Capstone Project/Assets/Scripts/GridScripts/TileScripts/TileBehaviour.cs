@@ -89,7 +89,6 @@ public class TileBehaviour : MonoBehaviour
         IndexInGrid.x = (int)(transform.position.x - parentTransform.position.x / transform.localScale.x);
         IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
 
-        //renaming the tile for easier debuging and such
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
         tileHighlight = transform.GetChild(0).gameObject;
 
@@ -180,6 +179,11 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     public void ShowHighlight(bool active) {
         tileHighlight.SetActive(active);
+
+        //starts the tile higlight pulse coroutine if the tile is being turned on
+        if (active) {
+            tileHighlight.GetComponent<HighlightPulse>().startPulse();
+        }
     }
 
     /// <summary>
@@ -229,9 +233,9 @@ public class TileBehaviour : MonoBehaviour
         TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
     }
 
-    ///// <summary>
-    ///// Used so it doesn't listen to a null reference of unity events
-    ///// </summary>
+    /// <summary>
+    /// Used so it doesn't listen to a null reference of unity events
+    /// </summary>
     private void OnDisable()
     {
         TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
