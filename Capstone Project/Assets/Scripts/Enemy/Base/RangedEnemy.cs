@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/18/2025
-Date Last Modified : 	11/18/2025
+Date Last Modified : 	11/21/2025
 Brief Description : 		Base class for Range enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -21,6 +21,11 @@ public class RangedEnemy : Enemy
         Tooltip("The minimum amount of tiles away from the enemy the player must be to be attacked")]
     private int minimumAttackDistance;
 
+    [ShowIf(nameof(currentSettings), Settings.Combat),
+        SerializeField,
+        Tooltip("The maximum amount of tiles away from the enemy the player must be to be attacked")]
+    private int maxAttackDistance;
+
     [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
 
     #endregion
@@ -29,6 +34,9 @@ public class RangedEnemy : Enemy
 
     [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField] private bool playerInAttackRange;
     [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField] private bool playerInLineOfSight;
+    [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField,
+        Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")] 
+    public int moveStateDelay;
 
     #endregion
 
@@ -51,7 +59,11 @@ public class RangedEnemy : Enemy
     #endregion
 
     #region FUNCTIONS
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Initialize the Ranged state machine 
+    /// call Enemy.Start()
+    /// TODO: set targeting behaviour to ranged 
+    /// </summary>
     public override void Start()
     {
         enemyStateMachine = new EnemyStateMachine();

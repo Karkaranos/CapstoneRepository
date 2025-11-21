@@ -5,6 +5,7 @@ Date Last Modified : 	11/19/2025
 Brief Description : 		Ranged enemy move state
 External Resources : 	
 ***************************************************/
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class RangedEnemyMoveState : RangedEnemyState
@@ -15,7 +16,7 @@ public class RangedEnemyMoveState : RangedEnemyState
     /// <summary>
     /// Enter move state logic
     /// </summary>
-    public override void EnterState()
+    public async override void EnterState()
     {
         enemy.logText.text = "Moving";
 
@@ -25,6 +26,8 @@ public class RangedEnemyMoveState : RangedEnemyState
          * Move Coroutine 
          * await delay 
          */
+
+        await Task.Delay(enemy.moveStateDelay * 1000);
 
         if (enemy.GetPlayerInAttackRange() && enemy.GetPlayerInLineOfSight())
         {

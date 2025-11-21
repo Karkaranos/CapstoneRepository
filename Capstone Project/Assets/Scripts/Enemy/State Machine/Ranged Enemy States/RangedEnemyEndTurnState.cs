@@ -1,8 +1,8 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/19/2025
-Date Last Modified : 	11/19/2025
-Brief Description : 		Ranged Enemy wait state
+Date Last Modified : 	11/21/2025
+Brief Description : 		Ranged Enemy end turn state
 External Resources : 	
 ***************************************************/
 using UnityEngine;
