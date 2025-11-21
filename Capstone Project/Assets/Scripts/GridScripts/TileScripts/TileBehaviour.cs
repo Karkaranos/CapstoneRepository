@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 11/2/2025 (Tyler Bouchard)
+ * Last Modified: 11/20/2025 (Tyler Bouchard)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A

@@ -1,7 +1,7 @@
 /******************************************************************************
- * Author: Brad Dixon
+ * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 9/26/2025
- * Last Modified: 11/18/2025
+ * Last Modified: 11/20/2025 (Tyler Bouchard)
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
