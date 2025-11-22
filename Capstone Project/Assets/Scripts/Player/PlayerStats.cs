@@ -138,6 +138,9 @@ public class PlayerStats : MonoBehaviour
         CurrentHealth -= (int)damageToTake;
         tempHealth -= (int)damageToTake;
 
+
+        MarkManager.HealthValueChanged(((float)CurrentHealth)/((float)MaxHealth));
+        
         if (tempHealth < 0)
         {
 
@@ -145,8 +148,6 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("No more extra health! ");
 
         }
-
-        MarkManager.HealthValueChanged(CurrentHealth/MaxHealth);
         //if player dead end level pop up 
         if(CurrentHealth <= 0)
         {

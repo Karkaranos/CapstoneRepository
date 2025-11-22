@@ -93,7 +93,6 @@ public class MarkManager
     /// <param name="percent">Player's health value, as a percent</param>
     public static void HealthValueChanged(float percent)
     {
-        Debug.Log("Called health change");
         foreach(MarkData m in Marks)
         {
             // Currently mark of Strength- buffs after a certain health percentage
@@ -101,18 +100,32 @@ public class MarkManager
             {
                 bool add = true;
                 // Allows the effect to trigger the next time the condition is met
-                if((m.Percent < percent && m.TriggerIfAbove) || (m.Percent > percent && !m.TriggerIfAbove))
+                if(!m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove)))
                 {
                     m.EffectCanTrigger = true;
+                    if(m.TimesTriggered == 0)
+                    {
+                        return;
+                    }
                     add = false;
                 }
-
-                // This should cause the function to return if the percentage stays below or above the required amount
-                if(!m.EffectCanTrigger)
+                else if(!m.EffectCanTrigger || (m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove))))
                 {
                     return;
                 }
+                else if (m.EffectCanTrigger && ((percent <= m.Percent && !m.TriggerIfAbove) || (percent >= m.Percent && m.TriggerIfAbove)))
+                {
+                    m.EffectCanTrigger= false;
+                    add = true;
+                }
+                else
+                {
+                    return;
+                }
+                // This should cause the function to return if the percentage stays below or above the required amount
 
+
+                Debug.LogWarning("hit");
                 if(MarkCount[m.MarkType] ==2)
                 {
                     foreach(MarkEffectsLinked e in m.EffectsWith2)
@@ -127,6 +140,8 @@ public class MarkManager
                         UpdateEffect(e.Effect, e.valueChange, m, add);
                     }
                 }
+                m.EffectCanTrigger = false;
+                m.TimesTriggered++;
             }
         }
     }

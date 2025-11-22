@@ -425,7 +425,7 @@ public class ArtifactManager
     /// <param name="adding">Whether the artifact is being added or removed</param>
     private static void UpdateDictionary(MarkType key, bool adding)
     {
-        markCount[key] = markCount[key] + (adding ? 1 : -1);
+        markCount[key] = (markCount[key] + (adding ? 1 : -1));
         MarkManager.UpdateDictionary(key, markCount[key]);
     }
 
