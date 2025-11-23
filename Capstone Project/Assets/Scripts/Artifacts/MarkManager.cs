@@ -125,9 +125,10 @@ public class MarkManager
                 // This should cause the function to return if the percentage stays below or above the required amount
 
 
-                Debug.LogWarning("hit");
+
                 if(MarkCount[m.MarkType] ==2)
                 {
+                    Debug.LogWarning("hit");
                     foreach(MarkEffectsLinked e in m.EffectsWith2)
                     {
                         UpdateEffect(e.Effect, e.valueChange, m, add);

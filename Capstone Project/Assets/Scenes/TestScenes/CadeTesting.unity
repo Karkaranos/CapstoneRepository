@@ -803,6 +803,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &140659264 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2904219699444303004, guid: f65bb093d99274fd6ac5edcf3a95a17d, type: 3}
+  m_PrefabInstance: {fileID: 2011452539}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &140659271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140659264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef775bcf77e8854b8451e9b7522938d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IndexInGrid: {x: 0, y: 0}
+  inPlayerRange: 0
+  entityOnGrid: 0
+  tileType: 0
+  damageWhenElectrified: 0
+  electrificationDuration: 0
+  TileHasEntities: 1
+  entityType: 1
+  entityObject: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
+  TileHasHazards: 0
+  hazardType: 0
+  hazardObject: {fileID: 0}
+  damageAmount: 0
+  movesLost: 0
+  tileStatAffects: []
 --- !u!1 &156131747
 GameObject:
   m_ObjectHideFlags: 0
@@ -14298,10 +14330,14 @@ PrefabInstance:
       propertyPath: TileHasEntities
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4920336837708781867, guid: f65bb093d99274fd6ac5edcf3a95a17d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2904219699444303004, guid: f65bb093d99274fd6ac5edcf3a95a17d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 140659271}
   m_SourcePrefab: {fileID: 100100000, guid: f65bb093d99274fd6ac5edcf3a95a17d, type: 3}
 --- !u!1001 &2032731007
 PrefabInstance:
