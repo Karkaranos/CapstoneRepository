@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	11/7/2025
+Date Last Modified : 	11/19/2025
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -53,15 +53,6 @@ public class MeleeEnemy : Enemy
     #endregion
 
     #region FUNCTIONS
-
-    /// <summary>
-    /// Initialize all states of the state machine, link them to the state machine, 
-    /// then tell the state machine to start in the wait state
-    /// </summary>
-    private void Awake()
-    {
-        
-    }
 
     /// <summary>
     /// Currently calls Enemy.Start()
