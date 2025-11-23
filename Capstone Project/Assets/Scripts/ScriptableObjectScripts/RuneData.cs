@@ -76,6 +76,10 @@ public class RuneData : ScriptableObject
     //How many action points this rune will cost to play in combat
     public int RuneActionPoints;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
+    //How many action points this rune will cost to play in combat
+    public float RuneSecondaryEffectChance;
+
     #endregion STATS
 
 

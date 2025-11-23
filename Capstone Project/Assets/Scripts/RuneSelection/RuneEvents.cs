@@ -598,18 +598,13 @@ public class RuneEvents : MonoBehaviour
 
                         potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
 
-                        if(potentialTarget == target)
-                        {
-
-                            CheckRuneCombination(target.GetComponentInChildren<Enemy>());
-
-                        }
+                        CheckRuneCombination(potentialTarget.GetComponentInChildren<Enemy>());
 
                     }
 
                 }
 
-
+                EndPlayerAttackPhase();
 
                 break;
 
@@ -829,6 +824,8 @@ public class RuneEvents : MonoBehaviour
 
         }
 
+        Debug.Log(potentialTargetsForLightningStrikes);
+
         return potentialTargetsForLightningStrikes;
 
     }
@@ -904,7 +901,7 @@ public class RuneEvents : MonoBehaviour
 
 
                     //TODO: redo math based on design input/potential luck stat???
-                    if(Random.value <= 0.25f)
+                    if(Random.value <= storedData.RuneSecondaryEffectChance)
                     {
 
                         target.GetComponentInChildren<Enemy>().Damage(damageDealt);
