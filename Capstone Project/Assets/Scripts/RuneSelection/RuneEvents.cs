@@ -12,7 +12,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using EventReference = FMODUnity.EventReference;
-using Mono.Cecil;
 
 public class RuneEvents : MonoBehaviour
 {
@@ -284,6 +283,9 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// checks to see if a tile or enemy is in range before executing a spell
     /// </summary>
+    /// <param name="isRadiusCheck"> determines where the function is checking adjacent tiles from </param>
+    /// <param name="radius"> a spell's potential radius/aoe </param>
+    /// <param name="target"> the initial tile hit if isRadiusCheck </param>
     public void RangeCheck(bool isRadiusCheck, int radius = 0, TileBehaviour target = null)
     {
 
@@ -292,12 +294,11 @@ public class RuneEvents : MonoBehaviour
         List<Vector2Int> validTiles = new List<Vector2Int>();
         List<Vector2Int> searchedTiles = new List<Vector2Int>();
 
-        //Vector2Int targetPos = new Vector2Int(0, 0);
-
         if (!isRadiusCheck)
         {
 
             tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
+            searchedTiles.Add(GridManager.playerPosition);
 
             for (int i = 0; i < storedData.RuneRange +1; i++)
             {
@@ -310,7 +311,12 @@ public class RuneEvents : MonoBehaviour
                     foreach (Vector2Int tile in initialAdjacentTiles.ToList())
                     {
 
-                        validTiles.Add(tile);
+                        if(tile != GridManager.playerPosition)
+                        {
+
+                            validTiles.Add(tile);
+
+                        }
 
                     }
 
@@ -341,7 +347,7 @@ public class RuneEvents : MonoBehaviour
                             continue;
 
                         }
-                        else
+                        else if (tile != GridManager.playerPosition)
                         {
 
                             validTiles.Add(tile);
@@ -462,7 +468,7 @@ public class RuneEvents : MonoBehaviour
             //targets one opponent for moderate damage
             case (1):
 
-                if(target.gameObject.GetComponentInChildren<Enemy>() != null)
+                if(target.GetComponentInChildren<Enemy>() != null)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage(damageDealt);
@@ -484,7 +490,7 @@ public class RuneEvents : MonoBehaviour
             //one is directly targeted, and the other is the closest to the original target
             case (2):
 
-                if (target.gameObject.GetComponentInChildren<Enemy>() != null)
+                if (target.GetComponentInChildren<Enemy>() != null)
                 {
 
                     FindSecondaryTarget(target);
@@ -532,7 +538,7 @@ public class RuneEvents : MonoBehaviour
             case (3):
 
 
-                if (target.gameObject.GetComponentInChildren<Enemy>() != null)
+                if (target.GetComponentInChildren<Enemy>() != null)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage(damageDealt);
@@ -577,24 +583,33 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-            //targets one opponent for a large amount of damage
+            //targets opponents in a straight line
             case (4):
 
-                if(target.gameObject.GetComponentInChildren<Enemy>() != null)
+                FindLineOfTargets(target);
+
+                foreach(TileBehaviour potentialTarget in potentialTargetsForLightningStrikes)
                 {
 
-                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    VFX = Instantiate(storedData.RuneVFX, potentialTarget.transform);
 
-                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+                    if(potentialTarget.GetComponentInChildren<Enemy>() != null)
+                    {
 
-                    // SFX Play
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
+                        potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
 
-                    VFX = Instantiate(storedData.RuneVFX, target.transform);
-                  
-                    EndPlayerAttackPhase();
+                        if(potentialTarget == target)
+                        {
+
+                            CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+
+                        }
+
+                    }
 
                 }
+
+
 
                 break;
 
@@ -606,13 +621,14 @@ public class RuneEvents : MonoBehaviour
     }
 
     //variable that stores the enemy that's closest to the target
-    //for lightning 2
+    //for lightning 2a
     TileBehaviour secondaryTarget;
 
     /// <summary>
     /// Calls lightning rune effect
     /// </summary>
     /// <param name="target"> tile that the player has selected </param>
+    /// <returns> the second target that lightning 2a will hit </returns>
     TileBehaviour FindSecondaryTarget(TileBehaviour target)
     {
 
@@ -645,6 +661,175 @@ public class RuneEvents : MonoBehaviour
         }
 
         return secondaryTarget;
+
+    }
+
+
+    //variable that stores the straight line necessary for lightning 3
+    List<TileBehaviour> potentialTargetsForLightningStrikes = new List<TileBehaviour>();
+
+    /// <summary>
+    /// called when lightning 3 is cast
+    /// finds opponents in a straight line relative to the player's position and the initial target
+    /// </summary>
+    /// <param name="initialTarget"> initial target that the player had picked out </param>
+    /// <returns> a list of tiles for the spell to target </returns>
+    List<TileBehaviour> FindLineOfTargets(TileBehaviour initialTarget)
+    {
+
+        if (tilesInRange[0].transform.position.x == initialTarget.transform.position.x)
+        {
+
+            if (tilesInRange[0].transform.position.z < initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x == tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z < tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+            else if (tilesInRange[0].transform.position.z > initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x == tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z > tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+
+        }
+        else if (tilesInRange[0].transform.position.x < initialTarget.transform.position.x)
+        {
+
+            if (tilesInRange[0].transform.position.z == initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x < tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z == tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+            else if (tilesInRange[0].transform.position.z < initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x < tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z < tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+            else if (tilesInRange[0].transform.position.z > initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x < tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z > tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+
+        }
+        else if (tilesInRange[0].transform.position.x > initialTarget.transform.position.x)
+        {
+
+            if (tilesInRange[0].transform.position.z == initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x > tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z == tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+            else if (tilesInRange[0].transform.position.z < initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x > tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z < tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+            else if (tilesInRange[0].transform.position.z > initialTarget.transform.position.z)
+            {
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tilesInRange[0].transform.position.x > tile.transform.position.x &&
+                        tilesInRange[0].transform.position.z > tile.transform.position.z)
+                    {
+
+                        potentialTargetsForLightningStrikes.Add(tile);
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return potentialTargetsForLightningStrikes;
 
     }
 
@@ -685,7 +870,7 @@ public class RuneEvents : MonoBehaviour
                         if (tile != target)
                         {
 
-                            SendEnemyBackwards(target, tile, enemies);
+                            SendEnemyBackwards(target, tile);
 
                         }
 
@@ -705,8 +890,7 @@ public class RuneEvents : MonoBehaviour
                 break;
 
             //targets an opponent for moderate damage
-            //MAYBE it will target another opponent
-            //will need more concrete information
+            //has a chance to hit twice
             case (2):
 
                 if(target.gameObject.GetComponentInChildren<Enemy>() != null)
@@ -717,6 +901,15 @@ public class RuneEvents : MonoBehaviour
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     VFX = Instantiate(storedData.RuneVFX, target.transform);
+
+
+                    //TODO: redo math based on design input/potential luck stat???
+                    if(Random.value <= 0.25f)
+                    {
+
+                        target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+
+                    }
 
                     EndPlayerAttackPhase();
 
@@ -748,6 +941,7 @@ public class RuneEvents : MonoBehaviour
                 break;
 
             //delays target's turn and damages surrounding enemies
+            //ASK DESIGN IF THE PLAYER MUST CHOOSE
             case (4):
 
                 VFX = Instantiate(storedData.RuneVFX, target.transform);
@@ -808,60 +1002,94 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+
+
     /// <summary>
     /// finds the tile in the opposite direction from the player adjacent to an enemy and moves them there
     /// sorry if this is a fucked way of going about this. i'm just glad this works
+    /// THIS FUNCTION SHOULD BE MOVED. RETURN TO LATER.
     /// </summary>
     /// <param name="originalTarget"> original tile that the player had targeted </param>
-    /// <param name="enemy"> the enemy getting blown back </param>
-    /// <param name="enemies"> the rest of the tiles with enemies on them </param>
-    void SendEnemyBackwards(TileBehaviour originalTarget, TileBehaviour enemy, List<TileBehaviour> enemies)
+    /// <param name="newTarget"> the enemy getting blown back </param>
+    void SendEnemyBackwards(TileBehaviour originalTarget, TileBehaviour newTarget)
     {
 
-        Vector3 newTilePos;
+        List<Vector2Int> adjacentTiles = GridManager.GetAllValidAdjacentTiles(newTarget.IndexInGrid, newTarget.IndexInGrid);
 
-        if(originalTarget.transform.position.z != enemy.transform.position.z)
+        List<TileBehaviour> adjacentTileBehaviours = new List<TileBehaviour>();
+
+        foreach (Vector2Int tile in adjacentTiles.ToList())
         {
 
-            newTilePos.x = (Mathf.Sign(enemy.transform.position.x - originalTarget.transform.position.x) + enemy.transform.position.x);
-            newTilePos.z = ((Mathf.Sign(enemy.transform.position.z - originalTarget.transform.position.z) * 1.5f) + enemy.transform.position.z);
-
-        }
-        else
-        {
-
-            newTilePos.x = ((Mathf.Sign(enemy.transform.position.x - originalTarget.transform.position.x) * 2) + enemy.transform.position.x);
-            newTilePos.z = enemy.transform.position.z;
+            adjacentTileBehaviours.Add(GridManager.combatGrid[tile.x, tile.y]);
 
         }
 
-        newTilePos.y = 0f;
+        TileBehaviour currentTile = newTarget;
 
-        TileBehaviour newTile = enemies.Find(x => x.transform.position == newTilePos);
-
-        if(newTile == null)
+        for(int i = 0; i < adjacentTileBehaviours.Count; i++)
         {
 
-            return;
-
-        }
-
-        if (newTile.GetComponentInChildren<SpriteRenderer>() != null && newTile.GetComponentInChildren<Enemy>() != null)
-        {
-
-            if(newTile.GetComponentInChildren<Enemy>() != null)
+            if (originalTarget.transform.position.x > currentTile.transform.position.x &&
+                adjacentTileBehaviours[i].transform.position.x < currentTile.transform.position.x)
             {
 
-                SendEnemyBackwards(originalTarget, newTile, enemies);
+                currentTile = adjacentTileBehaviours[i];
 
             }
-            else { return; }
+            else if(originalTarget.transform.position.x < currentTile.transform.position.x &&
+                adjacentTileBehaviours[i].transform.position.x > currentTile.transform.position.x)
+            {
+
+                currentTile = adjacentTileBehaviours[i];
+
+            }
+
+            if(originalTarget.transform.position.z > currentTile.transform.position.z &&
+                adjacentTileBehaviours[i].transform.position.z < currentTile.transform.position.z)
+            {
+
+                currentTile = adjacentTileBehaviours[i];
+
+            }
+            else if(originalTarget.transform.position.z < currentTile.transform.position.z &&
+                adjacentTileBehaviours[i].transform.position.z > currentTile.transform.position.z)
+            {
+
+                currentTile = adjacentTileBehaviours[i];
+
+            }
 
         }
 
-        Enemy movedEnemy = enemy.GetComponentInChildren<Enemy>();
-        movedEnemy.gameObject.transform.parent = newTile.transform;
-        movedEnemy.transform.localPosition  = new Vector3 (0, 0, 0);
+        //this part is temporary?? i'm assuming that obstacles will be handled differently later
+ 
+        if(currentTile.GetComponentInChildren<Rigidbody>() != null)
+        {
+
+            GameObject tileOccupant = currentTile.GetComponentInChildren<Rigidbody>().gameObject;
+
+            if(tileOccupant.tag == "Obstacle")
+            {
+
+                return;
+
+            }
+            else if (tileOccupant.GetComponent<Enemy>() != null &&
+                !tilesInRange.Contains(tileOccupant.GetComponentInParent<TileBehaviour>()))
+            {
+
+                SendEnemyBackwards(originalTarget, tileOccupant.GetComponentInParent<TileBehaviour>());
+
+            }
+
+        }
+
+        Enemy relocatedEnemy = newTarget.GetComponentInChildren<Enemy>();
+
+        relocatedEnemy.gameObject.transform.parent = currentTile.transform;
+
+        relocatedEnemy.transform.localPosition = new Vector3(0, 0, 0);
 
     }
 
@@ -877,15 +1105,15 @@ public class RuneEvents : MonoBehaviour
             if (!enemy.HasStatusEffect)
             {
 
-                enemy.GetComponentInChildren<Enemy>().RuneStatusEffect = storedData.TypeOfRune;
-                enemy.GetComponentInChildren<Enemy>().RuneStatusEffectNumber = storedData.NumberOnSkillTree;
+                enemy.RuneStatusEffect = storedData.TypeOfRune;
+                enemy.RuneStatusEffectNumber = storedData.NumberOnSkillTree;
 
                 enemy.HasStatusEffect = true;
 
                 Debug.Log("Status effect added!");
 
             }
-            else
+            else if (enemy.HasStatusEffect && enemy.RuneStatusEffect != storedData.TypeOfRune)
             {
 
                 switch (storedData.TypeOfRune, enemy.RuneStatusEffect)
