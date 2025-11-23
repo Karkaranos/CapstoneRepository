@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Cinemachine;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class ButtonManager : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
 
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private PlayerBehavior playerBehavior;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private CameraManager cameraManager;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject confirmCanvas;
@@ -55,7 +57,9 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
+
     }
 
     #region functions
@@ -188,6 +192,7 @@ public class ButtonManager : MonoBehaviour
     {
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
+        cameraManager.SwitchCamera(cameraManager.playerZcam);
         playerBehavior.PathfindThroughGrid();
     }
 

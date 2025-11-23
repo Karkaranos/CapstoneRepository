@@ -26,6 +26,7 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera playerZcam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript popUpScript;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer videoPlayer;
     public GameObject OutOfCombatCanvas;
@@ -97,7 +98,7 @@ public class CameraManager : MonoBehaviour
     /// 20 = highest priority
     /// </summary>
     /// <param name="newActiveCamera"></param>
-    void SwitchCamera(CinemachineCamera ActiveCamera)
+    public void SwitchCamera(CinemachineCamera ActiveCamera)
     {
         level1cam.Priority = 20; 
         level1playcam.Priority = 10;
