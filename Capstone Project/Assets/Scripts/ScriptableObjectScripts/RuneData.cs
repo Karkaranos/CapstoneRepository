@@ -77,6 +77,7 @@ public class RuneData : ScriptableObject
     public int RuneActionPoints;
 
     [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
+    [MinValue(0), MaxValue(1)]
     //How many action points this rune will cost to play in combat
     public float RuneSecondaryEffectChance;
 

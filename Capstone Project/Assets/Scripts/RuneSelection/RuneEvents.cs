@@ -136,7 +136,7 @@ public class RuneEvents : MonoBehaviour
     private RuneData storedData;
 
     //updated everytime the player selects a spell
-    public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
