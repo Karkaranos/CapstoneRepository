@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11047079}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.008387874, y: -0.9529714, z: 0.3017842, w: -0.02648716}
-  m_LocalPosition: {x: 4.06, y: 4.41, z: 11.04}
+  m_LocalRotation: {x: -0.17503753, y: 0.01681951, z: 0.006520165, w: -0.9843965}
+  m_LocalPosition: {x: 5.11, y: 3.72, z: -5.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 35.144, y: -183.184, z: 0}
+  m_LocalEulerAnglesHint: {x: 20.145, y: -362.161, z: -1.143}
 --- !u!114 &11047083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,6 +613,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCanvas (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2666288005788377712, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2726506980644489610, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -822,9 +826,97 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 444982276134996571, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172579768637129514, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasHazards
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172579768637129514, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2064951675012581395, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
       propertyPath: m_Name
       value: Level 11x7(M)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2654449167947536782, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: entityType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2654449167947536782, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
+    - target: {fileID: 2654449167947536782, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3251098288001822521, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 3251098288001822521, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 3251098288001822521, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasHazards
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3251098288001822521, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230676310160664780, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
+    - target: {fileID: 4230676310160664780, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4544172941305886902, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517368630108057066, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749305972577176128, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasHazards
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749305972577176128, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8292160213138992854, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
+    - target: {fileID: 8292160213138992854, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315451065402675144, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 8315451065402675144, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 8315451065402675144, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasHazards
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315451065402675144, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8580553580650523373, guid: bba48533842737f48a2dc594ab8fab05, type: 3}
       propertyPath: m_LocalPosition.x
