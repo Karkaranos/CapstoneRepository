@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 11/2/2025 (Tyler Bouchard)
+ * Last Modified: 11/20/2025 (Tyler Bouchard)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -37,15 +37,15 @@ public class TileBehaviour : MonoBehaviour
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
     [HideInInspector] private GameObject ObjectOnTile;
+    [HideInInspector] private GameObject tileHighlight;
     [SerializeField] private TileType tileType;
-    [SerializeField] private GameObject tileHighlight;
     
     [Header("Water Tile Vars")]
-    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject WaterTileVisualizer;
-    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
-    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
+    
 
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
@@ -89,8 +89,8 @@ public class TileBehaviour : MonoBehaviour
         IndexInGrid.x = (int)(transform.position.x - parentTransform.position.x / transform.localScale.x);
         IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
 
-        //renaming the tile for easier debuging and such
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
+        tileHighlight = transform.GetChild(0).gameObject;
 
         inPlayerRange = false;
     }
@@ -141,10 +141,6 @@ public class TileBehaviour : MonoBehaviour
         if (TileHasHazards && hazardObject != null)
         {
             GameObject obj = Instantiate(hazardObject, transform.position, Quaternion.identity);
-        }
-
-        if (tileType == TileType.Water) {
-            GameObject obj = Instantiate(WaterTileVisualizer, transform.position, Quaternion.identity);
         }
     }
 
@@ -232,9 +228,9 @@ public class TileBehaviour : MonoBehaviour
         TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
     }
 
-    ///// <summary>
-    ///// Used so it doesn't listen to a null reference of unity events
-    ///// </summary>
+    /// <summary>
+    /// Used so it doesn't listen to a null reference of unity events
+    /// </summary>
     private void OnDisable()
     {
         TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
