@@ -67,14 +67,14 @@ public class MarkManager
         {
             if(m.TriggerCondition == MarkTriggerCondition.HealthPercent || m.TriggerCondition == MarkTriggerCondition.EnemyDeath)
             {
-                if(MarkCount[m.MarkType]==2)
+                if(MarkCount[m.Name]==2)
                 {
                     foreach(MarkEffectsLinked me in m.EffectsWith2)
                     {
                         UpdateEffect(me.Effect, me.valueChange, m, false);
                     }
                 }
-                else if(MarkCount[m.MarkType]==3)
+                else if(MarkCount[m.Name]==3)
                 {
                     foreach(MarkEffectsLinked me in m.EffectsWith3)
                     {
@@ -153,32 +153,52 @@ public class MarkManager
     /// </summary>
     public static void TurnStart()
     {
-
         turnCount++;
         foreach(MarkData m in Marks)
         {
             // Currently Mark of Restoration- heals
             if(m.TriggerCondition == MarkTriggerCondition.TurnStart)
             {
-                if(MarkCount[m.MarkType] == 2)
+                if(MarkCount[m.Name] == 2)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
                         UpdateEffect(e.Effect, e.valueChange, m, true);
                     }
                 }
-                else if (MarkCount[m.MarkType]==3)
+                else if (MarkCount[m.Name]==3)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
                         UpdateEffect(e.Effect, e.valueChange, m, true);
                     }
+                }
+                else
+                {
+                    Debug.LogWarning("Lasagna" + MarkCount[m.Name] + m.MarkType.ToString());
                 }
             }
             // Currently Mark of Risk- changes damage taken and damage dealt
             else if (m.TriggerCondition == MarkTriggerCondition.TurnCount)
             {
-                if(MarkCount[m.MarkType]==2 && turnCount == m.TwoMarkTurnChange)
+                if(turnCount == 1)
+                {
+                    if(MarkCount[m.Name] == 2)
+                    {
+                        foreach (MarkEffectsLinked e in m.EffectsWith2)
+                        {
+                            UpdateEffect(e.Effect, e.valueChange, m, true);
+                        }
+                    }
+                    else if (MarkCount[m.Name] == 3)
+                    {
+                        foreach (MarkEffectsLinked e in m.EffectsWith3)
+                        {
+                            UpdateEffect(e.Effect, e.valueChange, m, true);
+                        }
+                    }
+                }
+                else if(MarkCount[m.Name]==2 && turnCount == m.TwoMarkTurnChange)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
@@ -189,7 +209,7 @@ public class MarkManager
                         UpdateEffect(e.Effect, e.valueChange, m, true);
                     }
                 }
-                else if(MarkCount[m.MarkType]==3 && turnCount == m.ThreeMarkTurnChange)
+                else if(MarkCount[m.Name]==3 && turnCount == m.ThreeMarkTurnChange)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith3)
                     {
@@ -215,7 +235,7 @@ public class MarkManager
         {
             if(m.TriggerCondition == MarkTriggerCondition.OnEquip)
             {
-                if (MarkCount[m.MarkType] < 2)
+                if (MarkCount[m.Name] < 2)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
@@ -223,7 +243,7 @@ public class MarkManager
                         m.TwoConditionTrigger = true;
                     }
                 }
-                else if (MarkCount[m.MarkType] == 2 && adding && m.TwoConditionTrigger)
+                else if (MarkCount[m.Name] == 2 && adding && m.TwoConditionTrigger)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
@@ -231,7 +251,7 @@ public class MarkManager
                     }
                     m.TwoConditionTrigger = false;
                 }
-                else if(MarkCount[m.MarkType] == 2 && !adding && !m.ThreeConditionTrigger)
+                else if(MarkCount[m.Name] == 2 && !adding && !m.ThreeConditionTrigger)
                 {
 
                     foreach (MarkEffectsLinked e in m.EffectsWith3)
@@ -245,7 +265,7 @@ public class MarkManager
                     m.ThreeConditionTrigger = true;
                     m.TwoConditionTrigger = false;
                 }
-                else if (MarkCount[m.MarkType] == 3 && adding && m.ThreeConditionTrigger)
+                else if (MarkCount[m.Name] == 3 && adding && m.ThreeConditionTrigger)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
@@ -272,14 +292,14 @@ public class MarkManager
             // Currently Mark of Conquest- adds AP
             if(m.TriggerCondition == MarkTriggerCondition.EnemyDeath)
             {
-                if(MarkCount[m.MarkType] == 2)
+                if(MarkCount[m.Name] == 2)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
                         UpdateEffect(e.Effect, e.valueChange, m, true);
                     }
                 }
-                else if (MarkCount[m.MarkType]==3)
+                else if (MarkCount[m.Name]==3)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
@@ -314,8 +334,8 @@ public class MarkManager
                 player.Heal((int)(val));
                 break;
             case MarkEffects.APOnEnemyDeath:
-                if((MarkCount[m.MarkType] == 2 && m.TimesTriggered < m.maxTriggerWith2) ||
-                    (MarkCount[m.MarkType]==3 && m.TimesTriggered < m.maxTriggerWith3))
+                if((MarkCount[m.Name] == 2 && m.TimesTriggered < m.maxTriggerWith2) ||
+                    (MarkCount[m.Name]==3 && m.TimesTriggered < m.maxTriggerWith3))
                 {
                     gm.CurrentActionPoints++;
                     m.TimesTriggered++;
@@ -348,6 +368,7 @@ public class MarkManager
     public static void UpdateDictionary(MarkType key, int val)
     {
         MarkCount[key] = val;
+        Debug.LogWarning("Updated " + key.ToString() + " to " + val.ToString());
     }
 
     /// <summary>
