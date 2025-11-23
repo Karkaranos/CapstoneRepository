@@ -1,6 +1,13 @@
+/*************************************************
+Author Names : Drew Mulacek
+Date Created : 11/22/2025
+Date Last Modified : 11/23/2025
+Brief Description : This is how the player walk animations play when the player moves
+External Resources : N/A
+***************************************************/
 using UnityEngine;
 
-public class MOV : StateMachineBehaviour
+public class MOV : MonoBehaviour
 {
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
