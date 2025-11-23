@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 11/08/2025
+Date Last Modified : 11/23/2025
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
@@ -475,6 +475,8 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
+                    target.ElectrifyTile();
+
                     //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                     //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
@@ -499,6 +501,8 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
+                    target.ElectrifyTile();
+
                     //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, target.transform);
@@ -508,10 +512,12 @@ public class RuneEvents : MonoBehaviour
 
                         secondaryTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
 
+                        secondaryTarget.ElectrifyTile();
+
                         //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                         //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
-                        if(storedData.SecondaryRuneVFX != null)
+                        if (storedData.SecondaryRuneVFX != null)
                         {
 
                             VFX = Instantiate(storedData.SecondaryRuneVFX, secondaryTarget.transform);
@@ -545,6 +551,8 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
+                    target.ElectrifyTile();
+
                     //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                     //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
@@ -559,6 +567,8 @@ public class RuneEvents : MonoBehaviour
                         {
 
                             tile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(0.40f * damageDealt));
+
+                            tile.ElectrifyTile();
 
                             if (storedData.SecondaryRuneVFX != null)
                             {
@@ -593,7 +603,9 @@ public class RuneEvents : MonoBehaviour
 
                     VFX = Instantiate(storedData.RuneVFX, potentialTarget.transform);
 
-                    if(potentialTarget.GetComponentInChildren<Enemy>() != null)
+                    potentialTarget.ElectrifyTile();
+
+                    if (potentialTarget.GetComponentInChildren<Enemy>() != null)
                     {
 
                         potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
@@ -1166,13 +1178,11 @@ public class RuneEvents : MonoBehaviour
 
         //PART 1: FINDING TARGETS
 
-        //until we get actual vfx for this i'm leaving it blank because it will be sooooo cluttered
-        int radius = 2;
+        RangeCheck(true, 2, enemy.GetComponentInParent<TileBehaviour>());
 
-        TileBehaviour[] tiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
         List<TileBehaviour> validEnemies = new List<TileBehaviour>();
 
-        foreach (TileBehaviour tile in tiles)
+        foreach (TileBehaviour tile in tilesInRange)
         {
 
             if (tile == enemy.GetComponentInParent<TileBehaviour>())
@@ -1182,8 +1192,7 @@ public class RuneEvents : MonoBehaviour
 
             }
 
-            if (Mathf.RoundToInt(Vector2.Distance(enemy.transform.position, tile.transform.position) / 2) <= radius &&
-               tile.GetComponentInChildren<Enemy>() != null)
+            if (tile.GetComponentInChildren<Enemy>() != null)
             {
 
                 validEnemies.Add(tile);
@@ -1254,6 +1263,8 @@ public class RuneEvents : MonoBehaviour
         {
 
             validEnemies[i].GetComponentInChildren<Enemy>().Damage(lightningDamage);
+
+            validEnemies[i].ElectrifyTile();
 
         }
 
