@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	11/7/2025 Clare Grady
+Date Last Modified : 	11/21/2025 Clare Grady
 Brief Description : 		Melee Enemy Move State
 External Resources : 	
 ***************************************************/
@@ -36,12 +36,12 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         if(enemy.GetPlayerInAttackRange())
         {
             Logger.Log("Enemy State: Move -> Attack");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState(), 0));
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
         }
         else
         {
             Logger.Log("Enemy State: Move -> EndTurn");
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState(), 0));
+            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
         }
     }
 
