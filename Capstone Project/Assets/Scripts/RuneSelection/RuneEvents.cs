@@ -136,7 +136,7 @@ public class RuneEvents : MonoBehaviour
     private RuneData storedData;
 
     //updated everytime the player selects a spell
-    List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
@@ -145,6 +145,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         PublicEvents.SelectTile += TargetSelectedTile;
+        PublicEvents.SelectTarget += TargetSelectedEnemy;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
 
         PublicEvents.MasteryRunePurchased += MasteryUnlocked;
@@ -158,6 +159,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         PublicEvents.SelectTile -= TargetSelectedTile;
+        PublicEvents.SelectTarget -= TargetSelectedEnemy;
         PublicEvents.RuneSelected -= StoreSelectedRuneData;
 
         PublicEvents.MasteryRunePurchased -= MasteryUnlocked;
@@ -244,11 +246,6 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Checks if the selected tile has an enemy in it
-    /// If it does, the player's selected rune will target the enemy on the selected tile
-    /// </summary>
-    /// <param name="tile"> tile that the player has selected </param>
     public void TargetSelectedTile(TileBehaviour tile)
     {
 
@@ -257,17 +254,52 @@ public class RuneEvents : MonoBehaviour
             tilesInRange.Contains(tile))
         {
 
+            switch (storedData.TypeOfRune)
+            {
+
+                case (RuneType.Lightning):
+
+                    SelectLightningRune(tile, null);
+                    break;
+
+                case (RuneType.Wind):
+
+                    SelectWindRune(tile, null);
+                    break;
+
+                default:
+
+                    break;
+
+            }
+
+        }
+
+    }
+
+    /// <summary>
+    /// targets an enemy
+    /// </summary>
+    /// <param name="enemy"> enemy that the player has selected </param>
+    public void TargetSelectedEnemy(Enemy enemy)
+    {
+
+        if (waitingForThePlayer &&
+            FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints &&
+            tilesInRange.Contains(GridManager.combatGrid[(int)enemy.transform.position.x, (int)enemy.transform.position.z]))
+        {
+
              switch (storedData.TypeOfRune)
                     {
 
                         case (RuneType.Lightning):
 
-                            SelectLightningRune(tile);
+                            SelectLightningRune(GridManager.combatGrid[(int)enemy.transform.position.x, (int)enemy.transform.position.z], enemy);
                             break;
 
                         case (RuneType.Wind):
 
-                            SelectWindRune(tile);
+                            SelectWindRune(GridManager.combatGrid[(int)enemy.transform.position.x, (int)enemy.transform.position.z], enemy);
                             break;
 
                         default:
@@ -454,11 +486,13 @@ public class RuneEvents : MonoBehaviour
     /// Calls lightning rune effect
     /// </summary>
     /// <param name="target"> tile that the player has selected </param>
-    public void SelectLightningRune(TileBehaviour target)
+    public void SelectLightningRune(TileBehaviour tile, Enemy enemy = null)
     {
 
         float damageDealt = Mathf.CeilToInt(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
             * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+        Enemy[] enemiesOnTheGrid = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
         GameObject VFX;
 
@@ -468,19 +502,19 @@ public class RuneEvents : MonoBehaviour
             //targets one opponent for moderate damage
             case (1):
 
-                if(target.GetComponentInChildren<Enemy>() != null)
+                if (enemy != null)
                 {
 
-                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    enemy.Damage(damageDealt);
 
-                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+                    CheckRuneCombination(enemy);
 
-                    target.ElectrifyTile();
+                    tile.ElectrifyTile();
 
                     //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                     //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
-                    VFX = Instantiate(storedData.RuneVFX, target.transform);
+                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
                   
                     EndPlayerAttackPhase();
 
@@ -492,27 +526,27 @@ public class RuneEvents : MonoBehaviour
             //one is directly targeted, and the other is the closest to the original target
             case (2):
 
-                if (target.GetComponentInChildren<Enemy>() != null)
+                if (enemy != null)
                 {
 
-                    FindSecondaryTarget(target);
+                    FindSecondaryTarget(tile);
 
-                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    enemy.Damage(damageDealt);
 
-                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+                    CheckRuneCombination(enemy);
 
-                    target.ElectrifyTile();
+                    tile.ElectrifyTile();
 
                     //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
-                    VFX = Instantiate(storedData.RuneVFX, target.transform);
+                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
                    
                     if(secondaryTarget != null)
                     {
 
-                        secondaryTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                        secondaryTarget.Damage(damageDealt);
 
-                        secondaryTarget.ElectrifyTile();
+                        GridManager.combatGrid[(int)secondaryTarget.transform.position.x, (int)secondaryTarget.transform.position.z].ElectrifyTile();
 
                         //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                         //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
@@ -544,42 +578,49 @@ public class RuneEvents : MonoBehaviour
             case (3):
 
 
-                if (target.GetComponentInChildren<Enemy>() != null)
+                if (enemy != null)
                 {
 
-                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    enemy.Damage(damageDealt);
 
-                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+                    CheckRuneCombination(enemy);
 
-                    target.ElectrifyTile();
+                    tile.ElectrifyTile();
 
                     //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                     //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
-                    VFX = Instantiate(storedData.RuneVFX, target.transform);
+                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
-                    RangeCheck(true, 3, target);
+                    RangeCheck(true, 3, tile);
 
-                    foreach(TileBehaviour tile in tilesInRange)
+                    foreach (TileBehaviour tileInRange in tilesInRange)
                     {
 
-                        if(tile != target && tile.GetComponentInChildren<Enemy>() != null)
+                        foreach(Enemy newEnemy in enemiesOnTheGrid)
                         {
 
-                            tile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(0.40f * damageDealt));
-
-                            tile.ElectrifyTile();
-
-                            if (storedData.SecondaryRuneVFX != null)
+                            if ((int)newEnemy.transform.position.x == tileInRange.IndexInGrid.x && (int)newEnemy.transform.position.z == tileInRange.IndexInGrid.y)
                             {
 
-                                VFX = Instantiate(storedData.SecondaryRuneVFX, tile.transform);
+                               newEnemy.Damage(Mathf.CeilToInt(0.40f * damageDealt));
 
-                            }
-                            else
-                            {
+                                tileInRange.ElectrifyTile();
 
-                                VFX = Instantiate(storedData.RuneVFX, tile.transform);
+                                if (storedData.SecondaryRuneVFX != null)
+                                {
+
+                                    VFX = Instantiate(storedData.SecondaryRuneVFX, tileInRange.transform);
+
+                                }
+                                else
+                                {
+
+                                    VFX = Instantiate(storedData.RuneVFX, tileInRange.transform);
+
+                                }
+
+                                break;
 
                             }
 
@@ -592,25 +633,33 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 break;
-
+        
             //targets opponents in a straight line
             case (4):
 
-                FindLineOfTargets(target);
+                FindLineOfTargets(tile);
 
-                foreach(TileBehaviour potentialTarget in potentialTargetsForLightningStrikes)
+                foreach (TileBehaviour potentialTarget in potentialTargetsForLightningStrikes)
                 {
 
                     VFX = Instantiate(storedData.RuneVFX, potentialTarget.transform);
 
                     potentialTarget.ElectrifyTile();
 
-                    if (potentialTarget.GetComponentInChildren<Enemy>() != null)
+                    foreach (Enemy newEnemy in enemiesOnTheGrid)
                     {
 
-                        potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                        if ((int)newEnemy.transform.position.x == potentialTarget.IndexInGrid.x &&
+                            (int)newEnemy.transform.position.z == potentialTarget.IndexInGrid.y)
+                        {
 
-                        CheckRuneCombination(potentialTarget.GetComponentInChildren<Enemy>());
+                            newEnemy.Damage(damageDealt);
+
+                            CheckRuneCombination(newEnemy);
+
+                            break;
+
+                        }
 
                     }
 
@@ -629,39 +678,39 @@ public class RuneEvents : MonoBehaviour
 
     //variable that stores the enemy that's closest to the target
     //for lightning 2a
-    TileBehaviour secondaryTarget;
+    Enemy secondaryTarget;
 
     /// <summary>
     /// Calls lightning rune effect
     /// </summary>
     /// <param name="target"> tile that the player has selected </param>
     /// <returns> the second target that lightning 2a will hit </returns>
-    TileBehaviour FindSecondaryTarget(TileBehaviour target)
+    Enemy FindSecondaryTarget(TileBehaviour target)
     {
 
-        TileBehaviour[] otherEnemies = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+        Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
         float closestDistance = Mathf.Infinity;
         Vector3 primaryTargetPos = target.gameObject.transform.position;
 
-        foreach(TileBehaviour potentialTarget in otherEnemies)
+        foreach(Enemy enemy in enemies)
         {
 
-            if(potentialTarget == target)
+            if((int)enemy.transform.position.x == target.IndexInGrid.x && (int)enemy.transform.position.z == target.IndexInGrid.y)
             {
 
                 continue;
 
             }
 
-            Vector3 dir = potentialTarget.gameObject.transform.position - primaryTargetPos;
+            Vector3 dir = enemy.gameObject.transform.position - primaryTargetPos;
             float distanceFromTarget = dir.sqrMagnitude;
 
-            if(distanceFromTarget < closestDistance && potentialTarget.GetComponentInChildren<Enemy>() != null)
+            if (distanceFromTarget < closestDistance)
             {
 
                 closestDistance = distanceFromTarget;
-                secondaryTarget = potentialTarget;
+                secondaryTarget = enemy;
 
             }
 
@@ -847,11 +896,13 @@ public class RuneEvents : MonoBehaviour
     /// Calls wind rune effect
     /// </summary>
     /// <param name="target"> tile that the player has selected </param>
-    public void SelectWindRune(TileBehaviour target)
+    public void SelectWindRune(TileBehaviour tile, Enemy enemy = null)
     {
 
         float damageDealt = Mathf.Ceil(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
             * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+        Enemy[] enemiesOnTheGrid = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
         GameObject VFX;
 
@@ -861,29 +912,33 @@ public class RuneEvents : MonoBehaviour
             //knocks adjacent enemies backwards and damages them
             case (1):
 
-                VFX = Instantiate(storedData.RuneVFX, target.transform);
+                VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
-                RangeCheck(true, 2, target);
+                RangeCheck(true, 2, tile);
 
-                foreach (TileBehaviour tile in tilesInRange)
+                foreach (TileBehaviour tileInRange in tilesInRange)
                 {
 
-                    if (tile.GetComponentInChildren<Enemy>() != null)
+                    foreach (Enemy newEnemy in enemiesOnTheGrid)
                     {
 
-                        tile.GetComponentInChildren<Enemy>().Damage(damageDealt);
-
-                        if (tile != target)
+                        if((int)newEnemy.transform.position.x == tile.IndexInGrid.x && (int)newEnemy.transform.position.z == tile.IndexInGrid.y)
                         {
 
-                            tile.GetComponentInChildren<Enemy>().SendEnemyBackwards(target, tile);
+                            newEnemy.Damage(damageDealt);
 
-                        }
+                            if (tileInRange != tile)
+                            {
 
-                        else
-                        {
+                                newEnemy.SendEnemyBackwards(tile, tileInRange);
 
-                            CheckRuneCombination(tile.GetComponentInChildren<Enemy>());
+                            }
+                            else
+                            {
+
+                                CheckRuneCombination(newEnemy);
+
+                            }
 
                         }
 
@@ -899,21 +954,21 @@ public class RuneEvents : MonoBehaviour
             //has a chance to hit twice
             case (2):
 
-                if(target.gameObject.GetComponentInChildren<Enemy>() != null)
+                if(enemy != null)
                 {
 
-                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    enemy.Damage(damageDealt);
 
-                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+                    CheckRuneCombination(enemy);
 
-                    VFX = Instantiate(storedData.RuneVFX, target.transform);
+                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
 
                     //TODO: redo math based on design input/potential luck stat???
                     if(Random.value <= storedData.RuneSecondaryEffectChance)
                     {
 
-                        target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                        enemy.Damage(damageDealt);
 
                     }
 
@@ -926,62 +981,61 @@ public class RuneEvents : MonoBehaviour
             //creates a shield on the player's tile
             case (3):
 
-                if(target.GetComponentInChildren<PlayerBehavior>() != null)
+                ShieldBehavior newShield = tile.gameObject.AddComponent<ShieldBehavior>();
+
+                if (debugText != null)
                 {
 
-                    ShieldBehavior newShield = target.gameObject.AddComponent<ShieldBehavior>();
-
-                    if (debugText != null)
-                    {
-
-                        debugText.text = "Shield added!";
-
-                    }
-
-                    newShield.OnShieldGenerated(target.transform, storedData.RuneVFX);
-
-                    EndPlayerAttackPhase();
+                    debugText.text = "Shield added!";
 
                 }
+
+                newShield.OnShieldGenerated(tile.transform, storedData.RuneVFX);
+
+                EndPlayerAttackPhase();
 
                 break;
 
             //delays target's turn and damages surrounding enemies
-            //ASK DESIGN IF THE PLAYER MUST CHOOSE
             case (4):
 
-                VFX = Instantiate(storedData.RuneVFX, target.transform);
+                VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
-                if (target.GetComponentInChildren<Enemy>() != null)
+                if (enemy != null)
                 {
 
-                    target.GetComponentInChildren<Enemy>().DelayedTurnStatus(true);
+                    enemy.DelayedTurnStatus(true);
 
-                    target.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                    enemy.Damage(damageDealt);
 
-                    CheckRuneCombination(target.GetComponentInChildren<Enemy>());
+                    CheckRuneCombination(enemy);
 
                 }
 
-                RangeCheck(true, 3, target);
+                RangeCheck(true, 3, tile);
 
                 //do NOT delete this list again, jay. it's here for a reason
-                List<TileBehaviour> validEnemies = new List<TileBehaviour>();
+                List<Enemy> validEnemies = new List<Enemy>();
 
-                foreach(TileBehaviour tile in tilesInRange)
+                foreach(TileBehaviour tileInRange in tilesInRange)
                 {
 
-                    if(tile == target)
+                    if (tileInRange == tile)
                     {
 
                         continue;
 
                     }
 
-                    if(tile.GetComponentInChildren<Enemy>() != null)
+                    foreach (Enemy newEnemy in enemiesOnTheGrid)
                     {
 
-                        validEnemies.Add(tile);
+                        if ((int)newEnemy.transform.position.x == tileInRange.IndexInGrid.x && (int)newEnemy.transform.position.z == tileInRange.IndexInGrid.y)
+                        {
+
+                            validEnemies.Add(newEnemy);
+
+                        }
 
                     }
 
@@ -993,8 +1047,7 @@ public class RuneEvents : MonoBehaviour
                     for (int i = 0; i < validEnemies.Count; i++)
                     {
 
-                        validEnemies[i].GetComponentInChildren<Enemy>().Damage
-                            (Mathf.CeilToInt(damageDealt / validEnemies.Count));
+                        validEnemies[i].Damage(Mathf.CeilToInt(damageDealt / validEnemies.Count));
 
                     }
 
@@ -1082,11 +1135,13 @@ public class RuneEvents : MonoBehaviour
     void LightningAndWindCombo(Enemy enemy, int lightningTier, int windTier)
     {
 
+        Enemy[] enemiesOnTheGrid = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
         //PART 1: FINDING TARGETS
 
         RangeCheck(true, 2, enemy.GetComponentInParent<TileBehaviour>());
 
-        List<TileBehaviour> validEnemies = new List<TileBehaviour>();
+        List<Enemy> validEnemies = new List<Enemy>();
 
         foreach (TileBehaviour tile in tilesInRange)
         {
@@ -1098,10 +1153,18 @@ public class RuneEvents : MonoBehaviour
 
             }
 
-            if (tile.GetComponentInChildren<Enemy>() != null)
+            foreach(Enemy newEnemy in enemiesOnTheGrid)
             {
 
-                validEnemies.Add(tile);
+                if((int)newEnemy.transform.position.x == tile.IndexInGrid.x && (int)newEnemy.transform.position.z == tile.IndexInGrid.y)
+                {
+
+                    validEnemies.Add(newEnemy);
+
+                    break;
+
+                }
+                        
 
             }
 
@@ -1168,9 +1231,9 @@ public class RuneEvents : MonoBehaviour
         for (int i = 0; i < validEnemies.Count; i++)
         {
 
-            validEnemies[i].GetComponentInChildren<Enemy>().Damage(lightningDamage);
+            validEnemies[i].Damage(lightningDamage);
 
-            validEnemies[i].ElectrifyTile();
+            GridManager.combatGrid[(int)validEnemies[i].transform.position.x, (int)validEnemies[i].transform.position.z].ElectrifyTile();
 
         }
 
@@ -1190,7 +1253,7 @@ public class RuneEvents : MonoBehaviour
                 if (validEnemies[i] != null)
                 {
 
-                    validEnemies[i].GetComponentInChildren<Enemy>().Damage(lightningDamage);
+                    validEnemies[i].Damage(lightningDamage);
 
                 }
 
@@ -1273,7 +1336,7 @@ public class RuneEvents : MonoBehaviour
             if (validEnemies[i] != null)
             {
 
-                validEnemies[i].GetComponentInChildren<Enemy>().Damage(windSecondaryDamage);
+                validEnemies[i].Damage(windSecondaryDamage);
 
             }
 

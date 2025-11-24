@@ -55,6 +55,8 @@ public static class PublicEvents
     //Triggers whenever a tile is selected while in wait mode(?)
     public static Action<TileBehaviour> SelectTile;
 
+    public static Action<Enemy> SelectTarget;
+
 
     #region RUNE EVENTS
 

@@ -302,14 +302,10 @@ public class Enemy : MonoBehaviour
 
         }
 
-        if (GridManager.combatGrid[newTilePos.x, newTilePos.y] != null)
+        if (GridManager.combatGrid[newTilePos.x, newTilePos.y] != null && GridManager.combatGrid[newTilePos.x, newTilePos.y].entityOnGrid == -1)
         {
 
-            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
-
-            this.gameObject.transform.parent = newTile.transform;
-
-            this.transform.localPosition = new Vector3(0, 0, 0);
+            this.gameObject.transform.position = new Vector3(newTilePos.x, 0, newTilePos.y);
 
         }
 

@@ -125,6 +125,12 @@ public class PlayerInputHandler : MonoBehaviour
                 {
                     PublicEvents.SelectTile?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>());
                 }
+
+                if(hit.transform.gameObject.GetComponent<Enemy>())
+                {
+                    PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponent<Enemy>());
+                }
+
             }
         }
     }
