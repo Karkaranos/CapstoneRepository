@@ -104,7 +104,6 @@ public class MarkManager
                 if(!m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove)))
                 {
                     m.EffectCanTrigger = true;
-                    if(m.TimesTriggered == 0)
                     if(m.TimesTriggered%2 == 0)
                     {
                         return;
@@ -122,6 +121,7 @@ public class MarkManager
                 }
                 else if(m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove)))
                 {
+                    return;
                 }
                 else
                 {
@@ -132,6 +132,7 @@ public class MarkManager
 
 
 
+                if(MarkCount[m.Name] ==2)
                 {
                     foreach(MarkEffectsLinked e in m.EffectsWith2)
                     {
