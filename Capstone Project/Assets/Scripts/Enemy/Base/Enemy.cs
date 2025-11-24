@@ -5,12 +5,13 @@ Date Last Modified : 	11/8/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
-using UnityEngine;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using NaughtyAttributes;
 using TMPro;
 using Unity.IO.LowLevel.Unsafe;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 
 public class Enemy : MonoBehaviour
 {
@@ -263,6 +264,55 @@ public class Enemy : MonoBehaviour
     public virtual bool GetPlayerInAttackRange()
     { 
         return false;
+    }
+
+    /// <summary>
+    /// shoves the enemy backwards relative from where wind 1 was initially cast
+    /// </summary>
+    /// <param name="originalTarget"> initial tile targeted by the player </param>
+    /// <param name="newTarget"> current enemy being pushed back </param>
+    public void SendEnemyBackwards(TileBehaviour originalTarget, TileBehaviour newTarget)
+    {
+
+        Vector2Int newTilePos = newTarget.IndexInGrid;
+
+        if(originalTarget.IndexInGrid.x < newTarget.IndexInGrid.x)
+        {
+
+            newTilePos.x += 1;
+
+        }
+        else if (originalTarget.IndexInGrid.x > newTarget.IndexInGrid.x)
+        {
+
+            newTilePos.x -= 1;
+
+        }
+
+        if(originalTarget.IndexInGrid.y < newTarget.IndexInGrid.y)
+        {
+
+            newTilePos.y += 1;
+
+        }
+        else if(originalTarget.IndexInGrid.y > newTarget.IndexInGrid.y)
+        {
+
+            newTilePos.y -= 1;
+
+        }
+
+        if (GridManager.combatGrid[newTilePos.x, newTilePos.y] != null)
+        {
+
+            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
+
+            this.gameObject.transform.parent = newTile.transform;
+
+            this.transform.localPosition = new Vector3(0, 0, 0);
+
+        }
+
     }
 
     /// <summary>

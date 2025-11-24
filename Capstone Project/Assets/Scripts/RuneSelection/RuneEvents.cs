@@ -865,9 +865,6 @@ public class RuneEvents : MonoBehaviour
 
                 RangeCheck(true, 2, target);
 
-                TileBehaviour[] tiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
-                List<TileBehaviour> enemies = tiles.ToList();
-
                 foreach (TileBehaviour tile in tilesInRange)
                 {
 
@@ -879,7 +876,7 @@ public class RuneEvents : MonoBehaviour
                         if (tile != target)
                         {
 
-                            SendEnemyBackwards(target, tile);
+                            tile.GetComponentInChildren<Enemy>().SendEnemyBackwards(target, tile);
 
                         }
 
@@ -1009,98 +1006,7 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-    }
-
-
-
-    /// <summary>
-    /// finds the tile in the opposite direction from the player adjacent to an enemy and moves them there
-    /// sorry if this is a fucked way of going about this. i'm just glad this works
-    /// THIS FUNCTION SHOULD BE MOVED. RETURN TO LATER.
-    /// </summary>
-    /// <param name="originalTarget"> original tile that the player had targeted </param>
-    /// <param name="newTarget"> the enemy getting blown back </param>
-    void SendEnemyBackwards(TileBehaviour originalTarget, TileBehaviour newTarget)
-    {
-
-        List<Vector2Int> adjacentTiles = GridManager.GetAllValidAdjacentTiles(newTarget.IndexInGrid, newTarget.IndexInGrid);
-
-        List<TileBehaviour> adjacentTileBehaviours = new List<TileBehaviour>();
-
-        foreach (Vector2Int tile in adjacentTiles.ToList())
-        {
-
-            adjacentTileBehaviours.Add(GridManager.combatGrid[tile.x, tile.y]);
-
-        }
-
-        TileBehaviour currentTile = newTarget;
-
-        for(int i = 0; i < adjacentTileBehaviours.Count; i++)
-        {
-
-            if (originalTarget.transform.position.x > currentTile.transform.position.x &&
-                adjacentTileBehaviours[i].transform.position.x < currentTile.transform.position.x)
-            {
-
-                currentTile = adjacentTileBehaviours[i];
-
-            }
-            else if(originalTarget.transform.position.x < currentTile.transform.position.x &&
-                adjacentTileBehaviours[i].transform.position.x > currentTile.transform.position.x)
-            {
-
-                currentTile = adjacentTileBehaviours[i];
-
-            }
-
-            if(originalTarget.transform.position.z > currentTile.transform.position.z &&
-                adjacentTileBehaviours[i].transform.position.z < currentTile.transform.position.z)
-            {
-
-                currentTile = adjacentTileBehaviours[i];
-
-            }
-            else if(originalTarget.transform.position.z < currentTile.transform.position.z &&
-                adjacentTileBehaviours[i].transform.position.z > currentTile.transform.position.z)
-            {
-
-                currentTile = adjacentTileBehaviours[i];
-
-            }
-
-        }
-
-        //this part is temporary?? i'm assuming that obstacles will be handled differently later
- 
-        if(currentTile.GetComponentInChildren<Rigidbody>() != null)
-        {
-
-            GameObject tileOccupant = currentTile.GetComponentInChildren<Rigidbody>().gameObject;
-
-            if(tileOccupant.tag == "Obstacle")
-            {
-
-                return;
-
-            }
-            else if (tileOccupant.GetComponent<Enemy>() != null &&
-                !tilesInRange.Contains(tileOccupant.GetComponentInParent<TileBehaviour>()))
-            {
-
-                SendEnemyBackwards(originalTarget, tileOccupant.GetComponentInParent<TileBehaviour>());
-
-            }
-
-        }
-
-        Enemy relocatedEnemy = newTarget.GetComponentInChildren<Enemy>();
-
-        relocatedEnemy.gameObject.transform.parent = currentTile.transform;
-
-        relocatedEnemy.transform.localPosition = new Vector3(0, 0, 0);
-
-    }
+    } 
 
     /// <summary>
     /// checks if the enemy has been hit by a spell prior
