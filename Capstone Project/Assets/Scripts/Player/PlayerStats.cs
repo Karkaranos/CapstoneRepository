@@ -4,7 +4,6 @@ Date Created : 		    10/16/2025
 Date Last Modified : 	11/18/2025 (Cade Naylor)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
-                        Also it seems like the stats have to be public to work with refs and encapsulation doesn't work :(
 External Resources : 
 ***************************************************/
 using UnityEngine;
@@ -35,9 +34,9 @@ public class PlayerStats : MonoBehaviour
     [Tooltip("The player's current health"), ShowIf(nameof(settings), Settings.GeneralStats)] public int CurrentHealth = 100;
     [Tooltip("The player's maximum health at a given point"), ShowIf(nameof(settings), Settings.GeneralStats)] public int MaxHealth = 100;
     [Tooltip("The chance a player dodges the attack"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f,1f)] public float DodgeChance = 0f;
-    [Tooltip("The player's luck modifier"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f, 1f)] public float LuckModifier = 0f;
+    [Tooltip("The player's luck modifier"), ShowIf(nameof(settings), Settings.GeneralStats)] public float LuckModifier = 1f;
     [Tooltip("What XP is multiplied by when an enemy dies"), ShowIf(nameof(settings), Settings.GeneralStats)] public float XPMultiplier = 1f;
-    [Tooltip("An additional modifier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 0f; 
+    [Tooltip("An additional modifier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 1f; 
 
     private int tempHealth;
     #endregion

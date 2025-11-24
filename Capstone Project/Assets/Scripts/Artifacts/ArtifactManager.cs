@@ -205,7 +205,7 @@ public class ArtifactManager
             }
             InventoryArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, true);
-            MarkManager.EquipValueChanged(true);
+            MarkManager.EquipValueChanged(true, artifact.Mark);
             CurrentArtifactWeight += artifact.ArtifactSize;
 
             return true;
@@ -238,7 +238,7 @@ public class ArtifactManager
             }
             CurrentArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, false);
-            MarkManager.EquipValueChanged(false);
+            MarkManager.EquipValueChanged(false, artifact.Mark);
             CurrentArtifactWeight -= artifact.ArtifactSize;
         }
         else
@@ -308,6 +308,8 @@ public class ArtifactManager
             // Trigger the appropriate stat change
             EffectHandling(adding, e);
         }
+
+        MarkManager.EquipValueChanged(adding, artifact.Mark);
 
 
     }

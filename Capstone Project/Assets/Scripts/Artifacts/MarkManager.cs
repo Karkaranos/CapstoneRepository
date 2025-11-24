@@ -229,13 +229,17 @@ public class MarkManager
     /// </summary>
     /// <param name="markCount"></param>
     /// <param name="adding"></param>
-    public static void EquipValueChanged(bool adding)
+    public static void EquipValueChanged(bool adding, MarkType mark)
     {
         foreach (MarkData m in Marks)
         {
+            if(m.Name != mark)
+            {
+                continue;
+            }
             if(m.TriggerCondition == MarkTriggerCondition.OnEquip)
             {
-                if (MarkCount[m.Name] < 2)
+                if (MarkCount[m.Name] < 2 && !adding)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
@@ -349,16 +353,13 @@ public class MarkManager
                 break;
             case MarkEffects.Luck:
                 AdjustValueAOrG(ref player.LuckModifier, val, adding);
+                Debug.LogWarning("You fucker");
                 break;
             default:
                 break;
         }
     }
 
-    public static void UpdateTurnCondition()
-    {
-        
-    }
 
     /// <summary>
     /// Update the internal Mark count to align with ArtifactManager
