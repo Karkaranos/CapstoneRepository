@@ -105,7 +105,7 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     /// <param name="amount">Base amount of damage</param>
     /// <param name="source">Where the damage came from</param>
-    public void TakeDamage(int amount, DamageSource source = DamageSource.None)
+    public void TakeDamage(int amount, DamageSource source = DamageSource.None, Enemy e = null)
     {
 
         // Check if the player dodges the attack
@@ -160,6 +160,14 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("No more extra health! ");
 
         }
+
+
+        // Damage the enemy if the player has thorns
+        if(Thorns > 0 && e !=null)
+        {
+            e.Damage(amount*Thorns);
+        }
+
         //if player dead end level pop up 
         if(CurrentHealth <= 0)
         {
@@ -176,7 +184,16 @@ public class PlayerStats : MonoBehaviour
     /// <param name="amount"></param>
     public void Heal(int amount)
     {
-        CurrentHealth += amount*HealBuffModifier;
+        float conditionalMultipliers = 1f;
+        if(SpellsCastThisTurn == 0)
+        {
+            conditionalMultipliers *= FirstSpellMultiplier;
+        }
+        else if (SpellsCastThisTurn == 1)
+        {
+            conditionalMultipliers *= SecondSpellMultiplier;
+        }
+        CurrentHealth += (int)(amount*HealBuffModifier*conditionalMultipliers);
         if(CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
