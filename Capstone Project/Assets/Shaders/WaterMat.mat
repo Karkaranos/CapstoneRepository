@@ -26,7 +26,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -100,16 +100,27 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _BumpScale: 1
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorMode: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EmissionEnabled: 0
     - _EnvironmentReflections: 1
+    - _FlipbookMode: 0
     - _FoamAmount: 10
     - _FoamCutoff: 0.05
     - _FoamScale: 10
@@ -117,7 +128,9 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _LightingEnabled: 0
     - _Metallic: 0
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -125,6 +138,9 @@ Material:
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SoftParticlesEnabled: 0
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
     - _SpecularDensity: 10
     - _SpecularHighlights: 1
     - _SpecularSpeed: 1
@@ -140,12 +156,15 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _DeepColor: {r: 0.021726074, g: 0.09052533, b: 0.034748465, a: 1}
     - _EdgeColor: {r: 1, g: 0.88629746, b: 0.8726415, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 1, g: 0.8862745, b: 0.8745098, a: 0.69411767}
-    - _ShallowColor: {r: 0, g: 5.992156, b: 1.0330977, a: 1}
+    - _ShallowColor: {r: 0, g: 0.37450978, b: 0.06456862, a: 1}
+    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.01413248, g: 2.9960787, b: 0.37878156, a: 1}
   m_BuildTextureStacks: []
