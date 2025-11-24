@@ -119,14 +119,6 @@ public class ArtifactManager
         {
             ObtainArtifact(d);
         }
-        //ApplyArtifact(testData[0]);
-        //ApplyArtifact(testData[1]);
-        //ApplyArtifact(testData[2]);
-        //RemoveArtifact(testData[1]);
-        if (testData[0].TriggerCondition == ArtifactTriggerCondition.OnAttack)
-        {
-            //PlayerAttack(1);
-        }
     }
 
     #endregion
@@ -168,7 +160,6 @@ public class ArtifactManager
     public static void ObtainArtifact(ArtifactData artifact)
     {
         InventoryArtifacts.Add(artifact);
-        Logger.Log("Added " + artifact.Name + " to inventory");
     }
 
     /// <summary>
@@ -178,7 +169,6 @@ public class ArtifactManager
     public static void RemoveArtifactFromInventory(ArtifactData artifact)
     {
         InventoryArtifacts.Remove(artifact);
-        Logger.Log("Removed " + artifact.Name + " from inventory");
     }
 
     /// <summary>
@@ -367,6 +357,12 @@ public class ArtifactManager
             case Effects.WindAttackMultiplier:
                 AdjustValueGeometrically(ref player.WindAttackMultiplier, e.StatChangeAmount, adding);
                 break;
+            case Effects.FireAttackMultiplier:
+                AdjustValueGeometrically(ref player.FireAttackMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.WaterAttackMultiplier:
+                AdjustValueGeometrically(ref player.WaterAttackMultiplier, e.StatChangeAmount, adding);
+                break;
             case Effects.ActionPointChange:
                 AdjustValueArithmetically(ref gameManager.ActionPointsPerTurn, (int)e.StatChangeAmount, adding);
                 break;
@@ -376,9 +372,7 @@ public class ArtifactManager
             case Effects.TotalDamageTakenMultiplier:
                 AdjustValueGeometrically(ref player.DamageTakenMultiplier, e.StatChangeAmount, adding);
                 break;
-            // Special case to adjust the player's health (may be cut/unneeded)
-            // Saves the current health percent and sets the updated health value to it
-            case Effects.HealthChange:
+            case Effects.MaxHealthChange:
                 float healthPercent = player.CurrentHealth / player.MaxHealth;
                 AdjustValueArithmetically(ref player.MaxHealth, (int)e.StatChangeAmount, adding);
                 player.CurrentHealth = (int)(player.MaxHealth * healthPercent);
@@ -387,8 +381,8 @@ public class ArtifactManager
                     player.CurrentHealth = player.MaxHealth;
                 }
                 break;
-            case Effects.SpellSlotsChange:
-                Logger.Warning("Implement Spell Slot Change later");
+            case Effects.HealingBuffModifier:
+                AdjustValueGeometrically(ref player.HealBuffModifier, e.StatChangeAmount, adding);
                 break;
             case Effects.RangedDamageTakenMultiplier:
                 AdjustValueGeometrically(ref player.RangedDamageTakenMultiplier, e.StatChangeAmount, adding);
@@ -402,6 +396,9 @@ public class ArtifactManager
             case Effects.Vampiric:
                 player.Heal((int)(damageDealt * e.StatChangeAmount));
                 break;
+            case Effects.Thorns:
+                AdjustValueAOrG(ref player.Thorns, e.StatChangeAmount, adding);
+                break;
             case Effects.ChanceToAvoidUsingPoints:
                 AdjustValueAOrG(ref player.NoActionPointCostChance, e.StatChangeAmount, adding);
                 break;
@@ -409,10 +406,19 @@ public class ArtifactManager
                 AdjustValueAOrG(ref player.InstaKillChance, e.StatChangeAmount, adding);
                 break;
             case Effects.Luck:
-                AdjustValueAOrG(ref player.LuckModifier, e.StatChangeAmount, adding);
+                AdjustValueGeometrically(ref player.LuckModifier, e.StatChangeAmount, adding);
                 break;
             case Effects.Miss:
                 AdjustValueAOrG(ref player.MissChance, e.StatChangeAmount, adding);
+                break;
+            case Effects.FirstSpellMultiplier:
+                AdjustValueGeometrically(ref player.FirstSpellMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.SecondSpellMultiplier:
+                AdjustValueGeometrically(ref player.SecondSpellMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.Tier1Multiplier:
+                AdjustValueGeometrically(ref player.Tier1AttackMultiplier, e.StatChangeAmount, adding);
                 break;
             default:
                 break;
