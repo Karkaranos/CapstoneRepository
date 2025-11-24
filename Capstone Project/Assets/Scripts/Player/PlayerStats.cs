@@ -33,10 +33,11 @@ public class PlayerStats : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
     [Tooltip("The player's current health"), ShowIf(nameof(settings), Settings.GeneralStats)] public int CurrentHealth = 100;
     [Tooltip("The player's maximum health at a given point"), ShowIf(nameof(settings), Settings.GeneralStats)] public int MaxHealth = 100;
+    [Tooltip("Multiplies how much the player can heal/buff"), ShowIf(nameof(settings), Settings.GeneralStats)] public float HealBuffModifier = 1f;
     [Tooltip("The chance a player dodges the attack"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f,1f)] public float DodgeChance = 0f;
-    [Tooltip("The player's luck modifier"), ShowIf(nameof(settings), Settings.GeneralStats)] public float LuckModifier = 1f;
+    [Tooltip("The player's luck multiplier"), ShowIf(nameof(settings), Settings.GeneralStats)] public float LuckModifier = 1f;
     [Tooltip("What XP is multiplied by when an enemy dies"), ShowIf(nameof(settings), Settings.GeneralStats)] public float XPMultiplier = 1f;
-    [Tooltip("An additional modifier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 1f; 
+    [Tooltip("A multiplier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 1f; 
 
     private int tempHealth;
     #endregion
@@ -51,16 +52,28 @@ public class PlayerStats : MonoBehaviour
         public float RangedDamageTakenMultiplier = 1;
     [Tooltip("Multiplies how much damage the player takes from Melee Enemies"), ShowIf(nameof(settings), Settings.DamageTaken)] 
         public float MeleeDamageTakenMultiplier = 1;
+    [Tooltip("Reflects this percent of damage taken back to the enemy who dealt it"), ShowIf(nameof(settings), Settings.DamageTaken)]
+        public float Thorns = 0f;
     #endregion
 
     #region Attack Stats
     [HorizontalLine(4, EColor.Blue)]
     [Tooltip("Multiplies how much damage the player deals across all elements"), ShowIf(nameof(settings), Settings.Attack)] 
-        public float BaseAttackMultiplier = 1;
+        public float BaseAttackMultiplier = 1f;
     [Tooltip("Multiplies how much damage the player deals from lightning spells"), ShowIf(nameof(settings), Settings.Attack)]
-        public float LightningAttackMultiplier = 1;
+        public float LightningAttackMultiplier = 1f;
     [Tooltip("Multiplies how much damage the player deals from wind spells"), ShowIf(nameof(settings), Settings.Attack)]
-        public float WindAttackMultiplier = 1;
+        public float WindAttackMultiplier = 1f;
+    [Tooltip("Multiplies how much damage the player deals from fire spells"), ShowIf(nameof(settings), Settings.Attack)]
+        public float FireAttackMultiplier = 1f;
+    [Tooltip("Multiplies how much damage the player deals from water spells"), ShowIf(nameof(settings), Settings.Attack)]
+        public float WaterAttackMultiplier = 1f;
+    [Tooltip("Multiplies how much damage the player deals from Tier 1 spells"), ShowIf(nameof(settings), Settings.Attack)]
+        public float Tier1AttackMultiplier = 1f;
+    [Tooltip("Multiplier for the damage the first spell cast on this turn deals"), ShowIf(nameof(settings), Settings.Attack)]
+        public float FirstSpellMultiplier = 1f;
+    [Tooltip("Multiplier for the damage the first spell cast on this turn deals"), ShowIf(nameof(settings), Settings.Attack)]
+        public float SecondSpellMultiplier = 1f;
     [HideInInspector] public int SpellsCastThisTurn = 0;
     [Tooltip("How likely the player is to miss their attack. Currently does not function"), ShowIf(nameof(settings), Settings.Attack)]
     public float MissChance = 0f;
@@ -97,7 +110,7 @@ public class PlayerStats : MonoBehaviour
 
         // Check if the player dodges the attack
         // Return before dealing damage
-        float dodgeCheck = UnityEngine.Random.Range(0f, 1f);
+        float dodgeCheck = UnityEngine.Random.Range(0f, 1f) * LuckModifier;
         if(dodgeCheck <= DodgeChance && DodgeChance > 0f)
         {
             return;
@@ -163,7 +176,7 @@ public class PlayerStats : MonoBehaviour
     /// <param name="amount"></param>
     public void Heal(int amount)
     {
-        CurrentHealth += amount;
+        CurrentHealth += amount*HealBuffModifier;
         if(CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;

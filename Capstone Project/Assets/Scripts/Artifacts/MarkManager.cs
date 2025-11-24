@@ -1,9 +1,8 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    10/27/2025
-Date Last Modified : 	10/27/2025
+Date Last Modified : 	11/23/2025
 Brief Description : 	Handles Mark functionality 
-                        Should eventually be created and held in the GameManager
 External Resources : 	N/A
 ***************************************************/
 using NaughtyAttributes;
@@ -349,11 +348,10 @@ public class MarkManager
                 AdjustValueGeometrically(ref player.XPMultiplier, val, adding);
                 break;
             case MarkEffects.IncreasedRAPDrop:
-                AdjustValueAOrG(ref player.RAPChanceModifier, val, adding);
+                AdjustValueGeometrically(ref player.RAPChanceModifier, val, adding);
                 break;
             case MarkEffects.Luck:
-                AdjustValueAOrG(ref player.LuckModifier, val, adding);
-                Debug.LogWarning("You fucker");
+                AdjustValueGeometrically(ref player.LuckModifier, val, adding);
                 break;
             default:
                 break;

@@ -11,7 +11,6 @@ using UnityEngine;
 public class ArtifactManager
 {
     #region Variables
-    [SerializeField] private bool inTestMode;
 
     #region Artifacts
     // Stores all currently applied Artifacts
@@ -32,12 +31,12 @@ public class ArtifactManager
 
     #endregion Artifacts
 
-    #region Stamps
+    #region Marks
     private static Dictionary<MarkType, int> markCount = new Dictionary<MarkType, int>();
     private static List<ArtifactData> triggerOnAttack = new List<ArtifactData>();
     private static List<ArtifactData> counters = new List<ArtifactData>();
 
-    #endregion Stamps
+    #endregion Marks
 
     private static PlayerStats player;
     private static GameManager gameManager;
@@ -55,7 +54,7 @@ public class ArtifactManager
     /// <param name="maxArtifact">Maximum Number of Artifacts</param>
     /// <param name="testing">True if testing functionality</param>
     /// <param name="testInfo">Data for testing. Please have a minimum length of 4</param>
-    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, GameManager gm, bool testing = false, ArtifactData[] testInfo = null)
+    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, GameManager gm, bool ApplyArtifactsOnCreate = false, ArtifactData[] testInfo = null)
     {
         randomArtifactPool = rap;
         setArtifactPool = sap;
@@ -73,7 +72,7 @@ public class ArtifactManager
             }
         }
 
-        if (testing)
+        if (ApplyArtifactsOnCreate)
         {
             testData = testInfo;
             foreach (ArtifactData d in testInfo)

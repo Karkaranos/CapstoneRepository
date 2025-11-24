@@ -12,7 +12,9 @@ using UnityEngine;
 
 public enum Effects
 {
-    LightningAttackMultiplier, WindAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, SpellSlotsChange, ActionPointChange, HealthChange, ResistanceMultiplier, Vampiric, Dodge, ChanceToAvoidUsingPoints, Instakill, Miss, Luck
+    LightningAttackMultiplier, WindAttackMultiplier, FireAttackMultiplier, WaterAttackMultiplier, AttackMultiplier, TotalDamageTakenMultiplier, RangedDamageTakenMultiplier, MeleeDamageTakenMultiplier, ActionPointChange, HealthChange, 
+    ResistanceMultiplier, Vampiric, Dodge, ChanceToAvoidUsingPoints, Instakill, Miss, Luck, Tier1Multiplier,
+    FirstSpellMultiplier, Thorns, SecondSpellMultiplier, IncreaseMaxHealth
 }
 
 
