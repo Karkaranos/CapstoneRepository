@@ -135,6 +135,7 @@ public class ButtonManager : MonoBehaviour
         }
         else
         {
+            cameraManager.SwitchCamera(cameraManager.level1playcam);
             Logger.Warning("Not enough Action Points!");
         }    
     }
@@ -195,7 +196,7 @@ public class ButtonManager : MonoBehaviour
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
         playerBehavior.PathfindThroughGrid();
-        cameraManager.SwitchCamera(cameraManager.level1playcam);
+        //cameraManager.SwitchCamera(cameraManager.level1playcam);
     }
 
     /// <summary>
@@ -221,7 +222,6 @@ public class ButtonManager : MonoBehaviour
     {
         Debug.Log("button clicked");
         endButtonClicked = true;
-        cameraManager.SwitchCamera(cameraManager.level1playcam);
 
         playerCanvas.SetActive(false);
         
