@@ -367,7 +367,7 @@ public class ArtifactManager
                 AdjustValueArithmetically(ref gameManager.ActionPointsPerTurn, (int)e.StatChangeAmount, adding);
                 break;
             case Effects.ResistanceMultiplier:
-                AdjustValueAOrG(ref player.Resistance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.Resistance, e.StatChangeAmount, adding);
                 break;
             case Effects.TotalDamageTakenMultiplier:
                 AdjustValueGeometrically(ref player.DamageTakenMultiplier, e.StatChangeAmount, adding);
@@ -391,25 +391,25 @@ public class ArtifactManager
                 AdjustValueGeometrically(ref player.MeleeDamageTakenMultiplier, e.StatChangeAmount, adding);
                 break;
             case Effects.Dodge:
-                AdjustValueAOrG(ref player.DodgeChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.DodgeChance, e.StatChangeAmount, adding);
                 break;
             case Effects.Vampiric:
                 player.Heal((int)(damageDealt * e.StatChangeAmount));
                 break;
             case Effects.Thorns:
-                AdjustValueAOrG(ref player.Thorns, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.Thorns, e.StatChangeAmount, adding);
                 break;
             case Effects.ChanceToAvoidUsingPoints:
-                AdjustValueAOrG(ref player.NoActionPointCostChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.NoActionPointCostChance, e.StatChangeAmount, adding);
                 break;
             case Effects.Instakill:
-                AdjustValueAOrG(ref player.InstaKillChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.InstaKillChance, e.StatChangeAmount, adding);
                 break;
             case Effects.Luck:
                 AdjustValueGeometrically(ref player.LuckModifier, e.StatChangeAmount, adding);
                 break;
             case Effects.Miss:
-                AdjustValueAOrG(ref player.MissChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.MissChance, e.StatChangeAmount, adding);
                 break;
             case Effects.FirstSpellMultiplier:
                 AdjustValueGeometrically(ref player.FirstSpellMultiplier, e.StatChangeAmount, adding);

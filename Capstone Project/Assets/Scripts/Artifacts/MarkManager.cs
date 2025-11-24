@@ -33,6 +33,7 @@ public class MarkManager
             }
         }
         TurnPublicEvents.BeginPlayerTurn += TurnStart;
+        PublicEvents.EndBattle += BattleCleanup;
     }
 
 
@@ -42,6 +43,7 @@ public class MarkManager
     public void OnDisable()
     {
         TurnPublicEvents.BeginPlayerTurn -= TurnStart;
+        PublicEvents.EndBattle -= BattleCleanup;
     }
 
     /// <summary>
@@ -103,6 +105,7 @@ public class MarkManager
                 {
                     m.EffectCanTrigger = true;
                     if(m.TimesTriggered == 0)
+                    if(m.TimesTriggered%2 == 0)
                     {
                         return;
                     }
@@ -117,6 +120,9 @@ public class MarkManager
                     m.EffectCanTrigger= false;
                     add = true;
                 }
+                else if(m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove)))
+                {
+                }
                 else
                 {
                     return;
@@ -125,15 +131,14 @@ public class MarkManager
 
 
 
-                if(MarkCount[m.MarkType] ==2)
+
                 {
-                    Debug.LogWarning("hit");
                     foreach(MarkEffectsLinked e in m.EffectsWith2)
                     {
                         UpdateEffect(e.Effect, e.valueChange, m, add);
                     }
                 }
-                else if(MarkCount[m.MarkType] == 3)
+                else if(MarkCount[m.Name] == 3)
                 {
                     foreach (MarkEffectsLinked e in m.EffectsWith3)
                     {
@@ -155,6 +160,10 @@ public class MarkManager
         turnCount++;
         foreach(MarkData m in Marks)
         {
+            if(turnCount == 1)
+            {
+                m.TimesTriggered = 0;
+            }
             // Currently Mark of Restoration- heals
             if(m.TriggerCondition == MarkTriggerCondition.TurnStart)
             {
@@ -171,10 +180,6 @@ public class MarkManager
                     {
                         UpdateEffect(e.Effect, e.valueChange, m, true);
                     }
-                }
-                else
-                {
-                    Debug.LogWarning("Lasagna" + MarkCount[m.Name] + m.MarkType.ToString());
                 }
             }
             // Currently Mark of Risk- changes damage taken and damage dealt
