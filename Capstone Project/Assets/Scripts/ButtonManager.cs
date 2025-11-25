@@ -121,7 +121,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        cameraManager.SwitchCamera(cameraManager.playerZcam);
+        cameraManager.SwitchCamera(cameraManager.PlayerZcam);
         if (gm.CurrentActionPoints >= gm.MoveActionPoints)
         {
             Debug.Log("The player can move!");
@@ -135,7 +135,6 @@ public class ButtonManager : MonoBehaviour
         }
         else
         {
-            cameraManager.SwitchCamera(cameraManager.level1playcam);
             Logger.Warning("Not enough Action Points!");
         }    
     }
@@ -160,10 +159,10 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("goin back!");
         playerCanvas.SetActive(true);
         moveCanvas.SetActive(false);
+        cameraManager.SwitchCamera(cameraManager.Level1playcam);
         runeCanvas.GetComponent<RuneEvents>().CancelCasting();
         runeCanvas.SetActive(false);
         confirmCanvas.SetActive(false);
-        cameraManager.SwitchCamera(cameraManager.level1playcam);
 
         if (playerBehavior != null)
         {
@@ -196,7 +195,7 @@ public class ButtonManager : MonoBehaviour
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
         playerBehavior.PathfindThroughGrid();
-        //cameraManager.SwitchCamera(cameraManager.level1playcam);
+        cameraManager.SwitchCamera(cameraManager.Level1playcam);
     }
 
     /// <summary>
