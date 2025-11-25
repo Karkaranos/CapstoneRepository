@@ -924,47 +924,21 @@ public class RuneEvents : MonoBehaviour
             //ASK DESIGN ABOUT THE RADIUS
             case (1):
 
-                if(player != null)
-                {
+               if(enemy != null)
+               {
 
-                    return;
+                    enemy.Damage(damageDealt);
 
-                }
+                    CheckRuneCombination(enemy);
 
-                VFX = Instantiate(storedData.RuneVFX, tile.transform);
+                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
-                RangeCheck(true, 2, tile);
+                    enemy.SendEnemyBackwards
+                                    (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile);
 
-                foreach (TileBehaviour tileInRange in tilesInRange)
-                {
+                    EndPlayerAttackPhase();
 
-                    foreach (Enemy newEnemy in enemiesOnTheGrid)
-                    {
-
-                        if((int)newEnemy.transform.position.x == tileInRange.IndexInGrid.x && (int)newEnemy.transform.position.z == tileInRange.IndexInGrid.y)
-                        {
-
-                            newEnemy.Damage(damageDealt);
-
-                            if (tileInRange == tile)
-                            {
-
-                                newEnemy.SendEnemyBackwards
-                                    (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tileInRange);
-
-                                CheckRuneCombination(newEnemy);
-
-                            }
-
-                            break;
-
-                        }
-
-                    }
-
-                }
-
-                EndPlayerAttackPhase();
+               }
 
                 break;
 
