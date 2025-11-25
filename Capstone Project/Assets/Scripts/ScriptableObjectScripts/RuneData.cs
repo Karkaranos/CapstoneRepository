@@ -78,7 +78,8 @@ public class RuneData : ScriptableObject
 
     [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     [MinValue(0), MaxValue(1)]
-    //How many action points this rune will cost to play in combat
+    //The chance that a rune has to trigger its secondary effect
+    //This should be a float somewhere in between 0 and 1, with 1 being a 100% gurantee
     public float RuneSecondaryEffectChance;
 
     #endregion STATS
