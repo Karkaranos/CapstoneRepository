@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/19/2025
-Date Last Modified : 	11/7/2025
+Date Last Modified : 	11/25/2025
 Brief Description : 		Handler for running the enemy 
                     state machines one after another
 External Resources : 	
@@ -67,13 +67,20 @@ public class EnemyHandler : MonoBehaviour
     /// <summary>
     /// Run the next enemy in the lists turn 
     /// If we've gone through the list inform turn manager that EnemyHandler is done
+    /// Set the player turn indicator to false
     /// </summary>
     public void RunNextEnemyTurn()
     {
+        if (enemies[0].playerStats.turnIndicator.activeSelf) 
+        { 
+            enemies[0].playerStats.turnIndicator.SetActive(false); 
+        }
+
         if (index == enemies.Count)
         {
             index = 0;
             TurnPublicEvents.TurnActionComplete();
+            enemies[0].playerStats.turnIndicator.SetActive(true);
             return;
         }
         enemies[index].StartEnemyTurn();
