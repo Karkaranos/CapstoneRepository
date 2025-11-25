@@ -230,37 +230,41 @@ public class SkillTreeNode : MonoBehaviour
     /// </summary>
     public void PurchaseNode()
     {
-        //Checks with the skill tree manager to see if it can be purchased
-        if (skillTreeManager.CanPurchaseNode(cost) && !skillAndArtifactManager.UnlockedRunes.Contains(NodeRuneData))
+        if (!skillAndArtifactManager.UnlockedRunes.Contains(NodeRuneData))
         {
-            Status = NodeStatus.Purchased;
-            //button.interactable = false;
-            GetComponent<Image>().color = Color.green;
-            //Debug.Log("Node Purchased");
-
-            //updates the skill tree manager with the rune that got purchased
-            skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
-
-            //updates the description with this node, but shows that you own it
-            //instead of showing the cost
-            //skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
-
-            //If it has any opposite nodes, it permanantly locks them
-            if (OppositeNodes.Count > 0)
+            //Checks with the skill tree manager to see if it can be purchased
+            if (skillTreeManager.CanPurchaseNode(cost))
             {
-                foreach (SkillTreeNode node in OppositeNodes)
-                {
-                    node.PermanantlyLockNode();
-                }
-            }
+                Status = NodeStatus.Purchased;
+                //button.interactable = false;
+                GetComponent<Image>().color = Color.green;
+                //Debug.Log("Node Purchased");
 
-            //Tells all other nodes that a node was purchased
-            PublicEvents.SkillTreeNodePurchased();
+                //updates the skill tree manager with the rune that got purchased
+                skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
+
+                //updates the description with this node, but shows that you own it
+                //instead of showing the cost
+                //skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
+
+                //If it has any opposite nodes, it permanantly locks them
+                if (OppositeNodes.Count > 0)
+                {
+                    foreach (SkillTreeNode node in OppositeNodes)
+                    {
+                        node.PermanantlyLockNode();
+                    }
+                }
+
+                //Tells all other nodes that a node was purchased
+                PublicEvents.SkillTreeNodePurchased();
+            }
+            else
+            {
+                //Debug.Log("Too Few SkillPoints to Purchase Node");
+            }
         }
-        else
-        {
-            //Debug.Log("Too Few SkillPoints to Purchase Node");
-        }
+        
 
     }
 
