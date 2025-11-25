@@ -1,9 +1,8 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    10/27/2025
-Date Last Modified : 	10/27/2025
+Date Last Modified : 	11/24/2025
 Brief Description : 	Handles Mark functionality 
-                        Should eventually be created and held in the GameManager
 External Resources : 	N/A
 ***************************************************/
 using NaughtyAttributes;
@@ -15,13 +14,36 @@ using UnityEngine;
 public class MarkManager
 {
     private static List<MarkData> Marks;
+    private static Dictionary<MarkType, int> MarkCount = new Dictionary<MarkType, int>();
 
     private static GameManager gm;
     private static PlayerStats player;
+    private static int turnCount = 0;
     public MarkManager(List<MarkData> marks, GameManager game)
     {
         Marks = marks;
         gm = game;
+
+        for(int i=0; i < MarkType.GetNames(typeof(MarkType)).Length; i++)
+        {
+            MarkType currentMark = (MarkType)i; 
+            if(!MarkCount.ContainsKey(currentMark))
+            {
+                MarkCount.Add(currentMark, 0);
+            }
+        }
+        TurnPublicEvents.BeginPlayerTurn += TurnStart;
+        PublicEvents.EndBattle += BattleCleanup;
+    }
+
+
+    /// <summary>
+    /// Unsubscribes from the BeginPlayerTurn event
+    /// </summary>
+    public void OnDisable()
+    {
+        TurnPublicEvents.BeginPlayerTurn -= TurnStart;
+        PublicEvents.EndBattle -= BattleCleanup;
     }
 
     /// <summary>
@@ -32,37 +54,36 @@ public class MarkManager
     {
         player = p;
     }
+
+#region  Trigger Conditions
     /// <summary>
     /// Clear any effects from battle-related marks
     ///     HealthPercent
     ///     EnemyDeath
     /// </summary>
-    /// <param name="mark">Mark</param>
-    /// <param name="markCount">How many of the mark are at play</param>
-    /// <param name="player">Reference to playerStats</param>
-    public static void ClearBattleMarkEffects(MarkData mark, int markCount)
+    public static void BattleCleanup()
     {
-        // Add the enem
-        if(mark.TriggerCondition == MarkTriggerCondition.HealthPercent || mark.TriggerCondition == MarkTriggerCondition.EnemyDeath)
+        turnCount = 0;
+        foreach(MarkData m in Marks)
         {
-            //Yes, there is a way to simplify this into one line of code by having the effects inherit from a parent
-            //It's not worth it
-            if (markCount == 3)
+            if(m.TriggerCondition == MarkTriggerCondition.HealthPercent || m.TriggerCondition == MarkTriggerCondition.EnemyDeath)
             {
-                foreach (MarkEffectsLinked me in mark.EffectsWith3)
+                if(MarkCount[m.Name]==2)
                 {
-                    UpdateEffect(me.Effect, me.valueChange, false, 3);
+                    foreach(MarkEffectsLinked me in m.EffectsWith2)
+                    {
+                        UpdateEffect(me.Effect, me.valueChange, m, false);
+                    }
                 }
-            }
-            else if (markCount == 2)
-            {
-                foreach (MarkEffectsLinked me in mark.EffectsWith2)
+                else if(MarkCount[m.Name]==3)
                 {
-                    UpdateEffect(me.Effect, me.valueChange, false, 2);
+                    foreach(MarkEffectsLinked me in m.EffectsWith3)
+                    {
+                        UpdateEffect(me.Effect, me.valueChange, m, false);
+                    }
                 }
             }
         }
-        
     }
 
     /// <summary>
@@ -71,99 +92,234 @@ public class MarkManager
     /// Shouldn't trigger each turn the condition is met
     /// </summary>
     /// <param name="percent">Player's health value, as a percent</param>
-    /// <param name="mark">The mark</param>
-    /// <param name="markCount">How many of the mark there are</param>
-    /// <param name="player">Reference to PlayerStats</param>
-    public static void HealthValueChanged(float percent, MarkData mark, int markCount)
+    public static void HealthValueChanged(float percent)
     {
-        bool add = true;
-        // Allows the effect to trigger the next time the condition is met
-        if((mark.Percent < percent && mark.TriggerIfAbove || (mark.Percent > percent && !mark.TriggerIfAbove)))
+        foreach(MarkData m in Marks)
         {
-            mark.EffectCanTrigger = true;
-            add = false;
-        }
-
-        // This should cause the function to return if the percentage stays below or above the required amount
-        if(!mark.EffectCanTrigger)
-        {
-            return;
-        }
-
-        if(markCount ==2)
-        {
-            foreach(MarkEffectsLinked e in mark.EffectsWith2)
+            // Currently mark of Strength- buffs after a certain health percentage
+            if(m.TriggerCondition == MarkTriggerCondition.HealthPercent)
             {
-                UpdateEffect(e.Effect, e.valueChange, add);
+                bool add = true;
+                // Allows the effect to trigger the next time the condition is met
+                if(!m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove)))
+                {
+                    m.EffectCanTrigger = true;
+                    if(m.TimesTriggered%2 == 0)
+                    {
+                        return;
+                    }
+                    add = false;
+                }
+                else if(!m.EffectCanTrigger || (m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove))))
+                {
+                    return;
+                }
+                else if (m.EffectCanTrigger && ((percent <= m.Percent && !m.TriggerIfAbove) || (percent >= m.Percent && m.TriggerIfAbove)))
+                {
+                    m.EffectCanTrigger= false;
+                    add = true;
+                }
+                else if(m.EffectCanTrigger && ((percent < m.Percent && m.TriggerIfAbove) || (percent > m.Percent && !m.TriggerIfAbove)))
+                {
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+                // This should cause the function to return if the percentage stays below or above the required amount
+
+
+
+
+                if(MarkCount[m.Name] ==2)
+                {
+                    foreach(MarkEffectsLinked e in m.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, add);
+                    }
+                }
+                else if(MarkCount[m.Name] == 3)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith3)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, add);
+                    }
+                }
+                m.EffectCanTrigger = false;
+                m.TimesTriggered++;
             }
         }
-        else if(markCount == 3)
+    }
+
+    /// <summary>
+    /// Handles triggering Mark conditions for TurnStart and TurnCount
+    /// Right now works for Restoration and Risk
+    /// </summary>
+    public static void TurnStart()
+    {
+        turnCount++;
+        foreach(MarkData m in Marks)
         {
-            foreach (MarkEffectsLinked e in mark.EffectsWith3)
+            if(turnCount == 1)
             {
-                UpdateEffect(e.Effect, e.valueChange, add);
+                m.TimesTriggered = 0;
+            }
+            // Currently Mark of Restoration- heals
+            if(m.TriggerCondition == MarkTriggerCondition.TurnStart)
+            {
+                if(MarkCount[m.Name] == 2)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
+                    }
+                }
+                else if (MarkCount[m.Name]==3)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
+                    }
+                }
+            }
+            // Currently Mark of Risk- changes damage taken and damage dealt
+            else if (m.TriggerCondition == MarkTriggerCondition.TurnCount)
+            {
+                if(turnCount == 1)
+                {
+                    if(MarkCount[m.Name] == 2)
+                    {
+                        foreach (MarkEffectsLinked e in m.EffectsWith2)
+                        {
+                            UpdateEffect(e.Effect, e.valueChange, m, true);
+                        }
+                    }
+                    else if (MarkCount[m.Name] == 3)
+                    {
+                        foreach (MarkEffectsLinked e in m.EffectsWith3)
+                        {
+                            UpdateEffect(e.Effect, e.valueChange, m, true);
+                        }
+                    }
+                }
+                else if(MarkCount[m.Name]==2 && turnCount == m.TwoMarkTurnChange)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, false);
+                    }
+                    foreach (MarkEffectsLinked e in m.PostTurnEffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
+                    }
+                }
+                else if(MarkCount[m.Name]==3 && turnCount == m.ThreeMarkTurnChange)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith3)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, false);
+                    }
+                    foreach (MarkEffectsLinked e in m.PostTurnEffectsWith3)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
+                    }
+                }
             }
         }
     }
 
     /// <summary>
     /// Called when adding or removing Artifacts
-    /// This is messy af but it works
     /// </summary>
-    /// <param name="mark"></param>
     /// <param name="markCount"></param>
     /// <param name="adding"></param>
-    /// <param name="player"></param>
-    public static void EquipValueChanged(MarkType mark, int markCount, bool adding)
+    public static void EquipValueChanged(bool adding, MarkType mark)
     {
-        if (markCount == 0 || (markCount == 1 && adding))
+        foreach (MarkData m in Marks)
         {
-            return;
-        }
-        foreach (MarkData md in Marks)
-        {
-            if(md.MarkType == mark)
+            if(m.Name != mark)
             {
-                if (markCount < 2)
+                continue;
+            }
+            if(m.TriggerCondition == MarkTriggerCondition.OnEquip)
+            {
+                if (MarkCount[m.Name] < 2 && !adding)
                 {
-                    foreach (MarkEffectsLinked e in md.EffectsWith2)
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
-                        UpdateEffect(e.Effect, e.valueChange, false);
+                        UpdateEffect(e.Effect, e.valueChange, m, false);
+                        m.TwoConditionTrigger = true;
                     }
                 }
-                else if (markCount == 2 && adding)
+                else if (MarkCount[m.Name] == 2 && adding && m.TwoConditionTrigger)
                 {
-                    foreach (MarkEffectsLinked e in md.EffectsWith2)
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
-                        UpdateEffect(e.Effect, e.valueChange, true);
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
                     }
+                    m.TwoConditionTrigger = false;
                 }
-                else if (markCount == 3)
-                {
-                    foreach (MarkEffectsLinked e in md.EffectsWith2)
-                    {
-                        UpdateEffect(e.Effect, e.valueChange, false);
-                    }
-                    foreach (MarkEffectsLinked e in md.EffectsWith3)
-                    {
-                        UpdateEffect(e.Effect, e.valueChange, true);
-                    }
-                }
-                else if(markCount == 2 && !adding)
+                else if(MarkCount[m.Name] == 2 && !adding && !m.ThreeConditionTrigger)
                 {
 
-                    foreach (MarkEffectsLinked e in md.EffectsWith3)
+                    foreach (MarkEffectsLinked e in m.EffectsWith3)
                     {
-                        UpdateEffect(e.Effect, e.valueChange, false);
+                        UpdateEffect(e.Effect, e.valueChange, m, false);
                     }
-                    foreach (MarkEffectsLinked e in md.EffectsWith2)
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
                     {
-                        UpdateEffect(e.Effect, e.valueChange, true);
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
+                    }
+                    m.ThreeConditionTrigger = true;
+                    m.TwoConditionTrigger = false;
+                }
+                else if (MarkCount[m.Name] == 3 && adding && m.ThreeConditionTrigger)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, false);
+                    }
+                    foreach (MarkEffectsLinked e in m.EffectsWith3)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
+                    }
+                    m.ThreeConditionTrigger = false;
+                }
+                
+            }
+        }
+    }
+
+    /// <summary>
+    /// Called when 
+    /// </summary>
+    public static void EnemyKilled()
+    {
+        foreach(MarkData m in Marks)
+        {
+            // Currently Mark of Conquest- adds AP
+            if(m.TriggerCondition == MarkTriggerCondition.EnemyDeath)
+            {
+                if(MarkCount[m.Name] == 2)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
+                    }
+                }
+                else if (MarkCount[m.Name]==3)
+                {
+                    foreach (MarkEffectsLinked e in m.EffectsWith2)
+                    {
+                        UpdateEffect(e.Effect, e.valueChange, m, true);
                     }
                 }
             }
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Updates what effects marks are causing
@@ -173,7 +329,7 @@ public class MarkManager
     /// <param name="player">Reference to PlayerStats</param>
     /// <param name="adding">Whether the effect is being added or removed</param>
     /// <param name="markCount">How many marks of this type</param>
-    private static void UpdateEffect(MarkEffects e, float val, bool adding = true, int? markCount = 2, int? turnCount = 0)
+    private static void UpdateEffect(MarkEffects e, float val, MarkData m, bool adding = true)
     {
         switch (e)
         {
@@ -183,44 +339,41 @@ public class MarkManager
             case MarkEffects.DamageTaken:
                 AdjustValueGeometrically(ref player.DamageTakenMultiplier, val, adding);
                 break;
-            case MarkEffects.MovementCost:
-                if(adding)
-                {
-                    gm.MoveActionPoints = (int)val;
-                }
-                else
-                {
-                    if(markCount == 3)
-                    {
-                        // not good to hardcode; gameManager isn't availble rn and I want to test
-                        gm.MoveActionPoints = 1;
-                    }
-                    else
-                    {
-                        gm.MoveActionPoints = 2;
-                    }
-                }
-                break;
             case MarkEffects.Heal:
-                // does this handle removing a healing mark? no. No currently plnned marks mess with max hp
                 player.Heal((int)(val));
                 break;
             case MarkEffects.APOnEnemyDeath:
-                // since it occurs on death it shouldnt be affected when removed
-                gm.CurrentActionPoints++;
+                if((MarkCount[m.Name] == 2 && m.TimesTriggered < m.maxTriggerWith2) ||
+                    (MarkCount[m.Name]==3 && m.TimesTriggered < m.maxTriggerWith3))
+                {
+                    gm.CurrentActionPoints++;
+                    m.TimesTriggered++;
+                }
                 break;
             case MarkEffects.IncreasedXP:
-                Logger.Warning("Implement XP Drop on Enemy Death");
+                AdjustValueGeometrically(ref player.XPMultiplier, val, adding);
                 break;
             case MarkEffects.IncreasedRAPDrop:
-                Logger.Warning("Implement RAP Drop on Enemy Death");
+                AdjustValueGeometrically(ref player.RAPChanceModifier, val, adding);
                 break;
             case MarkEffects.Luck:
-                AdjustValueAOrG(ref player.LuckModifier, val, adding);
+                AdjustValueGeometrically(ref player.LuckModifier, val, adding);
                 break;
             default:
                 break;
         }
+    }
+
+
+    /// <summary>
+    /// Update the internal Mark count to align with ArtifactManager
+    /// </summary>
+    /// <param name="key">Key to update</param>
+    /// <param name="val">Stored val</param>
+    public static void UpdateDictionary(MarkType key, int val)
+    {
+        MarkCount[key] = val;
+        Debug.LogWarning("Updated " + key.ToString() + " to " + val.ToString());
     }
 
     /// <summary>

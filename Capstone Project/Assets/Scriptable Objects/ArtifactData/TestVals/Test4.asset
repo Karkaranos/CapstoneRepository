@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8869b7f82bbc00c48b89e58fe7134f2b, type: 3}
   m_Name: Test4
   m_EditorClassIdentifier: 
-  Name: Add Action
-  Description: Has wood burnings of their achievements
+  Name: Attack+
+  Description: Increases all player attack by 5%\nMark of Conquest
   TriggerCondition: 0
   TriggerCount: 0
   Counter: 0
   Effects:
-  - Effect: 7
-    StatChangeAmount: 1
+  - Effect: 4
+    StatChangeAmount: 1.05
     TriggerChance: 1
-  Mark: 0
+  Mark: 4
   ArtifactSize: 1
   ArtifactSprite: {fileID: 0}
