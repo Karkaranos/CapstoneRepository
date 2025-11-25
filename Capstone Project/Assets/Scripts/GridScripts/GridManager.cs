@@ -1,7 +1,7 @@
 /******************************************************************************
- * Author: Brad Dixon
+ * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 9/26/2025
- * Last Modified: 11/18/2025
+ * Last Modified: 11/20/2025 (Tyler Bouchard)
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
@@ -30,19 +30,19 @@ public class GridManager : MonoBehaviour
     {
         combatGrid = new TileBehaviour[gridDimensions.x, gridDimensions.y];
         TileBehaviour[] tiles = gridPrefab.GetComponentsInChildren<TileBehaviour>();
-        MoveDistances = new Vector2(tiles[0].GetComponent<BoxCollider>().bounds.size.x, tiles[0].GetComponent<BoxCollider>().bounds.size.z);
+        MoveDistances = new Vector2(tiles[0].gameObject.transform.localScale.x, tiles[0].gameObject.transform.localScale.z);
 
-        for (int i = 0; i < gridDimensions.y; ++i)
+        for (int y = 0; y < gridDimensions.y; ++y)
         {
-            for (int j = 0; j < gridDimensions.x; ++j)
+            for (int x = 0; x < gridDimensions.x; ++x)
             {
-                TileBehaviour tile = tiles[j + (i * gridDimensions.x)];
-                combatGrid[j, i] = tile;
+                TileBehaviour tile = tiles[x + (y * gridDimensions.x)];
+                combatGrid[x, y] = tile;
 
-                tile.transform.position = new Vector3(tile.GetComponent<BoxCollider>().bounds.size.x * j, 
-                    tile.transform.position.y, tile.GetComponent<BoxCollider>().bounds.size.z * i);
+                tile.transform.position = new Vector3(MoveDistances.x * x, tile.transform.position.y, MoveDistances.y * y);
                 tile.entityOnGrid = -1;
-                tile.IndexInGrid = new Vector2Int(j, i);
+                tile.IndexInGrid = new Vector2Int(x, y);
+                tile.gameObject.name = "[" + tile.IndexInGrid.x + ", " + tile.IndexInGrid.y + "]";
             }
         }
     }
@@ -190,5 +190,51 @@ public class GridManager : MonoBehaviour
             row += "\n";
         }
         Debug.Log(row);
+    }
+
+    /// <summary>
+    /// returns the how many tiles away a certain tile is from another tile
+    /// </summary>
+    /// <returns></returns>
+    public static int DistanceToTile(TileBehaviour startTile, TileBehaviour targetTile) { 
+        int distanceX = Mathf.Abs(startTile.IndexInGrid.x - targetTile.IndexInGrid.x);
+        int distanceY = Mathf.Abs(startTile.IndexInGrid.y - targetTile.IndexInGrid.y);
+        return distanceX + distanceY;
+    }
+
+    /// <summary>
+    /// finds all of the itlebehaviours in a given range around a certain orgin tile
+    /// </summary>
+    /// <returns></returns>
+    public static List<TileBehaviour> FindTilesInRange(TileBehaviour orginTile, int range) {
+        List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+        foreach (TileBehaviour tile in combatGrid)
+        {
+            if (DistanceToTile(tile, orginTile) <= range) { 
+                tilesInRange.Add(tile);
+            }
+        }
+        return tilesInRange;
+    }
+
+    /// <summary>
+    /// highlights the tiles in a certain range
+    /// </summary>
+    public static void HiglightTilesInRange(TileBehaviour orginTile, int range, Color highlightColor) {
+        List<TileBehaviour> tilesInRange = FindTilesInRange(orginTile, range);
+        foreach (TileBehaviour tile in tilesInRange)
+        {
+            tile.SetHighlightColor(highlightColor);
+            tile.ShowHighlight(true);
+        }
+    }
+
+    /// <summary>
+    /// turns off the highlight on all tiles
+    /// </summary>
+    public static void RemoveHighlight() {
+        foreach (TileBehaviour tile in combatGrid) {
+            tile.ShowHighlight(false);
+        }
     }
 }
