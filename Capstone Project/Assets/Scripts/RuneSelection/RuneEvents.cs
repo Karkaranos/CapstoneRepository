@@ -1145,14 +1145,14 @@ public class RuneEvents : MonoBehaviour
 
         //PART 1: FINDING TARGETS
 
-        RangeCheck(true, 2, enemy.GetComponentInParent<TileBehaviour>());
+        RangeCheck(true, 2, GridManager.combatGrid[(int)enemy.transform.position.x, (int)enemy.transform.position.z]);
 
         List<Enemy> validEnemies = new List<Enemy>();
 
         foreach (TileBehaviour tile in tilesInRange)
         {
 
-            if (tile == enemy.GetComponentInParent<TileBehaviour>())
+            if (tile == GridManager.combatGrid[(int)enemy.transform.position.x, (int)enemy.transform.position.z])
             {
 
                 continue;
