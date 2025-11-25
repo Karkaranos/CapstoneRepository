@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes, Jay Embry
 Date Created : 		09/30/2025
-Date Last Modified : 10/22/2025
+Date Last Modified : 11/23/2025
 Brief Description : This is the data container for what nodes have
                     been unlocked on the skill tree
 External Resources : 	
@@ -75,6 +75,12 @@ public class RuneData : ScriptableObject
     [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     //How many action points this rune will cost to play in combat
     public int RuneActionPoints;
+
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
+    [MinValue(0), MaxValue(1)]
+    //The chance that a rune has to trigger its secondary effect
+    //This should be a float somewhere in between 0 and 1, with 1 being a 100% gurantee
+    public float RuneSecondaryEffectChance;
 
     #endregion STATS
 
