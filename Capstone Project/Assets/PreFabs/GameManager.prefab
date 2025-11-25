@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5e7ca3b4d52fc4eaea701120c048b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 2
+  settings: 4
   allowArtifacts: 1
   CommandConsole: {fileID: 1704929989082906118, guid: 3ad6c0ab1caa33c44ab70d8171a08f0a, type: 3}
   maxArtifacts: 3
@@ -62,19 +62,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
   setArtifactPool: []
   testData:
-  - {fileID: 11400000, guid: cdebfa474e7c2064ea9c0fc41e5fa153, type: 2}
-  - {fileID: 11400000, guid: 17d55d468bf2db04c9ccee849f102d64, type: 2}
-  - {fileID: 11400000, guid: a731bb68d848aeb4b8dd0bd1e7c596e7, type: 2}
-  - {fileID: 11400000, guid: 650041acff6096044aebf8777a69ae97, type: 2}
-  - {fileID: 11400000, guid: 1efe212ce72729040853e18c0be93aaa, type: 2}
-  - {fileID: 11400000, guid: c154310e123d50f45ac945dded7b671e, type: 2}
+  - {fileID: 11400000, guid: 118843cb182fd994489aabd43a1e39cb, type: 2}
+  - {fileID: 11400000, guid: d2bd8ce212a516844915b8d2dd3c772b, type: 2}
+  - {fileID: 11400000, guid: 372110f13dfe9914ba7071de70d79bb3, type: 2}
+  - {fileID: 11400000, guid: 7e03f9b549a242442a396c97f3fd9cb7, type: 2}
+  - {fileID: 11400000, guid: 9089e04e1daf2aa4c87ca3238565031c, type: 2}
   consoleEnabled: 1
   consoleEnabledOnLoad: 0
   moveConsoleEnabled: 1
   greetEnabled: 1
   enemiesEnabled: 1
   validMarks:
-  - {fileID: 11400000, guid: 43bc61277254109479353e410ff894bd, type: 2}
+  - {fileID: 11400000, guid: 1dcffd2e33b7945608ce08b3aa5e9164, type: 2}
+  - {fileID: 11400000, guid: 14a0f021f59ba4f958bac28d48b1cf2b, type: 2}
+  - {fileID: 11400000, guid: b45307ed64fea47479385367101a2523, type: 2}
+  - {fileID: 11400000, guid: 02a0cfb3b34d848379772f0a9d8198e1, type: 2}
+  - {fileID: 11400000, guid: fd86bdbdf5052a447a61cb37cca63ddb, type: 2}
+  - {fileID: 11400000, guid: 6aa93a65ad9304dab987d5df5d80c7bc, type: 2}
   ActionPointVisualizer: {fileID: 0}
   CurrentActionPoints: 3
   MoveActionPoints: 2
@@ -125,7 +129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shownSettings: 0
   StartCombatDelay: 0.1
-  currentStatus: 0
   currentHearBackNum: 0
   targetHearBackNum: 0
   breakInfLoop: 0
