@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ceb8eb0782b2f48930e727d202b7b4, type: 3}
+  m_Name: Mark of Victory
+  m_EditorClassIdentifier: 
+  Name: 5
+  MarkVisual: {fileID: 0}
+  TriggerCondition: 0
+  TriggerIfAbove: 0
+  Percent: 0
+  TwoMarkTurnChange: 0
+  ThreeMarkTurnChange: 0
+  EffectsWith2:
+  - Effect: 5
+    valueChange: 1.1
+  - Effect: 6
+    valueChange: 1.1
+  PostTurnEffectsWith2: []
+  EffectsWith3:
+  - Effect: 5
+    valueChange: 1.1
+  - Effect: 6
+    valueChange: 1.2
+  PostTurnEffectsWith3: []
+  maxTriggerWith2: 0
+  maxTriggerWith3: 0
+  EffectCanTrigger: 0
+  TwoConditionTrigger: 1
+  ThreeConditionTrigger: 1
+  TimesTriggered: 0

@@ -1,10 +1,9 @@
 /*************************************************
-Author Names : 	    	Tyler Bouchard, Cade Naylor
+Author Names : 	    	Tyler Bouchard, Cade Naylor, Clare Grady
 Date Created : 		    10/16/2025
-Date Last Modified : 	11/7/2025 (Clare Grady)
+Date Last Modified : 	11/18/2025 (Cade Naylor)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
-                        Also it seems like the stats have to be public to work with refs and encapsulation doesn't work :(
 External Resources : 
 ***************************************************/
 using UnityEngine;
@@ -34,8 +33,11 @@ public class PlayerStats : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
     [Tooltip("The player's current health"), ShowIf(nameof(settings), Settings.GeneralStats)] public int CurrentHealth = 100;
     [Tooltip("The player's maximum health at a given point"), ShowIf(nameof(settings), Settings.GeneralStats)] public int MaxHealth = 100;
+    [Tooltip("Multiplies how much the player can heal/buff"), ShowIf(nameof(settings), Settings.GeneralStats)] public float HealBuffModifier = 1f;
     [Tooltip("The chance a player dodges the attack"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f,1f)] public float DodgeChance = 0f;
-    [Tooltip("The player's luck modifier"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f, 1f)] public float LuckModifier = 0f;
+    [Tooltip("The player's luck multiplier"), ShowIf(nameof(settings), Settings.GeneralStats)] public float LuckModifier = 1f;
+    [Tooltip("What XP is multiplied by when an enemy dies"), ShowIf(nameof(settings), Settings.GeneralStats)] public float XPMultiplier = 1f;
+    [Tooltip("A multiplier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 1f; 
 
     private int tempHealth;
     #endregion
@@ -50,16 +52,28 @@ public class PlayerStats : MonoBehaviour
         public float RangedDamageTakenMultiplier = 1;
     [Tooltip("Multiplies how much damage the player takes from Melee Enemies"), ShowIf(nameof(settings), Settings.DamageTaken)] 
         public float MeleeDamageTakenMultiplier = 1;
+    [Tooltip("Reflects this percent of damage taken back to the enemy who dealt it"), ShowIf(nameof(settings), Settings.DamageTaken)]
+        public float Thorns = 0f;
     #endregion
 
     #region Attack Stats
     [HorizontalLine(4, EColor.Blue)]
     [Tooltip("Multiplies how much damage the player deals across all elements"), ShowIf(nameof(settings), Settings.Attack)] 
-        public float BaseAttackMultiplier = 1;
+        public float BaseAttackMultiplier = 1f;
     [Tooltip("Multiplies how much damage the player deals from lightning spells"), ShowIf(nameof(settings), Settings.Attack)]
-        public float LightningAttackMultiplier = 1;
+        public float LightningAttackMultiplier = 1f;
     [Tooltip("Multiplies how much damage the player deals from wind spells"), ShowIf(nameof(settings), Settings.Attack)]
-        public float WindAttackMultiplier = 1;
+        public float WindAttackMultiplier = 1f;
+    [Tooltip("Multiplies how much damage the player deals from fire spells"), ShowIf(nameof(settings), Settings.Attack)]
+        public float FireAttackMultiplier = 1f;
+    [Tooltip("Multiplies how much damage the player deals from water spells"), ShowIf(nameof(settings), Settings.Attack)]
+        public float WaterAttackMultiplier = 1f;
+    [Tooltip("Multiplies how much damage the player deals from Tier 1 spells"), ShowIf(nameof(settings), Settings.Attack)]
+        public float Tier1AttackMultiplier = 1f;
+    [Tooltip("Multiplier for the damage the first spell cast on this turn deals"), ShowIf(nameof(settings), Settings.Attack)]
+        public float FirstSpellMultiplier = 1f;
+    [Tooltip("Multiplier for the damage the first spell cast on this turn deals"), ShowIf(nameof(settings), Settings.Attack)]
+        public float SecondSpellMultiplier = 1f;
     [HideInInspector] public int SpellsCastThisTurn = 0;
     [Tooltip("How likely the player is to miss their attack. Currently does not function"), ShowIf(nameof(settings), Settings.Attack)]
     public float MissChance = 0f;
@@ -91,12 +105,12 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     /// <param name="amount">Base amount of damage</param>
     /// <param name="source">Where the damage came from</param>
-    public void TakeDamage(int amount, DamageSource source = DamageSource.None)
+    public void TakeDamage(int amount, DamageSource source = DamageSource.None, Enemy e = null)
     {
 
         // Check if the player dodges the attack
         // Return before dealing damage
-        float dodgeCheck = UnityEngine.Random.Range(0f, 1f);
+        float dodgeCheck = UnityEngine.Random.Range(0f, 1f) * LuckModifier;
         if(dodgeCheck <= DodgeChance && DodgeChance > 0f)
         {
             return;
@@ -150,12 +164,22 @@ public class PlayerStats : MonoBehaviour
 
         CurrentHealth -= (int)damageToTake;
 
+
+        MarkManager.HealthValueChanged(((float)CurrentHealth)/((float)MaxHealth));
+        
         if (tempHealth < 0)
         {
 
             tempHealth = 0;
             Debug.Log("No more extra health! ");
 
+        }
+
+
+        // Damage the enemy if the player has thorns
+        if(Thorns > 0 && e !=null)
+        {
+            e.Damage(amount*Thorns);
         }
 
         //if player dead end level pop up 
@@ -174,7 +198,16 @@ public class PlayerStats : MonoBehaviour
     /// <param name="amount"></param>
     public void Heal(int amount)
     {
-        CurrentHealth += amount;
+        float conditionalMultipliers = 1f;
+        if(SpellsCastThisTurn == 0)
+        {
+            conditionalMultipliers *= FirstSpellMultiplier;
+        }
+        else if (SpellsCastThisTurn == 1)
+        {
+            conditionalMultipliers *= SecondSpellMultiplier;
+        }
+        CurrentHealth += (int)(amount*HealBuffModifier*conditionalMultipliers);
         if(CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
