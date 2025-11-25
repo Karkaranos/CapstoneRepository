@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/30/2025
-Date Last Modified : 	11/2/2025
+Date Last Modified : 	11/25/2025
 Brief Description : 		Temporary End Level Menu handler for 
                     vertical slice
 External Resources : 	
@@ -48,8 +48,8 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        Debug.Log("Application.Quit called");
-        Application.Quit();
+        Debug.Log("Return to Menu");
+        SceneManager.LoadScene(0);
     }
 
     /// <summary>
