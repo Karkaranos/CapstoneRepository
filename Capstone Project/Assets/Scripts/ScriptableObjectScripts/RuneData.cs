@@ -87,6 +87,10 @@ public class RuneData : ScriptableObject
     //Drop the VFX here!
     public GameObject RuneVFX;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.VFX)]
+    //for chain/burst lightning, but can be used for more in the future
+    public GameObject SecondaryRuneVFX;
+
     #endregion VFX
 
 
@@ -95,7 +99,7 @@ public class RuneData : ScriptableObject
     /// </summary>
     /// <param name="typeOfRune"> The element of rune this is </param>
     /// <param name="numberOnSkillTree"> which version of the element it is </param>
-    public RuneData(RuneType typeOfRune, int numberOnSkillTree, string RuneName, string RuneDescription, float RuneDamage, int RuneRange, GameObject RuneVFX)
+    public RuneData(RuneType typeOfRune, int numberOnSkillTree, string RuneName, string RuneDescription, float RuneDamage, int RuneRange, GameObject RuneVFX, GameObject SecondaryRuneVFX)
     {
         this.TypeOfRune = typeOfRune;
         this.NumberOnSkillTree = numberOnSkillTree;
@@ -104,5 +108,6 @@ public class RuneData : ScriptableObject
         this.RuneDamage = RuneDamage;
         this.RuneRange = RuneRange;
         this.RuneVFX = RuneVFX;
+        this.SecondaryRuneVFX = SecondaryRuneVFX;
     }
 }
