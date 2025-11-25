@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2411119528694656243}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
@@ -405,6 +405,26 @@ PrefabInstance:
     - target: {fileID: 2651943507685111687, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_Name
       value: SquareTile (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: TileHasHazards
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
@@ -924,11 +944,11 @@ PrefabInstance:
       objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasHazards
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1302,6 +1322,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquareTile (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -1426,6 +1454,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquareTile (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: TileHasHazards
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -1502,11 +1550,11 @@ PrefabInstance:
       objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasHazards
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
