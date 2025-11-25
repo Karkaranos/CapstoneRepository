@@ -24,6 +24,7 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] private Cameras Cams;
 
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public GameObject player;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera Level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera Level1playcam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera PlayerZcam;
@@ -104,6 +105,9 @@ public class CameraManager : MonoBehaviour
         //Level1cam.Priority = 20; 
         Level1playcam.Priority = 10;
         PlayerZcam.Priority = 10;
+        player = GameObject.FindGameObjectWithTag("Player");
+        PlayerZcam.LookAt = player.transform;
+        PlayerZcam.Follow = player.transform;
         Debug.LogWarning(ActiveCamera.name);
         if(activeCam != null)
         {
