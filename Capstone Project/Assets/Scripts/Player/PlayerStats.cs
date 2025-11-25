@@ -147,8 +147,22 @@ public class PlayerStats : MonoBehaviour
                 break;
         }
         if ((int)damageToTake < 0) { damageToTake = 0; }
+
+        if(tempHealth > 0)
+        {
+
+            tempHealth -= (int)damageToTake;
+
+            if(tempHealth < 0)
+            {
+
+                damageToTake = Mathf.Abs(tempHealth);
+
+            }
+
+        }
+
         CurrentHealth -= (int)damageToTake;
-        tempHealth -= (int)damageToTake;
 
 
         MarkManager.HealthValueChanged(((float)CurrentHealth)/((float)MaxHealth));
@@ -198,14 +212,6 @@ public class PlayerStats : MonoBehaviour
         {
             CurrentHealth = MaxHealth;
         }
-        
-        //if the player gets healed while having temp health, i don't want it to get taken away from them
-        if(tempHealth > 0)
-        {
-
-            CurrentHealth += tempHealth;
-
-        }
 
         UpdateHealthBar();
     }
@@ -219,7 +225,6 @@ public class PlayerStats : MonoBehaviour
     {
 
         //shouldn't be capped by max health iirc
-        CurrentHealth += tempHealthAmount;
         tempHealth += tempHealthAmount;
 
         Debug.Log(tempHealth + " hit points added to the player!");
@@ -231,7 +236,7 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void UpdateHealthBar()
     {
-        healthBar.value = (CurrentHealth - tempHealth);
+        healthBar.value = CurrentHealth;
     }
 
     /// <summary>
