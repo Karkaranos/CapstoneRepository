@@ -655,6 +655,7 @@ public class RuneEvents : MonoBehaviour
             //targets opponents in a straight line
             case (4):
 
+
                 if (player != null || Mathf.Abs(GridManager.playerPosition.x - tile.transform.position.x) > 1 ||
                     Mathf.Abs(GridManager.playerPosition.y - tile.transform.position.z) > 1)
                 {
@@ -759,7 +760,7 @@ public class RuneEvents : MonoBehaviour
     /// </summary>
     /// <param name="initialTarget"> initial target that the player had picked out </param>
     /// <returns> a list of tiles for the spell to target </returns>
-    List<TileBehaviour> FindLineOfTargets(TileBehaviour initialTarget)
+    List<TileBehaviour> FindLineOfTargets(bool findingRange, TileBehaviour initialTarget = null)
     {
 
         potentialTargetsForLightningStrikes.Clear();
@@ -921,7 +922,6 @@ public class RuneEvents : MonoBehaviour
         {
 
             //knocks adjacent enemies backwards and damages them
-            //ASK DESIGN ABOUT THE RADIUS
             case (1):
 
                if(enemy != null)
@@ -931,53 +931,15 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(enemy);
 
-<<<<<<< HEAD
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
-=======
-                List<Enemy> enemiesAlreadyPushedBack = new List<Enemy>();
-
-                VFX = Instantiate(storedData.RuneVFX, tile.transform);
->>>>>>> parent of b0358ba (small fix)
 
                     enemy.SendEnemyBackwards
                                     (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile);
 
                     EndPlayerAttackPhase();
 
-<<<<<<< HEAD
                }
-=======
-                    foreach (Enemy newEnemy in enemiesOnTheGrid)
-                    {
-
-                        if((int)newEnemy.transform.position.x == tileInRange.IndexInGrid.x && (int)newEnemy.transform.position.z == tileInRange.IndexInGrid.y)
-                        {
-
-                            newEnemy.Damage(damageDealt);
-
-                            if (tileInRange == tile && !enemiesAlreadyPushedBack.Contains(newEnemy))
-                            {
-
-                                newEnemy.SendEnemyBackwards
-                                    (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tileInRange);
-
-                                enemiesAlreadyPushedBack.Add(newEnemy);
-
-                                CheckRuneCombination(newEnemy);
-
-                            }
-
-                            break;
-
-                        }
-
-                    }
-
-                }
-
-                EndPlayerAttackPhase();
->>>>>>> parent of b0358ba (small fix)
-
+                   
                 break;
 
             //targets an opponent for moderate damage
