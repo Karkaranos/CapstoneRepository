@@ -93,8 +93,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     private void OnEnable()
     {
         //sets the spell menu active
-        SkillTreeContainer.SetActive(true);
-        EquipMenuContainer.SetActive(false);
+        SkillTreeContainer.SetActive(false);
+        EquipMenuContainer.SetActive(true);
 
         //sets the spell slots
         if (equippedSpells.Count < NumOfSpellSlots)
