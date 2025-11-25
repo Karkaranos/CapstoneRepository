@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		09/28/2025
-Date Last Modified : 10/06/2025
+Date Last Modified : 11/24/2025
 Brief Description : This manages the player's skill points
                     and stores the data of their unlocked nodes
 External Resources : 	
@@ -133,6 +133,7 @@ public class SkillTreeManager : MonoBehaviour
         if (!unlockedRunes.Contains(runePurchased))
         {
             unlockedRunes.Add(runePurchased);
+            skillAndArtifactManager.UnlockedRunes.Add(runePurchased);
             if (runePurchased.NumberOnSkillTree == 4)
             {
                 PublicEvents.MasteryRunePurchased?.Invoke(runePurchased.TypeOfRune);
@@ -219,6 +220,10 @@ public class SkillTreeManager : MonoBehaviour
 
     public void PurchaseSpell()
     {
-        nodeSelected.PurchaseNode();
+        if (nodeSelected != null)
+        {
+            nodeSelected.PurchaseNode();
+        }
+        
     }
 }

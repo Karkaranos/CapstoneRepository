@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		11/02/2025
-Date Last Modified : 11/02/2025
+Date Last Modified : 11/24/2025
 Brief Description : Manages the inventory artifact buttons
 External Resources : 	
 	***************************************************/
@@ -21,6 +21,7 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     //refs to objects in scene
     private ArtifactMenuManager AMM;
     [SerializeField] private TMP_Text buttonTxt;
+    private SkillAndArtifactManager skillArtMan;
 
     #region GETTERS AND SETTERS
 
@@ -51,6 +52,7 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     public void InsVars()
     {
         AMM = FindFirstObjectByType<ArtifactMenuManager>();
+        skillArtMan = FindFirstObjectByType<SkillAndArtifactManager>();
         buttonTxt.text = data.Name;
     }
 
@@ -59,7 +61,11 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     /// </summary>
     public void ButtonClicked()
     {
-        AMM.ArtifactPickedUp(data);
+        if (AMM.heldArtifact != data && !ArtifactManager.CurrentArtifacts.Contains(data))
+        {
+            AMM.ArtifactPickedUp(data);
+        }
+        
     }
 
     /// <summary>
