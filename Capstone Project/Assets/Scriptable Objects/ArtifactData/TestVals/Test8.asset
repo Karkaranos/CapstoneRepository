@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8869b7f82bbc00c48b89e58fe7134f2b, type: 3}
-  m_Name: Test5
+  m_Name: Test8
   m_EditorClassIdentifier: 
-  Name: Vampiric
-  Description: A 50% chance to heal when damaging enemies\nMark of Conquest
+  Name: Heal+
+  Description: Increases the amount you heal for by 50%\nMark of Restoration
   TriggerCondition: 0
   TriggerCount: 0
   Counter: 0
   Effects:
-  - Effect: 11
-    StatChangeAmount: 0.5
-    TriggerChance: 0.5
-  Mark: 4
+  - Effect: 21
+    StatChangeAmount: 1.5
+    TriggerChance: 1
+  Mark: 3
   ArtifactSize: 1
   ArtifactSprite: {fileID: 0}
