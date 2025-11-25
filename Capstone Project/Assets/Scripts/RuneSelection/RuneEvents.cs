@@ -921,6 +921,7 @@ public class RuneEvents : MonoBehaviour
         {
 
             //knocks adjacent enemies backwards and damages them
+            //ASK DESIGN ABOUT THE RADIUS
             case (1):
 
                 if(player != null)
@@ -947,16 +948,13 @@ public class RuneEvents : MonoBehaviour
 
                             newEnemy.Damage(damageDealt);
 
-                            if (tileInRange != tile && !enemiesAlreadyPushedBack.Contains(newEnemy))
+                            if (tileInRange == tile && !enemiesAlreadyPushedBack.Contains(newEnemy))
                             {
 
-                                newEnemy.SendEnemyBackwards(tile, tileInRange);
+                                newEnemy.SendEnemyBackwards
+                                    (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tileInRange);
 
                                 enemiesAlreadyPushedBack.Add(newEnemy);
-
-                            }
-                            else
-                            {
 
                                 CheckRuneCombination(newEnemy);
 

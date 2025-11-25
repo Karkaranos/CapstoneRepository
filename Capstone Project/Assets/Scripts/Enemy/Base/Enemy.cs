@@ -269,33 +269,33 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// shoves the enemy backwards relative from where wind 1 was initially cast
     /// </summary>
-    /// <param name="originalTarget"> initial tile targeted by the player </param>
-    /// <param name="newTarget"> current enemy being pushed back </param>
-    public void SendEnemyBackwards(TileBehaviour originalTarget, TileBehaviour newTarget)
+    /// <param name="player"> initial tile targeted by the player </param>
+    /// <param name="target"> current enemy being pushed back </param>
+    public void SendEnemyBackwards(TileBehaviour player, TileBehaviour target)
     {
 
-        Vector2Int newTilePos = newTarget.IndexInGrid;
+        Vector2Int newTilePos = target.IndexInGrid;
 
-        if(originalTarget.IndexInGrid.x < newTarget.IndexInGrid.x)
+        if(player.IndexInGrid.x < target.IndexInGrid.x)
         {
 
             newTilePos.x += 1;
 
         }
-        else if (originalTarget.IndexInGrid.x > newTarget.IndexInGrid.x)
+        else if (player.IndexInGrid.x > target.IndexInGrid.x)
         {
 
             newTilePos.x -= 1;
 
         }
 
-        if(originalTarget.IndexInGrid.y < newTarget.IndexInGrid.y)
+        if(player.IndexInGrid.y < target.IndexInGrid.y)
         {
 
             newTilePos.y += 1;
 
         }
-        else if(originalTarget.IndexInGrid.y > newTarget.IndexInGrid.y)
+        else if(player.IndexInGrid.y > target.IndexInGrid.y)
         {
 
             newTilePos.y -= 1;
