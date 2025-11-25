@@ -931,8 +931,6 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                List<Enemy> enemiesAlreadyPushedBack = new List<Enemy>();
-
                 VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
                 RangeCheck(true, 2, tile);
@@ -948,13 +946,11 @@ public class RuneEvents : MonoBehaviour
 
                             newEnemy.Damage(damageDealt);
 
-                            if (tileInRange == tile && !enemiesAlreadyPushedBack.Contains(newEnemy))
+                            if (tileInRange == tile)
                             {
 
                                 newEnemy.SendEnemyBackwards
                                     (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tileInRange);
-
-                                enemiesAlreadyPushedBack.Add(newEnemy);
 
                                 CheckRuneCombination(newEnemy);
 
