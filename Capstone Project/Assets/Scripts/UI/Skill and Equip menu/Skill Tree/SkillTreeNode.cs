@@ -61,6 +61,8 @@ public class SkillTreeNode : MonoBehaviour
 
     [ShowIf(nameof(currentSettings), Settings.NodeSettings), SerializeField] private bool IsInSkillTree;
 
+    [ShowIf(nameof(currentSettings), Settings.NodeSettings), SerializeField] private bool StartUnlocked;
+
     #endregion
 
     #region SKILL SETTINGS
@@ -119,6 +121,17 @@ public class SkillTreeNode : MonoBehaviour
         skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
         button = GetComponent<Button>();
         isPermaLocked = false;
+
+        if (StartUnlocked)
+        {
+            Status = NodeStatus.Purchased;
+            //button.interactable = false;
+            GetComponent<Image>().color = Color.green;
+            //Debug.Log("Node Purchased");
+
+            //updates the skill tree manager with the rune that got purchased
+            skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
+        }
     }
 
     /// <summary>
