@@ -41,7 +41,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     [HorizontalLine(4, EColor.Indigo)]
 
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private List<GameObject> MarkContainers;
-    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private List<GameObject> TabContainers;
+    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private List<GameObject> PageContainers;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private List<GameObject> SpellTabs;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject PrevNextButtons;
 
@@ -199,7 +199,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// <param name="tabToShow"> the tab to switch over to </param>
     public void SwitchShownTab(int tabToShow)
     {
-        foreach (GameObject obj in TabContainers)
+        foreach (GameObject obj in PageContainers)
         {
             obj.SetActive(false);
         }
@@ -214,7 +214,7 @@ public class SkillAndArtifactManager : MonoBehaviour
             PrevNextButtons.SetActive(true);
         }
 
-        TabContainers[tabToShow].SetActive(true);
+        PageContainers[tabToShow].SetActive(true);
 
         PublicEvents.TrashHeldOOCObject?.Invoke();
     }
@@ -284,18 +284,18 @@ public class SkillAndArtifactManager : MonoBehaviour
         }
         else
         {
-            foreach (GameObject obj in TabContainers)
+            foreach (GameObject obj in PageContainers)
             {
                 if (obj.activeInHierarchy)
                 {
-                    shownIndex = TabContainers.IndexOf(obj);
+                    shownIndex = PageContainers.IndexOf(obj);
                 }
             }
 
             //0 is skill tree and 1 is artifacts
             if (shownIndex != 0 && shownIndex != 1)
             {
-                if (shownIndex + 1 >= TabContainers.Count)
+                if (shownIndex + 1 >= PageContainers.Count)
                 {
                     //2 will be the first spell
                     SwitchShownTab(2);
@@ -338,11 +338,11 @@ public class SkillAndArtifactManager : MonoBehaviour
         }
         else
         {
-            foreach (GameObject obj in TabContainers)
+            foreach (GameObject obj in PageContainers)
             {
                 if (obj.activeInHierarchy)
                 {
-                    shownIndex = TabContainers.IndexOf(obj);
+                    shownIndex = PageContainers.IndexOf(obj);
                 }
             }
 
@@ -353,7 +353,7 @@ public class SkillAndArtifactManager : MonoBehaviour
                 if (shownIndex - 1 < 2)
                 {
                     //2 will be the first spell
-                    SwitchShownTab(TabContainers.Count - 1);
+                    SwitchShownTab(PageContainers.Count - 1);
                 }
                 else
                 {
