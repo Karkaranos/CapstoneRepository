@@ -302,10 +302,31 @@ public class Enemy : MonoBehaviour
 
         }
 
-        if (GridManager.combatGrid[newTilePos.x, newTilePos.y] != null && GridManager.combatGrid[newTilePos.x, newTilePos.y].entityOnGrid == -1)
+        Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+        foreach(TileBehaviour tile in GridManager.combatGrid)
         {
 
-            this.gameObject.transform.position = new Vector3(newTilePos.x, 0, newTilePos.y);
+            if(tile.IndexInGrid == newTilePos && tile.entityOnGrid > -3)
+            {
+
+                foreach(Enemy otherEnemy in otherEnemies)
+                {
+
+                    if(otherEnemy.transform.position.x == newTilePos.x && otherEnemy.transform.position.z == newTilePos.y)
+                    {
+
+                        return;
+
+                    }
+
+                }
+
+                this.gameObject.transform.position = new Vector3(newTilePos.x, 0, newTilePos.y);
+
+                break;
+
+            }
 
         }
 

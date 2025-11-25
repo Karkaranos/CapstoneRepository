@@ -124,11 +124,18 @@ public class PlayerInputHandler : MonoBehaviour
                 if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() != null)
                 {
                     PublicEvents.SelectTile?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>());
+                    PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), null, null);
                 }
 
-                if(hit.transform.gameObject.GetComponent<Enemy>())
+                if(hit.transform.gameObject.GetComponent<Enemy>() != null)
                 {
-                    PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponent<Enemy>());
+                    PublicEvents.SelectTarget?.Invoke(GridManager.combatGrid[(int)hit.transform.position.x, (int)hit.transform.position.z],
+                        hit.transform.gameObject.GetComponent<Enemy>(), null);
+                }
+                if(hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
+                {
+                    PublicEvents.SelectTarget?.Invoke(GridManager.combatGrid[(int)hit.transform.position.x, (int)hit.transform.position.z],
+                        null, hit.transform.gameObject.GetComponent<PlayerBehavior>());
                 }
 
             }
