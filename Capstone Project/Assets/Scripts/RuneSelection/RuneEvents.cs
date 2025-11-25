@@ -931,14 +931,52 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(enemy);
 
+<<<<<<< HEAD
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
+=======
+                List<Enemy> enemiesAlreadyPushedBack = new List<Enemy>();
+
+                VFX = Instantiate(storedData.RuneVFX, tile.transform);
+>>>>>>> parent of b0358ba (small fix)
 
                     enemy.SendEnemyBackwards
                                     (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile);
 
                     EndPlayerAttackPhase();
 
+<<<<<<< HEAD
                }
+=======
+                    foreach (Enemy newEnemy in enemiesOnTheGrid)
+                    {
+
+                        if((int)newEnemy.transform.position.x == tileInRange.IndexInGrid.x && (int)newEnemy.transform.position.z == tileInRange.IndexInGrid.y)
+                        {
+
+                            newEnemy.Damage(damageDealt);
+
+                            if (tileInRange == tile && !enemiesAlreadyPushedBack.Contains(newEnemy))
+                            {
+
+                                newEnemy.SendEnemyBackwards
+                                    (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tileInRange);
+
+                                enemiesAlreadyPushedBack.Add(newEnemy);
+
+                                CheckRuneCombination(newEnemy);
+
+                            }
+
+                            break;
+
+                        }
+
+                    }
+
+                }
+
+                EndPlayerAttackPhase();
+>>>>>>> parent of b0358ba (small fix)
 
                 break;
 
