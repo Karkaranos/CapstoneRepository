@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/18/2025
-Date Last Modified : 	11/21/2025
+Date Last Modified : 	12/01/2025 (Brad Dixon)
 Brief Description : 		Base class for Range enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -19,12 +19,12 @@ public class RangedEnemy : Enemy
     [ShowIf(nameof(currentSettings), Settings.Combat),
         SerializeField,
         Tooltip("The minimum amount of tiles away from the enemy the player must be to be attacked")]
-    private int minimumAttackDistance;
+    public int minimumAttackDistance;
 
     [ShowIf(nameof(currentSettings), Settings.Combat),
         SerializeField,
         Tooltip("The maximum amount of tiles away from the enemy the player must be to be attacked")]
-    private int maxAttackDistance;
+    public int maxAttackDistance;
 
     [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
 
