@@ -68,6 +68,7 @@ public class EnemyHandler : MonoBehaviour
     /// Run the next enemy in the lists turn 
     /// If we've gone through the list inform turn manager that EnemyHandler is done
     /// Set the player turn indicator to false
+    /// Set previous enemy indicator to false set current to true
     /// </summary>
     public void RunNextEnemyTurn()
     {
@@ -78,11 +79,19 @@ public class EnemyHandler : MonoBehaviour
 
         if (index == enemies.Count)
         {
+            enemies[index -1].turnIndicator.SetActive(false);
             index = 0;
             TurnPublicEvents.TurnActionComplete();
             enemies[0].playerStats.turnIndicator.SetActive(true);
             return;
+        }   
+
+        if(index != 0)
+        {
+            enemies[index - 1].turnIndicator.SetActive(false);
         }
+
+        enemies[index].turnIndicator.SetActive(true);
         enemies[index].StartEnemyTurn();
         ++index;
     }

@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	11/8/2025
+Date Last Modified : 	12/1/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -75,6 +75,10 @@ public class Enemy : MonoBehaviour
         ShowIf(nameof(currentSettings), Settings.Combat),
         Tooltip("Chance Enemy will drop an Artifact On Death"), Range(0f, 1f)]
     protected float artifactDropChance = .5f;
+
+    [ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Gameobject for turn indicator element")]
+    public GameObject turnIndicator;
 
     // Hidden Vars
     [HideInInspector] public PlayerStats playerStats;
@@ -150,6 +154,7 @@ public class Enemy : MonoBehaviour
         gridPathfinding.SetAggroRange(aggroRange);
         gridPathfinding.SetMovementSpeed(movementSpeed);
         playerStats = FindFirstObjectByType<PlayerStats>();
+        turnIndicator.SetActive(false);
     }
 
     /// <summary>
