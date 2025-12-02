@@ -7,8 +7,9 @@ Brief Description : 		Base class for Range enemies
                  sublogic of each enemy. 
 External Resources : 	
 ***************************************************/
-using UnityEngine;
 using NaughtyAttributes;
+using UnityEngine;
+using static TargetingBehaviour;
 
 public class RangedEnemy : Enemy
 {
@@ -73,7 +74,7 @@ public class RangedEnemy : Enemy
         endTurnState = new RangedEnemyEndTurnState(this, enemyStateMachine);
         enemyStateMachine.Initialized(waitState, secondsBetweenStateTransitions);
         base.Start();
-        //targetingBehaviour.behaviours = Ranged (Wait till Brad is done)
+        targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
     }
 
     /// <summary>
@@ -122,7 +123,13 @@ public class RangedEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
-        return playerInAttackRange;
+        targetingBehaviour.FindTarget();
+        gridPathfinding.PathfindThroughGrid();
+        Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
+        Debug.Log("Target Pos: " + gridPathfinding.GetTargetPosition().ToString());
+
+        if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { Debug.Log("In Range"); }
+        return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
     }
 
     /// <summary>
