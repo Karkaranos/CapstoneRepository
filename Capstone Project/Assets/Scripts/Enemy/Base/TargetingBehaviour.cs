@@ -12,6 +12,10 @@ using NaughtyAttributes;
 
 public class TargetingBehaviour : MonoBehaviour
 {
+    /// <summary>
+    /// Runs the targeting behvaiour without moving the enemy, and it populates a list with 
+    /// all potential locations the enemy could make an attack from
+    /// </summary>
     [Button("Test Ranged Targeting")]
     private void CallTargeting()
     {
@@ -19,11 +23,13 @@ public class TargetingBehaviour : MonoBehaviour
         playerPos = GridManager.playerPosition;
         RangedTargeting();
     }
+
     public enum TargetingBehaviours
     {
         melee,
         ranged
     }
+
     [HideInInspector]
     public TargetingBehaviours behaviours;
     //[HideInInspector]
