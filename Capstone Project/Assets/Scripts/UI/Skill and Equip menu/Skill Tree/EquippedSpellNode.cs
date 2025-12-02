@@ -50,7 +50,7 @@ public class EquippedSpellNode : MonoBehaviour
 
     //refs to needed managers in scene
     private SkillAndArtifactManager skillAndEquipManager;
-    private SkillTreeManager skillTreeManager;
+    [SerializeField] private SkillTreeManager skillTreeManager;
 
     #endregion
     #endregion
@@ -62,7 +62,7 @@ public class EquippedSpellNode : MonoBehaviour
     {
         //finds the managers
         skillAndEquipManager = FindFirstObjectByType<SkillAndArtifactManager>();
-        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        //skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
 
         //populates this node with the equipped spell at this node's index
         //in the master list of spells

@@ -100,7 +100,7 @@ public class SkillTreeNode : MonoBehaviour
     private bool isPermaLocked;
 
     //A reference to the skill tree manager in the scene
-    private SkillTreeManager skillTreeManager;
+    [SerializeField, ShowIf(nameof(currentSettings), Settings.Refrences)] private SkillTreeManager skillTreeManager;
 
     //A Reference to the artifactandskilltree manager in the scene
     private SkillAndArtifactManager skillAndArtifactManager;
@@ -117,7 +117,7 @@ public class SkillTreeNode : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        //skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
         skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
         button = GetComponent<Button>();
         isPermaLocked = false;
@@ -193,9 +193,13 @@ public class SkillTreeNode : MonoBehaviour
     {
         if (skillAndArtifactManager.UnlockedRunes.Contains(NodeRuneData))
         {
-            Status = NodeStatus.Purchased;
-            button.interactable = true;
-            GetComponent<Image>().color = Color.green;
+            if (!skillAndArtifactManager.equippedSpells.Contains(NodeRuneData))
+            {
+                Status = NodeStatus.Purchased;
+                button.interactable = true;
+                GetComponent<Image>().color = Color.green;
+            }
+            
         }
         else
         {
@@ -210,7 +214,11 @@ public class SkillTreeNode : MonoBehaviour
     {
         Status = NodeStatus.Locked;
         button.interactable = false;
-        GetComponent<Image>().color = Color.gray;
+        if (IsInSkillTree)
+        {
+            GetComponent<Image>().color = Color.gray;
+        }
+        
         //Debug.Log("Node Locked");
     }
 
@@ -286,7 +294,7 @@ public class SkillTreeNode : MonoBehaviour
     private void AnySkillTreeNodePurchased()
     {
         //checks to see if its currently locked and is not permalocked
-        if (status == NodeStatus.Locked && !isPermaLocked)
+        if (status == NodeStatus.Locked && !isPermaLocked && IsInSkillTree)
         {
             //checks the prereqs
             foreach (SkillTreeNode node in PrereqNodes)
