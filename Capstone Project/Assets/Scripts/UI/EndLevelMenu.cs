@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/30/2025
-Date Last Modified : 	11/2/2025
+Date Last Modified : 	12/2/2025
 Brief Description : 		Temporary End Level Menu handler for 
                     vertical slice
 External Resources : 	
@@ -43,15 +43,24 @@ public class EndLevelMenu : MonoBehaviour
     }
 
     /// <summary>
-    /// Quits the application
-    /// Called when the quit button is pressed in the end level ui
+    /// Goes to the main menu
+    /// Called when the main menu button is pressed in the end level ui
     /// </summary>
     public void QuitGame()
     {
-        Debug.Log("Application.Quit called");
-        Application.Quit();
+        Debug.Log("Return to Menu");
+        SceneManager.LoadScene(0);
     }
 
+    /// <summary>
+    /// Restarts the current scene 
+    /// Called when the restart button is pressed
+    /// </summary>
+    public void RestartLevel()
+    {
+        Debug.Log("Restart Level");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     /// <summary>
     /// Sets the text that will appear at the end of the level 
     /// </summary>
