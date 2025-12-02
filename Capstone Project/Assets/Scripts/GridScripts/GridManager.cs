@@ -39,7 +39,8 @@ public class GridManager : MonoBehaviour
                 TileBehaviour tile = tiles[x + (y * gridDimensions.x)];
                 combatGrid[x, y] = tile;
 
-                tile.transform.position = new Vector3(MoveDistances.x * x, tile.transform.position.y, MoveDistances.y * y);
+                //this line causes a bug where the tiles go to the wrong position when the scene is loaded so I removed it
+                //tile.transform.position = new Vector3(MoveDistances.x * x, tile.transform.position.y, MoveDistances.y * y);
                 tile.entityOnGrid = -1;
                 tile.IndexInGrid = new Vector2Int(x, y);
                 tile.gameObject.name = "[" + tile.IndexInGrid.x + ", " + tile.IndexInGrid.y + "]";
