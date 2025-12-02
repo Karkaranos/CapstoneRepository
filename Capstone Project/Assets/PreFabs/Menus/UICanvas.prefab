@@ -462,6 +462,7 @@ MonoBehaviour:
   costText: {fileID: 4792792852153654058}
   descriptionText: {fileID: 5109709493027557496}
   currentSkillPointsText: {fileID: 216393281117611123}
+  isInEquipMenu: 0
   DifferentElementSkillTreeContainers:
   - {fileID: 5945232624341778909}
   - {fileID: 1263428591001927362}
@@ -1557,7 +1558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes:
   - {fileID: 3451514075140001027}
@@ -1565,8 +1566,9 @@ MonoBehaviour:
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 0ff62a8bbf2e58a43bddaf934cf3f213, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &7775591744858372881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1610,7 +1612,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6695842639221450452}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6702268835160956886}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8797234270889849678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1623,39 +1637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6702268835160956886}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6702268835160956886}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &620523869765722690
 GameObject:
   m_ObjectHideFlags: 0
@@ -2652,14 +2634,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   cost: 10
   PrereqNodes: []
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: fef61a17eb15b5f41815c0fa740fef24, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &4688127932960775192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2703,7 +2686,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1176352387248590443}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 460341384191610341}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3816902063749605227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2724,22 +2719,6 @@ MonoBehaviour:
         - m_Target: {fileID: 460341384191610341}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 460341384191610341}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2895,9 +2874,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyShowingSettings: 0
+  currentlyShowingSettings: 1
   heldSpell: {fileID: 0}
   index: 0
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!1 &1256952344307350687
 GameObject:
   m_ObjectHideFlags: 0
@@ -3261,6 +3241,142 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292885171879409101}
   m_CullTransparentMesh: 1
+--- !u!1 &1375132914169702354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2494085314567185889}
+  - component: {fileID: 2794113642733726320}
+  - component: {fileID: 2685285547418829086}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2494085314567185889
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375132914169702354}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6300957171725625738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.00012207031, y: -0.000061035156}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2794113642733726320
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375132914169702354}
+  m_CullTransparentMesh: 1
+--- !u!114 &2685285547418829086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375132914169702354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "Spell\n Slot\n"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 25
+  m_fontSizeBase: 25
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1410814544971333958
 GameObject:
   m_ObjectHideFlags: 0
@@ -3905,16 +4021,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   cost: 10
   PrereqNodes:
   - {fileID: 4854466042641184397}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes:
   - {fileID: 603491591359741422}
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ee49c92034fe31c4cbe2210ba198c713, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &9042799823249151524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3958,7 +4075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1758015602391190528}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5881835276453634258}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1520312890441971973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3979,22 +4108,6 @@ MonoBehaviour:
         - m_Target: {fileID: 5881835276453634258}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5881835276453634258}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4240,6 +4353,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ee49c92034fe31c4cbe2210ba198c713, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &6128697683708727433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5005,14 +5119,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes: []
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ef25dbe29c0e7924bb06ef19bdaffa25, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &1881518948407342177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5056,7 +5171,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7005439754683539214}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9218293812371466252}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6713413774812856483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5069,39 +5196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 9218293812371466252}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 9218293812371466252}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &2114383706152116336
 GameObject:
   m_ObjectHideFlags: 0
@@ -5200,6 +5295,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ef25dbe29c0e7924bb06ef19bdaffa25, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &2403823741275525607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6538,6 +6634,156 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonText: {fileID: 236767703959262410}
+--- !u!1 &2826348553198088276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6300957171725625738}
+  - component: {fileID: 240960460730162540}
+  - component: {fileID: 8568352437789895627}
+  - component: {fileID: 7442335937802476450}
+  - component: {fileID: 2213256101645872988}
+  m_Layer: 5
+  m_Name: Spell slot (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6300957171725625738
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2826348553198088276}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2494085314567185889}
+  m_Father: {fileID: 1513173952367765856}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &240960460730162540
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2826348553198088276}
+  m_CullTransparentMesh: 1
+--- !u!114 &8568352437789895627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2826348553198088276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7442335937802476450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2826348553198088276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 8568352437789895627}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2213256101645872988}
+        m_TargetAssemblyTypeName: EquippedSpellNode, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2213256101645872988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2826348553198088276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyShowingSettings: 1
+  heldSpell: {fileID: 0}
+  index: 3
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!1 &2929101427575760578
 GameObject:
   m_ObjectHideFlags: 0
@@ -6839,7 +7085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes:
   - {fileID: 9218293812371466252}
@@ -6847,8 +7093,9 @@ MonoBehaviour:
   OppositeNodes:
   - {fileID: 3451514075140001027}
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ee49c92034fe31c4cbe2210ba198c713, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &1215086863907404826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6892,7 +7139,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8332311740357668551}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8604247922459325722}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3045257384792072515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6905,39 +7164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 8604247922459325722}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 8604247922459325722}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &3323737997757712587
 GameObject:
   m_ObjectHideFlags: 0
@@ -7038,6 +7265,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 7393517deaf7d8c4c93c07c40dedbc5f, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &4066646012112000338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7356,6 +7584,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 0ff62a8bbf2e58a43bddaf934cf3f213, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &6066240405585565333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7541,6 +7770,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 0ff62a8bbf2e58a43bddaf934cf3f213, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &488918118528446815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7961,7 +8191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes:
   - {fileID: 9218293812371466252}
@@ -7969,8 +8199,9 @@ MonoBehaviour:
   OppositeNodes:
   - {fileID: 8604247922459325722}
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 7393517deaf7d8c4c93c07c40dedbc5f, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &3752086189267788850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8014,7 +8245,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3829776430467793849}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3451514075140001027}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7161434149622389776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8027,39 +8270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3451514075140001027}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3451514075140001027}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &3807469781806078658
 GameObject:
   m_ObjectHideFlags: 0
@@ -8738,6 +8949,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 7393517deaf7d8c4c93c07c40dedbc5f, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &623773325532347286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9427,16 +9639,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   cost: 10
   PrereqNodes:
   - {fileID: 460341384191610341}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes:
   - {fileID: 7825301327009489826}
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: b26501301e9c00f48b9921844a9b90d6, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &4676761586625506620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9480,7 +9693,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3933137676788464846}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5851056757309280207}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2770428674419005125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9501,22 +9726,6 @@ MonoBehaviour:
         - m_Target: {fileID: 5851056757309280207}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5851056757309280207}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -9808,9 +10017,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyShowingSettings: 0
+  currentlyShowingSettings: 1
   heldSpell: {fileID: 0}
-  index: 0
+  index: 2
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!1 &4580808158257154942
 GameObject:
   m_ObjectHideFlags: 0
@@ -9901,7 +10111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes:
   - {fileID: 1854935953558998505}
@@ -9909,8 +10119,9 @@ MonoBehaviour:
   OppositeNodes:
   - {fileID: 3477067399001468810}
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: b26501301e9c00f48b9921844a9b90d6, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &5117577751569691286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9954,7 +10165,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4176038576650504662}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5104654618089848137}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2731710362909436635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9967,39 +10190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5104654618089848137}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5104654618089848137}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &4623684795085721316
 GameObject:
   m_ObjectHideFlags: 0
@@ -11427,6 +11618,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ee49c92034fe31c4cbe2210ba198c713, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &7735185764414616132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11602,16 +11794,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   cost: 10
   PrereqNodes:
   - {fileID: 5851056757309280207}
   - {fileID: 7825301327009489826}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 413baa276507b8d4dac9eb2e0c4b8625, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &7893118851878150996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11655,7 +11848,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6627053525342883294}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8711680973917042050}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8093342894020401494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11676,22 +11881,6 @@ MonoBehaviour:
         - m_Target: {fileID: 8711680973917042050}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 8711680973917042050}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -11900,14 +12089,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   cost: 10
   PrereqNodes: []
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ef25dbe29c0e7924bb06ef19bdaffa25, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &3553760611989974480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11951,7 +12141,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 706684966981129404}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4854466042641184397}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1819226200711879587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11972,22 +12174,6 @@ MonoBehaviour:
         - m_Target: {fileID: 4854466042641184397}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4854466042641184397}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -12863,12 +13049,13 @@ RectTransform:
   - {fileID: 643172633240004198}
   - {fileID: 6755768023087262190}
   - {fileID: 5875150726630726052}
+  - {fileID: 6300957171725625738}
   m_Father: {fileID: 7093657869080204626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 103}
-  m_SizeDelta: {x: 763.131, y: 232.324}
+  m_AnchoredPosition: {x: -2.028, y: 103}
+  m_SizeDelta: {x: 918.34, y: 232.324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9035583231068201161
 MonoBehaviour:
@@ -12994,6 +13181,7 @@ MonoBehaviour:
   IsInSkillTree: 1
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: ef25dbe29c0e7924bb06ef19bdaffa25, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &6856486753501278587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13169,16 +13357,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   cost: 10
   PrereqNodes:
   - {fileID: 603491591359741422}
   - {fileID: 5881835276453634258}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 0ff62a8bbf2e58a43bddaf934cf3f213, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &1594765454636043207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13222,7 +13411,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6992290558576292506}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7991227215777647316}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2148210327552821870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13243,22 +13444,6 @@ MonoBehaviour:
         - m_Target: {fileID: 7991227215777647316}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7991227215777647316}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -13830,13 +14015,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4ec09324b7b5948adc993e4fb768b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showingSettings: 0
+  showingSettings: 1
   ExperiencePoints: 500
   FollowCursorPrefab: {fileID: 7501404921476620071, guid: e93d10a96a6232e4381a7828b831c584, type: 3}
-  titleText: {fileID: 5066923350211304343}
-  costText: {fileID: 4792792852153654058}
-  descriptionText: {fileID: 5109709493027557496}
+  titleText: {fileID: 4095668859445046354}
+  costText: {fileID: 3865691790570747986}
+  descriptionText: {fileID: 1219672050632477378}
   currentSkillPointsText: {fileID: 216393281117611123}
+  isInEquipMenu: 0
   DifferentElementSkillTreeContainers:
   - {fileID: 5945232624341778909}
   - {fileID: 1263428591001927362}
@@ -14511,7 +14697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes:
   - {fileID: 5104654618089848137}
@@ -14519,8 +14705,9 @@ MonoBehaviour:
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 413baa276507b8d4dac9eb2e0c4b8625, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &1091902746904777763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14564,7 +14751,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4314781038897945752}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5433199579695119571}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2396102516395158420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14577,39 +14776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5433199579695119571}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5433199579695119571}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []
 --- !u!1 &7086227956119295960
 GameObject:
   m_ObjectHideFlags: 0
@@ -14823,8 +14990,7 @@ MonoBehaviour:
   SpellTabs:
   - {fileID: 529874741739995732}
   - {fileID: 7907176239301783905}
-  - {fileID: 0}
-  - {fileID: 0}
+  SpellDescription: {fileID: 2741687910701845034}
   PrevNextButtons: {fileID: 4978084140825772630}
   continueButton: {fileID: 663127361478698752}
   cursorBoxPrefab: {fileID: 7501404921476620071, guid: e93d10a96a6232e4381a7828b831c584, type: 3}
@@ -15394,9 +15560,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyShowingSettings: 0
+  currentlyShowingSettings: 1
   heldSpell: {fileID: 0}
-  index: 0
+  index: 1
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!1 &7376673688478155558
 GameObject:
   m_ObjectHideFlags: 0
@@ -15806,7 +15973,6 @@ GameObject:
   - component: {fileID: 1854935953558998505}
   - component: {fileID: 5749698993303201156}
   - component: {fileID: 317093855140072718}
-  - component: {fileID: 8291105377129175433}
   m_Layer: 5
   m_Name: Node 1
   m_TagString: Untagged
@@ -15883,14 +16049,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes: []
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes: []
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: fef61a17eb15b5f41815c0fa740fef24, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &5749698993303201156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15934,53 +16101,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8905461229394732967}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1854935953558998505}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &317093855140072718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7447215650550247620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1854935953558998505}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1854935953558998505}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &8291105377129175433
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16928,16 +17062,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 2
   cost: 10
   PrereqNodes:
   - {fileID: 460341384191610341}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes:
   - {fileID: 5851056757309280207}
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 762900cadae37144d881a750308d1688, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &3452237758720318255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16981,7 +17116,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1301461612726028776}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7825301327009489826}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5510772000185245169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17002,22 +17149,6 @@ MonoBehaviour:
         - m_Target: {fileID: 7825301327009489826}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7825301327009489826}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -17460,16 +17591,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   cost: 10
   PrereqNodes:
   - {fileID: 4854466042641184397}
   RequireAllPrereqsBeforeUnlocking: 0
   OppositeNodes:
   - {fileID: 5881835276453634258}
-  IsInSkillTree: 1
+  IsInSkillTree: 0
   StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 7393517deaf7d8c4c93c07c40dedbc5f, type: 2}
+  skillTreeManager: {fileID: 1146887310283584819}
 --- !u!114 &506069873555392153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17513,7 +17645,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 649971643123021863}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 603491591359741422}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7809480722597742840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17534,22 +17678,6 @@ MonoBehaviour:
         - m_Target: {fileID: 603491591359741422}
           m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
           m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 603491591359741422}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -18140,7 +18268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   cost: 10
   PrereqNodes:
   - {fileID: 1854935953558998505}
@@ -18148,8 +18276,9 @@ MonoBehaviour:
   OppositeNodes:
   - {fileID: 5104654618089848137}
   IsInSkillTree: 1
-  StartUnlocked: 1
+  StartUnlocked: 0
   NodeRuneData: {fileID: 11400000, guid: 762900cadae37144d881a750308d1688, type: 2}
+  skillTreeManager: {fileID: 0}
 --- !u!114 &8528040430315597963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18193,7 +18322,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3051960378045366502}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3477067399001468810}
+        m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
+        m_MethodName: ClickedOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5182247933144941249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18206,36 +18347,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3477067399001468810}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: OnHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3477067399001468810}
-          m_TargetAssemblyTypeName: SkillTreeNode, Assembly-CSharp
-          m_MethodName: ClickedOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  m_Delegates: []

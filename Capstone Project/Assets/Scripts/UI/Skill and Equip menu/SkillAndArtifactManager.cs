@@ -43,6 +43,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private List<GameObject> MarkContainers;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private List<GameObject> PageContainers;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private List<GameObject> SpellTabs;
+    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField]
+    private GameObject SpellDescription;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject PrevNextButtons;
 
 
@@ -205,14 +207,26 @@ public class SkillAndArtifactManager : MonoBehaviour
         }
         
         //hide the prev and next buttons when its the skill tree
-        if (tabToShow == 0)
+        if (tabToShow == 0 || tabToShow == 1)
         {
-            PrevNextButtons.SetActive(false);
+            SpellDescription.SetActive(false);
+
+            if (tabToShow == 0)
+            {
+                PrevNextButtons.SetActive(false);
+            }
+            else
+            {
+                PrevNextButtons.SetActive(true);
+            }
         }
         else
         {
+            SpellDescription.SetActive(true);
             PrevNextButtons.SetActive(true);
         }
+
+        
 
         PageContainers[tabToShow].SetActive(true);
 

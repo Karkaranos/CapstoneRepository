@@ -47,6 +47,8 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text descriptionText;
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text currentSkillPointsText;
 
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private bool isInEquipMenu;
+
     //list of containers for each skill tree element
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private List<GameObject> DifferentElementSkillTreeContainers;
 
@@ -58,7 +60,7 @@ public class SkillTreeManager : MonoBehaviour
     public List<RuneData> unlockedRunes;
 
     //whatever runedata the player is currently holding to equip
-    [HideInInspector] public RuneData currentlySelected;
+   public RuneData currentlySelected;
 
     //holds a ref to the box it spawns when trying to equip
     private GameObject spawnedCursorFollowBox;
@@ -201,10 +203,19 @@ public class SkillTreeManager : MonoBehaviour
     /// <param name="cost"> how much the rune costs to purchase, -1 if already owned </param>
     public void UpdateSpellDescriptionText(SkillTreeNode dataToDisplay, int cost)
     {
+        
         //shows cost if it has one
         if (cost > 0)
         {
-            costText.text = cost + " EXP";
+            if (isInEquipMenu)
+            {
+                costText.text = "Unowned";
+            }
+            else
+            {
+                costText.text = cost + " EXP";
+            }
+                
         }
         else
         {
