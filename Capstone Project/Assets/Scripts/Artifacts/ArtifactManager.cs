@@ -11,7 +11,6 @@ using UnityEngine;
 public class ArtifactManager
 {
     #region Variables
-    [SerializeField] private bool inTestMode;
 
     #region Artifacts
     // Stores all currently applied Artifacts
@@ -32,12 +31,12 @@ public class ArtifactManager
 
     #endregion Artifacts
 
-    #region Stamps
+    #region Marks
     private static Dictionary<MarkType, int> markCount = new Dictionary<MarkType, int>();
     private static List<ArtifactData> triggerOnAttack = new List<ArtifactData>();
     private static List<ArtifactData> counters = new List<ArtifactData>();
 
-    #endregion Stamps
+    #endregion Marks
 
     private static PlayerStats player;
     private static GameManager gameManager;
@@ -55,7 +54,7 @@ public class ArtifactManager
     /// <param name="maxArtifact">Maximum Number of Artifacts</param>
     /// <param name="testing">True if testing functionality</param>
     /// <param name="testInfo">Data for testing. Please have a minimum length of 4</param>
-    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, GameManager gm, bool testing = false, ArtifactData[] testInfo = null)
+    public ArtifactManager(ArtifactData[] rap, ArtifactData[] sap, int maxArtifact, GameManager gm, bool ApplyArtifactsOnCreate = false, ArtifactData[] testInfo = null)
     {
         randomArtifactPool = rap;
         setArtifactPool = sap;
@@ -73,7 +72,7 @@ public class ArtifactManager
             }
         }
 
-        if (testing)
+        if (ApplyArtifactsOnCreate)
         {
             testData = testInfo;
             foreach (ArtifactData d in testInfo)
@@ -120,14 +119,6 @@ public class ArtifactManager
         {
             ObtainArtifact(d);
         }
-        //ApplyArtifact(testData[0]);
-        //ApplyArtifact(testData[1]);
-        //ApplyArtifact(testData[2]);
-        //RemoveArtifact(testData[1]);
-        if (testData[0].TriggerCondition == ArtifactTriggerCondition.OnAttack)
-        {
-            //PlayerAttack(1);
-        }
     }
 
     #endregion
@@ -169,7 +160,6 @@ public class ArtifactManager
     public static void ObtainArtifact(ArtifactData artifact)
     {
         InventoryArtifacts.Add(artifact);
-        Logger.Log("Added " + artifact.Name + " to inventory");
     }
 
     /// <summary>
@@ -179,7 +169,6 @@ public class ArtifactManager
     public static void RemoveArtifactFromInventory(ArtifactData artifact)
     {
         InventoryArtifacts.Remove(artifact);
-        Logger.Log("Removed " + artifact.Name + " from inventory");
     }
 
     /// <summary>
@@ -205,7 +194,7 @@ public class ArtifactManager
             }
             InventoryArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, true);
-            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], true);
+            MarkManager.EquipValueChanged(true, artifact.Mark);
             CurrentArtifactWeight += artifact.ArtifactSize;
 
             return true;
@@ -238,7 +227,7 @@ public class ArtifactManager
             }
             CurrentArtifacts.Remove(artifact);
             UpdateDictionary(artifact.Mark, false);
-            MarkManager.EquipValueChanged(artifact.Mark, markCount[artifact.Mark], false);
+            MarkManager.EquipValueChanged(false, artifact.Mark);
             CurrentArtifactWeight -= artifact.ArtifactSize;
         }
         else
@@ -309,6 +298,8 @@ public class ArtifactManager
             EffectHandling(adding, e);
         }
 
+        MarkManager.EquipValueChanged(adding, artifact.Mark);
+
 
     }
 
@@ -366,18 +357,22 @@ public class ArtifactManager
             case Effects.WindAttackMultiplier:
                 AdjustValueGeometrically(ref player.WindAttackMultiplier, e.StatChangeAmount, adding);
                 break;
+            case Effects.FireAttackMultiplier:
+                AdjustValueGeometrically(ref player.FireAttackMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.WaterAttackMultiplier:
+                AdjustValueGeometrically(ref player.WaterAttackMultiplier, e.StatChangeAmount, adding);
+                break;
             case Effects.ActionPointChange:
                 AdjustValueArithmetically(ref gameManager.ActionPointsPerTurn, (int)e.StatChangeAmount, adding);
                 break;
             case Effects.ResistanceMultiplier:
-                AdjustValueAOrG(ref player.Resistance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.Resistance, e.StatChangeAmount, adding);
                 break;
             case Effects.TotalDamageTakenMultiplier:
                 AdjustValueGeometrically(ref player.DamageTakenMultiplier, e.StatChangeAmount, adding);
                 break;
-            // Special case to adjust the player's health (may be cut/unneeded)
-            // Saves the current health percent and sets the updated health value to it
-            case Effects.HealthChange:
+            case Effects.MaxHealthChange:
                 float healthPercent = player.CurrentHealth / player.MaxHealth;
                 AdjustValueArithmetically(ref player.MaxHealth, (int)e.StatChangeAmount, adding);
                 player.CurrentHealth = (int)(player.MaxHealth * healthPercent);
@@ -386,8 +381,8 @@ public class ArtifactManager
                     player.CurrentHealth = player.MaxHealth;
                 }
                 break;
-            case Effects.SpellSlotsChange:
-                Logger.Warning("Implement Spell Slot Change later");
+            case Effects.HealingBuffModifier:
+                AdjustValueGeometrically(ref player.HealBuffModifier, e.StatChangeAmount, adding);
                 break;
             case Effects.RangedDamageTakenMultiplier:
                 AdjustValueGeometrically(ref player.RangedDamageTakenMultiplier, e.StatChangeAmount, adding);
@@ -396,22 +391,34 @@ public class ArtifactManager
                 AdjustValueGeometrically(ref player.MeleeDamageTakenMultiplier, e.StatChangeAmount, adding);
                 break;
             case Effects.Dodge:
-                AdjustValueAOrG(ref player.DodgeChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.DodgeChance, e.StatChangeAmount, adding);
                 break;
             case Effects.Vampiric:
                 player.Heal((int)(damageDealt * e.StatChangeAmount));
                 break;
+            case Effects.Thorns:
+                AdjustValueArithmetically(ref player.Thorns, e.StatChangeAmount, adding);
+                break;
             case Effects.ChanceToAvoidUsingPoints:
-                AdjustValueAOrG(ref player.NoActionPointCostChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.NoActionPointCostChance, e.StatChangeAmount, adding);
                 break;
             case Effects.Instakill:
-                AdjustValueAOrG(ref player.InstaKillChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.InstaKillChance, e.StatChangeAmount, adding);
                 break;
             case Effects.Luck:
-                AdjustValueAOrG(ref player.LuckModifier, e.StatChangeAmount, adding);
+                AdjustValueGeometrically(ref player.LuckModifier, e.StatChangeAmount, adding);
                 break;
             case Effects.Miss:
-                AdjustValueAOrG(ref player.MissChance, e.StatChangeAmount, adding);
+                AdjustValueArithmetically(ref player.MissChance, e.StatChangeAmount, adding);
+                break;
+            case Effects.FirstSpellMultiplier:
+                AdjustValueGeometrically(ref player.FirstSpellMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.SecondSpellMultiplier:
+                AdjustValueGeometrically(ref player.SecondSpellMultiplier, e.StatChangeAmount, adding);
+                break;
+            case Effects.Tier1Multiplier:
+                AdjustValueGeometrically(ref player.Tier1AttackMultiplier, e.StatChangeAmount, adding);
                 break;
             default:
                 break;
@@ -425,7 +432,8 @@ public class ArtifactManager
     /// <param name="adding">Whether the artifact is being added or removed</param>
     private static void UpdateDictionary(MarkType key, bool adding)
     {
-        markCount[key] = markCount[key] + (adding ? 1 : -1);
+        markCount[key] = (markCount[key] + (adding ? 1 : -1));
+        MarkManager.UpdateDictionary(key, markCount[key]);
     }
 
 #endregion 
