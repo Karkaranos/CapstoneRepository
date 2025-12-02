@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/19/2025
-Date Last Modified : 	11/19/2025
+Date Last Modified : 	12/2/2025
 Brief Description : 		Ranged enemy move state
 External Resources : 	
 ***************************************************/
@@ -26,6 +26,9 @@ public class RangedEnemyMoveState : RangedEnemyState
          * Move Coroutine 
          * await delay 
          */
+
+        enemy.targetingBehaviour.FindTarget();
+        enemy.gridPathfinding.StartMoveCoroutine();
 
         await Task.Delay(enemy.moveStateDelay * 1000);
 
