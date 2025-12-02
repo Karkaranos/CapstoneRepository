@@ -1115,6 +1115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showingButtons: 1
   playerBehavior: {fileID: 0}
+  cameraManager: {fileID: 0}
   playerCanvas: {fileID: 3548725075395775476}
   moveCanvas: {fileID: 8568057864567402874}
   confirmCanvas: {fileID: 7839686297036010577}
@@ -1845,6 +1846,18 @@ PrefabInstance:
     - target: {fileID: 2302910898324402848, guid: dbbfbd03bc7554949bbbdd8cf4245d93, type: 3}
       propertyPath: m_Name
       value: End Level Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3766556125485492651, guid: dbbfbd03bc7554949bbbdd8cf4245d93, type: 3}
+      propertyPath: m_Name
+      value: Return to Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210144003082764647, guid: dbbfbd03bc7554949bbbdd8cf4245d93, type: 3}
+      propertyPath: m_text
+      value: Return to Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8361032833377233291, guid: dbbfbd03bc7554949bbbdd8cf4245d93, type: 3}
+      propertyPath: m_Alpha
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9179116193702813243, guid: dbbfbd03bc7554949bbbdd8cf4245d93, type: 3}
       propertyPath: m_Pivot.x
