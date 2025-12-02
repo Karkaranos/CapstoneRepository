@@ -6,9 +6,11 @@ Brief Description : Manages the inventory artifact buttons
 External Resources : 	
 	***************************************************/
 
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InventoryButton : MonoBehaviour, IPointerEnterHandler
 {
@@ -22,6 +24,7 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     private ArtifactMenuManager AMM;
     [SerializeField] private TMP_Text buttonTxt;
     private SkillAndArtifactManager skillArtMan;
+    private Button button;
 
     #region GETTERS AND SETTERS
 
@@ -46,6 +49,16 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     #endregion
     #endregion VARS
 
+    private void OnEnable()
+    {
+        PublicEvents.TrashHeldOOCObject += UpdateStatus;
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.TrashHeldOOCObject -= UpdateStatus;
+    }
+
     /// <summary>
     /// initializes the variables
     /// </summary>
@@ -64,6 +77,7 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
         if (AMM.heldArtifact != data && !ArtifactManager.CurrentArtifacts.Contains(data))
         {
             AMM.ArtifactPickedUp(data);
+            button.interactable = false;
         }
         
     }
@@ -75,5 +89,19 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         AMM.ButtonHovered(data);
+    }
+
+    private void UpdateStatus()
+    {
+        StartCoroutine(delayedUpdateStatus());
+    }
+
+    private IEnumerator delayedUpdateStatus()
+    {
+        yield return null; 
+        if (!button.interactable && ArtifactManager.InventoryArtifacts.Contains(data))
+        {
+            button.interactable = true;
+        }
     }
 }
