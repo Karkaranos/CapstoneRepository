@@ -58,7 +58,17 @@
 			<destination>{626115c2-44de-49fb-b311-01f89554ac9e}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{9a0a86e4-a53b-4386-ac9d-e9e873ac989c}" />
+	<object class="EventAutomatableProperties" id="{9a0a86e4-a53b-4386-ac9d-e9e873ac989c}">
+		<property name="dopplerEnabled">
+			<value>true</value>
+		</property>
+		<property name="dopplerScale">
+			<value>92</value>
+		</property>
+		<property name="maximumDistance">
+			<value>10</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{810b64c5-e5bb-450a-9ae5-07981ac6a00e}" />
 	<object class="GroupTrack" id="{8fc2b664-8f40-43f5-ab04-dc56c371b57e}">
 		<relationship name="modules">
@@ -99,6 +109,12 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{39299b4b-8fc3-4b45-b2cc-3412cc9079bc}">
+		<property name="volume">
+			<value>1</value>
+		</property>
+		<property name="pitch">
+			<value>0.699999988</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{578f43a2-48f1-4c94-9527-f51dddc3e575}</destination>
 		</relationship>
@@ -383,18 +399,21 @@
 			<value>0.680000007</value>
 		</property>
 		<property name="delay">
-			<value>0.189999998</value>
-		</property>
-		<property name="mix">
-			<value>62</value>
+			<value>0.269999981</value>
 		</property>
 	</object>
 	<object class="SFXReverbEffect" id="{0f7f186a-183c-4ea6-99ca-7ad7d102bb8d}">
 		<property name="decayTime">
-			<value>3400</value>
+			<value>2500</value>
 		</property>
 		<property name="HFDecayRatio">
-			<value>66.5</value>
+			<value>52.5</value>
+		</property>
+		<property name="diffusion">
+			<value>75</value>
+		</property>
+		<property name="density">
+			<value>71</value>
 		</property>
 		<property name="wetLevel">
 			<value>3</value>

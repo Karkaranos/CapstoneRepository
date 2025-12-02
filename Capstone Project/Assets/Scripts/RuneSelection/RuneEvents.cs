@@ -8,6 +8,7 @@ External Resources :
 
 using System.Collections.Generic;
 using System.Linq;
+using FMOD.Studio;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
@@ -552,6 +553,7 @@ public class RuneEvents : MonoBehaviour
 
                     AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                     AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
+                    
 
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
@@ -962,8 +964,10 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(enemy);
 
-                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
+                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
+                    AudioManager.instance.CreateEventInstance(windSpellSFX_1);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
                     enemy.SendEnemyBackwards
                                     (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile);
 

@@ -101,6 +101,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{6db4cb16-e7b8-4a72-b694-0ba9fe87c0e7}">
+		<property name="volume">
+			<value>8</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{f2bba4cc-216d-48a7-a5b7-6972e29ead3e}</destination>
 		</relationship>
@@ -298,6 +301,7 @@
 	</object>
 	<object class="MixerBusEffectChain" id="{f2bba4cc-216d-48a7-a5b7-6972e29ead3e}">
 		<relationship name="effects">
+			<destination>{6bbc6994-2030-407c-87e0-299c7d80c848}</destination>
 			<destination>{b0adb4a1-9d9d-4750-b2c1-d52c14b18535}</destination>
 			<destination>{3255cbc7-b29c-4e90-a0c0-0c83d9deaed9}</destination>
 			<destination>{e078dfca-d962-4545-8316-242fe6a764ca}</destination>
@@ -418,25 +422,48 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{2982843f-f2a1-4262-8f20-ce783ace5d01}" />
+	<object class="FlangerEffect" id="{6bbc6994-2030-407c-87e0-299c7d80c848}">
+		<property name="rate">
+			<value>0.539999962</value>
+		</property>
+		<property name="delay">
+			<value>0.25999999</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{b0adb4a1-9d9d-4750-b2c1-d52c14b18535}" />
 	<object class="SpatialiserEffect" id="{3255cbc7-b29c-4e90-a0c0-0c83d9deaed9}" />
 	<object class="FlangerEffect" id="{e078dfca-d962-4545-8316-242fe6a764ca}">
 		<property name="rate">
-			<value>0.680000007</value>
+			<value>0.0749999955</value>
 		</property>
 		<property name="delay">
-			<value>0.189999998</value>
+			<value>0.185000002</value>
 		</property>
 		<property name="mix">
-			<value>62</value>
+			<value>23</value>
 		</property>
 	</object>
 	<object class="SFXReverbEffect" id="{ddbf265d-6b1d-41d9-aa8c-7e152e4a18ca}">
 		<property name="decayTime">
-			<value>3400</value>
+			<value>4000</value>
+		</property>
+		<property name="earlyDelay">
+			<value>2</value>
+		</property>
+		<property name="lateDelay">
+			<value>10</value>
+		</property>
+		<property name="HFReference">
+			<value>2700</value>
 		</property>
 		<property name="HFDecayRatio">
-			<value>66.5</value>
+			<value>83.5</value>
+		</property>
+		<property name="diffusion">
+			<value>58</value>
+		</property>
+		<property name="density">
+			<value>64</value>
 		</property>
 		<property name="wetLevel">
 			<value>3</value>
