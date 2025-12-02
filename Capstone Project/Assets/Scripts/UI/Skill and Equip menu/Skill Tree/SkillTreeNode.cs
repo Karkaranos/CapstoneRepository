@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		09/28/2025
-Date Last Modified : 10/06/2025
+Date Last Modified : 11/24/2025
 Brief Description : This manages the individual nodes
                     on the skill tree.
 External Resources : 	
@@ -41,24 +41,27 @@ public class SkillTreeNode : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
 
     //how much the node costs to purchase
-    [SerializeField, ShowIf(nameof(currentSettings), Settings.NodeSettings), Tooltip("How much the node costs to purchase")] 
+    [SerializeField, ShowIf(nameof(currentSettings), Settings.NodeSettings), Tooltip("How much the node costs to purchase")]
     private int cost;
-    
+
     //the list of nodes that are required before this node unlocks. 
     [ShowIf(nameof(currentSettings), Settings.NodeSettings), SerializeField, Tooltip("This is the list of nodes that are required before" +
-        " this node unlocks. If its empty, it will be unlocked when the skill tree is initialized.")] 
+        " this node unlocks. If its empty, it will be unlocked when the skill tree is initialized.")]
     private List<SkillTreeNode> PrereqNodes;
-    
+
     //This toggles whether this node requires all prereqs before unlocking or just one prereq before unlocking.
     [ShowIf(nameof(currentSettings), Settings.NodeSettings), SerializeField, Tooltip("This toggles whether this node requires all prereqs" +
-        " before unlocking or just one prereq before unlocking.")] 
+        " before unlocking or just one prereq before unlocking.")]
     private bool RequireAllPrereqsBeforeUnlocking;
 
     //This is the list of nodes that become permanantly locked when this node is purchased.
     [ShowIf(nameof(currentSettings), Settings.NodeSettings), SerializeField, Tooltip("This is the list of nodes that" +
-        " become permanantly locked when this node is purchased.")] 
+        " become permanantly locked when this node is purchased.")]
     private List<SkillTreeNode> OppositeNodes;
 
+    [ShowIf(nameof(currentSettings), Settings.NodeSettings), SerializeField] private bool IsInSkillTree;
+
+    [ShowIf(nameof(currentSettings), Settings.NodeSettings), SerializeField] private bool StartUnlocked;
 
     #endregion
 
@@ -66,7 +69,7 @@ public class SkillTreeNode : MonoBehaviour
 
     [HorizontalLine(4, EColor.Indigo)]
     //Holds the rune that gets unlocked when the node is purchased
-    [ShowIf(nameof(currentSettings), Settings.SkillSettings), Expandable, 
+    [ShowIf(nameof(currentSettings), Settings.SkillSettings), Expandable,
         Tooltip("This is the rune that the player unlocks when purchasing this node")]
     public RuneData NodeRuneData;
 
@@ -97,7 +100,7 @@ public class SkillTreeNode : MonoBehaviour
     private bool isPermaLocked;
 
     //A reference to the skill tree manager in the scene
-    private SkillTreeManager skillTreeManager;
+    [SerializeField, ShowIf(nameof(currentSettings), Settings.Refrences)] private SkillTreeManager skillTreeManager;
 
     //A Reference to the artifactandskilltree manager in the scene
     private SkillAndArtifactManager skillAndArtifactManager;
@@ -114,8 +117,21 @@ public class SkillTreeNode : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        //skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
         button = GetComponent<Button>();
-        isPermaLocked = false; 
+        isPermaLocked = false;
+
+        if (StartUnlocked)
+        {
+            Status = NodeStatus.Purchased;
+            //button.interactable = false;
+            GetComponent<Image>().color = Color.green;
+            //Debug.Log("Node Purchased");
+
+            //updates the skill tree manager with the rune that got purchased
+            skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
+        }
     }
 
     /// <summary>
@@ -125,6 +141,11 @@ public class SkillTreeNode : MonoBehaviour
     {
         PublicEvents.SkillTreeNodePurchased += AnySkillTreeNodePurchased;
         PublicEvents.TrashHeldOOCObject += TurnNodeBackOnMaybe;
+
+        if (!IsInSkillTree && status != NodeStatus.Purchased)
+        {
+            UpdateNodeStatus();
+        }
     }
 
     /// <summary>
@@ -145,15 +166,19 @@ public class SkillTreeNode : MonoBehaviour
         skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
         skillAndArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
 
-        //starts locked/unlocked depending on if it has any prereqs
-        if (PrereqNodes.Count > 0)
+        if (IsInSkillTree)
         {
-            LockNode();
+            //starts locked/unlocked depending on if it has any prereqs
+            if (PrereqNodes.Count > 0)
+            {
+                LockNode();
+            }
+            else
+            {
+                UnlockNode();
+            }
         }
-        else
-        {
-            UnlockNode();
-        }
+
 
     }
 
@@ -162,13 +187,38 @@ public class SkillTreeNode : MonoBehaviour
     #region NODE STATUS FUNCS
 
     /// <summary>
+    /// Updates the status of the nodes in the character menu
+    /// </summary>
+    private void UpdateNodeStatus()
+    {
+        if (skillAndArtifactManager.UnlockedRunes.Contains(NodeRuneData))
+        {
+            if (!skillAndArtifactManager.equippedSpells.Contains(NodeRuneData))
+            {
+                Status = NodeStatus.Purchased;
+                button.interactable = true;
+                GetComponent<Image>().color = Color.green;
+            }
+            
+        }
+        else
+        {
+            LockNode();
+        }
+    }
+
+    /// <summary>
     /// This locks the node, making it uninteractable for now
     /// </summary>
     private void LockNode()
     {
         Status = NodeStatus.Locked;
         button.interactable = false;
-        GetComponent<Image>().color = Color.gray;
+        if (IsInSkillTree)
+        {
+            GetComponent<Image>().color = Color.gray;
+        }
+        
         //Debug.Log("Node Locked");
     }
 
@@ -188,38 +238,42 @@ public class SkillTreeNode : MonoBehaviour
     /// </summary>
     public void PurchaseNode()
     {
-        //Checks with the skill tree manager to see if it can be purchased
-        if (skillTreeManager.CanPurchaseNode(cost))
+        if (!skillAndArtifactManager.UnlockedRunes.Contains(NodeRuneData))
         {
-            Status = NodeStatus.Purchased;
-            //button.interactable = false;
-            GetComponent<Image>().color = Color.green;
-            //Debug.Log("Node Purchased");
-
-            //updates the skill tree manager with the rune that got purchased
-            skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
-
-            //updates the description with this node, but shows that you own it
-            //instead of showing the cost
-            //skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
-
-            //If it has any opposite nodes, it permanantly locks them
-            if (OppositeNodes.Count > 0)
+            //Checks with the skill tree manager to see if it can be purchased
+            if (skillTreeManager.CanPurchaseNode(cost))
             {
-                foreach (SkillTreeNode node in OppositeNodes)
-                {
-                    node.PermanantlyLockNode();
-                }
-            }
+                Status = NodeStatus.Purchased;
+                //button.interactable = false;
+                GetComponent<Image>().color = Color.green;
+                //Debug.Log("Node Purchased");
 
-            //Tells all other nodes that a node was purchased
-            PublicEvents.SkillTreeNodePurchased();
-        }
-        else
-        {
-            //Debug.Log("Too Few SkillPoints to Purchase Node");
+                //updates the skill tree manager with the rune that got purchased
+                skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
+
+                //updates the description with this node, but shows that you own it
+                //instead of showing the cost
+                //skillTreeManager.UpdateSpellDescriptionText(NodeRuneData, -1);
+
+                //If it has any opposite nodes, it permanantly locks them
+                if (OppositeNodes.Count > 0)
+                {
+                    foreach (SkillTreeNode node in OppositeNodes)
+                    {
+                        node.PermanantlyLockNode();
+                    }
+                }
+
+                //Tells all other nodes that a node was purchased
+                PublicEvents.SkillTreeNodePurchased();
+            }
+            else
+            {
+                //Debug.Log("Too Few SkillPoints to Purchase Node");
+            }
         }
         
+
     }
 
     /// <summary>
@@ -240,7 +294,7 @@ public class SkillTreeNode : MonoBehaviour
     private void AnySkillTreeNodePurchased()
     {
         //checks to see if its currently locked and is not permalocked
-        if (status == NodeStatus.Locked && !isPermaLocked)
+        if (status == NodeStatus.Locked && !isPermaLocked && IsInSkillTree)
         {
             //checks the prereqs
             foreach (SkillTreeNode node in PrereqNodes)
@@ -289,12 +343,21 @@ public class SkillTreeNode : MonoBehaviour
                 Debug.Log("Clicked on a locked node - check logic to make sure button is uninteractable here");
                 break;
             case NodeStatus.Unlocked:
-               // OnHover();
-                PurchaseNode();
+                if (IsInSkillTree)
+                {
+                    OnHover();
+                }
+                // PurchaseNode();
                 break;
             case NodeStatus.Purchased:
-                //temporarily being left uncommented
-                SelectNodeWhilePurchased();
+                if (IsInSkillTree)
+                {
+                    OnHover();
+                }
+                else
+                {
+                    SelectNodeWhilePurchased();
+                }                    
                 break;
             default:
                 Debug.Log("Tyler update the fucking switch statement in clickedon() in skilltreenode - missing cases");
