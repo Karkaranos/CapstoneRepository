@@ -729,7 +729,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.63, z: 0}
 --- !u!114 &658231946167928873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,9 +808,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3914d3dac6013f7458ee70ac48a4ecd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doesNotBlockLOS:
+    serializedVersion: 2
+    m_Bits: 0
   behaviours: 0
   targetLocations: []
-  attackRange: 0
   moveToAttackRange: 0
 --- !u!54 &2465258453013156434
 Rigidbody:
