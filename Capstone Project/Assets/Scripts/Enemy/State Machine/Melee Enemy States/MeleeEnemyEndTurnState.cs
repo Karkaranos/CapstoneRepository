@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/19/2025
-Date Last Modified : 	10/19/2025
+Date Last Modified : 	12/2/2025
 Brief Description : 		End state for Melee Enemy
 External Resources : 	
 ***************************************************/
