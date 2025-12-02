@@ -16,7 +16,7 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     //not enough vars in the inspector to justify having the naughtyattributes stuff
 
     //the data in this button
-    private ArtifactData data;
+    [SerializeField] private ArtifactData data;
 
     //refs to objects in scene
     private ArtifactMenuManager AMM;
