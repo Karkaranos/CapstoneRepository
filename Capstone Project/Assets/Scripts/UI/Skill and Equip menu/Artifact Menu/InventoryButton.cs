@@ -49,11 +49,17 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     #endregion
     #endregion VARS
 
+    /// <summary>
+    /// subscribes to public events
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.TrashHeldOOCObject += UpdateStatus;
     }
 
+    /// <summary>
+    /// unsubscribes from public events
+    /// </summary>
     private void OnDisable()
     {
         PublicEvents.TrashHeldOOCObject -= UpdateStatus;
@@ -91,11 +97,19 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
         AMM.ButtonHovered(data);
     }
 
+
+    /// <summary>
+    /// Turns on and off the button when an object is dropped
+    /// </summary>
     private void UpdateStatus()
     {
         StartCoroutine(delayedUpdateStatus());
     }
 
+    /// <summary>
+    /// Turns on the button again but after a frame
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator delayedUpdateStatus()
     {
         yield return null; 
