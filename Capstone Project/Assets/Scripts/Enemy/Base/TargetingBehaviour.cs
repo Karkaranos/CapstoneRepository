@@ -109,7 +109,7 @@ public class TargetingBehaviour : MonoBehaviour
             }
             foreach(Vector2Int v in adTiles)
             {
-                if (v != playerPos)
+                if (v != playerPos && !targetLocations.Contains(v))
                 {
                     //Can remove the else and have line 108 be outside the if statement, just written this way for testing purposes
                     if (i > GetComponent<RangedEnemy>().minimumAttackDistance && HasLineOfSight(v))
