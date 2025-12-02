@@ -49,6 +49,12 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     #endregion
     #endregion VARS
 
+    private void Start()
+    {
+        InsVars();
+    }
+
+
     /// <summary>
     /// subscribes to public events
     /// </summary>
@@ -73,6 +79,7 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
         AMM = FindFirstObjectByType<ArtifactMenuManager>();
         skillArtMan = FindFirstObjectByType<SkillAndArtifactManager>();
         buttonTxt.text = data.Name;
+        button = GetComponent<Button>();
     }
 
     /// <summary>
