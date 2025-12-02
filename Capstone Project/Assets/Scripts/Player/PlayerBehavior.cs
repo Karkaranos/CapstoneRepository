@@ -14,6 +14,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Unity.Cinemachine;
 
 public class PlayerBehavior : GridPathfinding
 {
