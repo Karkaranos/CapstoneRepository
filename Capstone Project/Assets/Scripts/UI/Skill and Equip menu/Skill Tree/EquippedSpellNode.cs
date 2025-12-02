@@ -9,6 +9,7 @@ External Resources :
 	***************************************************/
 
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,13 +45,17 @@ public class EquippedSpellNode : MonoBehaviour
     [SerializeField, ShowIf(nameof(currentlyShowingSettings), Settings.References)] 
     private int index;
 
+    [SerializeField, ShowIf(nameof(currentlyShowingSettings), Settings.References)] private TMP_Text buttonText;
+
+    [SerializeField, ShowIf(nameof(currentlyShowingSettings), Settings.References)] private Color EquippedColor;
+
     #endregion
 
     #region NONINSPECTOR
 
     //refs to needed managers in scene
     private SkillAndArtifactManager skillAndEquipManager;
-    private SkillTreeManager skillTreeManager;
+    [SerializeField] private SkillTreeManager skillTreeManager;
 
     #endregion
     #endregion
@@ -62,14 +67,14 @@ public class EquippedSpellNode : MonoBehaviour
     {
         //finds the managers
         skillAndEquipManager = FindFirstObjectByType<SkillAndArtifactManager>();
-        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        //skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
 
         //populates this node with the equipped spell at this node's index
         //in the master list of spells
         if (skillAndEquipManager.equippedSpells[index] != null)
         {
             heldSpell = skillAndEquipManager.equippedSpells[index];
-            GetComponent<Image>().color = Color.green;
+            GetComponent<Image>().color = EquippedColor;
         }
     }
 
@@ -90,6 +95,7 @@ public class EquippedSpellNode : MonoBehaviour
                 heldSpell = null;
                 skillAndEquipManager.SetIndexOfEquippedSpells(index, null);
                 GetComponent<Image>().color = Color.white;
+                buttonText.text = "Spell Slot";
             }
             else
             {
@@ -105,7 +111,8 @@ public class EquippedSpellNode : MonoBehaviour
                 skillTreeManager.SelectNode(heldSpell);
                 heldSpell = temp;
                 skillAndEquipManager.SetIndexOfEquippedSpells(index, heldSpell);
-                GetComponent<Image>().color = Color.green;
+                GetComponent<Image>().color = EquippedColor;
+                buttonText.text = heldSpell.RuneName;
             }
             else
             {
@@ -113,7 +120,8 @@ public class EquippedSpellNode : MonoBehaviour
                 heldSpell = skillTreeManager.currentlySelected;
                 skillAndEquipManager.SetIndexOfEquippedSpells(index, heldSpell);
                 skillTreeManager.ConfirmEquipSpell();
-                GetComponent<Image>().color = Color.green;
+                GetComponent<Image>().color = EquippedColor;
+                buttonText.text = heldSpell.RuneName;
             }
             
         }

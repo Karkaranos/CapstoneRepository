@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		10/28/2025
-Date Last Modified : 11/02/2025
+Date Last Modified : 11/24/2025
 Brief Description : Manages the artifact equipping menu
 External Resources : 	
 	***************************************************/
@@ -32,6 +32,7 @@ public class ArtifactMenuManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(ShownSettings), Settings.Refs)] private GameObject scrollBarContainer;
     [SerializeField, ShowIf(nameof(ShownSettings), Settings.Refs)] private GameObject InventoryButtonPrefab;
     [SerializeField, ShowIf(nameof(ShownSettings), Settings.Refs)] private List<EquippedArtifactButton> artifactEquippedSlotButtons;
+    [SerializeField, ShowIf(nameof(ShownSettings), Settings.Refs)] private TMP_Text CostText;
 
     #endregion
 
@@ -45,7 +46,7 @@ public class ArtifactMenuManager : MonoBehaviour
     #endregion
 
     //currently held artifact
-    private ArtifactData heldArtifact;
+    public ArtifactData heldArtifact;
 
     //list of all the buttons for the inventory
     private List<InventoryButton> inventoryButtons = new List<InventoryButton>();
@@ -61,7 +62,7 @@ public class ArtifactMenuManager : MonoBehaviour
     void Start()
     {
         skillArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
-        StartCoroutine(DelayedPopulate());
+        //StartCoroutine(DelayedPopulate());
     }
 
     /// <summary>
@@ -104,7 +105,7 @@ public class ArtifactMenuManager : MonoBehaviour
                 buttonPressed.SetArtifactData(null);
 
                 //update what buttons are showing
-                UpdateNumberOfEquippedButtons();
+                UpdateCostFeedback();
 
                 //spawns the box to show youre holding smthn
                 skillArtifactManager.SpawnCursorBox();
@@ -127,7 +128,7 @@ public class ArtifactMenuManager : MonoBehaviour
                         buttonPressed.SetArtifactData(heldArtifact);
 
                         //updates the shown equipped buttons
-                        UpdateNumberOfEquippedButtons();
+                        UpdateCostFeedback();
 
                         //holds the temp data
                         heldArtifact = temp;
@@ -149,7 +150,7 @@ public class ArtifactMenuManager : MonoBehaviour
                         buttonPressed.SetArtifactData(heldArtifact);
 
                         //updates the number of shown buttons
-                        UpdateNumberOfEquippedButtons();
+                        UpdateCostFeedback();
 
                         //stops holding the artifact
                         heldArtifact = null;
@@ -182,7 +183,7 @@ public class ArtifactMenuManager : MonoBehaviour
         ArtifactManager.RemoveArtifactFromInventory(data);
 
         //update the showing inventory buttons
-        UpdateInventoryGameObjects();
+        //UpdateInventoryGameObjects();
 
         //spawn the box
         skillArtifactManager.SpawnCursorBox();
@@ -288,22 +289,30 @@ public class ArtifactMenuManager : MonoBehaviour
     private void ArtifactDropped()
     {
         //adds the artifact to the inventory
-        ArtifactManager.ObtainArtifact(heldArtifact);
+        if (heldArtifact != null)
+        {
+            ArtifactManager.ObtainArtifact(heldArtifact);
 
-        //deletes the object
-        heldArtifact = null;
+            //deletes the object
+            heldArtifact = null;
+        }
+        
         skillArtifactManager.DeleteCursorBox();
 
         //updates the inventory
-        UpdateInventoryGameObjects();
+        //UpdateInventoryGameObjects();
     }
 
     /// <summary>
     /// Updates all the equipped buttons to show/hide
     /// </summary>
-    private void UpdateNumberOfEquippedButtons()
+    private void UpdateCostFeedback()
     {
-        //all the buttons that have stuff in them
+        CostText.text = "Equipped Artifacts: " + ArtifactManager.CurrentArtifactWeight + " / " + ArtifactManager.MaxArtifactWeight;
+
+
+
+        /*//all the buttons that have stuff in them
         int currentlyEquippedButtons = 0;
         foreach (EquippedArtifactButton button in artifactEquippedSlotButtons)
         {
@@ -343,7 +352,10 @@ public class ArtifactMenuManager : MonoBehaviour
             {
                 button.gameObject.SetActive(true);
             }
-        }
+        }*/
+
+
+
     }
 
     #endregion
