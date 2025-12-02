@@ -729,7 +729,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.66, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3309745930933566544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,9 +772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3914d3dac6013f7458ee70ac48a4ecd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doesNotBlockLOS:
-    serializedVersion: 2
-    m_Bits: 64
   behaviours: 0
   targetLocations: []
   moveToAttackRange: 0
@@ -819,12 +816,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSettings: 1
   healthBarSlider: {fileID: 8534701960708135817}
-  maxHealth: 50
+  maxHealth: 60
   lowHealthPercentage: 0.2
   currentHealth: 5
   aggroRange: 15
   attackRange: 2
-  damage: 45
+  damage: 20
   artifactDropChance: 0.5
   turnIndicator: {fileID: 2005261083708311509}
   playerStats: {fileID: 0}
@@ -837,11 +834,11 @@ MonoBehaviour:
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
   secondsBetweenStateTransitions: 4
-  minimumAttackDistance: 0
-  maxAttackDistance: 10
+  minimumAttackDistance: 2
+  maxAttackDistance: 6
   canAttackTwice: 0
   playerInAttackRange: 0
-  playerInLineOfSight: 0
+  playerInLineOfSight: 1
   moveStateDelay: 4
   hasMovedForTurn: 0
   hasAttackedTwice: 0
