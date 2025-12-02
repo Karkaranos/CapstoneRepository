@@ -100,7 +100,28 @@ public class RuneEvents : MonoBehaviour
 
     //Event reference for sound
     [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
-    private EventReference lightningSpellCastedSFX;
+    private EventReference lightningSpellSFX_1;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellSFX_2;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellSFX_3;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellSFX_4;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_1;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_2;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_3;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_4;
 
     [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
     private GameObject audioListenerObject;
@@ -212,7 +233,7 @@ public class RuneEvents : MonoBehaviour
 
         storedData = rd;
 
-        if(debugText != null)
+        if (debugText != null)
         {
 
             debugText.text = "Waiting on a target...";
@@ -229,7 +250,7 @@ public class RuneEvents : MonoBehaviour
     public void CancelCasting()
     {
 
-        if(waitingForThePlayer)
+        if (waitingForThePlayer)
         {
 
             waitingForThePlayer = false;
@@ -258,24 +279,24 @@ public class RuneEvents : MonoBehaviour
             tilesInRange.Contains(tile))
         {
 
-             switch (storedData.TypeOfRune)
-                    {
+            switch (storedData.TypeOfRune)
+            {
 
-                        case (RuneType.Lightning):
+                case (RuneType.Lightning):
 
-                            SelectLightningRune(tile);
-                            break;
+                    SelectLightningRune(tile);
+                    break;
 
-                        case (RuneType.Wind):
+                case (RuneType.Wind):
 
-                            SelectWindRune(tile);
-                            break;
+                    SelectWindRune(tile);
+                    break;
 
-                        default:
+                default:
 
-                            break;
+                    break;
 
-                    }
+            }
 
         }
 
@@ -299,7 +320,7 @@ public class RuneEvents : MonoBehaviour
 
             tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
 
-            for (int i = 0; i < storedData.RuneRange +1; i++)
+            for (int i = 0; i < storedData.RuneRange + 1; i++)
             {
 
                 if (i == 1)
@@ -372,7 +393,7 @@ public class RuneEvents : MonoBehaviour
 
             Vector2Int targetPos = target.IndexInGrid;
 
-            for (int i = 0; i < radius +1; i++)
+            for (int i = 0; i < radius + 1; i++)
             {
 
                 if (i == 1)
@@ -440,7 +461,7 @@ public class RuneEvents : MonoBehaviour
             searchedTiles.Clear();
 
         }
-        
+
     }
 
 
@@ -451,7 +472,7 @@ public class RuneEvents : MonoBehaviour
     public void SelectLightningRune(TileBehaviour target)
     {
 
-        float damageDealt = Mathf.CeilToInt(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
+        float damageDealt = Mathf.CeilToInt(storedData.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
             * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
         GameObject VFX;
@@ -462,18 +483,18 @@ public class RuneEvents : MonoBehaviour
             //targets one opponent for moderate damage
             case (1):
 
-                if(target.gameObject.GetComponentInChildren<Enemy>() != null)
+                if (target.gameObject.GetComponentInChildren<Enemy>() != null)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage(damageDealt);
 
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
-                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, target.transform);
-                  
+
                     EndPlayerAttackPhase();
 
                 }
@@ -493,11 +514,12 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_2);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_2, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, target.transform);
-                   
-                    if(secondaryTarget != null)
+
+                    if (secondaryTarget != null)
                     {
 
                         secondaryTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
@@ -505,7 +527,7 @@ public class RuneEvents : MonoBehaviour
                         //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                         //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
 
-                        if(storedData.SecondaryRuneVFX != null)
+                        if (storedData.SecondaryRuneVFX != null)
                         {
 
                             VFX = Instantiate(storedData.SecondaryRuneVFX, secondaryTarget.transform);
@@ -519,7 +541,7 @@ public class RuneEvents : MonoBehaviour
                         }
 
                         secondaryTarget = null;
-                      
+
                     }
 
                     EndPlayerAttackPhase();
@@ -539,17 +561,17 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
-                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, target.transform);
 
                     RangeCheck(true, 3, target);
 
-                    foreach(TileBehaviour tile in tilesInRange)
+                    foreach (TileBehaviour tile in tilesInRange)
                     {
 
-                        if(tile != target && tile.GetComponentInChildren<Enemy>() != null)
+                        if (tile != target && tile.GetComponentInChildren<Enemy>() != null)
                         {
 
                             tile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(0.40f * damageDealt));
@@ -580,18 +602,18 @@ public class RuneEvents : MonoBehaviour
             //targets one opponent for a large amount of damage
             case (4):
 
-                if(target.gameObject.GetComponentInChildren<Enemy>() != null)
+                if (target.gameObject.GetComponentInChildren<Enemy>() != null)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage(damageDealt);
 
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
-                    // SFX Play
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, this.transform.position);
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, target.transform);
-                  
+
                     EndPlayerAttackPhase();
 
                 }
@@ -621,10 +643,10 @@ public class RuneEvents : MonoBehaviour
         float closestDistance = Mathf.Infinity;
         Vector3 primaryTargetPos = target.gameObject.transform.position;
 
-        foreach(TileBehaviour potentialTarget in otherEnemies)
+        foreach (TileBehaviour potentialTarget in otherEnemies)
         {
 
-            if(potentialTarget == target)
+            if (potentialTarget == target)
             {
 
                 continue;
@@ -634,7 +656,7 @@ public class RuneEvents : MonoBehaviour
             Vector3 dir = potentialTarget.gameObject.transform.position - primaryTargetPos;
             float distanceFromTarget = dir.sqrMagnitude;
 
-            if(distanceFromTarget < closestDistance && potentialTarget.GetComponentInChildren<Enemy>() != null)
+            if (distanceFromTarget < closestDistance && potentialTarget.GetComponentInChildren<Enemy>() != null)
             {
 
                 closestDistance = distanceFromTarget;
@@ -668,6 +690,9 @@ public class RuneEvents : MonoBehaviour
             case (1):
 
                 VFX = Instantiate(storedData.RuneVFX, target.transform);
+
+                AudioManager.instance.CreateEventInstance(windSpellSFX_1);
+                AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
 
                 RangeCheck(true, 2, target);
 
@@ -709,7 +734,7 @@ public class RuneEvents : MonoBehaviour
             //will need more concrete information
             case (2):
 
-                if(target.gameObject.GetComponentInChildren<Enemy>() != null)
+                if (target.gameObject.GetComponentInChildren<Enemy>() != null)
                 {
 
                     target.GetComponentInChildren<Enemy>().Damage(damageDealt);
@@ -717,6 +742,9 @@ public class RuneEvents : MonoBehaviour
                     CheckRuneCombination(target.GetComponentInChildren<Enemy>());
 
                     VFX = Instantiate(storedData.RuneVFX, target.transform);
+
+                    AudioManager.instance.CreateEventInstance(windSpellSFX_2);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
 
                     EndPlayerAttackPhase();
 
@@ -727,7 +755,7 @@ public class RuneEvents : MonoBehaviour
             //creates a shield on the player's tile
             case (3):
 
-                if(target.GetComponentInChildren<PlayerBehavior>() != null)
+                if (target.GetComponentInChildren<PlayerBehavior>() != null)
                 {
 
                     ShieldBehavior newShield = target.gameObject.AddComponent<ShieldBehavior>();
@@ -740,6 +768,8 @@ public class RuneEvents : MonoBehaviour
                     }
 
                     newShield.OnShieldGenerated(target.transform, storedData.RuneVFX);
+                    AudioManager.instance.CreateEventInstance(windSpellSFX_3);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
 
                     EndPlayerAttackPhase();
 
@@ -751,6 +781,8 @@ public class RuneEvents : MonoBehaviour
             case (4):
 
                 VFX = Instantiate(storedData.RuneVFX, target.transform);
+                AudioManager.instance.CreateEventInstance(windSpellSFX_4);
+                AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
                 if (target.GetComponentInChildren<Enemy>() != null)
                 {
@@ -768,17 +800,17 @@ public class RuneEvents : MonoBehaviour
                 //do NOT delete this list again, jay. it's here for a reason
                 List<TileBehaviour> validEnemies = new List<TileBehaviour>();
 
-                foreach(TileBehaviour tile in tilesInRange)
+                foreach (TileBehaviour tile in tilesInRange)
                 {
 
-                    if(tile == target)
+                    if (tile == target)
                     {
 
                         continue;
 
                     }
 
-                    if(tile.GetComponentInChildren<Enemy>() != null)
+                    if (tile.GetComponentInChildren<Enemy>() != null)
                     {
 
                         validEnemies.Add(tile);
@@ -820,7 +852,7 @@ public class RuneEvents : MonoBehaviour
 
         Vector3 newTilePos;
 
-        if(originalTarget.transform.position.z != enemy.transform.position.z)
+        if (originalTarget.transform.position.z != enemy.transform.position.z)
         {
 
             newTilePos.x = (Mathf.Sign(enemy.transform.position.x - originalTarget.transform.position.x) + enemy.transform.position.x);
@@ -839,7 +871,7 @@ public class RuneEvents : MonoBehaviour
 
         TileBehaviour newTile = enemies.Find(x => x.transform.position == newTilePos);
 
-        if(newTile == null)
+        if (newTile == null)
         {
 
             return;
@@ -849,7 +881,7 @@ public class RuneEvents : MonoBehaviour
         if (newTile.GetComponentInChildren<SpriteRenderer>() != null && newTile.GetComponentInChildren<Enemy>() != null)
         {
 
-            if(newTile.GetComponentInChildren<Enemy>() != null)
+            if (newTile.GetComponentInChildren<Enemy>() != null)
             {
 
                 SendEnemyBackwards(originalTarget, newTile, enemies);
@@ -861,7 +893,7 @@ public class RuneEvents : MonoBehaviour
 
         Enemy movedEnemy = enemy.GetComponentInChildren<Enemy>();
         movedEnemy.gameObject.transform.parent = newTile.transform;
-        movedEnemy.transform.localPosition  = new Vector3 (0, 0, 0);
+        movedEnemy.transform.localPosition = new Vector3(0, 0, 0);
 
     }
 
@@ -1032,10 +1064,10 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        if(lightningMastered)
+        if (lightningMastered)
         {
 
-            if(enemy != null)
+            if (enemy != null)
             {
 
                 enemy.Damage(lightningMasteredDamage);
@@ -1117,7 +1149,7 @@ public class RuneEvents : MonoBehaviour
                 break;
         }
 
-        if(enemy != null)
+        if (enemy != null)
         {
 
             enemy.Damage(windPrimaryDamage);
@@ -1137,7 +1169,7 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        if(windMastered)
+        if (windMastered)
         {
 
             FindFirstObjectByType<PlayerStats>().AddTempHealth(windTempHealth);
@@ -1162,7 +1194,7 @@ public class RuneEvents : MonoBehaviour
         {
             playerMenu.SetActive(true);
         }
-        
+
         this.gameObject.SetActive(false);
 
         Invoke("ClearText", 1);
@@ -1176,14 +1208,14 @@ public class RuneEvents : MonoBehaviour
     void ClearText()
     {
 
-        if(debugText != null)
+        if (debugText != null)
         {
 
             debugText.text = "";
 
         }
 
-        if(debugComboText != null)
+        if (debugComboText != null)
         {
 
             debugComboText.text = "";
