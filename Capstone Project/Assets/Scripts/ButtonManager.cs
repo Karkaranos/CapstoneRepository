@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Cinemachine;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class ButtonManager : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
 
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private PlayerBehavior playerBehavior;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private CameraManager cameraManager;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject confirmCanvas;
@@ -55,7 +57,9 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
+
     }
 
     #region functions
@@ -117,7 +121,8 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        if(gm.CurrentActionPoints >= gm.MoveActionPoints)
+        cameraManager.SwitchCamera(cameraManager.PlayerZcam);
+        if (gm.CurrentActionPoints >= gm.MoveActionPoints)
         {
             Debug.Log("The player can move!");
             if (playerBehavior == null)
@@ -154,6 +159,7 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("goin back!");
         playerCanvas.SetActive(true);
         moveCanvas.SetActive(false);
+        cameraManager.SwitchCamera(cameraManager.Level1playcam);
         runeCanvas.GetComponent<RuneEvents>().CancelCasting();
         runeCanvas.SetActive(false);
         confirmCanvas.SetActive(false);
@@ -189,6 +195,7 @@ public class ButtonManager : MonoBehaviour
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
         playerBehavior.PathfindThroughGrid();
+        cameraManager.SwitchCamera(cameraManager.Level1playcam);
     }
 
     /// <summary>
@@ -218,7 +225,7 @@ public class ButtonManager : MonoBehaviour
         playerCanvas.SetActive(false);
         
         if(playerBehavior == null) { playerBehavior = FindFirstObjectByType<PlayerBehavior>(); }
-       
+
 
         TurnPublicEvents.ForceEndCurrentPhase();
      }
