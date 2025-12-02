@@ -1,5 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7958501323027105424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/BGM.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/FMODSalty/Build/Desktop/BGM.bank
+  Name: BGM
+  StudioPath: bank:/BGM
+  lastModified: 638996589046323725
+  FileSizes:
+  - Name: Desktop
+    Value: 425728
+  Exists: 1
 --- !u!114 &-7447939803071982639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,7 +66,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 8308
+  Length: 5608
 --- !u!114 &-5387149211738163665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +85,7 @@ MonoBehaviour:
   lastModified: 638982275604126648
   FileSizes:
   - Name: Desktop
-    Value: 2351872
+    Value: 2351936
   Exists: 1
 --- !u!114 &-3320627075860775977
 MonoBehaviour:
@@ -93,7 +113,27 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 7000
+  Length: 4300
+--- !u!114 &-1434964730896524819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/BGM.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/FMODSalty/Build/Desktop/BGM.bank
+  Name: BGM
+  StudioPath: bank:/BGM
+  lastModified: 638996100107512810
+  FileSizes:
+  - Name: Desktop
+    Value: 425728
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,11 +151,13 @@ MonoBehaviour:
   - {fileID: -5387149211738163665}
   - {fileID: -7447939803071982639}
   - {fileID: 3841138632945958100}
+  - {fileID: -1434964730896524819}
   EditorEvents:
   - {fileID: 4449900605482773903}
   - {fileID: 9077695175113177717}
   - {fileID: -3320627075860775977}
   - {fileID: -6000690429116861742}
+  - {fileID: 9087922348903748880}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7447939803071982639}
@@ -141,7 +183,7 @@ MonoBehaviour:
   lastModified: 638982275604174507
   FileSizes:
   - Name: Desktop
-    Value: 1006
+    Value: 1084
   Exists: 1
 --- !u!114 &3841138632945958100
 MonoBehaviour:
@@ -161,7 +203,7 @@ MonoBehaviour:
   lastModified: 638982275604327328
   FileSizes:
   - Name: Desktop
-    Value: 1900928
+    Value: 1900256
   Exists: 1
 --- !u!114 &4449900605482773903
 MonoBehaviour:
@@ -189,7 +231,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 28200
+  Length: 26000
 --- !u!114 &9077695175113177717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,4 +258,31 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 5700
+  Length: 5000
+--- !u!114 &9087922348903748880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Moody_Pond_BGM
+  m_EditorClassIdentifier: 
+  Path: event:/Moody_Pond_BGM
+  Guid:
+    Data1: 2047674551
+    Data2: 1121622183
+    Data3: -787592283
+    Data4: 1609639083
+  Banks:
+  - {fileID: -1434964730896524819}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 34324

@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	    	Tyler Bouchard, Cade Naylor, Clare Grady
 Date Created : 		    10/16/2025
-Date Last Modified : 	11/18/2025 (Cade Naylor)
+Date Last Modified : 	11/25/2025 (Clare)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
 External Resources : 
@@ -37,7 +37,8 @@ public class PlayerStats : MonoBehaviour
     [Tooltip("The chance a player dodges the attack"), ShowIf(nameof(settings), Settings.GeneralStats), Range(0f,1f)] public float DodgeChance = 0f;
     [Tooltip("The player's luck multiplier"), ShowIf(nameof(settings), Settings.GeneralStats)] public float LuckModifier = 1f;
     [Tooltip("What XP is multiplied by when an enemy dies"), ShowIf(nameof(settings), Settings.GeneralStats)] public float XPMultiplier = 1f;
-    [Tooltip("A multiplier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 1f; 
+    [Tooltip("A multiplier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 1f;
+    [Tooltip("UI Object for the turn indicator"), ShowIf(nameof(settings), Settings.GeneralStats)] public GameObject turnIndicator;
 
     private int tempHealth;
     #endregion
@@ -97,6 +98,7 @@ public class PlayerStats : MonoBehaviour
         healthBar.maxValue = MaxHealth;
         ArtifactManager.SetPlayerReference(this);
         MarkManager.SetPlayer(this);
+        turnIndicator.SetActive(true);
     }
 
     /// <summary>
@@ -147,8 +149,22 @@ public class PlayerStats : MonoBehaviour
                 break;
         }
         if ((int)damageToTake < 0) { damageToTake = 0; }
+
+        if(tempHealth > 0)
+        {
+
+            tempHealth -= (int)damageToTake;
+
+            if(tempHealth < 0)
+            {
+
+                damageToTake = Mathf.Abs(tempHealth);
+
+            }
+
+        }
+
         CurrentHealth -= (int)damageToTake;
-        tempHealth -= (int)damageToTake;
 
 
         MarkManager.HealthValueChanged(((float)CurrentHealth)/((float)MaxHealth));
@@ -198,14 +214,6 @@ public class PlayerStats : MonoBehaviour
         {
             CurrentHealth = MaxHealth;
         }
-        
-        //if the player gets healed while having temp health, i don't want it to get taken away from them
-        if(tempHealth > 0)
-        {
-
-            CurrentHealth += tempHealth;
-
-        }
 
         UpdateHealthBar();
     }
@@ -219,7 +227,6 @@ public class PlayerStats : MonoBehaviour
     {
 
         //shouldn't be capped by max health iirc
-        CurrentHealth += tempHealthAmount;
         tempHealth += tempHealthAmount;
 
         Debug.Log(tempHealth + " hit points added to the player!");
@@ -231,7 +238,7 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void UpdateHealthBar()
     {
-        healthBar.value = (CurrentHealth - tempHealth);
+        healthBar.value = CurrentHealth;
     }
 
     /// <summary>
