@@ -229,6 +229,9 @@ public class SkillTreeManager : MonoBehaviour
         nodeSelected = dataToDisplay;
     }
 
+    /// <summary>
+    /// tells the node to purchase itself
+    /// </summary>
     public void PurchaseSpell()
     {
         if (nodeSelected != null)

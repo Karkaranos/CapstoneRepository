@@ -110,14 +110,14 @@ public class InventoryButton : MonoBehaviour, IPointerEnterHandler
     /// </summary>
     private void UpdateStatus()
     {
-        StartCoroutine(delayedUpdateStatus());
+        StartCoroutine(DelayedUpdateStatus());
     }
 
     /// <summary>
     /// Turns on the button again but after a frame
     /// </summary>
     /// <returns></returns>
-    private IEnumerator delayedUpdateStatus()
+    private IEnumerator DelayedUpdateStatus()
     {
         yield return null; 
         if (!button.interactable && ArtifactManager.InventoryArtifacts.Contains(data))
