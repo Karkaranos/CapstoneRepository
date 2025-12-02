@@ -24,10 +24,13 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] private Cameras Cams;
 
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1cam;
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera level1playcam;
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript popUpScript;
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer videoPlayer;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public GameObject player;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera Level1cam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera Level1playcam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera PlayerZcam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private CinemachineCamera activeCam;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript PopUpScript;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer VideoPlayer;
     public GameObject OutOfCombatCanvas;
     public GameObject VideoCanvas;
     public static GameObject VideoCanvasStatic;
@@ -60,8 +63,8 @@ public class CameraManager : MonoBehaviour
     void SwitchesCamerasFromOutOfCombat()
     {
         VideoCanvas.SetActive(false);
-        popUpScript.StartCoroutine(popUpScript.Flip());
-        SwitchCamera(level1playcam);
+        PopUpScript.StartCoroutine(PopUpScript.Flip());
+        SwitchCamera(Level1playcam);
         //level1cam.Priority = 10;
     }
 
@@ -71,17 +74,17 @@ public class CameraManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator SwitchesToOutOfCombatCanvas()
     {
-        videoPlayer.Prepare();
-        while (!videoPlayer.isPrepared)
+        VideoPlayer.Prepare();
+        while (!VideoPlayer.isPrepared)
         {
             yield return null; // Wait until preparation is complete
         }
 
         // Play the video
-        videoPlayer.Play();
+        VideoPlayer.Play();
 
         // Wait until the video finishes playing
-        while (videoPlayer.isPlaying)
+        while (VideoPlayer.isPlaying)
         {
             yield return null;
         }
@@ -97,12 +100,22 @@ public class CameraManager : MonoBehaviour
     /// 20 = highest priority
     /// </summary>
     /// <param name="newActiveCamera"></param>
-    void SwitchCamera(CinemachineCamera ActiveCamera)
+    public void SwitchCamera(CinemachineCamera ActiveCamera)
     {
-        level1cam.Priority = 20; 
-        level1playcam.Priority = 10;
+        //Level1cam.Priority = 20; 
+        Level1playcam.Priority = 10;
+        PlayerZcam.Priority = 10;
+        player = GameObject.FindGameObjectWithTag("Player");
+        PlayerZcam.LookAt = player.transform;
+        PlayerZcam.Follow = player.transform;
+        Debug.LogWarning(ActiveCamera.name);
+        if(activeCam != null)
+        {
+            activeCam.Priority = 10;
+        }
 
-        ActiveCamera.Priority = 20; 
+        activeCam = ActiveCamera;
+        ActiveCamera.Priority = 20;
     }
 
     /// <summary>
