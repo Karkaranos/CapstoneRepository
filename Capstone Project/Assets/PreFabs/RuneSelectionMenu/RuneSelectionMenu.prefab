@@ -433,26 +433,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d02e00acd81d54391fd2ad05163172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInspectorShowing: 0
-  lightningSpellCastedSFX:
+  currentInspectorShowing: 2
+  lightningDamageTierOne: 0
+  lightningMasteredDamageTierOne: 0
+  windPrimaryDamageTierOne: 0
+  windSecondaryDamageTierOne: 0
+  windMasteredTempHealthTierOne: 0
+  lightningDamageTierTwo: 0
+  lightningMasteredDamageTierTwo: 0
+  windPrimaryDamageTierTwo: 0
+  windSecondaryDamageTierTwo: 0
+  windMasteredTempHealthTierTwo: 0
+  lightningDamageTierThree: 0
+  lightningMasteredDamageTierThree: 0
+  windPrimaryDamageTierThree: 0
+  windSecondaryDamageTierThree: 0
+  windMasteredTempHealthTierThree: 0
+  lightningSpellSFX_1:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  audioListenerObject: {fileID: 0}
+      Data1: 1220905362
+      Data2: 1223981043
+      Data3: 2113482651
+      Data4: -1726436650
+    Path: event:/Lightning Spell
+  lightningSpellSFX_2:
+    Guid:
+      Data1: -340358148
+      Data2: 1326648716
+      Data3: 524229821
+      Data4: -1636008025
+    Path: event:/Lightning Spell 2
+  lightningSpellSFX_3:
+    Guid:
+      Data1: -1560894698
+      Data2: 1126465357
+      Data3: 1057235102
+      Data4: -1728188582
+    Path: event:/Lightning Spell 3
+  lightningSpellSFX_4:
+    Guid:
+      Data1: -744361821
+      Data2: 1224271612
+      Data3: -1997852256
+      Data4: 497691047
+    Path: event:/Lightning Spell 4
+  windSpellSFX_1:
+    Guid:
+      Data1: 1077038961
+      Data2: 1098177491
+      Data3: 1389332379
+      Data4: 1386760008
+    Path: event:/Shield Spell
+  windSpellSFX_2:
+    Guid:
+      Data1: 1060338092
+      Data2: 1299841897
+      Data3: 902278826
+      Data4: 37291530
+    Path: event:/Wind Spell 1
+  windSpellSFX_3:
+    Guid:
+      Data1: 1755151807
+      Data2: 1170968482
+      Data3: 337686429
+      Data4: 44872450
+    Path: event:/Wind Spell 2
+  windSpellSFX_4:
+    Guid:
+      Data1: 716002226
+      Data2: 1106990798
+      Data3: -1583886450
+      Data4: -1066643954
+    Path: event:/Wind Spell 3
+  audioListenerObject: {fileID: 1310564480326423724, guid: 9df111ac7088d08479ae091541dc69cc, type: 3}
   playerMenu: {fileID: 0}
   debugText: {fileID: 0}
   debugComboText: {fileID: 0}
-  temp: {fileID: 0}
-  tileBehaviour: {fileID: 0}
-  storedRuneType: 0
-  storedRuneNumber: 0
-  storedRuneDamage: 0
-  storedRuneRange: 0
-  storedRuneVFX: {fileID: 0}
-  storedRuneCost: 0
+  tilesInRange: []
 --- !u!1 &3039117145697402143
 GameObject:
   m_ObjectHideFlags: 0
