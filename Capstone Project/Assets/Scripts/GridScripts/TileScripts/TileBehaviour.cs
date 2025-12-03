@@ -41,7 +41,7 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField] private TileType tileType;
     
     [Header("Water Tile Vars")]
-    [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
     [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
@@ -169,6 +169,7 @@ public class TileBehaviour : MonoBehaviour
             turnsSinceElectrification++;
             if (turnsSinceElectrification >= electrificationDuration) { 
                 isElectrified = false;
+                turnsSinceElectrification = 0;
             }
         }
         TurnPublicEvents.TurnActionComplete();
