@@ -144,7 +144,7 @@ public class TargetingBehaviour : MonoBehaviour
 
     private bool HasLineOfSight(Vector2Int enemyTile)
     {
-        float yDistance = GridManager.combatGrid[enemyTile.x, enemyTile.y].gameObject.GetComponent<BoxCollider>().bounds.extents.y + .1f;
+        float yDistance = GridManager.combatGrid[enemyTile.x, enemyTile.y].gameObject.GetComponent<BoxCollider>().bounds.size.y;
         Vector3 tilePosition = GridManager.combatGrid[enemyTile.x, enemyTile.y].gameObject.transform.position;
         Vector3 enemyPos = tilePosition + new Vector3(0, yDistance, 0);
         Vector3 endTilePos = GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].gameObject.transform.position;
