@@ -1279,6 +1279,11 @@ public class RuneEvents : MonoBehaviour
 
                 enemy.transform.position = new Vector3 (tile.transform.position.x, 0, tile.transform.position.z);
 
+                GridManager.MoveToTile(new Vector2Int((int)enemyTile.transform.position.x, (int)enemyTile.transform.position.z),
+                   new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z), -2);
+
+                enemy.GetComponent<GridPathfinding>().SetPosition(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
+
                 break;
 
             }
