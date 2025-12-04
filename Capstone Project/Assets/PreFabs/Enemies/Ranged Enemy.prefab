@@ -817,9 +817,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a00d9d1fddac5f47b04199a462a0b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 0
   healthBarSlider: {fileID: 8534701960708135817}
-  maxHealth: 60
+  maxHealth: 40
   lowHealthPercentage: 0.2
   currentHealth: 5
   aggroRange: 15
@@ -831,14 +831,14 @@ MonoBehaviour:
   HasStatusEffect: 0
   RuneStatusEffect: 0
   RuneStatusEffectNumber: 0
-  movementRange: 2
+  movementRange: 1
   movementSpeed: 4
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
   secondsBetweenStateTransitions: 4
   minimumAttackDistance: 0
-  maxAttackDistance: 10
+  maxAttackDistance: 4
   canAttackTwice: 0
   playerInAttackRange: 0
   playerInLineOfSight: 1

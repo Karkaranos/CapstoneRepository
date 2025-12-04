@@ -7,10 +7,9 @@ Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using NaughtyAttributes;
 using System.Collections.Generic;
 using System.Linq;
-using FMOD.Studio;
-using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
