@@ -1604,6 +1604,14 @@ public class RuneEvents : MonoBehaviour
 
         GridManager.RemoveHighlight();
 
+        foreach (TileBehaviour tile in FindFirstObjectByType<PlayerBehavior>().tilesInRange)
+        {
+
+            tile.SetHighlightColor(defaultHighlight);
+            tile.ShowHighlight(true);
+
+        }
+
         Invoke("ClearText", 1);
 
     }
