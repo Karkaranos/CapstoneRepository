@@ -6,14 +6,11 @@ Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using NaughtyAttributes;
 using System.Collections.Generic;
 using System.Linq;
-using FMOD.Studio;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
