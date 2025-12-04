@@ -6,13 +6,11 @@ Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using NaughtyAttributes;
 using System.Collections.Generic;
 using System.Linq;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
@@ -104,7 +102,28 @@ public class RuneEvents : MonoBehaviour
 
     //Event reference for sound
     [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
-    private EventReference lightningSpellCastedSFX;
+    private EventReference lightningSpellSFX_1;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellSFX_2;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellSFX_3;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference lightningSpellSFX_4;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_1;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_2;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_3;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
+    private EventReference windSpellSFX_4;
 
     [ShowIf(nameof(currentInspectorShowing), Variables.Audio), SerializeField]
     private GameObject audioListenerObject;
@@ -529,8 +548,9 @@ public class RuneEvents : MonoBehaviour
 
                     tile.ElectrifyTile();
 
-                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
+                    
 
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
@@ -555,7 +575,8 @@ public class RuneEvents : MonoBehaviour
 
                     tile.ElectrifyTile();
 
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_2);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_2, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
@@ -605,8 +626,8 @@ public class RuneEvents : MonoBehaviour
 
                     tile.ElectrifyTile();
 
-                    //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
-                    //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
@@ -663,6 +684,10 @@ public class RuneEvents : MonoBehaviour
                     return;
 
                 }
+
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+
 
                 FindLineOfTargets(tile);
 
@@ -780,6 +805,11 @@ public class RuneEvents : MonoBehaviour
                     potentialTargetsForLightningStrikes.Add(tile);
 
                 }
+
+                AudioManager.instance.CreateEventInstance(windSpellSFX_1);
+                AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
+
+                //RangeCheck(true, 2, target);
 
                 if (GridManager.playerPosition.x > initialTarget.transform.position.x &&
                     tile.transform.position.x < GridManager.playerPosition.x &&
@@ -931,8 +961,10 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(enemy);
 
-                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
+                    VFX = Instantiate(storedData.RuneVFX, tile.transform);
+                    AudioManager.instance.CreateEventInstance(windSpellSFX_1);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
                     enemy.SendEnemyBackwards
                                     (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile);
 
@@ -964,6 +996,9 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
+                    AudioManager.instance.CreateEventInstance(windSpellSFX_2);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
+
                     EndPlayerAttackPhase();
 
                 }
@@ -980,9 +1015,16 @@ public class RuneEvents : MonoBehaviour
 
                     debugText.text = "Shield added!";
 
+
+
+
                 }
 
+
                 newShield.OnShieldGenerated(tile.transform, storedData.RuneVFX);
+                
+                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
 
                 EndPlayerAttackPhase();
 
@@ -999,6 +1041,9 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 VFX = Instantiate(storedData.RuneVFX, tile.transform);
+                
+                AudioManager.instance.CreateEventInstance(windSpellSFX_4);
+                AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
                 if (enemy != null)
                 {
