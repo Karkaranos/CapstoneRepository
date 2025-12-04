@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/19/2025
-Date Last Modified : 	11/19/2025
+Date Last Modified : 	12/2/2025
 Brief Description : 		Ranged enemy attack state
 External Resources : 	
 ***************************************************/
@@ -17,7 +17,7 @@ public class RangedEnemyAttackState : RangedEnemyState
     /// </summary>
     public override void EnterState()
     {
-        enemy.logText.text = "Attacking";
+        enemy.logText.text = "A";
 
         enemy.playerStats.TakeDamage(enemy.damage);
 
