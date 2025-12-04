@@ -6422,27 +6422,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: lvl1BGM.Path
-      value: event:/LVL 1  Ambience
+      value: event:/Moody_Pond_BGM
       objectReference: {fileID: 0}
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: inspectorSettings
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: lvl1BGM.Guid.Data1
-      value: 1921456255
+      value: 2047674551
       objectReference: {fileID: 0}
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: lvl1BGM.Guid.Data2
-      value: 1265774329
+      value: 1121622183
       objectReference: {fileID: 0}
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: lvl1BGM.Guid.Data3
-      value: -1975528819
+      value: -787592283
       objectReference: {fileID: 0}
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: lvl1BGM.Guid.Data4
-      value: 1422544363
+      value: 1609639083
       objectReference: {fileID: 0}
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: lightningSounds.Array.size
@@ -6716,12 +6716,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613269361}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 878.2748, y: 741.45135, z: 983.6324}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 827031557}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &616484967
 GameObject:
@@ -8691,13 +8691,197 @@ PrefabInstance:
       propertyPath: ambienceEventRefSFX.Guid.Data4
       value: 1422544363
       objectReference: {fileID: 0}
+    - target: {fileID: 4707270381267591336, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: backgroundMusicEventRefSFX.Path
+      value: event:/Moody_Pond_BGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707270381267591336, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: backgroundMusicEventRefSFX.Guid.Data1
+      value: 2047674551
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707270381267591336, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: backgroundMusicEventRefSFX.Guid.Data2
+      value: 1121622183
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707270381267591336, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: backgroundMusicEventRefSFX.Guid.Data3
+      value: -787592283
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707270381267591336, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: backgroundMusicEventRefSFX.Guid.Data4
+      value: 1609639083
+      objectReference: {fileID: 0}
     - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: audioListenerObject
       value: 
       objectReference: {fileID: 189765342}
     - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_1.Path
+      value: event:/Wind Spell 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_2.Path
+      value: event:/Shield Spell
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_3.Path
+      value: event:/Wind Spell 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_4.Path
+      value: event:/Wind Spell 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: currentInspectorShowing
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_1.Path
+      value: event:/Lightning Spell
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_2.Path
+      value: event:/Lightning Spell 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_3.Path
+      value: event:/Lightning Spell 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_4.Path
+      value: event:/Lightning Spell 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_1.Guid.Data1
+      value: 1060338092
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_1.Guid.Data2
+      value: 1299841897
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_1.Guid.Data3
+      value: 902278826
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_1.Guid.Data4
+      value: 37291530
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_2.Guid.Data1
+      value: 1077038961
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_2.Guid.Data2
+      value: 1098177491
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_2.Guid.Data3
+      value: 1389332379
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_2.Guid.Data4
+      value: 1386760008
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_3.Guid.Data1
+      value: 1755151807
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_3.Guid.Data2
+      value: 1170968482
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_3.Guid.Data3
+      value: 337686429
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_3.Guid.Data4
+      value: 44872450
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_4.Guid.Data1
+      value: 716002226
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_4.Guid.Data2
+      value: 1106990798
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_4.Guid.Data3
+      value: -1583886450
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: windSpellSFX_4.Guid.Data4
+      value: -1066643954
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: lightningSpellCastedSFX.Path
       value: event:/Lightning Spell
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_1.Guid.Data1
+      value: 1220905362
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_1.Guid.Data2
+      value: 1223981043
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_1.Guid.Data3
+      value: 2113482651
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_1.Guid.Data4
+      value: -1726436650
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_2.Guid.Data1
+      value: -340358148
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_2.Guid.Data2
+      value: 1326648716
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_2.Guid.Data3
+      value: 524229821
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_2.Guid.Data4
+      value: -1636008025
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_3.Guid.Data1
+      value: -1560894698
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_3.Guid.Data2
+      value: 1126465357
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_3.Guid.Data3
+      value: 1057235102
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_3.Guid.Data4
+      value: -1728188582
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_4.Guid.Data1
+      value: -744361821
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_4.Guid.Data2
+      value: 1224271612
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_4.Guid.Data3
+      value: -1997852256
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      propertyPath: lightningSpellSFX_4.Guid.Data4
+      value: 497691047
       objectReference: {fileID: 0}
     - target: {fileID: 5625376211385655328, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
       propertyPath: lightningSpellCastedSFX.Guid.Data1
@@ -8769,7 +8953,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2726506980644489610, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 613269362}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
 --- !u!1 &827031553 stripped
@@ -8791,6 +8978,11 @@ MonoBehaviour:
 --- !u!1 &827031555 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2666288005788377712, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
+  m_PrefabInstance: {fileID: 827031552}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &827031557 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2726506980644489610, guid: 0c75a4063ad27bb4a8bfd204e040c72a, type: 3}
   m_PrefabInstance: {fileID: 827031552}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &851462815
@@ -16742,7 +16934,6 @@ SceneRoots:
   - {fileID: 470414987}
   - {fileID: 827031552}
   - {fileID: 2138998498}
-  - {fileID: 613269362}
   - {fileID: 895817553}
   - {fileID: 1079997127}
   - {fileID: 590039714}

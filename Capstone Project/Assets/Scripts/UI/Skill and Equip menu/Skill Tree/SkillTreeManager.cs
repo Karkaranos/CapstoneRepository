@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		09/28/2025
-Date Last Modified : 10/06/2025
+Date Last Modified : 11/24/2025
 Brief Description : This manages the player's skill points
                     and stores the data of their unlocked nodes
 External Resources : 	
@@ -47,6 +47,8 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text descriptionText;
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private TMP_Text currentSkillPointsText;
 
+    [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private bool isInEquipMenu;
+
     //list of containers for each skill tree element
     [SerializeField, ShowIf(nameof(showingSettings), Settings.Refs)] private List<GameObject> DifferentElementSkillTreeContainers;
 
@@ -58,7 +60,7 @@ public class SkillTreeManager : MonoBehaviour
     public List<RuneData> unlockedRunes;
 
     //whatever runedata the player is currently holding to equip
-    [HideInInspector] public RuneData currentlySelected;
+   public RuneData currentlySelected;
 
     //holds a ref to the box it spawns when trying to equip
     private GameObject spawnedCursorFollowBox;
@@ -133,6 +135,7 @@ public class SkillTreeManager : MonoBehaviour
         if (!unlockedRunes.Contains(runePurchased))
         {
             unlockedRunes.Add(runePurchased);
+            skillAndArtifactManager.UnlockedRunes.Add(runePurchased);
             if (runePurchased.NumberOnSkillTree == 4)
             {
                 PublicEvents.MasteryRunePurchased?.Invoke(runePurchased.TypeOfRune);
@@ -200,10 +203,19 @@ public class SkillTreeManager : MonoBehaviour
     /// <param name="cost"> how much the rune costs to purchase, -1 if already owned </param>
     public void UpdateSpellDescriptionText(SkillTreeNode dataToDisplay, int cost)
     {
+        
         //shows cost if it has one
         if (cost > 0)
         {
-            costText.text = cost + " EXP";
+            if (isInEquipMenu)
+            {
+                costText.text = "Unowned";
+            }
+            else
+            {
+                costText.text = cost + " EXP";
+            }
+                
         }
         else
         {
@@ -217,8 +229,15 @@ public class SkillTreeManager : MonoBehaviour
         nodeSelected = dataToDisplay;
     }
 
+    /// <summary>
+    /// tells the node to purchase itself
+    /// </summary>
     public void PurchaseSpell()
     {
-        nodeSelected.PurchaseNode();
+        if (nodeSelected != null)
+        {
+            nodeSelected.PurchaseNode();
+        }
+        
     }
 }

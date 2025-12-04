@@ -1,28 +1,44 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/20/2025
- * Last Modified: 10/22/2025
+ * Last Modified: 12/02/2025
  * Brief: Contains the different enemy targeting behaviours that are assigned
  * to enums.
  * External Resources:
  * ***************************************************************************/
 using UnityEngine;
 using System.Collections.Generic;
+using NaughtyAttributes;
 
 public class TargetingBehaviour : MonoBehaviour
 {
+    /// <summary>
+    /// Runs the targeting behvaiour without moving the enemy, and it populates a list with 
+    /// all potential locations the enemy could make an attack from
+    /// </summary>
+    [Button("Test Ranged Targeting")]
+    private void CallTargeting()
+    {
+        targetLocations.Clear();
+        playerPos = GridManager.playerPosition;
+        RangedTargeting();
+    }
+
+    [Tooltip("Layers that should be ignored for a raycast. These would be for " +
+        "objects that you wouldn't want to block enemy line of sight. Ex. Hazards")]
+    [SerializeField] private LayerMask doesNotBlockLOS;
+
     public enum TargetingBehaviours
     {
         melee,
         ranged
     }
+
     [HideInInspector]
     public TargetingBehaviours behaviours;
     //[HideInInspector]
     public List<Vector2Int> targetLocations = new List<Vector2Int>();
     Vector2Int playerPos;
-    [Tooltip("The attack range of the ranged enemy. Does nothing for enemies without a ranged attack")]
-    [SerializeField] int attackRange;
 
     [Tooltip("Set to true if you want the ranged enemy to have to be at it's max range to attack")]
     [SerializeField] bool moveToAttackRange;
@@ -63,20 +79,29 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void RangedTargeting()
     {
-        if(attackRange <= 0)
-        {
-            attackRange = 1;
-        }
-
         targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos, GetComponent<GridPathfinding>().MyPosition);
         List<Vector2Int> adTiles = new List<Vector2Int>();
         foreach (Vector2Int v in targetLocations)
         {
-            GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+            //Can condence to 1 line, just written for testing purposes
+            if (GetComponent<RangedEnemy>().minimumAttackDistance > 1)
+            {
+                GridManager.combatGrid[v.x, v.y].entityOnGrid = 1;
+            }
+            else
+            {
+                GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+            }
             adTiles.Add(v);
         }
+
+        if(GetComponent<RangedEnemy>().minimumAttackDistance > 1)
+        {
+            targetLocations.Clear();
+        }
+
         List<Vector2Int> newLocations = new List<Vector2Int>();
-        for(int i = 1; i <= attackRange; ++i)
+        for(int i = 1; i <= GetComponent<RangedEnemy>().maxAttackDistance; ++i)
         {
             if(moveToAttackRange)
             {
@@ -84,9 +109,18 @@ public class TargetingBehaviour : MonoBehaviour
             }
             foreach(Vector2Int v in adTiles)
             {
-                if (FindIndexDistance(v) >= i && !targetLocations.Contains(v))
+                if (v != playerPos && !targetLocations.Contains(v))
                 {
-                    targetLocations.Add(v);
+                    //Can remove the else and have line 108 be outside the if statement, just written this way for testing purposes
+                    if (i > GetComponent<RangedEnemy>().minimumAttackDistance && HasLineOfSight(v))
+                    {
+                        targetLocations.Add(v);
+                        GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+                    }
+                    else
+                    {
+                        GridManager.combatGrid[v.x, v.y].entityOnGrid = 1;
+                    }
                 }
                 List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(v, GetComponent<GridPathfinding>().MyPosition);
                 
@@ -104,15 +138,22 @@ public class TargetingBehaviour : MonoBehaviour
             newLocations.Clear();
         }
 
+        GridManager.DisplayGridAsText();
         GridManager.ClearPathfinding();
     }
 
-    private int FindIndexDistance(Vector2Int testedTile)
+    private bool HasLineOfSight(Vector2Int enemyTile)
     {
-        if(testedTile.x <= 0)
-        {
-            return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - testedTile.y));
-        }
-        return (Mathf.Abs(playerPos.x - testedTile.x)) + (Mathf.Abs(playerPos.y - (Mathf.CeilToInt((float) testedTile.y / 2))));
+        float yDistance = GridManager.combatGrid[enemyTile.x, enemyTile.y].gameObject.GetComponent<BoxCollider>().bounds.size.y;
+        Vector3 tilePosition = GridManager.combatGrid[enemyTile.x, enemyTile.y].gameObject.transform.position;
+        Vector3 enemyPos = tilePosition + new Vector3(0, yDistance, 0);
+        Vector3 endTilePos = GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].gameObject.transform.position;
+        Vector3 endPos = endTilePos + new Vector3(0, yDistance, 0);
+        RaycastHit hit;
+        Physics.Linecast(enemyPos, endPos, out hit, ~doesNotBlockLOS);
+
+        Debug.Log(hit.collider.name);
+        Debug.Log(hit.collider.gameObject.transform.position);
+        return hit.collider.tag == "Player";
     }
 }

@@ -1,14 +1,15 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/18/2025
-Date Last Modified : 	11/21/2025
+Date Last Modified : 	12/01/2025 (Brad Dixon)
 Brief Description : 		Base class for Range enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
 External Resources : 	
 ***************************************************/
-using UnityEngine;
 using NaughtyAttributes;
+using UnityEngine;
+using static TargetingBehaviour;
 
 public class RangedEnemy : Enemy
 {
@@ -19,12 +20,12 @@ public class RangedEnemy : Enemy
     [ShowIf(nameof(currentSettings), Settings.Combat),
         SerializeField,
         Tooltip("The minimum amount of tiles away from the enemy the player must be to be attacked")]
-    private int minimumAttackDistance;
+    public int minimumAttackDistance;
 
     [ShowIf(nameof(currentSettings), Settings.Combat),
         SerializeField,
         Tooltip("The maximum amount of tiles away from the enemy the player must be to be attacked")]
-    private int maxAttackDistance;
+    public int maxAttackDistance;
 
     [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
 
@@ -73,7 +74,7 @@ public class RangedEnemy : Enemy
         endTurnState = new RangedEnemyEndTurnState(this, enemyStateMachine);
         enemyStateMachine.Initialized(waitState, secondsBetweenStateTransitions);
         base.Start();
-        //targetingBehaviour.behaviours = Ranged (Wait till Brad is done)
+        targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
     }
 
     /// <summary>
@@ -122,7 +123,13 @@ public class RangedEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
-        return playerInAttackRange;
+        targetingBehaviour.FindTarget();
+        gridPathfinding.PathfindThroughGrid();
+        Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
+        Debug.Log("Target Pos: " + gridPathfinding.GetTargetPosition().ToString());
+
+        if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { Debug.Log("In Range"); }
+        return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
     }
 
     /// <summary>

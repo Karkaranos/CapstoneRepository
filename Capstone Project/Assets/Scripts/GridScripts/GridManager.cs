@@ -32,18 +32,12 @@ public class GridManager : MonoBehaviour
         TileBehaviour[] tiles = gridPrefab.GetComponentsInChildren<TileBehaviour>();
         MoveDistances = new Vector2(tiles[0].gameObject.transform.localScale.x, tiles[0].gameObject.transform.localScale.z);
 
-        for (int y = 0; y < gridDimensions.y; ++y)
-        {
-            for (int x = 0; x < gridDimensions.x; ++x)
-            {
-                TileBehaviour tile = tiles[x + (y * gridDimensions.x)];
-                combatGrid[x, y] = tile;
-
-                tile.transform.position = new Vector3(MoveDistances.x * x, tile.transform.position.y, MoveDistances.y * y);
-                tile.entityOnGrid = -1;
-                tile.IndexInGrid = new Vector2Int(x, y);
-                tile.gameObject.name = "[" + tile.IndexInGrid.x + ", " + tile.IndexInGrid.y + "]";
-            }
+        foreach (TileBehaviour tb in tiles) {
+            //this line causes a bug where the tiles go to the wrong position when the scene is loaded so I removed it
+            //tile.transform.position = new Vector3(MoveDistances.x * x, tile.transform.position.y, MoveDistances.y * y);
+            combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y] = tb;
+            combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].entityOnGrid = -1;
+            combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].gameObject.name = "[" + tb.IndexInGrid.x + ", " + tb.IndexInGrid.y + "]";
         }
     }
 
