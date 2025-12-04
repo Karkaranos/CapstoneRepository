@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	12/1/2025
+Date Last Modified : 	12/4/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -170,7 +170,14 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        currentHealth -= damage;
+
+        //int casting truncates instead of rounds so this if there is extra damage it rounds up
+        if(damage % 1 != 0)
+        {
+            damage += 1;
+        }
+
+        currentHealth -= (int)damage;
         print("Enemy takes damage");
         healthBarSlider.value = currentHealth;
         if (currentHealth < 0)
