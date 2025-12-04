@@ -18,14 +18,7 @@ public class RangedEnemyMoveState : RangedEnemyState
     /// </summary>
     public async override void EnterState()
     {
-        enemy.logText.text = "Moving";
-
-        /*
-         * Check if player to close 
-         * Pathfinding Logic HERE (move to or away from player) 
-         * Move Coroutine 
-         * await delay 
-         */
+        enemy.logText.text = "M";
 
         enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.StartMoveCoroutine();

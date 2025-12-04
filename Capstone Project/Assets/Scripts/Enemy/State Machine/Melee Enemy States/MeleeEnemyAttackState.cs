@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	12/2/2025
 Brief Description : 		Base class for all states
 External Resources : 	
 ***************************************************/
@@ -21,7 +21,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     {
         Debug.Log("Entered Attacking state");
 
-        enemy.logText.text = "Attacking";
+        enemy.logText.text = "A";
 
         //damage player
         enemy.playerStats.TakeDamage(enemy.damage);
