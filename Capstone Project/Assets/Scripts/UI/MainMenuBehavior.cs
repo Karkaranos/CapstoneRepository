@@ -16,6 +16,7 @@ public class MainMenuBehavior : MonoBehaviour
 
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject creditsScreen;
     [SerializeField] private GameObject confirmQuit;
 
     /// <summary>
@@ -41,6 +42,11 @@ public class MainMenuBehavior : MonoBehaviour
         if (settingsMenu.activeSelf)
         {
             settingsMenu.GetComponent<MenuBehavior>().Return();
+            return;
+        }
+        if (creditsScreen.activeSelf)
+        {
+            creditsScreen.GetComponent<MenuBehavior>().Return();
             return;
         }
         if (confirmQuit.activeSelf)
