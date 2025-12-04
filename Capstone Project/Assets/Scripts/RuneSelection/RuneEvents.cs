@@ -1,8 +1,9 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 11/23/2025
+Date Last Modified : 12/02/2025
 Brief Description : Contains rune types and effects
+                    TODO: split this into smaller scripts a heem heem
 External Resources : 	
 	***************************************************/
 
@@ -12,8 +13,6 @@ using FMOD.Studio;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
@@ -345,7 +344,12 @@ public class RuneEvents : MonoBehaviour
         if (!isRadiusCheck)
         {
 
-            tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
+            if(storedData.TypeOfRune == RuneType.Wind && storedData.NumberOnSkillTree == 3)
+            {
+
+                tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
+
+            }
 
             for (int i = 0; i < storedData.RuneRange + 1; i++)
             {
@@ -477,6 +481,17 @@ public class RuneEvents : MonoBehaviour
     }
 
     /// <summary>
+    /// lists the tiles around the target in a box shape
+    /// different from range. i'll figure it out
+    /// </summary>
+    void GetTilesAroundTarget()
+    {
+
+
+
+    }
+
+    /// <summary>
     /// triggers spells based on the tile or enemy that the player has selected
     /// </summary>
     /// <param name="tile"> the tile that the player has selected </param>
@@ -551,8 +566,8 @@ public class RuneEvents : MonoBehaviour
 
                     tile.ElectrifyTile();
 
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
+                    //AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
+                    //AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
                     
 
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
@@ -578,8 +593,8 @@ public class RuneEvents : MonoBehaviour
 
                     tile.ElectrifyTile();
 
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_2);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_2, audioListenerObject.transform.position);
+                    //AudioManager.instance.CreateEventInstance(lightningSpellSFX_2);
+                    //AudioManager.instance.PlayOneShot(lightningSpellSFX_2, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
@@ -588,7 +603,7 @@ public class RuneEvents : MonoBehaviour
 
                         secondaryTarget.Damage(damageDealt);
 
-                        GridManager.combatGrid[(int)secondaryTarget.transform.position.x, (int)secondaryTarget.transform.position.z].ElectrifyTile();
+                        secondaryTarget.GetComponentInParent<TileBehaviour>().ElectrifyTile();
 
                         //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
                         //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
@@ -629,8 +644,8 @@ public class RuneEvents : MonoBehaviour
 
                     tile.ElectrifyTile();
 
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
+                    //AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
+                    //AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
 
@@ -642,7 +657,7 @@ public class RuneEvents : MonoBehaviour
                         foreach (Enemy newEnemy in enemiesOnTheGrid)
                         {
 
-                            if ((int)newEnemy.transform.position.x == tileInRange.IndexInGrid.x && (int)newEnemy.transform.position.z == tileInRange.IndexInGrid.y)
+                            if (newEnemy.GetComponentInParent<TileBehaviour>() == tileInRange)
                             {
 
                                 newEnemy.Damage(Mathf.CeilToInt(0.40f * damageDealt));
@@ -688,8 +703,8 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+                AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
 
                 FindLineOfTargets(tile);
@@ -706,8 +721,7 @@ public class RuneEvents : MonoBehaviour
                     foreach (Enemy newEnemy in enemiesOnTheGrid)
                     {
 
-                        if ((int)newEnemy.transform.position.x == potentialTarget.IndexInGrid.x &&
-                            (int)newEnemy.transform.position.z == potentialTarget.IndexInGrid.y)
+                        if (newEnemy.GetComponentInParent<TileBehaviour>() == potentialTarget)
                         {
 
                             newEnemy.Damage(damageDealt);
@@ -753,7 +767,7 @@ public class RuneEvents : MonoBehaviour
         foreach (Enemy enemy in enemies)
         {
 
-            if ((int)enemy.transform.position.x == target.IndexInGrid.x && (int)enemy.transform.position.z == target.IndexInGrid.y)
+            if (enemy.GetComponentInParent<TileBehaviour>() == target)
             {
 
                 continue;
@@ -964,12 +978,12 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(enemy);
 
-
                     VFX = Instantiate(storedData.RuneVFX, tile.transform);
-                    AudioManager.instance.CreateEventInstance(windSpellSFX_1);
-                    AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
-                    enemy.SendEnemyBackwards
-                                    (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile);
+
+                    //AudioManager.instance.CreateEventInstance(windSpellSFX_1);
+                    //AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
+
+                    SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile, enemy);
 
                     EndPlayerAttackPhase();
 
@@ -1019,15 +1033,13 @@ public class RuneEvents : MonoBehaviour
                     debugText.text = "Shield added!";
 
 
-
-
                 }
 
 
                 newShield.OnShieldGenerated(tile.transform, storedData.RuneVFX);
                 
-                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
-                    AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
+                AudioManager.instance.CreateEventInstance(windSpellSFX_3);
+                AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
 
                 EndPlayerAttackPhase();
 
@@ -1045,8 +1057,8 @@ public class RuneEvents : MonoBehaviour
 
                 VFX = Instantiate(storedData.RuneVFX, tile.transform);
                 
-                AudioManager.instance.CreateEventInstance(windSpellSFX_4);
-                AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
+                //AudioManager.instance.CreateEventInstance(windSpellSFX_4);
+                //AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
                 if (enemy != null)
                 {
@@ -1077,7 +1089,7 @@ public class RuneEvents : MonoBehaviour
                     foreach (Enemy newEnemy in enemiesOnTheGrid)
                     {
 
-                        if ((int)newEnemy.transform.position.x == tileInRange.IndexInGrid.x && (int)newEnemy.transform.position.z == tileInRange.IndexInGrid.y)
+                        if (newEnemy.GetComponentInParent<TileBehaviour>() == tileInRange)
                         {
 
                             validEnemies.Add(newEnemy);
@@ -1108,7 +1120,76 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-    } 
+    }
+
+    /// <summary>
+    /// shoves the enemy backwards relative from where wind 1 was initially cast
+    /// </summary>
+    /// <param name="playerTile"> tile that the player occupies </param>
+    /// <param name="enemyTile"> tile that the enemy occupies </param>
+    /// <param name="enemy"> the target </param>
+    void SendEnemyBackwards(TileBehaviour playerTile, TileBehaviour enemyTile, Enemy enemy)
+    {
+
+        Vector2Int newTilePos = enemyTile.IndexInGrid;
+
+        if (playerTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
+        {
+
+            newTilePos.x += 1;
+
+        }
+        else if (playerTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
+        {
+
+            newTilePos.x -= 1;
+
+        }
+
+        if (playerTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
+        {
+
+            newTilePos.y += 1;
+
+        }
+        else if (playerTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
+        {
+
+            newTilePos.y -= 1;
+
+        }
+
+        Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+        foreach (TileBehaviour tile in GridManager.combatGrid)
+        {
+
+            if (tile.IndexInGrid == newTilePos && tile.entityOnGrid > -3)
+            {
+
+                foreach (Enemy otherEnemy in otherEnemies)
+                {
+
+                    if (otherEnemy.transform.position.x == newTilePos.x && otherEnemy.transform.position.z == newTilePos.y)
+                    {
+
+                        return;
+
+                    }
+
+                }
+
+                enemy.transform.SetParent(tile.transform);
+
+                enemy.transform.position = new Vector3 (tile.transform.position.x, 0, tile.transform.position.z);
+
+                break;
+
+            }
+
+        }
+
+    }
 
     #endregion WIND FUNCTIONS
 
@@ -1193,14 +1274,14 @@ public class RuneEvents : MonoBehaviour
 
         //PART 1: FINDING TARGETS
 
-        RangeCheck(true, 2, GridManager.combatGrid[(int)enemy.transform.position.x, (int)enemy.transform.position.z]);
+        RangeCheck(true, 2, enemy.GetComponentInParent<TileBehaviour>());
 
         List<Enemy> validEnemies = new List<Enemy>();
 
         foreach (TileBehaviour tile in tilesInRange)
         {
 
-            if (tile == GridManager.combatGrid[(int)enemy.transform.position.x, (int)enemy.transform.position.z])
+            if (tile == enemy.GetComponentInParent<TileBehaviour>())
             {
 
                 continue;
@@ -1210,7 +1291,7 @@ public class RuneEvents : MonoBehaviour
             foreach (Enemy newEnemy in enemiesOnTheGrid)
             {
 
-                if ((int)newEnemy.transform.position.x == tile.IndexInGrid.x && (int)newEnemy.transform.position.z == tile.IndexInGrid.y)
+                if (newEnemy.GetComponentInParent<TileBehaviour>() == tile)
                 {
 
                     validEnemies.Add(newEnemy);
@@ -1287,7 +1368,7 @@ public class RuneEvents : MonoBehaviour
 
             validEnemies[i].Damage(lightningDamage);
 
-            GridManager.combatGrid[(int)validEnemies[i].transform.position.x, (int)validEnemies[i].transform.position.z].ElectrifyTile();
+            validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyTile();
 
         }
 
