@@ -182,7 +182,7 @@ public class Enemy : MonoBehaviour
                 TryDropItem();
             }
         }
-        logText.text = "Enemy took " + damage + " damage";
+        logText.text = damage + " dmg";
         print(currentHealth);
         
     }
