@@ -113,6 +113,9 @@ public class Enemy : MonoBehaviour
     [HorizontalLine(4, EColor.Green)]
 
     [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
+    [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField,
+        Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")]
+    public int moveStateDelay;
 
     #endregion
 

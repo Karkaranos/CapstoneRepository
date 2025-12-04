@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	12/2/2025 Clare Grady
+Date Last Modified : 	12/4/2025 Clare Grady
 Brief Description : 		Melee Enemy Move State
 External Resources : 	
 ***************************************************/
@@ -31,9 +31,9 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         //delay in milliseconds for the grid to update
         //Based on move coroutine and how many steps an enemy takes per turn 
-        await Task.Delay(4000);
+        await Task.Delay(enemy.moveStateDelay * 1000);
 
-        if(enemy.GetPlayerInAttackRange())
+        if (enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition())
         {
             Logger.Log("Enemy State: Move -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
