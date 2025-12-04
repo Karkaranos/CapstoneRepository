@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	10/19/2025
+Date Last Modified : 	12/2/2025
 Brief Description : 		Run state for Melee Enemy
 External Resources : 	
 ***************************************************/
@@ -20,7 +20,7 @@ public class MeleeEnemyRunState : MeleeEnemyState
     public override void EnterState()
     {
         Debug.Log("Enter Run State");
-        enemy.logText.text = "Running";
+        enemy.logText.text = "R";
         //TODO run logic 
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
     }
