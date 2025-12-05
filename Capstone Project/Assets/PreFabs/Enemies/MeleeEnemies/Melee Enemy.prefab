@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.05, y: 1.603}
-  m_SizeDelta: {x: 1.6256, y: 0.3755}
+  m_AnchoredPosition: {x: -0.0737, y: 1.603}
+  m_SizeDelta: {x: 2.685, y: 0.3755}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &989846620260296245
 MeshRenderer:
@@ -667,7 +667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 3
   healthBarSlider: {fileID: 8534701960708135817}
   maxHealth: 60
   lowHealthPercentage: 0.8
@@ -686,6 +686,7 @@ MonoBehaviour:
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
+  moveStateDelay: 2
   secondsBetweenStateTransitions: 1.75
   canAttackTwice: 0
   isLowHealth: 0

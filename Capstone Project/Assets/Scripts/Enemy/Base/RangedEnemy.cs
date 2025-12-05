@@ -34,9 +34,7 @@ public class RangedEnemy : Enemy
     #region TEST VARS
 
     [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField] private bool playerInLineOfSight;
-    [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField,
-        Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")] 
-    public int moveStateDelay;
+   
 
     #endregion
 
