@@ -878,23 +878,24 @@ public class RuneEvents : MonoBehaviour
 
             }
 
-            if (tile.transform.position.x == GridManager.playerPosition.x &&
-                   Mathf.Abs(GridManager.playerPosition.y - tile.transform.position.z) <= storedData.RuneRange)
+            if (tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                   Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z) <= storedData.RuneRange)
             {
 
                 tilesInRange.Add(tile);
 
             }
-            else if (tile.transform.position.z == GridManager.playerPosition.y &&
-               Mathf.Abs(GridManager.playerPosition.x - tile.transform.position.x) <= storedData.RuneRange)
+            else if (tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x) <= storedData.RuneRange)
             {
 
                 tilesInRange.Add(tile);
 
             }
-            else if (Mathf.Approximately(Mathf.Abs(GridManager.playerPosition.y - tile.transform.position.z), Mathf.Abs(GridManager.playerPosition.x - tile.transform.position.x)) &&
-               Mathf.Abs(GridManager.playerPosition.y - tile.transform.position.z) <= storedData.RuneRange &&
-               Mathf.Abs(GridManager.playerPosition.x - tile.transform.position.x) <= storedData.RuneRange)
+            else if (Mathf.Approximately(Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z),
+               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x)) &&
+               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z) <= storedData.RuneRange &&
+               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x) <= storedData.RuneRange)
             {
 
                 tilesInRange.Add(tile);
@@ -922,23 +923,24 @@ public class RuneEvents : MonoBehaviour
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if (GridManager.playerPosition.x != initialTarget.transform.position.x && GridManager.playerPosition.y == initialTarget.transform.position.z)
+            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x != initialTarget.transform.position.x &&
+                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y == initialTarget.transform.position.z)
             {
 
-                if (GridManager.playerPosition.x < initialTarget.transform.position.x &&
-                    tile.transform.position.x > GridManager.playerPosition.x &&
-                    tile.transform.position.z == GridManager.playerPosition.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.playerPosition.x) <= storedData.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < initialTarget.transform.position.x &&
+                    tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                    tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= storedData.RuneRange)
                 {
 
                     potentialTargetsForLightningStrikes.Add(tile);
 
                 }
 
-                if (GridManager.playerPosition.x > initialTarget.transform.position.x &&
-                    tile.transform.position.x < GridManager.playerPosition.x &&
-                    tile.transform.position.z == GridManager.playerPosition.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.playerPosition.x) <= storedData.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > initialTarget.transform.position.x &&
+                    tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                    tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= storedData.RuneRange)
                 {
 
                     potentialTargetsForLightningStrikes.Add(tile);
@@ -947,23 +949,24 @@ public class RuneEvents : MonoBehaviour
 
             }
 
-            if (GridManager.playerPosition.x == initialTarget.transform.position.x && GridManager.playerPosition.y != initialTarget.transform.position.z)
+            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x == initialTarget.transform.position.x &&
+                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y != initialTarget.transform.position.z)
             {
 
-                if (GridManager.playerPosition.y < initialTarget.transform.position.z &&
-                    tile.transform.position.z > GridManager.playerPosition.y &&
-                    tile.transform.position.x == GridManager.playerPosition.x &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.playerPosition.y) <= storedData.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y < initialTarget.transform.position.z &&
+                    tile.transform.position.z > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                    tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= storedData.RuneRange)
                 {
 
                     potentialTargetsForLightningStrikes.Add(tile);
 
                 }
 
-                if (GridManager.playerPosition.y > initialTarget.transform.position.z &&
-                    tile.transform.position.z < GridManager.playerPosition.y &&
-                    tile.transform.position.x == GridManager.playerPosition.x &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.playerPosition.y) <= storedData.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y > initialTarget.transform.position.z &&
+                    tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                    tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= storedData.RuneRange)
                 {
 
                     potentialTargetsForLightningStrikes.Add(tile);
@@ -972,18 +975,20 @@ public class RuneEvents : MonoBehaviour
 
             }
 
-            if (GridManager.playerPosition.x != initialTarget.transform.position.x && GridManager.playerPosition.y != initialTarget.transform.position.z)
+            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x != initialTarget.transform.position.x &&
+                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y != initialTarget.transform.position.z)
             {
 
-                if (GridManager.playerPosition.x < initialTarget.transform.position.x &&
-                    tile.transform.position.x > GridManager.playerPosition.x &&
-                    GridManager.playerPosition.y < initialTarget.transform.position.z &&
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < initialTarget.transform.position.x &&
+                    tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                    GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y < initialTarget.transform.position.z &&
                     tile.transform.position.z > GridManager.playerPosition.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.playerPosition.x) <= storedData.RuneRange &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.playerPosition.y) <= storedData.RuneRange)
+                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= storedData.RuneRange &&
+                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= storedData.RuneRange)
                 {
 
-                    if (Mathf.Approximately((tile.transform.position.x - GridManager.playerPosition.x), (tile.transform.position.z - GridManager.playerPosition.y)))
+                    if (Mathf.Approximately((tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x),
+                       (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y)))
                     {
 
                         potentialTargetsForLightningStrikes.Add(tile);
@@ -992,15 +997,16 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                if (GridManager.playerPosition.x > initialTarget.transform.position.x &&
-                    tile.transform.position.x < GridManager.playerPosition.x &&
-                    GridManager.playerPosition.y > initialTarget.transform.position.z &&
-                    tile.transform.position.z < GridManager.playerPosition.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.playerPosition.x) <= storedData.RuneRange &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.playerPosition.y) <= storedData.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > initialTarget.transform.position.x &&
+                    tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                    GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y > initialTarget.transform.position.z &&
+                    tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= storedData.RuneRange &&
+                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= storedData.RuneRange)
                 {
 
-                    if (Mathf.Approximately((tile.transform.position.x - GridManager.playerPosition.x), (tile.transform.position.z - GridManager.playerPosition.y)))
+                    if (Mathf.Approximately((tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x),
+                       (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y)))
                     {
 
                         potentialTargetsForLightningStrikes.Add(tile);
@@ -1009,15 +1015,16 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                if (GridManager.playerPosition.x < initialTarget.transform.position.x &&
-                    tile.transform.position.x > GridManager.playerPosition.x &&
-                    GridManager.playerPosition.y > initialTarget.transform.position.z &&
-                    tile.transform.position.z < GridManager.playerPosition.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.playerPosition.x) <= storedData.RuneRange &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.playerPosition.y) <= storedData.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < initialTarget.transform.position.x &&
+                    tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                    GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y > initialTarget.transform.position.z &&
+                    tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= storedData.RuneRange &&
+                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= storedData.RuneRange)
                 {
 
-                    if (Mathf.Approximately((GridManager.playerPosition.x - tile.transform.position.x), (tile.transform.position.z - GridManager.playerPosition.y)))
+                    if (Mathf.Approximately((GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x),
+                       (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y)))
                     {
 
                         potentialTargetsForLightningStrikes.Add(tile);
@@ -1026,15 +1033,16 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                if (GridManager.playerPosition.x > initialTarget.transform.position.x &&
-                   tile.transform.position.x < GridManager.playerPosition.x &&
-                   GridManager.playerPosition.y < initialTarget.transform.position.z &&
-                   tile.transform.position.z > GridManager.playerPosition.y &&
-                   Mathf.Abs(tile.transform.position.x - GridManager.playerPosition.x) <= storedData.RuneRange &&
-                   Mathf.Abs(tile.transform.position.z - GridManager.playerPosition.y) <= storedData.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > initialTarget.transform.position.x &&
+                   tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                   GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y < initialTarget.transform.position.z &&
+                   tile.transform.position.z > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                   Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= storedData.RuneRange &&
+                   Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= storedData.RuneRange)
                 {
 
-                    if (Mathf.Approximately((GridManager.playerPosition.x - tile.transform.position.x), (GridManager.playerPosition.y - tile.transform.position.z)))
+                    if (Mathf.Approximately((GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x),
+                       (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z)))
                     {
 
                         potentialTargetsForLightningStrikes.Add(tile);
