@@ -534,6 +534,34 @@ PrefabInstance:
       value: -116.162
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: windHighlight.a
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: windHighlight.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: windHighlight.r
+      value: 0.11765337
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: defaultHighlight.a
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: defaultHighlight.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: defaultHighlight.g
+      value: 0.043137256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: defaultHighlight.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: audioListenerObject
       value: 
       objectReference: {fileID: 456323113}
@@ -554,8 +582,20 @@ PrefabInstance:
       value: event:/Wind Spell 3
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: lightningHighlight.a
+      value: 0.5019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: lightningHighlight.g
+      value: 0.977998
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: lightningHighlight.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: currentInspectorShowing
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_1.Path
@@ -572,6 +612,18 @@ PrefabInstance:
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_4.Path
       value: event:/Lightning Spell 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: windSecondaryHighlight.a
+      value: 0.2509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: windSecondaryHighlight.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: windSecondaryHighlight.r
+      value: 0.11764706
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: windSpellSFX_1.Guid.Data1
@@ -636,6 +688,18 @@ PrefabInstance:
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: windSpellSFX_4.Guid.Data4
       value: -1066643954
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: lightningSecondaryHighlight.a
+      value: 0.2509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: lightningSecondaryHighlight.g
+      value: 0.9764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: lightningSecondaryHighlight.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_1.Guid.Data1
@@ -6461,6 +6525,10 @@ PrefabInstance:
     - target: {fileID: 5740814544277476685, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: m_Name
       value: GameManager (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069175424404703298, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: selectedSetting
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7069175424404703298, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: gridPrefabs.Array.size
