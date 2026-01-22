@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/19/2025
-Date Last Modified : 	12/2/2025
+Date Last Modified : 	12/4/2025
 Brief Description : 		Ranged enemy move state
 External Resources : 	
 ***************************************************/
@@ -18,21 +18,14 @@ public class RangedEnemyMoveState : RangedEnemyState
     /// </summary>
     public async override void EnterState()
     {
-        enemy.logText.text = "Moving";
-
-        /*
-         * Check if player to close 
-         * Pathfinding Logic HERE (move to or away from player) 
-         * Move Coroutine 
-         * await delay 
-         */
+        enemy.logText.text = "M";
 
         enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.StartMoveCoroutine();
 
-        await Task.Delay(enemy.moveStateDelay * 1000);
+        await Task.Delay(enemy.MoveStateDelay * 1000);
 
-        if (enemy.GetPlayerInAttackRange() && enemy.GetPlayerInLineOfSight())
+        if(enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition() && enemy.GetPlayerInLineOfSight())
         {
             Debug.Log("Move -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));

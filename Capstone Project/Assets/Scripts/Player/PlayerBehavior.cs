@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon
+Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	11/8/2025 (Clare Grady)
+Date Last Modified : 	12/6/2025 (Cade Naylor)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -23,6 +23,8 @@ public class PlayerBehavior : GridPathfinding
     public Input playerInput;
     [SerializeField] private InputAction playerClick;
     [SerializeField] private InputAction playermoveClick;
+    [SerializeField, Tooltip("A reference to the object the Animator is on")] private GameObject animObj;
+    private Animator anim;
 
     [Tooltip("references the player's game object")]
     public GameObject player;
@@ -51,6 +53,7 @@ public class PlayerBehavior : GridPathfinding
     {
         buttonManager = FindFirstObjectByType<ButtonManager>();
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
+        anim = animObj.GetComponent<Animator>();
     }
 
     #region player input
@@ -171,6 +174,7 @@ public class PlayerBehavior : GridPathfinding
             t.ShowHighlight(true);
         }
         base.PathfindThroughGrid();
+        anim.SetTrigger("Walk");
         StartMoveCoroutine();
     }
 
@@ -183,6 +187,7 @@ public class PlayerBehavior : GridPathfinding
         gm.UpdateActionPoints(gm.MoveActionPoints);
         buttonManager.ReEnableActionCanvas();
         EnableMovableTiles();
+        anim.SetTrigger("Idle");
     }
     #endregion
 }

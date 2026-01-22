@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	12/1/2025
+Date Last Modified : 	12/4/2025
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -113,6 +113,9 @@ public class Enemy : MonoBehaviour
     [HorizontalLine(4, EColor.Green)]
 
     [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
+    [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField,
+        Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")]
+    public int MoveStateDelay;
 
     #endregion
 
@@ -167,7 +170,14 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        currentHealth -= damage;
+
+        //int casting truncates instead of rounds so this if there is extra damage it rounds up
+        if(damage % 1 != 0)
+        {
+            damage += 1;
+        }
+
+        currentHealth -= (int)damage;
         print("Enemy takes damage");
         healthBarSlider.value = currentHealth;
         if (currentHealth < 0)
@@ -179,7 +189,7 @@ public class Enemy : MonoBehaviour
                 TryDropItem();
             }
         }
-        logText.text = "Enemy took " + damage + " damage";
+        logText.text = damage + " dmg";
         print(currentHealth);
         
     }
@@ -269,72 +279,6 @@ public class Enemy : MonoBehaviour
     public virtual bool GetPlayerInAttackRange()
     { 
         return false;
-    }
-
-    /// <summary>
-    /// shoves the enemy backwards relative from where wind 1 was initially cast
-    /// </summary>
-    /// <param name="player"> initial tile targeted by the player </param>
-    /// <param name="target"> current enemy being pushed back </param>
-    public void SendEnemyBackwards(TileBehaviour player, TileBehaviour target)
-    {
-
-        Vector2Int newTilePos = target.IndexInGrid;
-
-        if(player.IndexInGrid.x < target.IndexInGrid.x)
-        {
-
-            newTilePos.x += 1;
-
-        }
-        else if (player.IndexInGrid.x > target.IndexInGrid.x)
-        {
-
-            newTilePos.x -= 1;
-
-        }
-
-        if(player.IndexInGrid.y < target.IndexInGrid.y)
-        {
-
-            newTilePos.y += 1;
-
-        }
-        else if(player.IndexInGrid.y > target.IndexInGrid.y)
-        {
-
-            newTilePos.y -= 1;
-
-        }
-
-        Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-
-        foreach(TileBehaviour tile in GridManager.combatGrid)
-        {
-
-            if(tile.IndexInGrid == newTilePos && tile.entityOnGrid > -3)
-            {
-
-                foreach(Enemy otherEnemy in otherEnemies)
-                {
-
-                    if(otherEnemy.transform.position.x == newTilePos.x && otherEnemy.transform.position.z == newTilePos.y)
-                    {
-
-                        return;
-
-                    }
-
-                }
-
-                this.gameObject.transform.position = new Vector3(newTilePos.x, 0, newTilePos.y);
-
-                break;
-
-            }
-
-        }
-
     }
 
     /// <summary>
