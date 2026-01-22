@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/18/2025
-Date Last Modified : 	12/01/2025 (Brad Dixon)
+Date Last Modified : 	12/02/2025 (Clare)
 Brief Description : 		Base class for Range enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -33,11 +33,8 @@ public class RangedEnemy : Enemy
 
     #region TEST VARS
 
-    [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField] private bool playerInAttackRange;
     [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField] private bool playerInLineOfSight;
-    [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField,
-        Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")] 
-    public int moveStateDelay;
+   
 
     #endregion
 

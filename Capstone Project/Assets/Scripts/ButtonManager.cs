@@ -56,7 +56,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+
         cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
 
@@ -103,6 +103,8 @@ public class ButtonManager : MonoBehaviour
         playerCanvas.SetActive(false);
         runeCanvas.SetActive(false);
         moveButton.interactable = true;
+
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
 
         if (playerBehavior.tilesInRange.Count > 0)
         {

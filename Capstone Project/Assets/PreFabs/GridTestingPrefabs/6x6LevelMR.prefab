@@ -79,6 +79,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquareTile (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 4783539203105897824, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 91760f36a35b9134c82f0e1ac8f586ee, type: 2}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: entityType
       value: 2
@@ -93,10 +101,18 @@ PrefabInstance:
       objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasHazards
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: electrificationDuration
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
@@ -257,7 +273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1077,7 +1093,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1805,6 +1821,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquareTile (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 4783539203105897824, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 91760f36a35b9134c82f0e1ac8f586ee, type: 2}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: entityType
       value: 2
@@ -1819,10 +1843,18 @@ PrefabInstance:
       objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasHazards
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: electrificationDuration
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
@@ -2011,6 +2043,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquareTile (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 4783539203105897824, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 91760f36a35b9134c82f0e1ac8f586ee, type: 2}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: entityType
       value: 2
@@ -2025,10 +2065,18 @@ PrefabInstance:
       objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasHazards
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: TileHasEntities
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: electrificationDuration
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
@@ -2512,6 +2560,22 @@ PrefabInstance:
     - target: {fileID: 2651943507685111687, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_Name
       value: SquareTile (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4783539203105897824, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 91760f36a35b9134c82f0e1ac8f586ee, type: 2}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: tileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: damageWhenElectrified
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244662445083863600, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
+      propertyPath: electrificationDuration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6649531733221127407, guid: c150d48ba870c3d4f8bb192ecc7ec853, type: 3}
       propertyPath: m_LocalPosition.x

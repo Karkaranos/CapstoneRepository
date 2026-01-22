@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6163027165165824754}
   - component: {fileID: 886176726807770429}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 574336995632580795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13, y: 0.794, z: 0}
+  m_LocalPosition: {x: 0.13, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -525,7 +525,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9, y: 1, z: 0.9}
+  m_Size: {x: 0.9, y: 1.5, z: 0.9}
   m_Center: {x: 0, y: 0.78, z: 0}
 --- !u!54 &366966636398162920
 Rigidbody:
@@ -549,7 +549,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
@@ -618,6 +618,7 @@ MonoBehaviour:
       m_Action: Playermove Click
       m_Flags: 0
     m_Flags: 0
+  animObj: {fileID: 574336995632580795}
   player: {fileID: 6675322036123795430}
   MouseIsClicked: 0
   PlayerCanMove: 0

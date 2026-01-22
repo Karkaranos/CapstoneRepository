@@ -260,6 +260,17 @@ public class GridPathfinding : MonoBehaviour
     }
 
     /// <summary>
+    /// sets the enemy's position when the enemy is knocked back (for now)
+    /// </summary>
+    /// <param name="newPos"> the enemy's new position </param>
+    public void SetPosition(Vector2Int newPos)
+    {
+
+        myPosition = newPos;
+
+    }
+
+    /// <summary>
     /// Function that enemies call to set their aggro range
     /// </summary>
     /// <param name="aggroRange"></param>

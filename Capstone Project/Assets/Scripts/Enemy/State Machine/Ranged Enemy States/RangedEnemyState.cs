@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		11/19/2025
-Date Last Modified : 	11/19/2025
+Date Last Modified : 	12/2/2025
 Brief Description : 		Base class for all Ranged Enemy States
 External Resources : 	
 ***************************************************/

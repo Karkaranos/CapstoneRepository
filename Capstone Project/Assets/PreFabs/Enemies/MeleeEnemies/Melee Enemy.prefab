@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0014, y: 1.79}
-  m_SizeDelta: {x: 9.8361, y: 0.8302}
+  m_AnchoredPosition: {x: -0.0737, y: 1.603}
+  m_SizeDelta: {x: 2.685, y: 0.3755}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &989846620260296245
 MeshRenderer:
@@ -129,13 +129,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 4
+  m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -667,14 +667,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 3
   healthBarSlider: {fileID: 8534701960708135817}
   maxHealth: 60
   lowHealthPercentage: 0.8
   currentHealth: 5
   aggroRange: 20
   attackRange: 1
-  damage: 10
+  damage: 15
   artifactDropChance: 0.5
   turnIndicator: {fileID: 7712963151286290330}
   playerStats: {fileID: 0}
@@ -686,8 +686,9 @@ MonoBehaviour:
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
+  moveStateDelay: 2
   secondsBetweenStateTransitions: 1.75
-  canAttackTwice: 1
+  canAttackTwice: 0
   isLowHealth: 0
   hasMovedForTurn: 0
   hasAttackedTwice: 0
@@ -925,7 +926,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -335.92, y: -183.19}
+  m_AnchoredPosition: {x: -336.1, y: -184.11}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1940619935356180316
