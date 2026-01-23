@@ -18,6 +18,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private CanvasGroup endMenuUi;
     [SerializeField] private TMP_Text text;
 
+    [SerializeField] private FMOD.Studio.Bus MasterBus;
+
     #endregion
 
     #region FUNCTIONS
@@ -30,6 +32,9 @@ public class EndLevelMenu : MonoBehaviour
         endMenuUi.alpha = 0;
         endMenuUi.interactable = false;
         endMenuUi.blocksRaycasts = false;
+
+        MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
+        // Grabs bus manager for audio
     }
 
     /// <summary>
@@ -40,6 +45,8 @@ public class EndLevelMenu : MonoBehaviour
         endMenuUi.alpha = 1;
         endMenuUi.interactable = true;
         endMenuUi.blocksRaycasts = true;
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //stops all audio
     }
 
     /// <summary>
