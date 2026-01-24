@@ -13,12 +13,18 @@ public class MenuBehavior : MonoBehaviour
 {
     [HideInInspector] public MenuBehavior previousMenu;
 
+    [SerializeField] private FMOD.Studio.Bus MasterBus;
+
+
     /// <summary>
     /// Gets a reference to the inputActions and makes sure that the timescale is normal
     /// </summary>
     private void Awake()
     {
         previousMenu = null;
+
+        MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
+        // Grabs bus manager for audio
     }
 
     /// <summary>
@@ -28,6 +34,9 @@ public class MenuBehavior : MonoBehaviour
     public void LoadScene(int sceneToLoad)
     {
         SceneManager.LoadScene(sceneToLoad);
+
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //stops all audio
     }
 
     /// <summary>
