@@ -19,6 +19,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction mousePos;
     private InputAction rightClick;
     private InputAction leftClick;
+    private InputAction toggleConsole;
 
     //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
     private bool mousePressed = false;
@@ -37,6 +38,7 @@ public class PlayerInputHandler : MonoBehaviour
         mousePos = pInput.currentActionMap.FindAction("MousePos");
         rightClick = pInput.currentActionMap.FindAction("RightClick");
         leftClick = pInput.currentActionMap.FindAction("LeftClick");
+        toggleConsole = pInput.currentActionMap.FindAction ("ToggleConsole");
 
         mousePressed = false;
     }
@@ -50,7 +52,10 @@ public class PlayerInputHandler : MonoBehaviour
         PublicEvents.EnablePlayersInputs += EnableOrDisablePlayersInputs;
         rightClick.started += RightClick_started;
         leftClick.started += LeftClick_started;
+        toggleConsole.started += Toggle_started;
     }
+
+   
 
     /// <summary>
     /// unsubscribes from all needed functions
@@ -100,6 +105,17 @@ public class PlayerInputHandler : MonoBehaviour
     private void RightClick_started(InputAction.CallbackContext obj)
     {
         PublicEvents.RightClicked?.Invoke();
+    }
+
+    /// <summary>
+    /// toggles the console
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <exception cref="System.NotImplementedException"></exception>
+    private void Toggle_started(InputAction.CallbackContext obj)
+    {
+        Debug.Log("sending public event");
+        PublicEvents.ToggleConsole?.Invoke();
     }
 
     /// <summary>
