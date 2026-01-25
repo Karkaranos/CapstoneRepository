@@ -115,7 +115,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void Toggle_started(InputAction.CallbackContext obj)
     {
         Debug.Log("sending public event");
-        PublicEvents.ToggleConsole.Invoke();
+        PublicEvents.ToggleConsole?.Invoke();
     }
 
     /// <summary>
