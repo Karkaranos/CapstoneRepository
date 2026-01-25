@@ -45,6 +45,7 @@ public class EndLevelMenu : MonoBehaviour
         endMenuUi.alpha = 1;
         endMenuUi.interactable = true;
         endMenuUi.blocksRaycasts = true;
+
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         //stops all audio
     }
