@@ -374,6 +374,7 @@ GameObject:
   - component: {fileID: 6184367367168048908}
   - component: {fileID: 8697093676939862929}
   - component: {fileID: 2050183598138995231}
+  - component: {fileID: 3900253293606286199}
   m_Layer: 0
   m_Name: RuneSelectionMenu
   m_TagString: Untagged
@@ -433,7 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d02e00acd81d54391fd2ad05163172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInspectorShowing: 2
+  currentInspectorShowing: 0
   lightningDamageTierOne: 0
   lightningMasteredDamageTierOne: 0
   windPrimaryDamageTierOne: 0
@@ -506,10 +507,24 @@ MonoBehaviour:
       Data4: -1066643954
     Path: event:/Wind Spell 3
   audioListenerObject: {fileID: 1310564480326423724, guid: 9df111ac7088d08479ae091541dc69cc, type: 3}
+--- !u!114 &3900253293606286199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855403627261053851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183da8210ca5e2c47a6dddd374b5e5cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   playerMenu: {fileID: 0}
-  debugText: {fileID: 0}
-  debugComboText: {fileID: 0}
-  tilesInRange: []
+  defaultHighlight: {r: 1, g: 0, b: 0, a: 0.5019608}
+  lightningHighlight: {r: 1, g: 0.9972117, b: 0, a: 0.5019608}
+  lightningSecondaryHighlight: {r: 1, g: 0.99607843, b: 0, a: 0.2509804}
+  windHighlight: {r: 0.19275081, g: 1, b: 0, a: 0.5019608}
+  windSecondaryHighlight: {r: 0.19215687, g: 1, b: 0, a: 0.2509804}
 --- !u!1 &3039117145697402143
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,6 +628,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -749,6 +765,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1233,6 +1250,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1369,6 +1387,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1505,6 +1524,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1762,6 +1782,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
