@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	12/4/2025
+Date Last Modified : 	1/25/2026
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -103,6 +103,9 @@ public class Enemy : MonoBehaviour
         ShowIf(nameof(currentSettings), Settings.Movement),
         Tooltip("Speed enemy slides to next tile")]
     protected float movementSpeed;
+    [ShowIf(nameof(currentSettings), Settings.Movement), SerializeField,
+        Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")]
+    public float moveStateDelay;
     [HideInInspector] public GridPathfinding gridPathfinding;
     [HideInInspector] public TargetingBehaviour targetingBehaviour;
 
@@ -113,9 +116,7 @@ public class Enemy : MonoBehaviour
     [HorizontalLine(4, EColor.Green)]
 
     [SerializeField, ShowIf(nameof(currentSettings), Settings.Testing)] public TextMeshPro logText;
-    [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField,
-        Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")]
-    public int MoveStateDelay;
+    
 
     #endregion
 
