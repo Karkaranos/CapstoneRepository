@@ -293,4 +293,11 @@ public class Enemy : MonoBehaviour
     }
 
     #endregion
+
+    #region GETTERS/SETTERS
+    public float GetMovementSpeed()
+    {
+        return movementSpeed;
+    }
+    #endregion
 }
