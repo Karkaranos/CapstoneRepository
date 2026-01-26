@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	12/6/2025 (Cade Naylor)
+Date Last Modified : 	1/22/2026 (Cade Naylor)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -43,6 +43,9 @@ public class PlayerBehavior : GridPathfinding
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
     public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+
+    [Tooltip("If true, enemy paths will be shown during the player's turn")]
+    public bool TogglePathVisualizer;
     GameManager gm;
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -188,6 +191,14 @@ public class PlayerBehavior : GridPathfinding
         buttonManager.ReEnableActionCanvas();
         EnableMovableTiles();
         anim.SetTrigger("Idle");
+    }
+
+    /// <summary>
+    /// When called, displays the projected path that enemies will take
+    /// </summary>
+    public void VisualizeEnemyPaths()
+    {
+
     }
     #endregion
 }

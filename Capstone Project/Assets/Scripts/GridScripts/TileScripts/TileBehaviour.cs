@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 11/20/2025 (Tyler Bouchard)
+ * Last Modified: 1/22/2026 (Brad Dixon)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -152,6 +152,8 @@ public class TileBehaviour : MonoBehaviour
         if (tileType == TileType.Water) {
             isElectrified = true;
             turnsSinceElectrification = 0;
+
+           // GridManager.GetAllValidAdjacentTiles
         }
     }
 
@@ -173,6 +175,23 @@ public class TileBehaviour : MonoBehaviour
             }
         }
         TurnPublicEvents.TurnActionComplete();
+    }
+
+    /// <summary>
+    /// Checks if a tile can apply its effects
+    /// </summary>
+    /// <returns></returns>
+    public bool CanApplyTileEffects()
+    {
+        if (hazardType == HazardType.damage)
+        {
+            return true;
+        }
+        if (tileType == TileType.Water && isElectrified)
+        {
+            return true;
+        }
+        return false;
     }
 
     /// <summary>

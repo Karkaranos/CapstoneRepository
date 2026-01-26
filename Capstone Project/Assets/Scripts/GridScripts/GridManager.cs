@@ -75,7 +75,7 @@ public class GridManager : MonoBehaviour
         {
             return true;
         }
-        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 || combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
+        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1;
     }
 
     /// <summary>

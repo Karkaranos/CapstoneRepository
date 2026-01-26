@@ -26,10 +26,12 @@ public class GridPathfinding : MonoBehaviour
     [SerializeField] float movementSpeed;
     protected bool isEnemy = true;
 
-    [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found")]
+    [Tooltip("Caps pathfinding limit so it can't search infinitly if no target is found. Also serves at the player's movement limit.")]
     [SerializeField] protected int movementRange;
     protected int pathfindingLimit;
     bool isMoving = false;
+
+    bool underEffect;
 
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
@@ -47,6 +49,7 @@ public class GridPathfinding : MonoBehaviour
     private void Start()
     {
         isEnemy = true;
+        underEffect = false;
     }
 
     /// <summary>
@@ -234,6 +237,17 @@ public class GridPathfinding : MonoBehaviour
                 }
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
+
+            TileBehaviour tileOn = GridManager.combatGrid[nextPosition.x, nextPosition.y];
+            if(tileOn.CanApplyTileEffects() && !underEffect)
+            {
+                tileOn.ApplyTileEffects();
+                underEffect = true;
+            }
+            else if(!tileOn.CanApplyTileEffects() && underEffect)
+            {
+                underEffect = false;
+            }
         }
 
         if(!isEnemy)
@@ -247,6 +261,16 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     virtual protected void ReEnableActionCanvas()
     { }
+
+    public void ShowPath()
+    {
+        PathfindThroughGrid();
+    }
+
+    private void DisplayPath()
+    {
+
+    }
 
     #region GETTERS AND SETTERS
 
