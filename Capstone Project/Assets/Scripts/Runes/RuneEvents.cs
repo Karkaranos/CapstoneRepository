@@ -815,32 +815,17 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if (tile.IndexInGrid == newTilePos && tile.entityOnGrid > -3)
+            if (tile.IndexInGrid == newTilePos && tile.entityOnGrid == -1)
             {
-
-                foreach (Enemy otherEnemy in otherEnemies)
-                {
-
-                    if (otherEnemy.transform.position.x == newTilePos.x && otherEnemy.transform.position.z == newTilePos.y)
-                    {
-
-                        return;
-
-                    }
-
-                }
 
                 enemy.transform.SetParent(tile.transform);
 
                 enemy.transform.position = new Vector3 (tile.transform.position.x, 0, tile.transform.position.z);
 
-                GridManager.MoveToTile(new Vector2Int((int)enemyTile.transform.position.x, (int)enemyTile.transform.position.z),
-                   new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z), -2);
+                GridManager.MoveToTile(enemyTile.IndexInGrid, tile.IndexInGrid, -2);
 
                 enemy.GetComponent<GridPathfinding>().SetPosition(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
 
