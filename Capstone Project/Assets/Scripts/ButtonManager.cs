@@ -123,7 +123,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        cameraManager.SwitchCamera(cameraManager.PlayerZcam);
+        //cameraManager.SwitchCamera(cameraManager.PlayerZcam);
         if (gm.CurrentActionPoints >= gm.MoveActionPoints)
         {
             Debug.Log("The player can move!");
