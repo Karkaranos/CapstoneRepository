@@ -52,6 +52,8 @@ public static class PublicEvents
     //call this to enable / disable the player's inputs
     public static Action<bool> EnablePlayersInputs;
 
+    public static Action ToggleConsole;
+
     #endregion INPUTS
 
     //Triggers whenever a tile is selected while in wait mode(?)
