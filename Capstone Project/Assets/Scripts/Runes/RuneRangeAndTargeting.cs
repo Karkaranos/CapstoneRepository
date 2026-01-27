@@ -24,6 +24,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
     List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
     //for swapping menus
     [SerializeField] GameObject playerMenu;
+    //whether or not the cast was canceled
+    bool castNotCanceled = false;
 
     [Header("Highlight Colors")]
     [SerializeField] Color defaultHighlight;
@@ -446,6 +448,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
     #endregion PLAYER TARGETING
 
 
+    public void SetCastStatus(bool werePointsSpent)
+    {
+
+        castNotCanceled = werePointsSpent;
+
+    }
 
     /// <summary>
     /// runs whenever an enemy is successfully targeted
@@ -456,7 +464,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         waitingForThePlayer = false;
 
-        PublicEvents.RuneCast(storedData.RuneActionPoints);
+        if(castNotCanceled)
+        {
+
+            PublicEvents.RuneCast(storedData.RuneActionPoints);
+
+        }
 
         if (TurnManager.currentStatus == TurnStates.PlayerTurn)
         {
@@ -474,6 +487,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
             tile.ShowHighlight(true);
 
         }
+
+        castNotCanceled = false;
 
     }
 

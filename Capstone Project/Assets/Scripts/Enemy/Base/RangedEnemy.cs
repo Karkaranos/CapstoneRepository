@@ -120,6 +120,7 @@ public class RangedEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
+        Debug.Log("PATHFIND CALLED");
         targetingBehaviour.FindTarget();
         gridPathfinding.PathfindThroughGrid();
         Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
