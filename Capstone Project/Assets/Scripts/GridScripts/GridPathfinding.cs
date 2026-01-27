@@ -269,7 +269,26 @@ public class GridPathfinding : MonoBehaviour
 
     private void DisplayPath()
     {
+        int max = gridDirections.Count - 1;
+        int min = movementRange > gridDirections.Count ? 0 : gridDirections.Count - movementRange;
 
+        for (int i = max; i >= min; --i)
+        {
+            switch (gridDirections[i])
+            {
+                case "Right":
+                    break;
+                case "Left":
+                    break;
+                case "Up":
+                    break;
+                case "Down":
+                    break;
+                default:
+                    Debug.Log("Error!!!");
+                    break;
+            }
+        }
     }
 
     #region GETTERS AND SETTERS

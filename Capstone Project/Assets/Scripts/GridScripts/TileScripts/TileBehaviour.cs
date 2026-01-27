@@ -149,12 +149,52 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     public void ElectrifyTile()
     {
-        if (tileType == TileType.Water) {
+        if (tileType == TileType.Water) 
+        {
             isElectrified = true;
             turnsSinceElectrification = 0;
-
-           // GridManager.GetAllValidAdjacentTiles
         }
+    }
+
+    /// <summary>
+    /// Finds all the connected water tiles so they all get electrified at the same time
+    /// </summary>
+    public void ElectrifyAdTiles()
+    {
+        List<TileBehaviour> adWaterTiles = new List<TileBehaviour>();
+
+        List<Vector2Int> adTiles = GridManager.GetAllValidAdjacentTiles(IndexInGrid, new Vector2Int(-1, -1));
+        foreach (Vector2Int v in adTiles)
+        {
+            //Avoids duplicate tiles
+            if (GridManager.combatGrid[v.x, v.y].CanBeElectrified() && v != IndexInGrid &&
+                adWaterTiles.Contains(GridManager.combatGrid[v.x, v.y]))
+            {
+                adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+            }
+        }
+
+        bool foundAll = false;
+        while(!foundAll)
+        {
+            foundAll = true;
+            List<Vector2Int> adAdTiles = new List<Vector2Int>();
+            foreach(Vector2Int a1 in adAdTiles)
+            {
+                adAdTiles.Add(a1);
+
+
+            }
+        }
+    }
+
+    /// <summary>
+    /// Public check to see if a tile is able to be electrified
+    /// </summary>
+    /// <returns></returns>
+    public bool CanBeElectrified()
+    {
+        return tileType == TileType.Water;
     }
 
     /// <summary>
@@ -207,6 +247,7 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="color"></param>
     public void SetHighlightColor(Color color)
     {
+        color.a = .5f;
         tileHighlight.GetComponent<SpriteRenderer>().color = color;
     }
 
