@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	11/19/2025
+Date Last Modified : 	1/25/2026
 Brief Description : 		Base class for melee enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -84,7 +84,6 @@ public class MeleeEnemy : Enemy
         if(turnDelayed)
         {
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(endTurnState));
-            //enemyStateMachine.ChangeState(endTurnState, 0);
             return;
 
         }
@@ -141,6 +140,7 @@ public class MeleeEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
+        Debug.Log("PATHFIND CALLED");
         targetingBehaviour.FindTarget();
         gridPathfinding.PathfindThroughGrid();
         Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
