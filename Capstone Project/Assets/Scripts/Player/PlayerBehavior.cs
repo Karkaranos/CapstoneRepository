@@ -166,6 +166,12 @@ public class PlayerBehavior : GridPathfinding
             }
             GridManager.ClearPathfinding();
         }
+
+        //Calling here to avoid messing up highlight colors
+        if(TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
     }
 
     /// <summary>
@@ -201,7 +207,13 @@ public class PlayerBehavior : GridPathfinding
     /// </summary>
     public void VisualizeEnemyPaths()
     {
+        Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
+        foreach(Enemy e in enemies)
+        {
+            e.gameObject.GetComponent<GridPathfinding>().ShowPath();
+            Debug.Log("Looped");
+        }
     }
     #endregion
 }

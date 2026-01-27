@@ -262,32 +262,38 @@ public class GridPathfinding : MonoBehaviour
     virtual protected void ReEnableActionCanvas()
     { }
 
+    /// <summary>
+    /// Public call to tell an enemy to show their path
+    /// </summary>
     public void ShowPath()
     {
+        gameObject.GetComponent<TargetingBehaviour>().FindTarget();
+
+        //Resets the highlight
+        if (nextPos.Count > 0)
+        {
+            for (int i = 1; i <= movementRange + 1; ++i)
+            {
+                Vector2Int v = nextPos[nextPos.Count - i];
+                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.red);
+                GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+            }
+        }
+
         PathfindThroughGrid();
+        DisplayPath();
     }
 
+    /// <summary>
+    /// Highlights the enemy's path
+    /// </summary>
     private void DisplayPath()
     {
-        int max = gridDirections.Count - 1;
-        int min = movementRange > gridDirections.Count ? 0 : gridDirections.Count - movementRange;
-
-        for (int i = max; i >= min; --i)
+        for(int i = 1; i <= movementRange + 1; ++i)
         {
-            switch (gridDirections[i])
-            {
-                case "Right":
-                    break;
-                case "Left":
-                    break;
-                case "Up":
-                    break;
-                case "Down":
-                    break;
-                default:
-                    Debug.Log("Error!!!");
-                    break;
-            }
+            Vector2Int v = nextPos[nextPos.Count - i];
+            GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.red);
+            GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
         }
     }
 
