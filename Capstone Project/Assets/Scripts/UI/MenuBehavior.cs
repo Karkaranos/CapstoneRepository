@@ -17,6 +17,9 @@ public class MenuBehavior : MonoBehaviour
     [SerializeField] private GameObject startingSelectedGO;
     [HideInInspector] public bool isActiveMenu;
 
+    [SerializeField] private FMOD.Studio.Bus MasterBus;
+
+
     /// <summary>
     /// Gets a reference to the inputActions and makes sure that the timescale is normal
     /// </summary>
@@ -41,6 +44,8 @@ public class MenuBehavior : MonoBehaviour
     private void OnDisable()
     {
         PublicEvents.ControllerEnabled -= ControllerEnabled;
+        MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
+        // Grabs bus manager for audio
     }
 
     /// <summary>
@@ -50,6 +55,9 @@ public class MenuBehavior : MonoBehaviour
     public void LoadScene(int sceneToLoad)
     {
         SceneManager.LoadScene(sceneToLoad);
+
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //stops all audio
     }
 
     /// <summary>
