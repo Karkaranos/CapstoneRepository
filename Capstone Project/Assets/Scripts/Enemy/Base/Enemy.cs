@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/1/2025
-Date Last Modified : 	1/25/2026
+Date Last Modified : 	1/27/2026
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
@@ -181,7 +181,7 @@ public class Enemy : MonoBehaviour
         currentHealth -= (int)damage;
         print("Enemy takes damage");
         healthBarSlider.value = currentHealth;
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             await Task.Delay(500);
             Die();
