@@ -162,7 +162,7 @@ public class ButtonManager : MonoBehaviour
         playerCanvas.SetActive(true);
         moveCanvas.SetActive(false);
         cameraManager.SwitchCamera(cameraManager.Level1playcam);
-        runeCanvas.GetComponent<RuneEvents>().CancelCasting();
+        PublicEvents.EndCast.Invoke();
         runeCanvas.SetActive(false);
         confirmCanvas.SetActive(false);
 
