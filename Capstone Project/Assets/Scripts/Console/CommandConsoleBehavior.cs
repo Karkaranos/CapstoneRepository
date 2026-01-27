@@ -81,10 +81,7 @@ public class CommandConsoleBehavior : MonoBehaviour
         Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor, infoColor);
         rectTransform = consoleRectTransform;
 
-        actionMap = GetComponent<PlayerInput>().currentActionMap;
-        actionMap.Enable();
-        toggleConsole = actionMap.FindAction("Toggle");
-        toggleConsole.performed += contx => ToggleConsole();
+        PublicEvents.ToggleConsole += ToggleConsole;
 
         consoleGameObject = consoleRectTransform.gameObject;
         consoleGameObject.SetActive(enabledAtStart);
@@ -94,6 +91,14 @@ public class CommandConsoleBehavior : MonoBehaviour
         moveConsoleEnabled = moveConsole;
         greetEnabled = greet;
         enemiesEnabled = enemy;
+    }
+
+    /// <summary>
+    /// unsubscribes from events
+    /// </summary>
+    private void OnDestroy()
+    {
+        PublicEvents.ToggleConsole -= ToggleConsole;
     }
 
     /// <summary>
@@ -322,6 +327,7 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// </summary>
     public void ToggleConsole()
     {
+        Debug.Log("toggling console");
         if (consoleEnabled)
         {
             consoleGameObject.SetActive(!consoleGameObject.activeInHierarchy);

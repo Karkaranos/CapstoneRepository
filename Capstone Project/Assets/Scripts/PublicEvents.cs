@@ -7,6 +7,8 @@ External Resources :
 	***************************************************/
 
 using System;
+using NUnit.Framework;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public static class PublicEvents
@@ -50,6 +52,8 @@ public static class PublicEvents
     //call this to enable / disable the player's inputs
     public static Action<bool> EnablePlayersInputs;
 
+    public static Action ToggleConsole;
+
     #endregion INPUTS
 
     //Triggers whenever a tile is selected while in wait mode(?)
@@ -67,6 +71,14 @@ public static class PublicEvents
     //Triggered when a button from the in-combat menu is clicked
     //Rune types are assigned from RuneSelectionMenu 
     public static Action<RuneData> RuneSelected;
+
+    //for calculating a spell's range
+    public static Action<bool, int, TileBehaviour> CheckRange;
+
+    //spell triggers
+    public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> LightningCast;
+    public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> WindCast;
+    public static Action EndCast;
 
 
     //Triggered when a spell is cast
