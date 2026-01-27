@@ -162,29 +162,65 @@ public class TileBehaviour : MonoBehaviour
     public void ElectrifyAdTiles()
     {
         List<TileBehaviour> adWaterTiles = new List<TileBehaviour>();
+        List<Vector2Int> alreadyChecked = new List<Vector2Int>();
+        adWaterTiles.Add(GridManager.combatGrid[IndexInGrid.x, IndexInGrid.y]);
+        alreadyChecked.Add(IndexInGrid);
 
         List<Vector2Int> adTiles = GridManager.GetAllValidAdjacentTiles(IndexInGrid, new Vector2Int(-1, -1));
+        //Gets the adjacent tiles of the tile that was hit
         foreach (Vector2Int v in adTiles)
         {
-            //Avoids duplicate tiles
-            if (GridManager.combatGrid[v.x, v.y].CanBeElectrified() && v != IndexInGrid &&
-                adWaterTiles.Contains(GridManager.combatGrid[v.x, v.y]))
-            {
-                adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
-            }
+            adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+            alreadyChecked.Add(v);
         }
 
         bool foundAll = false;
+        //Loops until a new tile doesn't get added
         while(!foundAll)
         {
+            List<Vector2Int> temp = new List<Vector2Int>();
+            List<Vector2Int> temp2 = new List<Vector2Int>();
             foundAll = true;
             List<Vector2Int> adAdTiles = new List<Vector2Int>();
-            foreach(Vector2Int a1 in adAdTiles)
+
+            //Gets the adjacent tiles of already electrified ones
+            foreach(Vector2Int a1 in adTiles)
             {
-                adAdTiles.Add(a1);
+                adAdTiles = GridManager.GetAllValidAdjacentTiles(a1, new Vector2Int(-1, -1));
 
+                foreach (Vector2Int v in adAdTiles)
+                {
+                    if (!alreadyChecked.Contains(v))
+                    {
+                        if(foundAll)
+                        {
+                            foundAll = false;
+                        }
+                        if (GridManager.combatGrid[v.x, v.y].CanBeElectrified())
+                        {
+                            adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
 
+                            temp2 = GridManager.GetAllValidAdjacentTiles(v, new Vector2Int(-1, -1));
+                            foreach (Vector2Int t in temp2)
+                            {
+                                temp.Add(t);
+                            }
+                        }
+                        alreadyChecked.Add(v);
+                    }
+                }
             }
+            adTiles.Clear();
+            foreach(Vector2Int v in temp)
+            {
+                adTiles.Add(v);
+            }
+        }
+
+        //Once all connected tiles are found, electrify them all
+        foreach(TileBehaviour t in adWaterTiles)
+        {
+            t.ElectrifyTile();
         }
     }
 

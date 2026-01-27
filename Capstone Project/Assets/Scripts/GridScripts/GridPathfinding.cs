@@ -250,6 +250,11 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
+        if(GridManager.combatGrid[nextPosition.x, nextPosition.y].CanApplyTileEffects())
+        {
+            GridManager.combatGrid[nextPosition.x, nextPosition.y].ApplyTileEffects();
+        }
+
         if(!isEnemy)
         {
             ReEnableActionCanvas();
@@ -269,14 +274,15 @@ public class GridPathfinding : MonoBehaviour
     {
         gameObject.GetComponent<TargetingBehaviour>().FindTarget();
 
+        int max = nextPos.Count > movementRange ? movementRange + 1 : 0;
+
         //Resets the highlight
         if (nextPos.Count > 0)
         {
-            for (int i = 1; i <= movementRange + 1; ++i)
+            for (int i = 1; i <= max; ++i)
             {
                 Vector2Int v = nextPos[nextPos.Count - i];
-                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.red);
-                GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+                GridManager.combatGrid[v.x, v.y].ShowHighlight(false);
             }
         }
 
@@ -289,7 +295,8 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     private void DisplayPath()
     {
-        for(int i = 1; i <= movementRange + 1; ++i)
+        int max = nextPos.Count > movementRange ? movementRange + 1 : 0;
+        for (int i = 1; i <= max; ++i)
         {
             Vector2Int v = nextPos[nextPos.Count - i];
             GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.red);
