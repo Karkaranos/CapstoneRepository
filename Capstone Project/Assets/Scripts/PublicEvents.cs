@@ -54,6 +54,9 @@ public static class PublicEvents
 
     public static Action ToggleConsole;
 
+    public static Action ControllerEnabled;
+    public static Action ControllerDisabled;
+
     #endregion INPUTS
 
     //Triggers whenever a tile is selected while in wait mode(?)
