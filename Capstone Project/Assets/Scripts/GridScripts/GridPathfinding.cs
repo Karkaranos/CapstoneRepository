@@ -31,7 +31,7 @@ public class GridPathfinding : MonoBehaviour
     protected int pathfindingLimit;
     bool isMoving = false;
 
-    bool underEffect;
+    [SerializeField] bool underEffect;
 
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
@@ -178,6 +178,7 @@ public class GridPathfinding : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveEntity()
     {
+        HidePath();
         newPositions.Clear();
 
         Vector3 newPosition = GetComponentInParent<Transform>().position;
@@ -250,11 +251,6 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
-        if(GridManager.combatGrid[nextPosition.x, nextPosition.y].CanApplyTileEffects())
-        {
-            GridManager.combatGrid[nextPosition.x, nextPosition.y].ApplyTileEffects();
-        }
-
         if(!isEnemy)
         {
             ReEnableActionCanvas();
@@ -273,19 +269,7 @@ public class GridPathfinding : MonoBehaviour
     public void ShowPath()
     {
         gameObject.GetComponent<TargetingBehaviour>().FindTarget();
-
-        int max = nextPos.Count > movementRange ? movementRange + 1 : 0;
-
-        //Resets the highlight
-        if (nextPos.Count > 0)
-        {
-            for (int i = 1; i <= max; ++i)
-            {
-                Vector2Int v = nextPos[nextPos.Count - i];
-                GridManager.combatGrid[v.x, v.y].ShowHighlight(false);
-            }
-        }
-
+        HidePath();
         PathfindThroughGrid();
         DisplayPath();
     }
@@ -301,6 +285,24 @@ public class GridPathfinding : MonoBehaviour
             Vector2Int v = nextPos[nextPos.Count - i];
             GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.red);
             GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+        }
+    }
+
+    /// <summary>
+    /// Removes the highlight for the enemie's path. Also used to reset it after the enemy moves
+    /// </summary>
+    private void HidePath()
+    {
+        int max = nextPos.Count > movementRange ? movementRange + 1 : 0;
+
+        //Resets the highlight
+        if (nextPos.Count > 0)
+        {
+            for (int i = 1; i <= max; ++i)
+            {
+                Vector2Int v = nextPos[nextPos.Count - i];
+                GridManager.combatGrid[v.x, v.y].ShowHighlight(false);
+            }
         }
     }
 

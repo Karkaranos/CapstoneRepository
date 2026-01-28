@@ -234,7 +234,7 @@ public class TileBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// applys all the effects that the tile should deal out to whatever is on it durring the tiles turn
+    /// Public call so tile effects can be applied before a turn ends
     /// </summary>
     public void ApplyTileEffects() {
         if (hazardType == HazardType.damage)
@@ -242,10 +242,29 @@ public class TileBehaviour : MonoBehaviour
             DamageEntity(damageAmount);
         }
 
-        if (tileType == TileType.Water && isElectrified) {
+        if (tileType == TileType.Water && isElectrified) 
+        {
+            DamageEntity(damageWhenElectrified);
+        }
+    }
+
+    /// <summary>
+    /// Has tiles do specific things when a turn is ended
+    /// </summary>
+    private void EndTurnTileEffects()
+    {
+        Debug.Log("sdhkjfshjkdhfkjahjkafhkfjdhsdkfjk");
+        if (hazardType == HazardType.damage)
+        {
+            DamageEntity(damageAmount);
+        }
+
+        if (tileType == TileType.Water && isElectrified)
+        {
             DamageEntity(damageWhenElectrified);
             turnsSinceElectrification++;
-            if (turnsSinceElectrification >= electrificationDuration) { 
+            if (turnsSinceElectrification >= electrificationDuration)
+            {
                 isElectrified = false;
                 turnsSinceElectrification = 0;
             }
@@ -322,7 +341,7 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-        TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
+        TurnPublicEvents.BeginEndTurn += EndTurnTileEffects;
     }
 
     /// <summary>
@@ -330,6 +349,6 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
+        TurnPublicEvents.BeginEndTurn -= EndTurnTileEffects;
     }
 }
