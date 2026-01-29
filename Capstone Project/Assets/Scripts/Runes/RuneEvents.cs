@@ -248,6 +248,8 @@ public class RuneEvents : MonoBehaviour
 
                     VFX = Instantiate(rune.RuneVFX, tile.transform);
 
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
                     PublicEvents.EndCast.Invoke();
 
                 }
@@ -300,6 +302,8 @@ public class RuneEvents : MonoBehaviour
                         secondaryTarget = null;
 
                     }
+
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                     PublicEvents.EndCast.Invoke();
 
@@ -361,6 +365,8 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
                     PublicEvents.EndCast.Invoke();
 
                 }
@@ -395,6 +401,8 @@ public class RuneEvents : MonoBehaviour
                     }
 
                 }
+
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 PublicEvents.EndCast.Invoke();
 
@@ -643,6 +651,8 @@ public class RuneEvents : MonoBehaviour
 
                     SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile, enemy);
 
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
                     PublicEvents.EndCast.Invoke();
 
                 }
@@ -672,6 +682,8 @@ public class RuneEvents : MonoBehaviour
                     AudioManager.instance.CreateEventInstance(windSpellSFX_2);
                     AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
 
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
                     PublicEvents.EndCast.Invoke();
 
                 }
@@ -687,6 +699,8 @@ public class RuneEvents : MonoBehaviour
                 
                 AudioManager.instance.CreateEventInstance(windSpellSFX_3);
                 AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
+
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 PublicEvents.EndCast.Invoke();
 
@@ -753,6 +767,8 @@ public class RuneEvents : MonoBehaviour
                     }
 
                 }
+
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 PublicEvents.EndCast.Invoke();
 
