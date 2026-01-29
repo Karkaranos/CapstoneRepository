@@ -35,7 +35,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639002900721981940
+  lastModified: 639051103225781006
   FileSizes:
   - Name: Desktop
     Value: 1036
@@ -168,6 +168,53 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 10
   Length: 5000
+--- !u!114 &-1888866521677272456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UISelect
+  m_EditorClassIdentifier: 
+  Path: event:/UISelect
+  Guid:
+    Data1: 1387825289
+    Data2: 1283387264
+    Data3: -110335357
+    Data4: -981000262
+  Banks:
+  - {fileID: -352459807968676752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 228
+--- !u!114 &-352459807968676752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/FMODSalty/Build/Desktop/UI.bank
+  Name: UI
+  StudioPath: bank:/UI
+  lastModified: 639052197671215440
+  FileSizes:
+  - Name: Desktop
+    Value: 8192
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +233,7 @@ MonoBehaviour:
   - {fileID: -7447939803071982639}
   - {fileID: 3841138632945958100}
   - {fileID: 8802925792018551864}
+  - {fileID: -352459807968676752}
   EditorEvents:
   - {fileID: 4449900605482773903}
   - {fileID: -3320627075860775977}
@@ -198,12 +246,15 @@ MonoBehaviour:
   - {fileID: -2364211815439195959}
   - {fileID: 3674287702264057230}
   - {fileID: 3042018071304451018}
+  - {fileID: -1888866521677272456}
+  - {fileID: 1380397452288016684}
+  - {fileID: 6876146322572077127}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7447939803071982639}
   StringsBanks:
   - {fileID: 541988572791045925}
-  cacheTime: 639002904318498410
+  cacheTime: 639052197671215440
   cacheVersion: 131633
 --- !u!114 &541988572791045925
 MonoBehaviour:
@@ -220,11 +271,38 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639002900722016978
+  lastModified: 639051103225811441
   FileSizes:
   - Name: Desktop
-    Value: 1326
+    Value: 1482
   Exists: 1
+--- !u!114 &1380397452288016684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UIButton
+  m_EditorClassIdentifier: 
+  Path: event:/UIButton
+  Guid:
+    Data1: 356094626
+    Data2: 1092569703
+    Data3: 1490741898
+    Data4: -2143150791
+  Banks:
+  - {fileID: -352459807968676752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3042018071304451018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +512,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2500
+--- !u!114 &6876146322572077127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UIHover
+  m_EditorClassIdentifier: 
+  Path: event:/UIHover
+  Guid:
+    Data1: 1201487025
+    Data2: 1154920453
+    Data3: -1576536698
+    Data4: 1470482879
+  Banks:
+  - {fileID: -352459807968676752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 100
 --- !u!114 &8802925792018551864
 MonoBehaviour:
   m_ObjectHideFlags: 0
