@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe
 Date Created : 		    10/22/2025
-Date Last Modified : 	10/23/2025
+Date Last Modified : 	1/26/2026
 Brief Description : 	Manages Camera Transitions
 External Resources : 	N/A
 ***************************************************/
@@ -27,7 +27,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public GameObject player;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera Level1cam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera Level1playcam;
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera PlayerZcam;
+    //[SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public CinemachineCamera PlayerZcam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private CinemachineCamera activeCam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript PopUpScript;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer VideoPlayer;
@@ -104,10 +104,10 @@ public class CameraManager : MonoBehaviour
     {
         //Level1cam.Priority = 20; 
         Level1playcam.Priority = 10;
-        PlayerZcam.Priority = 10;
+        //PlayerZcam.Priority = 10;
         player = GameObject.FindGameObjectWithTag("Player");
-        PlayerZcam.LookAt = player.transform;
-        PlayerZcam.Follow = player.transform;
+        //PlayerZcam.LookAt = player.transform;
+        //PlayerZcam.Follow = player.transform;
         Debug.LogWarning(ActiveCamera.name);
         if(activeCam != null)
         {

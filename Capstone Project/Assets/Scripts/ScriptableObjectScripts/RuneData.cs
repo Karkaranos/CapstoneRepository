@@ -69,6 +69,10 @@ public class RuneData : ScriptableObject
     public float RuneDamage;
 
     [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
+    //Determines the secondary damage done by a rune if at all
+    public float SecondaryRuneDamage;
+
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     //How far the rune will reach
     public int RuneRange;
 

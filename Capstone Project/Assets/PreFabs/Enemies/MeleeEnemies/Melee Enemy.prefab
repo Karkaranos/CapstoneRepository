@@ -140,6 +140,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -485,7 +486,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -667,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 3
+  currentSettings: 1
   healthBarSlider: {fileID: 8534701960708135817}
   maxHealth: 60
   lowHealthPercentage: 0.8
@@ -677,16 +678,18 @@ MonoBehaviour:
   damage: 15
   artifactDropChance: 0.5
   turnIndicator: {fileID: 7712963151286290330}
+  flashColor: {fileID: 2100000, guid: 75ff79590476cf14fa2bf0fa02d4bb08, type: 2}
+  spriteRen: {fileID: 7650219661011483951}
   playerStats: {fileID: 0}
   HasStatusEffect: 0
   RuneStatusEffect: 0
   RuneStatusEffectNumber: 0
   movementRange: 2
   movementSpeed: 5
+  moveStateDelay: 5
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
-  moveStateDelay: 2
   secondsBetweenStateTransitions: 1.75
   canAttackTwice: 0
   isLowHealth: 0
