@@ -94,6 +94,7 @@ public class TurnManager : MonoBehaviour
     private void Start()
     {
         breakInfLoop = false;
+        currentStatus = TurnStates.Start;
     }
 
     /// <summary>
