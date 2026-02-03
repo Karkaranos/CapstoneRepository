@@ -20,6 +20,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction rightClick;
     private InputAction leftClick;
     private InputAction toggleConsole;
+    private InputAction panCam;
 
     //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
     private bool mousePressed = false;
@@ -39,6 +40,8 @@ public class PlayerInputHandler : MonoBehaviour
         rightClick = pInput.currentActionMap.FindAction("RightClick");
         leftClick = pInput.currentActionMap.FindAction("LeftClick");
         toggleConsole = pInput.currentActionMap.FindAction ("ToggleConsole");
+        panCam = pInput.currentActionMap.FindAction("PanCamera");
+
 
         mousePressed = false;
     }
@@ -53,9 +56,13 @@ public class PlayerInputHandler : MonoBehaviour
         rightClick.started += RightClick_started;
         leftClick.started += LeftClick_started;
         toggleConsole.started += Toggle_started;
+        panCam.performed += PanCam_performed;
+
+        pInput.onControlsChanged += PInput_onControlsChanged;
     }
 
-   
+
+
 
     /// <summary>
     /// unsubscribes from all needed functions
@@ -65,6 +72,9 @@ public class PlayerInputHandler : MonoBehaviour
         PublicEvents.EnablePlayersInputs -= EnableOrDisablePlayersInputs;
         rightClick.started -= RightClick_started;
         leftClick.started -= LeftClick_started;
+        panCam.performed -= PanCam_performed;
+
+        pInput.onControlsChanged -= PInput_onControlsChanged;
     }
 
     /// <summary>
@@ -80,6 +90,22 @@ public class PlayerInputHandler : MonoBehaviour
         else
         {
             pInput.currentActionMap.Disable();
+        }
+    }
+
+    private void PInput_onControlsChanged(PlayerInput obj)
+    {
+
+        if (obj.currentControlScheme == "KeyboardAndMouse")
+        {
+            PublicEvents.ControllerDisabled?.Invoke();
+        }
+        else
+        {
+            if (obj.currentControlScheme == "Controller")
+            {
+                PublicEvents.ControllerEnabled?.Invoke();
+            }
         }
     }
 
@@ -116,6 +142,17 @@ public class PlayerInputHandler : MonoBehaviour
     {
         Debug.Log("sending public event");
         PublicEvents.ToggleConsole?.Invoke();
+    }
+
+
+    /// <summary>
+    /// sends out the public event to pan the camera
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <exception cref="System.NotImplementedException"></exception>
+    private void PanCam_performed(InputAction.CallbackContext obj)
+    {
+        PublicEvents.PanCamera?.Invoke(obj.ReadValue<Vector2>());
     }
 
     /// <summary>
