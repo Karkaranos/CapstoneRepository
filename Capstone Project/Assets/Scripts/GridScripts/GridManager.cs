@@ -21,6 +21,8 @@ public class GridManager : MonoBehaviour
 
     public static Vector2 MoveDistances = new Vector2();
 
+    public static List<Vector2Int> GhostEntities = new List<Vector2Int>();
+
     /// <summary>
     /// Sets the grid instance that everything will reference
     /// </summary>
@@ -163,6 +165,28 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Used to clear the ghost positions of enemies when they were planning on moving
+    /// </summary>
+    public static void ClearGhostEntities()
+    {
+        foreach(Vector2Int v in GhostEntities)
+        {
+            combatGrid[v.x, v.y].entityOnGrid = -1;
+        }
+
+        GhostEntities.Clear();
+    }
+
+    /// <summary>
+    /// Adds the index of where an enemy is trying to move. Used to help visualize what paths all enemies will take
+    /// </summary>
+    /// <param name="v"></param>
+    public static void AddGhostEntity(Vector2Int v)
+    {
+        GhostEntities.Add(v);
     }
 
     /// <summary>

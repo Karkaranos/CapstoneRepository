@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 10/1/2025
- * Last Modified: 1/28/2026
+ * Last Modified: 2/3/2026
  * Brief: Allows anything that moves to pathfind through the grid while 
  * avoiding occupied tiles
  * External Resources: N/A
@@ -30,6 +30,7 @@ public class GridPathfinding : MonoBehaviour
     [SerializeField] protected int movementRange;
     protected int pathfindingLimit;
     bool isMoving = false;
+    private Vector2Int ghostPos;
 
     [SerializeField] bool underEffect;
 
@@ -53,10 +54,26 @@ public class GridPathfinding : MonoBehaviour
     }
 
     /// <summary>
+    /// Checks to see if the enemy has a target. Pathfinds if yes
+    /// </summary>
+    public void HasATarget()
+    {
+        GridManager.combatGrid[myPosition.x, myPosition.y].entityOnGrid = -2;
+        if (isEnemy && GetComponent<TargetingBehaviour>().targetLocations.Count > 0)
+        {
+            PathfindThroughGrid();
+        }
+    }
+
+    /// <summary>
     /// Takes the current position and pathfinds to a designated location
     /// </summary>
     virtual public void PathfindThroughGrid()
     {
+        if (ghostPos != myPosition)
+        {
+            GridManager.combatGrid[ghostPos.x, ghostPos.y].entityOnGrid = -1;
+        }
         nextPos.Clear();
         if (!isEnemy)
         {
@@ -169,7 +186,14 @@ public class GridPathfinding : MonoBehaviour
 
     public void StartMoveCoroutine()
     {
-        StartCoroutine(MoveEntity());
+        if (!isEnemy)
+        {
+            StartCoroutine(MoveEntity());
+        }
+        else if (GetComponent<TargetingBehaviour>().targetLocations.Count > 0)
+        {
+            StartCoroutine(MoveEntity());
+        }
     }
 
     /// <summary>
@@ -269,9 +293,16 @@ public class GridPathfinding : MonoBehaviour
     public void ShowPath()
     {
         gameObject.GetComponent<TargetingBehaviour>().FindTarget();
-        HidePath();
-        PathfindThroughGrid();
-        DisplayPath();
+        if (GetComponent<TargetingBehaviour>().targetLocations.Count > 0)
+        {
+            if (ghostPos != myPosition)
+            {
+                GridManager.combatGrid[ghostPos.x, ghostPos.y].entityOnGrid = -1;
+            }
+            HidePath();
+            PathfindThroughGrid();
+            DisplayPath();
+        }
     }
 
     /// <summary>
@@ -279,13 +310,22 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     private void DisplayPath()
     {
-        int max = nextPos.Count > movementRange ? movementRange + 1 : 0;
+        int max = nextPos.Count > movementRange ? movementRange + 1: 0;
+        Vector2Int v = new Vector2Int();
         for (int i = 1; i <= max; ++i)
         {
-            Vector2Int v = nextPos[nextPos.Count - i];
+            v = nextPos[nextPos.Count - i];
             GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.red);
             GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
         }
+
+        if (myPosition != targetPosition)
+        {
+            GridManager.combatGrid[myPosition.x, myPosition.y].entityOnGrid = -1;
+        }
+        GridManager.combatGrid[v.x, v.y].entityOnGrid = -20;
+        GridManager.AddGhostEntity(v);
+        ghostPos = v;
     }
 
     /// <summary>

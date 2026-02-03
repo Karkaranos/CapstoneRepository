@@ -207,12 +207,11 @@ public class PlayerBehavior : GridPathfinding
     /// </summary>
     public void VisualizeEnemyPaths()
     {
-        Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        //GridManager.ClearGhostEntities();
 
-        foreach(Enemy e in enemies)
+        foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
         {
             e.gameObject.GetComponent<GridPathfinding>().ShowPath();
-            Debug.Log("Looped");
         }
     }
     #endregion
