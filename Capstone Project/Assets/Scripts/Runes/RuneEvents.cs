@@ -6,6 +6,7 @@ Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
@@ -274,7 +275,7 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                PublicEvents.EndCast.Invoke();
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
@@ -329,7 +330,7 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                PublicEvents.EndCast.Invoke();
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
@@ -372,7 +373,7 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                    PublicEvents.EndCast.Invoke();
+                    StartCoroutine(UpdatePlayerStatus());
 
                 }
 
@@ -417,7 +418,7 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                    PublicEvents.EndCast.Invoke();
+                    StartCoroutine(UpdatePlayerStatus());
 
                 }
 
@@ -761,7 +762,7 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                    PublicEvents.EndCast.Invoke();
+                    StartCoroutine(UpdatePlayerStatus());
 
                 }
                    
@@ -792,7 +793,7 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                    PublicEvents.EndCast.Invoke();
+                    StartCoroutine(UpdatePlayerStatus());
 
                 }
 
@@ -810,7 +811,7 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                PublicEvents.EndCast.Invoke();
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
@@ -878,7 +879,7 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                PublicEvents.EndCast.Invoke();
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
@@ -1217,5 +1218,28 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion COMBO FUNCTIONS
+
+    IEnumerator UpdatePlayerStatus()
+    {
+
+        int timer = 0;
+
+        while (timer <= 1)
+        {
+
+            timer++;
+
+            if (timer == 1)
+            {
+
+                PublicEvents.EndCast.Invoke();
+
+            }
+
+            yield return new WaitForSeconds(1);
+
+        }
+
+    }
 
 }
