@@ -18,7 +18,7 @@ public class CameraPanning : MonoBehaviour
     [SerializeField] private Cameras Cams;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private Transform CameraTarget;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] Vector2 moveInput;
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private float panSpeed;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private float panSpeed = 20f;
 
 
     public void OnMove(InputValue value)
@@ -27,7 +27,7 @@ public class CameraPanning : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         float deltaTime = Time.unscaledDeltaTime;
 
@@ -41,8 +41,15 @@ public class CameraPanning : MonoBehaviour
         forward.y = 0f;
         forward.Normalize();
 
-        Vector3 motion = forward * panSpeed * deltaTime;
+        Vector3 right = Camera.main.transform.right;
+        forward.y = 0f;
+        forward.Normalize();
 
-        CameraTarget.position += motion * moveInput.y;
+        Vector3 targetVelocity = new Vector3(moveInput.x, 0, moveInput.y) * panSpeed;
+
+
+        Vector3 motion = targetVelocity * deltaTime;
+
+        CameraTarget.position += forward * motion.z + right * moveInput.x;
     }
 }
