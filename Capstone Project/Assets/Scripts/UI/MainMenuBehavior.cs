@@ -8,16 +8,22 @@ External Resources :
 ***************************************************/
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class MainMenuBehavior : MonoBehaviour
 {
-    private MenuControls inputActions;
+    private PlayerInput input;
+    private InputAction pause;
+    private EventSystem eSystem;
 
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject creditsScreen;
     [SerializeField] private GameObject confirmQuit;
+    [SerializeField] private GameObject defaultSelectedGO;
+
+    [HideInInspector] public bool controllerEnabled;
 
     /// <summary>
     /// Gets a reference to the inputActions and makes sure that the timescale is normal
@@ -25,7 +31,11 @@ public class MainMenuBehavior : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1;
-        inputActions = new MenuControls();
+        input = GetComponent<PlayerInput>();
+        eSystem = FindFirstObjectByType<EventSystem>();
+        
+
+        pause = input.currentActionMap.FindAction("Pause");
     }
 
     /// <summary>
@@ -61,12 +71,37 @@ public class MainMenuBehavior : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-        inputActions.MenuActions.Enable();
-        inputActions.MenuActions.Escape.performed += EscapePressed;
+        input.currentActionMap.Enable();
+        pause.started += EscapePressed;
+        input.onControlsChanged += Input_onControlsChanged;
     }
+
+    private void Input_onControlsChanged(PlayerInput obj)
+    {
+        if (obj.currentControlScheme == "KeyboardAndMouse")
+        {
+            PublicEvents.ControllerDisabled?.Invoke();
+            eSystem.SetSelectedGameObject(null);
+            controllerEnabled = false;
+        }
+        else
+        {
+            if (obj.currentControlScheme == "Controller")
+            {
+                PublicEvents.ControllerEnabled?.Invoke();
+                //eSystem.SetSelectedGameObject(defaultSelectedGO);
+                controllerEnabled = true;
+            }
+        }
+    }
+
     private void OnDisable()
     {
-        inputActions.MenuActions.Disable();
-        inputActions.MenuActions.Escape.performed -= EscapePressed;
+        input.currentActionMap.Disable();
+        pause.started -= EscapePressed;
+        input.onControlsChanged -= Input_onControlsChanged;
     }
+
+    
+    
 }
