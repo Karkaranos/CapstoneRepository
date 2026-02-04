@@ -1,3 +1,10 @@
+/*************************************************
+Author Names : 		    Aidan Ratcliffe
+Date Created : 		    1/29/2026
+Date Last Modified : 	2/4/2026 
+Brief Description : 	Controls the camera panning
+External Resources : 	N/A
+***************************************************/
 using NaughtyAttributes;
 using System;
 using Unity.Cinemachine;
@@ -8,6 +15,8 @@ using UnityEngine.Video;
 
 public class CameraPanning : MonoBehaviour
 {
+
+    #region variables
     private enum Cameras
     {
         Cameras,
@@ -19,14 +28,23 @@ public class CameraPanning : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private Transform CameraTarget;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] Vector2 moveInput;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public float panSpeed;
+    #endregion
 
+    #region functions
 
+    /// <summary>
+    /// Grabs the OnMove function from Player Input
+    /// </summary>
+    /// <param name="value"></param>
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
     }
 
     // Update is called once per frame
+    /// <summary>
+    /// Simply creating a float variable to represent deltatime/frames in real time
+    /// </summary>
     private void Update()
     {
         float deltaTime = Time.unscaledDeltaTime;
@@ -34,7 +52,11 @@ public class CameraPanning : MonoBehaviour
         UpdateMovement(deltaTime);
     }
 
-
+    /// <summary>
+    /// UpdateMovement takes in the float and multiplies deltaTime by the various Vector3s
+    /// to represent the different directions the camera will move
+    /// </summary>
+    /// <param name="deltaTime"></param>
     void UpdateMovement(float deltaTime)
     {
         Vector3 forward = Camera.main.transform.forward;
@@ -54,4 +76,7 @@ public class CameraPanning : MonoBehaviour
 
         CameraTarget.position += forward * motion.z + right * moveInput.y;
     }
+
+    #endregion
+
 }
