@@ -57,6 +57,8 @@ public static class PublicEvents
     public static Action ControllerEnabled;
     public static Action ControllerDisabled;
 
+    public static Action<Vector2> PanCamera;
+
     #endregion INPUTS
 
     //Triggers whenever a tile is selected while in wait mode(?)

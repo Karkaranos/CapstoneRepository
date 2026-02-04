@@ -80,6 +80,22 @@ public class Enemy : MonoBehaviour
         Tooltip("Gameobject for turn indicator element")]
     public GameObject turnIndicator;
 
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Damage flash material")]
+    protected Material flashColor;
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Combat),
+        Tooltip("Sprite Renderer")]
+    protected SpriteRenderer spriteRen;
+
+    [SerializeField,
+    ShowIf(nameof(currentSettings), Settings.Combat),
+    Tooltip("How long before the material resets to normal, in milliseconds")]
+    protected int flashTime = 1000;
+
+
     // Hidden Vars
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] protected bool turnDelayed;
@@ -89,6 +105,8 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public bool HasStatusEffect = false;
     [HideInInspector] public RuneType RuneStatusEffect;
     [HideInInspector] public int RuneStatusEffectNumber;
+
+    protected Material baseMat; 
 
     #endregion
 
@@ -143,6 +161,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         enemyStateMachine = new EnemyStateMachine();
+        baseMat = spriteRen.material;
     }
 
     /// <summary>
@@ -172,6 +191,8 @@ public class Enemy : MonoBehaviour
             return;
         }
 
+        spriteRen.material = flashColor;
+
         //int casting truncates instead of rounds so this if there is extra damage it rounds up
         if(damage % 1 != 0)
         {
@@ -193,6 +214,9 @@ public class Enemy : MonoBehaviour
         logText.text = damage + " dmg";
         print(currentHealth);
         
+
+        await Task.Delay(flashTime);
+        spriteRen.material = baseMat;
     }
 
     /// <summary>
