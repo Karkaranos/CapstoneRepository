@@ -779,7 +779,7 @@ public class RuneEvents : MonoBehaviour
                 if(enemy != null)
                 {
                     VFX = Instantiate(rune.RuneVFX, tile.transform);
-                    await Task.Delay(1200);
+                    await Task.Delay(1500);
                     enemy.Damage(damageDealt);
 
                     CheckRuneCombination(rune,enemy);
@@ -829,7 +829,7 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 VFX = Instantiate(rune.RuneVFX, tile.transform);
-                await Task.Delay(1200);
+                await Task.Delay(3200);
                 AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                 AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
