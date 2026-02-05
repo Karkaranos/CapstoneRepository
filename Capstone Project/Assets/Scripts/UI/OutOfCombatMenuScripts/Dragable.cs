@@ -11,13 +11,13 @@ public class Dragable : MonoBehaviour
     private bool dragging = false;
     private Vector2 offset;
 
-    void Awake()
+    private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -42,7 +42,7 @@ public class Dragable : MonoBehaviour
         }
     }
 
-    bool IsPointerOverThisUI()
+    private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
         pointerData.position = Input.mousePosition;

@@ -2158,7 +2158,6 @@ GameObject:
   - component: {fileID: 91496562}
   - component: {fileID: 91496564}
   - component: {fileID: 91496563}
-  - component: {fileID: 91496565}
   m_Layer: 5
   m_Name: BounceLightning
   m_TagString: Untagged
@@ -2223,18 +2222,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91496561}
   m_CullTransparentMesh: 1
---- !u!114 &91496565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 91496561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82843c50088f1f34d8e0c682aa521867, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &96768549
 GameObject:
   m_ObjectHideFlags: 0
@@ -5971,7 +5958,6 @@ GameObject:
   - component: {fileID: 345652760}
   - component: {fileID: 345652763}
   - component: {fileID: 345652762}
-  - component: {fileID: 345652761}
   m_Layer: 5
   m_Name: LightningStrikes
   m_TagString: Untagged
@@ -5998,18 +5984,6 @@ RectTransform:
   m_AnchoredPosition: {x: 3.9863892, y: 3.3}
   m_SizeDelta: {x: 178.734, y: 178.737}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &345652761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345652759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82843c50088f1f34d8e0c682aa521867, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &345652762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10341,7 +10315,6 @@ GameObject:
   - component: {fileID: 689492765}
   - component: {fileID: 689492767}
   - component: {fileID: 689492766}
-  - component: {fileID: 689492768}
   m_Layer: 5
   m_Name: ChainLightning
   m_TagString: Untagged
@@ -10406,18 +10379,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689492764}
   m_CullTransparentMesh: 1
---- !u!114 &689492768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689492764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82843c50088f1f34d8e0c682aa521867, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &694162499
 GameObject:
   m_ObjectHideFlags: 0
@@ -13143,7 +13104,6 @@ GameObject:
   - component: {fileID: 1025685265}
   - component: {fileID: 1025685264}
   - component: {fileID: 1025685263}
-  - component: {fileID: 1025685262}
   m_Layer: 5
   m_Name: Slot2
   m_TagString: Untagged
@@ -13171,24 +13131,6 @@ RectTransform:
   m_AnchoredPosition: {x: -688.0979, y: -330.08206}
   m_SizeDelta: {x: 300.082, y: 275.857}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1025685262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025685260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyShowingSettings: 1
-  heldSpell: {fileID: 0}
-  index: 0
-  buttonText: {fileID: 1920600321}
-  EquippedColor: {r: 0.8584906, g: 0.9884482, b: 1, a: 1}
-  skillTreeManager: {fileID: 141645091}
 --- !u!114 &1025685263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13233,7 +13175,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1025685262}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: EquippedSpellNode, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -19158,7 +19100,6 @@ GameObject:
   - component: {fileID: 1435476202}
   - component: {fileID: 1435476201}
   - component: {fileID: 1435476200}
-  - component: {fileID: 1435476199}
   m_Layer: 5
   m_Name: Slot1
   m_TagString: Untagged
@@ -19186,24 +19127,6 @@ RectTransform:
   m_AnchoredPosition: {x: -975.5685, y: -271.07526}
   m_SizeDelta: {x: 300.082, y: 275.857}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1435476199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435476197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyShowingSettings: 1
-  heldSpell: {fileID: 0}
-  index: 0
-  buttonText: {fileID: 1579726153}
-  EquippedColor: {r: 0.8584906, g: 0.9884482, b: 1, a: 1}
-  skillTreeManager: {fileID: 141645091}
 --- !u!114 &1435476200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19248,7 +19171,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1435476199}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: EquippedSpellNode, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -19446,7 +19369,7 @@ RectTransform:
   m_GameObject: {fileID: 1451918879}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 415576258}
@@ -21300,7 +21223,7 @@ RectTransform:
   m_GameObject: {fileID: 1596073074}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2005952348}
@@ -22878,9 +22801,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1769961067}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82843c50088f1f34d8e0c682aa521867, type: 3}
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2671265470546187361, guid: 54de96d1573d0404fb6de5afd4af3d93, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1774437756
 GameObject:
   m_ObjectHideFlags: 0
@@ -22935,6 +22875,7 @@ MonoBehaviour:
   - {fileID: 1319551800}
   - {fileID: 6653801}
   - {fileID: 1992751118}
+  canvas: {fileID: 1189885392}
 --- !u!1 &1792889621
 GameObject:
   m_ObjectHideFlags: 0
@@ -23261,7 +23202,7 @@ RectTransform:
   m_GameObject: {fileID: 1822111926}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1144725597}
@@ -25867,7 +25808,6 @@ GameObject:
   - component: {fileID: 2071857738}
   - component: {fileID: 2071857737}
   - component: {fileID: 2071857736}
-  - component: {fileID: 2071857735}
   m_Layer: 5
   m_Name: Slot3
   m_TagString: Untagged
@@ -25895,24 +25835,6 @@ RectTransform:
   m_AnchoredPosition: {x: -400.62613, y: -271.07516}
   m_SizeDelta: {x: 300.082, y: 275.857}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2071857735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071857733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyShowingSettings: 1
-  heldSpell: {fileID: 0}
-  index: 0
-  buttonText: {fileID: 743044101}
-  EquippedColor: {r: 0.8584906, g: 0.9884482, b: 1, a: 1}
-  skillTreeManager: {fileID: 141645091}
 --- !u!114 &2071857736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25957,7 +25879,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2071857735}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: EquippedSpellNode, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -26284,7 +26206,7 @@ RectTransform:
   m_GameObject: {fileID: 2126883353}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1269724499}
