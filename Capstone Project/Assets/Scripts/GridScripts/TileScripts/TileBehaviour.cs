@@ -86,8 +86,8 @@ public class TileBehaviour : MonoBehaviour
     {
         //finding the tile coords
         Transform parentTransform = transform.parent.gameObject.transform;
-        IndexInGrid.x = (int)(transform.position.x - parentTransform.position.x / transform.localScale.x);
-        IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
+        IndexInGrid.x = (int)Mathf.Abs((int)(transform.position.x - parentTransform.position.x / transform.localScale.x));
+        IndexInGrid.y = (int)Mathf.Abs((int)(transform.position.z - parentTransform.position.z / transform.localScale.z));
 
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
         tileHighlight = transform.GetChild(0).gameObject;
