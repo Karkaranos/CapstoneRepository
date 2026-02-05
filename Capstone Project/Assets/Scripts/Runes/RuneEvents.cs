@@ -242,7 +242,7 @@ public class RuneEvents : MonoBehaviour
                 if (enemy != null)
                 {
                     await Task.Delay(1200);
-                    enemy.Damage(damageDealt);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
 
                     CheckRuneCombination(rune, enemy);
 
