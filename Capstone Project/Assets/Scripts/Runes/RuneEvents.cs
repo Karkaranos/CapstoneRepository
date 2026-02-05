@@ -1,17 +1,19 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 01/22/2026
+Date Last Modified : 01/29/2026
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
 
-using NaughtyAttributes;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.Collections.Unicode;
 using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
@@ -225,14 +227,17 @@ public class RuneEvents : MonoBehaviour
 
         Enemy[] enemiesOnTheGrid = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
+        Vector2Int playerOriginalTile = FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>().IndexInGrid;
+
         GameObject VFX;
 
         switch (rune.NumberOnSkillTree)
         {
 
-            //targets one opponent for moderate damage
+            //targets a tile and  electrifies the tiles around it
             case (1):
 
+
                 if (enemy != null)
                 {
 
@@ -240,161 +245,82 @@ public class RuneEvents : MonoBehaviour
 
                     CheckRuneCombination(rune, enemy);
 
-                    tile.ElectrifyTile();
+                }
 
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
-                    
+                FindAdjacentTiles(tile);
 
-                    VFX = Instantiate(rune.RuneVFX, tile.transform);
+                foreach(TileBehaviour adjacentTile in secondaryTargets)
+                {
 
-                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                    if(adjacentTile.GetComponentInChildren<Enemy>() != null)
+                    {
 
-                    PublicEvents.EndCast.Invoke();
+                        adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
+                        .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier));
+
+                        CheckRuneCombination(rune, enemy);
+
+                        adjacentTile.ElectrifyTile();
+
+                    }
 
                 }
 
+                tile.ElectrifyTile();
+
+                AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
+                AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
+
+                VFX = Instantiate(rune.RuneVFX, tile.transform);
+
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
+                StartCoroutine(UpdatePlayerStatus());
+
                 break;
 
-            //targets two opponents
-            //one is directly targeted, and the other is the closest to the original target
+            //targets opponents in a cross pattern
             case (2):
 
-                if (enemy != null)
+
+                if (enemy == null)
                 {
 
-                    FindSecondaryTarget(tile);
-
-                    enemy.Damage(damageDealt);
-
-                    CheckRuneCombination(rune, enemy);
-
-                    tile.ElectrifyTile();
-
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_2);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_2, audioListenerObject.transform.position);
-
-                    VFX = Instantiate(rune.RuneVFX, tile.transform);
-
-                    if (secondaryTarget != null)
-                    {
-
-                        secondaryTarget.Damage(damageDealt);
-
-                        secondaryTarget.GetComponentInParent<TileBehaviour>().ElectrifyTile();
-
-                        //AudioManager.instance.CreateEventInstance(lightningSpellCastedSFX);
-                        //AudioManager.instance.PlayOneShot(lightningSpellCastedSFX, audioListenerObject.transform.position);
-
-                        if (rune.SecondaryRuneVFX != null)
-                        {
-
-                            VFX = Instantiate(rune.SecondaryRuneVFX, secondaryTarget.transform);
-
-                        }
-                        else
-                        {
-
-                            VFX = Instantiate(rune.RuneVFX, secondaryTarget.transform);
-
-                        }
-
-                        secondaryTarget = null;
-
-                    }
-
-                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
-                    PublicEvents.EndCast.Invoke();
+                    return;
 
                 }
-
-                break;
-
-            //targets one opponent and all other opponents in range for less damage
-            case (3):
-
-
-                if (enemy != null)
-                {
-
-                    enemy.Damage(damageDealt);
-
-                    CheckRuneCombination(rune, enemy);
-
-                    tile.ElectrifyTile();
-
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
-
-                    VFX = Instantiate(rune.RuneVFX, tile.transform);
-
-                    PublicEvents.CheckRange.Invoke(true, 3, tile);
-
-                    foreach (TileBehaviour tileInRange in targetedTiles)
-                    {
-
-                        foreach (Enemy newEnemy in enemiesOnTheGrid)
-                        {
-
-                            if (newEnemy.GetComponentInParent<TileBehaviour>() == tileInRange)
-                            {
-
-                                newEnemy.Damage(Mathf.CeilToInt(0.40f * damageDealt));
-
-                                tileInRange.ElectrifyTile();
-
-                                if (rune.SecondaryRuneVFX != null)
-                                {
-
-                                    VFX = Instantiate(rune.SecondaryRuneVFX, tileInRange.transform);
-
-                                }
-                                else
-                                {
-
-                                    VFX = Instantiate(rune.RuneVFX, tileInRange.transform);
-
-                                }
-
-                                break;
-
-                            }
-
-                        }
-
-                    }
-
-                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
-                    PublicEvents.EndCast.Invoke();
-
-                }
-
-                break;
-
-            //targets opponents in a straight line
-            case (4):
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
 
-                FindLineOfTargets(rune, tile);
+                FindLinesOfTargets(rune, tile);
 
-                foreach (TileBehaviour potentialTarget in potentialTargetsForLightningStrikes)
+                foreach (TileBehaviour potentialTarget in secondaryTargets)
                 {
 
                     VFX = Instantiate(rune.RuneVFX, potentialTarget.transform);
 
-                    Debug.Log(potentialTarget + "HAS BEEN HIT");
-
                     potentialTarget.ElectrifyTile();
 
-                    if(potentialTarget.GetComponentInChildren<Enemy>() != null)
+                    if (potentialTarget.GetComponentInChildren<Enemy>() != null)
                     {
 
-                        potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
+
+                        if(potentialTarget != tile)
+                        {
+
+                            SubtractFromDamage(rune, tile, potentialTarget);
+
+                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction);
+
+                        }
+                        else
+                        {
+
+                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
+
+                        }
 
                         CheckRuneCombination(rune, potentialTarget.GetComponentInChildren<Enemy>());
 
@@ -404,7 +330,97 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                PublicEvents.EndCast.Invoke();
+                StartCoroutine(UpdatePlayerStatus());
+
+                break;
+
+            //teleports the player, damages adjacent enemies, and knocks enemies backwards
+            case (3):
+
+                if (enemy == null)
+                {
+
+                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
+                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
+                    GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
+
+                    FindAdjacentTiles(tile);
+
+                    tile.ElectrifyTile();
+
+                    foreach (TileBehaviour adjacentTile in secondaryTargets)
+                    {
+
+                        if(adjacentTile.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt);
+
+                            CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
+
+                            SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+
+                        }
+
+                        tile.ElectrifyTile();
+
+                    }
+
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
+
+                    //VFX = Instantiate(rune.RuneVFX, tile.transform);
+
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
+                    StartCoroutine(UpdatePlayerStatus());
+
+                }
+
+                break;
+
+            //targets opponents in a straight line
+            case (4):
+
+                TileBehaviour oldPlayerTile = FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>();
+
+                if (enemy == null)
+                {
+
+                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
+                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
+                    GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
+
+                    tile.ElectrifyTile();
+
+                    FindTargetsInPath(oldPlayerTile);
+
+                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                    AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+
+                    foreach (TileBehaviour tileInPath in secondaryTargets)
+                    {
+
+                        if (tileInPath.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt);
+
+                            CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
+
+                        }
+
+                        tile.ElectrifyTile();
+
+                    }
+
+                    //VFX = Instantiate(rune.RuneVFX, tile.transform);
+
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
+                    StartCoroutine(UpdatePlayerStatus());
+
+                }
 
                 break;
 
@@ -458,8 +474,8 @@ public class RuneEvents : MonoBehaviour
     }
 
 
-    //variable that stores the straight line necessary for lightning 3
-    List<TileBehaviour> potentialTargetsForLightningStrikes = new List<TileBehaviour>();
+    //variable that stores targets for an aoe attack
+    List<TileBehaviour> secondaryTargets = new List<TileBehaviour>();
 
     /// <summary>
     /// called when lightning 3 is cast
@@ -468,137 +484,200 @@ public class RuneEvents : MonoBehaviour
     /// </summary>
     /// <param name="initialTarget"> initial target that the player had picked out </param>
     /// <returns> a list of tiles for the spell to target </returns>
-    List<TileBehaviour> FindLineOfTargets(RuneData rune, TileBehaviour initialTarget = null)
+    List<TileBehaviour> FindLinesOfTargets(RuneData rune, TileBehaviour initialTarget = null)
     {
 
-        potentialTargetsForLightningStrikes.Clear();
+        secondaryTargets.Clear();
 
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x != initialTarget.transform.position.x &&
-                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y == initialTarget.transform.position.z)
+            if(initialTarget.transform.position.x == tile.transform.position.x && 
+            Mathf.Abs(initialTarget.transform.position.x - tile.transform.position.x) <= rune.RuneRange)
             {
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < initialTarget.transform.position.x &&
-                    tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                    tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= rune.RuneRange)
+                secondaryTargets.Add(tile);
+
+            }
+
+            if(initialTarget.transform.position.z == tile.transform.position.z &&
+            Mathf.Abs(initialTarget.transform.position.z - tile.transform.position.z) <= rune.RuneRange)
+            {
+
+                secondaryTargets.Add(tile);
+
+            }
+
+        }
+
+        return secondaryTargets;
+
+    }
+
+    /// <summary>
+    /// called when lightning 1 is cast
+    /// finds opponents adjacent and diagonal to the initial target
+    /// </summary>
+    /// <param name="target"> initial target </param>
+    /// <returns> a list of the tiles adjacent and diagonal to the target </returns>
+    List<TileBehaviour> FindAdjacentTiles(TileBehaviour target)
+    {
+
+        secondaryTargets.Clear();
+
+        foreach(TileBehaviour tile in GridManager.combatGrid)
+        {
+
+            if (Mathf.Abs(tile.transform.position.x - target.transform.position.x) <= 1 &&
+                Mathf.Abs(tile.transform.position.z - target.transform.position.z) <= 1)
+            {
+
+                secondaryTargets.Add(tile);
+
+            }
+
+        }
+
+        return secondaryTargets;
+
+    }
+
+    /// <summary>
+    /// finds tiles between the new and old player positions 
+    /// </summary>
+    /// <param name="originalTile"> the player's tile prior to casting lightning 3 </param>
+    /// <returns> list of tiles </returns>
+    List<TileBehaviour> FindTargetsInPath(TileBehaviour originalTile)
+    {
+
+        secondaryTargets.Clear();
+
+        foreach(TileBehaviour tile in GridManager.combatGrid)
+        {
+
+            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x != originalTile.transform.position.x &&
+            GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z == originalTile.transform.position.z)
+            {
+
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < originalTile.transform.position.x &&
+                tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                tile.transform.position.x < originalTile.transform.position.x &&
+                tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z)
                 {
 
-                    potentialTargetsForLightningStrikes.Add(tile);
+                    secondaryTargets.Add(tile);
 
                 }
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > initialTarget.transform.position.x &&
-                    tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                    tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= rune.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > originalTile.transform.position.x &&
+                tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                tile.transform.position.x > originalTile.transform.position.x &&
+                tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z)
                 {
 
-                    potentialTargetsForLightningStrikes.Add(tile);
+                    secondaryTargets.Add(tile);
 
                 }
 
             }
 
-            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x == initialTarget.transform.position.x &&
-                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y != initialTarget.transform.position.z)
+            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x == originalTile.transform.position.x &&
+            GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z != originalTile.transform.position.z)
             {
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y < initialTarget.transform.position.z &&
-                    tile.transform.position.z > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-                    tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= rune.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z < originalTile.transform.position.z &&
+                tile.transform.position.z > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z &&
+                tile.transform.position.z < originalTile.transform.position.z &&
+                tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x)
                 {
 
-                    potentialTargetsForLightningStrikes.Add(tile);
+                    secondaryTargets.Add(tile);
 
                 }
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y > initialTarget.transform.position.z &&
-                    tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-                    tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= rune.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z > originalTile.transform.position.z &&
+                tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z &&
+                tile.transform.position.z > originalTile.transform.position.z &&
+                tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x)
                 {
 
-                    potentialTargetsForLightningStrikes.Add(tile);
+                    secondaryTargets.Add(tile);
 
                 }
 
             }
 
-            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x != initialTarget.transform.position.x &&
-                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y != initialTarget.transform.position.z)
+            if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x != originalTile.transform.position.x &&
+            GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z != originalTile.transform.position.z)
             {
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < initialTarget.transform.position.x &&
-                    tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                    GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y < initialTarget.transform.position.z &&
-                    tile.transform.position.z > GridManager.playerPosition.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= rune.RuneRange &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= rune.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < originalTile.transform.position.x &&
+                tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                tile.transform.position.x < originalTile.transform.position.x &&
+                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z < originalTile.transform.position.z &&
+                tile.transform.position.z > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z &&
+                tile.transform.position.z < originalTile.transform.position.z)
                 {
 
                     if (Mathf.Approximately((tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x),
-                       (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y)))
+                    (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z)))
                     {
 
-                        potentialTargetsForLightningStrikes.Add(tile);
+                        secondaryTargets.Add(tile);
 
                     }
 
                 }
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > initialTarget.transform.position.x &&
-                    tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                    GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y > initialTarget.transform.position.z &&
-                    tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= rune.RuneRange &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= rune.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > originalTile.transform.position.x &&
+                tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                tile.transform.position.x > originalTile.transform.position.x &&
+                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z > originalTile.transform.position.z &&
+                tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
+                tile.transform.position.z > originalTile.transform.position.z)
                 {
 
                     if (Mathf.Approximately((tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x),
-                       (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y)))
+                    (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z)))
                     {
 
-                        potentialTargetsForLightningStrikes.Add(tile);
+                        secondaryTargets.Add(tile);
 
                     }
 
                 }
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < initialTarget.transform.position.x &&
-                    tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                    GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y > initialTarget.transform.position.z &&
-                    tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-                    Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= rune.RuneRange &&
-                    Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= rune.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x < originalTile.transform.position.x &&
+                tile.transform.position.x > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                tile.transform.position.x < originalTile.transform.position.x &&
+                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z > originalTile.transform.position.z &&
+                tile.transform.position.z < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z &&
+                tile.transform.position.z > originalTile.transform.position.z)
                 {
 
                     if (Mathf.Approximately((GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x),
-                       (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y)))
+                    (tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z)))
                     {
 
-                        potentialTargetsForLightningStrikes.Add(tile);
+                        secondaryTargets.Add(tile);
 
                     }
 
                 }
 
-                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > initialTarget.transform.position.x &&
-                   tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                   GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y < initialTarget.transform.position.z &&
-                   tile.transform.position.z > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-                   Mathf.Abs(tile.transform.position.x - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x) <= rune.RuneRange &&
-                   Mathf.Abs(tile.transform.position.z - GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y) <= rune.RuneRange)
+                if (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x > originalTile.transform.position.x &&
+                tile.transform.position.x < GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
+                tile.transform.position.x > originalTile.transform.position.x &&
+                GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z < originalTile.transform.position.z &&
+                tile.transform.position.z > GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z &&
+                tile.transform.position.z < originalTile.transform.position.z)
                 {
 
                     if (Mathf.Approximately((GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x),
-                       (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z)))
+                    (GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.z - tile.transform.position.z)))
                     {
 
-                        potentialTargetsForLightningStrikes.Add(tile);
+                        secondaryTargets.Add(tile);
 
                     }
 
@@ -608,7 +687,37 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        return potentialTargetsForLightningStrikes;
+        return secondaryTargets;
+
+    }
+
+
+    //for lightning 2a
+    float subtraction;
+
+    float SubtractFromDamage(RuneData rune, TileBehaviour originalTarget, TileBehaviour nextTarget)
+    {
+
+        if(originalTarget.transform.position.x != nextTarget.transform.position.x)
+        {
+
+            subtraction = Mathf.CeilToInt((Mathf.Abs(originalTarget.transform.position.x - nextTarget.transform.position.x) * (rune.RuneDamage * .2f)));
+
+        }
+        else if(originalTarget.transform.position.z != nextTarget.transform.position.z)
+        {
+
+            subtraction = Mathf.CeilToInt((Mathf.Abs(originalTarget.transform.position.z - nextTarget.transform.position.z) * (rune.RuneDamage * .2f)));
+
+        }
+        else
+        {
+
+            subtraction = 0;
+
+        }
+
+        return subtraction;
 
     }
 
@@ -653,7 +762,7 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                    PublicEvents.EndCast.Invoke();
+                    StartCoroutine(UpdatePlayerStatus());
 
                 }
                    
@@ -684,7 +793,7 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                    PublicEvents.EndCast.Invoke();
+                    StartCoroutine(UpdatePlayerStatus());
 
                 }
 
@@ -702,7 +811,7 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                PublicEvents.EndCast.Invoke();
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
@@ -770,7 +879,7 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                PublicEvents.EndCast.Invoke();
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
@@ -815,32 +924,17 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        Enemy[] otherEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if (tile.IndexInGrid == newTilePos && tile.entityOnGrid > -3)
+            if (tile.IndexInGrid == newTilePos && tile.entityOnGrid == -1)
             {
-
-                foreach (Enemy otherEnemy in otherEnemies)
-                {
-
-                    if (otherEnemy.transform.position.x == newTilePos.x && otherEnemy.transform.position.z == newTilePos.y)
-                    {
-
-                        return;
-
-                    }
-
-                }
 
                 enemy.transform.SetParent(tile.transform);
 
                 enemy.transform.position = new Vector3 (tile.transform.position.x, 0, tile.transform.position.z);
 
-                GridManager.MoveToTile(new Vector2Int((int)enemyTile.transform.position.x, (int)enemyTile.transform.position.z),
-                   new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z), -2);
+                GridManager.MoveToTile(enemyTile.IndexInGrid, tile.IndexInGrid, -2);
 
                 enemy.GetComponent<GridPathfinding>().SetPosition(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
 
@@ -1124,5 +1218,28 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion COMBO FUNCTIONS
+
+    IEnumerator UpdatePlayerStatus()
+    {
+
+        int timer = 0;
+
+        while (timer <= 1)
+        {
+
+            timer++;
+
+            if (timer == 1)
+            {
+
+                PublicEvents.EndCast.Invoke();
+
+            }
+
+            yield return new WaitForSeconds(1);
+
+        }
+
+    }
 
 }

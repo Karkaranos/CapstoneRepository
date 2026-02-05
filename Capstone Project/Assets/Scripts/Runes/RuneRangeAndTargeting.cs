@@ -169,15 +169,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         List<Vector2Int> validTiles = new List<Vector2Int>();
 
-        if (storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4)
-        {
-
-            FindAllStraightLinesFromThePlayer();
-
-            return;
-
-        }
-
         if (!isRadiusCheck)
         {
 
@@ -318,52 +309,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
         }
 
         FindFirstObjectByType<RuneEvents>().GetTargets(tilesInRange);
-
-    }
-
-    /// <summary>
-    /// finds all valid targets for lightning 3
-    /// </summary>
-    void FindAllStraightLinesFromThePlayer()
-    {
-
-        foreach (TileBehaviour tile in GridManager.combatGrid)
-        {
-
-            if (tile == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y])
-            {
-
-                continue;
-
-            }
-
-            if (tile.transform.position.x == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x &&
-                   Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z) <= storedData.RuneRange)
-            {
-
-                tilesInRange.Add(tile);
-
-            }
-            else if (tile.transform.position.z == GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y &&
-               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x) <= storedData.RuneRange)
-            {
-
-                tilesInRange.Add(tile);
-
-            }
-            else if (Mathf.Approximately(Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z),
-               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x)) &&
-               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.y - tile.transform.position.z) <= storedData.RuneRange &&
-               Mathf.Abs(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].transform.position.x - tile.transform.position.x) <= storedData.RuneRange)
-            {
-
-                tilesInRange.Add(tile);
-
-            }
-
-        }
-
-        SetHighlight();
 
     }
 
