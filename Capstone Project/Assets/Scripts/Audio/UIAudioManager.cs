@@ -10,6 +10,7 @@ using FMODUnity;
 using EventReference = FMODUnity.EventReference;
 using System.Collections.Generic;
 using UnityEngine;
+using static SkillTreeNode;
 
 public class UIAudioManager : AudioManager
 {
@@ -21,6 +22,9 @@ public class UIAudioManager : AudioManager
     [SerializeField] private EventReference uiClick;
     [SerializeField] private EventReference uiSelect;
     [SerializeField] private EventReference uiPageFlip;
+    [SerializeField] private EventReference spellPickUp;
+
+   NodeStatus _nodeStatus = NodeStatus.Unlocked;
 
     private GameObject audioListenerObject;
 
@@ -53,6 +57,15 @@ public class UIAudioManager : AudioManager
     {
         CreateEventInstance(uiPageFlip);
         PlayOneShot(uiPageFlip, this.transform.position);
+    }
+
+    public void PlaySpellNodeSelection()
+    {
+      if (_nodeStatus == NodeStatus.Unlocked)
+        {
+            CreateEventInstance(spellPickUp);
+            PlayOneShot(spellPickUp, this.transform.position);
+        }
     }
     #endregion UI_FUNCTIONS
 }

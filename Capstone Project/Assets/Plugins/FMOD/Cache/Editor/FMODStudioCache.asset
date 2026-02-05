@@ -20,6 +20,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 425728
   Exists: 1
+--- !u!114 &-7702642547231850452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SpellPickup
+  m_EditorClassIdentifier: 
+  Path: event:/SpellPickup
+  Guid:
+    Data1: -1094237336
+    Data2: 1316979177
+    Data3: 589301435
+    Data4: 1935703307
+  Banks:
+  - {fileID: -352459807968676752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 518
 --- !u!114 &-7447939803071982639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,7 +62,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639058374881711471
+  lastModified: 639058397447000996
   FileSizes:
   - Name: Desktop
     Value: 1036
@@ -210,10 +237,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639058377306866511
+  lastModified: 639058397447344177
   FileSizes:
   - Name: Desktop
-    Value: 364896
+    Value: 375936
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -250,12 +277,14 @@ MonoBehaviour:
   - {fileID: 1380397452288016684}
   - {fileID: 6876146322572077127}
   - {fileID: 2087656060199812174}
+  - {fileID: -7702642547231850452}
+  - {fileID: 5101356220244820690}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7447939803071982639}
   StringsBanks:
   - {fileID: 541988572791045925}
-  cacheTime: 639058377306866511
+  cacheTime: 639058397447344177
   cacheVersion: 131633
 --- !u!114 &541988572791045925
 MonoBehaviour:
@@ -272,10 +301,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639058374881751531
+  lastModified: 639058397447026103
   FileSizes:
   - Name: Desktop
-    Value: 1520
+    Value: 1620
   Exists: 1
 --- !u!114 &1380397452288016684
 MonoBehaviour:
@@ -486,6 +515,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 26000
+--- !u!114 &5101356220244820690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SpellDrop
+  m_EditorClassIdentifier: 
+  Path: event:/SpellDrop
+  Guid:
+    Data1: -375720352
+    Data2: 1092541975
+    Data3: -1963952000
+    Data4: 584116965
+  Banks:
+  - {fileID: -352459807968676752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 518
 --- !u!114 &5645674758020929811
 MonoBehaviour:
   m_ObjectHideFlags: 0
