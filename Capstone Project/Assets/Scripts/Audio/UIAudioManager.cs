@@ -20,6 +20,7 @@ public class UIAudioManager : AudioManager
     [SerializeField] private EventReference uiHover;
     [SerializeField] private EventReference uiClick;
     [SerializeField] private EventReference uiSelect;
+    [SerializeField] private EventReference uiPageFlip;
 
     private GameObject audioListenerObject;
 
@@ -46,6 +47,12 @@ public class UIAudioManager : AudioManager
     {
         CreateEventInstance(uiHover);
         PlayOneShot(uiHover, this.transform.position);
+    }
+
+    public void PlayUIPageFlip()
+    {
+        CreateEventInstance(uiPageFlip);
+        PlayOneShot(uiPageFlip, this.transform.position);
     }
     #endregion UI_FUNCTIONS
 }

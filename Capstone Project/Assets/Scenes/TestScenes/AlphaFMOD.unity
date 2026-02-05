@@ -937,22 +937,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9143643894143120480, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1214796352}
+    - target: {fileID: 9143643894143120480, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayUIPageFlip
+      objectReference: {fileID: 0}
+    - target: {fileID: 9143643894143120480, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIAudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9143643894143120480, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5992471275537867324, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1627617260}
-    - targetCorrespondingSourceObject: {fileID: 7257666627676181247, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 599151045}
-    - targetCorrespondingSourceObject: {fileID: 529874741739995732, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1755169606}
-    - targetCorrespondingSourceObject: {fileID: 7907176239301783905, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 790883379}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
 --- !u!43 &115382474
 Mesh:
@@ -1440,7 +1444,6 @@ MonoBehaviour:
   player: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
   Level1cam: {fileID: 0}
   Level1playcam: {fileID: 2115128137}
-  PlayerZcam: {fileID: 811260804}
   activeCam: {fileID: 0}
   PopUpScript: {fileID: 2033830988}
   VideoPlayer: {fileID: 2136757675}
@@ -2510,56 +2513,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &599151039 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7257666627676181247, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 52050015}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &599151045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 599151039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &622834207 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5301338134315096522, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
@@ -3462,56 +3415,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!1 &790883373 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7907176239301783905, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 52050015}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &790883379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 790883373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &792332419
 GameObject:
   m_ObjectHideFlags: 0
@@ -3599,17 +3502,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &811260804 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4829654765111000487, guid: 83741a7a2c2d44843a7642e65a554c7f, type: 3}
-  m_PrefabInstance: {fileID: 467465170}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &818936174
 GameObject:
   m_ObjectHideFlags: 0
@@ -3764,6 +3656,26 @@ PrefabInstance:
     - target: {fileID: 7006284782045008557, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: lvl1BGM.Guid.Data4
       value: 1609639083
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723190407252061116, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
+      propertyPath: uiPageFlip.Path
+      value: event:/TabFlip
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723190407252061116, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
+      propertyPath: uiPageFlip.Guid.Data1
+      value: 1450177315
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723190407252061116, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
+      propertyPath: uiPageFlip.Guid.Data2
+      value: 1129135020
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723190407252061116, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
+      propertyPath: uiPageFlip.Guid.Data3
+      value: 2085536650
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723190407252061116, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
+      propertyPath: uiPageFlip.Guid.Data4
+      value: -339322581
       objectReference: {fileID: 0}
     - target: {fileID: 8564890140809832647, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
       propertyPath: m_Name
@@ -5363,6 +5275,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1214796352 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7723190407252061116, guid: 997f07a10732762439ec05bfc87c6ae7, type: 3}
+  m_PrefabInstance: {fileID: 822382730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ae37ea89620e94a84b73bfc65f396a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1221982342
 GameObject:
   m_ObjectHideFlags: 0
@@ -6373,56 +6296,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5286070574299149632, guid: 98e2f9bd55aa0124fa78aec88cddfc31, type: 3}
   m_PrefabInstance: {fileID: 1935085586}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1627617254 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5992471275537867324, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 52050015}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1627617260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627617254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1627723216
 GameObject:
   m_ObjectHideFlags: 0
@@ -7258,56 +7131,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a55e4a9ccba6c88418f9bc2cb9e05c88, type: 3}
---- !u!1 &1755169600 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 529874741739995732, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 52050015}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1755169606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755169600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIHover
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UIAudioManager, Assembly-CSharp
-          m_MethodName: PlayUIClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!4 &1766051273 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1326861304480140422, guid: 564a194650787fff38ae727abafa6239, type: 3}
