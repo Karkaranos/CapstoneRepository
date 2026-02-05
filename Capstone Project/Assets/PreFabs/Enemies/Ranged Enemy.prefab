@@ -215,6 +215,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -794,7 +795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a00d9d1fddac5f47b04199a462a0b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 1
   healthBarSlider: {fileID: 8534701960708135817}
   maxHealth: 40
   lowHealthPercentage: 0.2
@@ -804,16 +805,18 @@ MonoBehaviour:
   damage: 20
   artifactDropChance: 0.5
   turnIndicator: {fileID: 2005261083708311509}
+  flashColor: {fileID: 2100000, guid: 75ff79590476cf14fa2bf0fa02d4bb08, type: 2}
+  spriteRen: {fileID: 374161714076864750}
   playerStats: {fileID: 0}
   HasStatusEffect: 0
   RuneStatusEffect: 0
   RuneStatusEffectNumber: 0
   movementRange: 1
   movementSpeed: 4
+  moveStateDelay: 0
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
-  MoveStateDelay: 0
   secondsBetweenStateTransitions: 4
   minimumAttackDistance: 0
   maxAttackDistance: 4
