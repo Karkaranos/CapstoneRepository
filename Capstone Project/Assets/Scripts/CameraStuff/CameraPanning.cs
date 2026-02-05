@@ -64,17 +64,15 @@ public class CameraPanning : MonoBehaviour
         forward.Normalize();
 
         Vector3 right = Camera.main.transform.right;
-        forward.y = 0f;
-        forward.Normalize();
+        right.y = 0f;
+        right.Normalize();
 
         Vector3 targetVelocity = new Vector3(moveInput.x, 0, moveInput.y) * panSpeed;
 
 
-        Vector3 motion = targetVelocity * deltaTime;
+        Vector3 motion = transform.forward * moveInput.y + transform.right * moveInput.x;
 
-        CameraTarget.position += forward * motion.z + right * moveInput.x;
-
-        CameraTarget.position += forward * motion.z + right * moveInput.y;
+        CameraTarget.position += motion * panSpeed * deltaTime;
     }
 
     #endregion
