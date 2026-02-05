@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	    	Tyler Bouchard, Cade Naylor, Clare Grady
 Date Created : 		    10/16/2025
-Date Last Modified : 	11/25/2025 (Clare)
+Date Last Modified : 	2/5/2026 (Cade)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
 External Resources : 
@@ -38,9 +38,16 @@ public class PlayerStats : MonoBehaviour
     [Tooltip("The player's luck multiplier"), ShowIf(nameof(settings), Settings.GeneralStats)] public float LuckModifier = 1f;
     [Tooltip("What XP is multiplied by when an enemy dies"), ShowIf(nameof(settings), Settings.GeneralStats)] public float XPMultiplier = 1f;
     [Tooltip("A multiplier for RAP drop chance"), ShowIf(nameof(settings), Settings.GeneralStats)] public float RAPChanceModifier = 1f;
+
+    [Header("References to different canvases or objects")]
     [Tooltip("UI Object for the turn indicator"), ShowIf(nameof(settings), Settings.GeneralStats)] public GameObject turnIndicator;
+    [Tooltip("The player's canvas"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
+    private Transform playerCanvas;
+    [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
+    private GameObject statChange;
 
     private int tempHealth;
+
     #endregion
 
     #region DamageTaken
@@ -166,6 +173,12 @@ public class PlayerStats : MonoBehaviour
 
         CurrentHealth -= (int)damageToTake;
 
+        if(statChange != null)
+        {
+            GameObject g = Instantiate(statChange, playerCanvas);
+            g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damageToTake + " HP ", false);
+        }
+
 
         MarkManager.HealthValueChanged(((float)CurrentHealth)/((float)MaxHealth));
         
@@ -210,7 +223,14 @@ public class PlayerStats : MonoBehaviour
             conditionalMultipliers *= SecondSpellMultiplier;
         }
         CurrentHealth += (int)(amount*HealBuffModifier*conditionalMultipliers);
-        if(CurrentHealth > MaxHealth)
+
+        if (statChange != null)
+        {
+            GameObject g = Instantiate(statChange, playerCanvas);
+            g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)(amount * HealBuffModifier * conditionalMultipliers) + " HP ", true);
+        }
+
+        if (CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
         }

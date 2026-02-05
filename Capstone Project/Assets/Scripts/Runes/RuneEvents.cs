@@ -241,7 +241,7 @@ public class RuneEvents : MonoBehaviour
                 if (enemy != null)
                 {
 
-                    enemy.Damage(damageDealt);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
 
                     CheckRuneCombination(rune, enemy);
 
@@ -256,7 +256,7 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
-                        .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier));
+                        .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
 
                         CheckRuneCombination(rune, enemy);
 
@@ -312,13 +312,13 @@ public class RuneEvents : MonoBehaviour
 
                             SubtractFromDamage(rune, tile, potentialTarget);
 
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction);
+                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
 
                         }
                         else
                         {
 
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                         }
 
@@ -354,7 +354,7 @@ public class RuneEvents : MonoBehaviour
                         if(adjacentTile.GetComponentInChildren<Enemy>() != null)
                         {
 
-                            adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                            adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                             CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
 
@@ -404,7 +404,7 @@ public class RuneEvents : MonoBehaviour
                         if (tileInPath.GetComponentInChildren<Enemy>() != null)
                         {
 
-                            tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                            tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                             CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
 
@@ -749,7 +749,7 @@ public class RuneEvents : MonoBehaviour
                if(enemy != null)
                {
 
-                    enemy.Damage(damageDealt);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     CheckRuneCombination(rune,enemy);
 
@@ -775,7 +775,7 @@ public class RuneEvents : MonoBehaviour
                 if(enemy != null)
                 {
 
-                    enemy.Damage(damageDealt);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     CheckRuneCombination(rune,enemy);
 
@@ -784,7 +784,7 @@ public class RuneEvents : MonoBehaviour
                     if(Random.value <= rune.RuneSecondaryEffectChance)
                     {
 
-                        enemy.Damage(damageDealt);
+                        enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     }
 
@@ -835,7 +835,7 @@ public class RuneEvents : MonoBehaviour
 
                     enemy.DelayedTurnStatus(true);
 
-                    enemy.Damage(damageDealt);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     CheckRuneCombination(rune, enemy);
 
@@ -871,7 +871,7 @@ public class RuneEvents : MonoBehaviour
                     for (int i = 0; i < validEnemies.Count; i++)
                     {
 
-                        validEnemies[i].Damage(Mathf.CeilToInt(damageDealt / validEnemies.Count));
+                        validEnemies[i].Damage(Mathf.CeilToInt(damageDealt / validEnemies.Count), Enemy.DamageType.Wind);
 
                     }
 
@@ -1097,7 +1097,7 @@ public class RuneEvents : MonoBehaviour
         for (int i = 0; i < validEnemies.Count; i++)
         {
 
-            validEnemies[i].Damage(lightningDamage);
+            validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
 
             validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyTile();
 
@@ -1109,7 +1109,7 @@ public class RuneEvents : MonoBehaviour
             if (enemy != null)
             {
 
-                enemy.Damage(lightningMasteredDamage);
+                enemy.Damage(lightningMasteredDamage, Enemy.DamageType.Lightning);
 
             }
 
@@ -1119,7 +1119,7 @@ public class RuneEvents : MonoBehaviour
                 if (validEnemies[i] != null)
                 {
 
-                    validEnemies[i].Damage(lightningDamage);
+                    validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
 
                 }
 
@@ -1191,7 +1191,7 @@ public class RuneEvents : MonoBehaviour
         if (enemy != null)
         {
 
-            enemy.Damage(windPrimaryDamage);
+            enemy.Damage(windPrimaryDamage, Enemy.DamageType.Wind);
 
         }
 
@@ -1202,7 +1202,7 @@ public class RuneEvents : MonoBehaviour
             if (validEnemies[i] != null)
             {
 
-                validEnemies[i].Damage(windSecondaryDamage);
+                validEnemies[i].Damage(windSecondaryDamage, Enemy.DamageType.Wind);
 
             }
 
