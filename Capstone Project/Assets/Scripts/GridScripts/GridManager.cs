@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 9/26/2025
- * Last Modified: 11/20/2025 (Tyler Bouchard)
+ * Last Modified: 1/28/2026 (Brad Dixon)
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
@@ -20,6 +20,8 @@ public class GridManager : MonoBehaviour
     public static Vector2Int playerPosition;
 
     public static Vector2 MoveDistances = new Vector2();
+
+    public static List<Vector2Int> GhostEntities = new List<Vector2Int>();
 
     /// <summary>
     /// Sets the grid instance that everything will reference
@@ -75,7 +77,7 @@ public class GridManager : MonoBehaviour
         {
             return true;
         }
-        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 || combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
+        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1;
     }
 
     /// <summary>
@@ -163,6 +165,28 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Used to clear the ghost positions of enemies when they were planning on moving
+    /// </summary>
+    public static void ClearGhostEntities()
+    {
+        foreach(Vector2Int v in GhostEntities)
+        {
+            combatGrid[v.x, v.y].entityOnGrid = -1;
+        }
+
+        GhostEntities.Clear();
+    }
+
+    /// <summary>
+    /// Adds the index of where an enemy is trying to move. Used to help visualize what paths all enemies will take
+    /// </summary>
+    /// <param name="v"></param>
+    public static void AddGhostEntity(Vector2Int v)
+    {
+        GhostEntities.Add(v);
     }
 
     /// <summary>
