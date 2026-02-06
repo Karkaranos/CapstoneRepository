@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	12/6/2025 (Cade Naylor)
+Date Last Modified : 	1/28/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -43,6 +43,9 @@ public class PlayerBehavior : GridPathfinding
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
     public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+
+    [Tooltip("If true, enemy paths will be shown during the player's turn")]
+    public bool TogglePathVisualizer;
     GameManager gm;
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -122,14 +125,12 @@ public class PlayerBehavior : GridPathfinding
         {
             tilesInRange.Clear();
             GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
-            GridManager.combatGrid[MyPosition.x, MyPosition.y].ShowHighlight(true);
             tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
             List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition);
             foreach (Vector2Int v in tilePositions)
             {
                 GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
                 GridManager.combatGrid[v.x, v.y].entityOnGrid = 5;
-                GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                 tilesInRange.Add(GridManager.combatGrid[v.x, v.y]);
             }
 
@@ -152,13 +153,24 @@ public class PlayerBehavior : GridPathfinding
                             tilePositions.Add(newPos);
                             GridManager.combatGrid[newPos.x, newPos.y].inPlayerRange = true;
                             GridManager.combatGrid[newPos.x, newPos.y].entityOnGrid = 5;
-                            GridManager.combatGrid[newPos.x, newPos.y].ShowHighlight(true);
                             tilesInRange.Add(GridManager.combatGrid[newPos.x, newPos.y]);
                         }
                     }
                 }
             }
+
+            foreach (TileBehaviour t in tilesInRange)
+            {
+                t.SetHighlightColor(Color.blue);
+                t.ShowHighlight(true);
+            }
             GridManager.ClearPathfinding();
+        }
+
+        //Calling here to avoid messing up highlight colors
+        if(TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
         }
     }
 
@@ -171,7 +183,7 @@ public class PlayerBehavior : GridPathfinding
         pathfindingLimit = movementRange;
         foreach(TileBehaviour t in tilesInRange)
         {
-            t.ShowHighlight(true);
+            t.ShowHighlight(false);
         }
         base.PathfindThroughGrid();
         anim.SetTrigger("Walk");
@@ -188,6 +200,19 @@ public class PlayerBehavior : GridPathfinding
         buttonManager.ReEnableActionCanvas();
         EnableMovableTiles();
         anim.SetTrigger("Idle");
+    }
+
+    /// <summary>
+    /// When called, displays the projected path that enemies will take
+    /// </summary>
+    public void VisualizeEnemyPaths()
+    {
+        //GridManager.ClearGhostEntities();
+
+        foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
+        {
+            e.gameObject.GetComponent<GridPathfinding>().ShowPath();
+        }
     }
     #endregion
 }

@@ -13,7 +13,7 @@ using UnityEngine;
 public class EnemyHandler : MonoBehaviour
 {
     [HideInInspector]public static EnemyHandler Instance { get; private set; }
-    private List<Enemy> enemies = new List<Enemy>();
+    public List<Enemy> enemies = new List<Enemy>();
     private static int index = 0;
 
     /// <summary>
@@ -72,6 +72,12 @@ public class EnemyHandler : MonoBehaviour
     /// </summary>
     public void RunNextEnemyTurn()
     {
+        if(index == 0)
+        {
+            GridManager.ClearGhostEntities();
+            //GridManager.RemoveHighlight();
+        }
+
         if (enemies[0].playerStats.turnIndicator.activeSelf) 
         { 
             enemies[0].playerStats.turnIndicator.SetActive(false); 
