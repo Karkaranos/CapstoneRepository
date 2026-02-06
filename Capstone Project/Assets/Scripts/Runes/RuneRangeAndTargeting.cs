@@ -21,7 +21,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
     //Stores the currently using rune
     private RuneData storedData;
     //updated everytime the player selects a spell
-    List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    //List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    //updated based on the map
+    List<TileBehaviour> viableTilesInRange = new List<TileBehaviour>();
     //for swapping menus
     [SerializeField] GameObject playerMenu;
     //whether or not the cast was canceled
@@ -165,7 +167,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void RangeCheck(bool isRadiusCheck, int radius = 0, TileBehaviour target = null)
     {
 
-        tilesInRange.Clear();
+        List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
 
         List<Vector2Int> validTiles = new List<Vector2Int>();
 
@@ -241,7 +243,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
             validTiles.Clear();
 
-            SetHighlight();
+            TargetCheck(tilesInRange);
 
         }
         else
@@ -312,36 +314,189 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
-    void SetHighlight()
+    void TargetCheck(List<TileBehaviour> tilesInRange)
+    {
+
+        viableTilesInRange.Clear();
+
+        switch (storedData.TypeOfRune, storedData.NumberOnSkillTree)
+        {
+
+            //targets any tile
+            case (RuneType.Lightning, 1):
+
+                viableTilesInRange = tilesInRange;
+
+                break;
+
+            //targets an enemy
+            case (RuneType.Lightning, 2):
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tile.GetComponentInChildren<Enemy>())
+                    {
+
+                        viableTilesInRange.Add(tile);
+
+                    }
+
+                }
+
+                break;
+
+            //targets an empty tile
+            case (RuneType.Lightning, 3):
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (!tile.GetComponentInChildren<Enemy>())
+                    {
+
+                        viableTilesInRange.Add(tile);
+
+                    }
+
+                }
+
+                break;
+
+            //targets an empty tile
+            case (RuneType.Lightning, 4):
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (!tile.GetComponentInChildren<Enemy>())
+                    {
+
+                        viableTilesInRange.Add(tile);
+
+                    }
+
+                }
+
+                break;
+
+            //targets an enemy
+            case (RuneType.Wind, 1):
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tile.GetComponentInChildren<Enemy>())
+                    {
+
+                        viableTilesInRange.Add(tile);
+
+                    }
+
+                }
+
+                break;
+
+            //targets an enemy
+            case (RuneType.Wind, 2):
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tile.GetComponentInChildren<Enemy>())
+                    {
+
+                        viableTilesInRange.Add(tile);
+
+                    }
+
+                }
+
+                break;
+
+            //targets a player
+            case (RuneType.Wind, 3):
+
+
+                foreach (TileBehaviour tile in tilesInRange)
+                {
+
+                    if (tile.GetComponentInChildren<PlayerBehavior>())
+                    {
+
+                        viableTilesInRange.Add(tile);
+
+                    }
+
+                }
+
+                break;
+
+            //targets any tile
+            case (RuneType.Wind, 4):
+
+                viableTilesInRange = tilesInRange;
+
+                break;
+
+        }
+
+        SetHighlight(true);
+
+    }
+
+    void SetHighlight(bool runeSelected)
     {
 
         GridManager.RemoveHighlight();
 
-        foreach (TileBehaviour tile in tilesInRange)
+        if(runeSelected)
+
         {
 
-            switch (storedData.TypeOfRune)
+            foreach (TileBehaviour tile in viableTilesInRange)
             {
 
-                case (RuneType.Lightning):
+                switch (storedData.TypeOfRune)
+                {
 
-                    tile.SetHighlightColor(lightningHighlight);
+                    case (RuneType.Lightning):
 
-                    break;
+                        tile.SetHighlightColor(lightningHighlight);
 
-                case (RuneType.Wind):
+                        tile.ShowHighlight(true);
 
-                    tile.SetHighlightColor(windHighlight);
+                        break;
 
-                    break;
+                    case (RuneType.Wind):
 
-                default:
+                        tile.SetHighlightColor(windHighlight);
 
-                    break;
+                        tile.ShowHighlight(true);
+
+                        break;
+
+                    default:
+
+                        break;
+
+                }
 
             }
 
-            tile.ShowHighlight(true);
+        }
+
+        else
+        {
+
+            foreach(TileBehaviour tile in FindFirstObjectByType<PlayerBehavior>().tilesInRange)
+            {
+
+                tile.SetHighlightColor(defaultHighlight);
+
+                tile.ShowHighlight(true);
+
+            }
 
         }
 
@@ -364,7 +519,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         if (waitingForThePlayer &&
             FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints &&
-            tilesInRange.Contains(tile))
+            viableTilesInRange.Contains(tile))
         {
 
             switch (storedData.TypeOfRune)
@@ -409,7 +564,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         waitingForThePlayer = false;
 
-        if(castNotCanceled)
+        GridManager.RemoveHighlight();
+
+        SetHighlight(false);
+
+        if (castNotCanceled)
         {
 
             PublicEvents.RuneCast(storedData.RuneActionPoints);
@@ -422,16 +581,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
         }
 
         this.gameObject.SetActive(false);
-
-        GridManager.RemoveHighlight();
-
-        foreach (TileBehaviour tile in FindFirstObjectByType<PlayerBehavior>().tilesInRange)
-        {
-
-            tile.SetHighlightColor(defaultHighlight);
-            tile.ShowHighlight(true);
-
-        }
 
         castNotCanceled = false;
 
