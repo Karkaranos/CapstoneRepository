@@ -13,20 +13,14 @@ public class CameraClamp : MonoBehaviour
     public Input playerInput;
     [SerializeField] private Cameras Cams;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private Transform CameraTarget;
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] Vector2 moveInput;
-    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public float panSpeed;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] Vector2 minPos;
+    [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] Vector2 maxPos;
     #endregion
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = new Vector3(Mathf.Clamp(CameraTarget.position.x, minPos.x, maxPos.x), 
+            Mathf.Clamp(CameraTarget.position.y, minPos.y, maxPos.y), CameraTarget.position.z);
     }
 }

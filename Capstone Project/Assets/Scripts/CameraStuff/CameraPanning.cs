@@ -32,13 +32,24 @@ public class CameraPanning : MonoBehaviour
 
     #region functions
 
+    private void OnEnable()
+    {
+        PublicEvents.PanCamera += OnMove;
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.PanCamera -= OnMove;
+    }
+
+
     /// <summary>
     /// Grabs the OnMove function from Player Input
     /// </summary>
     /// <param name="value"></param>
-    public void OnMove(InputValue value)
+    public void OnMove(Vector2 value)
     {
-        moveInput = value.Get<Vector2>();
+        moveInput = value;
     }
 
     // Update is called once per frame
