@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2671265470546187361
+--- !u!1 &1889200317827605019
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5945804388899826058}
-  - component: {fileID: 6673671811299978697}
-  - component: {fileID: 1383384434571126341}
-  - component: {fileID: 1333939893403916356}
+  - component: {fileID: 2906477775696747290}
+  - component: {fileID: 7144407656851772716}
+  - component: {fileID: 4825786574440075292}
+  - component: {fileID: 1219272487500795034}
   m_Layer: 5
-  m_Name: LightningStrikeNode
+  m_Name: LightningStrikesNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5945804388899826058
+--- !u!224 &2906477775696747290
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2671265470546187361}
+  m_GameObject: {fileID: 1889200317827605019}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -35,24 +35,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -87, y: 3.2657013}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 178.734, y: 178.737}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &6673671811299978697
+--- !u!222 &7144407656851772716
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2671265470546187361}
+  m_GameObject: {fileID: 1889200317827605019}
   m_CullTransparentMesh: 1
---- !u!114 &1383384434571126341
+--- !u!114 &4825786574440075292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2671265470546187361}
+  m_GameObject: {fileID: 1889200317827605019}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c4a3b27a7c19bbc489b64a41c1a4bbfa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 73b218893a7122442a50b7d1c3d47578, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,16 +76,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1333939893403916356
+--- !u!114 &1219272487500795034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2671265470546187361}
+  m_GameObject: {fileID: 1889200317827605019}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8150b91bae67c84682a48f1c21ca767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  runeData: {fileID: 11400000, guid: 413baa276507b8d4dac9eb2e0c4b8625, type: 2}
+  notebookSpellNode: {fileID: 0}
   unlocked: 1

@@ -1,10 +1,17 @@
-using UnityEditor.Experimental.GraphView;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NotebookManager : MonoBehaviour
 {
+
+
     [SerializeField] private GameObject[] pages;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private TextMeshProUGUI title;
+    [SerializeField] private TextMeshProUGUI title2;
+    [SerializeField] private TextMeshProUGUI description;
+    [SerializeField] private TextMeshProUGUI description2;
     private int currentPage;
 
     /// <summary>
@@ -48,10 +55,12 @@ public class NotebookManager : MonoBehaviour
         LoadPage(currentPage);
     }
 
-    public void SpawnSpellNode(GameObject nodeToSpawn) {
-        GameObject node = Instantiate(nodeToSpawn, nodeToSpawn.transform.position, Quaternion.identity);
-        node.transform.SetParent(canvas.transform, false);
-        node.GetComponent<SpellNodeBehavior>().canvas = canvas;
+    public void UpdateTextDescription(NotebookSpellNodeBehavior node)
+    {
+        title.text = node.runeData.RuneName;
+        description.text = node.runeData.RuneDescription;
+        title2.text = node.runeData.RuneName;
+        description2.text = node.runeData.RuneDescription;
     }
 
     /// <summary>

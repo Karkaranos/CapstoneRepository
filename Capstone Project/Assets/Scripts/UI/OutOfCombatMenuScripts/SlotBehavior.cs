@@ -6,6 +6,7 @@ public class SlotBehavior : MonoBehaviour
         artifact,
         spell
     }
+    public RuneData rune;
     
     [SerializeField] private SlotType slotType;
 }
