@@ -322,7 +322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6653802
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2101,7 +2101,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1999999, y: 1.1999999, z: 1.1999999}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 331574334}
   m_Father: {fileID: 6653802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2158,6 +2159,8 @@ GameObject:
   - component: {fileID: 91496562}
   - component: {fileID: 91496564}
   - component: {fileID: 91496563}
+  - component: {fileID: 91496566}
+  - component: {fileID: 91496565}
   m_Layer: 5
   m_Name: BounceLightning
   m_TagString: Untagged
@@ -2222,6 +2225,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91496561}
   m_CullTransparentMesh: 1
+--- !u!114 &91496565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91496561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 91496566}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 4105411000483777642, guid: 7f025850983f46d488e594565dc968e3, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 91496566}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &91496566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91496561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: b26501301e9c00f48b9921844a9b90d6, type: 2}
+  locked: 0
+  equipped: 0
 --- !u!1 &96768549
 GameObject:
   m_ObjectHideFlags: 0
@@ -3566,7 +3629,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1999999, y: 1.1999999, z: 1.1999999}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 591279583}
   m_Father: {fileID: 6653802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5507,7 +5571,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1999999, y: 1.1999999, z: 1.1999999}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 938688901}
   m_Father: {fileID: 6653802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5947,6 +6012,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330152407}
   m_CullTransparentMesh: 1
+--- !u!1 &331574333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 331574334}
+  - component: {fileID: 331574338}
+  - component: {fileID: 331574337}
+  - component: {fileID: 331574336}
+  - component: {fileID: 331574335}
+  m_Layer: 5
+  m_Name: Tornado
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &331574334
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331574333}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 88392615}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3.986435, y: 3.3000336}
+  m_SizeDelta: {x: 178.734, y: 178.737}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &331574335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331574333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: 0ff62a8bbf2e58a43bddaf934cf3f213, type: 2}
+  locked: 0
+  equipped: 0
+--- !u!114 &331574336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331574333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 331574335}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 5889080449736995801, guid: dbf0da7e8a028f549a9ff96d7bc77cb8, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 331574335}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &331574337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331574333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 50, y: 50, z: 60, w: 60}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: bb105c84605de6243a4d6d4300106cd1, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &331574338
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331574333}
+  m_CullTransparentMesh: 1
 --- !u!1 &345652759
 GameObject:
   m_ObjectHideFlags: 0
@@ -5958,6 +6160,8 @@ GameObject:
   - component: {fileID: 345652760}
   - component: {fileID: 345652763}
   - component: {fileID: 345652762}
+  - component: {fileID: 345652765}
+  - component: {fileID: 345652764}
   m_Layer: 5
   m_Name: LightningStrikes
   m_TagString: Untagged
@@ -6022,6 +6226,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345652759}
   m_CullTransparentMesh: 1
+--- !u!114 &345652764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345652759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: 413baa276507b8d4dac9eb2e0c4b8625, type: 2}
+  locked: 0
+  equipped: 0
+--- !u!114 &345652765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345652759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 345652764}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1889200317827605019, guid: 8100deb98d7c8cf49a09ce1b3b4ea2a9, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 345652764}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &346465791
 GameObject:
   m_ObjectHideFlags: 0
@@ -9083,6 +9347,143 @@ RectTransform:
   m_AnchoredPosition: {x: 1.0056, y: -60}
   m_SizeDelta: {x: 788.01, y: 129.829}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &591279582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 591279583}
+  - component: {fileID: 591279587}
+  - component: {fileID: 591279586}
+  - component: {fileID: 591279585}
+  - component: {fileID: 591279584}
+  m_Layer: 5
+  m_Name: KnockbackWind
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &591279583
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591279582}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 182614038}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3.986435, y: 3.265648}
+  m_SizeDelta: {x: 178.734, y: 178.737}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &591279584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591279582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: ef25dbe29c0e7924bb06ef19bdaffa25, type: 2}
+  locked: 0
+  equipped: 0
+--- !u!114 &591279585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591279582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 591279584}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 5241988027216059719, guid: 71b562990e5ccd64da4fb177d75035be, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 591279584}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &591279586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591279582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 50, y: 50, z: 60, w: 60}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 82de706295c6d0541992800df182dd46, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &591279587
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591279582}
+  m_CullTransparentMesh: 1
 --- !u!1 &594221962
 GameObject:
   m_ObjectHideFlags: 0
@@ -9788,6 +10189,7 @@ GameObject:
   - component: {fileID: 653591144}
   - component: {fileID: 653591143}
   - component: {fileID: 653591142}
+  - component: {fileID: 653591145}
   m_Layer: 5
   m_Name: Lightning
   m_TagString: Untagged
@@ -9908,6 +10310,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653591140}
   m_CullTransparentMesh: 1
+--- !u!114 &653591145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653591140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 0}
+  locked: 0
+  equipped: 0
 --- !u!1 &654082895
 GameObject:
   m_ObjectHideFlags: 0
@@ -10315,6 +10732,8 @@ GameObject:
   - component: {fileID: 689492765}
   - component: {fileID: 689492767}
   - component: {fileID: 689492766}
+  - component: {fileID: 689492769}
+  - component: {fileID: 689492768}
   m_Layer: 5
   m_Name: ChainLightning
   m_TagString: Untagged
@@ -10379,6 +10798,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689492764}
   m_CullTransparentMesh: 1
+--- !u!114 &689492768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689492764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: 762900cadae37144d881a750308d1688, type: 2}
+  locked: 0
+  equipped: 0
+--- !u!114 &689492769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689492764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 689492768}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1646570064460146650, guid: 80cf08ef19456134d9edde544a4d3bf9, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 689492768}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &694162499
 GameObject:
   m_ObjectHideFlags: 0
@@ -12096,7 +12575,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1999999, y: 1.1999999, z: 1.1999999}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 2132662513}
   m_Father: {fileID: 6653802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -12779,6 +13259,143 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &938688900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 938688901}
+  - component: {fileID: 938688905}
+  - component: {fileID: 938688904}
+  - component: {fileID: 938688903}
+  - component: {fileID: 938688902}
+  m_Layer: 5
+  m_Name: WindShield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &938688901
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938688900}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 326625001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3.986435, y: 3.7482681}
+  m_SizeDelta: {x: 178.734, y: 178.737}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &938688902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938688900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: ee49c92034fe31c4cbe2210ba198c713, type: 2}
+  locked: 0
+  equipped: 0
+--- !u!114 &938688903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938688900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 938688902}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1836309696478119388, guid: 442f211f2d647d541969f9ceed2b2350, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 938688902}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &938688904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938688900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 50, y: 50, z: 60, w: 60}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: d7173cf4768b50e4c8000428bbbe721b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &938688905
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938688900}
+  m_CullTransparentMesh: 1
 --- !u!1 &941458920
 GameObject:
   m_ObjectHideFlags: 0
@@ -15848,7 +16465,7 @@ GameObject:
   - component: {fileID: 1189885391}
   - component: {fileID: 1189885390}
   m_Layer: 5
-  m_Name: NewOutOfCobatMenu
+  m_Name: NewOutOfCombatMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17788,7 +18405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1319551801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19353,6 +19970,7 @@ GameObject:
   - component: {fileID: 1451918880}
   - component: {fileID: 1451918882}
   - component: {fileID: 1451918881}
+  - component: {fileID: 1451918883}
   m_Layer: 5
   m_Name: Slot2
   m_TagString: Untagged
@@ -19418,6 +20036,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1451918879}
   m_CullTransparentMesh: 1
+--- !u!114 &1451918883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451918879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b68b0ab78e403f4da1800e4467bdb34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
+  slotType: 1
 --- !u!1 &1453833401
 GameObject:
   m_ObjectHideFlags: 0
@@ -21207,6 +21839,7 @@ GameObject:
   - component: {fileID: 1596073075}
   - component: {fileID: 1596073077}
   - component: {fileID: 1596073076}
+  - component: {fileID: 1596073078}
   m_Layer: 5
   m_Name: Slot4
   m_TagString: Untagged
@@ -21272,6 +21905,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596073074}
   m_CullTransparentMesh: 1
+--- !u!114 &1596073078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596073074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b68b0ab78e403f4da1800e4467bdb34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
+  slotType: 1
 --- !u!1 &1597644030
 GameObject:
   m_ObjectHideFlags: 0
@@ -22728,8 +23375,9 @@ GameObject:
   - component: {fileID: 1769961070}
   - component: {fileID: 1769961069}
   - component: {fileID: 1769961071}
+  - component: {fileID: 1769961072}
   m_Layer: 5
-  m_Name: LightningStrike
+  m_Name: LightningBolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22809,8 +23457,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1774437758}
-          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+        - m_Target: {fileID: 1769961072}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
           m_MethodName: SpawnSpellNode
           m_Mode: 2
           m_Arguments:
@@ -22821,6 +23469,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1769961072}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1769961072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769961067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: fef61a17eb15b5f41815c0fa740fef24, type: 2}
+  locked: 0
+  equipped: 0
 --- !u!1 &1774437756
 GameObject:
   m_ObjectHideFlags: 0
@@ -22876,6 +23555,10 @@ MonoBehaviour:
   - {fileID: 6653801}
   - {fileID: 1992751118}
   canvas: {fileID: 1189885392}
+  title: {fileID: 1868453920}
+  title2: {fileID: 2074806931}
+  description: {fileID: 861806433}
+  description2: {fileID: 52601080}
 --- !u!1 &1792889621
 GameObject:
   m_ObjectHideFlags: 0
@@ -23186,6 +23869,7 @@ GameObject:
   - component: {fileID: 1822111927}
   - component: {fileID: 1822111929}
   - component: {fileID: 1822111928}
+  - component: {fileID: 1822111930}
   m_Layer: 5
   m_Name: Slot3
   m_TagString: Untagged
@@ -23251,6 +23935,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822111926}
   m_CullTransparentMesh: 1
+--- !u!114 &1822111930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822111926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b68b0ab78e403f4da1800e4467bdb34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
+  slotType: 1
 --- !u!1 &1854518603
 GameObject:
   m_ObjectHideFlags: 0
@@ -26190,6 +26888,7 @@ GameObject:
   - component: {fileID: 2126883354}
   - component: {fileID: 2126883356}
   - component: {fileID: 2126883355}
+  - component: {fileID: 2126883357}
   m_Layer: 5
   m_Name: Slot1
   m_TagString: Untagged
@@ -26254,6 +26953,157 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126883353}
+  m_CullTransparentMesh: 1
+--- !u!114 &2126883357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126883353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b68b0ab78e403f4da1800e4467bdb34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
+  slotType: 1
+--- !u!1 &2132662512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2132662513}
+  - component: {fileID: 2132662517}
+  - component: {fileID: 2132662516}
+  - component: {fileID: 2132662515}
+  - component: {fileID: 2132662514}
+  m_Layer: 5
+  m_Name: WindBlades
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2132662513
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132662512}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 808159638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3.986435, y: 3.6769962}
+  m_SizeDelta: {x: 178.734, y: 178.737}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2132662514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132662512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2132662515}
+          m_TargetAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+          m_MethodName: SpawnSpellNode
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8651430638916040497, guid: db59359d516abb84e86263693e6e5658, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1774437758}
+          m_TargetAssemblyTypeName: NotebookManager, Assembly-CSharp
+          m_MethodName: UpdateTextDescription
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2132662515}
+            m_ObjectArgumentAssemblyTypeName: NotebookSpellNodeBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &2132662515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132662512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977b732a763a0444a3585f5b089807a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runeData: {fileID: 11400000, guid: 7393517deaf7d8c4c93c07c40dedbc5f, type: 2}
+  locked: 0
+  equipped: 0
+--- !u!114 &2132662516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132662512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 50, y: 50, z: 60, w: 60}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 03bf49533c38fee468032fb6528965ff, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2132662517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132662512}
   m_CullTransparentMesh: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
