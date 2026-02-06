@@ -61,7 +61,7 @@ public class UIAudioManager : AudioManager
 
     public void PlaySpellNodeSelection()
     {
-      if (_nodeStatus == NodeStatus.Unlocked)
+      if (_nodeStatus == NodeStatus.Purchased)
         {
             CreateEventInstance(spellPickUp);
             PlayOneShot(spellPickUp, this.transform.position);
