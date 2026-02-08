@@ -1,22 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class SpellNodeBehavior : MonoBehaviour
+public class ArtifactNodeBehavior : MonoBehaviour
 {
     private RectTransform rectTransform;
     [HideInInspector] public Canvas canvas;
-    [HideInInspector] public RuneData runeData;
+    [HideInInspector] public ArtifactData artifactData;
 
     private SlotBehavior slotBehavior;
-    [HideInInspector] public NotebookSpellNodeBehavior notebookSpellNode;
+    [HideInInspector] public NotebookArtifactNodeBehavior notebookArtifactNode;
 
     public bool unlocked = true;
     private bool draggable = true;
     private bool dragging = true;
 
-    
+
     private Vector2 offset;
 
     private void Awake()
@@ -31,17 +30,17 @@ public class SpellNodeBehavior : MonoBehaviour
             if (IsPointerOverThisUI())
             {
                 dragging = true;
-                
+
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, canvas.worldCamera, out offset);
                 if (slotBehavior != null)
                 {
-                    slotBehavior.rune = null;
+                    slotBehavior.artifact = null;
                 }
             }
         }
         if (dragging && Input.GetMouseButton(0))
         {
-            notebookSpellNode.Equip(true);
+            notebookArtifactNode.Equip(true);
             Vector2 localPoint;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, Input.mousePosition, canvas.worldCamera, out localPoint);
             rectTransform.localPosition = localPoint - offset;
@@ -49,17 +48,18 @@ public class SpellNodeBehavior : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && dragging)
         {
             dragging = false;
-           
-            GameObject slot = SpellOverSnapLocation();
+
+            GameObject slot = ArtifactOverSnapLocation();
             if (slot != null)
             {
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
-                slotBehavior.rune = runeData;
-                
+                slotBehavior.artifact = artifactData;
+
             }
-            else {
-                notebookSpellNode.Equip(false);
+            else
+            {
+                notebookArtifactNode.Equip(false);
                 Destroy(gameObject);
             }
         }
@@ -82,7 +82,7 @@ public class SpellNodeBehavior : MonoBehaviour
         return false;
     }
 
-    private GameObject SpellOverSnapLocation()
+    private GameObject ArtifactOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
         pointerData.position = Input.mousePosition;
@@ -93,7 +93,8 @@ public class SpellNodeBehavior : MonoBehaviour
         foreach (RaycastResult result in results)
         {
             SlotBehavior sb = result.gameObject.GetComponent<SlotBehavior>();
-            if (sb && sb.rune == null && sb.isSpellSlot()) {
+            if (sb && sb.artifact == null && sb.isArtifactSlot())
+            {
                 return result.gameObject;
             }
         }
