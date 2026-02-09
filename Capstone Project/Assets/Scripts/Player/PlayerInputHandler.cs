@@ -21,9 +21,11 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction leftClick;
     private InputAction toggleConsole;
     private InputAction panCam;
+    private InputAction movePlayer;
 
     //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
     private bool mousePressed = false;
+    [HideInInspector] public bool enableMovement;
 
     #endregion VARS
 
@@ -41,9 +43,11 @@ public class PlayerInputHandler : MonoBehaviour
         leftClick = pInput.currentActionMap.FindAction("LeftClick");
         toggleConsole = pInput.currentActionMap.FindAction ("ToggleConsole");
         panCam = pInput.currentActionMap.FindAction("PanCamera");
+        movePlayer = pInput.currentActionMap.FindAction("Move");
 
 
         mousePressed = false;
+        enableMovement = false;
     }
 
 
@@ -57,6 +61,7 @@ public class PlayerInputHandler : MonoBehaviour
         leftClick.started += LeftClick_started;
         toggleConsole.started += Toggle_started;
         panCam.performed += PanCam_performed;
+        movePlayer.performed += MovePlayer_performed;
 
         pInput.onControlsChanged += PInput_onControlsChanged;
     }
@@ -73,6 +78,7 @@ public class PlayerInputHandler : MonoBehaviour
         rightClick.started -= RightClick_started;
         leftClick.started -= LeftClick_started;
         panCam.performed -= PanCam_performed;
+        movePlayer.performed -= MovePlayer_performed;
 
         pInput.onControlsChanged -= PInput_onControlsChanged;
     }
@@ -153,6 +159,11 @@ public class PlayerInputHandler : MonoBehaviour
     private void PanCam_performed(InputAction.CallbackContext obj)
     {
         PublicEvents.PanCamera?.Invoke(obj.ReadValue<Vector2>());
+    }
+
+    private void MovePlayer_performed(InputAction.CallbackContext obj)
+    {
+        //throw new System.NotImplementedException();
     }
 
     /// <summary>

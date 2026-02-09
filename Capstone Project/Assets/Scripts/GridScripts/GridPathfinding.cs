@@ -275,17 +275,17 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
-        if(!isEnemy)
-        {
-            ReEnableActionCanvas();
-        }
+        //if(!isEnemy)
+        //{
+        //    ReEnableActionCanvas();
+        //}
     }
 
     /// <summary>
     /// Does nothing in the base script, because trying to overwrite coroutines causes problems
     /// </summary>
-    virtual protected void ReEnableActionCanvas()
-    { }
+    //virtual protected void ReEnableActionCanvas()
+    //{ }
 
     /// <summary>
     /// Public call to tell an enemy to show their path

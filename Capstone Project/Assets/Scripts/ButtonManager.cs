@@ -196,7 +196,7 @@ public class ButtonManager : MonoBehaviour
     {
         playerBehavior.PlayerCanMove = false;
         confirmCanvas.SetActive(false);
-        playerBehavior.PathfindThroughGrid();
+        //playerBehavior.PathfindThroughGrid();
         cameraManager.SwitchCamera(cameraManager.Level1playcam);
     }
 
