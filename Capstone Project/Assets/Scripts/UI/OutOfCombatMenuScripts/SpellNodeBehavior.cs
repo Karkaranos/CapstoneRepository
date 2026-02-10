@@ -1,5 +1,11 @@
+/*************************************************
+Author Names : 		Tyler Bouchard
+Date Created : 		2/2/2026
+Date Last Modified : 2/10/2026
+Brief Description : this is the behavior of an spell node, this gets spawned when you 
+click on the Notebook spell slot
+***************************************************/
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
@@ -12,11 +18,7 @@ public class SpellNodeBehavior : MonoBehaviour
     private SlotBehavior slotBehavior;
     [HideInInspector] public NotebookSpellNodeBehavior notebookSpellNode;
 
-    public bool unlocked = true;
-    private bool draggable = true;
     private bool dragging = true;
-
-    
     private Vector2 offset;
 
     private void Awake()
@@ -24,9 +26,12 @@ public class SpellNodeBehavior : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
+    /// <summary>
+    /// controls the click and drag functionality
+    /// </summary>
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && draggable)
+        if (Input.GetMouseButtonDown(0))
         {
             if (IsPointerOverThisUI())
             {
@@ -65,6 +70,10 @@ public class SpellNodeBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// returns true if the mouse is over the game object this script is attached to
+    /// </summary>
+    /// <returns></returns>
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
@@ -82,6 +91,10 @@ public class SpellNodeBehavior : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// if this gameObject is over a slot that it is suposed to snap to, this will snap it to it
+    /// </summary>
+    /// <returns></returns>
     private GameObject SpellOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);

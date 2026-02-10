@@ -1,3 +1,10 @@
+/*************************************************
+Author Names : 		Tyler Bouchard
+Date Created : 		2/2/2026
+Date Last Modified : 2/10/2026
+Brief Description : this is the behavior of the spell slots in the notebook
+this also stores if its locked or unlocked 
+***************************************************/
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +23,7 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
         //finds the out of combat menu canvas
         AllCanvas = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
         foreach (Canvas c in AllCanvas) {
-            if (c.gameObject.name == "NewOutOfCombatMenu") {
+            if (c.gameObject.name == "UICanvas") {
                 canvas = c; 
                 break;
             }
@@ -24,6 +31,10 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// when the Spell node gets equiped it will turn itself to 10% opacity to showcase it
+    /// </summary>
+    /// <param name="b"></param>
     public void Equip(bool b) {
         if (b) {
             equipped = true;
@@ -35,6 +46,10 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// this is where the spell node gets spawned
+    /// </summary>
+    /// <param name="nodeToSpawn"></param>
     public void SpawnSpellNode(GameObject nodeToSpawn)
     {
         if (!locked && !equipped) {
@@ -46,7 +61,7 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
             snb.runeData = runeData;
             snb.notebookSpellNode = this.GetComponent<NotebookSpellNodeBehavior>();
             
-            node.transform.localScale *= 1.2f;
+            node.transform.localScale *= 2f;
         } 
     }
 }
