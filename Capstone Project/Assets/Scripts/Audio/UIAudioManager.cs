@@ -24,7 +24,7 @@ public class UIAudioManager : AudioManager
     [SerializeField] private EventReference uiPageFlip;
     [SerializeField] private EventReference spellPickUp;
 
-   NodeStatus _nodeStatus = NodeStatus.Unlocked;
+   NodeStatus _nodeStatus = NodeStatus.Purchased;
 
     private GameObject audioListenerObject;
 

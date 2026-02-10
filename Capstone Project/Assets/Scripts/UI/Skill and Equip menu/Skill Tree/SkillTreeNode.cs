@@ -26,7 +26,7 @@ public class SkillTreeNode : MonoBehaviour
 
     //this is the enum for what status the node is and determines how the player
     //can interact with the nodes
-    public enum NodeStatus
+    public enum  NodeStatus
     {
         Locked,
         Unlocked,
