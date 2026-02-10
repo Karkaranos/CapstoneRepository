@@ -53,8 +53,8 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("How long in seconds the code should wait before moving in the same direction if a player holds down the direction.")]
     [SerializeField] private float continuousMoveDelay;
     private bool canMove;
-    [SerializeField] private List<Vector3> movementPositions = new List<Vector3>();
-    [SerializeField] private List<Vector2Int> previousPositions = new List<Vector2Int>();
+    private List<Vector3> movementPositions = new List<Vector3>();
+    private List<Vector2Int> previousPositions = new List<Vector2Int>();
     [Tooltip("How fast the player moves from tile to tile.")]
     [SerializeField] private float movementSpeed;
     [Tooltip("Total amount of movement the player has on their turn.")]
