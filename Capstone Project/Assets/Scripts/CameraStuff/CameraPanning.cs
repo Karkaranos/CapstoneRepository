@@ -32,11 +32,17 @@ public class CameraPanning : MonoBehaviour
 
     #region functions
 
+    /// <summary>
+    /// Enables public events
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.PanCamera += OnMove;
     }
 
+    /// <summary>
+    /// Disables public event
+    /// </summary>
     private void OnDisable()
     {
         PublicEvents.PanCamera -= OnMove;
