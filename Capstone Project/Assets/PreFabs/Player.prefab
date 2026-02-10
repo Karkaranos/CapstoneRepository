@@ -368,7 +368,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 10
@@ -584,6 +584,7 @@ MonoBehaviour:
   gridDirections: []
   movementSpeed: 2
   movementRange: 2
+  underEffect: 0
   playerClick:
     m_Name: Player Click
     m_Type: 0
@@ -624,6 +625,7 @@ MonoBehaviour:
   PlayerCanMove: 0
   CurrentlyTryingToAttack: 0
   tilesInRange: []
+  TogglePathVisualizer: 1
 --- !u!114 &-4570115079475522765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,6 +648,8 @@ MonoBehaviour:
   XPMultiplier: 1
   RAPChanceModifier: 1
   turnIndicator: {fileID: 8094946162259277570}
+  playerCanvas: {fileID: 6895680415729585072}
+  statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
   Resistance: 0
   DamageTakenMultiplier: 1
   RangedDamageTakenMultiplier: 1

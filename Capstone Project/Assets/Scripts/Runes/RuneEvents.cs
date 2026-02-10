@@ -9,6 +9,7 @@ External Resources :
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
@@ -219,7 +220,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
+    public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
         float damageDealt = Mathf.CeilToInt(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
@@ -240,8 +241,8 @@ public class RuneEvents : MonoBehaviour
 
                 if (enemy != null)
                 {
-
-                    enemy.Damage(damageDealt);
+                    await Task.Delay(1200);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
 
                     CheckRuneCombination(rune, enemy);
 
@@ -256,7 +257,7 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
-                        .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier));
+                        .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
 
                         CheckRuneCombination(rune, enemy);
 
@@ -301,6 +302,8 @@ public class RuneEvents : MonoBehaviour
 
                     VFX = Instantiate(rune.RuneVFX, potentialTarget.transform);
 
+                    await Task.Delay(1200);
+
                     potentialTarget.ElectrifyTile();
 
                     if (potentialTarget.GetComponentInChildren<Enemy>() != null)
@@ -312,13 +315,13 @@ public class RuneEvents : MonoBehaviour
 
                             SubtractFromDamage(rune, tile, potentialTarget);
 
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction);
+                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
 
                         }
                         else
                         {
 
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                         }
 
@@ -354,7 +357,8 @@ public class RuneEvents : MonoBehaviour
                         if(adjacentTile.GetComponentInChildren<Enemy>() != null)
                         {
 
-                            adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                            await Task.Delay(1200);
+                            adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                             CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
 
@@ -369,7 +373,7 @@ public class RuneEvents : MonoBehaviour
                     AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
                     AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
-                    //VFX = Instantiate(rune.RuneVFX, tile.transform);
+                    
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -404,7 +408,8 @@ public class RuneEvents : MonoBehaviour
                         if (tileInPath.GetComponentInChildren<Enemy>() != null)
                         {
 
-                            tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt);
+                            await Task.Delay(1200); 
+                            tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                             CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
 
@@ -414,7 +419,7 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    //VFX = Instantiate(rune.RuneVFX, tile.transform);
+                    
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -732,7 +737,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
+    public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
     {
 
         float damageDealt = Mathf.Ceil(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
@@ -749,11 +754,10 @@ public class RuneEvents : MonoBehaviour
                if(enemy != null)
                {
 
-                    enemy.Damage(damageDealt);
+                    await Task.Delay(1200); 
+                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     CheckRuneCombination(rune,enemy);
-
-                    VFX = Instantiate(rune.RuneVFX, tile.transform);
 
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
@@ -775,16 +779,15 @@ public class RuneEvents : MonoBehaviour
                 if(enemy != null)
                 {
 
-                    enemy.Damage(damageDealt);
+                    await Task.Delay(1500);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     CheckRuneCombination(rune,enemy);
-
-                    VFX = Instantiate(rune.RuneVFX, tile.transform);
 
                     if(Random.value <= rune.RuneSecondaryEffectChance)
                     {
 
-                        enemy.Damage(damageDealt);
+                        enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     }
 
@@ -826,7 +829,7 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 VFX = Instantiate(rune.RuneVFX, tile.transform);
-                
+                await Task.Delay(3200);
                 AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                 AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
@@ -835,7 +838,7 @@ public class RuneEvents : MonoBehaviour
 
                     enemy.DelayedTurnStatus(true);
 
-                    enemy.Damage(damageDealt);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     CheckRuneCombination(rune, enemy);
 
@@ -871,7 +874,7 @@ public class RuneEvents : MonoBehaviour
                     for (int i = 0; i < validEnemies.Count; i++)
                     {
 
-                        validEnemies[i].Damage(Mathf.CeilToInt(damageDealt / validEnemies.Count));
+                        validEnemies[i].Damage(Mathf.CeilToInt(damageDealt / validEnemies.Count), Enemy.DamageType.Wind);
 
                     }
 
@@ -1097,7 +1100,7 @@ public class RuneEvents : MonoBehaviour
         for (int i = 0; i < validEnemies.Count; i++)
         {
 
-            validEnemies[i].Damage(lightningDamage);
+            validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
 
             validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyTile();
 
@@ -1109,7 +1112,7 @@ public class RuneEvents : MonoBehaviour
             if (enemy != null)
             {
 
-                enemy.Damage(lightningMasteredDamage);
+                enemy.Damage(lightningMasteredDamage, Enemy.DamageType.Lightning);
 
             }
 
@@ -1119,7 +1122,7 @@ public class RuneEvents : MonoBehaviour
                 if (validEnemies[i] != null)
                 {
 
-                    validEnemies[i].Damage(lightningDamage);
+                    validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
 
                 }
 
@@ -1191,7 +1194,7 @@ public class RuneEvents : MonoBehaviour
         if (enemy != null)
         {
 
-            enemy.Damage(windPrimaryDamage);
+            enemy.Damage(windPrimaryDamage, Enemy.DamageType.Wind);
 
         }
 
@@ -1202,7 +1205,7 @@ public class RuneEvents : MonoBehaviour
             if (validEnemies[i] != null)
             {
 
-                validEnemies[i].Damage(windSecondaryDamage);
+                validEnemies[i].Damage(windSecondaryDamage, Enemy.DamageType.Wind);
 
             }
 

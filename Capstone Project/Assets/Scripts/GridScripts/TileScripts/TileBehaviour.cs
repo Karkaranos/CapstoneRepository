@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 11/20/2025 (Tyler Bouchard)
+ * Last Modified: 2/9/2026 (Brad Dixon)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -33,7 +33,7 @@ public class TileBehaviour : MonoBehaviour
     }
 
     [Header("Tile Info")] 
-    [HideInInspector] public Vector2Int IndexInGrid;
+    public Vector2Int IndexInGrid;
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
     [HideInInspector] private GameObject ObjectOnTile;
@@ -85,9 +85,9 @@ public class TileBehaviour : MonoBehaviour
     private void Awake()
     {
         //finding the tile coords
-        Transform parentTransform = transform.parent.gameObject.transform;
-        IndexInGrid.x = (int)(transform.position.x - parentTransform.position.x / transform.localScale.x);
-        IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
+        //Transform parentTransform = transform.parent.gameObject.transform;
+        //IndexInGrid.x = (int)(transform.position.x - parentTransform.position.x / transform.localScale.x);
+        //IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
 
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
         tileHighlight = transform.GetChild(0).gameObject;
@@ -102,7 +102,7 @@ public class TileBehaviour : MonoBehaviour
     {
         //AddObjectsToTile();
         tileHighlight.SetActive(false);
-        Invoke("AddObjectsToTile", 1.5f);
+        //Invoke("AddObjectsToTile", 1.5f);
     }
 
     /// <summary>
@@ -149,14 +149,92 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     public void ElectrifyTile()
     {
-        if (tileType == TileType.Water) {
+        if (tileType == TileType.Water) 
+        {
             isElectrified = true;
             turnsSinceElectrification = 0;
         }
     }
 
     /// <summary>
-    /// applys all the effects that the tile should deal out to whatever is on it durring the tiles turn
+    /// Finds all the connected water tiles so they all get electrified at the same time
+    /// </summary>
+    public void ElectrifyAdTiles()
+    {
+        List<TileBehaviour> adWaterTiles = new List<TileBehaviour>();
+        List<Vector2Int> alreadyChecked = new List<Vector2Int>();
+        adWaterTiles.Add(GridManager.combatGrid[IndexInGrid.x, IndexInGrid.y]);
+        alreadyChecked.Add(IndexInGrid);
+
+        List<Vector2Int> adTiles = GridManager.GetAllValidAdjacentTiles(IndexInGrid, new Vector2Int(-1, -1));
+        //Gets the adjacent tiles of the tile that was hit
+        foreach (Vector2Int v in adTiles)
+        {
+            adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+            alreadyChecked.Add(v);
+        }
+
+        bool foundAll = false;
+        //Loops until a new tile doesn't get added
+        while(!foundAll)
+        {
+            List<Vector2Int> temp = new List<Vector2Int>();
+            List<Vector2Int> temp2 = new List<Vector2Int>();
+            foundAll = true;
+            List<Vector2Int> adAdTiles = new List<Vector2Int>();
+
+            //Gets the adjacent tiles of already electrified ones
+            foreach(Vector2Int a1 in adTiles)
+            {
+                adAdTiles = GridManager.GetAllValidAdjacentTiles(a1, new Vector2Int(-1, -1));
+
+                foreach (Vector2Int v in adAdTiles)
+                {
+                    if (!alreadyChecked.Contains(v))
+                    {
+                        if(foundAll)
+                        {
+                            foundAll = false;
+                        }
+                        if (GridManager.combatGrid[v.x, v.y].CanBeElectrified())
+                        {
+                            adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+
+                            temp2 = GridManager.GetAllValidAdjacentTiles(v, new Vector2Int(-1, -1));
+                            foreach (Vector2Int t in temp2)
+                            {
+                                temp.Add(t);
+                            }
+                        }
+                        alreadyChecked.Add(v);
+                    }
+                }
+            }
+            adTiles.Clear();
+            foreach(Vector2Int v in temp)
+            {
+                adTiles.Add(v);
+            }
+        }
+
+        //Once all connected tiles are found, electrify them all
+        foreach(TileBehaviour t in adWaterTiles)
+        {
+            t.ElectrifyTile();
+        }
+    }
+
+    /// <summary>
+    /// Public check to see if a tile is able to be electrified
+    /// </summary>
+    /// <returns></returns>
+    public bool CanBeElectrified()
+    {
+        return tileType == TileType.Water;
+    }
+
+    /// <summary>
+    /// Public call so tile effects can be applied before a turn ends
     /// </summary>
     public void ApplyTileEffects() {
         if (hazardType == HazardType.damage)
@@ -164,15 +242,51 @@ public class TileBehaviour : MonoBehaviour
             DamageEntity(damageAmount);
         }
 
-        if (tileType == TileType.Water && isElectrified) {
+        if (tileType == TileType.Water && isElectrified) 
+        {
+            DamageEntity(damageWhenElectrified);
+        }
+    }
+
+    /// <summary>
+    /// Has tiles do specific things when a turn is ended
+    /// </summary>
+    private void EndTurnTileEffects()
+    {
+        Debug.Log("sdhkjfshjkdhfkjahjkafhkfjdhsdkfjk");
+        if (hazardType == HazardType.damage)
+        {
+            DamageEntity(damageAmount);
+        }
+
+        if (tileType == TileType.Water && isElectrified)
+        {
             DamageEntity(damageWhenElectrified);
             turnsSinceElectrification++;
-            if (turnsSinceElectrification >= electrificationDuration) { 
+            if (turnsSinceElectrification >= electrificationDuration)
+            {
                 isElectrified = false;
                 turnsSinceElectrification = 0;
             }
         }
         TurnPublicEvents.TurnActionComplete();
+    }
+
+    /// <summary>
+    /// Checks if a tile can apply its effects
+    /// </summary>
+    /// <returns></returns>
+    public bool CanApplyTileEffects()
+    {
+        if (hazardType == HazardType.damage)
+        {
+            return true;
+        }
+        if (tileType == TileType.Water && isElectrified)
+        {
+            return true;
+        }
+        return false;
     }
 
     /// <summary>
@@ -188,6 +302,7 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="color"></param>
     public void SetHighlightColor(Color color)
     {
+        color.a = .5f;
         tileHighlight.GetComponent<SpriteRenderer>().color = color;
     }
 
@@ -226,7 +341,7 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-        TurnPublicEvents.BeginEndTurn += ApplyTileEffects;
+        TurnPublicEvents.BeginEndTurn += EndTurnTileEffects;
     }
 
     /// <summary>
@@ -234,6 +349,6 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        TurnPublicEvents.BeginEndTurn -= ApplyTileEffects;
+        TurnPublicEvents.BeginEndTurn -= EndTurnTileEffects;
     }
 }
