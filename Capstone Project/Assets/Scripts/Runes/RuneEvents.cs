@@ -9,6 +9,7 @@ External Resources :
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
@@ -219,7 +220,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
+    public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
         float damageDealt = Mathf.CeilToInt(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
@@ -240,7 +241,7 @@ public class RuneEvents : MonoBehaviour
 
                 if (enemy != null)
                 {
-
+                    await Task.Delay(1200);
                     enemy.Damage(damageDealt);
 
                     CheckRuneCombination(rune, enemy);
@@ -301,6 +302,8 @@ public class RuneEvents : MonoBehaviour
 
                     VFX = Instantiate(rune.RuneVFX, potentialTarget.transform);
 
+                    await Task.Delay(1200);
+
                     potentialTarget.ElectrifyTile();
 
                     if (potentialTarget.GetComponentInChildren<Enemy>() != null)
@@ -353,7 +356,8 @@ public class RuneEvents : MonoBehaviour
 
                         if(adjacentTile.GetComponentInChildren<Enemy>() != null)
                         {
-
+                            //VFX = Instantiate(rune.RuneVFX, tile.transform);
+                            await Task.Delay(1200);
                             adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt);
 
                             CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
@@ -369,7 +373,7 @@ public class RuneEvents : MonoBehaviour
                     AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
                     AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
-                    //VFX = Instantiate(rune.RuneVFX, tile.transform);
+                    
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -403,7 +407,8 @@ public class RuneEvents : MonoBehaviour
 
                         if (tileInPath.GetComponentInChildren<Enemy>() != null)
                         {
-
+                            //VFX = Instantiate(rune.RuneVFX, tile.transform);
+                            await Task.Delay(1200); 
                             tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt);
 
                             CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
@@ -414,7 +419,7 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    //VFX = Instantiate(rune.RuneVFX, tile.transform);
+                    
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -732,7 +737,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
+    public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
     {
 
         float damageDealt = Mathf.Ceil(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
@@ -748,12 +753,11 @@ public class RuneEvents : MonoBehaviour
 
                if(enemy != null)
                {
-
+                    VFX = Instantiate(rune.RuneVFX, tile.transform);
+                    await Task.Delay(1200); 
                     enemy.Damage(damageDealt);
 
                     CheckRuneCombination(rune,enemy);
-
-                    VFX = Instantiate(rune.RuneVFX, tile.transform);
 
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
@@ -774,12 +778,11 @@ public class RuneEvents : MonoBehaviour
 
                 if(enemy != null)
                 {
-
+                    VFX = Instantiate(rune.RuneVFX, tile.transform);
+                    await Task.Delay(1500);
                     enemy.Damage(damageDealt);
 
                     CheckRuneCombination(rune,enemy);
-
-                    VFX = Instantiate(rune.RuneVFX, tile.transform);
 
                     if(Random.value <= rune.RuneSecondaryEffectChance)
                     {
@@ -826,7 +829,7 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 VFX = Instantiate(rune.RuneVFX, tile.transform);
-                
+                await Task.Delay(3200);
                 AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                 AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
