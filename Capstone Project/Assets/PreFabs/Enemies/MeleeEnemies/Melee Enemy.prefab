@@ -214,7 +214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 336, y: 95.870895}
+  m_AnchoredPosition: {x: 336, y: 96.5}
   m_SizeDelta: {x: 672, y: 377.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7091150527931638541
@@ -235,7 +235,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 10
@@ -680,6 +680,11 @@ MonoBehaviour:
   turnIndicator: {fileID: 7712963151286290330}
   flashColor: {fileID: 2100000, guid: 75ff79590476cf14fa2bf0fa02d4bb08, type: 2}
   spriteRen: {fileID: 7650219661011483951}
+  flashTime: 1000
+  enemyCanvas: {fileID: 7238868080264147719}
+  statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
+  lightningSprite: {fileID: 21300000, guid: 4fdf3c07a5211444c84c421ca68ded96, type: 3}
+  windSprite: {fileID: 21300000, guid: 3d9a3b42ca75a174a8bf67421bcbafcf, type: 3}
   playerStats: {fileID: 0}
   HasStatusEffect: 0
   RuneStatusEffect: 0
@@ -725,6 +730,7 @@ MonoBehaviour:
   gridDirections: []
   movementSpeed: 5
   movementRange: 3
+  underEffect: 0
 --- !u!114 &5895380928361199476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,7 +811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -336.1, y: -185.29}
+  m_AnchoredPosition: {x: -336.1, y: -186.66}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8534701960708135817
@@ -929,7 +935,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -336.1, y: -184.11}
+  m_AnchoredPosition: {x: -336.1, y: -185.48001}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1940619935356180316
