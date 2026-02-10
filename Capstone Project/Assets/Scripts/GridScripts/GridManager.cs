@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 9/26/2025
- * Last Modified: 1/28/2026 (Brad Dixon)
+ * Last Modified: 2/9/2026 (Brad Dixon)
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
@@ -39,7 +39,8 @@ public class GridManager : MonoBehaviour
             //tile.transform.position = new Vector3(MoveDistances.x * x, tile.transform.position.y, MoveDistances.y * y);
             combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y] = tb;
             combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].entityOnGrid = -1;
-            combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].gameObject.name = "[" + tb.IndexInGrid.x + ", " + tb.IndexInGrid.y + "]";
+            combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].AddObjectsToTile();
+            //combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].gameObject.name = "[" + tb.IndexInGrid.x + ", " + tb.IndexInGrid.y + "]";
         }
     }
 
