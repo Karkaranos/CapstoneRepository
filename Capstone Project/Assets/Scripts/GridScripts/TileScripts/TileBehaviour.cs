@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 1/28/2026 (Brad Dixon)
+ * Last Modified: 2/9/2026 (Brad Dixon)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -33,7 +33,7 @@ public class TileBehaviour : MonoBehaviour
     }
 
     [Header("Tile Info")] 
-    [HideInInspector] public Vector2Int IndexInGrid;
+    public Vector2Int IndexInGrid;
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
     [HideInInspector] private GameObject ObjectOnTile;
@@ -85,9 +85,9 @@ public class TileBehaviour : MonoBehaviour
     private void Awake()
     {
         //finding the tile coords
-        Transform parentTransform = transform.parent.gameObject.transform;
-        IndexInGrid.x = (int)Mathf.Abs((int)(transform.position.x - parentTransform.position.x / transform.localScale.x));
-        IndexInGrid.y = (int)Mathf.Abs((int)(transform.position.z - parentTransform.position.z / transform.localScale.z));
+        //Transform parentTransform = transform.parent.gameObject.transform;
+        //IndexInGrid.x = (int)(transform.position.x - parentTransform.position.x / transform.localScale.x);
+        //IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
 
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
         tileHighlight = transform.GetChild(0).gameObject;
@@ -102,7 +102,7 @@ public class TileBehaviour : MonoBehaviour
     {
         //AddObjectsToTile();
         tileHighlight.SetActive(false);
-        Invoke("AddObjectsToTile", 1.5f);
+        //Invoke("AddObjectsToTile", 1.5f);
     }
 
     /// <summary>
