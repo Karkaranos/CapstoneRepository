@@ -578,13 +578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0889be3eb1180374389a7fbfafff0a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPosition: {x: 0, y: 0}
-  targetPosition: {x: 0, y: 0}
-  nextPos: []
-  gridDirections: []
-  movementSpeed: 2
-  movementRange: 2
-  underEffect: 0
   playerClick:
     m_Name: Player Click
     m_Type: 0
@@ -622,10 +615,14 @@ MonoBehaviour:
   animObj: {fileID: 574336995632580795}
   player: {fileID: 6675322036123795430}
   MouseIsClicked: 0
-  PlayerCanMove: 0
   CurrentlyTryingToAttack: 0
   tilesInRange: []
   TogglePathVisualizer: 1
+  continuousMoveDelay: 0.2
+  movementSpeed: 2
+  movementRange: 6
+  movementLeft: 0
+  allowLeftoverMovement: 0
 --- !u!114 &-4570115079475522765
 MonoBehaviour:
   m_ObjectHideFlags: 0

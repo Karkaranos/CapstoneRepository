@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		10/27/2025
-Date Last Modified : 10/27/2025
+Date Last Modified : 2/10/2026
 Brief Description : Handles all of the player's inputs
 External Resources : 	
 ***************************************************/
@@ -26,6 +26,8 @@ public class PlayerInputHandler : MonoBehaviour
     //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
     private bool mousePressed = false;
     [HideInInspector] public bool enableMovement;
+    private bool isMoving;
+    private Vector2 movementDirection;
 
     #endregion VARS
 
@@ -48,6 +50,7 @@ public class PlayerInputHandler : MonoBehaviour
 
         mousePressed = false;
         enableMovement = false;
+        isMoving = false;
     }
 
 
@@ -62,12 +65,10 @@ public class PlayerInputHandler : MonoBehaviour
         toggleConsole.started += Toggle_started;
         panCam.performed += PanCam_performed;
         movePlayer.performed += MovePlayer_performed;
+        movePlayer.canceled += MovePlayer_canceled;
 
         pInput.onControlsChanged += PInput_onControlsChanged;
     }
-
-
-
 
     /// <summary>
     /// unsubscribes from all needed functions
@@ -79,6 +80,7 @@ public class PlayerInputHandler : MonoBehaviour
         leftClick.started -= LeftClick_started;
         panCam.performed -= PanCam_performed;
         movePlayer.performed -= MovePlayer_performed;
+        movePlayer.canceled -= MovePlayer_canceled;
 
         pInput.onControlsChanged -= PInput_onControlsChanged;
     }
@@ -161,9 +163,19 @@ public class PlayerInputHandler : MonoBehaviour
         PublicEvents.PanCamera?.Invoke(obj.ReadValue<Vector2>());
     }
 
+    /// <summary>
+    /// Sends out a public event to move the player in the grid
+    /// </summary>
+    /// <param name="obj"></param>
     private void MovePlayer_performed(InputAction.CallbackContext obj)
     {
-        //throw new System.NotImplementedException();
+        movementDirection = obj.ReadValue<Vector2>();
+        isMoving = true;
+    }
+
+    private void MovePlayer_canceled(InputAction.CallbackContext obj)
+    {
+        isMoving = false;
     }
 
     /// <summary>
@@ -212,6 +224,15 @@ public class PlayerInputHandler : MonoBehaviour
 
                 }
 
+            }
+        }
+
+        if(isMoving)
+        {
+            //Using an if statement in case we want to call another event when not trying to move
+            if (enableMovement)
+            {
+                PublicEvents.MovementDirection?.Invoke(movementDirection);
             }
         }
     }
