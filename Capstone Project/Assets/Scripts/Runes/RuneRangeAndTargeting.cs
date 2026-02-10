@@ -62,31 +62,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// exits attack menu if waiting on a target
-    /// </summary>
-    public void CancelCasting()
-    {
-
-        if (waitingForThePlayer)
-        {
-
-            waitingForThePlayer = false;
-
-        }
-
-        GridManager.RemoveHighlight();
-
-        foreach (TileBehaviour tile in FindFirstObjectByType<PlayerBehavior>().tilesInRange)
-        {
-
-            tile.SetHighlightColor(defaultHighlight);
-            tile.ShowHighlight(true);
-
-        }
-
-    }
-
     #endregion INITIALIZATION
 
 
@@ -489,16 +464,15 @@ public class RuneRangeAndTargeting : MonoBehaviour
         else
         {
 
-            foreach(TileBehaviour tile in FindFirstObjectByType<PlayerBehavior>().tilesInRange)
+            foreach(TileBehaviour tile in viableTilesInRange)
             {
 
-                tile.SetHighlightColor(defaultHighlight);
-
-                tile.ShowHighlight(true);
+                tile.SetHighlightColor(Color.blue);
 
             }
 
         }
+
 
     }
 
@@ -564,8 +538,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         waitingForThePlayer = false;
 
-        GridManager.RemoveHighlight();
-
         SetHighlight(false);
 
         if (castNotCanceled)
@@ -578,6 +550,18 @@ public class RuneRangeAndTargeting : MonoBehaviour
         if (TurnManager.currentStatus == TurnStates.PlayerTurn)
         {
             playerMenu.SetActive(true);
+
+            foreach(TileBehaviour tile in FindFirstObjectByType<PlayerBehavior>().tilesInRange)
+            {
+
+                tile.ShowHighlight(true);
+
+            }
+
+        }
+        else
+        {
+            GridManager.RemoveHighlight();
         }
 
         this.gameObject.SetActive(false);
