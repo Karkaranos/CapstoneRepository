@@ -106,7 +106,7 @@ public class PlayerBehavior : GridPathfinding
 
         if (PlayerCanMove && tBehav.inPlayerRange)
         {
-            if (GridManager.CanMoveToTile(tBehav.IndexInGrid, myPosition))
+            if (GridManager.CanMoveToTile(tBehav.IndexInGrid, myPosition, true))
             {
                 //turns on the confirmation canvas
                 targetPosition = tBehav.IndexInGrid;
@@ -126,7 +126,7 @@ public class PlayerBehavior : GridPathfinding
             tilesInRange.Clear();
             GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
             tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
-            List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition);
+            List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition, true);
             foreach (Vector2Int v in tilePositions)
             {
                 GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
@@ -145,7 +145,7 @@ public class PlayerBehavior : GridPathfinding
                 tilePositions.Clear();
                 foreach (Vector2Int v in adPositions)
                 {
-                    List<Vector2Int> adAdPositions = GridManager.GetAllValidAdjacentTiles(v, myPosition);
+                    List<Vector2Int> adAdPositions = GridManager.GetAllValidAdjacentTiles(v, myPosition, true);
                     foreach (Vector2Int newPos in adAdPositions)
                     {
                         if (newPos != myPosition)
