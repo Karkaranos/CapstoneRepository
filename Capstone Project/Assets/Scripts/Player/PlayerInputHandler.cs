@@ -173,6 +173,10 @@ public class PlayerInputHandler : MonoBehaviour
         isMoving = true;
     }
 
+    /// <summary>
+    /// Changes a bool for fixed update so we can tell it the player has stopped moving
+    /// </summary>
+    /// <param name="obj"></param>
     private void MovePlayer_canceled(InputAction.CallbackContext obj)
     {
         isMoving = false;
@@ -181,6 +185,7 @@ public class PlayerInputHandler : MonoBehaviour
     /// <summary>
     /// detects if the player clicked on a tile and sends out the tile clicked on if true
     /// apparently this only works in update i fucking hate this >:C
+    /// Also used to continuously send an event for moving becuase just having it in a performed call doesn't work
     /// </summary>
     private void FixedUpdate()
     {

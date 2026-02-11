@@ -66,6 +66,9 @@ public class PlayerBehavior : MonoBehaviour
     Vector2Int posBeforeMovement;
     private int movementUsed;
 
+    private BoxCollider myCol;
+    private List<Vector2Int> enemyPositions = new List<Vector2Int>();
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -79,6 +82,8 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         ghostPosition = transform.position;
         movementLeft = movementRange;
+        previousPositions.Add(myPosition);
+        myCol = GetComponent<BoxCollider>();
     }
 
     #region player input
@@ -115,15 +120,26 @@ public class PlayerBehavior : MonoBehaviour
         PublicEvents.MovementDirection -= MoveDirection;
     }
 
+    /// <summary>
+    /// Updates the variables to where the player is when they begin their turn. Also finds the enemies
+    /// </summary>
     private void StartPlayerTurn()
     {
         movementLeft = movementRange;
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
-        previousPositions.Add(myPosition);
+
+        foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
+        {
+            enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
+        }
     }
 
+    /// <summary>
+    /// Reads in an input to determine which direction the player is moving in
+    /// </summary>
+    /// <param name="dir"></param> Vector2 input from the player
     private void MoveDirection(Vector2 dir)
     {
         if (canMove)
@@ -131,10 +147,14 @@ public class PlayerBehavior : MonoBehaviour
             if (dir.y >= .5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x, myPosition.y + 1);
-                if (GridManager.TileIsInGrid(v) && GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1])
-                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]))
+                if (GridManager.TileIsInGrid(v) && //Checks to make sure the attempted positsion is withing the index of the grid
+                    (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) || //Checks to make sure the new tile is an open space
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v))) && //If the tile isn't open, this checks to make sure it isn't because of an enemy's projected path
+                    (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && //This check is so you can go back one space in the path but not travel over your path
+                    !enemyPositions.Contains(v)) //Checks to make sure you can't move onto where the enemy is due to how visualizing their path works
                 {
                     Vector3 newPosition = new Vector3(ghostPosition.x, ghostPosition.y, ghostPosition.z + GridManager.MoveDistances.y);
+                    myCol.center = new Vector3(myCol.center.x, myCol.center.y, myCol.center.z + GridManager.MoveDistances.y);
                     //movementPositions.Add(newPosition);
                     UpdateMovement(v, newPosition);
                 }
@@ -142,10 +162,12 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.y <= -.5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x, myPosition.y - 1);
-                if (GridManager.TileIsInGrid(v) && GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1])
-                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]))
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
+                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
                     Vector3 newPosition = new Vector3(ghostPosition.x, ghostPosition.y, ghostPosition.z - GridManager.MoveDistances.y);
+                    myCol.center = new Vector3(myCol.center.x, myCol.center.y, myCol.center.z - GridManager.MoveDistances.y);
                     //movementPositions.Add(newPosition);
                     UpdateMovement(v, newPosition);
                 }
@@ -153,10 +175,12 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.x > .5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x + 1, myPosition.y);
-                if (GridManager.TileIsInGrid(v) && GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1])
-                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]))
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
+                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
                     Vector3 newPosition = new Vector3(ghostPosition.x + GridManager.MoveDistances.x, ghostPosition.y, ghostPosition.z);
+                    myCol.center = new Vector3(myCol.center.x + GridManager.MoveDistances.x, myCol.center.y, myCol.center.z);
                     //movementPositions.Add(newPosition);
                     UpdateMovement(v, newPosition);
                 }
@@ -164,10 +188,12 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.x < -.5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x - 1, myPosition.y);
-                if (GridManager.TileIsInGrid(v) && GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1])
-                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]))
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
+                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
                     Vector3 newPosition = new Vector3(ghostPosition.x - GridManager.MoveDistances.x, ghostPosition.y, ghostPosition.z);
+                    myCol.center = new Vector3(myCol.center.x - GridManager.MoveDistances.x, myCol.center.y, myCol.center.z);
                     //movementPositions.Add(newPosition);
                     UpdateMovement(v, newPosition);
                 }
@@ -208,6 +234,7 @@ public class PlayerBehavior : MonoBehaviour
                 {
                     ghostPosition = t;
                     //GridManager.MoveToTile(myPosition, v, -3);
+                    GridManager.playerPosition = v;
                     myPosition = v;
                 }
             }
@@ -217,8 +244,10 @@ public class PlayerBehavior : MonoBehaviour
         {
             ghostPosition = t;
             //GridManager.MoveToTile(myPosition, v, -3);
+            GridManager.playerPosition = v;
             myPosition = v;
         }
+        VisualizeEnemyPaths();
         StartCoroutine(MovementDelay());
     }
 
@@ -262,11 +291,16 @@ public class PlayerBehavior : MonoBehaviour
         previousPositions.Add(myPosition);
         movementPositions.Clear();
         ghostPosition = transform.position;
+        myCol.center = new Vector3(0, myCol.center.y, 0);
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
     }
 
+    /// <summary>
+    /// Public function that gets called when the player presses the confirm button after moving.
+    /// Tells the player to move and updates the UI
+    /// </summary>
     public void ConfirmMovement()
     {
         buttonManager = FindFirstObjectByType<ButtonManager>();
@@ -291,6 +325,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         gm.GetComponent<PlayerInputHandler>().enableMovement = false;
         myPosition = posBeforeMovement;
+        GridManager.playerPosition = posBeforeMovement;
         GridManager.combatGrid[myPosition.x, myPosition.y].entityOnGrid = -3;
         foreach(Vector2Int v in previousPositions)
         {
@@ -302,6 +337,7 @@ public class PlayerBehavior : MonoBehaviour
         movementLeft += movementUsed;
         movementUsed = 0;
         ghostPosition = transform.position;
+        myCol.center = new Vector3(0, myCol.center.y, 0);
     }
 
     /// <summary>
