@@ -20,6 +20,8 @@ public class EndLevelMenu : MonoBehaviour
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
+    [SerializeField] private GameObject SkillMenu;
+
     #endregion
 
     #region FUNCTIONS
@@ -69,6 +71,18 @@ public class EndLevelMenu : MonoBehaviour
         Debug.Log("Restart Level");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    
+    /// <summary>
+    /// Loads the next level in the scene
+    /// </summary>
+    public void NextLevel()
+    {
+        FindFirstObjectByType<GridTesting>().LoadNextGrid();
+        SkillMenu.SetActive(true);
+        FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive:FindObjectsInactive.Include).gameObject.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
     /// <summary>
     /// Sets the text that will appear at the end of the level 
     /// </summary>
