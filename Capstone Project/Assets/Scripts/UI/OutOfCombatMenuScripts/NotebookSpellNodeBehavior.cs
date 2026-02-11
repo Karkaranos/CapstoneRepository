@@ -18,6 +18,9 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
     private Canvas canvas;
     private GameObject node;
 
+    /// <summary>
+    /// initialization
+    /// </summary>
     private void Start()
     {
         //finds the out of combat menu canvas
@@ -61,7 +64,7 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
             snb.runeData = runeData;
             snb.notebookSpellNode = this.GetComponent<NotebookSpellNodeBehavior>();
             
-            node.transform.localScale *= 2f;
+            node.transform.localScale *= 1.8f;
         } 
     }
 }

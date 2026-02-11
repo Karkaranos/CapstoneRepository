@@ -12,7 +12,7 @@ public class NotebookManager : MonoBehaviour
     [SerializeField] private GameObject[] pages;
     [SerializeField] private Canvas canvas;
     
-    /// text boxes
+    // text boxes
     [SerializeField] private TextMeshProUGUI lightningTitle;
     [SerializeField] private TextMeshProUGUI windTitle;
     [SerializeField] private TextMeshProUGUI artifactTitle;

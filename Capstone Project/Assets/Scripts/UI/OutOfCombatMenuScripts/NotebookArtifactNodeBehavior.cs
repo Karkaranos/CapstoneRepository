@@ -18,6 +18,9 @@ public class NotebookArtifactNodeBehavior : MonoBehaviour
     private Canvas canvas;
     private GameObject node;
 
+    /// <summary>
+    /// initialization
+    /// </summary>
     private void Start()
     {
         //finds the out of combat menu canvas

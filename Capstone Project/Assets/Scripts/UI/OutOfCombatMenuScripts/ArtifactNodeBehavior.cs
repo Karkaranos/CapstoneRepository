@@ -21,6 +21,9 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private bool dragging = true;
     private Vector2 offset;
 
+    /// <summary>
+    /// initialization
+    /// </summary>
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
