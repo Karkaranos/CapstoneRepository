@@ -355,7 +355,9 @@ public class TileBehaviour : MonoBehaviour
 
     public void AddPip(GameObject pip)
     {
-        Instantiate(pip, transform.position, Quaternion.identity);
+        Vector3 pos = transform.position;
+        pos.y = pos.y + 1;
+        Instantiate(pip, pos, Quaternion.identity);
         GridManager.AddEntity(IndexInGrid, -5);
     }
 }

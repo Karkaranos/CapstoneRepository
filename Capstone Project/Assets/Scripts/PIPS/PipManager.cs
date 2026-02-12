@@ -42,6 +42,7 @@ public class PipManager : MonoBehaviour
 
     public void SpawnPips()
     {
+        List<TileBehaviour> temp = new List<TileBehaviour>(); 
         while(currentPipsOnField < maxNumberOfPipsOnField)
         {
             int index = Random.Range(0, spawnableTiles.Count);
@@ -49,8 +50,17 @@ public class PipManager : MonoBehaviour
             {
                 continue; 
             }
+            temp.Add(spawnableTiles[index]);
             spawnableTiles[index].AddPip(pip);
+            spawnableTiles.Remove(spawnableTiles[index]);
+            
             ++currentPipsOnField;
         }
+
+        foreach (TileBehaviour tileBehaviour in spawnableTiles)
+        {
+            temp.Add(tileBehaviour);
+        }
+        spawnableTiles = temp; 
     }
 }
