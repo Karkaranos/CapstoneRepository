@@ -90,6 +90,8 @@ public class AudioManager : MonoBehaviour
     public EventInstance CreateEventInstance(EventReference eventRef)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventRef);
+        eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+
         eventInstances.Add(eventInstance);
         return eventInstance;
     }

@@ -835,7 +835,6 @@ public class RuneEvents : MonoBehaviour
                 await Task.Delay(3200);
                 AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                 AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
-                EventInstance
 
                 if (enemy != null)
                 {
