@@ -27,6 +27,11 @@ public class Enemy : MonoBehaviour
         StateMachine
     }
 
+    public enum DamageType
+    {
+        Lightning, Wind, None
+    }
+
 
     [SerializeField, Tooltip("Changes what settings are shown in the inspector")] protected Settings currentSettings;
     #region HEALTH VARS
@@ -94,6 +99,15 @@ public class Enemy : MonoBehaviour
     ShowIf(nameof(currentSettings), Settings.Combat),
     Tooltip("How long before the material resets to normal, in milliseconds")]
     protected int flashTime = 1000;
+
+    [Tooltip("The player's canvas"), ShowIf(nameof(currentSettings), Settings.Combat), SerializeField]
+    protected Transform enemyCanvas;
+    [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(currentSettings), Settings.Combat), SerializeField]
+    protected GameObject statChange;
+    [Tooltip("Damage indicator for lightning"), ShowIf(nameof(currentSettings), Settings.Combat), SerializeField]
+    protected Sprite lightningSprite;
+    [Tooltip("Damage indicator for wind"), ShowIf(nameof(currentSettings), Settings.Combat), SerializeField]
+    protected Sprite windSprite;
 
 
     // Hidden Vars
@@ -184,7 +198,7 @@ public class Enemy : MonoBehaviour
     /// Damage function for enemy. Public so states can call it
     /// </summary>
     /// <param name="damage"></param>
-    public async void Damage(float damage)
+    public async void Damage(float damage, DamageType dType = DamageType.None)
     {
         if(invincible)
         {
@@ -200,6 +214,26 @@ public class Enemy : MonoBehaviour
         }
 
         currentHealth -= (int)damage;
+
+        if (statChange != null && (int)damage > 0)
+        {
+            GameObject g = Instantiate(statChange, enemyCanvas);
+            Sprite s;
+            switch (dType)
+            {
+                case DamageType.Lightning:
+                    s = lightningSprite;
+                    break;
+                case DamageType.Wind:
+                    s = windSprite;
+                    break;
+                default:
+                    s = null;
+                    break;
+            }
+            g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damage + " HP ", false, s);
+        }
+
         print("Enemy takes damage");
         healthBarSlider.value = currentHealth;
         if (currentHealth <= 0)
