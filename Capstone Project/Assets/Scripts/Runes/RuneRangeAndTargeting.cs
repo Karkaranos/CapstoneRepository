@@ -550,14 +550,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
         if (TurnManager.currentStatus == TurnStates.PlayerTurn)
         {
             playerMenu.SetActive(true);
-
-            foreach(TileBehaviour tile in FindFirstObjectByType<PlayerBehavior>().tilesInRange)
-            {
-
-                tile.ShowHighlight(true);
-
-            }
-
         }
         else
         {
