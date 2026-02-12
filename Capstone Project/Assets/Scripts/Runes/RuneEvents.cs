@@ -15,7 +15,10 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Unity.Collections.Unicode;
+using FMOD.Studio;
+using FMODUnity;
 using EventReference = FMODUnity.EventReference;
+
 
 public class RuneEvents : MonoBehaviour
 {
@@ -832,6 +835,7 @@ public class RuneEvents : MonoBehaviour
                 await Task.Delay(3200);
                 AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                 AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
+                EventInstance
 
                 if (enemy != null)
                 {
