@@ -51,6 +51,7 @@ MonoBehaviour:
   costText: {fileID: 1056955587573939748}
   descriptionText: {fileID: 2907722154583629328}
   currentSkillPointsText: {fileID: 3294987822360763869}
+  isInEquipMenu: 0
   DifferentElementSkillTreeContainers:
   - {fileID: 5360078777007878381}
   - {fileID: 2104754322847510818}
@@ -232,10 +233,16 @@ MonoBehaviour:
   SkillTreeContainer: {fileID: 7500490359046082026}
   EquipMenuContainer: {fileID: 8361467724919245834}
   OutOfCombatMenuContainer: {fileID: 5245468542074719991}
+  MarkContainers: []
+  PageContainers: []
+  SpellTabs: []
+  SpellDescription: {fileID: 0}
+  PrevNextButtons: {fileID: 0}
   continueButton: {fileID: 6566484930298097416}
   cursorBoxPrefab: {fileID: 7501404921476620071, guid: e93d10a96a6232e4381a7828b831c584, type: 3}
   NumOfSpellSlots: 4
   equippedSpells: []
+  UnlockedRunes: []
 --- !u!1 &8361467724919245834
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,9 +425,11 @@ MonoBehaviour:
   - {fileID: 6220829827687006949}
   - {fileID: 6229899379319469059}
   - {fileID: 6493440078544224775}
+  CostText: {fileID: 0}
   artifactNameText: {fileID: 963087302572205435}
   artifactWeightText: {fileID: 66356900632617729}
   artifactDescriptionText: {fileID: 2955966705965959142}
+  heldArtifact: {fileID: 0}
 --- !u!1001 &268905481828676537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -574,7 +583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3166426568589351107, guid: a1401440cfaff374680bd2c984311fcd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -29.357523
+      value: -0.007446289
       objectReference: {fileID: 0}
     - target: {fileID: 9079779894649592927, guid: a1401440cfaff374680bd2c984311fcd, type: 3}
       propertyPath: m_Pivot.x
@@ -1229,7 +1238,7 @@ PrefabInstance:
       objectReference: {fileID: 1999185487750103120}
     - target: {fileID: 4836002187667825429, guid: 6f449f0bf833e9f4c9130ca28ec0da24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -42.4694
+      value: -0.010772705
       objectReference: {fileID: 0}
     - target: {fileID: 7030604489418034117, guid: 6f449f0bf833e9f4c9130ca28ec0da24, type: 3}
       propertyPath: m_Pivot.x
