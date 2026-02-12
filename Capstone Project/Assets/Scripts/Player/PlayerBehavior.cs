@@ -144,6 +144,8 @@ public class PlayerBehavior : MonoBehaviour
         {
             enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
         }
+
+        VisualizeEnemyPaths();
     }
 
     /// <summary>
