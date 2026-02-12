@@ -67,6 +67,7 @@ public class PlayerBehavior : MonoBehaviour
     private int movementUsed;
 
     private BoxCollider myCol;
+    [SerializeField] Vector3 previousColliderPos;
     private List<Vector2Int> enemyPositions = new List<Vector2Int>();
 
     /// <summary>
@@ -84,6 +85,7 @@ public class PlayerBehavior : MonoBehaviour
         movementLeft = movementRange;
         previousPositions.Add(myPosition);
         myCol = GetComponent<BoxCollider>();
+        previousColliderPos = myCol.center;
     }
 
     #region player input
@@ -230,12 +232,12 @@ public class PlayerBehavior : MonoBehaviour
                 --movementLeft;
                 ++movementUsed;
                 //Updates the path on the final movement
-                if(movementLeft == 0)
+                if (movementLeft == 0)
                 {
                     ghostPosition = t;
-                    //GridManager.MoveToTile(myPosition, v, -3);
                     GridManager.playerPosition = v;
                     myPosition = v;
+                    previousColliderPos = myCol.center;
                 }
             }
         }
@@ -243,9 +245,13 @@ public class PlayerBehavior : MonoBehaviour
         if (movementLeft > 0)
         {
             ghostPosition = t;
-            //GridManager.MoveToTile(myPosition, v, -3);
             GridManager.playerPosition = v;
             myPosition = v;
+            previousColliderPos = myCol.center;
+        }
+        else
+        {
+            myCol.center = previousColliderPos;
         }
         VisualizeEnemyPaths();
         StartCoroutine(MovementDelay());
@@ -292,6 +298,7 @@ public class PlayerBehavior : MonoBehaviour
         movementPositions.Clear();
         ghostPosition = transform.position;
         myCol.center = new Vector3(0, myCol.center.y, 0);
+        previousColliderPos = myCol.center;
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
@@ -338,6 +345,7 @@ public class PlayerBehavior : MonoBehaviour
         movementUsed = 0;
         ghostPosition = transform.position;
         myCol.center = new Vector3(0, myCol.center.y, 0);
+        previousColliderPos = myCol.center;
     }
 
     /// <summary>

@@ -181,7 +181,7 @@ public class GridPathfinding : MonoBehaviour
 
         targetPosition = originalTarget;
         GridManager.ClearPathfinding();
-        GridManager.DisplayGridAsText();
+        //GridManager.DisplayGridAsText();
     }
 
     public void StartMoveCoroutine()
