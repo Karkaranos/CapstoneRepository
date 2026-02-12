@@ -8,6 +8,7 @@
  * ***************************************************************************/
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class GridManager : MonoBehaviour
 {
@@ -270,6 +271,16 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     public static bool TileIsEmpty(Vector2Int tile)
     {
+        if(combatGrid==null)
+        {
+            Debug.Log("Grid Null");
+            return true ;
+        }
+        if(tile == null)
+        {
+            Debug.Log("Tile Null");
+            return true;
+        }
         return combatGrid[tile.x, tile.y].entityOnGrid == -1;
     }
 }

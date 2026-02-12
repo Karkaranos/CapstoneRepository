@@ -8,6 +8,7 @@ External Resources :
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.VFX;
+using System.Threading.Tasks;
 
 public class PipManager : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class PipManager : MonoBehaviour
     /// Sets currentPipsOnField to 0
     /// Spawn pips 
     /// </summary>
-    private void Start()
+    private async void Start()
     {
         if (Instance == null)
         {
@@ -36,7 +37,7 @@ public class PipManager : MonoBehaviour
         }
 
         currentPipsOnField = 0;
-        SpawnPips();
+        Invoke(nameof(SpawnPips), 3);
     }
 
     public void SpawnPips()
