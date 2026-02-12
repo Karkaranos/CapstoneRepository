@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		10/27/2025
-Date Last Modified : 10/27/2025
+Date Last Modified : 2/10/2026
 Brief Description : Handles all of the player's inputs
 External Resources : 	
 ***************************************************/
@@ -21,9 +21,13 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction leftClick;
     private InputAction toggleConsole;
     private InputAction panCam;
+    private InputAction movePlayer;
 
     //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
     private bool mousePressed = false;
+    [HideInInspector] public bool enableMovement;
+    private bool isMoving;
+    private Vector2 movementDirection;
 
     #endregion VARS
 
@@ -41,9 +45,12 @@ public class PlayerInputHandler : MonoBehaviour
         leftClick = pInput.currentActionMap.FindAction("LeftClick");
         toggleConsole = pInput.currentActionMap.FindAction ("ToggleConsole");
         panCam = pInput.currentActionMap.FindAction("PanCamera");
+        movePlayer = pInput.currentActionMap.FindAction("Move");
 
 
         mousePressed = false;
+        enableMovement = false;
+        isMoving = false;
     }
 
 
@@ -57,12 +64,11 @@ public class PlayerInputHandler : MonoBehaviour
         leftClick.started += LeftClick_started;
         toggleConsole.started += Toggle_started;
         panCam.performed += PanCam_performed;
+        movePlayer.performed += MovePlayer_performed;
+        movePlayer.canceled += MovePlayer_canceled;
 
         pInput.onControlsChanged += PInput_onControlsChanged;
     }
-
-
-
 
     /// <summary>
     /// unsubscribes from all needed functions
@@ -73,6 +79,8 @@ public class PlayerInputHandler : MonoBehaviour
         rightClick.started -= RightClick_started;
         leftClick.started -= LeftClick_started;
         panCam.performed -= PanCam_performed;
+        movePlayer.performed -= MovePlayer_performed;
+        movePlayer.canceled -= MovePlayer_canceled;
 
         pInput.onControlsChanged -= PInput_onControlsChanged;
     }
@@ -156,8 +164,28 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     /// <summary>
+    /// Sends out a public event to move the player in the grid
+    /// </summary>
+    /// <param name="obj"></param>
+    private void MovePlayer_performed(InputAction.CallbackContext obj)
+    {
+        movementDirection = obj.ReadValue<Vector2>();
+        isMoving = true;
+    }
+
+    /// <summary>
+    /// Changes a bool for fixed update so we can tell it the player has stopped moving
+    /// </summary>
+    /// <param name="obj"></param>
+    private void MovePlayer_canceled(InputAction.CallbackContext obj)
+    {
+        isMoving = false;
+    }
+
+    /// <summary>
     /// detects if the player clicked on a tile and sends out the tile clicked on if true
     /// apparently this only works in update i fucking hate this >:C
+    /// Also used to continuously send an event for moving becuase just having it in a performed call doesn't work
     /// </summary>
     private void FixedUpdate()
     {
@@ -201,6 +229,15 @@ public class PlayerInputHandler : MonoBehaviour
 
                 }
 
+            }
+        }
+
+        if(isMoving)
+        {
+            //Using an if statement in case we want to call another event when not trying to move
+            if (enableMovement)
+            {
+                PublicEvents.MovementDirection?.Invoke(movementDirection);
             }
         }
     }

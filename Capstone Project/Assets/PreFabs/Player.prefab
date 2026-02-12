@@ -368,7 +368,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 10
@@ -578,12 +578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0889be3eb1180374389a7fbfafff0a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPosition: {x: 0, y: 0}
-  targetPosition: {x: 0, y: 0}
-  nextPos: []
-  gridDirections: []
-  movementSpeed: 2
-  movementRange: 2
   playerClick:
     m_Name: Player Click
     m_Type: 0
@@ -621,10 +615,14 @@ MonoBehaviour:
   animObj: {fileID: 574336995632580795}
   player: {fileID: 6675322036123795430}
   MouseIsClicked: 0
-  PlayerCanMove: 0
   CurrentlyTryingToAttack: 0
   tilesInRange: []
   TogglePathVisualizer: 1
+  continuousMoveDelay: 0.2
+  movementSpeed: 2
+  movementRange: 6
+  movementLeft: 0
+  allowLeftoverMovement: 0
 --- !u!114 &-4570115079475522765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,6 +645,8 @@ MonoBehaviour:
   XPMultiplier: 1
   RAPChanceModifier: 1
   turnIndicator: {fileID: 8094946162259277570}
+  playerCanvas: {fileID: 6895680415729585072}
+  statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
   Resistance: 0
   DamageTakenMultiplier: 1
   RangedDamageTakenMultiplier: 1
