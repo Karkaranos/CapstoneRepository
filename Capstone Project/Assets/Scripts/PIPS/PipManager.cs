@@ -37,9 +37,14 @@ public class PipManager : MonoBehaviour
         }
 
         currentPipsOnField = 0;
-        Invoke(nameof(SpawnPips), 3);
+        await Task.Delay(25);
+        SpawnPips();
     }
 
+    /// <summary>
+    /// Function to spawn pips
+    /// uses a temp array to make sure we don't get index out of bounds erros 
+    /// </summary>
     public void SpawnPips()
     {
         List<TileBehaviour> temp = new List<TileBehaviour>(); 
