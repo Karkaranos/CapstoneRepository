@@ -1303,7 +1303,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1317,13 +1317,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218034701}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0000000745058, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.13052587, y: -0, z: -0, w: 0.99144495}
   m_LocalPosition: {x: 9.78, y: 8.885649, z: -15.553884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1001 &263135633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2211,8 +2211,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338496249}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2092386, y: 0.0023928771, z: -0.00051201746, w: 0.9778616}
-  m_LocalPosition: {x: 9.154138, y: 9.38565, z: -16.05388}
+  m_LocalRotation: {x: 0.21807115, y: 0.010439828, z: -0.0023329083, w: 0.97587425}
+  m_LocalPosition: {x: 9.154138, y: 9.498022, z: -15.907434}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5310,7 +5310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1201346215}
   - component: {fileID: 1201346214}
-  - component: {fileID: 1201346218}
+  - component: {fileID: 1201346221}
   - component: {fileID: 1201346220}
   m_Layer: 0
   m_Name: CinemachineCamera(PlayCamera)
@@ -5348,7 +5348,7 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
-    ModeOverride: 0
+    ModeOverride: 2
     PhysicalProperties:
       GateFit: 2
       SensorSize: {x: 21.946, y: 16.002}
@@ -5370,14 +5370,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201346213}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2092386, y: 0.0023928771, z: -0.00051201746, w: 0.9778616}
+  m_LocalRotation: {x: 0.21807115, y: 0.010439828, z: -0.0023329083, w: 0.97587425}
   m_LocalPosition: {x: 9.154138, y: 10.428293, z: -17.211151}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
---- !u!114 &1201346218
+--- !u!114 &1201346220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201346213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d75924d76b05344aa410607bc57db98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoundingVolume: {fileID: 218034702}
+  SlowingDistance: 5
+--- !u!114 &1201346221
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5440,20 +5454,6 @@ MonoBehaviour:
       Wait: 1
       Time: 2
     Restrictions: 0
---- !u!114 &1201346220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201346213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d75924d76b05344aa410607bc57db98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BoundingVolume: {fileID: 218034702}
-  SlowingDistance: 5
 --- !u!1001 &1220156413
 PrefabInstance:
   m_ObjectHideFlags: 0
