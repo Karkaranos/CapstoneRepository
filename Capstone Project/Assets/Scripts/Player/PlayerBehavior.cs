@@ -150,7 +150,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 Vector2Int v = new Vector2Int(myPosition.x, myPosition.y + 1);
                 if (GridManager.TileIsInGrid(v) && //Checks to make sure the attempted positsion is withing the index of the grid
-                    (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) || //Checks to make sure the new tile is an open space
+                    (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) || //Checks to make sure the new tile is an open space
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v))) && //If the tile isn't open, this checks to make sure it isn't because of an enemy's projected path
                     (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && //This check is so you can go back one space in the path but not travel over your path
                     !enemyPositions.Contains(v)) //Checks to make sure you can't move onto where the enemy is due to how visualizing their path works
@@ -164,7 +164,7 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.y <= -.5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x, myPosition.y - 1);
-                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) ||
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
                     && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
@@ -177,7 +177,7 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.x > .5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x + 1, myPosition.y);
-                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) ||
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
                     && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
@@ -190,7 +190,7 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.x < -.5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x - 1, myPosition.y);
-                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) ||
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
                     && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
