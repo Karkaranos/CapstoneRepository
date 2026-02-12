@@ -261,13 +261,13 @@ public class RuneEvents : MonoBehaviour
 
                         CheckRuneCombination(rune, enemy);
 
-                        adjacentTile.ElectrifyTile();
+                        adjacentTile.ElectrifyAdTiles();
 
                     }
 
                 }
 
-                tile.ElectrifyTile();
+                tile.ElectrifyAdTiles();
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
@@ -304,7 +304,7 @@ public class RuneEvents : MonoBehaviour
 
                     await Task.Delay(1200);
 
-                    potentialTarget.ElectrifyTile();
+                    potentialTarget.ElectrifyAdTiles();
 
                     if (potentialTarget.GetComponentInChildren<Enemy>() != null)
                     {
@@ -349,7 +349,8 @@ public class RuneEvents : MonoBehaviour
 
                     FindAdjacentTiles(tile);
 
-                    tile.ElectrifyTile();
+                    tile.ElectrifyAdTiles();
+                    Invoke("PlayerTeleport", .1f);
 
                     foreach (TileBehaviour adjacentTile in secondaryTargets)
                     {
@@ -366,7 +367,7 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        tile.ElectrifyTile();
+                        tile.ElectrifyAdTiles();
 
                     }
 
@@ -395,7 +396,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
                     GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
 
-                    tile.ElectrifyTile();
+                    tile.ElectrifyAdTiles();
 
                     FindTargetsInPath(oldPlayerTile);
 
@@ -415,7 +416,7 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        tile.ElectrifyTile();
+                        tile.ElectrifyAdTiles();
 
                     }
 
@@ -1102,7 +1103,7 @@ public class RuneEvents : MonoBehaviour
 
             validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
 
-            validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyTile();
+            validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyAdTiles();
 
         }
 
@@ -1243,6 +1244,14 @@ public class RuneEvents : MonoBehaviour
 
         }
 
+    }
+
+    /// <summary>
+    /// Used to create a delay between teleporting the player and updating the variables
+    /// </summary>
+    private void PlayerTeleport()
+    {
+        FindFirstObjectByType<PlayerBehavior>().TeleportPlayer();
     }
 
 }

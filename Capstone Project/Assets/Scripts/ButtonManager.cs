@@ -123,7 +123,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        if(playerBehavior.movementLeft > 0)
+        if(playerBehavior.MovementLeft > 0)
         {
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
             confirmCanvas.SetActive(true);
