@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 	Jay Embry
+Author Names : 	Jay Embry, Brad Dixon
 Date Created : 	10/07/2025
-Date Last Modified : 01/29/2026
+Date Last Modified : 02/12/2026 (Brad Dixon)
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
