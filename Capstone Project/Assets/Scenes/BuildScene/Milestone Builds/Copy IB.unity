@@ -1368,7 +1368,6 @@ MonoBehaviour:
   player: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
   Level1cam: {fileID: 0}
   Level1playcam: {fileID: 2115128137}
-  PlayerZcam: {fileID: 811260804}
   activeCam: {fileID: 0}
   PopUpScript: {fileID: 2033830988}
   VideoPlayer: {fileID: 2136757675}
@@ -3438,17 +3437,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &811260804 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4829654765111000487, guid: 83741a7a2c2d44843a7642e65a554c7f, type: 3}
-  m_PrefabInstance: {fileID: 467465170}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &818936174
 GameObject:
   m_ObjectHideFlags: 0
@@ -6423,15 +6411,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: settings
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: greetEnabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
+      propertyPath: playerEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: consoleEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 774397522224021014, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: enemiesEnabled
@@ -6579,7 +6571,7 @@ PrefabInstance:
       objectReference: {fileID: 2089517786}
     - target: {fileID: 8091632299168050969, guid: 34faa14c74c1b9e46812f96c6a87b439, type: 3}
       propertyPath: shownSettings
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
