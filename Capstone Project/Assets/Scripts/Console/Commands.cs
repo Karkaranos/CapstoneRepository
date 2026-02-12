@@ -241,7 +241,7 @@ public class Commands
             }
             else if (command.Contains("wind"))
             {
-                float val = ConvertToNumber(command.Substring(10, command.Length - 10));
+                float val = ConvertToNumber(command.Substring(9, command.Length - 9));
                 Debug.Log("new wind val: " + val);
                 p.WindAttackMultiplier = val;
             }
