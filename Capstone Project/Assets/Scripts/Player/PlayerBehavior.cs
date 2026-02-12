@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	1/28/2026 (Brad Dixon)
+Date Last Modified : 	2/10/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -15,8 +15,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using Unity.Cinemachine;
+using NaughtyAttributes;
 
-public class PlayerBehavior : GridPathfinding
+public class PlayerBehavior : MonoBehaviour
 {
     #region player variables
     [Tooltip("reference to the player movement and its actions")]
@@ -39,14 +40,36 @@ public class PlayerBehavior : GridPathfinding
     [Tooltip("bool to check to see if the mouse input is activated")]
     public bool MouseIsClicked;
 
-    [HideInInspector] public bool PlayerCanMove = false;
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
-    public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
+    //Outdated but can't be removed because it will cause errors in RuneRangeAndTargeting
+    [HideInInspector] public List<TileBehaviour> tilesInRange = new List<TileBehaviour>(); 
 
     [Tooltip("If true, enemy paths will be shown during the player's turn")]
     public bool TogglePathVisualizer;
     GameManager gm;
+    private Vector2Int myPosition;
+
+    [Tooltip("How long in seconds the code should wait before moving in the same direction if a player holds down the direction.")]
+    [SerializeField] private float continuousMoveDelay;
+    private bool canMove;
+    private List<Vector3> movementPositions = new List<Vector3>();
+    private List<Vector2Int> previousPositions = new List<Vector2Int>();
+    [Tooltip("How fast the player moves from tile to tile.")]
+    [SerializeField] private float movementSpeed;
+    [Tooltip("Total amount of movement the player has on their turn.")]
+    [SerializeField] private int movementRange;
+    [HideInInspector] public int movementLeft;
+    private Vector3 ghostPosition;
+    [Tooltip("If true, the player will not have to use all of their movement in order to move.")]
+    [SerializeField] bool allowLeftoverMovement;
+    Vector2Int posBeforeMovement;
+    private int movementUsed;
+
+    private BoxCollider myCol;
+    [SerializeField] Vector3 previousColliderPos;
+    private List<Vector2Int> enemyPositions = new List<Vector2Int>();
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -54,9 +77,15 @@ public class PlayerBehavior : GridPathfinding
     /// </summary>
     void Start()
     {
-        buttonManager = FindFirstObjectByType<ButtonManager>();
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
         anim = animObj.GetComponent<Animator>();
+        myPosition = GridManager.playerPosition;
+        canMove = true;
+        ghostPosition = transform.position;
+        movementLeft = movementRange;
+        previousPositions.Add(myPosition);
+        myCol = GetComponent<BoxCollider>();
+        previousColliderPos = myCol.center;
     }
 
     #region player input
@@ -69,8 +98,9 @@ public class PlayerBehavior : GridPathfinding
         playerClick.Enable();
         playermoveClick.Enable();
         playermoveClick.started += playermoveClickPerformed;
-        PublicEvents.SelectTile += HandleTileClicked;
-        TurnPublicEvents.BeginPlayerTurn += EnableMovableTiles;
+        //PublicEvents.SelectTile += HandleTileClicked;
+        TurnPublicEvents.BeginPlayerTurn += StartPlayerTurn;
+        PublicEvents.MovementDirection += MoveDirection;
     }
 
     //Sets the boolean to true when left mouse button is clicked
@@ -87,118 +117,246 @@ public class PlayerBehavior : GridPathfinding
         playerClick.Disable();
         playermoveClick.Disable();
         playermoveClick.started -= playermoveClickPerformed;
-        PublicEvents.SelectTile -= HandleTileClicked;
-        TurnPublicEvents.BeginPlayerTurn -= EnableMovableTiles;
+        //PublicEvents.SelectTile -= HandleTileClicked;
+        TurnPublicEvents.BeginPlayerTurn -= StartPlayerTurn;
+        PublicEvents.MovementDirection -= MoveDirection;
     }
 
     /// <summary>
-    /// Gets called whenever the player clicks on the tile
-    /// 
-    /// moves the player if they can move to the tile clicked on
+    /// Updates the variables to where the player is when they begin their turn. Also finds the enemies
     /// </summary>
-    /// <param name="tBehav"></param>
-    private void HandleTileClicked(TileBehaviour tBehav)
+    private void StartPlayerTurn()
     {
-        if(buttonManager == null )
-        {
-            buttonManager = FindFirstObjectByType<ButtonManager>();
-        }
+        movementLeft = movementRange;
+        canMove = true;
+        posBeforeMovement = myPosition;
+        movementUsed = 0;
 
-        if (PlayerCanMove && tBehav.inPlayerRange)
+        foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
         {
-            if (GridManager.CanMoveToTile(tBehav.IndexInGrid, myPosition, true))
-            {
-                //turns on the confirmation canvas
-                targetPosition = tBehav.IndexInGrid;
-                buttonManager.confirmCanvas.SetActive(true);
-            }    
+            enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
         }
     }
 
     /// <summary>
-    /// Finds all the adjacent tiles that are x distance away from the player
-    /// and highlights them
+    /// Reads in an input to determine which direction the player is moving in
     /// </summary>
-    private void EnableMovableTiles()
+    /// <param name="dir"></param> Vector2 input from the player
+    private void MoveDirection(Vector2 dir)
     {
-        if (gm.CurrentActionPoints - gm.MoveActionPoints >= 0)
+        if (canMove)
         {
-            tilesInRange.Clear();
-            GridManager.combatGrid[MyPosition.x, MyPosition.y].inPlayerRange = true;
-            tilesInRange.Add(GridManager.combatGrid[MyPosition.x, MyPosition.y]);
-            List<Vector2Int> tilePositions = GridManager.GetAllValidAdjacentTiles(MyPosition, myPosition, true);
-            foreach (Vector2Int v in tilePositions)
+            if (dir.y >= .5f)
             {
-                GridManager.combatGrid[v.x, v.y].inPlayerRange = true;
-                GridManager.combatGrid[v.x, v.y].entityOnGrid = 5;
-                tilesInRange.Add(GridManager.combatGrid[v.x, v.y]);
-            }
-
-            for (int i = 1; i < movementRange; ++i)
-            {
-                List<Vector2Int> adPositions = new List<Vector2Int>();
-                foreach (Vector2Int v in tilePositions)
+                Vector2Int v = new Vector2Int(myPosition.x, myPosition.y + 1);
+                if (GridManager.TileIsInGrid(v) && //Checks to make sure the attempted positsion is withing the index of the grid
+                    (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) || //Checks to make sure the new tile is an open space
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v))) && //If the tile isn't open, this checks to make sure it isn't because of an enemy's projected path
+                    (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && //This check is so you can go back one space in the path but not travel over your path
+                    !enemyPositions.Contains(v)) //Checks to make sure you can't move onto where the enemy is due to how visualizing their path works
                 {
-                    adPositions.Add(v);
-                }
-
-                tilePositions.Clear();
-                foreach (Vector2Int v in adPositions)
-                {
-                    List<Vector2Int> adAdPositions = GridManager.GetAllValidAdjacentTiles(v, myPosition, true);
-                    foreach (Vector2Int newPos in adAdPositions)
-                    {
-                        if (newPos != myPosition)
-                        {
-                            tilePositions.Add(newPos);
-                            GridManager.combatGrid[newPos.x, newPos.y].inPlayerRange = true;
-                            GridManager.combatGrid[newPos.x, newPos.y].entityOnGrid = 5;
-                            tilesInRange.Add(GridManager.combatGrid[newPos.x, newPos.y]);
-                        }
-                    }
+                    Vector3 newPosition = new Vector3(ghostPosition.x, ghostPosition.y, ghostPosition.z + GridManager.MoveDistances.y);
+                    myCol.center = new Vector3(myCol.center.x, myCol.center.y, myCol.center.z + GridManager.MoveDistances.y);
+                    //movementPositions.Add(newPosition);
+                    UpdateMovement(v, newPosition);
                 }
             }
-
-            foreach (TileBehaviour t in tilesInRange)
+            else if (dir.y <= -.5f)
             {
-                t.SetHighlightColor(Color.blue);
-                t.ShowHighlight(true);
+                Vector2Int v = new Vector2Int(myPosition.x, myPosition.y - 1);
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
+                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
+                {
+                    Vector3 newPosition = new Vector3(ghostPosition.x, ghostPosition.y, ghostPosition.z - GridManager.MoveDistances.y);
+                    myCol.center = new Vector3(myCol.center.x, myCol.center.y, myCol.center.z - GridManager.MoveDistances.y);
+                    //movementPositions.Add(newPosition);
+                    UpdateMovement(v, newPosition);
+                }
             }
-            GridManager.ClearPathfinding();
-        }
-
-        //Calling here to avoid messing up highlight colors
-        if(TogglePathVisualizer)
-        {
-            VisualizeEnemyPaths();
+            else if (dir.x > .5f)
+            {
+                Vector2Int v = new Vector2Int(myPosition.x + 1, myPosition.y);
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
+                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
+                {
+                    Vector3 newPosition = new Vector3(ghostPosition.x + GridManager.MoveDistances.x, ghostPosition.y, ghostPosition.z);
+                    myCol.center = new Vector3(myCol.center.x + GridManager.MoveDistances.x, myCol.center.y, myCol.center.z);
+                    //movementPositions.Add(newPosition);
+                    UpdateMovement(v, newPosition);
+                }
+            }
+            else if (dir.x < -.5f)
+            {
+                Vector2Int v = new Vector2Int(myPosition.x - 1, myPosition.y);
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                    (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
+                    && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
+                {
+                    Vector3 newPosition = new Vector3(ghostPosition.x - GridManager.MoveDistances.x, ghostPosition.y, ghostPosition.z);
+                    myCol.center = new Vector3(myCol.center.x - GridManager.MoveDistances.x, myCol.center.y, myCol.center.z);
+                    //movementPositions.Add(newPosition);
+                    UpdateMovement(v, newPosition);
+                }
+            }
         }
     }
 
     /// <summary>
-    /// Allows the player to move from tile to tile instead of teleport
+    /// Adds or removes the path that a player creates. Also shows that path as a highlight
     /// </summary>
-    public override void PathfindThroughGrid()
+    /// <param name="v"></param>
+    /// <param name="t"></param>
+    private void UpdateMovement(Vector2Int v, Vector3 t)
     {
-        isEnemy = false;
-        pathfindingLimit = movementRange;
-        foreach(TileBehaviour t in tilesInRange)
+        canMove = false;
+        //Removes a position
+        if (previousPositions.Contains(v))
         {
-            t.ShowHighlight(false);
+            GridManager.combatGrid[myPosition.x, myPosition.y].ShowHighlight(false);
+            previousPositions.Remove(myPosition);
+            movementPositions.RemoveAt(movementPositions.Count - 1);
+            ++movementLeft;
+            --movementUsed;
         }
-        base.PathfindThroughGrid();
-        anim.SetTrigger("Walk");
-        StartMoveCoroutine();
+        //Adds a position
+        else
+        {
+            if (movementLeft > 0)
+            {
+                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.black);
+                GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+                previousPositions.Add(v);
+                movementPositions.Add(t);
+                --movementLeft;
+                ++movementUsed;
+                //Updates the path on the final movement
+                if (movementLeft == 0)
+                {
+                    ghostPosition = t;
+                    GridManager.playerPosition = v;
+                    myPosition = v;
+                    previousColliderPos = myCol.center;
+                }
+            }
+        }
+
+        if (movementLeft > 0)
+        {
+            ghostPosition = t;
+            GridManager.playerPosition = v;
+            myPosition = v;
+            previousColliderPos = myCol.center;
+        }
+        else
+        {
+            myCol.center = previousColliderPos;
+        }
+        VisualizeEnemyPaths();
+        StartCoroutine(MovementDelay());
+    }
+
+    /// <summary>
+    /// Creates a delay between player movements to give them more accurate control of their movement
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator MovementDelay()
+    {
+        yield return new WaitForSeconds(continuousMoveDelay);
+        canMove = true;
+    }
+
+    /// <summary>
+    /// Moves the player along the path that they create for themselves
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator MovePlayer()
+    {
+        canMove = false;
+        for(int i = 0; i < movementPositions.Count; ++i)
+        {
+            Vector2Int nextPosition = previousPositions[i + 1];
+            bool isMoving = true;
+            while(isMoving)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
+                if (transform.position == movementPositions[i])
+                {
+                    isMoving = false;
+                    GridManager.MoveToTile(myPosition, nextPosition, -3);
+                    myPosition = nextPosition;
+                }
+                yield return new WaitForSeconds(.1f / movementSpeed);
+            }
+            GridManager.combatGrid[previousPositions[i].x, previousPositions[i].y].ShowHighlight(false);
+        }
+        GridManager.combatGrid[myPosition.x, myPosition.y].ShowHighlight(false);
+        GridManager.MoveToTile(posBeforeMovement, myPosition, -3);
+        previousPositions.Clear();
+        previousPositions.Add(myPosition);
+        movementPositions.Clear();
+        ghostPosition = transform.position;
+        myCol.center = new Vector3(0, myCol.center.y, 0);
+        previousColliderPos = myCol.center;
+        canMove = true;
+        posBeforeMovement = myPosition;
+        movementUsed = 0;
+    }
+
+    /// <summary>
+    /// Public function that gets called when the player presses the confirm button after moving.
+    /// Tells the player to move and updates the UI
+    /// </summary>
+    public void ConfirmMovement()
+    {
+        buttonManager = FindFirstObjectByType<ButtonManager>();
+        if (allowLeftoverMovement)
+        {
+            StartCoroutine(MovePlayer());
+            gm.GetComponent<PlayerInputHandler>().enableMovement = false;
+            buttonManager.ResetCanvas();
+        }
+        else if(movementLeft == 0)
+        {
+            StartCoroutine(MovePlayer());
+            gm.GetComponent<PlayerInputHandler>().enableMovement = false;
+            buttonManager.ResetCanvas();
+        }
+    }
+
+    /// <summary>
+    /// Removes the movement path if the player cancels their movement
+    /// </summary>
+    public void DeleteMovement()
+    {
+        gm.GetComponent<PlayerInputHandler>().enableMovement = false;
+        myPosition = posBeforeMovement;
+        GridManager.playerPosition = posBeforeMovement;
+        GridManager.combatGrid[myPosition.x, myPosition.y].entityOnGrid = -3;
+        foreach(Vector2Int v in previousPositions)
+        {
+            GridManager.combatGrid[v.x, v.y].ShowHighlight(false);
+        }
+        previousPositions.Clear();
+        movementPositions.Clear();
+        previousPositions.Add(myPosition);
+        movementLeft += movementUsed;
+        movementUsed = 0;
+        ghostPosition = transform.position;
+        myCol.center = new Vector3(0, myCol.center.y, 0);
+        previousColliderPos = myCol.center;
     }
 
     /// <summary>
     /// Turns the action canvas back on when the player is done moving to their selected tile
     /// </summary>
     /// <returns></returns>
-    protected override void ReEnableActionCanvas()
+    private void ReEnableActionCanvas()
     {
         gm.UpdateActionPoints(gm.MoveActionPoints);
         buttonManager.ReEnableActionCanvas();
-        EnableMovableTiles();
+        //EnableMovableTiles();
         anim.SetTrigger("Idle");
     }
 

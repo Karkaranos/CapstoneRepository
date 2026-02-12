@@ -29,7 +29,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private PlayerBehavior playerBehavior;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private CameraManager cameraManager;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject playerCanvas;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
+    //[SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject moveCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject confirmCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public GameObject videoCanvas;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private GameObject runeCanvas;
@@ -59,7 +59,7 @@ public class ButtonManager : MonoBehaviour
 
         cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
-
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
     }
 
     #region functions
@@ -104,15 +104,15 @@ public class ButtonManager : MonoBehaviour
         runeCanvas.SetActive(false);
         moveButton.interactable = true;
 
-        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        //playerBehavior = FindFirstObjectByType<PlayerBehavior>();
 
-        if (playerBehavior.tilesInRange.Count > 0)
-        {
-            foreach (TileBehaviour t in playerBehavior.tilesInRange)
-            {
-                t.ShowHighlight(true);
-            }
-        }
+        //if (playerBehavior.tilesInRange.Count > 0)
+        //{
+        //    foreach (TileBehaviour t in playerBehavior.tilesInRange)
+        //    {
+        //        t.ShowHighlight(true);
+        //    }
+        //}
 
         TurnPublicEvents.TurnActionComplete();
     }
@@ -123,22 +123,29 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        //cameraManager.SwitchCamera(cameraManager.PlayerZcam);
-        if (gm.CurrentActionPoints >= gm.MoveActionPoints)
+        if(playerBehavior.movementLeft > 0)
         {
-            Debug.Log("The player can move!");
-            if (playerBehavior == null)
-            {
-                playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-            }
-            playerBehavior.PlayerCanMove = true;
-            //confirmCanvas.SetActive(true);
+            gm.GetComponent<PlayerInputHandler>().enableMovement = true;
+            confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
+            GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].entityOnGrid = -1;
         }
-        else
-        {
-            Logger.Warning("Not enough Action Points!");
-        }    
+        ////cameraManager.SwitchCamera(cameraManager.PlayerZcam);
+        //if (gm.CurrentActionPoints >= gm.MoveActionPoints)
+        //{
+        //    Debug.Log("The player can move!");
+        //    if (playerBehavior == null)
+        //    {
+        //        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        //    }
+        //    //playerBehavior.PlayerCanMove = true;
+        //    //confirmCanvas.SetActive(true);
+        //    playerCanvas.SetActive(false);
+        //}
+        //else
+        //{
+        //    Logger.Warning("Not enough Action Points!");
+        //}    
     }
 
     /// <summary>
@@ -158,19 +165,22 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void BackButtonOnClick()
     {
-        Debug.Log("goin back!");
-        playerCanvas.SetActive(true);
-        moveCanvas.SetActive(false);
-        cameraManager.SwitchCamera(cameraManager.Level1playcam);
-        PublicEvents.EndCast.Invoke();
-        runeCanvas.SetActive(false);
         confirmCanvas.SetActive(false);
+        playerCanvas.SetActive(true);
+        playerBehavior.DeleteMovement();
+        runeCanvas.SetActive(false);
+        //Debug.Log("goin back!");
+        //playerCanvas.SetActive(true);
+        //moveCanvas.SetActive(false);
+        //cameraManager.SwitchCamera(cameraManager.Level1playcam);
+        //PublicEvents.EndCast.Invoke();
+        //runeCanvas.SetActive(false);
+        //confirmCanvas.SetActive(false);
 
-        if (playerBehavior != null)
-        {
-            playerBehavior.PlayerCanMove = false;
-        }
-
+        //if (playerBehavior != null)
+        //{
+        //    //playerBehavior.PlayerCanMove = false;
+        //}
     }
 
     /// <summary>
@@ -194,10 +204,16 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void ConfirmOnClick()
     {
-        playerBehavior.PlayerCanMove = false;
+        playerBehavior.ConfirmMovement();
+    }
+
+    /// <summary>
+    /// Used to reenable the player canvas when canceling the movement
+    /// </summary>
+    public void ResetCanvas()
+    {
         confirmCanvas.SetActive(false);
-        playerBehavior.PathfindThroughGrid();
-        cameraManager.SwitchCamera(cameraManager.Level1playcam);
+        playerCanvas.SetActive(true);
     }
 
     /// <summary>
