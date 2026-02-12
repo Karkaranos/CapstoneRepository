@@ -69,7 +69,7 @@ public class NotebookArtifactNodeBehavior : MonoBehaviour
             anb.artifactData = artifactData;
             anb.notebookArtifactNode = this.GetComponent<NotebookArtifactNodeBehavior>();
 
-            node.transform.localScale *= 1.2f;
+            node.transform.localScale *= 0.5f;
         }
     }
 }
