@@ -58,6 +58,7 @@ public static class PublicEvents
     public static Action ControllerDisabled;
 
     public static Action<Vector2> PanCamera;
+    public static Action<Vector2> MovementDirection;
 
     #endregion INPUTS
 
