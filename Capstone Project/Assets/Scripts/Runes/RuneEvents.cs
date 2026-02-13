@@ -397,6 +397,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
 
                     tile.ElectrifyAdTiles();
+                    Invoke("PlayerTeleport", .2f);
 
                     FindTargetsInPath(oldPlayerTile);
 
@@ -1251,6 +1252,7 @@ public class RuneEvents : MonoBehaviour
     /// </summary>
     private void PlayerTeleport()
     {
+        Debug.Log("ughhhhhhhhhhhhhhhhhhh"); //The code-bearing debug.log. I'm not kidding, this stops an error from happening
         FindFirstObjectByType<PlayerBehavior>().TeleportPlayer();
     }
 

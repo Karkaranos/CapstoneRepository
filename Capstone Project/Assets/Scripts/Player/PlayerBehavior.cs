@@ -332,8 +332,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         previousPositions.Clear();
         myPosition = GridManager.playerPosition;
+        posBeforeMovement = myPosition;
         previousPositions.Add(myPosition);
         ghostPosition = transform.position;
+        VisualizeEnemyPaths();
 
         //Damages the player if they teleport onto an electrified tile
         TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];

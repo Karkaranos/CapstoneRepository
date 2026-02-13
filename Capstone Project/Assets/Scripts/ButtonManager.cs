@@ -49,6 +49,7 @@ public class ButtonManager : MonoBehaviour
     private GameManager gm; // temp variable
 
     private bool isPlayersTurn;
+    private bool castingSpell;
     #endregion
 
     /// <summary>
@@ -92,6 +93,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = true;
         playerCanvas.SetActive(true);
+        castingSpell = false;
     }
 
     /// <summary>
@@ -156,6 +158,7 @@ public class ButtonManager : MonoBehaviour
 
         runeCanvas.SetActive(true);
         playerCanvas.SetActive(false);
+        castingSpell = true;
 
     }
 
@@ -173,7 +176,15 @@ public class ButtonManager : MonoBehaviour
         //playerCanvas.SetActive(true);
         //moveCanvas.SetActive(false);
         //cameraManager.SwitchCamera(cameraManager.Level1playcam);
-        //PublicEvents.EndCast.Invoke();
+        //if (castingSpell)
+        //{
+        //    castingSpell = false;
+        //    //PublicEvents.EndCast.Invoke();
+        //}
+        //else
+        //{
+        //    playerBehavior.DeleteMovement();
+        //}
         //runeCanvas.SetActive(false);
         //confirmCanvas.SetActive(false);
 
