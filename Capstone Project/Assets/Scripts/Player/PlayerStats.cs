@@ -62,6 +62,8 @@ public class PlayerStats : MonoBehaviour
         public float MeleeDamageTakenMultiplier = 1;
     [Tooltip("Reflects this percent of damage taken back to the enemy who dealt it"), ShowIf(nameof(settings), Settings.DamageTaken)]
         public float Thorns = 0f;
+    [Tooltip("Whether the player can take damage at all or not. True if they can"), ShowIf(nameof(settings), Settings.DamageTaken)]
+    public bool TakesDamage = true;
     #endregion
 
     #region Attack Stats
@@ -116,6 +118,10 @@ public class PlayerStats : MonoBehaviour
     /// <param name="source">Where the damage came from</param>
     public void TakeDamage(int amount, DamageSource source = DamageSource.None, Enemy e = null)
     {
+        if(!TakesDamage)
+        {
+            return;
+        }
 
         // Check if the player dodges the attack
         // Return before dealing damage

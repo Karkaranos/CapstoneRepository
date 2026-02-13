@@ -623,6 +623,7 @@ MonoBehaviour:
   movementRange: 6
   movementLeft: 0
   allowLeftoverMovement: 0
+  previousColliderPos: {x: 0, y: 0, z: 0}
 --- !u!114 &-4570115079475522765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,7 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 0
+  settings: 1
   healthBar: {fileID: 439048922446233996}
   CurrentHealth: 100
   MaxHealth: 100
@@ -652,6 +653,7 @@ MonoBehaviour:
   RangedDamageTakenMultiplier: 1
   MeleeDamageTakenMultiplier: 1
   Thorns: 0
+  TakesDamage: 1
   BaseAttackMultiplier: 1
   LightningAttackMultiplier: 1
   WindAttackMultiplier: 1

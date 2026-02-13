@@ -136,7 +136,7 @@ public class GridPathfinding : MonoBehaviour
             for (int i = 0; i < currentPositions.Count; ++i)
             {
                 myPosition = currentPositions[i];
-                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition);
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition, !isEnemy);
 
                 foreach(Vector2Int v in temp)
                 {
