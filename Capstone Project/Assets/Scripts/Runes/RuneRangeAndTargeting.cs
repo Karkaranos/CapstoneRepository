@@ -6,10 +6,13 @@ Brief Description : Determines viable targets whenever a spell is selected
 External Resources : 	
 	***************************************************/
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class RuneRangeAndTargeting : MonoBehaviour
 {
@@ -18,6 +21,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     //for waiting on player input
     bool waitingForThePlayer;
+    //for waiting after the player selects a wind spell
+    bool waitingOnTheSecondSelection;
     //Stores the currently using rune
     private RuneData storedData;
     //updated everytime the player selects a spell
@@ -482,6 +487,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     #region PLAYER TARGETING
 
+    TileBehaviour targetedTile;
+    Enemy targetedEnemy;
+
+    int movementLeft;
+
     /// <summary>
     /// triggers spells based on the tile or enemy that the player has selected
     /// </summary>
@@ -492,9 +502,16 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         if (waitingForThePlayer &&
-            FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints &&
-            viableTilesInRange.Contains(tile))
+        FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints && viableTilesInRange.Contains(tile))
+
         {
+
+            targetedTile = tile;
+            targetedEnemy = enemy;
+
+            ghostPos = tile.transform.position;
+
+            movementLeft = storedData.RuneRange;
 
             switch (storedData.TypeOfRune)
             {
@@ -520,6 +537,197 @@ public class RuneRangeAndTargeting : MonoBehaviour
     }
 
     #endregion PLAYER TARGETING
+
+
+
+    #region SECONDARY TARGETING
+
+    List<Vector2Int> tilesInPath = new List<Vector2Int>();
+    List<Vector3> pathPos = new List<Vector3>();
+    Vector3 ghostPos;
+
+    /// <summary>
+    /// determines which direction the player is pathing out their spell
+    /// </summary>
+    /// <param name="dir"> input </param>
+    private void PathingDirection (Vector2 dir)
+    {
+
+        if(waitingOnTheSecondSelection)
+        {
+
+            if (dir.y >= .5f)
+            {
+
+                Vector2Int v = new Vector2Int(GridManager.playerPosition.x, GridManager.playerPosition.y + 1);
+
+                if (GridManager.TileIsInGrid(v) && CanAttackTile(v) && (!tilesInPath.Contains(v) || v == tilesInPath[tilesInPath.Count - 2]) &&
+                Mathf.Abs(GridManager.playerPosition.y - targetedTile.IndexInGrid.y) <= storedData.RuneRange)
+                {
+
+                    Vector3 newPos = new Vector3(ghostPos.x, ghostPos.y, ghostPos.z + GridManager.MoveDistances.y);
+                    UpdatePath(v, newPos);
+
+                }
+
+            }
+            else if (dir.y <= -.5f)
+            {
+
+                Vector2Int v = new Vector2Int(GridManager.playerPosition.x, GridManager.playerPosition.y - 1);
+
+                if (GridManager.TileIsInGrid(v) && CanAttackTile(v) && (!tilesInPath.Contains(v) || v == tilesInPath[tilesInPath.Count - 2]) &&
+                Mathf.Abs(GridManager.playerPosition.y - targetedTile.IndexInGrid.y) <= storedData.RuneRange)
+                {
+
+                    Vector3 newPos = new Vector3(ghostPos.x, ghostPos.y, ghostPos.z - GridManager.MoveDistances.y);
+                    UpdatePath(v, newPos);
+
+                }
+
+            }
+            else if (dir.x > .5f)
+            {
+
+                Vector2Int v = new Vector2Int(GridManager.playerPosition.x + 1, GridManager.playerPosition.y);
+
+                if (GridManager.TileIsInGrid(v) && CanAttackTile(v) && (!tilesInPath.Contains(v) || v == tilesInPath[tilesInPath.Count - 2]) &&
+                Mathf.Abs(GridManager.playerPosition.y - targetedTile.IndexInGrid.y) <= storedData.RuneRange)
+                {
+
+                    Vector3 newPos = new Vector3(ghostPos.x + GridManager.MoveDistances.x, ghostPos.y, ghostPos.z);
+                    UpdatePath(v, newPos);
+
+                }
+
+            }
+            else if (dir.x < -.5f)
+            {
+
+                Vector2Int v = new Vector2Int(GridManager.playerPosition.x - 1, GridManager.playerPosition.y);
+
+                if (GridManager.TileIsInGrid(v) && CanAttackTile(v) && (!tilesInPath.Contains(v) || v == tilesInPath[tilesInPath.Count - 2]) &&
+                Mathf.Abs(GridManager.playerPosition.y - targetedTile.IndexInGrid.y) <= storedData.RuneRange)
+                {
+
+                    Vector3 newPos = new Vector3(ghostPos.x - GridManager.MoveDistances.x, ghostPos.y, ghostPos.z);
+                    UpdatePath(v, newPos);
+
+                }
+
+            }
+
+        }
+
+    }
+
+    private void UpdatePath(Vector2Int v, Vector3 newPos)
+    {
+
+        waitingOnTheSecondSelection = false;
+
+        if (tilesInPath.Contains(v))
+        {
+
+            pathPos.RemoveAt(pathPos.Count - 1);
+            ++movementLeft;
+
+        }
+        else
+        {
+
+            if (movementLeft > 0)
+            {
+
+                switch (storedData.TypeOfRune, storedData.NumberOnSkillTree)
+                {
+
+                    case (RuneType.Wind, 1):
+
+                        if ((GridManager.playerPosition.x < targetedTile.IndexInGrid.x && v.x > GridManager.playerPosition.x) ||
+                        (GridManager.playerPosition.x > targetedTile.IndexInGrid.x && v.x < GridManager.playerPosition.x) ||
+                        (GridManager.playerPosition.y < targetedTile.IndexInGrid.y && v.y > GridManager.playerPosition.y) ||
+                        (GridManager.playerPosition.y > targetedTile.IndexInGrid.y && v.y < GridManager.playerPosition.y))
+                        {
+
+                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(windSecondaryHighlight);
+                            GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+
+                            tilesInPath.Add(v);
+                            pathPos.Add(newPos);
+
+                            --movementLeft;
+
+                        }
+
+                        break;
+
+                    default:
+
+                        GridManager.combatGrid[v.x, v.y].SetHighlightColor(windSecondaryHighlight);
+                        GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+
+                        tilesInPath.Add(v);
+                        pathPos.Add(newPos);
+
+                        --movementLeft;
+
+                        break;
+
+                }
+
+                if (movementLeft == 0)
+                {
+
+                    ghostPos = newPos;
+
+                }
+
+            }
+
+        }
+
+        if (movementLeft > 0)
+        {
+
+            ghostPos = newPos;
+
+        }
+
+        StartCoroutine(PathingDelay());
+
+    }
+
+    IEnumerator PathingDelay()
+    {
+
+        yield return new WaitForSeconds(0.5f);
+        waitingOnTheSecondSelection = true;
+
+    }
+
+    IEnumerator ConfirmPathing()
+    {
+
+        waitingOnTheSecondSelection = false;
+
+        switch(storedData.TypeOfRune, storedData.NumberOnSkillTree)
+        {
+
+            case (RuneType.Wind, 1):
+
+
+
+                break;
+
+        }
+
+        //temp
+        yield return null;
+
+    }    
+
+    #endregion SECONDARY TARGETING
 
 
     public void SetCastStatus(bool werePointsSpent)
