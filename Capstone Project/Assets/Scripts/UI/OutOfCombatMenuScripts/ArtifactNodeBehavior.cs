@@ -46,6 +46,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
                 if (slotBehavior != null)
                 {
                     slotBehavior.artifact = null;
+                    EquipedRunesAndArtifacts.UnequipArtifact(artifactData);
                 }
             }
         }
@@ -71,6 +72,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
                 slotBehavior.artifact = artifactData;
+                EquipedRunesAndArtifacts.EquipArtifact(artifactData);
             }
             else
             {
