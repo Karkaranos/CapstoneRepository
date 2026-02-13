@@ -253,7 +253,11 @@ public class Enemy : MonoBehaviour
         
 
         await Task.Delay(flashTime);
-        spriteRen.material = baseMat;
+        if(spriteRen != null)
+        {
+            spriteRen.material = baseMat;
+        }
+        
     }
 
     /// <summary>
