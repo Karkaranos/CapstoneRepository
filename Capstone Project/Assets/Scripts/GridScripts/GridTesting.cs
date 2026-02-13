@@ -35,6 +35,8 @@ public class GridTesting : MonoBehaviour
     [Tooltip("The list that contains how big each grid is")]
     [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
     private List<Vector2Int> gridDimensions = new List<Vector2Int>();
+
+    public int gridToLoad;
     #endregion
 
     #region Grid movement variables
@@ -92,6 +94,12 @@ public class GridTesting : MonoBehaviour
     {
         StartCoroutine(AllEnemiesPathfind());
     }
+
+    [Button]
+    public void LoadGridAtIndex()
+    {
+        LoadSpecificGrid(gridToLoad);
+    }
     #endregion
 
     /// <summary>
@@ -126,9 +134,19 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     public void LoadNextGrid()
     {
+
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
-        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         LoadGridPrefab();
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+        
+    }
+
+    public void LoadSpecificGrid(int i) 
+    {
+        gridIndex = i;
+        LoadGridPrefab();
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+       
     }
 
     /// <summary>
