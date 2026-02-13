@@ -205,7 +205,10 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        spriteRen.material = flashColor;
+        if (spriteRen != null)
+        {
+            spriteRen.material = flashColor;
+        }
 
         //int casting truncates instead of rounds so this if there is extra damage it rounds up
         if(damage % 1 != 0)

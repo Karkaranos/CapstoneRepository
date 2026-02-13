@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class Pip : MonoBehaviour
 {
+    [SerializeField] private int pipsGrantedOnPickup = 1;
+
+    private GameManager gameManager;
     /// <summary>
     /// If collider is player destory pip 
     /// Change current Pip on field count
@@ -18,6 +21,7 @@ public class Pip : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         --PipManager.Instance.currentPipsOnField;
+        gameManager.IncrementActionPoints(pipsGrantedOnPickup);
         Destroy(this.gameObject);
     }
 
@@ -25,7 +29,7 @@ public class Pip : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     // Update is called once per frame
