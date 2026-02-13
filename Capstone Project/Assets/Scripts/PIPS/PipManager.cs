@@ -9,14 +9,24 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.VFX;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 public class PipManager : MonoBehaviour
 {
     private int currentPipsOnField;
 
+    [System.Serializable]
+    public class SpawnLocations
+    {
+        public List<TileBehaviour> spawningLocations;
+    }
+
     [SerializeField] private int maxNumberOfPipsOnField;
     [SerializeField] private List<TileBehaviour> spawnableTiles;
     [SerializeField] private GameObject pip;
+    [SerializeField] private List<SpawnLocations> spawningLocationsPerLevel;
+
+    [SerializeField] int currentLevel = 0;
 
     [HideInInspector] public PipManager Instance; 
 
@@ -35,7 +45,7 @@ public class PipManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        currentLevel = 1; 
         currentPipsOnField = 0;
         await Task.Delay(25);
         SpawnPips();
