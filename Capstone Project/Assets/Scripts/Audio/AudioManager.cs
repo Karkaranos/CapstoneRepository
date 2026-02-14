@@ -23,6 +23,10 @@ public class AudioManager : MonoBehaviour
 
     private List<EventInstance> eventInstances = new List<EventInstance>();
 
+    private Bus masterBus;
+    private Bus soundEffectsBus;
+    private Bus backgroundMusicBus;
+
     #endregion
 
     #region Loop Help
@@ -53,6 +57,12 @@ public class AudioManager : MonoBehaviour
     #endregion
 
     #region Audio Setup
+    public void GetBusses()
+    {
+       backgroundMusicBus = RuntimeManager.GetBus("bus:/Master/Music");
+       soundEffectsBus = RuntimeManager.GetBus("bus:/Master/SFX");
+       masterBus = RuntimeManager.GetBus("bus:/Master");
+    }
 
     /// <summary>
     /// Called on the first frame update
