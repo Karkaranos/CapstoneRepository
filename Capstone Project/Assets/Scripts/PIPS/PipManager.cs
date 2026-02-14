@@ -2,24 +2,43 @@
 Author Names : 		Clare Grady, 
 Date Created : 		2/10/2026
 Date Last Modified : 	2/10/2026
-Brief Description : 		Ranged enemy move state
+Brief Description : 		Pip system manager
 External Resources : 	
 ***************************************************/
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.VFX;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 public class PipManager : MonoBehaviour
 {
-    private int currentPipsOnField;
+
+    [System.Serializable]
+    public class SpawnLocations
+    {
+        public List<TileBehaviour> spawningLocations;
+    }
 
     [SerializeField] private int maxNumberOfPipsOnField;
     [SerializeField] private List<TileBehaviour> spawnableTiles;
     [SerializeField] private GameObject pip;
+    //[SerializeField] private List<SpawnLocations> spawningLocationsPerLevel;
 
-    [HideInInspector] public PipManager Instance; 
+    [SerializeField] int currentLevel = 0;
 
+    [HideInInspector] public static PipManager Instance { get; private set; }
+    [HideInInspector] public int currentPipsOnField;
+
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginPlayerTurn += SpawnPips; 
+    }
+
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginPlayerTurn -= SpawnPips;
+    }
     /// <summary>
     /// Ensure singleton
     /// Sets currentPipsOnField to 0
@@ -35,10 +54,10 @@ public class PipManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        currentLevel = 1; 
         currentPipsOnField = 0;
-        await Task.Delay(25);
-        SpawnPips();
+        //await Task.Delay(25);
+        //SpawnPips();
     }
 
     /// <summary>
@@ -47,6 +66,7 @@ public class PipManager : MonoBehaviour
     /// </summary>
     public void SpawnPips()
     {
+        Debug.Log("SPAWNING PIPS");
         List<TileBehaviour> temp = new List<TileBehaviour>(); 
         while(currentPipsOnField < maxNumberOfPipsOnField)
         {
@@ -66,6 +86,7 @@ public class PipManager : MonoBehaviour
         {
             temp.Add(tileBehaviour);
         }
-        spawnableTiles = temp; 
+        spawnableTiles = temp;
+        TurnPublicEvents.TurnActionComplete?.Invoke(); 
     }
 }
