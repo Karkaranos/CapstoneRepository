@@ -1,13 +1,14 @@
 /******************************************************************************
- * Author: Brad Dixon, Tyler Bouchard
+ * Author: Brad Dixon, Tyler Bouchard, Clare Grady
  * Creation Date: 9/26/2025
- * Last Modified: 2/9/2026 (Brad Dixon)
+ * Last Modified: 2/10/2026 (Clare Grady)
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
  * ***************************************************************************/
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class GridManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GridManager : MonoBehaviour
     // -2 is an enemy occupied tile
     // -3 is a player occupied tile
     // -4 is an obstacle occupied tile
+    // -5 is a pip occupied tile
     public static TileBehaviour[,] combatGrid;
 
     public static Vector2Int playerPosition;
@@ -72,11 +74,16 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="locationInGrid"></param> The tile in the grid that is being checked
     /// <returns></returns> Returns true if that tile is empty
-    public static bool CanMoveToTile(Vector2Int tileCoordinates, Vector2Int myPosition)
+    public static bool CanMoveToTile(Vector2Int tileCoordinates, Vector2Int myPosition, bool isPlayer)
     {
         if(tileCoordinates == myPosition)
         {
             return true;
+        }
+        if(isPlayer)
+        {
+            return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 || 
+                combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5;
         }
         return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1;
     }
@@ -108,27 +115,56 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="currentTile"></param> The provided tile
     /// <returns></returns> The list of available adjacent tiles
-    public static List<Vector2Int> GetAllValidAdjacentTiles(Vector2Int currentTile, Vector2Int myPos)
+    public static List<Vector2Int> GetAllValidAdjacentTiles(Vector2Int currentTile, Vector2Int myPos, bool isPlayer)
     {
         List<Vector2Int> validTiles = new List<Vector2Int>();
 
-        if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)) && CanMoveToTile(new Vector2Int(currentTile.x + 1, currentTile.y), myPos))
+        if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)) && CanMoveToTile(new Vector2Int(currentTile.x + 1, currentTile.y), myPos, isPlayer))
         {
             validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y));
         }
-        if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)) && CanMoveToTile(new Vector2Int(currentTile.x - 1, currentTile.y), myPos))
+        if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)) && CanMoveToTile(new Vector2Int(currentTile.x - 1, currentTile.y), myPos, isPlayer))
         {
             validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y));
         }
-        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y + 1), myPos))
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y + 1), myPos, isPlayer))
         {
             validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
         }
-        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y - 1), myPos))
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanMoveToTile(new Vector2Int(currentTile.x, currentTile.y - 1), myPos, isPlayer))
         {
             validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
         }
         
+        return validTiles;
+    }
+
+    /// <summary>
+    /// Returns a list of all the adjacent tiles
+    /// </summary>
+    /// <param name="currentTile"></param> The provided tile
+    /// <returns></returns> The list of available adjacent tiles
+    public static List<Vector2Int> GetAllAdjacentTiles(Vector2Int currentTile)
+    {
+        List<Vector2Int> validTiles = new List<Vector2Int>();
+
+        if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
+        }
+
         return validTiles;
     }
 
@@ -255,5 +291,25 @@ public class GridManager : MonoBehaviour
         foreach (TileBehaviour tile in combatGrid) {
             tile.ShowHighlight(false);
         }
+    }
+    
+    /// <summary>
+    /// Checks if passed tile location is empty (not containing player, enemy, etc...)
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <returns></returns>
+    public static bool TileIsEmpty(Vector2Int tile)
+    {
+        if(combatGrid==null)
+        {
+            Debug.Log("Grid Null");
+            return true ;
+        }
+        if(tile == null)
+        {
+            Debug.Log("Tile Null");
+            return true;
+        }
+        return combatGrid[tile.x, tile.y].entityOnGrid == -1;
     }
 }

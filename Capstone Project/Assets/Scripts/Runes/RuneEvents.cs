@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 	Jay Embry
+Author Names : 	Jay Embry, Brad Dixon
 Date Created : 	10/07/2025
-Date Last Modified : 01/29/2026
+Date Last Modified : 02/12/2026 (Brad Dixon)
 Brief Description : Contains rune types and effects
 External Resources : 	
 	***************************************************/
@@ -264,13 +264,13 @@ public class RuneEvents : MonoBehaviour
 
                         CheckRuneCombination(rune, enemy);
 
-                        adjacentTile.ElectrifyTile();
+                        adjacentTile.ElectrifyAdTiles();
 
                     }
 
                 }
 
-                tile.ElectrifyTile();
+                tile.ElectrifyAdTiles();
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
@@ -307,7 +307,7 @@ public class RuneEvents : MonoBehaviour
 
                     await Task.Delay(1200);
 
-                    potentialTarget.ElectrifyTile();
+                    potentialTarget.ElectrifyAdTiles();
 
                     if (potentialTarget.GetComponentInChildren<Enemy>() != null)
                     {
@@ -352,7 +352,8 @@ public class RuneEvents : MonoBehaviour
 
                     FindAdjacentTiles(tile);
 
-                    tile.ElectrifyTile();
+                    tile.ElectrifyAdTiles();
+                    Invoke("PlayerTeleport", .1f);
 
                     foreach (TileBehaviour adjacentTile in secondaryTargets)
                     {
@@ -369,7 +370,7 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        tile.ElectrifyTile();
+                        tile.ElectrifyAdTiles();
 
                     }
 
@@ -398,7 +399,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
                     GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
 
-                    tile.ElectrifyTile();
+                    tile.ElectrifyAdTiles();
+                    Invoke("PlayerTeleport", .2f);
 
                     FindTargetsInPath(oldPlayerTile);
 
@@ -418,7 +420,7 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        tile.ElectrifyTile();
+                        tile.ElectrifyAdTiles();
 
                     }
 
@@ -1105,7 +1107,7 @@ public class RuneEvents : MonoBehaviour
 
             validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
 
-            validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyTile();
+            validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyAdTiles();
 
         }
 
@@ -1246,6 +1248,15 @@ public class RuneEvents : MonoBehaviour
 
         }
 
+    }
+
+    /// <summary>
+    /// Used to create a delay between teleporting the player and updating the variables
+    /// </summary>
+    private void PlayerTeleport()
+    {
+        Debug.Log("ughhhhhhhhhhhhhhhhhhh"); //The code-bearing debug.log. I'm not kidding, this stops an error from happening
+        FindFirstObjectByType<PlayerBehavior>().TeleportPlayer();
     }
 
 }

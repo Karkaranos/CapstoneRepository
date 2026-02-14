@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	2/10/2026 (Brad Dixon)
+Date Last Modified : 	2/12/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -59,7 +59,13 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [Tooltip("Total amount of movement the player has on their turn.")]
     [SerializeField] private int movementRange;
-    [HideInInspector] public int movementLeft;
+    private int movementLeft;
+    [HideInInspector]
+    public int MovementLeft
+    {
+        get { return movementLeft; }
+        set { movementLeft = value; }
+    }
     private Vector3 ghostPosition;
     [Tooltip("If true, the player will not have to use all of their movement in order to move.")]
     [SerializeField] bool allowLeftoverMovement;
@@ -69,6 +75,7 @@ public class PlayerBehavior : MonoBehaviour
     private BoxCollider myCol;
     [SerializeField] Vector3 previousColliderPos;
     private List<Vector2Int> enemyPositions = new List<Vector2Int>();
+    [SerializeField] private bool underEffect;
 
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -86,6 +93,7 @@ public class PlayerBehavior : MonoBehaviour
         previousPositions.Add(myPosition);
         myCol = GetComponent<BoxCollider>();
         previousColliderPos = myCol.center;
+        underEffect = false;
     }
 
     #region player input
@@ -136,6 +144,8 @@ public class PlayerBehavior : MonoBehaviour
         {
             enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
         }
+
+        VisualizeEnemyPaths();
     }
 
     /// <summary>
@@ -150,7 +160,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 Vector2Int v = new Vector2Int(myPosition.x, myPosition.y + 1);
                 if (GridManager.TileIsInGrid(v) && //Checks to make sure the attempted positsion is withing the index of the grid
-                    (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) || //Checks to make sure the new tile is an open space
+                    (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) || //Checks to make sure the new tile is an open space
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v))) && //If the tile isn't open, this checks to make sure it isn't because of an enemy's projected path
                     (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && //This check is so you can go back one space in the path but not travel over your path
                     !enemyPositions.Contains(v)) //Checks to make sure you can't move onto where the enemy is due to how visualizing their path works
@@ -164,7 +174,7 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.y <= -.5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x, myPosition.y - 1);
-                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) ||
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
                     && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
@@ -177,7 +187,7 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.x > .5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x + 1, myPosition.y);
-                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) ||
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
                     && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
@@ -190,7 +200,7 @@ public class PlayerBehavior : MonoBehaviour
             else if (dir.x < -.5f)
             {
                 Vector2Int v = new Vector2Int(myPosition.x - 1, myPosition.y);
-                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1]) ||
+                if (GridManager.TileIsInGrid(v) && (GridManager.CanMoveToTile(v, previousPositions[previousPositions.Count - 1], true) ||
                     (GridManager.combatGrid[v.x, v.y].entityOnGrid == -20 && !enemyPositions.Contains(v)))
                     && (!previousPositions.Contains(v) || v == previousPositions[previousPositions.Count - 2]) && !enemyPositions.Contains(v))
                 {
@@ -290,6 +300,17 @@ public class PlayerBehavior : MonoBehaviour
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
             GridManager.combatGrid[previousPositions[i].x, previousPositions[i].y].ShowHighlight(false);
+
+            TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
+            if (tileOn.CanApplyTileEffects() && !underEffect)
+            {
+                tileOn.ApplyTileEffects();
+                underEffect = true;
+            }
+            else if (!tileOn.CanApplyTileEffects() && underEffect)
+            {
+                underEffect = false;
+            }
         }
         GridManager.combatGrid[myPosition.x, myPosition.y].ShowHighlight(false);
         GridManager.MoveToTile(posBeforeMovement, myPosition, -3);
@@ -302,6 +323,32 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
+    }
+
+    /// <summary>
+    /// Updates the variables for the new movement system when the player teleports
+    /// </summary>
+    public void TeleportPlayer()
+    {
+        previousPositions.Clear();
+        myPosition = GridManager.playerPosition;
+        posBeforeMovement = myPosition;
+        previousPositions.Add(myPosition);
+        ghostPosition = transform.position;
+        VisualizeEnemyPaths();
+
+        //Damages the player if they teleport onto an electrified tile
+        TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
+        if (tileOn.CanApplyTileEffects() && !underEffect)
+        {
+            Debug.Log("MY POSITION IS " + myPosition);
+            tileOn.ApplyTileEffects();
+            underEffect = true;
+        }
+        else if (!tileOn.CanApplyTileEffects() && underEffect)
+        {
+            underEffect = false;
+        }
     }
 
     /// <summary>
