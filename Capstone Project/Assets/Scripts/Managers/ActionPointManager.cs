@@ -24,7 +24,8 @@ public class ActionPointManager : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-        PublicEvents.PlayerMove += PlayerHasMoved;
+        //PublicEvents.PlayerMove += PlayerHasMoved;
+        PublicEvents.StartBattle += AllocateStartOfLevelPoints;
         TurnPublicEvents.BeginPlayerTurn += AllocatePoints;
         PublicEvents.RuneCast += PlayerCastSpell;
     }
@@ -34,7 +35,8 @@ public class ActionPointManager : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        PublicEvents.PlayerMove -= PlayerHasMoved;
+        //PublicEvents.PlayerMove -= PlayerHasMoved;
+        PublicEvents.StartBattle -= AllocateStartOfLevelPoints;
         TurnPublicEvents.BeginPlayerTurn -= AllocatePoints;
         PublicEvents.RuneCast -= PlayerCastSpell;
     }
@@ -64,5 +66,10 @@ public class ActionPointManager : MonoBehaviour
     {
         Debug.Log("Cost of Spell is " + cost);
         gm.UpdateActionPoints(cost);
+    }
+
+    private void AllocateStartOfLevelPoints()
+    {
+        gm.SetActionPointsForLevel();
     }
 }

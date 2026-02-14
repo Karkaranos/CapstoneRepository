@@ -167,11 +167,14 @@ public class TileBehaviour : MonoBehaviour
         adWaterTiles.Add(GridManager.combatGrid[IndexInGrid.x, IndexInGrid.y]);
         alreadyChecked.Add(IndexInGrid);
 
-        List<Vector2Int> adTiles = GridManager.GetAllValidAdjacentTiles(IndexInGrid, new Vector2Int(-1, -1), false);
+        List<Vector2Int> adTiles = GridManager.GetAllAdjacentTiles(IndexInGrid);
         //Gets the adjacent tiles of the tile that was hit
         foreach (Vector2Int v in adTiles)
         {
-            adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+            if (GridManager.combatGrid[v.x, v.y].CanBeElectrified())
+            {
+                adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+            }
             alreadyChecked.Add(v);
         }
 
@@ -187,7 +190,7 @@ public class TileBehaviour : MonoBehaviour
             //Gets the adjacent tiles of already electrified ones
             foreach(Vector2Int a1 in adTiles)
             {
-                adAdTiles = GridManager.GetAllValidAdjacentTiles(a1, new Vector2Int(-1, -1), false);
+                adAdTiles = GridManager.GetAllAdjacentTiles(a1);
 
                 foreach (Vector2Int v in adAdTiles)
                 {
@@ -201,7 +204,7 @@ public class TileBehaviour : MonoBehaviour
                         {
                             adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
 
-                            temp2 = GridManager.GetAllValidAdjacentTiles(v, new Vector2Int(-1, -1), false);
+                            temp2 = GridManager.GetAllAdjacentTiles(v);
                             foreach (Vector2Int t in temp2)
                             {
                                 temp.Add(t);
@@ -254,7 +257,6 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void EndTurnTileEffects()
     {
-        Debug.Log("sdhkjfshjkdhfkjahjkafhkfjdhsdkfjk");
         if (hazardType == HazardType.damage)
         {
             DamageEntity(damageAmount);

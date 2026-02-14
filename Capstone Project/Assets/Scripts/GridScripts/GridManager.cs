@@ -140,6 +140,35 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns a list of all the adjacent tiles
+    /// </summary>
+    /// <param name="currentTile"></param> The provided tile
+    /// <returns></returns> The list of available adjacent tiles
+    public static List<Vector2Int> GetAllAdjacentTiles(Vector2Int currentTile)
+    {
+        List<Vector2Int> validTiles = new List<Vector2Int>();
+
+        if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
+        }
+
+        return validTiles;
+    }
+
+    /// <summary>
     /// Updates the grid to show where an entity moved to
     /// </summary>
     /// <param name="originalTile"></param> The tile the entity was on before it moved
