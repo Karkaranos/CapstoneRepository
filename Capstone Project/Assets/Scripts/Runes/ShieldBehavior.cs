@@ -27,24 +27,6 @@ public class ShieldBehavior : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// call this if an enemy targets a tile with this script on it
-    /// we can work out the specifics later i think
-    /// depends on if we're getting TakeDamage() to work for PlayerStats??
-    /// <summary>
-    public void TakeDamage()
-    {
-
-        shieldPoints -= 1;
-
-        if(shieldPoints <= 0)
-        {
-
-            GetDestroyed();
-
-        }
-
-    }
     
     public void GetDestroyed()
     {
