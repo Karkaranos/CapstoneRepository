@@ -377,13 +377,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 break;
 
-            //targets an enemy
+            //targets an empty tile
             case (RuneType.Wind, 2):
 
                 foreach (TileBehaviour tile in tilesInRange)
                 {
 
-                    if (tile.GetComponentInChildren<Enemy>())
+                    if (!tile.GetComponentInChildren<Enemy>())
                     {
 
                         viableTilesInRange.Add(tile);

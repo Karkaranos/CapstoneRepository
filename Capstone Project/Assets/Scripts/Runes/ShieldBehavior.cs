@@ -1,8 +1,9 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/26/2025
-Date Last Modified : 10/26/2025
+Date Last Modified : 2/15/2026
 Brief Description : Takes damage in place of the player if it occupies a tile
+                    EDIT: Will get destroyed at the start of the player's turn
 External Resources : 	
 	***************************************************/
 using UnityEngine;
@@ -39,11 +40,18 @@ public class ShieldBehavior : MonoBehaviour
         if(shieldPoints <= 0)
         {
 
-            Destroy(this);
-            Destroy(shield);
+            GetDestroyed();
 
         }
 
-    }    
+    }
+    
+    public void GetDestroyed()
+    {
+
+        Destroy(this);
+        Destroy(shield);
+
+    }
 
 }

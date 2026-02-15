@@ -136,6 +136,20 @@ public class PlayerBehavior : MonoBehaviour
         {
             enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
         }
+
+        ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
+        if(allShields.Length >= 1)
+        {
+
+            foreach(ShieldBehavior shield in allShields)
+            {
+
+                shield.GetDestroyed();
+
+            }
+
+        }
+
     }
 
     public void SetPlayerMovementStatus(bool canThePlayerMove)

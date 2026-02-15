@@ -767,10 +767,10 @@ public class RuneEvents : MonoBehaviour
         switch (rune.NumberOnSkillTree)
         {
 
-            //knocks adjacent enemies along path and knocks back enemies in path
+            //knocks an enemy back, as well as an enemy in their path as is chosen by the player
             case (1):
 
-                if(enemy != null && !WaitingOnPath)
+                if(!WaitingOnPath)
                 {
 
                     GridManager.RemoveHighlight();
@@ -817,35 +817,49 @@ public class RuneEvents : MonoBehaviour
 
                     break;
 
-            //targets an opponent for moderate damage
-            //has a chance to hit twice
+            //creates a barrier along a player's selected path
             case (2):
 
-                if(enemy != null)
+                if (!WaitingOnPath)
                 {
 
-                    await Task.Delay(1500);
-                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+                    GridManager.RemoveHighlight();
 
-                    CheckRuneCombination(rune,enemy);
+                    selectedRune = rune;
+                    selectedTile = tile.IndexInGrid;
 
-                    if(Random.value <= rune.RuneSecondaryEffectChance)
-                    {
+                    PreviousPos.Add(selectedTile);
+                    GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
+                    GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
-                        enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+                    WaitingOnPath = true;
+                    FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
-                    }
+                    movementLeft = rune.RuneRange;
 
-                    AudioManager.instance.CreateEventInstance(windSpellSFX_2);
-                    AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
+                    ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
+                    movementPos.Add(ghostPos);
+
+                    Debug.Log("START PATHING");
+
+                }
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
+                {
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                    StartCoroutine(UpdatePlayerStatus());
+                    MoveAlongPath(rune);
+
+                    WaitingOnPath = false;
+                    FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
+                    FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
+
+                    AudioManager.instance.CreateEventInstance(windSpellSFX_3);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
 
                 }
 
-                break;
+                    break;
 
             //creates a shield on the player's tile
             case (3):
@@ -1258,6 +1272,29 @@ public class RuneEvents : MonoBehaviour
 
                         break;
 
+                    case (RuneType.Wind, 2):
+
+                        if (GridManager.combatGrid[v.x, v.y].entityOnGrid == -1)
+                        {
+
+                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
+                            GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+                            PreviousPos.Add(v);
+                            movementPos.Add(t);
+
+                            GetComponent<RuneRangeAndTargeting>().EditViableTiles(true, GridManager.combatGrid[v.x, v.y]);
+
+                            --movementLeft;
+                            ++movementUsed;
+
+                            selectedTile = v;
+
+                            ghostPos = t;
+
+                        }
+
+                        break;
+
                 }
 
             }
@@ -1320,15 +1357,28 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                PreviousPos.Clear();
-                movementPos.Clear();
-                movementUsed = 0;
+                break;
 
-                StartCoroutine(UpdatePlayerStatus());
+            case (RuneType.Wind, 2):
+
+                for(int i = 0; i < movementPos.Count; ++i)
+                {
+
+                    ShieldBehavior newShield = GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].gameObject.AddComponent<ShieldBehavior>();
+                    newShield.OnShieldGenerated(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform, rune.RuneVFX);
+
+                }
 
                 break;
 
         }
+
+
+        PreviousPos.Clear();
+        movementPos.Clear();
+        movementUsed = 0;
+
+        StartCoroutine(UpdatePlayerStatus());
 
     }
 
@@ -1340,10 +1390,6 @@ public class RuneEvents : MonoBehaviour
         FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
         FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-        foreach (Vector2Int v in PreviousPos)
-        {
-            GridManager.combatGrid[v.x, v.y].ShowHighlight(false);
-        }
         PreviousPos.Clear();
         movementPos.Clear();
         movementLeft += movementUsed;
