@@ -933,6 +933,7 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    //is this messed up or what
     public static bool CanMoveBackwards(TileBehaviour originTile, TileBehaviour enemyTile)
     {
 
@@ -969,7 +970,29 @@ public class RuneEvents : MonoBehaviour
 
             TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-            return newTile.entityOnGrid == -1;
+            if(newTile.GetComponentInChildren<Enemy>())
+            {
+
+                if(CanMoveBackwards(enemyTile, newTile))
+                {
+
+                    return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2;
+
+                }
+                else
+                {
+
+                    return false;
+
+                }
+
+            }
+            else
+            {
+
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2;
+
+            }
 
         }
         else
@@ -1033,6 +1056,40 @@ public class RuneEvents : MonoBehaviour
                 GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
 
                 enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+
+                if(kbChain)
+                {
+
+                    kbChain = false;
+
+                }
+
+            }
+            else if(newTile.entityOnGrid == -2 && kbChain)
+            {
+
+                if(CanMoveBackwards(enemyTile, newTile))
+                {
+
+                    newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
+
+                    SendEnemyBackwards(enemyTile, newTile, newTile.GetComponentInChildren<Enemy>());
+
+                    enemy.transform.SetParent(newTile.transform);
+
+                    enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+
+                    GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+
+                    enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+
+                }
+                else
+                {
+
+                    kbChain = false;
+
+                }
 
             }
 
@@ -1215,6 +1272,9 @@ public class RuneEvents : MonoBehaviour
         WaitingOnPath = true;
     }
 
+    float currentSecondaryDamage;
+    bool kbChain = false;
+
     void MoveAlongPath(RuneData rune)
     {
 
@@ -1230,6 +1290,13 @@ public class RuneEvents : MonoBehaviour
 
                     if (GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>())
                     {
+
+                        currentSecondaryDamage = Mathf.Ceil(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier *
+                        FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+
+                        GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
+
+                        kbChain = true;
 
                         SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
                         GridManager.combatGrid[nextPos.x, nextPos.y],
