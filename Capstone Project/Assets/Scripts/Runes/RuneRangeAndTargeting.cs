@@ -30,11 +30,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
     bool castNotCanceled = false;
 
     [Header("Highlight Colors")]
-    [SerializeField] Color defaultHighlight;
-    [SerializeField] Color lightningHighlight;
-    [SerializeField] Color lightningSecondaryHighlight;
-    [SerializeField] Color windHighlight;
-    [SerializeField] Color windSecondaryHighlight;
+    public Color DefaultHighlight;
+    public Color LightningHighlight;
+    public Color LightningSecondaryHighlight;
+    public Color WindHighlight;
+    public Color WindSecondaryHighlight;
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
@@ -75,11 +75,16 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void StoreSelectedRuneData(RuneData rd)
     {
 
-        waitingForThePlayer = true;
+        if(!GetComponent<RuneEvents>().WaitingOnPath)
+        {
 
-        storedData = rd;
+            waitingForThePlayer = true;
 
-        RangeCheck(false);
+            storedData = rd;
+
+            RangeCheck(false);
+
+        }
 
     }
 
@@ -437,7 +442,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                     case (RuneType.Lightning):
 
-                        tile.SetHighlightColor(lightningHighlight);
+                        tile.SetHighlightColor(LightningHighlight);
 
                         tile.ShowHighlight(true);
 
@@ -445,7 +450,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                     case (RuneType.Wind):
 
-                        tile.SetHighlightColor(windHighlight);
+                        tile.SetHighlightColor(WindHighlight);
 
                         tile.ShowHighlight(true);
 
@@ -490,6 +495,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="player"> for when the player is targeting themself, for whatever reason </param>
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
+
+        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
 
         if (waitingForThePlayer &&
             FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints &&
@@ -538,6 +545,15 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         waitingForThePlayer = false;
 
+        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(true);
+
+        if (GetComponent<RuneEvents>().WaitingOnPath)
+        {
+
+            GetComponent<RuneEvents>().CancelPathing();
+
+        }
+
         SetHighlight(false);
 
         if (castNotCanceled)
@@ -545,20 +561,18 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
             PublicEvents.RuneCast(storedData.RuneActionPoints);
 
+            castNotCanceled = false;
+
         }
 
         if (TurnManager.currentStatus == TurnStates.PlayerTurn)
         {
             playerMenu.SetActive(true);
         }
-        else
-        {
-            GridManager.RemoveHighlight();
-        }
+
+        GridManager.RemoveHighlight();
 
         this.gameObject.SetActive(false);
-
-        castNotCanceled = false;
 
     }
 

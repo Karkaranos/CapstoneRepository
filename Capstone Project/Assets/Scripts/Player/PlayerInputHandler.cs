@@ -27,6 +27,7 @@ public class PlayerInputHandler : MonoBehaviour
     private bool mousePressed = false;
     [HideInInspector] public bool enableMovement;
     private bool isMoving;
+    [HideInInspector] public bool IsPathing;
     private Vector2 movementDirection;
 
     #endregion VARS
@@ -169,7 +170,21 @@ public class PlayerInputHandler : MonoBehaviour
     /// <param name="obj"></param>
     private void MovePlayer_performed(InputAction.CallbackContext obj)
     {
+
+        if (FindFirstObjectByType<RuneEvents>())
+        {
+
+            if (FindFirstObjectByType<RuneEvents>().WaitingOnPath)
+            {
+
+                IsPathing = true;
+
+            }
+
+        }
+
         movementDirection = obj.ReadValue<Vector2>();
+
         isMoving = true;
     }
 
@@ -180,6 +195,9 @@ public class PlayerInputHandler : MonoBehaviour
     private void MovePlayer_canceled(InputAction.CallbackContext obj)
     {
         isMoving = false;
+
+        IsPathing = false;
+
     }
 
     /// <summary>
@@ -206,14 +224,14 @@ public class PlayerInputHandler : MonoBehaviour
                 {
                     PublicEvents.SelectTile?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>());
 
-                    if (hit.transform.gameObject.GetComponent<Enemy>() != null)
+                    if (hit.transform.gameObject.GetComponent<Enemy>() != null || hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
                     {
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
                             hit.transform.gameObject.GetComponent<Enemy>(), null);
 
                     }
-                    else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
+                    else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null || hit.transform.gameObject.GetComponentInChildren<PlayerBehavior>() != null)
                     {
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
@@ -232,7 +250,7 @@ public class PlayerInputHandler : MonoBehaviour
             }
         }
 
-        if(isMoving)
+        if(isMoving || IsPathing)
         {
             //Using an if statement in case we want to call another event when not trying to move
             if (enableMovement)

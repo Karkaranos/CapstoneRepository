@@ -13,8 +13,11 @@ using System.Threading.Tasks;
 using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Unity.Collections.Unicode;
+using static UnityEditor.PlayerSettings;
 using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
@@ -35,6 +38,18 @@ public class RuneEvents : MonoBehaviour
     [SerializeField] private Variables currentInspectorShowing;
 
     List<TileBehaviour> targetedTiles;
+
+    RuneData selectedRune;
+    Vector2Int selectedTile;
+    Vector2Int originalSelectedTile;
+    Enemy selectedEnemy;
+
+    Vector3 ghostPos;
+
+    int movementLeft;
+    int movementUsed;
+
+    public bool WaitingOnPath = false;
 
     #endregion SETUP
 
@@ -147,6 +162,8 @@ public class RuneEvents : MonoBehaviour
         PublicEvents.LightningCast += SelectedLightningRuneCast;
         PublicEvents.WindCast += SelectedWindRuneCast;
 
+        PublicEvents.MovementDirection += MoveDirection;
+
         PublicEvents.MasteryRunePurchased += MasteryUnlocked;
 
     }
@@ -159,6 +176,8 @@ public class RuneEvents : MonoBehaviour
 
         PublicEvents.LightningCast -= SelectedLightningRuneCast;
         PublicEvents.WindCast -= SelectedWindRuneCast;
+
+        PublicEvents.MovementDirection -= MoveDirection;
 
         PublicEvents.MasteryRunePurchased -= MasteryUnlocked;
 
@@ -224,7 +243,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         float damageDealt = Mathf.CeilToInt(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+        * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
         Enemy[] enemiesOnTheGrid = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
@@ -741,36 +760,62 @@ public class RuneEvents : MonoBehaviour
     {
 
         float damageDealt = Mathf.Ceil(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-            * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
+        * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
         GameObject VFX;
 
         switch (rune.NumberOnSkillTree)
         {
 
-            //knocks adjacent enemies backwards and damages them
+            //knocks adjacent enemies along path and knocks back enemies in path
             case (1):
 
-               if(enemy != null)
-               {
+                if(enemy != null && !WaitingOnPath)
+                {
 
-                    await Task.Delay(1200); 
+                    GridManager.RemoveHighlight();
+
+                    selectedRune = rune;
+                    originalSelectedTile = tile.IndexInGrid;
+                    selectedTile = originalSelectedTile;
+                    selectedEnemy = enemy;
+
+                    PreviousPos.Add(selectedTile);
+                    GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
+                    GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
+
+                    WaitingOnPath = true;
+                    FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
+
+                    movementLeft = rune.RuneRange;
+
+                    ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
+
+                    Debug.Log("START MOVING");
+
+                }
+                else if (WaitingOnPath)
+                {
+
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
+                    MoveAlongPath(rune);
+
+                    WaitingOnPath = false;
+                    FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
+                    FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
+
+                    await Task.Delay(1200);
                     enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
-                    CheckRuneCombination(rune,enemy);
+                    CheckRuneCombination(rune, enemy);
 
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
 
-                    SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], tile, enemy);
-
-                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
-                    StartCoroutine(UpdatePlayerStatus());
-
                 }
-                   
-                break;
+
+                    break;
 
             //targets an opponent for moderate damage
             //has a chance to hit twice
@@ -821,66 +866,399 @@ public class RuneEvents : MonoBehaviour
             //delays target's turn and damages surrounding enemies
             case (4):
 
-                if(player != null)
+                if(player == null)
                 {
 
-                    return;
+                    VFX = Instantiate(rune.RuneVFX, tile.transform);
+                    await Task.Delay(3200);
+                    AudioManager.instance.CreateEventInstance(windSpellSFX_4);
+                    AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
-                }
-
-                VFX = Instantiate(rune.RuneVFX, tile.transform);
-                await Task.Delay(3200);
-                AudioManager.instance.CreateEventInstance(windSpellSFX_4);
-                AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
-
-                if (enemy != null)
-                {
-
-                    enemy.DelayedTurnStatus(true);
-
-                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
-
-                    CheckRuneCombination(rune, enemy);
-
-                }
-
-                PublicEvents.CheckRange.Invoke(true, 3, tile);
-
-                //do NOT delete this list again, jay. it's here for a reason
-                List<Enemy> validEnemies = new List<Enemy>();
-
-                foreach(TileBehaviour tileInRange in targetedTiles)
-                {
-
-                    if (tileInRange == tile)
+                    if (enemy != null)
                     {
 
-                        continue;
+                        enemy.DelayedTurnStatus(true);
+
+                        enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+
+                        CheckRuneCombination(rune, enemy);
 
                     }
 
-                    if(tileInRange.GetComponentInChildren<Enemy>() != null)
+                    PublicEvents.CheckRange.Invoke(true, 3, tile);
+
+                    //do NOT delete this list again, jay. it's here for a reason
+                    List<Enemy> validEnemies = new List<Enemy>();
+
+                    foreach (TileBehaviour tileInRange in targetedTiles)
                     {
 
-                        validEnemies.Add(tileInRange.GetComponentInChildren<Enemy>());
+                        if (tileInRange == tile)
+                        {
+
+                            continue;
+
+                        }
+
+                        if (tileInRange.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            validEnemies.Add(tileInRange.GetComponentInChildren<Enemy>());
+
+                        }
 
                     }
 
+                    if (validEnemies.Count > 0)
+                    {
+
+                        for (int i = 0; i < validEnemies.Count; i++)
+                        {
+
+                            validEnemies[i].Damage(Mathf.CeilToInt(damageDealt / validEnemies.Count), Enemy.DamageType.Wind);
+
+                        }
+
+                    }
+
+                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
+                    StartCoroutine(UpdatePlayerStatus());
+
                 }
 
-                if (validEnemies.Count > 0)
+                break;
+
+        }
+
+    }
+
+    public static bool CanMoveBackwards(TileBehaviour originTile, TileBehaviour enemyTile)
+    {
+
+        Vector2Int newTilePos = enemyTile.IndexInGrid;
+
+        if (originTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
+        {
+
+            newTilePos.x += 1;
+
+        }
+        else if (originTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
+        {
+
+            newTilePos.x -= 1;
+
+        }
+
+        if (originTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
+        {
+
+            newTilePos.y += 1;
+
+        }
+        else if (originTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
+        {
+
+            newTilePos.y -= 1;
+
+        }
+
+        if (GridManager.combatGrid[newTilePos.x, newTilePos.y])
+        {
+
+            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
+
+            return newTile.entityOnGrid == -1;
+
+        }
+        else
+        {
+
+            return false;
+
+        }
+
+    }
+
+    /// <summary>
+    /// shoves the enemy backwards relative from where wind 1 was initially cast
+    /// </summary>
+    /// <param name="originTile"> tile that the player occupies </param>
+    /// <param name="enemyTile"> tile that the enemy occupies </param>
+    /// <param name="enemy"> the target </param>
+    void SendEnemyBackwards(TileBehaviour originTile, TileBehaviour enemyTile, Enemy enemy)
+    {
+
+        Vector2Int newTilePos = enemyTile.IndexInGrid;
+
+        if (originTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
+        {
+
+            newTilePos.x += 1;
+
+        }
+        else if (originTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
+        {
+
+            newTilePos.x -= 1;
+
+        }
+
+        if (originTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
+        {
+
+            newTilePos.y += 1;
+
+        }
+        else if (originTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
+        {
+
+            newTilePos.y -= 1;
+
+        }
+
+        if (GridManager.combatGrid[newTilePos.x, newTilePos.y])
+        {
+
+            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
+
+            if(newTile.entityOnGrid == -1)
+            {
+
+                enemy.transform.SetParent(newTile.transform);
+
+                enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+
+                GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+
+                enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+
+            }
+
+        }
+
+    }
+
+    #endregion WIND FUNCTIONS
+
+
+
+    #region PATHING
+
+    public static bool CanMoveThroughTile(Vector2Int tileCoordinates)
+    {
+
+        return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2;
+
+    }
+
+    [HideInInspector] public List<Vector2Int> PreviousPos = new List<Vector2Int>();
+
+    /// <summary>
+    /// determines where the player is attempting to path
+    /// </summary>
+    /// <param name="dir"> the direction that the player moves in </param>
+    private void MoveDirection(Vector2 dir)
+    {
+
+        if(WaitingOnPath)
+        {
+
+            if (dir.y >= .5f)
+            {
+                Vector2Int v = new Vector2Int(selectedTile.x, selectedTile.y + 1);
+
+                if (GridManager.TileIsInGrid(v) && CanMoveThroughTile(v))
+                {
+                    Vector3 newPosition = new Vector3(ghostPos.x, ghostPos.y, ghostPos.z + GridManager.MoveDistances.y);
+                    UpdateMovement(v, newPosition);
+                }
+            }
+            else if (dir.y <= -.5f)
+            {
+                Vector2Int v = new Vector2Int(selectedTile.x, selectedTile.y - 1);
+
+                if (GridManager.TileIsInGrid(v) && CanMoveThroughTile(v))
+                {
+                    Vector3 newPosition = new Vector3(ghostPos.x, ghostPos.y, ghostPos.z - GridManager.MoveDistances.y);
+                    UpdateMovement(v, newPosition);
+                }
+            }
+            else if (dir.x > .5f)
+            {
+                Vector2Int v = new Vector2Int(selectedTile.x + 1, selectedTile.y);
+
+                if (GridManager.TileIsInGrid(v) && CanMoveThroughTile(v))
+                {
+                    Vector3 newPosition = new Vector3(ghostPos.x + GridManager.MoveDistances.x, ghostPos.y, ghostPos.z);
+                    UpdateMovement(v, newPosition);
+                }
+            }
+            else if (dir.x < -.5f)
+            {
+                Vector2Int v = new Vector2Int(selectedTile.x - 1, selectedTile.y);
+
+                if (GridManager.TileIsInGrid(v) && CanMoveThroughTile(v))
+                {
+                    Vector3 newPosition = new Vector3(ghostPos.x - GridManager.MoveDistances.x, ghostPos.y, ghostPos.z);
+                    UpdateMovement(v, newPosition);
+                }
+            }
+
+        }
+
+    }
+
+    List<Vector3> movementPos = new List<Vector3>();
+
+    private void UpdateMovement(Vector2Int v, Vector3 t)
+    {
+        WaitingOnPath = false;
+  
+        if (PreviousPos.Contains(v))
+        {
+
+            ghostPos = new Vector3(PreviousPos[PreviousPos.Count - 2].x, 0, PreviousPos[PreviousPos.Count - 2].y);
+            selectedTile = PreviousPos[PreviousPos.Count - 2];
+
+            movementPos.Remove(movementPos[movementPos.Count - 1]);
+
+            GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y].ShowHighlight(false);
+            PreviousPos.Remove(PreviousPos[PreviousPos.Count - 1]);
+
+            movementLeft++;
+            movementUsed--;
+
+        }
+        else
+        {
+            if (movementLeft > 0)
+            {
+
+                switch(selectedRune.TypeOfRune, selectedRune.NumberOnSkillTree)
                 {
 
-                    for (int i = 0; i < validEnemies.Count; i++)
+                    case (RuneType.Wind, 1):
+
+                        if((GridManager.playerPosition.x < originalSelectedTile.x && originalSelectedTile.x < v.x) ||
+                        (GridManager.playerPosition.x > selectedTile.x && originalSelectedTile.x > v.x) ||
+                        (GridManager.playerPosition.y < selectedTile.y && originalSelectedTile.y < v.y) ||
+                        (GridManager.playerPosition.y > selectedTile.y && originalSelectedTile.y > v.y))
+                        {
+
+                            if(GridManager.combatGrid[v.x, v.y].GetComponentInChildren<Enemy>())
+                            {
+
+                                if (!CanMoveBackwards(GridManager.combatGrid[selectedTile.x, selectedTile.y], GridManager.combatGrid[v.x, v.y]))
+                                {
+
+                                    return;
+
+                                }
+
+                            }
+
+                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
+                            GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
+                            PreviousPos.Add(v);
+                            movementPos.Add(t);
+                            --movementLeft;
+                            ++movementUsed;
+
+                            selectedTile = v;
+
+                            ghostPos = t;
+
+                        }
+
+                        break;
+
+                }
+
+            }
+        }
+
+        //if (movementLeft > 0)
+        //{
+
+        //    ghostPos = t;
+
+        //}
+
+        StartCoroutine(MovementDelay());
+    }
+
+    IEnumerator MovementDelay()
+    {
+        yield return new WaitForSeconds(.1f);
+        WaitingOnPath = true;
+    }
+
+    void MoveAlongPath(RuneData rune)
+    {
+
+        switch(rune.TypeOfRune, rune.NumberOnSkillTree)
+        {
+
+            case (RuneType.Wind, 1):
+
+                for (int i = 0; i < movementPos.Count; ++i)
+                {
+
+                    Vector2Int nextPos = PreviousPos[i + 1];
+
+                    if (GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>())
                     {
 
-                        validEnemies[i].Damage(Mathf.CeilToInt(damageDealt / validEnemies.Count), Enemy.DamageType.Wind);
+                        if (!CanMoveBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y], GridManager.combatGrid[nextPos.x, nextPos.y]))
+                        {
+
+                            selectedEnemy.transform.SetParent(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform);
+
+                            selectedEnemy.transform.position = new Vector3(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform.position.x,
+                            0, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform.position.z);
+
+                            GridManager.MoveToTile(originalSelectedTile, PreviousPos[i], -2);
+
+                            selectedEnemy.GetComponent<GridPathfinding>().SetPosition(PreviousPos[i]);
+
+                            PreviousPos.Clear();
+                            movementPos.Clear();
+                            movementUsed = 0;
+
+                            StartCoroutine(UpdatePlayerStatus());
+
+                            return;
+
+                        }
+
+                        SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
+                        GridManager.combatGrid[nextPos.x, nextPos.y],
+                        GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>());
+
+                    }
+
+                    if(i == (movementPos.Count - 1))
+                    {
+
+                        selectedEnemy.transform.SetParent(GridManager.combatGrid[nextPos.x, nextPos.y].transform);
+
+                        selectedEnemy.transform.position = new Vector3(GridManager.combatGrid[nextPos.x, nextPos.y].transform.position.x,
+                        0, GridManager.combatGrid[nextPos.x, nextPos.y].transform.position.z);
+
+                        GridManager.MoveToTile(PreviousPos[i], nextPos, -2);
+
+                        selectedEnemy.GetComponent<GridPathfinding>().SetPosition(nextPos);
 
                     }
 
                 }
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                PreviousPos.Clear();
+                movementPos.Clear();
+                movementUsed = 0;
 
                 StartCoroutine(UpdatePlayerStatus());
 
@@ -890,66 +1268,26 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// shoves the enemy backwards relative from where wind 1 was initially cast
-    /// </summary>
-    /// <param name="playerTile"> tile that the player occupies </param>
-    /// <param name="enemyTile"> tile that the enemy occupies </param>
-    /// <param name="enemy"> the target </param>
-    void SendEnemyBackwards(TileBehaviour playerTile, TileBehaviour enemyTile, Enemy enemy)
+    public void CancelPathing()
     {
 
-        Vector2Int newTilePos = enemyTile.IndexInGrid;
+        WaitingOnPath = false;
 
-        if (playerTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
+        FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
+        FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
+
+        foreach (Vector2Int v in PreviousPos)
         {
-
-            newTilePos.x += 1;
-
+            GridManager.combatGrid[v.x, v.y].ShowHighlight(false);
         }
-        else if (playerTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
-        {
-
-            newTilePos.x -= 1;
-
-        }
-
-        if (playerTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
-        {
-
-            newTilePos.y += 1;
-
-        }
-        else if (playerTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
-        {
-
-            newTilePos.y -= 1;
-
-        }
-
-        foreach (TileBehaviour tile in GridManager.combatGrid)
-        {
-
-            if (tile.IndexInGrid == newTilePos && tile.entityOnGrid == -1)
-            {
-
-                enemy.transform.SetParent(tile.transform);
-
-                enemy.transform.position = new Vector3 (tile.transform.position.x, 0, tile.transform.position.z);
-
-                GridManager.MoveToTile(enemyTile.IndexInGrid, tile.IndexInGrid, -2);
-
-                enemy.GetComponent<GridPathfinding>().SetPosition(new Vector2Int((int)tile.transform.position.x, (int)tile.transform.position.z));
-
-                break;
-
-            }
-
-        }
+        PreviousPos.Clear();
+        movementPos.Clear();
+        movementLeft += movementUsed;
+        movementUsed = 0;
 
     }
 
-    #endregion WIND FUNCTIONS
+    #endregion PATHING
 
 
     #region COMBO FUNCTIONS

@@ -138,6 +138,13 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
+    public void SetPlayerMovementStatus(bool canThePlayerMove)
+    {
+
+        canMove = canThePlayerMove;
+
+    }
+
     /// <summary>
     /// Reads in an input to determine which direction the player is moving in
     /// </summary>
