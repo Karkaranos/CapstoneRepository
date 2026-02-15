@@ -15,7 +15,10 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Unity.Collections.Unicode;
+using FMOD.Studio;
+using FMODUnity;
 using EventReference = FMODUnity.EventReference;
+
 
 public class RuneEvents : MonoBehaviour
 {
