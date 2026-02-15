@@ -487,6 +487,24 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     #region PLAYER TARGETING
 
+    public void EditViableTiles(bool addingToTiles, TileBehaviour newTile)
+    {
+
+        if(addingToTiles)
+        {
+
+            viableTilesInRange.Add(newTile);
+
+        }
+        else
+        {
+
+            viableTilesInRange.Remove(newTile);
+
+        }
+
+    }
+
     /// <summary>
     /// triggers spells based on the tile or enemy that the player has selected
     /// </summary>

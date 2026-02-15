@@ -222,7 +222,6 @@ public class PlayerInputHandler : MonoBehaviour
                 //if it hits a tilebehavior, sends the publicevent
                 if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() != null)
                 {
-                    PublicEvents.SelectTile?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>());
 
                     if (hit.transform.gameObject.GetComponent<Enemy>() != null || hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
                     {

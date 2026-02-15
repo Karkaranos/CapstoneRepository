@@ -794,7 +794,7 @@ public class RuneEvents : MonoBehaviour
                     Debug.Log("START MOVING");
 
                 }
-                else if (WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
                 {
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
@@ -806,7 +806,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
                     await Task.Delay(1200);
-                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+                    selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     CheckRuneCombination(rune, enemy);
 
@@ -1113,6 +1113,8 @@ public class RuneEvents : MonoBehaviour
 
     List<Vector3> movementPos = new List<Vector3>();
 
+    bool stoppedByEnemy = false;
+
     private void UpdateMovement(Vector2Int v, Vector3 t)
     {
         WaitingOnPath = false;
@@ -1120,21 +1122,36 @@ public class RuneEvents : MonoBehaviour
         if (PreviousPos.Contains(v))
         {
 
-            ghostPos = new Vector3(PreviousPos[PreviousPos.Count - 2].x, 0, PreviousPos[PreviousPos.Count - 2].y);
-            selectedTile = PreviousPos[PreviousPos.Count - 2];
+            if(PreviousPos.Count > 1)
+            {
 
-            movementPos.Remove(movementPos[movementPos.Count - 1]);
+                ghostPos = new Vector3(PreviousPos[PreviousPos.Count - 2].x, 0, PreviousPos[PreviousPos.Count - 2].y);
+                selectedTile = PreviousPos[PreviousPos.Count - 2];
 
-            GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y].ShowHighlight(false);
-            PreviousPos.Remove(PreviousPos[PreviousPos.Count - 1]);
+                movementPos.Remove(movementPos[movementPos.Count - 1]);
 
-            movementLeft++;
-            movementUsed--;
+                GetComponent<RuneRangeAndTargeting>().EditViableTiles
+               (false, GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]);
+
+                GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y].ShowHighlight(false);
+                PreviousPos.Remove(PreviousPos[PreviousPos.Count - 1]);
+
+                movementLeft++;
+                movementUsed--;
+
+                if(stoppedByEnemy)
+                {
+
+                    stoppedByEnemy = false;
+
+                }
+
+            }
 
         }
         else
         {
-            if (movementLeft > 0)
+            if (movementLeft > 0 && !stoppedByEnemy)
             {
 
                 switch(selectedRune.TypeOfRune, selectedRune.NumberOnSkillTree)
@@ -1154,9 +1171,13 @@ public class RuneEvents : MonoBehaviour
                                 if (!CanMoveBackwards(GridManager.combatGrid[selectedTile.x, selectedTile.y], GridManager.combatGrid[v.x, v.y]))
                                 {
 
+                                    StartCoroutine(MovementDelay());
+
                                     return;
 
                                 }
+
+                                stoppedByEnemy = true;
 
                             }
 
@@ -1164,12 +1185,17 @@ public class RuneEvents : MonoBehaviour
                             GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                             PreviousPos.Add(v);
                             movementPos.Add(t);
+
+                            GetComponent<RuneRangeAndTargeting>().EditViableTiles(true, GridManager.combatGrid[v.x, v.y]);
+
                             --movementLeft;
                             ++movementUsed;
 
                             selectedTile = v;
 
                             ghostPos = t;
+
+                            
 
                         }
 
@@ -1179,13 +1205,6 @@ public class RuneEvents : MonoBehaviour
 
             }
         }
-
-        //if (movementLeft > 0)
-        //{
-
-        //    ghostPos = t;
-
-        //}
 
         StartCoroutine(MovementDelay());
     }
@@ -1211,28 +1230,6 @@ public class RuneEvents : MonoBehaviour
 
                     if (GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>())
                     {
-
-                        if (!CanMoveBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y], GridManager.combatGrid[nextPos.x, nextPos.y]))
-                        {
-
-                            selectedEnemy.transform.SetParent(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform);
-
-                            selectedEnemy.transform.position = new Vector3(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform.position.x,
-                            0, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform.position.z);
-
-                            GridManager.MoveToTile(originalSelectedTile, PreviousPos[i], -2);
-
-                            selectedEnemy.GetComponent<GridPathfinding>().SetPosition(PreviousPos[i]);
-
-                            PreviousPos.Clear();
-                            movementPos.Clear();
-                            movementUsed = 0;
-
-                            StartCoroutine(UpdatePlayerStatus());
-
-                            return;
-
-                        }
 
                         SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
                         GridManager.combatGrid[nextPos.x, nextPos.y],
