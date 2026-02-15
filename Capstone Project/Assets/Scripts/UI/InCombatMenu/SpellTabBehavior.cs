@@ -3,12 +3,25 @@ using UnityEngine.UI;
 
 public class SpellTabBehavior : MonoBehaviour
 {
-    RuneData runeData = null;
+    public RuneData runeData = null;
     public Image runeImage;
+
+    /// <summary>
+    /// sets up the spell tab with the runeData that it will be responsible for
+    /// </summary>
+    /// <param name="rd"></param>
     public void SetUp(RuneData rd) {
-        print("alled");
+        gameObject.SetActive(true);
         runeData = rd;
         runeImage.sprite = runeData.runeImage;
-        // show the pips.
+    }
+
+    /// <summary>
+    /// deactiveates the spell tab and resets what it is storing
+    /// </summary>
+    public void Deactivate() {
+        gameObject.SetActive(false);
+        runeImage.sprite = null;
+        runeData = null;
     }
 }

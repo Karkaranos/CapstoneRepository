@@ -1,47 +1,48 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 public class EquipedRunesAndArtifacts : MonoBehaviour
 {
-    public static List<RuneData> runes = new List<RuneData>();
-    public static List<ArtifactData> artifacts = new List<ArtifactData>();
+    public static RuneData[] runes = new RuneData[4];
+    public static ArtifactData[] artifacts = new ArtifactData[3];
 
     public static void PrintSpellsAndArtifacts() {
-        print("CALLED");
-        print(runes.Count +" "+ artifacts.Count);
         foreach (RuneData rune in runes) {
-            print("Rune: " + rune.name);
+            if (rune != null)
+            {
+                print("Rune: " + rune.name);
+            }
+            else {
+                print(null);
+            }
         }
         foreach (ArtifactData artifact in artifacts)
         {
-            print("Artifact: " + artifact.name);
+            if (artifact != null)
+            {
+                print("Artifact: " + artifact.name);
+            }
+            else {
+                print(null);
+            }
         }
     }
 
-    public static void EquipArtifact(ArtifactData artifact) {
-        if (!(runes.Count >= 4)) {
-            artifacts.Add(artifact);
-        }
+    public static void EquipArtifact(ArtifactData artifact, int slotNumber) {
+        artifacts[slotNumber - 1] = artifact;
     }
-    public static void EquipSpell(RuneData rune)
+    public static void EquipSpell(RuneData rune, int slotNumber)
     {
-        if (!(runes.Count >= 4))
-        {
-            runes.Add(rune);
-        }
+        runes[slotNumber - 1] = rune;
     }
-    public static void UnequipArtifact(ArtifactData artifact)
+    public static void UnequipArtifact(ArtifactData artifact, int slotNumber)
     {
-        if (artifacts.Contains(artifact)) { 
-            artifacts.Remove(artifact);
-        }
+        artifacts[slotNumber - 1] = artifact;
     }
-    public static void UnequipSpell(RuneData rune)
+    public static void UnequipSpell(RuneData rune, int slotNumber)
     {
-        if (runes.Contains(rune))
-        {
-            runes.Remove(rune);
-        }
+        runes[slotNumber - 1] = null;
     }
 }

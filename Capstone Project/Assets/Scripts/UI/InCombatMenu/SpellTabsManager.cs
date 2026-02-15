@@ -1,11 +1,40 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellTabsManager : MonoBehaviour
 {
     public SpellTabBehavior[] spellTabs;
+
+    /// <summary>
+    /// this is what gets called to set up the spell tabs in the in combat menu
+    /// </summary>
     public void SetUpSpellTabs() {
-        for (int i = 0; i < EquipedRunesAndArtifacts.runes.Count; i++) {
-            spellTabs[i].SetUp(EquipedRunesAndArtifacts.runes[i]);
+        List<RuneData> spells = new List<RuneData>();
+
+        //resets all of the spell tabs so there is no overlap in setup
+        foreach (SpellTabBehavior spellTab in spellTabs)
+        {
+            spellTab.Deactivate();
+        }
+
+        //finds all of the equiped spells 
+        foreach (RuneData rune in EquipedRunesAndArtifacts.runes) {
+            if (rune != null)
+            {
+                spells.Add(rune);
+            }
+        }
+
+        //sets up the spell tabs with the spell that they will cast
+        for (int i = 0; i < spells.Count; i++) {
+            spellTabs[i].SetUp(spells[i]);
+        }
+
+        //deactivates the spell tabs that dont have a rune data stored in them
+        foreach (SpellTabBehavior spellTab in spellTabs) {
+            if (spellTab.runeData == null) {
+                spellTab.Deactivate();
+            }
         }
     }
 }

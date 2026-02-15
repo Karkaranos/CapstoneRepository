@@ -44,7 +44,7 @@ public class SpellNodeBehavior : MonoBehaviour
                 if (slotBehavior != null)
                 {
                     slotBehavior.rune = null;
-                    EquipedRunesAndArtifacts.UnequipSpell(runeData);
+                    EquipedRunesAndArtifacts.UnequipSpell(runeData, slotBehavior.slotNumber);
                 }
             }
         }
@@ -65,7 +65,7 @@ public class SpellNodeBehavior : MonoBehaviour
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
                 slotBehavior.rune = runeData;
-                EquipedRunesAndArtifacts.EquipSpell(runeData); 
+                EquipedRunesAndArtifacts.EquipSpell(runeData, slotBehavior.slotNumber); 
             }
             else {
                 notebookSpellNode.Equip(false);
