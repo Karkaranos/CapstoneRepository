@@ -136,7 +136,7 @@ public class GridPathfinding : MonoBehaviour
             for (int i = 0; i < currentPositions.Count; ++i)
             {
                 myPosition = currentPositions[i];
-                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition);
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition, !isEnemy);
 
                 foreach(Vector2Int v in temp)
                 {
@@ -181,7 +181,7 @@ public class GridPathfinding : MonoBehaviour
 
         targetPosition = originalTarget;
         GridManager.ClearPathfinding();
-        GridManager.DisplayGridAsText();
+        //GridManager.DisplayGridAsText();
     }
 
     public void StartMoveCoroutine()
@@ -275,17 +275,17 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
-        if(!isEnemy)
-        {
-            ReEnableActionCanvas();
-        }
+        //if(!isEnemy)
+        //{
+        //    ReEnableActionCanvas();
+        //}
     }
 
     /// <summary>
     /// Does nothing in the base script, because trying to overwrite coroutines causes problems
     /// </summary>
-    virtual protected void ReEnableActionCanvas()
-    { }
+    //virtual protected void ReEnableActionCanvas()
+    //{ }
 
     /// <summary>
     /// Public call to tell an enemy to show their path

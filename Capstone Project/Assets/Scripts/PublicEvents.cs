@@ -1,14 +1,12 @@
 /*************************************************
 Author Names : 		Tyler Hayes, Jay Embry , Cade Naylor, Clare
 Date Created : 		09/28/2025
-Date Last Modified : 10/28/2025
+Date Last Modified : 2/12/2026
 Brief Description : Stores all of the public events used.
 External Resources : 	
 	***************************************************/
 
 using System;
-using NUnit.Framework;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public static class PublicEvents
@@ -58,6 +56,7 @@ public static class PublicEvents
     public static Action ControllerDisabled;
 
     public static Action<Vector2> PanCamera;
+    public static Action<Vector2> MovementDirection;
 
     #endregion INPUTS
 
