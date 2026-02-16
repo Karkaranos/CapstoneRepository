@@ -7,7 +7,6 @@ public class WindCurrentTracker : MonoBehaviour
 
     GameObject current;
 
-    [HideInInspector] public TileBehaviour WindCurrentOrigin;
     [HideInInspector] public List<TileBehaviour> WindCurrentTiles = new List<TileBehaviour>();
     [HideInInspector] public List<GameObject> WindCurrentVFX = new List<GameObject>();
 
@@ -32,26 +31,29 @@ public class WindCurrentTracker : MonoBehaviour
         for(int i = startingTile; i < WindCurrentTiles.Count; i++)
         {
 
-            if(i == 0)
+            if(i < WindCurrentTiles.Count - 1)
             {
 
-                if(CanMoveBackwards(WindCurrentOrigin, WindCurrentTiles[i]))
+                if (WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>() && CanMoveBackwards(WindCurrentTiles[i], WindCurrentTiles[i+1]))
                 {
 
-                    SendEnemyBackwards(WindCurrentOrigin, WindCurrentTiles[i], enemy);
+                    SendEnemyBackwards(WindCurrentTiles[i], WindCurrentTiles[i + 1], WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>());
 
                 }
+
+                enemy.transform.SetParent(WindCurrentTiles[i + 1].transform);
+
+                enemy.transform.position = new Vector3(WindCurrentTiles[i + 1].transform.position.x, 0, WindCurrentTiles[i + 1].transform.position.z);
+
+                GridManager.MoveToTile(WindCurrentTiles[i].IndexInGrid, WindCurrentTiles[i + 1].IndexInGrid, -2);
+
+                enemy.GetComponent<GridPathfinding>().SetPosition(WindCurrentTiles[i + 1].IndexInGrid);
 
             }
             else
             {
 
-                if(CanMoveBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i]))
-                {
-
-                    SendEnemyBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i], enemy);
-
-                }
+                SendEnemyBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i], enemy);
 
             }
 
