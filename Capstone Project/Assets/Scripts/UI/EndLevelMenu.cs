@@ -81,6 +81,8 @@ public class EndLevelMenu : MonoBehaviour
         SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive:FindObjectsInactive.Include).gameObject.SetActive(true);
         endMenuUi.alpha = 0;
+        endMenuUi.interactable = false;
+        endMenuUi.blocksRaycasts = false;
     }
 
     /// <summary>
