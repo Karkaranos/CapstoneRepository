@@ -54,6 +54,7 @@ public class EnemyHandler : MonoBehaviour
     private void OnEnable()
     {
         TurnPublicEvents.BeginEnemyTurn += RunNextEnemyTurn;
+        PublicEvents.NewLevel += GetNewEnemies;
     }
 
     /// <summary>
@@ -62,6 +63,7 @@ public class EnemyHandler : MonoBehaviour
     private void OnDisable()
     {
         TurnPublicEvents.BeginEnemyTurn -= RunNextEnemyTurn;
+        PublicEvents.NewLevel -= GetNewEnemies;
     }
 
     /// <summary>
@@ -119,5 +121,11 @@ public class EnemyHandler : MonoBehaviour
             endLevelMenu.EnableEndMenuUi();
             Debug.Log("Level Ended");
         }
+    }
+
+    private void GetNewEnemies()
+    {
+        enemies.Clear();
+        SetEnemyList();
     }
 }

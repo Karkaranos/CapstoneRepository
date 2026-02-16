@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Cinemachine;
+using System.Threading.Tasks;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -72,6 +73,7 @@ public class ButtonManager : MonoBehaviour
     {
         TurnPublicEvents.BeginPlayerTurn += PlayerStartTurn;
         TurnPublicEvents.BeginEnemyTurn += EnemyTurnStarted;
+        PublicEvents.NewLevel += SetPlayerReference;
     }
 
     /// <summary>
@@ -81,6 +83,7 @@ public class ButtonManager : MonoBehaviour
     {
         TurnPublicEvents.BeginPlayerTurn -= PlayerStartTurn;
         TurnPublicEvents.BeginEnemyTurn -= EnemyTurnStarted;
+        PublicEvents.NewLevel -= SetPlayerReference;
     }
 
     /// <summary>
@@ -250,6 +253,12 @@ public class ButtonManager : MonoBehaviour
 
         TurnPublicEvents.ForceEndCurrentPhase();
      }
+
+    private async void SetPlayerReference()
+    {
+        //await Task.Delay(500);
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+    }
 
     #endregion
 }

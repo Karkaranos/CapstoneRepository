@@ -76,6 +76,7 @@ public class TurnManager : MonoBehaviour
         TurnPublicEvents.TurnActionComplete += ProcessTurnActionComplete;
         PublicEvents.StartBattle += StartCombat;
         TurnPublicEvents.ForceEndCurrentPhase += NextPhase;
+        PublicEvents.NewLevel += NewLevelOpened;
     }
 
     /// <summary>
@@ -86,6 +87,21 @@ public class TurnManager : MonoBehaviour
         TurnPublicEvents.TurnActionComplete -= ProcessTurnActionComplete;
         PublicEvents.StartBattle -= StartCombat;
         TurnPublicEvents.ForceEndCurrentPhase -= NextPhase;
+        PublicEvents.NewLevel -= NewLevelOpened;
+    }
+
+    private void NewLevelOpened()
+    {
+        StartCoroutine(delayedNewPlayerTurn());
+        
+    }
+
+    private IEnumerator delayedNewPlayerTurn()
+    {
+        yield return null;
+        targetHearBackNum = 0;
+        currentHearBackNum = 0;
+        SetPhase(TurnStates.PlayerTurn);
     }
 
     /// <summary>
