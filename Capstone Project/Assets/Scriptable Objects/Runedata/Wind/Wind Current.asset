@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13a91b44a54ae6e4d8f93f16b6699ffa, type: 3}
-  m_Name: Wind Blades
+  m_Name: Wind Current
   m_EditorClassIdentifier: 
-  currentInspectorShowing: 1
+  currentInspectorShowing: 0
   TypeOfRune: 1
-  NumberOnSkillTree: 2
-  RuneName: Wind Blades
-  RuneDescription: A slash of wind that slices a specific targeted enemy. Can be
-    cast 2 grid spaces away.
-  RuneDamage: 30
+  NumberOnSkillTree: 3
+  RuneName: Wind Current
+  RuneDescription: Forms a wind current along a selected path.
+  RuneDamage: 10
+  SecondaryRuneDamage: 8
   RuneRange: 4
+  RuneAOE: 0
   RuneActionPoints: 2
   RuneSecondaryEffectChance: 0
-  RuneVFX: {fileID: 4539360267425077673, guid: 7c08dd0f09ec500298ce3158ff10895a, type: 3}
+  RuneVFX: {fileID: 9075514561500158969, guid: 554bc53c8c52a202b87359c54aa1201e, type: 3}
   SecondaryRuneVFX: {fileID: 0}
