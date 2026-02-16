@@ -39,7 +39,9 @@ public class SpellNodeBehavior : MonoBehaviour
             if (IsPointerOverThisUI())
             {
                 dragging = true;
-                
+
+                UIAudioManager.Instance.UIPickUp(transform);
+
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, canvas.worldCamera, out offset);
                 if (slotBehavior != null)
                 {
@@ -64,7 +66,9 @@ public class SpellNodeBehavior : MonoBehaviour
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
                 slotBehavior.rune = runeData;
-                
+
+                UIAudioManager.Instance.UIDrop(transform);
+
             }
             else {
                 notebookSpellNode.Equip(false);
