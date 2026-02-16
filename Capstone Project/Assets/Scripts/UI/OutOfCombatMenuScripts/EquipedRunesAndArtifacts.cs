@@ -39,7 +39,7 @@ public class EquipedRunesAndArtifacts : MonoBehaviour
     }
     public static void UnequipArtifact(ArtifactData artifact, int slotNumber)
     {
-        artifacts[slotNumber - 1] = artifact;
+        artifacts[slotNumber - 1] = null;
     }
     public static void UnequipSpell(RuneData rune, int slotNumber)
     {
