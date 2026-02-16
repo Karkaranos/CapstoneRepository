@@ -150,6 +150,19 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
+        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+        if (allCurrents.Length >= 1)
+        {
+
+            foreach (WindCurrentTracker current in allCurrents)
+            {
+
+                current.DestroyCurrents();
+
+            }
+
+        }
+
     }
 
     public void SetPlayerMovementStatus(bool canThePlayerMove)

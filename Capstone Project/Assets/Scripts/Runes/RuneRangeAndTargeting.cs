@@ -154,13 +154,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
         if (!isRadiusCheck)
         {
 
-            if (storedData.TypeOfRune == RuneType.Wind && storedData.NumberOnSkillTree == 3)
-            {
-
-                tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
-
-            }
-
             for (int i = 0; i < storedData.RuneRange + 1; i++)
             {
 
@@ -394,14 +387,14 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 break;
 
-            //targets a player
+            //targets an empty tile
             case (RuneType.Wind, 3):
 
 
                 foreach (TileBehaviour tile in tilesInRange)
                 {
 
-                    if (tile.GetComponentInChildren<PlayerBehavior>())
+                    if (!tile.GetComponentInChildren<Enemy>())
                     {
 
                         viableTilesInRange.Add(tile);

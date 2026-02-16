@@ -244,6 +244,9 @@ public class GridPathfinding : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MoveToTile()
     {
+
+        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+
         int eType = isEnemy ? -2 : -3;
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
@@ -259,7 +262,26 @@ public class GridPathfinding : MonoBehaviour
                     isMoving = false;
                     GridManager.MoveToTile(myPosition, nextPosition, eType);
                     myPosition = nextPosition;
+
+                    foreach(WindCurrentTracker tracker in trackers)
+                    {
+
+                        if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[myPosition.x, myPosition.y]))
+                        {
+
+                            this.GetComponent<Enemy>().Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
+
+                            tracker.SendThroughWindCurrent
+                            (tracker.WindCurrentTiles.IndexOf(GridManager.combatGrid[myPosition.x, myPosition.y]), this.GetComponent<Enemy>());
+
+                            yield break;
+
+                        }
+
+                    }
+
                 }
+
                 yield return new WaitForSeconds(.1f / movementSpeed);
             }
 

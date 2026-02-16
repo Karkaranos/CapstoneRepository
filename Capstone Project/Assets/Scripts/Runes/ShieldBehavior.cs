@@ -11,7 +11,6 @@ using UnityEngine;
 public class ShieldBehavior : MonoBehaviour
 {
 
-    int shieldPoints;
     GameObject shield;
 
     /// <summary>
@@ -22,8 +21,14 @@ public class ShieldBehavior : MonoBehaviour
     public void OnShieldGenerated(Transform target, GameObject vfx)
     {
 
-        shieldPoints = 3;
         shield = Instantiate(vfx, target);
+
+    }
+
+    public void TakeDamage()
+    {
+
+        //TODO: delete later
 
     }
 
