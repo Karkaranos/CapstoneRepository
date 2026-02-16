@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Cade Naylor, Tyler Bouchard
 Date Created : 		???/2025
-Date Last Modified : 11/7/2025 (Clare Grady)
+Date Last Modified : 2/12/2026
 Brief Description : Game Manager
                     Creates and holds static references to other managers
 External Resources : 	
@@ -65,6 +65,12 @@ public class GameManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(settings), Settings.ConsoleCommands),
     Tooltip("Can the Command Console affect Enemies?")]
     private bool enemiesEnabled;
+    [SerializeField, ShowIf(nameof(settings), Settings.ConsoleCommands),
+    Tooltip("Can the Command Console affect the player?")]
+    private bool playerEnabled;
+    [SerializeField, ShowIf(nameof(settings), Settings.ConsoleCommands),
+    Tooltip("Can the Command Console affect navigation?")]
+    private bool navigationEnabled;
     private bool TestForConsoleState => TestSettingValue(Settings.ConsoleCommands);
     #endregion
 
@@ -80,7 +86,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public TMP_Text ActionPointVisualizer;
     public int CurrentActionPoints;
     public int MoveActionPoints = 2;
-    public int ActionPointsPerTurn = 3;
+    public int ActionPointsPerTurn = 1;
+    public int ActionPointsPerLevel = 3;
     #endregion
 
     /// <summary>
@@ -101,7 +108,19 @@ public class GameManager : MonoBehaviour
     /// sets the current action points baclk to the max
     /// </summary>
     public void ResetActionPoints() {
-        CurrentActionPoints = ActionPointsPerTurn;
+        CurrentActionPoints += ActionPointsPerTurn;
+        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+    }
+
+    public void IncrementActionPoints(int amount)
+    {
+        CurrentActionPoints += amount;
+        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+    }
+
+    public void SetActionPointsForLevel()
+    {
+        CurrentActionPoints = ActionPointsPerLevel - 1;
         ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
     }
 
@@ -124,7 +143,7 @@ public class GameManager : MonoBehaviour
     {
         // Console Commands need to be before pretty much everything else
         CommandConsoleRef = Instantiate(CommandConsole, transform.position, Quaternion.identity);
-        CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled, consoleEnabled, consoleEnabledOnLoad);
+        CommandConsoleRef.GetComponent<CommandConsoleBehavior>().Initialize(moveConsoleEnabled, greetEnabled, enemiesEnabled, playerEnabled, navigationEnabled, consoleEnabled, consoleEnabledOnLoad);
 
         PlayerStats = GetComponent<PlayerStats>();
 

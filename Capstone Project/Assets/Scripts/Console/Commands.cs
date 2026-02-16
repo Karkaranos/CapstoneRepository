@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/28/2025
-Date Last Modified : 	11/15/2025
+Date Last Modified : 	2/12/2026
 Brief Description : 	Static Commands
                         Calls the appropriate functions given inputted Commands                       
 External Resources : 	N/A
@@ -16,7 +16,7 @@ public class Commands
     // Categories for commands. Used to control what commands are active at any given point
     public enum CommandGroup
     {
-        MoveConsole, Greet, Enemies, Player, Navigation, Artifacts, None
+        MoveConsole, Greet, Enemies, Player, Navigation, None
     }
 
     // Links all commands with no variables to their command group
@@ -36,11 +36,10 @@ public class Commands
         //{"no-cost", CommandGroup.Player},
         //{"max-xp", CommandGroup.Player},
         //{"unlock-all-spells", CommandGroup.Player},
-        //{"godmode", CommandGroup.Player},
+        {"godmode", CommandGroup.Player},
         //{"r", CommandGroup.Navigation},
         {"menu", CommandGroup.None },
         {"skipcut", CommandGroup.None },
-        //{"giveall", CommandGroup.Artifacts},
 
     };
 
@@ -49,17 +48,16 @@ public class Commands
     {
         {"kill-enemy-", CommandGroup.Enemies},
         {"enemies-health-", CommandGroup.Enemies},
-        //{"health-", CommandGroup.Player},
-        //{"lvl-", CommandGroup.Navigation},
-        //{"give-", CommandGroup.Artifacts}
+        {"hp-", CommandGroup.Player},
+        {"light-dmg-", CommandGroup.Player},
+        {"wind-dmg-", CommandGroup.Player}
+        //{"lvl-", CommandGroup.Navigation}
     };
 
     // links all commands with 2 variables to their command group
     public static Dictionary<string, CommandGroup> PartialCommands2 = new Dictionary<string, CommandGroup>()
     {
-        {"enemy-.*-health-.*", CommandGroup.Enemies},
-        //{".*-dmg-.*", CommandGroup.Player},
-        //{"apply-.*-.*", CommandGroup.Artifacts}
+        {"enemy-.*-health-.*", CommandGroup.Enemies}
     };
 
 #region Command Groups
@@ -221,8 +219,34 @@ public class Commands
     /// Handles Player commands
     /// </summary>
     /// <param name="command">the entered command</param>
-    public static void Player(string command)
-    {}
+    public static void Player(string command, PlayerStats p)
+    {
+        if(command == "godmode")
+        {
+            p.TakesDamage = !p.TakesDamage;
+        }
+        else if (command.Contains("hp"))
+        {
+            int val = (int)ConvertToNumber(command.Substring(3, command.Length - 3));
+            Debug.Log("new hp val: " + val);
+            p.CurrentHealth = val;
+        }
+        else if (command.Contains("dmg"))
+        {
+            if(command.Contains("light"))
+            {
+                float val = ConvertToNumber(command.Substring(10, command.Length - 10));
+                Debug.Log("new light val: " + val);
+                p.LightningAttackMultiplier = val;
+            }
+            else if (command.Contains("wind"))
+            {
+                float val = ConvertToNumber(command.Substring(9, command.Length - 9));
+                Debug.Log("new wind val: " + val);
+                p.WindAttackMultiplier = val;
+            }
+        }
+    }
 
     /// <summary>
     /// Will be implemented later
@@ -230,14 +254,6 @@ public class Commands
     /// </summary>
     /// <param name="command">the entered command</param>
     public static void Navigation(string command)
-    {}
-
-    /// <summary>
-    /// Will be implemented later
-    /// Handles Artifact commands
-    /// </summary>
-    /// <param name="command">the entered command</param>
-    public static void Artifacts(string command)
     {}
 
     #endregion

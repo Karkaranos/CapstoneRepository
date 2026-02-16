@@ -1,5 +1,5 @@
 /*************************************************
-Author Names : 		Tyler Hayes 
+Author Names : 		Tyler Hayes, Tyler Bouchard
 Date Created : 		09/28/2025
 Date Last Modified : 11/24/2025
 Brief Description : This manages the individual nodes
@@ -9,7 +9,9 @@ External Resources :
 
 using NaughtyAttributes;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.UI;
 
 public class SkillTreeNode : MonoBehaviour
@@ -26,7 +28,7 @@ public class SkillTreeNode : MonoBehaviour
 
     //this is the enum for what status the node is and determines how the player
     //can interact with the nodes
-    public enum NodeStatus
+    public enum  NodeStatus
     {
         Locked,
         Unlocked,
@@ -104,6 +106,12 @@ public class SkillTreeNode : MonoBehaviour
 
     //A Reference to the artifactandskilltree manager in the scene
     private SkillAndArtifactManager skillAndArtifactManager;
+
+    //double click detection functions
+    private float timeOfLastClick = -10;
+    private float doubleClickWindow = 0.5f;
+    private float clickCounter = 0;
+
 
     #endregion
     #endregion
@@ -330,39 +338,48 @@ public class SkillTreeNode : MonoBehaviour
         button.interactable = false;
     }
 
-
     /// <summary>
     /// This is triggered when the button is clicked on.
     /// </summary>
     public void ClickedOn()
     {
-        //trys to buy node if node is unlocked.
-        switch (status)
-        {
-            case NodeStatus.Locked:
-                Debug.Log("Clicked on a locked node - check logic to make sure button is uninteractable here");
-                break;
-            case NodeStatus.Unlocked:
-                if (IsInSkillTree)
-                {
-                    OnHover();
-                }
-                // PurchaseNode();
-                break;
-            case NodeStatus.Purchased:
-                if (IsInSkillTree)
-                {
-                    OnHover();
-                }
-                else
-                {
-                    SelectNodeWhilePurchased();
-                }                    
-                break;
-            default:
-                Debug.Log("Tyler update the fucking switch statement in clickedon() in skilltreenode - missing cases");
-                break;
+        //doubleClickDetection
+        timeOfLastClick = Time.time;
+        if (Time.time - timeOfLastClick <= doubleClickWindow) { 
+            clickCounter++;
         }
+        else { 
+            clickCounter = 0;
+        }
+        if (clickCounter >= 2) {
+            clickCounter = 0;
+            if (!IsInSkillTree && status == NodeStatus.Purchased) {
+                AutoEquipNode();
+                return;
+            }
+        }
+
+        if (status == NodeStatus.Locked) {
+            Debug.Log("Clicked on a locked node - check logic to make sure button is uninteractable here");
+        }
+        if(status == NodeStatus.Unlocked){
+            if (IsInSkillTree)
+            {
+                OnHover();
+            }
+        }
+        if (status == NodeStatus.Purchased)
+        {
+            if (IsInSkillTree) {
+                OnHover();
+            } else {
+                SelectNodeWhilePurchased();
+            }
+        }
+    }
+
+    private void AutoEquipNode() {
+        //List<EquippedSpellNode> emptySpellSlots = skillAndArtifactManager.GetEmptySpellSlots();
     }
 
     /// <summary>

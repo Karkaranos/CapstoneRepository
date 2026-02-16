@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
+Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes, Brad Dixon
 Date Created : 		    10/1/2025
-Date Last Modified : 	1/26/2026 Aidan Ratcliffe
+Date Last Modified : 	2/12/2026 (Brad Dixon)
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -49,6 +49,7 @@ public class ButtonManager : MonoBehaviour
     private GameManager gm; // temp variable
 
     private bool isPlayersTurn;
+    private bool castingSpell;
     #endregion
 
     /// <summary>
@@ -92,6 +93,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = true;
         playerCanvas.SetActive(true);
+        castingSpell = false;
     }
 
     /// <summary>
@@ -123,7 +125,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        if(playerBehavior.movementLeft > 0)
+        if(playerBehavior.MovementLeft > 0)
         {
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
             confirmCanvas.SetActive(true);
@@ -156,6 +158,7 @@ public class ButtonManager : MonoBehaviour
 
         runeCanvas.SetActive(true);
         playerCanvas.SetActive(false);
+        castingSpell = true;
 
     }
 
