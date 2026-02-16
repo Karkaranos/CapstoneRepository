@@ -171,6 +171,8 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
+        VisualizeEnemyPaths();
+
     }
 
     /// <summary>
