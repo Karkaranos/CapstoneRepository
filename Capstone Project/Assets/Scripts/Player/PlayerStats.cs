@@ -11,6 +11,7 @@ using System;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Threading.Tasks;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -102,13 +103,27 @@ public class PlayerStats : MonoBehaviour
     /// Called on the first frame update
     /// Assigns initial health value
     /// </summary>
-    private void Start()
+    private async void Start()
     {
         CurrentHealth = MaxHealth;
 
         ArtifactManager.SetPlayerReference(this);
         MarkManager.SetPlayer(this);
-        //turnIndicator.SetActive(true);
+
+        await Task.Delay(1000);
+        GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
+        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator.SetActive(true);
+    }
+
+    private void OnEnable()
+    {
+        PublicEvents.NewLevel += SetTurnIndicator;
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.NewLevel -= SetTurnIndicator;
     }
 
     /// <summary>
@@ -283,5 +298,12 @@ public class PlayerStats : MonoBehaviour
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
         endLevelMenu.SetText("You Died");
         endLevelMenu.EnableEndMenuUi();
+    }
+
+    private void SetTurnIndicator()
+    {
+        GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
+        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator.SetActive(true);
     }
 }
