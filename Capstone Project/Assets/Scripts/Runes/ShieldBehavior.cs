@@ -1,8 +1,9 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/26/2025
-Date Last Modified : 10/26/2025
+Date Last Modified : 2/15/2026
 Brief Description : Takes damage in place of the player if it occupies a tile
+                    EDIT: Will get destroyed at the start of the player's turn
 External Resources : 	
 	***************************************************/
 using UnityEngine;
@@ -10,7 +11,6 @@ using UnityEngine;
 public class ShieldBehavior : MonoBehaviour
 {
 
-    int shieldPoints;
     GameObject shield;
 
     /// <summary>
@@ -21,29 +21,27 @@ public class ShieldBehavior : MonoBehaviour
     public void OnShieldGenerated(Transform target, GameObject vfx)
     {
 
-        shieldPoints = 3;
         shield = Instantiate(vfx, target);
 
     }
 
-    /// <summary>
-    /// call this if an enemy targets a tile with this script on it
-    /// we can work out the specifics later i think
-    /// depends on if we're getting TakeDamage() to work for PlayerStats??
-    /// <summary>
+    //left here to prevent errors for now lol
     public void TakeDamage()
     {
 
-        shieldPoints -= 1;
+        //TODO: delete later
 
-        if(shieldPoints <= 0)
-        {
+    }
 
-            Destroy(this);
-            Destroy(shield);
+    /// <summary>
+    /// destroys shield/vfx
+    /// </summary>
+    public void GetDestroyed()
+    {
 
-        }
+        Destroy(this);
+        Destroy(shield);
 
-    }    
+    }
 
 }

@@ -21,12 +21,17 @@ public class UIAudioManager : AudioManager
     [SerializeField] private EventReference uiHover;
     [SerializeField] private EventReference uiClick;
     [SerializeField] private EventReference uiSelect;
+
     [SerializeField] private EventReference uiPageFlip;
+
     [SerializeField] private EventReference spellPickUp;
+    [SerializeField] private EventReference spellDrop;
 
-   NodeStatus _nodeStatus = NodeStatus.Purchased;
+    [SerializeField] private EventReference lockedSpellCLick;
 
-    private GameObject audioListenerObject;
+    //NodeStatus _nodeStatus = NodeStatus.Purchased;
+
+
 
     #endregion VARIABLES
 
@@ -59,13 +64,50 @@ public class UIAudioManager : AudioManager
         PlayOneShot(uiPageFlip, this.transform.position);
     }
 
-    public void PlaySpellNodeSelection()
+    public void PlayUILockedSpell()
     {
-      if (_nodeStatus == NodeStatus.Purchased)
-        {
-            CreateEventInstance(spellPickUp);
-            PlayOneShot(spellPickUp, this.transform.position);
-        }
+        CreateEventInstance(lockedSpellCLick);
+        PlayOneShot(lockedSpellCLick, this.transform.position);
+    }
+
+    public void PickUpBackend()
+    {
+        CreateEventInstance(spellPickUp);
+        PlayOneShot(spellPickUp, this.transform.position);
+    }
+
+    public void DropBackend()
+    {
+        CreateEventInstance(spellDrop);
+        PlayOneShot(spellDrop, this.transform.position);
+    }
+
+    public void UIPickUp(Transform target)
+    {
+        var instance = RuntimeManager.CreateInstance(spellPickUp);
+
+        RuntimeManager.AttachInstanceToGameObject(
+            instance,
+            target,
+            target.GetComponent<Rigidbody>()
+        );
+
+        instance.start();
+        instance.release();
+    }
+
+    public void UIDrop(Transform target)
+    {
+        var instance = RuntimeManager.CreateInstance(spellDrop);
+
+        RuntimeManager.AttachInstanceToGameObject(
+            instance,
+            target,
+            target.GetComponent<Rigidbody>()
+        );
+
+        instance.start();
+        instance.release();
     }
     #endregion UI_FUNCTIONS
 }

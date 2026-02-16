@@ -174,20 +174,12 @@ public class ButtonManager : MonoBehaviour
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
         playerBehavior.DeleteMovement();
-        runeCanvas.SetActive(false);
+        //runeCanvas.SetActive(false);
         //Debug.Log("goin back!");
         //playerCanvas.SetActive(true);
         //moveCanvas.SetActive(false);
         //cameraManager.SwitchCamera(cameraManager.Level1playcam);
-        //if (castingSpell)
-        //{
-        //    castingSpell = false;
-        //    //PublicEvents.EndCast.Invoke();
-        //}
-        //else
-        //{
-        //    playerBehavior.DeleteMovement();
-        //}
+        PublicEvents.EndCast.Invoke();
         //runeCanvas.SetActive(false);
         //confirmCanvas.SetActive(false);
 
