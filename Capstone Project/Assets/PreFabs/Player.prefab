@@ -428,7 +428,6 @@ GameObject:
   - component: {fileID: 366966636398162920}
   - component: {fileID: -7967983217014525123}
   - component: {fileID: 6800707061799979485}
-  - component: {fileID: -4570115079475522765}
   - component: {fileID: 707752103337783842}
   m_Layer: 0
   m_Name: Player
@@ -622,51 +621,9 @@ MonoBehaviour:
   continuousMoveDelay: 0.2
   movementSpeed: 2
   movementRange: 6
-  movementLeft: 0
   allowLeftoverMovement: 0
   previousColliderPos: {x: 0, y: 0, z: 0}
---- !u!114 &-4570115079475522765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6675322036123795430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: 1
-  healthBar: {fileID: 439048922446233996}
-  CurrentHealth: 100
-  MaxHealth: 100
-  HealBuffModifier: 1
-  DodgeChance: 0
-  LuckModifier: 1
-  XPMultiplier: 1
-  RAPChanceModifier: 1
-  turnIndicator: {fileID: 8094946162259277570}
-  playerCanvas: {fileID: 6895680415729585072}
-  statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
-  Resistance: 0
-  DamageTakenMultiplier: 1
-  RangedDamageTakenMultiplier: 1
-  MeleeDamageTakenMultiplier: 1
-  Thorns: 0
-  TakesDamage: 1
-  BaseAttackMultiplier: 1
-  LightningAttackMultiplier: 1
-  WindAttackMultiplier: 1
-  FireAttackMultiplier: 1
-  WaterAttackMultiplier: 1
-  Tier1AttackMultiplier: 1
-  FirstSpellMultiplier: 1
-  SecondSpellMultiplier: 1
-  SpellsCastThisTurn: 0
-  MissChance: 0
-  InstaKillChance: 0
-  NoActionPointCostChance: 0
+  underEffect: 0
 --- !u!135 &707752103337783842
 SphereCollider:
   m_ObjectHideFlags: 0

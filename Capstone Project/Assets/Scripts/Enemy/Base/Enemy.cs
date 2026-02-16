@@ -194,6 +194,16 @@ public class Enemy : MonoBehaviour
         turnIndicator.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        PublicEvents.NewLevel += SetPlayerStats; 
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.NewLevel -= SetPlayerStats;
+    }
+
     /// <summary>
     /// Damage function for enemy. Public so states can call it
     /// </summary>
@@ -355,6 +365,11 @@ public class Enemy : MonoBehaviour
 
         turnDelayed = isTurnDelayed;
 
+    }
+
+    private void SetPlayerStats()
+    {
+        playerStats = FindFirstObjectByType<PlayerStats>();
     }
 
     #endregion
