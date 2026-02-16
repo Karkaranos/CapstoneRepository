@@ -25,6 +25,7 @@ public class ShieldBehavior : MonoBehaviour
 
     }
 
+    //left here to prevent errors for now lol
     public void TakeDamage()
     {
 
@@ -32,7 +33,9 @@ public class ShieldBehavior : MonoBehaviour
 
     }
 
-    
+    /// <summary>
+    /// destroys shield/vfx
+    /// </summary>
     public void GetDestroyed()
     {
 

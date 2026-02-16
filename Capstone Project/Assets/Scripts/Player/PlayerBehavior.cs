@@ -165,6 +165,10 @@ public class PlayerBehavior : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// ensures that the player won't trigger movement while the player is pathing an attack
+    /// </summary>
+    /// <param name="canThePlayerMove"></param>
     public void SetPlayerMovementStatus(bool canThePlayerMove)
     {
 

@@ -1,29 +1,21 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 01/29/2026
+Date Last Modified : 02/15/2026
 Brief Description : Contains rune types and effects
+                    I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
 	***************************************************/
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NaughtyAttributes;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Unity.Collections.Unicode;
-using static UnityEditor.PlayerSettings;
 using EventReference = FMODUnity.EventReference;
 
 public class RuneEvents : MonoBehaviour
 {
-
-    //VARIABLES
 
     #region SETUP
 
@@ -39,9 +31,10 @@ public class RuneEvents : MonoBehaviour
 
     List<TileBehaviour> targetedTiles;
 
+    //for pathing certain attacks
     RuneData selectedRune;
-    Vector2Int selectedTile;
     Vector2Int originalSelectedTile;
+    Vector2Int selectedTile;
     Enemy selectedEnemy;
 
     Vector3 ghostPos;
@@ -49,9 +42,14 @@ public class RuneEvents : MonoBehaviour
     int movementLeft;
     int movementUsed;
 
+    List<Vector3> movementPos = new List<Vector3>();
+    //forgot why i made this public tbh
+    [HideInInspector] public List<Vector2Int> PreviousPos = new List<Vector2Int>();
+
     public bool WaitingOnPath = false;
 
     #endregion SETUP
+
 
 
     #region COMBO VARIABLES
@@ -116,6 +114,7 @@ public class RuneEvents : MonoBehaviour
     #endregion COMBO VARIABLES
 
 
+
     #region AUDIO
 
     [HorizontalLine(4, EColor.Orange)]
@@ -151,6 +150,7 @@ public class RuneEvents : MonoBehaviour
     #endregion AUDIO
 
 
+
     #region INITIALIZATION
 
     /// <summary>
@@ -184,6 +184,7 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion INITIALIZATION
+
 
 
     #region OTHER
@@ -229,6 +230,7 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion OTHER
+
 
 
     #region LIGHTNING FUNCTIONS
@@ -748,6 +750,7 @@ public class RuneEvents : MonoBehaviour
     #endregion LIGHTNING FUNCTIONS
 
 
+
     #region WIND FUNCTIONS
 
     /// <summary>
@@ -1121,6 +1124,12 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// pulls enemy towards a tile
+    /// </summary>
+    /// <param name="originTile"> the tile being pulled towards </param>
+    /// <param name="enemyTile"> the tile that the enemy is originally on</param>
+    /// <param name="enemy"> the enemy being pulled towards another tile </param>
     void PullEnemyForward(TileBehaviour originTile, TileBehaviour enemyTile, Enemy enemy)
     {
 
@@ -1180,6 +1189,11 @@ public class RuneEvents : MonoBehaviour
 
     #region PATHING
 
+    /// <summary>
+    /// checks to see if a tile can be pathed through
+    /// </summary>
+    /// <param name="tileCoordinates"> the tile that the player is attempting to highlight </param>
+    /// <returns> status of a tile </returns>
     public static bool CanMoveThroughTile(Vector2Int tileCoordinates)
     {
 
@@ -1187,10 +1201,6 @@ public class RuneEvents : MonoBehaviour
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2;
 
     }
-
-    [HideInInspector] public List<Vector2Int> PreviousPos = new List<Vector2Int>();
-
-    TileBehaviour tileBehindPath;
 
     /// <summary>
     /// determines where the player is attempting to path
@@ -1210,13 +1220,6 @@ public class RuneEvents : MonoBehaviour
                 {
                     Vector3 newPosition = new Vector3(ghostPos.x, ghostPos.y, ghostPos.z + GridManager.MoveDistances.y);
                     UpdateMovement(v, newPosition);
-
-                    if(PreviousPos.Count == 1)
-                    {
-
-                        tileBehindPath = GridManager.combatGrid[selectedTile.x, selectedTile.y - 1];
-
-                    }
                 }
             }
             else if (dir.y <= -.5f)
@@ -1227,13 +1230,6 @@ public class RuneEvents : MonoBehaviour
                 {
                     Vector3 newPosition = new Vector3(ghostPos.x, ghostPos.y, ghostPos.z - GridManager.MoveDistances.y);
                     UpdateMovement(v, newPosition);
-
-                    if (PreviousPos.Count == 1)
-                    {
-
-                        tileBehindPath = GridManager.combatGrid[selectedTile.x, selectedTile.y + 1];
-
-                    }
                 }
             }
             else if (dir.x > .5f)
@@ -1244,13 +1240,6 @@ public class RuneEvents : MonoBehaviour
                 {
                     Vector3 newPosition = new Vector3(ghostPos.x + GridManager.MoveDistances.x, ghostPos.y, ghostPos.z);
                     UpdateMovement(v, newPosition);
-
-                    if (PreviousPos.Count == 1)
-                    {
-
-                        tileBehindPath = GridManager.combatGrid[selectedTile.x - 1, selectedTile.y];
-
-                    }
                 }
             }
             else if (dir.x < -.5f)
@@ -1261,13 +1250,6 @@ public class RuneEvents : MonoBehaviour
                 {
                     Vector3 newPosition = new Vector3(ghostPos.x - GridManager.MoveDistances.x, ghostPos.y, ghostPos.z);
                     UpdateMovement(v, newPosition);
-
-                    if (PreviousPos.Count == 1)
-                    {
-
-                        tileBehindPath = GridManager.combatGrid[selectedTile.x + 1, selectedTile.y];
-
-                    }
                 }
             }
 
@@ -1275,10 +1257,14 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    List<Vector3> movementPos = new List<Vector3>();
-
+    //used specifically for wind 1
     bool stoppedByEnemy = false;
 
+    /// <summary>
+    /// either adds, removes, or rejects a tile wrt pathing
+    /// </summary>
+    /// <param name="v"></param>
+    /// <param name="t"></param>
     private void UpdateMovement(Vector2Int v, Vector3 t)
     {
         WaitingOnPath = false;
@@ -1414,15 +1400,24 @@ public class RuneEvents : MonoBehaviour
         StartCoroutine(MovementDelay());
     }
 
+    /// <summary>
+    /// allows the player to select tiles again after a brief pause
+    /// </summary>
+    /// <returns> waitingonpath </returns>
     IEnumerator MovementDelay()
     {
         yield return new WaitForSeconds(.1f);
         WaitingOnPath = true;
     }
 
+    //used for certain wind attacks
     float currentSecondaryDamage;
     bool kbChain = false;
 
+    /// <summary>
+    /// executes attacks that utilize pathing
+    /// </summary>
+    /// <param name="rune"> selected rune </param>
     void MoveAlongPath(RuneData rune)
     {
 
@@ -1592,6 +1587,9 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// clears pathing if the player cancels their attack
+    /// </summary>
     public void CancelPathing()
     {
 
@@ -1608,6 +1606,7 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion PATHING
+
 
 
     #region COMBO FUNCTIONS
@@ -1880,6 +1879,15 @@ public class RuneEvents : MonoBehaviour
 
     #endregion COMBO FUNCTIONS
 
+
+
+    #region END TURN
+
+    /// <summary>
+    /// ends the player's turn a second after they attack
+    /// the timing can be made into a variable later mb
+    /// </summary>
+    /// <returns> one second </returns>
     IEnumerator UpdatePlayerStatus()
     {
 
@@ -1902,5 +1910,7 @@ public class RuneEvents : MonoBehaviour
         }
 
     }
+
+    #endregion END TURN
 
 }

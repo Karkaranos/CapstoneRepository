@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	10/07/2025
-Date Last Modified : 01/22/2026
+Date Last Modified : 02/15/2026
 Brief Description : Determines viable targets whenever a spell is selected
 External Resources : 	
 	***************************************************/
@@ -480,6 +480,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     #region PLAYER TARGETING
 
+    /// <summary>
+    /// adds/removes pathed tiles into list of viable targets
+    /// </summary>
+    /// <param name="addingToTiles"> whether a tile is being added or removed </param>
+    /// <param name="newTile"> the player's selected tile </param>
     public void EditViableTiles(bool addingToTiles, TileBehaviour newTile)
     {
 
@@ -540,6 +545,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
     #endregion PLAYER TARGETING
 
 
+
+    #region END TURN
+
     public void SetCastStatus(bool werePointsSpent)
     {
 
@@ -586,5 +594,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
         this.gameObject.SetActive(false);
 
     }
+
+    #endregion END TURN
 
 }

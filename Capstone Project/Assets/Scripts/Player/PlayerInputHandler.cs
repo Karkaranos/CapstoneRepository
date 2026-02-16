@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Hayes 
+Author Names : 		Tyler Hayes, Jay Embry
 Date Created : 		10/27/2025
-Date Last Modified : 2/10/2026
+Date Last Modified : 2/15/2026 (Jay Embry)
 Brief Description : Handles all of the player's inputs
 External Resources : 	
 ***************************************************/
@@ -27,7 +27,10 @@ public class PlayerInputHandler : MonoBehaviour
     private bool mousePressed = false;
     [HideInInspector] public bool enableMovement;
     private bool isMoving;
+
+    //used to determine whenever the player is pathing an attack
     [HideInInspector] public bool IsPathing;
+
     private Vector2 movementDirection;
 
     #endregion VARS
