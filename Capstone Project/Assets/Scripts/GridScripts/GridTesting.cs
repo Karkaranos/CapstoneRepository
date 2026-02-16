@@ -138,7 +138,7 @@ public class GridTesting : MonoBehaviour
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
-        
+        PublicEvents.NewLevel.Invoke();
     }
 
     public void LoadSpecificGrid(int i) 
@@ -146,6 +146,7 @@ public class GridTesting : MonoBehaviour
         gridIndex = i;
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+        PublicEvents.NewLevel.Invoke();
        
     }
 
