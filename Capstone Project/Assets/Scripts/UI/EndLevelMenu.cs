@@ -80,7 +80,7 @@ public class EndLevelMenu : MonoBehaviour
         FindFirstObjectByType<GridTesting>().LoadNextGrid();
         SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive:FindObjectsInactive.Include).gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        endMenuUi.alpha = 0;
     }
 
     /// <summary>
