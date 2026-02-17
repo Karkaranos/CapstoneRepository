@@ -22,6 +22,7 @@ public class SpellNodeBehavior : MonoBehaviour
     private Vector2 offset;
     private bool holding = false;
     private Vector2 mPos;
+    private bool locationSet = false;
 
     /// <summary>
     /// initialization
@@ -57,7 +58,20 @@ public class SpellNodeBehavior : MonoBehaviour
     /// </summary>
     private void LeftClickStarted()
     {
-        holding = true;
+            if (IsPointerOverThisUI())
+            {
+
+            holding = true;
+            dragging = true;
+
+                UIAudioManager.Instance.UIPickUp(transform);
+
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+                if (slotBehavior != null)
+                {
+                    slotBehavior.rune = null;
+                }
+            }
     }
 
     /// <summary>
@@ -65,26 +79,31 @@ public class SpellNodeBehavior : MonoBehaviour
     /// </summary>
     private void LeftClickReleased()
     {
-        Debug.Log("rr");
-        holding = false;
-        /*
-        dragging = false;
-
-        GameObject slot = SpellOverSnapLocation();
-        if (slot != null)
+        if (IsPointerOverThisUI())
         {
-            rectTransform.position = slot.GetComponent<RectTransform>().position;
-            slotBehavior = slot.GetComponent<SlotBehavior>();
-            slotBehavior.rune = runeData;
 
-            UIAudioManager.Instance.UIDrop(transform);
+            Debug.Log("rr");
+            holding = false;
 
+            dragging = false;
+
+            GameObject slot = SpellOverSnapLocation();
+            if (slot != null)
+            {
+                rectTransform.position = slot.GetComponent<RectTransform>().position;
+                slotBehavior = slot.GetComponent<SlotBehavior>();
+                slotBehavior.rune = runeData;
+
+                UIAudioManager.Instance.UIDrop(transform);
+
+            }
+            else
+            {
+                notebookSpellNode.Equip(false);
+                Destroy(gameObject);
+            }
         }
-        else
-        {
-            notebookSpellNode.Equip(false);
-            Destroy(gameObject);
-        }*/
+
     }
 
     private void GetMousePos(Vector2 m)
@@ -97,21 +116,7 @@ public class SpellNodeBehavior : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (IsPointerOverThisUI())
-            {
-                dragging = true;
-
-                UIAudioManager.Instance.UIPickUp(transform);
-
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
-                if (slotBehavior != null)
-                {
-                    slotBehavior.rune = null;
-                }
-            }
-        }
+       
         if (dragging && Input.GetMouseButton(0))
         {
             notebookSpellNode.Equip(true);
@@ -119,7 +124,7 @@ public class SpellNodeBehavior : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
             rectTransform.localPosition = localPoint - offset;
         }
-        if (Input.GetMouseButtonUp(0) && dragging)
+        /*if (Input.GetMouseButtonUp(0) && dragging)
         {
             dragging = false;
            
@@ -137,7 +142,7 @@ public class SpellNodeBehavior : MonoBehaviour
                 notebookSpellNode.Equip(false);
                 Destroy(gameObject);
             }
-        }
+        }*/
     }
 
     /// <summary>
