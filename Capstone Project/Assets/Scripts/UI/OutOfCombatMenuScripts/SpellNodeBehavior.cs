@@ -117,32 +117,14 @@ public class SpellNodeBehavior : MonoBehaviour
     private void Update()
     {
        
-        if (dragging && Input.GetMouseButton(0))
+        if (dragging)
         {
             notebookSpellNode.Equip(true);
             Vector2 localPoint;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
             rectTransform.localPosition = localPoint - offset;
         }
-        /*if (Input.GetMouseButtonUp(0) && dragging)
-        {
-            dragging = false;
-           
-            GameObject slot = SpellOverSnapLocation();
-            if (slot != null)
-            {
-                rectTransform.position = slot.GetComponent<RectTransform>().position;
-                slotBehavior = slot.GetComponent<SlotBehavior>();
-                slotBehavior.rune = runeData;
-
-                UIAudioManager.Instance.UIDrop(transform);
-
-            }
-            else {
-                notebookSpellNode.Equip(false);
-                Destroy(gameObject);
-            }
-        }*/
+        
     }
 
     /// <summary>
