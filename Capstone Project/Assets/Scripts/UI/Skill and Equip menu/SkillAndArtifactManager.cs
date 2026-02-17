@@ -33,8 +33,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
 
     //all the containers for the different menus
-    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
-    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
+    //[ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
+    //[ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField]
     private GameObject OutOfCombatMenuContainer;
 
@@ -95,8 +95,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     private void OnEnable()
     {
         //sets the spell menu active
-        SkillTreeContainer.SetActive(false);
-        EquipMenuContainer.SetActive(true);
+        //SkillTreeContainer.SetActive(false);
+        //EquipMenuContainer.SetActive(true);
 
         //sets the spell slots
         if (equippedSpells.Count < NumOfSpellSlots)
@@ -116,13 +116,13 @@ public class SkillAndArtifactManager : MonoBehaviour
     {
         if (isSkill)
         {
-            SkillTreeContainer.SetActive(true);
-            EquipMenuContainer.SetActive(false);
+            //SkillTreeContainer.SetActive(true);
+            //EquipMenuContainer.SetActive(false);
         }
         else
         {
-            SkillTreeContainer.SetActive(false);
-            EquipMenuContainer.SetActive(true);
+            //SkillTreeContainer.SetActive(false);
+            //EquipMenuContainer.SetActive(true);
         }
 
         if (spawnedCursorBox != null)
