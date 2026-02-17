@@ -183,7 +183,7 @@ public class SkillTreeManager : MonoBehaviour
         currentlySelected = data;
         //Debug.Log("now currently holding " + currentlySelected.name);
 
-        skillAndArtifactManager.SpawnCursorBox();
+        //skillAndArtifactManager.SpawnCursorBox();
     }
 
     /// <summary>

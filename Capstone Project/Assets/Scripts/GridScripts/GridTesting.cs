@@ -1,9 +1,8 @@
 /******************************************************************************
- * Author: Brad Dixon
+ * Author: Brad Dixon, Cade Naylor
  * Creation Date: 9/26/2025
- * Last Modified: 10/30/2025
- * Brief: Temporary script to test if the grid works. Non-temporary scripts 
- * should be added to the game manager after this is added to working
+ * Last Modified: 2/16/2026
+ * Brief: Controls grid loading and handling
  * External Resources: N/A
  * ***************************************************************************/
 using UnityEngine;
@@ -139,15 +138,34 @@ public class GridTesting : MonoBehaviour
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
+        
     }
 
+    /// <summary>
+    /// Loads a specific grid
+    /// </summary>
+    /// <param name="i"></param>
     public void LoadSpecificGrid(int i) 
     {
+        if(i > gridPrefabs.Count-1)
+        {
+            i = gridPrefabs.Count-1;
+        }
         gridIndex = i;
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
-       
+        
+    }
+
+    /// <summary>
+    /// Reloads the current grid
+    /// </summary>
+    public void ReloadCurrentGrid()
+    {
+        LoadGridPrefab();
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+        PublicEvents.NewLevel.Invoke();
     }
 
     /// <summary>
@@ -160,5 +178,6 @@ public class GridTesting : MonoBehaviour
             g.SetActive(false);
         }
         gridPrefabs[gridIndex].SetActive(true);
+        PublicEvents.LoadingGrid.Invoke(gridIndex);
     }
 }
