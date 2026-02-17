@@ -13,7 +13,7 @@ public class SpellNodeBehavior : MonoBehaviour
 {
     private RectTransform rectTransform;
     [HideInInspector] public Canvas canvas;
-    [HideInInspector] public RuneData runeData;
+     public RuneData runeData;
 
     private SlotBehavior slotBehavior;
     [HideInInspector] public NotebookSpellNodeBehavior notebookSpellNode;
@@ -23,13 +23,18 @@ public class SpellNodeBehavior : MonoBehaviour
     private bool holding = false;
     private Vector2 mPos;
     private bool locationSet = false;
+    private SkillTreeManager skillTreeManager;
 
     /// <summary>
     /// initialization
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+
+        Debug.Log(runeData.RuneName);
+        skillTreeManager.SelectNode(runeData);
     }
 
 
@@ -60,7 +65,6 @@ public class SpellNodeBehavior : MonoBehaviour
     {
             if (IsPointerOverThisUI())
             {
-
             holding = true;
             dragging = true;
 
@@ -94,13 +98,13 @@ public class SpellNodeBehavior : MonoBehaviour
                 slot.GetComponent<EquippedSpellNode>()?.OnClick();
 
                 UIAudioManager.Instance.UIDrop(transform);
-
             }
             else
             {
                 notebookSpellNode.Equip(false);
                 Destroy(gameObject);
             }
+
         }
 
     }

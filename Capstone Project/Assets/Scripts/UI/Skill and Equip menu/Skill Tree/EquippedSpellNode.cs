@@ -87,6 +87,7 @@ public class EquippedSpellNode : MonoBehaviour
         //checks to see if the player is holding any spell
         if (skillTreeManager.currentlySelected == null)
         {
+
             //if this has nothing in it
             if (heldSpell != null)
             {
@@ -111,8 +112,8 @@ public class EquippedSpellNode : MonoBehaviour
                 skillTreeManager.SelectNode(heldSpell);
                 heldSpell = temp;
                 skillAndEquipManager.SetIndexOfEquippedSpells(index, heldSpell);
-                GetComponent<Image>().color = EquippedColor;
-                buttonText.text = heldSpell.RuneName;
+                //GetComponent<Image>().color = EquippedColor;
+                //buttonText.text = heldSpell.RuneName;
             }
             else
             {
@@ -120,8 +121,8 @@ public class EquippedSpellNode : MonoBehaviour
                 heldSpell = skillTreeManager.currentlySelected;
                 skillAndEquipManager.SetIndexOfEquippedSpells(index, heldSpell);
                 skillTreeManager.ConfirmEquipSpell();
-                GetComponent<Image>().color = EquippedColor;
-                buttonText.text = heldSpell.RuneName;
+                //GetComponent<Image>().color = EquippedColor;
+                //buttonText.text = heldSpell.RuneName;
             }
             
         }

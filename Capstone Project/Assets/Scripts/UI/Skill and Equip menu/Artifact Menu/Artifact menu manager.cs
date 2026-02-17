@@ -108,7 +108,7 @@ public class ArtifactMenuManager : MonoBehaviour
                 UpdateCostFeedback();
 
                 //spawns the box to show youre holding smthn
-                skillArtifactManager.SpawnCursorBox();
+                //skillArtifactManager.SpawnCursorBox();
             }
             else if (heldArtifact != null)
             {
@@ -186,7 +186,7 @@ public class ArtifactMenuManager : MonoBehaviour
         //UpdateInventoryGameObjects();
 
         //spawn the box
-        skillArtifactManager.SpawnCursorBox();
+        //skillArtifactManager.SpawnCursorBox();
     }
 
     /// <summary>
