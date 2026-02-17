@@ -66,12 +66,18 @@ public class PlayerInputHandler : MonoBehaviour
         PublicEvents.EnablePlayersInputs += EnableOrDisablePlayersInputs;
         rightClick.started += RightClick_started;
         leftClick.started += LeftClick_started;
+        leftClick.canceled += LeftClick_canceled;
         toggleConsole.started += Toggle_started;
         panCam.performed += PanCam_performed;
         movePlayer.performed += MovePlayer_performed;
         movePlayer.canceled += MovePlayer_canceled;
 
         pInput.onControlsChanged += PInput_onControlsChanged;
+    }
+
+    private void LeftClick_canceled(InputAction.CallbackContext obj)
+    {
+        PublicEvents.LeftClickReleased?.Invoke();
     }
 
     /// <summary>
@@ -82,9 +88,12 @@ public class PlayerInputHandler : MonoBehaviour
         PublicEvents.EnablePlayersInputs -= EnableOrDisablePlayersInputs;
         rightClick.started -= RightClick_started;
         leftClick.started -= LeftClick_started;
+        leftClick.canceled -= LeftClick_canceled;
         panCam.performed -= PanCam_performed;
         movePlayer.performed -= MovePlayer_performed;
         movePlayer.canceled -= MovePlayer_canceled;
+
+        toggleConsole.started -= Toggle_started;
 
         pInput.onControlsChanged -= PInput_onControlsChanged;
     }
@@ -210,6 +219,8 @@ public class PlayerInputHandler : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+        PublicEvents.MousePosition?.Invoke(mousePos.ReadValue<Vector2>());
+
         //only triggers when leftclicked
         if (mousePressed)
         {

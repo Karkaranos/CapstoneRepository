@@ -139,6 +139,7 @@ public class GridTesting : MonoBehaviour
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
+        
     }
 
     public void LoadSpecificGrid(int i) 
@@ -147,7 +148,7 @@ public class GridTesting : MonoBehaviour
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
-       
+        
     }
 
     /// <summary>
@@ -160,5 +161,6 @@ public class GridTesting : MonoBehaviour
             g.SetActive(false);
         }
         gridPrefabs[gridIndex].SetActive(true);
+        PublicEvents.LoadingGrid.Invoke(gridIndex);
     }
 }
