@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Brad Dixon
 Date Created : 	10/07/2025
-Date Last Modified : 02/15/2026
+Date Last Modified : 02/16/2026 (Jay Embry)
 Brief Description : Contains rune types and effects
                     I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
@@ -50,6 +50,8 @@ public class RuneEvents : MonoBehaviour
     //forgot why i made this public tbh
     [HideInInspector] public List<Vector2Int> PreviousPos = new List<Vector2Int>();
 
+
+    bool casting = false;
     public bool WaitingOnPath = false;
 
     #endregion SETUP
@@ -247,22 +249,23 @@ public class RuneEvents : MonoBehaviour
     /// <param name="player"> when the player has selected themself </param>
     public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
+        //this should hopefully keep the player from spamming spells
+        if (casting)
+        {
+            return;
+        }
 
         float damageDealt = Mathf.CeilToInt(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
         * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
-        Enemy[] enemiesOnTheGrid = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
-
         Vector2Int playerOriginalTile = FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>().IndexInGrid;
-
-        GameObject VFX;
 
         switch (rune.NumberOnSkillTree)
         {
-
             //targets a tile and  electrifies the tiles around it
             case (1):
 
+                casting = true;
 
                 if (enemy != null)
                 {
@@ -297,7 +300,7 @@ public class RuneEvents : MonoBehaviour
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
 
-                VFX = Instantiate(rune.RuneVFX, tile.transform);
+                Instantiate(rune.RuneVFX, tile.transform);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -308,24 +311,17 @@ public class RuneEvents : MonoBehaviour
             //targets opponents in a cross pattern
             case (2):
 
-
-                if (enemy == null)
-                {
-
-                    return;
-
-                }
+                casting = true;
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
-
 
                 FindLinesOfTargets(rune, tile);
 
                 foreach (TileBehaviour potentialTarget in secondaryTargets)
                 {
 
-                    VFX = Instantiate(rune.RuneVFX, potentialTarget.transform);
+                    Instantiate(rune.RuneVFX, potentialTarget.transform);
 
                     await Task.Delay(1200);
 
@@ -365,99 +361,89 @@ public class RuneEvents : MonoBehaviour
             //teleports the player, damages adjacent enemies, and knocks enemies backwards
             case (3):
 
-                if (enemy == null)
+                casting = true;
+
+                FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
+                FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
+                GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
+
+                FindAdjacentTiles(tile);
+
+                tile.ElectrifyAdTiles();
+                Invoke("PlayerTeleport", .1f);
+
+                foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
 
-                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
-                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
-                    GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
-
-                    FindAdjacentTiles(tile);
-
-                    tile.ElectrifyAdTiles();
-                    Invoke("PlayerTeleport", .1f);
-
-                    foreach (TileBehaviour adjacentTile in secondaryTargets)
+                    if (adjacentTile.GetComponentInChildren<Enemy>() != null)
                     {
 
-                        if(adjacentTile.GetComponentInChildren<Enemy>() != null)
-                        {
+                        await Task.Delay(1200);
+                        adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
-                            await Task.Delay(1200);
-                            adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
+                        CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
 
-                            CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
-
-                            SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
-
-                        }
-
-                        tile.ElectrifyAdTiles();
+                        SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
 
                     }
 
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
-
-                    
-
-                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
-                    StartCoroutine(UpdatePlayerStatus());
+                    tile.ElectrifyAdTiles();
 
                 }
+
+                AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
+                AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
+
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
-            //targets opponents in a straight line
+            //tleports the player, damaging all enemies in their path
+            //TODO: update to use pathfinding
             case (4):
+
+                casting = true;
 
                 TileBehaviour oldPlayerTile = FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>();
 
-                if (enemy == null)
+                FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
+                FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
+                GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
+
+                tile.ElectrifyAdTiles();
+                Invoke("PlayerTeleport", .2f);
+
+                FindTargetsInPath(oldPlayerTile);
+
+                AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+
+                foreach (TileBehaviour tileInPath in secondaryTargets)
                 {
 
-                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
-                    FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
-                    GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
-
-                    tile.ElectrifyAdTiles();
-                    Invoke("PlayerTeleport", .2f);
-
-                    FindTargetsInPath(oldPlayerTile);
-
-                    AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
-                    AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
-
-                    foreach (TileBehaviour tileInPath in secondaryTargets)
+                    if (tileInPath.GetComponentInChildren<Enemy>() != null)
                     {
 
-                        if (tileInPath.GetComponentInChildren<Enemy>() != null)
-                        {
+                        await Task.Delay(1200);
+                        tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
-                            await Task.Delay(1200); 
-                            tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
-
-                            CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
-
-                        }
-
-                        tile.ElectrifyAdTiles();
+                        CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
 
                     }
 
-                    
-
-                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
-                    StartCoroutine(UpdatePlayerStatus());
+                    tile.ElectrifyAdTiles();
 
                 }
+
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
+                StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
             default:
-
                 break;
         }
 
@@ -768,10 +754,13 @@ public class RuneEvents : MonoBehaviour
     public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
     {
 
+        if(casting)
+        {
+            return;
+        }
+
         float damageDealt = Mathf.Ceil(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
         * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-        GameObject VFX;
 
         switch (rune.NumberOnSkillTree)
         {
@@ -805,6 +794,8 @@ public class RuneEvents : MonoBehaviour
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
                 {
+
+                    casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -854,6 +845,8 @@ public class RuneEvents : MonoBehaviour
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
                 {
 
+                    casting = true;
+
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                     MoveAlongPath(rune);
@@ -899,6 +892,8 @@ public class RuneEvents : MonoBehaviour
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && 
                 tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
+
+                    casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -946,6 +941,8 @@ public class RuneEvents : MonoBehaviour
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
                 {
+
+                    casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -1908,6 +1905,7 @@ public class RuneEvents : MonoBehaviour
             {
 
                 PublicEvents.EndCast.Invoke();
+                casting = false;
 
             }
 
