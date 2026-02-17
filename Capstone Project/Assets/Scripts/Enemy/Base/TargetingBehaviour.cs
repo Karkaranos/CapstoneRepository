@@ -70,7 +70,7 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void MeleeTargeting()
     {
-        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos, GetComponent<GridPathfinding>().MyPosition);
+        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos, GetComponent<GridPathfinding>().MyPosition, false);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class TargetingBehaviour : MonoBehaviour
     /// </summary>
     private void RangedTargeting()
     {
-        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos, GetComponent<GridPathfinding>().MyPosition);
+        targetLocations = GridManager.GetAllValidAdjacentTiles(playerPos, GetComponent<GridPathfinding>().MyPosition, false);
         List<Vector2Int> adTiles = new List<Vector2Int>();
         foreach (Vector2Int v in targetLocations)
         {
@@ -122,7 +122,7 @@ public class TargetingBehaviour : MonoBehaviour
                         GridManager.combatGrid[v.x, v.y].entityOnGrid = 1;
                     }
                 }
-                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(v, GetComponent<GridPathfinding>().MyPosition);
+                List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(v, GetComponent<GridPathfinding>().MyPosition, false);
                 
                 //Populates the next potential tiles to be chosen
                 foreach(Vector2Int j in temp)

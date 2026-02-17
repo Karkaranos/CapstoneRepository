@@ -63,6 +63,7 @@ public class EquippedArtifactButton : MonoBehaviour, IPointerEnterHandler
     /// </summary>
     public void ButtonClicked()
     {
+        Debug.Log("CHh");
         menuManager.EquipArtifact(this);
     }
 
@@ -72,13 +73,16 @@ public class EquippedArtifactButton : MonoBehaviour, IPointerEnterHandler
     /// <param name="isNull"> if the bool is null it sets the text to default</param>
     private void UpdateName(bool isNull)
     {
-        if (isNull)
+        if (buttonText != null)
         {
-            buttonText.text = "Artifact Slot";
-        }
-        else
-        {
-            buttonText.text = data.Name;
+            if (isNull)
+            {
+                buttonText.text = "Artifact Slot";
+            }
+            else
+            {
+                buttonText.text = data.Name;
+            }
         }
     }
 

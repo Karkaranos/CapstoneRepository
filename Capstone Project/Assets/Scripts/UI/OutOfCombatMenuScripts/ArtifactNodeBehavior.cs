@@ -5,9 +5,10 @@ Date Last Modified : 2/10/2026
 Brief Description : this is the behavior of an artifact node, this gets spawned when you 
 click on the Notebook Artifact slot
 ***************************************************/
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
+using static Unity.Cinemachine.CinemachineOrbitalTransposer;
 
 public class ArtifactNodeBehavior : MonoBehaviour
 {
@@ -20,13 +21,101 @@ public class ArtifactNodeBehavior : MonoBehaviour
 
     private bool dragging = true;
     private Vector2 offset;
+    private Vector2 mPos;
+    ArtifactMenuManager artifactManager;
 
     /// <summary>
     /// initialization
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        artifactManager = FindFirstObjectByType<ArtifactMenuManager>();
+
+        Debug.Log(artifactData.Name);
+        artifactManager.ArtifactPickedUp(artifactData);
+    }
+
+    /// <summary>
+    /// Assigns event listeners on enable
+    /// </summary>
+    private void OnEnable()
+    {
+        PublicEvents.LeftClicked += LeftClickStarted;
+        PublicEvents.LeftClickReleased += LeftClickReleased;
+        PublicEvents.MousePosition += GetMousePos;
+    }
+
+    /// <summary>
+    /// Assigns event listeners on enable
+    /// </summary>
+    private void OnDisable()
+    {
+        PublicEvents.LeftClicked -= LeftClickStarted;
+        PublicEvents.LeftClickReleased -= LeftClickReleased;
+        PublicEvents.MousePosition -= GetMousePos;
+    }
+
+
+    /// <summary>
+    /// Sets holding to true
+    /// </summary>
+    private void LeftClickStarted()
+    {
+        if (IsPointerOverThisUI())
+        {
+            transform.parent = null;
+            dragging = true;
+
+            UIAudioManager.Instance.UIPickUp(transform);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            if (slotBehavior != null)
+            {
+                slotBehavior.artifact = null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Constantly gets the mouse position
+    /// </summary>
+    /// <param name="m"></param>
+    private void GetMousePos(Vector2 m)
+    {
+        mPos = m;
+    }
+
+    /// <summary>
+    /// Sets holding to false
+    /// </summary>
+    private void LeftClickReleased()
+    {
+        if (IsPointerOverThisUI())
+        {
+
+            dragging = false;
+
+            GameObject slot = ArtifactOverSnapLocation();
+            if (slot != null)
+            {
+                rectTransform.position = slot.GetComponent<RectTransform>().position;
+                slotBehavior = slot.GetComponent<SlotBehavior>();
+                slotBehavior.artifact = artifactData;
+                slot.GetComponent<EquippedArtifactButton>()?.ButtonClicked();
+
+                UIAudioManager.Instance.UIDrop(transform);
+
+                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+            }
+            else
+            {
+                notebookArtifactNode.Equip(false);
+                Destroy(gameObject);
+            }
+
+        }
+
     }
 
     /// <summary>
@@ -34,24 +123,9 @@ public class ArtifactNodeBehavior : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        //what happens when its been clicked on (the one frame of the click)
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (IsPointerOverThisUI())
-            {
-                dragging = true;
-
-
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, canvas.worldCamera, out offset);
-                if (slotBehavior != null)
-                {
-                    slotBehavior.artifact = null;
-                }
-            }
-        }
 
         //what happens the its being dragged (mouse button is held)
-        if (dragging && Input.GetMouseButton(0))
+        if (dragging)
         {
             notebookArtifactNode.Equip(true);
             Vector2 localPoint;
@@ -59,25 +133,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
             rectTransform.localPosition = localPoint - offset;
         }
 
-        //what happens when you lot go of the mouse
-        if (Input.GetMouseButtonUp(0) && dragging)
-        {
-            dragging = false;
 
-            // if its over its slot it snaps to it and updates the slots SlotBehavior
-            GameObject slot = ArtifactOverSnapLocation();
-            if (slot != null)
-            {
-                rectTransform.position = slot.GetComponent<RectTransform>().position;
-                slotBehavior = slot.GetComponent<SlotBehavior>();
-                slotBehavior.artifact = artifactData;
-            }
-            else
-            {
-                notebookArtifactNode.Equip(false);
-                Destroy(gameObject);
-            }
-        }
     }
 
     /// <summary>

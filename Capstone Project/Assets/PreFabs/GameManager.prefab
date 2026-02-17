@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 3506325697463372161}
   - component: {fileID: 1309085514034639551}
   - component: {fileID: 3932241730522942511}
+  - component: {fileID: 7056796669355282131}
+  - component: {fileID: 1134159518502395643}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5e7ca3b4d52fc4eaea701120c048b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 4
+  settings: 3
   allowArtifacts: 1
   CommandConsole: {fileID: 1704929989082906118, guid: 3ad6c0ab1caa33c44ab70d8171a08f0a, type: 3}
   maxArtifacts: 3
@@ -72,9 +74,9 @@ MonoBehaviour:
   moveConsoleEnabled: 1
   greetEnabled: 1
   enemiesEnabled: 1
+  playerEnabled: 1
+  navigationEnabled: 1
   validMarks:
-  - {fileID: 11400000, guid: 1dcffd2e33b7945608ce08b3aa5e9164, type: 2}
-  - {fileID: 11400000, guid: 14a0f021f59ba4f958bac28d48b1cf2b, type: 2}
   - {fileID: 11400000, guid: b45307ed64fea47479385367101a2523, type: 2}
   - {fileID: 11400000, guid: 02a0cfb3b34d848379772f0a9d8198e1, type: 2}
   - {fileID: 11400000, guid: fd86bdbdf5052a447a61cb37cca63ddb, type: 2}
@@ -82,7 +84,8 @@ MonoBehaviour:
   ActionPointVisualizer: {fileID: 0}
   CurrentActionPoints: 3
   MoveActionPoints: 1
-  ActionPointsPerTurn: 3
+  ActionPointsPerTurn: 1
+  ActionPointsPerLevel: 3
 --- !u!114 &7069175424404703298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,8 +102,13 @@ MonoBehaviour:
   gridIndex: 0
   gridPrefabs:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   gridDimensions:
-  - {x: 7, y: 5}
+  - {x: 8, y: 8}
+  - {x: 12, y: 8}
+  - {x: 9, y: 12}
+  gridToLoad: 0
   currentMovementTestingTile: {x: 0, y: 0}
   newMovementTestingTile: {x: 0, y: 0}
 --- !u!114 &8767230653786326938
@@ -127,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecda01683183da47b41f237838bac9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shownSettings: 0
+  shownSettings: 2
   StartCombatDelay: 0.1
   currentHearBackNum: 0
   targetHearBackNum: 0
@@ -146,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27078b82c0f93b4ca6898785d72766a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemies: []
 --- !u!114 &3506325697463372161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,3 +209,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc7c8967f915a6468c840333a5acf3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableMovement: 0
+  IsPathing: 0
+--- !u!114 &7056796669355282131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740814544277476685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f89f3c4608066d4aa33dc5dd0ba8489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNumberOfPipsOnField: 3
+  currentSpawnableTiles: []
+  pip: {fileID: 5428169340248162634, guid: 7154145b032be8448968ff2838883785, type: 3}
+  spawningLocationsPerLevel:
+  - spawningLocations:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - spawningLocations:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - spawningLocations:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  currentLevel: 0
+  currentPipsOnField: 0
+--- !u!114 &1134159518502395643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740814544277476685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: 1
+  healthBar: {fileID: 0}
+  CurrentHealth: 100
+  MaxHealth: 100
+  HealBuffModifier: 1
+  DodgeChance: 0
+  LuckModifier: 1
+  XPMultiplier: 1
+  RAPChanceModifier: 1
+  turnIndicator: {fileID: 0}
+  playerCanvas: {fileID: 0}
+  statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
+  Resistance: 0
+  DamageTakenMultiplier: 1
+  RangedDamageTakenMultiplier: 1
+  MeleeDamageTakenMultiplier: 1
+  Thorns: 0
+  TakesDamage: 1
+  BaseAttackMultiplier: 1
+  LightningAttackMultiplier: 1
+  WindAttackMultiplier: 1
+  FireAttackMultiplier: 1
+  WaterAttackMultiplier: 1
+  Tier1AttackMultiplier: 1
+  FirstSpellMultiplier: 1
+  SecondSpellMultiplier: 1
+  SpellsCastThisTurn: 0
+  MissChance: 0
+  InstaKillChance: 0
+  NoActionPointCostChance: 0

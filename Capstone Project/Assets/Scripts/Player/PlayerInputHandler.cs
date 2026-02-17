@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Hayes 
+Author Names : 		Tyler Hayes, Jay Embry
 Date Created : 		10/27/2025
-Date Last Modified : 2/10/2026
+Date Last Modified : 2/15/2026 (Jay Embry)
 Brief Description : Handles all of the player's inputs
 External Resources : 	
 ***************************************************/
@@ -27,6 +27,10 @@ public class PlayerInputHandler : MonoBehaviour
     private bool mousePressed = false;
     [HideInInspector] public bool enableMovement;
     private bool isMoving;
+
+    //used to determine whenever the player is pathing an attack
+    [HideInInspector] public bool IsPathing;
+
     private Vector2 movementDirection;
 
     #endregion VARS
@@ -62,12 +66,18 @@ public class PlayerInputHandler : MonoBehaviour
         PublicEvents.EnablePlayersInputs += EnableOrDisablePlayersInputs;
         rightClick.started += RightClick_started;
         leftClick.started += LeftClick_started;
+        leftClick.canceled += LeftClick_canceled;
         toggleConsole.started += Toggle_started;
         panCam.performed += PanCam_performed;
         movePlayer.performed += MovePlayer_performed;
         movePlayer.canceled += MovePlayer_canceled;
 
         pInput.onControlsChanged += PInput_onControlsChanged;
+    }
+
+    private void LeftClick_canceled(InputAction.CallbackContext obj)
+    {
+        PublicEvents.LeftClickReleased?.Invoke();
     }
 
     /// <summary>
@@ -78,9 +88,12 @@ public class PlayerInputHandler : MonoBehaviour
         PublicEvents.EnablePlayersInputs -= EnableOrDisablePlayersInputs;
         rightClick.started -= RightClick_started;
         leftClick.started -= LeftClick_started;
+        leftClick.canceled -= LeftClick_canceled;
         panCam.performed -= PanCam_performed;
         movePlayer.performed -= MovePlayer_performed;
         movePlayer.canceled -= MovePlayer_canceled;
+
+        toggleConsole.started -= Toggle_started;
 
         pInput.onControlsChanged -= PInput_onControlsChanged;
     }
@@ -169,7 +182,21 @@ public class PlayerInputHandler : MonoBehaviour
     /// <param name="obj"></param>
     private void MovePlayer_performed(InputAction.CallbackContext obj)
     {
+
+        if (FindFirstObjectByType<RuneEvents>())
+        {
+
+            if (FindFirstObjectByType<RuneEvents>().WaitingOnPath)
+            {
+
+                IsPathing = true;
+
+            }
+
+        }
+
         movementDirection = obj.ReadValue<Vector2>();
+
         isMoving = true;
     }
 
@@ -180,6 +207,9 @@ public class PlayerInputHandler : MonoBehaviour
     private void MovePlayer_canceled(InputAction.CallbackContext obj)
     {
         isMoving = false;
+
+        IsPathing = false;
+
     }
 
     /// <summary>
@@ -189,6 +219,8 @@ public class PlayerInputHandler : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+        PublicEvents.MousePosition?.Invoke(mousePos.ReadValue<Vector2>());
+
         //only triggers when leftclicked
         if (mousePressed)
         {
@@ -204,16 +236,15 @@ public class PlayerInputHandler : MonoBehaviour
                 //if it hits a tilebehavior, sends the publicevent
                 if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() != null)
                 {
-                    PublicEvents.SelectTile?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>());
 
-                    if (hit.transform.gameObject.GetComponent<Enemy>() != null)
+                    if (hit.transform.gameObject.GetComponent<Enemy>() != null || hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
                     {
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
                             hit.transform.gameObject.GetComponent<Enemy>(), null);
 
                     }
-                    else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
+                    else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null || hit.transform.gameObject.GetComponentInChildren<PlayerBehavior>() != null)
                     {
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
@@ -232,7 +263,7 @@ public class PlayerInputHandler : MonoBehaviour
             }
         }
 
-        if(isMoving)
+        if(isMoving || IsPathing)
         {
             //Using an if statement in case we want to call another event when not trying to move
             if (enableMovement)

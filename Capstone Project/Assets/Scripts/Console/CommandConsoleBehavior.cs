@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/26/2025
-Date Last Modified : 	11/15/2025
+Date Last Modified : 	2/12/2026
 Brief Description : 	Handles behavior for the Command Console
                         - Reads Value
                         - Calls appropriate static functions
@@ -58,7 +58,6 @@ public class CommandConsoleBehavior : MonoBehaviour
     private bool enemiesEnabled = true;
     private bool playerEnabled = true;
     private bool navigationEnabled = true;
-    private bool artifactsEnabled = true;
     #endregion
 
     [Foldout("References"), Required, SerializeField] private TMP_Text consoleInputBox;
@@ -76,8 +75,10 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// <summary>
     /// Occurs on the first frame update. Initializes Logger static class
     /// </summary>
-    public void Initialize(bool moveConsole = true, bool greet = true, bool enemy = true, bool enabled = false, bool enabledAtStart = false)
+    public void Initialize(bool moveConsole = true, bool greet = true, bool enemy = true, bool player = true, bool nav = true, bool enabled = false, bool enabledAtStart = false)
     {
+        Commands.AvailableCommandTypes.Clear();
+
         Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor, infoColor);
         rectTransform = consoleRectTransform;
 
@@ -91,6 +92,31 @@ public class CommandConsoleBehavior : MonoBehaviour
         moveConsoleEnabled = moveConsole;
         greetEnabled = greet;
         enemiesEnabled = enemy;
+        playerEnabled = player;
+        navigationEnabled = nav;
+
+        if(moveConsole)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.MoveConsole);
+        }
+        if (greetEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Greet);
+        }
+        if (enemiesEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Enemies);
+        }
+        if (playerEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Player);
+        }
+        if (navigationEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Navigation);
+        }
+
+        Commands.AvailableCommandTypes.Add(Commands.CommandGroup.None);
     }
 
     /// <summary>
@@ -138,7 +164,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                     {
                         if(playerEnabled)
                         {
-                            Commands.Player(command);
+                            Commands.Player(command, FindFirstObjectByType<PlayerStats>());
                         }
                         break;
                     }
@@ -146,15 +172,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                     {
                         if(navigationEnabled)
                         {
-                            Commands.Navigation(command);
-                        }
-                        break;
-                    }
-                case Commands.CommandGroup.Artifacts:
-                    {
-                        if(artifactsEnabled)
-                        {
-                            Commands.Artifacts(command);
+                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
                         }
                         break;
                     }
@@ -201,7 +219,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                             {
                                 if(playerEnabled)
                                 {
-                                    Commands.Player(command);
+                                    Commands.Player(command, FindFirstObjectByType<PlayerStats>());
                                 }
                                 break;
                             }
@@ -209,15 +227,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                             {
                                 if(navigationEnabled)
                                 {
-                                    Commands.Navigation(command);
-                                }
-                                break;
-                            }
-                        case Commands.CommandGroup.Artifacts:
-                            {
-                                if(artifactsEnabled)
-                                {
-                                    Commands.Artifacts(command);
+                                    Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
                                 }
                                 break;
                             }
@@ -264,7 +274,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     {
                                         if(playerEnabled)
                                         {
-                                            Commands.Player(command);
+                                            Commands.Player(command, FindFirstObjectByType<PlayerStats>());
                                         }
                                         break;
                                     }
@@ -272,15 +282,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     {
                                         if(navigationEnabled)
                                         {
-                                            Commands.Navigation(command);
-                                        }
-                                        break;
-                                    }
-                                case Commands.CommandGroup.Artifacts:
-                                    {
-                                        if(artifactsEnabled)
-                                        {
-                                            Commands.Artifacts(command);
+                                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
                                         }
                                         break;
                                     }

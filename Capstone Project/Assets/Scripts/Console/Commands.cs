@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/28/2025
-Date Last Modified : 	11/15/2025
+Date Last Modified : 	2/12/2026
 Brief Description : 	Static Commands
                         Calls the appropriate functions given inputted Commands                       
 External Resources : 	N/A
@@ -10,13 +10,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Security.Cryptography;
+using System.Linq;
 
 public class Commands
 {
     // Categories for commands. Used to control what commands are active at any given point
     public enum CommandGroup
     {
-        MoveConsole, Greet, Enemies, Player, Navigation, Artifacts, None
+        MoveConsole, Greet, Enemies, Player, Navigation, None
     }
 
     // Links all commands with no variables to their command group
@@ -29,37 +31,42 @@ public class Commands
         {"hi", CommandGroup.Greet},
         {"kill-enemies", CommandGroup.Enemies },
         {"enemies-godmode", CommandGroup.Enemies},
-        {"drop", CommandGroup.Enemies },
+        //{"drop", CommandGroup.Enemies },
         {"kill-enemy-#", CommandGroup.Enemies},
         {"enemies-health-#", CommandGroup.Enemies},
         {"enemy-#-health-$", CommandGroup.Enemies},
         //{"no-cost", CommandGroup.Player},
         //{"max-xp", CommandGroup.Player},
         //{"unlock-all-spells", CommandGroup.Player},
-        //{"godmode", CommandGroup.Player},
-        //{"r", CommandGroup.Navigation},
+        {"godmode", CommandGroup.Player},
+        {"hp-#", CommandGroup.Player},
+         {"light-dmg-#", CommandGroup.Player},
+        {"wind-dmg-#", CommandGroup.Player},
+        {"lvl-#", CommandGroup.Navigation},
+        {"r", CommandGroup.Navigation},
         {"menu", CommandGroup.None },
+        {"help", CommandGroup.None},
         {"skipcut", CommandGroup.None },
-        //{"giveall", CommandGroup.Artifacts},
 
     };
+
+    public static List<CommandGroup> AvailableCommandTypes = new List<CommandGroup>();
 
     // links all commands with 1 variable to their command group
     public static Dictionary<string, CommandGroup> PartialCommands1= new Dictionary<string, CommandGroup>()
     {
         {"kill-enemy-", CommandGroup.Enemies},
         {"enemies-health-", CommandGroup.Enemies},
-        //{"health-", CommandGroup.Player},
-        //{"lvl-", CommandGroup.Navigation},
-        //{"give-", CommandGroup.Artifacts}
+        {"hp-", CommandGroup.Player},
+        {"light-dmg-", CommandGroup.Player},
+        {"wind-dmg-", CommandGroup.Player},
+        {"lvl-", CommandGroup.Navigation}
     };
 
     // links all commands with 2 variables to their command group
     public static Dictionary<string, CommandGroup> PartialCommands2 = new Dictionary<string, CommandGroup>()
     {
-        {"enemy-.*-health-.*", CommandGroup.Enemies},
-        //{".*-dmg-.*", CommandGroup.Player},
-        //{"apply-.*-.*", CommandGroup.Artifacts}
+        {"enemy-.*-health-.*", CommandGroup.Enemies}
     };
 
 #region Command Groups
@@ -141,6 +148,7 @@ public class Commands
                         break;
                     case "enemies-godmode":
                         e.ToggleInvincibility();
+                        Logger.Log("Enemy invincibility has been toggled");
                         break;
                     // Cases that use variables
                     default:
@@ -201,14 +209,22 @@ public class Commands
             // Displays all commands
             case "menu":
                 string sb = "Available Commands: \n";
+                int n = 0;
                 foreach(string key in CommandDictionary.Keys)
                 {
-                    sb += " - " + key + "\n";
+                    if(AvailableCommandTypes.Contains(CommandDictionary[key]))
+                    {
+                        sb += " - " + key + "\n";
+                    }
                 }
                 Logger.Info(sb);
                 break;
             case "skipcut":
                 cs.SkipCutscene();
+                break;
+            case "help":
+                Logger.Info("Commands you type here have an effect on the game\nTo see all commands, type 'menu'\n" +
+                    "Any '#' or '$' should be replaced by numbers\nThe system will convert it to the correct type");
                 break;
             default:
                 Logger.Warning("Fell through Switch.");
@@ -221,24 +237,55 @@ public class Commands
     /// Handles Player commands
     /// </summary>
     /// <param name="command">the entered command</param>
-    public static void Player(string command)
-    {}
+    public static void Player(string command, PlayerStats p)
+    {
+        if(command == "godmode")
+        {
+            p.TakesDamage = !p.TakesDamage;
+            Logger.Log("Player invincibility toggled");
+        }
+        else if (command.Contains("hp"))
+        {
+            int val = (int)ConvertToNumber(command.Substring(3, command.Length - 3));
+            Logger.Log("Player health set to " + val);
+            p.CurrentHealth = val;
+        }
+        else if (command.Contains("dmg"))
+        {
+            if(command.Contains("light"))
+            {
+                float val = ConvertToNumber(command.Substring(10, command.Length - 10));
+                Logger.Log("Light Damage Multiplier set to " + val);
+                p.LightningAttackMultiplier = val;
+            }
+            else if (command.Contains("wind"))
+            {
+                float val = ConvertToNumber(command.Substring(9, command.Length - 9));
+                Logger.Log("Light Damage Multiplier set to " + val);
+                p.WindAttackMultiplier = val;
+            }
+        }
+    }
 
     /// <summary>
     /// Will be implemented later
     /// Handles Navigation commands
     /// </summary>
     /// <param name="command">the entered command</param>
-    public static void Navigation(string command)
-    {}
-
-    /// <summary>
-    /// Will be implemented later
-    /// Handles Artifact commands
-    /// </summary>
-    /// <param name="command">the entered command</param>
-    public static void Artifacts(string command)
-    {}
+    public static void Navigation(string command, GridTesting g)
+    {
+        if(command.Contains("lvl"))
+        {
+            int val = (int)ConvertToNumber(command.Substring(4, command.Length - 4));
+            Logger.Log("Loading level " + val);
+            g.LoadSpecificGrid(val);
+        }
+        else if (command == "r")
+        {
+            Logger.Log("Reloading level");
+            g.ReloadCurrentGrid();
+        }
+    }
 
     #endregion
 
