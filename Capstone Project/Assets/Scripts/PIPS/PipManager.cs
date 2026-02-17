@@ -56,7 +56,7 @@ public class PipManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        currentLevel = 1; 
+        currentLevel = 0; 
         currentPipsOnField = 0;
         currentSpawnableTiles = spawningLocationsPerLevel[0].spawningLocations;
     }
@@ -88,13 +88,17 @@ public class PipManager : MonoBehaviour
             temp.Add(tileBehaviour);
         }
         currentSpawnableTiles = temp;
+        spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
         TurnPublicEvents.TurnActionComplete?.Invoke(); 
     }
 
-    private void SetCurrentSpawnLocations(int i)
+    private async void SetCurrentSpawnLocations(int i)
     {
+        spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
+        currentLevel = i; 
         currentSpawnableTiles = spawningLocationsPerLevel[i].spawningLocations;
         currentPipsOnField = 0;
+        await Task.Delay(500);
         SpawnPips();
     }
 }
