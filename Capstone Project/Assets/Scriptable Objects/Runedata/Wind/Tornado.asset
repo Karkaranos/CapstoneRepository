@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a91b44a54ae6e4d8f93f16b6699ffa, type: 3}
   m_Name: Tornado
   m_EditorClassIdentifier: 
-  currentInspectorShowing: 1
+  currentInspectorShowing: 0
   TypeOfRune: 1
   NumberOnSkillTree: 4
   RuneName: Tornado
-  RuneDescription: 'A power that can either be used on a specific enemy or multiple
-    enemies. When targeting a specific enemy, the tornado will deal damage and prevent
-    that enemy from moving next turn. When targeting multiple, it will pull adjacent
-    enemies near the tornado and deal a smaller amount of damage. '
+  RuneDescription: Select a starting tile. Click and drag to summon a tornado on
+    the starting tile. The tornado will move along the path in the chosen direction
+    and pull in nearby enemies, dealing damage and dragging them with it.
   RuneDamage: 30
   SecondaryRuneDamage: 2
   RuneRange: 3
