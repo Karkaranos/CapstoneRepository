@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Security.Cryptography;
+using System.Linq;
 
 public class Commands
 {
@@ -29,7 +31,7 @@ public class Commands
         {"hi", CommandGroup.Greet},
         {"kill-enemies", CommandGroup.Enemies },
         {"enemies-godmode", CommandGroup.Enemies},
-        {"drop", CommandGroup.Enemies },
+        //{"drop", CommandGroup.Enemies },
         {"kill-enemy-#", CommandGroup.Enemies},
         {"enemies-health-#", CommandGroup.Enemies},
         {"enemy-#-health-$", CommandGroup.Enemies},
@@ -37,11 +39,18 @@ public class Commands
         //{"max-xp", CommandGroup.Player},
         //{"unlock-all-spells", CommandGroup.Player},
         {"godmode", CommandGroup.Player},
-        //{"r", CommandGroup.Navigation},
+        {"hp-#", CommandGroup.Player},
+         {"light-dmg-#", CommandGroup.Player},
+        {"wind-dmg-#", CommandGroup.Player},
+        {"lvl-#", CommandGroup.Navigation},
+        {"r", CommandGroup.Navigation},
         {"menu", CommandGroup.None },
+        {"help", CommandGroup.None},
         {"skipcut", CommandGroup.None },
 
     };
+
+    public static List<CommandGroup> AvailableCommandTypes = new List<CommandGroup>();
 
     // links all commands with 1 variable to their command group
     public static Dictionary<string, CommandGroup> PartialCommands1= new Dictionary<string, CommandGroup>()
@@ -50,8 +59,8 @@ public class Commands
         {"enemies-health-", CommandGroup.Enemies},
         {"hp-", CommandGroup.Player},
         {"light-dmg-", CommandGroup.Player},
-        {"wind-dmg-", CommandGroup.Player}
-        //{"lvl-", CommandGroup.Navigation}
+        {"wind-dmg-", CommandGroup.Player},
+        {"lvl-", CommandGroup.Navigation}
     };
 
     // links all commands with 2 variables to their command group
@@ -139,6 +148,7 @@ public class Commands
                         break;
                     case "enemies-godmode":
                         e.ToggleInvincibility();
+                        Logger.Log("Enemy invincibility has been toggled");
                         break;
                     // Cases that use variables
                     default:
@@ -199,14 +209,22 @@ public class Commands
             // Displays all commands
             case "menu":
                 string sb = "Available Commands: \n";
+                int n = 0;
                 foreach(string key in CommandDictionary.Keys)
                 {
-                    sb += " - " + key + "\n";
+                    if(AvailableCommandTypes.Contains(CommandDictionary[key]))
+                    {
+                        sb += " - " + key + "\n";
+                    }
                 }
                 Logger.Info(sb);
                 break;
             case "skipcut":
                 cs.SkipCutscene();
+                break;
+            case "help":
+                Logger.Info("Commands you type here have an effect on the game\nTo see all commands, type 'menu'\n" +
+                    "Any '#' or '$' should be replaced by numbers\nThe system will convert it to the correct type");
                 break;
             default:
                 Logger.Warning("Fell through Switch.");
@@ -224,11 +242,12 @@ public class Commands
         if(command == "godmode")
         {
             p.TakesDamage = !p.TakesDamage;
+            Logger.Log("Player invincibility toggled");
         }
         else if (command.Contains("hp"))
         {
             int val = (int)ConvertToNumber(command.Substring(3, command.Length - 3));
-            Debug.Log("new hp val: " + val);
+            Logger.Log("Player health set to " + val);
             p.CurrentHealth = val;
         }
         else if (command.Contains("dmg"))
@@ -236,13 +255,13 @@ public class Commands
             if(command.Contains("light"))
             {
                 float val = ConvertToNumber(command.Substring(10, command.Length - 10));
-                Debug.Log("new light val: " + val);
+                Logger.Log("Light Damage Multiplier set to " + val);
                 p.LightningAttackMultiplier = val;
             }
             else if (command.Contains("wind"))
             {
                 float val = ConvertToNumber(command.Substring(9, command.Length - 9));
-                Debug.Log("new wind val: " + val);
+                Logger.Log("Light Damage Multiplier set to " + val);
                 p.WindAttackMultiplier = val;
             }
         }
@@ -253,8 +272,20 @@ public class Commands
     /// Handles Navigation commands
     /// </summary>
     /// <param name="command">the entered command</param>
-    public static void Navigation(string command)
-    {}
+    public static void Navigation(string command, GridTesting g)
+    {
+        if(command.Contains("lvl"))
+        {
+            int val = (int)ConvertToNumber(command.Substring(4, command.Length - 4));
+            Logger.Log("Loading level " + val);
+            g.LoadSpecificGrid(val);
+        }
+        else if (command == "r")
+        {
+            Logger.Log("Reloading level");
+            g.ReloadCurrentGrid();
+        }
+    }
 
     #endregion
 
