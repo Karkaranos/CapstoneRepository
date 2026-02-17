@@ -93,6 +93,8 @@ public class PlayerInputHandler : MonoBehaviour
         movePlayer.performed -= MovePlayer_performed;
         movePlayer.canceled -= MovePlayer_canceled;
 
+        toggleConsole.started -= Toggle_started;
+
         pInput.onControlsChanged -= PInput_onControlsChanged;
     }
 
