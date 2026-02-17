@@ -67,6 +67,8 @@ public static class PublicEvents
 
     public static Action NewLevel;
 
+    public static Action<int> LoadingGrid; 
+
     #region RUNE EVENTS
 
     //Contains the list of runes equipped from SkillAndEquipManager

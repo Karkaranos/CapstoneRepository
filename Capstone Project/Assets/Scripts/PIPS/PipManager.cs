@@ -21,9 +21,9 @@ public class PipManager : MonoBehaviour
     }
 
     [SerializeField] private int maxNumberOfPipsOnField;
-    [SerializeField] private List<TileBehaviour> spawnableTiles;
+    [SerializeField] private List<TileBehaviour> currentSpawnableTiles;
     [SerializeField] private GameObject pip;
-    //[SerializeField] private List<SpawnLocations> spawningLocationsPerLevel;
+    [SerializeField] private List<SpawnLocations> spawningLocationsPerLevel;
 
     [SerializeField] int currentLevel = 0;
 
@@ -32,12 +32,14 @@ public class PipManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TurnPublicEvents.BeginPlayerTurn += SpawnPips; 
+        TurnPublicEvents.BeginPlayerTurn += SpawnPips;
+        PublicEvents.LoadingGrid += SetCurrentSpawnLocations;
     }
 
     private void OnDisable()
     {
         TurnPublicEvents.BeginPlayerTurn -= SpawnPips;
+        PublicEvents.LoadingGrid -= SetCurrentSpawnLocations;
     }
     /// <summary>
     /// Ensure singleton
@@ -56,8 +58,7 @@ public class PipManager : MonoBehaviour
         }
         currentLevel = 1; 
         currentPipsOnField = 0;
-        //await Task.Delay(25);
-        //SpawnPips();
+        currentSpawnableTiles = spawningLocationsPerLevel[0].spawningLocations;
     }
 
     /// <summary>
@@ -70,23 +71,30 @@ public class PipManager : MonoBehaviour
         List<TileBehaviour> temp = new List<TileBehaviour>(); 
         while(currentPipsOnField < maxNumberOfPipsOnField)
         {
-            int index = Random.Range(0, spawnableTiles.Count);
-            if(!GridManager.TileIsEmpty(spawnableTiles[index].IndexInGrid))
+            int index = Random.Range(0, currentSpawnableTiles.Count);
+            if(!GridManager.TileIsEmpty(currentSpawnableTiles[index].IndexInGrid))
             {
                 continue; 
             }
-            temp.Add(spawnableTiles[index]);
-            spawnableTiles[index].AddPip(pip);
-            spawnableTiles.Remove(spawnableTiles[index]);
+            temp.Add(currentSpawnableTiles[index]);
+            currentSpawnableTiles[index].AddPip(pip);
+            currentSpawnableTiles.Remove(currentSpawnableTiles[index]);
             
             ++currentPipsOnField;
         }
 
-        foreach (TileBehaviour tileBehaviour in spawnableTiles)
+        foreach (TileBehaviour tileBehaviour in currentSpawnableTiles)
         {
             temp.Add(tileBehaviour);
         }
-        spawnableTiles = temp;
+        currentSpawnableTiles = temp;
         TurnPublicEvents.TurnActionComplete?.Invoke(); 
+    }
+
+    private void SetCurrentSpawnLocations(int i)
+    {
+        currentSpawnableTiles = spawningLocationsPerLevel[i].spawningLocations;
+        currentPipsOnField = 0;
+        SpawnPips();
     }
 }
