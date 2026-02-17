@@ -67,7 +67,7 @@ public class EquippedSpellNode : MonoBehaviour
     {
         //finds the managers
         skillAndEquipManager = FindFirstObjectByType<SkillAndArtifactManager>();
-        //skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
 
         //populates this node with the equipped spell at this node's index
         //in the master list of spells
@@ -94,8 +94,8 @@ public class EquippedSpellNode : MonoBehaviour
                 skillTreeManager.SelectNode(heldSpell);
                 heldSpell = null;
                 skillAndEquipManager.SetIndexOfEquippedSpells(index, null);
-                GetComponent<Image>().color = Color.white;
-                buttonText.text = "Spell Slot";
+                //GetComponent<Image>().color = Color.white;
+                //buttonText.text = "Spell Slot";
             }
             else
             {

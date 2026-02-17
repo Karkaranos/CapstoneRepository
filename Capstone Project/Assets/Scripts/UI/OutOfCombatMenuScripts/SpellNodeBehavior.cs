@@ -81,8 +81,6 @@ public class SpellNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-
-            Debug.Log("rr");
             holding = false;
 
             dragging = false;
@@ -93,6 +91,7 @@ public class SpellNodeBehavior : MonoBehaviour
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
                 slotBehavior.rune = runeData;
+                slot.GetComponent<EquippedSpellNode>()?.OnClick();
 
                 UIAudioManager.Instance.UIDrop(transform);
 

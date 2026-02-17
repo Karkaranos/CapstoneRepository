@@ -952,8 +952,16 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8363220424127069783, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       insertIndex: 2
       addedObject: {fileID: 77126302}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7146184980103218926, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 145242040}
   m_SourcePrefab: {fileID: 100100000, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+--- !u!1 &52050016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7146184980103218926, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+  m_PrefabInstance: {fileID: 52050015}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &77126290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1050,6 +1058,18 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8173123580902886152, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 667861567}
+    - targetCorrespondingSourceObject: {fileID: 2069914307553613178, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 667861566}
+    - targetCorrespondingSourceObject: {fileID: 6676073148304832154, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 667861565}
+    - targetCorrespondingSourceObject: {fileID: 8124779154111805954, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 667861564}
     - targetCorrespondingSourceObject: {fileID: 4446526325730621652, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
       insertIndex: -1
       addedObject: {fileID: 163953169}
@@ -1382,12 +1402,35 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1431742227019811547, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
   m_PrefabInstance: {fileID: 52050015}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 52050016}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd560e1406146bc4a85d5f74d51be063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &145242040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52050016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4ec09324b7b5948adc993e4fb768b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showingSettings: 1
+  ExperiencePoints: 0
+  FollowCursorPrefab: {fileID: 0}
+  titleText: {fileID: 0}
+  costText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  currentSkillPointsText: {fileID: 0}
+  isInEquipMenu: 0
+  DifferentElementSkillTreeContainers: []
+  unlockedRunes: []
+  currentlySelected: {fileID: 0}
 --- !u!1 &156131747
 GameObject:
   m_ObjectHideFlags: 0
@@ -2826,6 +2869,98 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 664216105}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &667861560 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8124779154111805954, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+  m_PrefabInstance: {fileID: 77126290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &667861561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6676073148304832154, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+  m_PrefabInstance: {fileID: 77126290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &667861562 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2069914307553613178, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+  m_PrefabInstance: {fileID: 77126290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &667861563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8173123580902886152, guid: 1002d502d025a4e408df3dcac790d958, type: 3}
+  m_PrefabInstance: {fileID: 77126290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &667861564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667861560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyShowingSettings: 0
+  heldSpell: {fileID: 0}
+  index: 0
+  buttonText: {fileID: 0}
+  EquippedColor: {r: 0, g: 0, b: 0, a: 0}
+  skillTreeManager: {fileID: 0}
+--- !u!114 &667861565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667861561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyShowingSettings: 0
+  heldSpell: {fileID: 0}
+  index: 0
+  buttonText: {fileID: 0}
+  EquippedColor: {r: 0, g: 0, b: 0, a: 0}
+  skillTreeManager: {fileID: 0}
+--- !u!114 &667861566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667861562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyShowingSettings: 0
+  heldSpell: {fileID: 0}
+  index: 0
+  buttonText: {fileID: 0}
+  EquippedColor: {r: 0, g: 0, b: 0, a: 0}
+  skillTreeManager: {fileID: 0}
+--- !u!114 &667861567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667861563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817f23e4295ac6e49a76716f18c34801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyShowingSettings: 0
+  heldSpell: {fileID: 0}
+  index: 0
+  buttonText: {fileID: 0}
+  EquippedColor: {r: 0, g: 0, b: 0, a: 0}
+  skillTreeManager: {fileID: 0}
 --- !u!1 &682479398
 GameObject:
   m_ObjectHideFlags: 0
