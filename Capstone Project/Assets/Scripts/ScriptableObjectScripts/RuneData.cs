@@ -77,6 +77,10 @@ public class RuneData : ScriptableObject
     public int RuneRange;
 
     [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
+    //How far the rune's aoe will reach
+    public int RuneAOE;
+
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     //How many action points this rune will cost to play in combat
     public int RuneActionPoints;
 

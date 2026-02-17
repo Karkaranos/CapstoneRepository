@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6336545323125121380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6362250953464242357}
+  - component: {fileID: 4401196239673046126}
+  m_Layer: 0
+  m_Name: UIAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6362250953464242357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6336545323125121380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4401196239673046126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6336545323125121380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ae37ea89620e94a84b73bfc65f396a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiHover:
+    Guid:
+      Data1: 1201487025
+      Data2: 1154920453
+      Data3: -1576536698
+      Data4: 1470482879
+    Path: event:/UIHover
+  uiClick:
+    Guid:
+      Data1: 1387825289
+      Data2: 1283387264
+      Data3: -110335357
+      Data4: -981000262
+    Path: event:/UISelect
+  uiSelect:
+    Guid:
+      Data1: 356094626
+      Data2: 1092569703
+      Data3: 1490741898
+      Data4: -2143150791
+    Path: event:/UIButton
+  uiPageFlip:
+    Guid:
+      Data1: 1450177315
+      Data2: 1129135020
+      Data3: 2085536650
+      Data4: -339322581
+    Path: event:/TabFlip
+  spellPickUp:
+    Guid:
+      Data1: -1094237336
+      Data2: 1316979177
+      Data3: 589301435
+      Data4: 1935703307
+    Path: event:/SpellPickup
+  spellDrop:
+    Guid:
+      Data1: -375720352
+      Data2: 1092541975
+      Data3: -1963952000
+      Data4: 584116965
+    Path: event:/SpellDrop
+  lockedSpellCLick:
+    Guid:
+      Data1: -195835419
+      Data2: 1293728484
+      Data3: 829144968
+      Data4: 146085102
+    Path: event:/LockedSpellClick
+  nodeSound: {fileID: 0}

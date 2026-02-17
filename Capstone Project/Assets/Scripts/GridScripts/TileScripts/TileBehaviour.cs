@@ -23,7 +23,8 @@ public class TileBehaviour : MonoBehaviour
     {
         Enemy,
         Player,
-        Obstacle
+        Obstacle,
+        Pip
     }
     private enum HazardType
     {
@@ -113,7 +114,7 @@ public class TileBehaviour : MonoBehaviour
 
         //spawns an Entity if theres one to spawn
         if (TileHasEntities && entityObject != null) {
-            GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity, transform);
 
             // if the entity has a gridpathfinding componet
             if (obj.GetComponent<GridPathfinding>() != null)
@@ -140,7 +141,7 @@ public class TileBehaviour : MonoBehaviour
         //spawns a hazard if theres one to spawn
         if (TileHasHazards && hazardObject != null)
         {
-            GameObject obj = Instantiate(hazardObject, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(hazardObject, transform);
         }
     }
 
@@ -166,11 +167,14 @@ public class TileBehaviour : MonoBehaviour
         adWaterTiles.Add(GridManager.combatGrid[IndexInGrid.x, IndexInGrid.y]);
         alreadyChecked.Add(IndexInGrid);
 
-        List<Vector2Int> adTiles = GridManager.GetAllValidAdjacentTiles(IndexInGrid, new Vector2Int(-1, -1));
+        List<Vector2Int> adTiles = GridManager.GetAllAdjacentTiles(IndexInGrid);
         //Gets the adjacent tiles of the tile that was hit
         foreach (Vector2Int v in adTiles)
         {
-            adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+            if (GridManager.combatGrid[v.x, v.y].CanBeElectrified())
+            {
+                adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
+            }
             alreadyChecked.Add(v);
         }
 
@@ -186,7 +190,7 @@ public class TileBehaviour : MonoBehaviour
             //Gets the adjacent tiles of already electrified ones
             foreach(Vector2Int a1 in adTiles)
             {
-                adAdTiles = GridManager.GetAllValidAdjacentTiles(a1, new Vector2Int(-1, -1));
+                adAdTiles = GridManager.GetAllAdjacentTiles(a1);
 
                 foreach (Vector2Int v in adAdTiles)
                 {
@@ -200,7 +204,7 @@ public class TileBehaviour : MonoBehaviour
                         {
                             adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
 
-                            temp2 = GridManager.GetAllValidAdjacentTiles(v, new Vector2Int(-1, -1));
+                            temp2 = GridManager.GetAllAdjacentTiles(v);
                             foreach (Vector2Int t in temp2)
                             {
                                 temp.Add(t);
@@ -253,7 +257,6 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void EndTurnTileEffects()
     {
-        Debug.Log("sdhkjfshjkdhfkjahjkafhkfjdhsdkfjk");
         if (hazardType == HazardType.damage)
         {
             DamageEntity(damageAmount);
@@ -313,9 +316,9 @@ public class TileBehaviour : MonoBehaviour
     private void DamageEntity(int amount) {
         //calls the player damage
         if (ObjectOnTile != null) {
-            if (ObjectOnTile.GetComponent<PlayerStats>() != null)
+            if (ObjectOnTile.GetComponent<PlayerBehavior>() != null)
             {
-                ObjectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
+                FindFirstObjectByType<PlayerStats>().TakeDamage(amount);
             }
 
             //calls the enemy damage
@@ -350,5 +353,13 @@ public class TileBehaviour : MonoBehaviour
     private void OnDisable()
     {
         TurnPublicEvents.BeginEndTurn -= EndTurnTileEffects;
+    }
+
+    public void AddPip(GameObject pip)
+    {
+        Vector3 pos = transform.position;
+        pos.y = pos.y + 1;
+        Instantiate(pip, pos, Quaternion.identity, transform);
+        GridManager.AddEntity(IndexInGrid, -5);
     }
 }

@@ -36,9 +36,13 @@ public class MenuBehavior : MonoBehaviour
         PublicEvents.ControllerEnabled += ControllerEnabled;
 
         //if the player is using controller, selects the default obj
-        if (FindFirstObjectByType<MainMenuBehavior>().controllerEnabled)
+        if (FindFirstObjectByType<MainMenuBehavior>() != null)
         {
-            ControllerEnabled();
+            if (FindFirstObjectByType<MainMenuBehavior>().controllerEnabled)
+            {
+                ControllerEnabled();
+            }
+            
         }
     }
     private void OnDisable()
@@ -66,10 +70,10 @@ public class MenuBehavior : MonoBehaviour
     /// <param name="obj"></param>
     public void ActivateSubMenu(GameObject obj)
     {
-        if (FindFirstObjectByType<MainMenuBehavior>().controllerEnabled)
+        /*if (FindFirstObjectByType<MainMenuBehavior>().controllerEnabled)
         {
             startingSelectedGO = FindFirstObjectByType<EventSystem>().currentSelectedGameObject;
-        }
+        }*/
 
         obj.SetActive(true);
         obj.GetComponent<MenuBehavior>().previousMenu = GetComponent<MenuBehavior>();

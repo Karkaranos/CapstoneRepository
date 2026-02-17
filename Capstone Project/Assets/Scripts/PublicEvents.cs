@@ -65,6 +65,7 @@ public static class PublicEvents
 
     public static Action<TileBehaviour, Enemy, PlayerBehavior> SelectTarget;
 
+    public static Action NewLevel;
 
     #region RUNE EVENTS
 
