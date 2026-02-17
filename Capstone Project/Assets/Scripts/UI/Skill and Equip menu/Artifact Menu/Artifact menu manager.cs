@@ -198,19 +198,28 @@ public class ArtifactMenuManager : MonoBehaviour
     {
         if (data != null)
         {
-            artifactNameText.text = data.Name;
-
-            //changes plurality depending on if theres more than one
-            if (data.ArtifactSize != 1)
+            if (artifactNameText != null)
             {
-                artifactWeightText.text = data.ArtifactSize + " Slots";
-            }
-            else
-            {
-                artifactWeightText.text = data.ArtifactSize + " Slot";
+                artifactNameText.text = data.Name;
             }
 
-            artifactDescriptionText.text = data.Description;
+            if (artifactWeightText != null)
+            {
+                //changes plurality depending on if theres more than one
+                if (data.ArtifactSize != 1)
+                {
+                    artifactWeightText.text = data.ArtifactSize + " Slots";
+                }
+                else
+                {
+                    artifactWeightText.text = data.ArtifactSize + " Slot";
+                }
+            }
+
+            if (artifactDescriptionText != null)
+            {
+                artifactDescriptionText.text = data.Description;
+            }
         }
     }
 
@@ -308,7 +317,10 @@ public class ArtifactMenuManager : MonoBehaviour
     /// </summary>
     private void UpdateCostFeedback()
     {
+        if (CostText != null)
+        {
         CostText.text = "Equipped Artifacts: " + ArtifactManager.CurrentArtifactWeight + " / " + ArtifactManager.MaxArtifactWeight;
+        }
 
 
 
