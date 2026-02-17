@@ -137,6 +137,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     public void ContinueToNextLevel()
     {
+
         OutOfCombatMenuContainer.SetActive(false);
         FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
 

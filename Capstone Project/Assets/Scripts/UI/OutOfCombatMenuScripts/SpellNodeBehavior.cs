@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Bouchard
+Author Names : 		Tyler Bouchard, Cade Naylor
 Date Created : 		2/2/2026
-Date Last Modified : 2/10/2026
+Date Last Modified : 2/16/2026
 Brief Description : this is the behavior of an spell node, this gets spawned when you 
 click on the Notebook spell slot
 ***************************************************/
@@ -13,7 +13,7 @@ public class SpellNodeBehavior : MonoBehaviour
 {
     private RectTransform rectTransform;
     [HideInInspector] public Canvas canvas;
-     public RuneData runeData;
+    [HideInInspector] public RuneData runeData;
 
     private SlotBehavior slotBehavior;
     [HideInInspector] public NotebookSpellNodeBehavior notebookSpellNode;
@@ -35,6 +35,7 @@ public class SpellNodeBehavior : MonoBehaviour
 
         Debug.Log(runeData.RuneName);
         skillTreeManager.SelectNode(runeData);
+
     }
 
 
@@ -63,19 +64,20 @@ public class SpellNodeBehavior : MonoBehaviour
     /// </summary>
     private void LeftClickStarted()
     {
-            if (IsPointerOverThisUI())
-            {
+        if (IsPointerOverThisUI())
+        {
+            transform.parent = null;
             holding = true;
             dragging = true;
 
-                UIAudioManager.Instance.UIPickUp(transform);
+            UIAudioManager.Instance.UIPickUp(transform);
 
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
-                if (slotBehavior != null)
-                {
-                    slotBehavior.rune = null;
-                }
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            if (slotBehavior != null)
+            {
+                slotBehavior.rune = null;
             }
+        }
     }
 
     /// <summary>
@@ -98,6 +100,8 @@ public class SpellNodeBehavior : MonoBehaviour
                 slot.GetComponent<EquippedSpellNode>()?.OnClick();
 
                 UIAudioManager.Instance.UIDrop(transform);
+
+                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
             }
             else
             {
@@ -109,6 +113,10 @@ public class SpellNodeBehavior : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Constantly gets the mouse position
+    /// </summary>
+    /// <param name="m"></param>
     private void GetMousePos(Vector2 m)
     {
         mPos = m;
