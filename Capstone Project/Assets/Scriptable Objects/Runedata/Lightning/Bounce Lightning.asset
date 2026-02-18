@@ -16,13 +16,13 @@ MonoBehaviour:
   TypeOfRune: 0
   NumberOnSkillTree: 2
   RuneName: Chain Lightning
-  RuneDescription: Select a tile in range to strike with lightning. The lightning
-    will then chain along the row and column of the original target, hitting all
-    enemies in the line. Enemies further away from the original starting tile take
-    reduced damage.
+  RuneDescription: Select a tile in range. Lightning will then chain along the row
+    and column of the selected tile, hitting all enemies in those directions. Enemies
+    further away from the original starting tile take reduced damage.
   RuneDamage: 25
   SecondaryRuneDamage: 0
   RuneRange: 3
+  RuneAOE: 0
   RuneActionPoints: 2
   RuneSecondaryEffectChance: 0
   RuneVFX: {fileID: 1209299866137543546, guid: abfd166d4a276e51aab888a37b57dbfa, type: 3}
