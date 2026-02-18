@@ -273,7 +273,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             if (movementLeft > 0)
             {
-                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.black);
+                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.yellow);
                 GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                 previousPositions.Add(v);
                 movementPositions.Add(t);
