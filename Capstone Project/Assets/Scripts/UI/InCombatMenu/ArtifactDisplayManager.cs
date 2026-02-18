@@ -18,7 +18,7 @@ public class ArtifactDisplayManager : MonoBehaviour
                 artifacts.Add(artifact);
             }
         }
-        EquipedRunesAndArtifacts.PrintSpellsAndArtifacts();
+        //EquipedRunesAndArtifacts.PrintSpellsAndArtifacts();
 
         //resets all of the spell tabs so there is no overlap in setup
         foreach (GameObject artifactDisplay in artifactDisplays)

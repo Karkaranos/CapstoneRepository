@@ -4,6 +4,7 @@ using UnityEngine;
 public class SpellTabsManager : MonoBehaviour
 {
     public SpellTabBehavior[] spellTabs;
+    public SpellDisplayBoxBehavior spellInfoBox;
 
     /// <summary>
     /// this is what gets called to set up the spell tabs in the in combat menu
@@ -28,12 +29,31 @@ public class SpellTabsManager : MonoBehaviour
         //sets up the spell tabs with the spell that they will cast
         for (int i = 0; i < spells.Count; i++) {
             spellTabs[i].SetUp(spells[i]);
+            //InCombatMenuManager.spellTabs.Add(spellTabs[i]);
         }
 
         //deactivates the spell tabs that dont have a rune data stored in them
         foreach (SpellTabBehavior spellTab in spellTabs) {
             if (spellTab.runeData == null) {
                 spellTab.Deactivate();
+            }
+        }
+    }
+
+    public void SelectTab(SpellTabBehavior stb) {
+        DeselectAllTabs();
+        stb.PopOut();
+        stb.selected = true;
+    }
+
+    public void DeselectAllTabs()
+    {
+        foreach (SpellTabBehavior spellTab in spellTabs)
+        {
+            spellTab.selected = false;
+            if (spellTab.poppedOut)
+            {
+                spellTab.Retact();
             }
         }
     }
