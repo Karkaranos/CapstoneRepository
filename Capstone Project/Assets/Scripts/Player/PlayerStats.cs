@@ -6,12 +6,13 @@ Brief Description : 	This class controls the player stats like health
                         resistance and baseDamage
 External Resources : 
 ***************************************************/
-using UnityEngine;
-using System;
 using NaughtyAttributes;
-using UnityEngine.UI;
-using Unity.VisualScripting;
+using System;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -42,8 +43,8 @@ public class PlayerStats : MonoBehaviour
 
     [Header("References to different canvases or objects")]
     [Tooltip("UI Object for the turn indicator"), ShowIf(nameof(settings), Settings.GeneralStats)] public GameObject turnIndicator;
-    [Tooltip("The player's canvas"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private Transform playerCanvas;
+    private SpriteRenderer playerSprite;
     [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private GameObject statChange;
 
@@ -66,10 +67,16 @@ public class PlayerStats : MonoBehaviour
     public float Thorns = 0f;
     [Tooltip("Whether the player can take damage at all or not. True if they can"), ShowIf(nameof(settings), Settings.DamageTaken)]
     public bool TakesDamage = true;
+
+    [SerializeField,ShowIf(nameof(settings), Settings.DamageTaken), Tooltip("Damage flash material")]
+    protected Material flashColor;
+    [SerializeField, ShowIf(nameof(settings), Settings.DamageTaken), Tooltip("How long before the material resets to normal, in milliseconds")]
+    protected int flashTime = 1000;
+    private Material baseMat;
     #endregion
 
     #region Attack Stats
-    [HorizontalLine(4, EColor.Blue)]
+[HorizontalLine(4, EColor.Blue)]
     [Tooltip("Multiplies how much damage the player deals across all elements"), ShowIf(nameof(settings), Settings.Attack)]
     public float BaseAttackMultiplier = 1f;
     [Tooltip("Multiplies how much damage the player deals from lightning spells"), ShowIf(nameof(settings), Settings.Attack)]
@@ -119,11 +126,26 @@ public class PlayerStats : MonoBehaviour
     private void OnEnable()
     {
         PublicEvents.NewLevel += SetTurnIndicator;
+        PublicEvents.NewPlayerCreated += PlayerSpawned;
     }
 
     private void OnDisable()
     {
         PublicEvents.NewLevel -= SetTurnIndicator;
+    }
+
+
+    /// <summary>
+    /// Sets player variables when a new player is created
+    /// </summary>
+    /// <param name="pCanvas">The player's canvas</param>
+    /// <param name="pSprite">The player's sprite renderer</param>
+    public void PlayerSpawned(Transform pCanvas, SpriteRenderer pSprite)
+    {
+        playerCanvas = pCanvas;
+        playerSprite = pSprite;
+        baseMat = playerSprite.material;
+    
     }
 
     /// <summary>
@@ -132,7 +154,7 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     /// <param name="amount">Base amount of damage</param>
     /// <param name="source">Where the damage came from</param>
-    public void TakeDamage(int amount, DamageSource source = DamageSource.None, Enemy e = null)
+    public async void TakeDamage(int amount, DamageSource source = DamageSource.None, Enemy e = null)
     {
 
         if (!TakesDamage)
@@ -160,6 +182,12 @@ public class PlayerStats : MonoBehaviour
             //for now, it's eating a hit for the player
             return;
 
+        }
+
+
+        if (playerSprite != null)
+        {
+            playerSprite.material = flashColor;
         }
 
         float damageToTake = (amount * (1 - Resistance) * DamageTakenMultiplier);
@@ -228,6 +256,13 @@ public class PlayerStats : MonoBehaviour
         }
 
         UpdateHealthBar();
+
+
+        await Task.Delay(flashTime);
+        if (playerSprite != null)
+        {
+            playerSprite.material = baseMat;
+        }
     }
 
     /// <summary>

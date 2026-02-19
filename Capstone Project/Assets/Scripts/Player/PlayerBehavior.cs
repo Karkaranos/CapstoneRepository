@@ -77,6 +77,13 @@ public class PlayerBehavior : MonoBehaviour
     private List<Vector2Int> enemyPositions = new List<Vector2Int>();
     [SerializeField] private bool underEffect;
 
+
+    [Header("Child References")]
+    [Tooltip("A reference to the player's Canvas"), SerializeField, Required]
+    private Transform pTransform;
+    [Tooltip("A reference to the player's Sprite Renderer"), SerializeField, Required]
+    private SpriteRenderer pSprite;
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -94,6 +101,8 @@ public class PlayerBehavior : MonoBehaviour
         myCol = GetComponent<BoxCollider>();
         previousColliderPos = myCol.center;
         underEffect = false;
+
+        PublicEvents.NewPlayerCreated?.Invoke(pTransform, pSprite);
     }
 
     #region player input
