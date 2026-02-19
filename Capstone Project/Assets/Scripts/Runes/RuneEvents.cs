@@ -272,7 +272,7 @@ public class RuneEvents : MonoBehaviour
                     await Task.Delay(1200);
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
 
-                    CheckRuneCombination(rune, enemy);
+                    //CheckRuneCombination(rune, enemy);
 
                 }
 
@@ -287,7 +287,7 @@ public class RuneEvents : MonoBehaviour
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
                         .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
 
-                        CheckRuneCombination(rune, enemy);
+                        //CheckRuneCombination(rune, enemy);
 
                         adjacentTile.ElectrifyAdTiles();
 
@@ -346,7 +346,7 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        CheckRuneCombination(rune, potentialTarget.GetComponentInChildren<Enemy>());
+                        //CheckRuneCombination(rune, potentialTarget.GetComponentInChildren<Enemy>());
 
                     }
 
@@ -379,11 +379,17 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         await Task.Delay(1200);
+
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
-                        CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
+                        //CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
 
-                        SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+                        if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
+                        {
+
+                            SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+
+                        }
 
                     }
 
@@ -400,7 +406,7 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-            //tleports the player, damaging all enemies in their path
+            //teleports the player, damaging all enemies in their path
             //TODO: update to use pathfinding
             case (4):
 
@@ -429,7 +435,7 @@ public class RuneEvents : MonoBehaviour
                         await Task.Delay(1200);
                         tileInPath.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
-                        CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
+                        //CheckRuneCombination(rune, tileInPath.GetComponentInChildren<Enemy>());
 
                     }
 
@@ -490,7 +496,6 @@ public class RuneEvents : MonoBehaviour
         return secondaryTarget;
 
     }
-
 
     //variable that stores targets for an aoe attack
     List<TileBehaviour> secondaryTargets = new List<TileBehaviour>();
@@ -807,7 +812,7 @@ public class RuneEvents : MonoBehaviour
 
                     await Task.Delay(1200);
                     selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
-                    CheckRuneCombination(rune, enemy);
+                    //CheckRuneCombination(rune, enemy);
 
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
@@ -1526,7 +1531,7 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
-                        CheckRuneCombination(rune, GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
+                        //CheckRuneCombination(rune, GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
 
                     }
 
