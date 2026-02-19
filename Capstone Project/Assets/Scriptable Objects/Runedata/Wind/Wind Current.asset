@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13a91b44a54ae6e4d8f93f16b6699ffa, type: 3}
-  m_Name: Wind Shield
+  m_Name: Wind Current
   m_EditorClassIdentifier: 
   currentInspectorShowing: 0
   TypeOfRune: 1
   NumberOnSkillTree: 3
-  RuneName: Wind Shield
-  RuneDescription: Forms a gust of protective wind around the player. Deflects enemies
-    attacks and deteriorates as more damage comes in. Less effective against long
-    ranged enemies.
-  RuneDamage: 0
-  RuneRange: 0
+  RuneName: Wind Current
+  RuneDescription: Selecting an empty tile within range. Click and drag to create
+    a current of wind that moves enemies along the direction of the current. Remains
+    until next turn.
+  RuneDamage: 10
+  SecondaryRuneDamage: 8
+  RuneRange: 4
+  RuneAOE: 0
   RuneActionPoints: 2
   RuneSecondaryEffectChance: 0
   RuneVFX: {fileID: 9075514561500158969, guid: 554bc53c8c52a202b87359c54aa1201e, type: 3}

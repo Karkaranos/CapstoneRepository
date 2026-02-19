@@ -77,6 +77,8 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// </summary>
     public void Initialize(bool moveConsole = true, bool greet = true, bool enemy = true, bool player = true, bool nav = true, bool enabled = false, bool enabledAtStart = false)
     {
+        Commands.AvailableCommandTypes.Clear();
+
         Logger.Initialize(consoleTextbox, logColor, warningColor, errorColor, inputColor, infoColor);
         rectTransform = consoleRectTransform;
 
@@ -92,6 +94,29 @@ public class CommandConsoleBehavior : MonoBehaviour
         enemiesEnabled = enemy;
         playerEnabled = player;
         navigationEnabled = nav;
+
+        if(moveConsole)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.MoveConsole);
+        }
+        if (greetEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Greet);
+        }
+        if (enemiesEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Enemies);
+        }
+        if (playerEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Player);
+        }
+        if (navigationEnabled)
+        {
+            Commands.AvailableCommandTypes.Add(Commands.CommandGroup.Navigation);
+        }
+
+        Commands.AvailableCommandTypes.Add(Commands.CommandGroup.None);
     }
 
     /// <summary>
@@ -147,7 +172,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                     {
                         if(navigationEnabled)
                         {
-                            Commands.Navigation(command);
+                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
                         }
                         break;
                     }
@@ -202,7 +227,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                             {
                                 if(navigationEnabled)
                                 {
-                                    Commands.Navigation(command);
+                                    Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
                                 }
                                 break;
                             }
@@ -257,7 +282,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     {
                                         if(navigationEnabled)
                                         {
-                                            Commands.Navigation(command);
+                                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
                                         }
                                         break;
                                     }
