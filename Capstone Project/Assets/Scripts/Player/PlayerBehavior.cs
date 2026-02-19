@@ -372,13 +372,9 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
-        Test();
+        anim.SetBool("Idle", true);
     }
 
-    void Test()
-    {
-        anim.SetTrigger("Idle");
-    }
 
     /// <summary>
     /// Updates the variables for the new movement system when the player teleports
@@ -463,7 +459,7 @@ public class PlayerBehavior : MonoBehaviour
         gm.UpdateActionPoints(gm.MoveActionPoints);
         buttonManager.ReEnableActionCanvas();
         //EnableMovableTiles();
-        anim.SetTrigger("Idle");
+        //anim.SetTrigger("Idle");
     }
 
     /// <summary>
