@@ -69,6 +69,7 @@ public class PlayerBehavior : MonoBehaviour
     private Vector3 ghostPosition;
     [Tooltip("If true, the player will not have to use all of their movement in order to move.")]
     [SerializeField] bool allowLeftoverMovement;
+    [SerializeField] bool onlyMoveOnce;
     Vector2Int posBeforeMovement;
     private int movementUsed;
 
@@ -337,6 +338,7 @@ public class PlayerBehavior : MonoBehaviour
             bool isMoving = true;
             while(isMoving)
             {
+                anim.SetTrigger("Walk");
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
                 if (transform.position == movementPositions[i])
                 {
@@ -370,6 +372,12 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
+        Test();
+    }
+
+    void Test()
+    {
+        anim.SetTrigger("Idle");
     }
 
     /// <summary>
@@ -407,6 +415,10 @@ public class PlayerBehavior : MonoBehaviour
         buttonManager = FindFirstObjectByType<ButtonManager>();
         if (allowLeftoverMovement)
         {
+            if (onlyMoveOnce)
+            {
+                movementLeft = 0;
+            }
             StartCoroutine(MovePlayer());
             gm.GetComponent<PlayerInputHandler>().enableMovement = false;
             buttonManager.ResetCanvas();
