@@ -71,7 +71,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9089e04e1daf2aa4c87ca3238565031c, type: 2}
   consoleEnabled: 1
   consoleEnabledOnLoad: 0
-  moveConsoleEnabled: 1
+  moveConsoleEnabled: 0
   greetEnabled: 1
   enemiesEnabled: 1
   playerEnabled: 1
@@ -278,7 +278,6 @@ MonoBehaviour:
   XPMultiplier: 1
   RAPChanceModifier: 1
   turnIndicator: {fileID: 0}
-  playerCanvas: {fileID: 0}
   statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
   Resistance: 0
   DamageTakenMultiplier: 1
@@ -286,6 +285,8 @@ MonoBehaviour:
   MeleeDamageTakenMultiplier: 1
   Thorns: 0
   TakesDamage: 1
+  flashColor: {fileID: 2100000, guid: 75ff79590476cf14fa2bf0fa02d4bb08, type: 2}
+  flashTime: 1000
   BaseAttackMultiplier: 1
   LightningAttackMultiplier: 1
   WindAttackMultiplier: 1

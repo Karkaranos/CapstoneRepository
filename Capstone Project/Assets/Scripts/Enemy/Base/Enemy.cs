@@ -279,7 +279,10 @@ public class Enemy : MonoBehaviour
 
         GridManager.RemoveEntity(gridPathfinding.MyPosition);
 
-        Destroy(this.gameObject);
+        if (gameObject != null)
+        {
+            Destroy(this.gameObject);
+        }
         print("Enemy is dead!");
     }
 
