@@ -25,6 +25,7 @@ public class SkillAndArtifactManager : MonoBehaviour
 
     [SerializeField] private Settings InspectorSettings;
 
+    [SerializeField] private EventReference bgmEventRefSFX;
     [SerializeField] private EventReference ambienceEventRefSFX;
     [SerializeField] private GameObject audioListenerObject;
 
@@ -146,7 +147,11 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         AudioManager.instance.CreateEventInstance(ambienceEventRefSFX);
         AudioManager.instance.PlayOneShot(ambienceEventRefSFX, audioListenerObject.transform.position);
+
+        AudioManager.instance.CreateEventInstance(bgmEventRefSFX);
+        AudioManager.instance.PlayOneShot(bgmEventRefSFX, audioListenerObject.transform.position);
     }
+
 
     /// <summary>
     /// sets the given spell to the equipped master list
