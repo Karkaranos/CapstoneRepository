@@ -51,7 +51,7 @@ public class TileBehaviour : MonoBehaviour
     [Header("Objects On This Tile")]
     [SerializeField] private bool TileHasEntities = false;
     [SerializeField, ShowIf(nameof(TileHasEntities)), Foldout("Entities")] private EntityType entityType;
-    [SerializeField, ShowIf(nameof(TileHasEntities)), Foldout("Entities")] private GameObject entityObject;
+    [SerializeField, ShowIf(nameof(TileHasEntities)), Foldout("Entities")] public GameObject entityObject;
 
     [SerializeField] private bool TileHasHazards = false;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private HazardType hazardType;

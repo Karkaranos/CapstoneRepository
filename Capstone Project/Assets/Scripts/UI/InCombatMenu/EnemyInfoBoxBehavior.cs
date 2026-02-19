@@ -39,10 +39,19 @@ public class EnemyInfoBoxBehavior : MonoBehaviour
         }
     }
 
-    public void SetUpInfoBox(int moveRange, int attackRange, int health, int attack) {
-        moveRangeText.text = "Move Range: " + moveRange;
-        attackRangeText.text = "Attack Range: " + attackRange;
-        healthText.text = "Health: " + health;
-        attackText.text = "attack: " + attack;
+    public void SetUpInfoBox(TileBehaviour tile) {
+
+        print("called");
+        MeleeEnemy meleeEnemyScript = tile?.entityObject?.GetComponent<MeleeEnemy>();
+        RangedEnemy rangedEnemyScript = tile?.entityObject?.GetComponent<RangedEnemy>();
+
+        if (meleeEnemyScript != null) {
+            print(meleeEnemyScript.gameObject.name);
+        }
+
+        if (rangedEnemyScript != null)
+        {
+            print(rangedEnemyScript.gameObject.name);
+        }
     }
 }
