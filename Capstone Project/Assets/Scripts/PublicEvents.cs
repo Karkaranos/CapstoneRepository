@@ -37,6 +37,8 @@ public static class PublicEvents
 
     public static Action PlayerNoLongerTryingToAttack;
 
+    public static Action<Transform, SpriteRenderer> NewPlayerCreated;
+
     #endregion PLAYER
 
     #region INPUTS
