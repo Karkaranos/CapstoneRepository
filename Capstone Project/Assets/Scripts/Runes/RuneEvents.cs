@@ -994,15 +994,29 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        if (GridManager.combatGrid[newTilePos.x, newTilePos.y])
+        TileBehaviour newTile = null;
+
+        foreach(TileBehaviour viableTile in GridManager.combatGrid)
         {
 
-            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
-
-            if(newTile.GetComponentInChildren<Enemy>())
+            if(viableTile.IndexInGrid == newTilePos)
             {
 
-                if(CanMoveBackwards(enemyTile, newTile))
+                newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
+
+                break;
+
+            }
+
+        }
+
+        if(newTile != null)
+        {
+
+            if (newTile.GetComponentInChildren<Enemy>())
+            {
+
+                if (CanMoveBackwards(enemyTile, newTile))
                 {
 
                     return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2;
@@ -1025,10 +1039,8 @@ public class RuneEvents : MonoBehaviour
 
         }
         else
-        {
-
+        { 
             return false;
-
         }
 
     }
@@ -1070,39 +1082,16 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        if (GridManager.combatGrid[newTilePos.x, newTilePos.y])
+        foreach(TileBehaviour viableTile in GridManager.combatGrid)
         {
 
-            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
-
-            if(newTile.entityOnGrid == -1)
+            if(viableTile.IndexInGrid == newTilePos)
             {
 
-                enemy.transform.SetParent(newTile.transform);
+                TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-                enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
-
-                GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
-
-                enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
-
-                if(kbChain)
+                if (newTile.entityOnGrid == -1)
                 {
-
-                    kbChain = false;
-
-                }
-
-            }
-            else if(newTile.entityOnGrid == -2 && kbChain)
-            {
-
-                if(CanMoveBackwards(enemyTile, newTile))
-                {
-
-                    newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
-
-                    SendEnemyBackwards(enemyTile, newTile, newTile.GetComponentInChildren<Enemy>());
 
                     enemy.transform.SetParent(newTile.transform);
 
@@ -1112,13 +1101,43 @@ public class RuneEvents : MonoBehaviour
 
                     enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
 
+                    if (kbChain)
+                    {
+
+                        kbChain = false;
+
+                    }
+
                 }
-                else
+                else if (newTile.entityOnGrid == -2 && kbChain)
                 {
 
-                    kbChain = false;
+                    if (CanMoveBackwards(enemyTile, newTile))
+                    {
+
+                        newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
+
+                        SendEnemyBackwards(enemyTile, newTile, newTile.GetComponentInChildren<Enemy>());
+
+                        enemy.transform.SetParent(newTile.transform);
+
+                        enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+
+                        GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+
+                        enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+
+                    }
+                    else
+                    {
+
+                        kbChain = false;
+
+                    }
 
                 }
+
+                break;
 
             }
 
