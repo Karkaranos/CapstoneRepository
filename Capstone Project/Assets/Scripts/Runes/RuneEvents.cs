@@ -1429,6 +1429,8 @@ public class RuneEvents : MonoBehaviour
                     ShieldBehavior newShield = GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].gameObject.AddComponent<ShieldBehavior>();
                     newShield.OnShieldGenerated(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform, rune.RuneVFX);
 
+                    GridManager.AddEntity(PreviousPos[i], -6);
+
                 }
 
                 break;

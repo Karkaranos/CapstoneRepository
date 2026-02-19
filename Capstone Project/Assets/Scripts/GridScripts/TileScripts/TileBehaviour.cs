@@ -24,7 +24,8 @@ public class TileBehaviour : MonoBehaviour
         Enemy,
         Player,
         Obstacle,
-        Pip
+        Pip,
+        Shield
     }
     private enum HazardType
     {
