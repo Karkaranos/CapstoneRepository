@@ -15,12 +15,14 @@ MonoBehaviour:
   currentInspectorShowing: 0
   TypeOfRune: 0
   NumberOnSkillTree: 2
-  RuneName: Bounce Lightning
-  RuneDescription: Can be cast on one enemy. It will then bounce over to the closest
-    enemy and deal the same amount of damage it does to the first enemy.
+  RuneName: Chain Lightning
+  RuneDescription: Select a tile in range. Lightning will then chain along the row
+    and column towards the selected tile, hitting all enemies. Enemies further away
+    from the starting tile take reduced damage.
   RuneDamage: 25
   SecondaryRuneDamage: 0
   RuneRange: 3
+  RuneAOE: 0
   RuneActionPoints: 2
   RuneSecondaryEffectChance: 0
   RuneVFX: {fileID: 1209299866137543546, guid: abfd166d4a276e51aab888a37b57dbfa, type: 3}

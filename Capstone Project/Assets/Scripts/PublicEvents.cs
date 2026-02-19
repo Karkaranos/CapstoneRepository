@@ -16,7 +16,7 @@ public static class PublicEvents
     //on purchase of a node.
     public static Action SkillTreeNodePurchased;
     public static Action<RuneType> MasteryRunePurchased;
-    
+
 
     public static Action TrashHeldOOCObject;
 
@@ -37,6 +37,8 @@ public static class PublicEvents
 
     public static Action PlayerNoLongerTryingToAttack;
 
+    public static Action<Transform, SpriteRenderer> NewPlayerCreated;
+
     #endregion PLAYER
 
     #region INPUTS
@@ -46,6 +48,9 @@ public static class PublicEvents
 
     //called whenever the player leftclicks
     public static Action LeftClicked;
+
+    //Called whenever left click is released
+    public static Action LeftClickReleased;
 
     //call this to enable / disable the player's inputs
     public static Action<bool> EnablePlayersInputs;
@@ -57,6 +62,7 @@ public static class PublicEvents
 
     public static Action<Vector2> PanCamera;
     public static Action<Vector2> MovementDirection;
+    public static Action<Vector2> MousePosition;
 
     #endregion INPUTS
 
@@ -65,6 +71,9 @@ public static class PublicEvents
 
     public static Action<TileBehaviour, Enemy, PlayerBehavior> SelectTarget;
 
+    public static Action NewLevel;
+
+    public static Action<int> LoadingGrid; 
 
     #region RUNE EVENTS
 

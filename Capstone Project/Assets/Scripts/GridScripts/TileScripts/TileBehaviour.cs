@@ -114,7 +114,7 @@ public class TileBehaviour : MonoBehaviour
 
         //spawns an Entity if theres one to spawn
         if (TileHasEntities && entityObject != null) {
-            GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity, transform);
 
             // if the entity has a gridpathfinding componet
             if (obj.GetComponent<GridPathfinding>() != null)
@@ -141,7 +141,7 @@ public class TileBehaviour : MonoBehaviour
         //spawns a hazard if theres one to spawn
         if (TileHasHazards && hazardObject != null)
         {
-            GameObject obj = Instantiate(hazardObject, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(hazardObject, transform);
         }
     }
 
@@ -316,9 +316,9 @@ public class TileBehaviour : MonoBehaviour
     private void DamageEntity(int amount) {
         //calls the player damage
         if (ObjectOnTile != null) {
-            if (ObjectOnTile.GetComponent<PlayerStats>() != null)
+            if (ObjectOnTile.GetComponent<PlayerBehavior>() != null)
             {
-                ObjectOnTile.GetComponent<PlayerStats>().TakeDamage(amount);
+                FindFirstObjectByType<PlayerStats>().TakeDamage(amount);
             }
 
             //calls the enemy damage
@@ -359,7 +359,7 @@ public class TileBehaviour : MonoBehaviour
     {
         Vector3 pos = transform.position;
         pos.y = pos.y + 1;
-        Instantiate(pip, pos, Quaternion.identity);
+        Instantiate(pip, pos, Quaternion.identity, transform);
         GridManager.AddEntity(IndexInGrid, -5);
     }
 }

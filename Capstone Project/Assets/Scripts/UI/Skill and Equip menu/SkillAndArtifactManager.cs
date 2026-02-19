@@ -25,6 +25,7 @@ public class SkillAndArtifactManager : MonoBehaviour
 
     [SerializeField] private Settings InspectorSettings;
 
+    [SerializeField] private EventReference bgmEventRefSFX;
     [SerializeField] private EventReference ambienceEventRefSFX;
     [SerializeField] private GameObject audioListenerObject;
 
@@ -33,8 +34,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
 
     //all the containers for the different menus
-    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
-    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
+    //[ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
+    //[ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField]
     private GameObject OutOfCombatMenuContainer;
 
@@ -95,8 +96,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     private void OnEnable()
     {
         //sets the spell menu active
-        SkillTreeContainer.SetActive(false);
-        EquipMenuContainer.SetActive(true);
+        //SkillTreeContainer.SetActive(false);
+        //EquipMenuContainer.SetActive(true);
 
         //sets the spell slots
         if (equippedSpells.Count < NumOfSpellSlots)
@@ -116,13 +117,13 @@ public class SkillAndArtifactManager : MonoBehaviour
     {
         if (isSkill)
         {
-            SkillTreeContainer.SetActive(true);
-            EquipMenuContainer.SetActive(false);
+            //SkillTreeContainer.SetActive(true);
+            //EquipMenuContainer.SetActive(false);
         }
         else
         {
-            SkillTreeContainer.SetActive(false);
-            EquipMenuContainer.SetActive(true);
+            //SkillTreeContainer.SetActive(false);
+            //EquipMenuContainer.SetActive(true);
         }
 
         if (spawnedCursorBox != null)
@@ -137,6 +138,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     public void ContinueToNextLevel()
     {
+
         OutOfCombatMenuContainer.SetActive(false);
         FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
 
@@ -145,7 +147,11 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         AudioManager.instance.CreateEventInstance(ambienceEventRefSFX);
         AudioManager.instance.PlayOneShot(ambienceEventRefSFX, audioListenerObject.transform.position);
+
+        AudioManager.instance.CreateEventInstance(bgmEventRefSFX);
+        AudioManager.instance.PlayOneShot(bgmEventRefSFX, audioListenerObject.transform.position);
     }
+
 
     /// <summary>
     /// sets the given spell to the equipped master list

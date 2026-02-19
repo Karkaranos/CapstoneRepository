@@ -77,6 +77,13 @@ public class PlayerBehavior : MonoBehaviour
     private List<Vector2Int> enemyPositions = new List<Vector2Int>();
     [SerializeField] private bool underEffect;
 
+
+    [Header("Child References")]
+    [Tooltip("A reference to the player's Canvas"), SerializeField, Required]
+    private Transform pTransform;
+    [Tooltip("A reference to the player's Sprite Renderer"), SerializeField, Required]
+    private SpriteRenderer pSprite;
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -94,6 +101,8 @@ public class PlayerBehavior : MonoBehaviour
         myCol = GetComponent<BoxCollider>();
         previousColliderPos = myCol.center;
         underEffect = false;
+
+        PublicEvents.NewPlayerCreated?.Invoke(pTransform, pSprite);
     }
 
     #region player input
@@ -145,7 +154,45 @@ public class PlayerBehavior : MonoBehaviour
             enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
         }
 
+        ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
+        if(allShields.Length >= 1)
+        {
+
+            foreach(ShieldBehavior shield in allShields)
+            {
+
+                shield.GetDestroyed();
+
+            }
+
+        }
+
+        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+        if (allCurrents.Length >= 1)
+        {
+
+            foreach (WindCurrentTracker current in allCurrents)
+            {
+
+                current.DestroyCurrents();
+
+            }
+
+        }
+
         VisualizeEnemyPaths();
+
+    }
+
+    /// <summary>
+    /// ensures that the player won't trigger movement while the player is pathing an attack
+    /// </summary>
+    /// <param name="canThePlayerMove"></param>
+    public void SetPlayerMovementStatus(bool canThePlayerMove)
+    {
+
+        canMove = canThePlayerMove;
+
     }
 
     /// <summary>
@@ -235,7 +282,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             if (movementLeft > 0)
             {
-                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.black);
+                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.yellow);
                 GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                 previousPositions.Add(v);
                 movementPositions.Add(t);
