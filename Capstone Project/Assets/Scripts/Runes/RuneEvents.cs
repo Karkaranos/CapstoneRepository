@@ -384,12 +384,7 @@ public class RuneEvents : MonoBehaviour
 
                         //CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
 
-                        if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
-                        {
-
-                            SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
-
-                        }
+                        SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
 
                     }
 
@@ -745,7 +740,6 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion LIGHTNING FUNCTIONS
-
 
 
     #region WIND FUNCTIONS

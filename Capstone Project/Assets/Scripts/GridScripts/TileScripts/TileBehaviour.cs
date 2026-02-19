@@ -241,7 +241,7 @@ public class TileBehaviour : MonoBehaviour
     /// Public call so tile effects can be applied before a turn ends
     /// </summary>
     public void ApplyTileEffects() {
-        if (hazardType == HazardType.damage)
+        if (hazardType == HazardType.damage && TileHasHazards)
         {
             DamageEntity(damageAmount);
         }
@@ -257,7 +257,7 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void EndTurnTileEffects()
     {
-        if (hazardType == HazardType.damage)
+        if (hazardType == HazardType.damage && TileHasHazards)
         {
             DamageEntity(damageAmount);
         }
