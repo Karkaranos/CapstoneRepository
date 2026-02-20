@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	2/12/2026 (Brad Dixon)
+Date Last Modified : 	2/19/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -69,7 +69,8 @@ public class PlayerBehavior : MonoBehaviour
     private Vector3 ghostPosition;
     [Tooltip("If true, the player will not have to use all of their movement in order to move.")]
     [SerializeField] bool allowLeftoverMovement;
-    [SerializeField] bool onlyMoveOnce;
+    [Tooltip("If enabled, the player will only be allowed to move once on their turn.")]
+    [SerializeField, ShowIf("allowLeftoverMovement")] bool onlyMoveOnce;
     Vector2Int posBeforeMovement;
     private int movementUsed;
 
@@ -145,6 +146,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     private void StartPlayerTurn()
     {
+        enemyPositions.Clear();
         movementLeft = movementRange;
         canMove = true;
         posBeforeMovement = myPosition;
