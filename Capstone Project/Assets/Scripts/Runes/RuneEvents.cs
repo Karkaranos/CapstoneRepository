@@ -1366,7 +1366,7 @@ public class RuneEvents : MonoBehaviour
                 for(int i = 0; i < PreviousPos.Count; i++)
                 {
 
-                    Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
+                    //Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
 
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
