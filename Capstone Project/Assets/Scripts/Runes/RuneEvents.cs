@@ -1417,6 +1417,8 @@ public class RuneEvents : MonoBehaviour
     float currentSecondaryDamage;
     bool kbChain = false;
 
+    List<Enemy> targetedEnemies = new List<Enemy>();
+
     /// <summary>
     /// executes attacks that utilize pathing
     /// </summary>
@@ -1519,6 +1521,8 @@ public class RuneEvents : MonoBehaviour
 
             case (RuneType.Wind, 4):
 
+                targetedEnemies.Clear();
+
                 foreach(Vector2Int tile in PreviousPos)
                 {
 
@@ -1526,7 +1530,9 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
-                        CheckRuneCombination(rune, GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
+                        //CheckRuneCombination(rune, GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
+
+                        targetedEnemies.Add(GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
 
                     }
 
@@ -1561,13 +1567,18 @@ public class RuneEvents : MonoBehaviour
 
                             Debug.Log(targetedTiles);
 
-                            if (tileInRange.GetComponentInChildren<Enemy>() != null && !PreviousPos.Contains(tileInRange.IndexInGrid))
+                            if (tileInRange.GetComponentInChildren<Enemy>() != null)
                             {
 
-                                tileInRange.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
+                                if(!targetedEnemies.Contains(tileInRange.GetComponentInChildren<Enemy>()))
+                                {
 
-                                PullEnemyForward(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y], tileInRange,
-                                tileInRange.GetComponentInChildren<Enemy>());
+                                    tileInRange.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
+
+                                    PullEnemyForward(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y], tileInRange,
+                                    tileInRange.GetComponentInChildren<Enemy>());
+
+                                }
 
                             }
 
@@ -1896,12 +1907,12 @@ public class RuneEvents : MonoBehaviour
 
         int timer = 0;
 
-        while (timer <= 1)
+        while (timer <= 2)
         {
 
             timer++;
 
-            if (timer == 1)
+            if (timer == 2)
             {
 
                 PublicEvents.EndCast.Invoke();
