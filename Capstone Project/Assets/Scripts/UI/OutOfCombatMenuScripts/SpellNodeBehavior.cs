@@ -66,16 +66,18 @@ public class SpellNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-            transform.parent = null;
+            //transform.parent = null;
             holding = true;
             dragging = true;
 
             UIAudioManager.Instance.UIPickUp(transform);
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            PublicEvents.RuneUnequipped?.Invoke(runeData);
             if (slotBehavior != null)
             {
                 slotBehavior.rune = null;
+                
             }
         }
     }
@@ -97,11 +99,14 @@ public class SpellNodeBehavior : MonoBehaviour
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
                 slotBehavior.rune = runeData;
-                slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                //slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                FindFirstObjectByType<SkillAndArtifactManager>().SetIndexOfEquippedSpells(slot.GetComponent<EquippedSpellNode>().index, runeData);
 
                 UIAudioManager.Instance.UIDrop(transform);
 
-                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                transform.SetParent(slot.transform);
+                
             }
             else
             {
@@ -131,8 +136,18 @@ public class SpellNodeBehavior : MonoBehaviour
         if (dragging)
         {
             notebookSpellNode.Equip(true);
-            Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
+            Vector2 localPoint = Vector2.zero;
+
+            try
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
+
+            }
+            catch
+            {
+                Debug.Log(gameObject.name);
+            }
+
             rectTransform.localPosition = localPoint - offset;
         }
         

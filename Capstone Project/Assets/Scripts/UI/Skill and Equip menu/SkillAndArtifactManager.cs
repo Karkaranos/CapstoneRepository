@@ -95,6 +95,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        PublicEvents.RuneUnequipped += UnequipSpell;
+
         //sets the spell menu active
         //SkillTreeContainer.SetActive(false);
         //EquipMenuContainer.SetActive(true);
@@ -107,6 +109,21 @@ public class SkillAndArtifactManager : MonoBehaviour
                 equippedSpells.Add(null);
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.RuneUnequipped -= UnequipSpell;
+    }
+
+    private void UnequipSpell(RuneData data)
+    {
+        if (equippedSpells.Contains(data))
+        {
+            SetIndexOfEquippedSpells(GetIndexFromRuneData(data), null);
+        }
+
+        
     }
 
     /// <summary>
@@ -173,6 +190,18 @@ public class SkillAndArtifactManager : MonoBehaviour
     public RuneData GetIndexOfEquippedSpells(int index)
     {
         return equippedSpells[index];
+    }
+
+    public int GetIndexFromRuneData(RuneData runeData)
+    {
+        if (equippedSpells.Contains(runeData))
+        {
+            return (equippedSpells.IndexOf(runeData));
+        }
+        else
+        {
+            throw new System.Exception("equipped spells does not contain " + runeData + ".");
+        }
     }
 
     /// <summary>
