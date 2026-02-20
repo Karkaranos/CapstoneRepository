@@ -69,6 +69,7 @@ public class PlayerBehavior : MonoBehaviour
     private Vector3 ghostPosition;
     [Tooltip("If true, the player will not have to use all of their movement in order to move.")]
     [SerializeField] bool allowLeftoverMovement;
+    [SerializeField] bool onlyMoveOnce;
     Vector2Int posBeforeMovement;
     private int movementUsed;
 
@@ -161,6 +162,7 @@ public class PlayerBehavior : MonoBehaviour
             foreach(ShieldBehavior shield in allShields)
             {
 
+                GridManager.RemoveEntity(shield.GetComponentInParent<TileBehaviour>().IndexInGrid);
                 shield.GetDestroyed();
 
             }
@@ -337,6 +339,7 @@ public class PlayerBehavior : MonoBehaviour
             bool isMoving = true;
             while(isMoving)
             {
+                anim.SetBool("Walk", true);
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
                 if (transform.position == movementPositions[i])
                 {
@@ -370,7 +373,10 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
+        anim.SetBool("Walk", false);
+        anim.SetBool("Idle", true);
     }
+
 
     /// <summary>
     /// Updates the variables for the new movement system when the player teleports
@@ -407,6 +413,10 @@ public class PlayerBehavior : MonoBehaviour
         buttonManager = FindFirstObjectByType<ButtonManager>();
         if (allowLeftoverMovement)
         {
+            if (onlyMoveOnce)
+            {
+                movementLeft = 0;
+            }
             StartCoroutine(MovePlayer());
             gm.GetComponent<PlayerInputHandler>().enableMovement = false;
             buttonManager.ResetCanvas();
@@ -451,7 +461,7 @@ public class PlayerBehavior : MonoBehaviour
         gm.UpdateActionPoints(gm.MoveActionPoints);
         buttonManager.ReEnableActionCanvas();
         //EnableMovableTiles();
-        anim.SetTrigger("Idle");
+        //anim.SetTrigger("Idle");
     }
 
     /// <summary>
