@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	2/12/2026 (Brad Dixon)
+Date Last Modified : 	2/19/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -69,6 +69,8 @@ public class PlayerBehavior : MonoBehaviour
     private Vector3 ghostPosition;
     [Tooltip("If true, the player will not have to use all of their movement in order to move.")]
     [SerializeField] bool allowLeftoverMovement;
+    [Tooltip("If enabled, the player will only be allowed to move once on their turn.")]
+    [SerializeField, ShowIf("allowLeftoverMovement")] bool onlyMoveOnce;
     Vector2Int posBeforeMovement;
     private int movementUsed;
 
@@ -144,6 +146,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     private void StartPlayerTurn()
     {
+        enemyPositions.Clear();
         movementLeft = movementRange;
         canMove = true;
         posBeforeMovement = myPosition;
@@ -161,6 +164,7 @@ public class PlayerBehavior : MonoBehaviour
             foreach(ShieldBehavior shield in allShields)
             {
 
+                GridManager.RemoveEntity(shield.GetComponentInParent<TileBehaviour>().IndexInGrid);
                 shield.GetDestroyed();
 
             }
@@ -337,6 +341,7 @@ public class PlayerBehavior : MonoBehaviour
             bool isMoving = true;
             while(isMoving)
             {
+                anim.SetBool("Walk", true);
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
                 if (transform.position == movementPositions[i])
                 {
@@ -370,7 +375,10 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
+        anim.SetBool("Walk", false);
+        anim.SetBool("Idle", true);
     }
+
 
     /// <summary>
     /// Updates the variables for the new movement system when the player teleports
@@ -407,6 +415,10 @@ public class PlayerBehavior : MonoBehaviour
         buttonManager = FindFirstObjectByType<ButtonManager>();
         if (allowLeftoverMovement)
         {
+            if (onlyMoveOnce)
+            {
+                movementLeft = 0;
+            }
             StartCoroutine(MovePlayer());
             gm.GetComponent<PlayerInputHandler>().enableMovement = false;
             buttonManager.ResetCanvas();
@@ -451,7 +463,7 @@ public class PlayerBehavior : MonoBehaviour
         gm.UpdateActionPoints(gm.MoveActionPoints);
         buttonManager.ReEnableActionCanvas();
         //EnableMovableTiles();
-        anim.SetTrigger("Idle");
+        //anim.SetTrigger("Idle");
     }
 
     /// <summary>

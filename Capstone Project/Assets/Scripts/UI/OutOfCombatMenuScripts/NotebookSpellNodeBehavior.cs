@@ -63,7 +63,8 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
             snb.canvas = canvas;
             snb.runeData = runeData;
             snb.notebookSpellNode = this.GetComponent<NotebookSpellNodeBehavior>();
-            
+
+            node.transform.SetParent(gameObject.transform.parent.parent.parent);//stupid but works
             node.transform.localScale *= 1.8f;
         } 
     }

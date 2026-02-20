@@ -312,8 +312,8 @@ MonoBehaviour:
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
-  AutomaticEventLoading: 0
-  BankLoadType: 1
+  AutomaticEventLoading: 1
+  BankLoadType: 0
   AutomaticSampleLoading: 0
   EncryptionKey: 
   ImportType: 0
@@ -336,13 +336,7 @@ MonoBehaviour:
   - BGM
   - SFX
   - UI
-  BanksToLoad:
-  - Master
-  - Master.strings
-  - UI
-  - SFX
-  - BGM
-  - Ambience
+  BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
   AndroidUseOBB: 0
@@ -355,7 +349,7 @@ MonoBehaviour:
   SharedLibraryTimeSinceStart: 0
   CurrentVersion: 131633
   HideSetupWizard: 1
-  LastEventReferenceScanVersion: 131633
+  LastEventReferenceScanVersion: 131632
   Platforms:
   - {fileID: -6300355888487357957}
   - {fileID: -3585628576214439788}
