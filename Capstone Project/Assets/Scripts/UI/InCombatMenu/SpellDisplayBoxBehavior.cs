@@ -13,6 +13,10 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
     public TextMeshProUGUI spellDescription;
     public float moveAmount;
 
+    /// <summary>
+    /// sets up the spellInfoBox
+    /// </summary>
+    /// <param name="stb"></param>
     public void SetupInfoBox(SpellTabBehavior stb) {
         spellName.text = stb.runeData.name;
         spellDescription.text = stb.runeData.RuneDescription;
