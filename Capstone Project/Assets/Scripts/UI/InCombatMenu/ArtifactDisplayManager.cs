@@ -1,12 +1,21 @@
+/*************************************************
+Author Names : 		Tyler Bouchard
+Date Created : 		2/10/2026
+Date Last Modified : 2/19/2026
+Brief Description : This gets put on the artifact display n the in combat menu
+it shows the artifacts that are equiped
+***************************************************/
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Unity.Collections.Unicode;
 
 public class ArtifactDisplayManager : MonoBehaviour
 {
     public GameObject[] artifactDisplays;
 
+    /// <summary>
+    /// Sets up the artifact displays
+    /// </summary>
     public void SetUpArtifactDisplays()
     {
         List<ArtifactData> artifacts = new List<ArtifactData>();

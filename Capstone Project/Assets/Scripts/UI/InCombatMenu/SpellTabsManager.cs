@@ -1,3 +1,9 @@
+/*************************************************
+Author Names : 		Tyler Bouchard
+Date Created : 		2/10/2026
+Date Last Modified : 2/19/2026
+Brief Description : manages the spell tabs, sets them up and is resopnsible for selecting them
+***************************************************/
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,12 +46,19 @@ public class SpellTabsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// selects the spell tab
+    /// </summary>
+    /// <param name="stb"></param>
     public void SelectTab(SpellTabBehavior stb) {
         DeselectAllTabs();
         stb.PopOut();
         stb.selected = true;
     }
 
+    /// <summary>
+    /// deselects every spell tab
+    /// </summary>
     public void DeselectAllTabs()
     {
         foreach (SpellTabBehavior spellTab in spellTabs)

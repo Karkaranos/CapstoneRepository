@@ -1,4 +1,9 @@
-using System.Collections.Generic;
+/*************************************************
+Author Names : 		Tyler Bouchard
+Date Created : 		2/10/2026
+Date Last Modified : 2/19/2026
+Brief Description : Behavior for the spell tabs, controls how the pop out, sets them up with the data they need
+***************************************************/
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,6 +71,9 @@ public class SpellTabBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets up the spell tab
+    /// </summary>
     public void SelectSpellTab() { 
         GetComponentInParent<SpellTabsManager>().SelectTab(this);
     }

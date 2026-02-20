@@ -1,3 +1,10 @@
+/*************************************************
+Author Names : 		Tyler Bouchard
+Date Created : 		2/10/2026
+Date Last Modified : 2/19/2026
+Brief Description : This is for displaying the enemy info, reads a tile behavior and if that tile behavior has an enemy 
+it displays its info
+***************************************************/
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,6 +46,10 @@ public class EnemyInfoBoxBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets up the text boxes with the info that is needed
+    /// </summary>
+    /// <param name="tile"></param>
     public void SetUpInfoBox(TileBehaviour tile) {
 
         print("called");
