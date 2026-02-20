@@ -95,4 +95,11 @@ public class NotebookManager : MonoBehaviour
             page.SetActive(false);  
         }
     }
+
+    /// <summary>
+    /// test function to see if the runes and artifacts are equiping properly
+    /// </summary>
+    public void printData() {
+        EquipedRunesAndArtifacts.PrintSpellsAndArtifacts();
+    }
 }   
