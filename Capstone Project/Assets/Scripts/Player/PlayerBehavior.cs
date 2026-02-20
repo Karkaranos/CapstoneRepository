@@ -162,6 +162,7 @@ public class PlayerBehavior : MonoBehaviour
             foreach(ShieldBehavior shield in allShields)
             {
 
+                GridManager.RemoveEntity(shield.GetComponentInParent<TileBehaviour>().IndexInGrid);
                 shield.GetDestroyed();
 
             }
@@ -338,7 +339,7 @@ public class PlayerBehavior : MonoBehaviour
             bool isMoving = true;
             while(isMoving)
             {
-                anim.SetTrigger("Walk");
+                anim.SetBool("Walk", true);
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
                 if (transform.position == movementPositions[i])
                 {
@@ -372,6 +373,7 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
+        anim.SetBool("Walk", false);
         anim.SetBool("Idle", true);
     }
 
