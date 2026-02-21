@@ -54,7 +54,7 @@ public class SpellTabBehavior : MonoBehaviour
     /// moves the spell tab to the right (called with an event trigger on the spell tab)
     /// </summary>
     public void PopOut() {
-        if (!selected)
+        if (!poppedOut)
         {
             GetComponent<RectTransform>().anchoredPosition += new Vector2(moveAmount, 0f);
             poppedOut = true;
@@ -65,7 +65,7 @@ public class SpellTabBehavior : MonoBehaviour
     /// moves the spell tab back to its start pos (called with an event trigger on the spell tab)
     /// </summary>
     public void Retact() {
-        if (!selected) {
+        if (poppedOut && !selected) {
             GetComponent<RectTransform>().anchoredPosition -= new Vector2(moveAmount, 0f);
             poppedOut = false;
         }
