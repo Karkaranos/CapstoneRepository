@@ -917,6 +917,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
 
                     enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                     if (kbChain)
                     {

@@ -202,6 +202,20 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the player's reference to the enemies positions when an enemy is moved to a new tile by a spell
+    /// </summary>
+    public void UpdateEnemyPositions()
+    {
+        enemyPositions.Clear();
+        {
+            foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
+            {
+                enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
+            }
+        }
+    }
+
+    /// <summary>
     /// ensures that the player won't trigger movement while the player is pathing an attack
     /// </summary>
     /// <param name="canThePlayerMove"></param>
@@ -476,6 +490,7 @@ public class PlayerBehavior : MonoBehaviour
         ghostPosition = transform.position;
         myCol.center = new Vector3(0, myCol.center.y, 0);
         previousColliderPos = myCol.center;
+        VisualizeEnemyPaths();
     }
 
     /// <summary>
