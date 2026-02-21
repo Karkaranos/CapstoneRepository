@@ -36,14 +36,12 @@ public class PipManager : MonoBehaviour
     {
         TurnPublicEvents.BeginPlayerTurn += SpawnPips;
         PublicEvents.LoadingGrid += SetCurrentSpawnLocations;
-        //PublicEvents.NewLevel += RemoveHazards;
     }
 
     private void OnDisable()
     {
         TurnPublicEvents.BeginPlayerTurn -= SpawnPips;
         PublicEvents.LoadingGrid -= SetCurrentSpawnLocations;
-       // PublicEvents.NewLevel -= RemoveHazards;
     }
     /// <summary>
     /// Ensure singleton
