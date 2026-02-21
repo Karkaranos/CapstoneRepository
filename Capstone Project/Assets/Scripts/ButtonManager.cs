@@ -128,9 +128,14 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
+        if(playerBehavior == null)
+        {
+            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        }
         if(playerBehavior.MovementLeft > 0)
         {
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
+            playerBehavior.UpdateEnemyPositions();
             confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
             GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].entityOnGrid = -1;
@@ -179,7 +184,7 @@ public class ButtonManager : MonoBehaviour
         //playerCanvas.SetActive(true);
         //moveCanvas.SetActive(false);
         //cameraManager.SwitchCamera(cameraManager.Level1playcam);
-        //PublicEvents.EndCast.Invoke();
+        PublicEvents.EndCast?.Invoke();
         //runeCanvas.SetActive(false);
         //confirmCanvas.SetActive(false);
 

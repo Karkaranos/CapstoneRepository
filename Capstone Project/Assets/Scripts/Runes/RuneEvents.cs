@@ -917,6 +917,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
 
                     enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                     if (kbChain)
                     {
@@ -943,6 +944,7 @@ public class RuneEvents : MonoBehaviour
                         GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
 
                         enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                        FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                     }
                     else
@@ -1014,6 +1016,7 @@ public class RuneEvents : MonoBehaviour
                 GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
 
                 enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
             }
 
@@ -1423,6 +1426,7 @@ public class RuneEvents : MonoBehaviour
                         GridManager.MoveToTile(PreviousPos[i], nextPos, -2);
 
                         selectedEnemy.GetComponent<GridPathfinding>().SetPosition(nextPos);
+                        FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                     }
 
