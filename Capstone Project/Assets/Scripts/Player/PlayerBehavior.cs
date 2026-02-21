@@ -192,6 +192,16 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     /// <summary>
+    /// Removes the enemy position from the list when an enemy dies. This fixes the 
+    /// bug where the player couldn't move the an enemy tile on the same turn it died.
+    /// </summary>
+    /// <param name="pos"></param>
+    public void RemoveEnemyPosition(Vector2Int pos)
+    {
+        enemyPositions.Remove(pos);
+    }
+
+    /// <summary>
     /// ensures that the player won't trigger movement while the player is pathing an attack
     /// </summary>
     /// <param name="canThePlayerMove"></param>
