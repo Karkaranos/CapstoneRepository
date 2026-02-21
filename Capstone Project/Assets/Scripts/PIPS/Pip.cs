@@ -12,6 +12,8 @@ public class Pip : MonoBehaviour
     [SerializeField] private int pipsGrantedOnPickup = 1;
 
     private GameManager gameManager;
+
+    public TileBehaviour tile; 
     /// <summary>
     /// If collider is player destory pip 
     /// Change current Pip on field count
@@ -22,6 +24,7 @@ public class Pip : MonoBehaviour
     {
         --PipManager.Instance.currentPipsOnField;
         gameManager.IncrementActionPoints(pipsGrantedOnPickup);
+        GridManager.combatGrid[tile.IndexInGrid.x, tile.IndexInGrid.y].entityOnGrid = -1;
         Destroy(this.gameObject);
     }
 

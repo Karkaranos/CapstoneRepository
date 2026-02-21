@@ -360,7 +360,8 @@ public class TileBehaviour : MonoBehaviour
     {
         Vector3 pos = transform.position;
         pos.y = pos.y + 1;
-        Instantiate(pip, pos, Quaternion.identity, transform);
+        Pip spawnItem  = Instantiate(pip, pos, Quaternion.identity, transform).GetComponent<Pip>();
+        spawnItem.tile = this; 
         GridManager.AddEntity(IndexInGrid, -5);
     }
 }
