@@ -238,6 +238,15 @@ public class ButtonManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Hides the player and confirm canvas
+    /// </summary>
+    public void HideAllCanvas()
+    {
+        playerCanvas.SetActive(false);
+        confirmCanvas.SetActive(false);
+    }
+
+    /// <summary>
     /// Enables the endButtonClicked bool to true
     /// Ends Player Turn once clicked
     /// </summary>

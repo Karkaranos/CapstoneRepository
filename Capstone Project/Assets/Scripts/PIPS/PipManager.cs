@@ -5,11 +5,12 @@ Date Last Modified : 	2/10/2026
 Brief Description : 		Pip system manager
 External Resources : 	
 ***************************************************/
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.VFX;
-using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.VFX;
 
 public class PipManager : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class PipManager : MonoBehaviour
 
     [HideInInspector] public static PipManager Instance { get; private set; }
     [HideInInspector] public int currentPipsOnField;
+ public List<TileBehaviour> hazardTiles = new List<TileBehaviour>(); 
 
     private void OnEnable()
     {
@@ -46,7 +48,7 @@ public class PipManager : MonoBehaviour
     /// Sets currentPipsOnField to 0
     /// Spawn pips 
     /// </summary>
-    private async void Start()
+    private void Start()
     {
         if (Instance == null)
         {
@@ -59,6 +61,7 @@ public class PipManager : MonoBehaviour
         currentLevel = 0; 
         currentPipsOnField = 0;
         currentSpawnableTiles = spawningLocationsPerLevel[0].spawningLocations;
+        
     }
 
     /// <summary>
@@ -72,7 +75,8 @@ public class PipManager : MonoBehaviour
         while(currentPipsOnField < maxNumberOfPipsOnField)
         {
             int index = Random.Range(0, currentSpawnableTiles.Count);
-            if(!GridManager.TileIsEmpty(currentSpawnableTiles[index].IndexInGrid))
+            if(!GridManager.TileIsEmpty(currentSpawnableTiles[index].IndexInGrid) 
+                || hazardTiles.Contains(currentSpawnableTiles[index]))
             {
                 continue; 
             }

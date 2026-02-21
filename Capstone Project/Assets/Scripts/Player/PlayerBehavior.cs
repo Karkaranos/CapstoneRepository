@@ -86,6 +86,8 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("A reference to the player's Sprite Renderer"), SerializeField, Required]
     private SpriteRenderer pSprite;
 
+    private ButtonManager bm;
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -103,6 +105,7 @@ public class PlayerBehavior : MonoBehaviour
         myCol = GetComponent<BoxCollider>();
         previousColliderPos = myCol.center;
         underEffect = false;
+        bm = FindFirstObjectByType<ButtonManager>();
 
         PublicEvents.NewPlayerCreated?.Invoke(pTransform, pSprite);
     }
@@ -186,6 +189,16 @@ public class PlayerBehavior : MonoBehaviour
 
         VisualizeEnemyPaths();
 
+    }
+
+    /// <summary>
+    /// Removes the enemy position from the list when an enemy dies. This fixes the 
+    /// bug where the player couldn't move the an enemy tile on the same turn it died.
+    /// </summary>
+    /// <param name="pos"></param>
+    public void RemoveEnemyPosition(Vector2Int pos)
+    {
+        enemyPositions.Remove(pos);
     }
 
     /// <summary>
@@ -335,11 +348,20 @@ public class PlayerBehavior : MonoBehaviour
     IEnumerator MovePlayer()
     {
         canMove = false;
+
+        if(bm==null)
+        {
+            bm = FindFirstObjectByType<ButtonManager>();
+        }
+
+        
+
         for(int i = 0; i < movementPositions.Count; ++i)
         {
             Vector2Int nextPosition = previousPositions[i + 1];
             bool isMoving = true;
-            while(isMoving)
+            bm.HideAllCanvas();
+            while (isMoving)
             {
                 anim.SetBool("Walk", true);
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
@@ -350,6 +372,7 @@ public class PlayerBehavior : MonoBehaviour
                     myPosition = nextPosition;
                 }
                 yield return new WaitForSeconds(.1f / movementSpeed);
+                bm.HideAllCanvas();
             }
             GridManager.combatGrid[previousPositions[i].x, previousPositions[i].y].ShowHighlight(false);
 
@@ -377,6 +400,7 @@ public class PlayerBehavior : MonoBehaviour
         movementUsed = 0;
         anim.SetBool("Walk", false);
         anim.SetBool("Idle", true);
+        bm.ReEnableActionCanvas();
     }
 
 

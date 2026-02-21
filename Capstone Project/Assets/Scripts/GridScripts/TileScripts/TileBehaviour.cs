@@ -142,6 +142,7 @@ public class TileBehaviour : MonoBehaviour
         //spawns a hazard if theres one to spawn
         if (TileHasHazards && hazardObject != null)
         {
+            PipManager.Instance.hazardTiles.Add(this); 
             GameObject obj = Instantiate(hazardObject, transform);
         }
     }
@@ -360,7 +361,8 @@ public class TileBehaviour : MonoBehaviour
     {
         Vector3 pos = transform.position;
         pos.y = pos.y + 1;
-        Instantiate(pip, pos, Quaternion.identity, transform);
+        Pip spawnObject = Instantiate(pip, pos, Quaternion.identity, transform).GetComponent<Pip>();
+        spawnObject.tile = this;
         GridManager.AddEntity(IndexInGrid, -5);
     }
 }
