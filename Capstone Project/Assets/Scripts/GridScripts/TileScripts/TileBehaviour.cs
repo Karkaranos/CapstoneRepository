@@ -24,6 +24,7 @@ public class TileBehaviour : MonoBehaviour
         Enemy,
         Player,
         Obstacle,
+        Pip,
         Shield
     }
     private enum HazardType
@@ -135,14 +136,13 @@ public class TileBehaviour : MonoBehaviour
             {
                 eType = -4;
             }
-                GridManager.AddEntity(IndexInGrid, eType);
+            GridManager.AddEntity(IndexInGrid, eType);
         }
 
         //spawns a hazard if theres one to spawn
         if (TileHasHazards && hazardObject != null)
         {
-            eType = -6;
-            GridManager.AddEntity(IndexInGrid, eType);
+            PipManager.Instance.hazardTiles.Add(this); 
             GameObject obj = Instantiate(hazardObject, transform);
         }
     }
@@ -361,8 +361,7 @@ public class TileBehaviour : MonoBehaviour
     {
         Vector3 pos = transform.position;
         pos.y = pos.y + 1;
-        Pip spawnItem  = Instantiate(pip, pos, Quaternion.identity, transform).GetComponent<Pip>();
-        spawnItem.tile = this; 
+        Instantiate(pip, pos, Quaternion.identity, transform);
         GridManager.AddEntity(IndexInGrid, -5);
     }
 }
