@@ -51,9 +51,17 @@ public class SpellTabsManager : MonoBehaviour
     /// </summary>
     /// <param name="stb"></param>
     public void SelectTab(SpellTabBehavior stb) {
-        DeselectAllTabs();
-        stb.PopOut();
-        stb.selected = true;
+
+        if (stb.selected)
+        {
+            stb.selected = false;
+            DeselectAllTabs();
+        }
+        else {
+            DeselectAllTabs();
+            stb.PopOut();
+            stb.selected = true;
+        }
     }
 
     /// <summary>

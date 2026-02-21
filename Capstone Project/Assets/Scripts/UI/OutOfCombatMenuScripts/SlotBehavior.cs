@@ -14,8 +14,8 @@ public class SlotBehavior : MonoBehaviour
         spell
     }
     
-    [HideInInspector] public RuneData rune;
-    [HideInInspector] public ArtifactData artifact;
+    public RuneData rune;
+    public ArtifactData artifact;
     
     [SerializeField] private SlotType slotType;
 

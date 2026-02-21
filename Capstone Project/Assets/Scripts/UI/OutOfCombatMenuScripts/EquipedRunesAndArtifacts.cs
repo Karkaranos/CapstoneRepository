@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor.Experimental;
 using UnityEngine;
 
 public class EquipedRunesAndArtifacts : MonoBehaviour
@@ -37,11 +34,11 @@ public class EquipedRunesAndArtifacts : MonoBehaviour
     {
         runes[slotNumber - 1] = rune;
     }
-    public static void UnequipArtifact(ArtifactData artifact, int slotNumber)
+    public static void UnequipArtifact(int slotNumber)
     {
         artifacts[slotNumber - 1] = null;
     }
-    public static void UnequipSpell(RuneData rune, int slotNumber)
+    public static void UnequipSpell(int slotNumber)
     {
         runes[slotNumber - 1] = null;
     }
