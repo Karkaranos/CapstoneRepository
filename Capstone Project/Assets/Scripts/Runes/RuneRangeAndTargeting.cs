@@ -151,6 +151,18 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         List<Vector2Int> validTiles = new List<Vector2Int>();
 
+        if (storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4)
+        {
+
+            tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
+            TargetCheck(tilesInRange);
+
+            Debug.Log("GO MY STORM");
+
+            return;
+
+        }
+
         if (!isRadiusCheck)
         {
 
@@ -336,20 +348,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 break;
 
-            //targets an empty tile
+            //"targets" the player
             case (RuneType.Lightning, 4):
 
-                foreach (TileBehaviour tile in tilesInRange)
-                {
-
-                    if (!tile.GetComponentInChildren<Enemy>())
-                    {
-
-                        viableTilesInRange.Add(tile);
-
-                    }
-
-                }
+                viableTilesInRange = tilesInRange;
 
                 break;
 
