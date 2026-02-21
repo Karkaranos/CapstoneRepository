@@ -1392,6 +1392,13 @@ public class RuneEvents : MonoBehaviour
 
                     Vector2Int nextPos = PreviousPos[i + 1];
 
+                    if(i == 0)
+                    {
+
+                        Instantiate(rune.RuneVFX, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform);
+
+                    }
+
                     if (GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>())
                     {
 
