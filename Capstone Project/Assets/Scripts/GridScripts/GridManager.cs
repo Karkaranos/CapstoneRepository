@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
     // -3 is a player occupied tile
     // -4 is an obstacle occupied tile
     // -5 is a pip occupied tile
+    // -6 is a hazard occupied tile
     public static TileBehaviour[,] combatGrid;
 
     public static Vector2Int playerPosition;
@@ -83,9 +84,11 @@ public class GridManager : MonoBehaviour
         if(isPlayer)
         {
             return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 || 
-                combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5;
+                combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
+                combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
         }
-        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1;
+        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
+            combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
     }
 
     /// <summary>
