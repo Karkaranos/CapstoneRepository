@@ -46,6 +46,7 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
         else { 
             equipped= false;
             gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+            //PublicEvents.RuneUnequipped?.Invoke(runeData);
         }
     }
 

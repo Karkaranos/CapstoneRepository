@@ -8,6 +8,7 @@ click on the Notebook spell slot
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SpellNodeBehavior : MonoBehaviour
 {
@@ -66,17 +67,23 @@ public class SpellNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-            transform.parent = null;
+            //transform.parent = null;
             holding = true;
             dragging = true;
 
             UIAudioManager.Instance.UIPickUp(transform);
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            PublicEvents.RuneUnequipped?.Invoke(runeData);
             if (slotBehavior != null)
             {
                 slotBehavior.rune = null;
+                
             }
+        }
+        else
+        {
+            GetComponent<Image>().raycastTarget = false;
         }
     }
 
@@ -85,6 +92,7 @@ public class SpellNodeBehavior : MonoBehaviour
     /// </summary>
     private void LeftClickReleased()
     {
+       
         if (IsPointerOverThisUI())
         {
             holding = false;
@@ -92,16 +100,45 @@ public class SpellNodeBehavior : MonoBehaviour
             dragging = false;
 
             GameObject slot = SpellOverSnapLocation();
+            
             if (slot != null)
             {
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
-                slotBehavior.rune = runeData;
-                slot.GetComponent<EquippedSpellNode>()?.OnClick();
 
-                UIAudioManager.Instance.UIDrop(transform);
+                if (slotBehavior.rune == null)
+                {
+                    slotBehavior.rune = runeData;
+                    slotBehavior.heldSpellObject = this;
+                    //slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                    FindFirstObjectByType<SkillAndArtifactManager>().SetIndexOfEquippedSpells(slot.GetComponent<EquippedSpellNode>().index, runeData);
 
-                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                    transform.SetParent(slot.transform);
+
+
+                }
+                else
+                {
+                    PublicEvents.RuneUnequipped?.Invoke(slotBehavior.heldSpellObject.runeData);
+                    slotBehavior.heldSpellObject.notebookSpellNode.Equip(false);
+                    Destroy(slotBehavior.heldSpellObject);
+
+                    slotBehavior.rune = runeData;
+                    slotBehavior.heldSpellObject = this;
+                    //slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                    FindFirstObjectByType<SkillAndArtifactManager>().SetIndexOfEquippedSpells(slot.GetComponent<EquippedSpellNode>().index, runeData);
+
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                    transform.SetParent(slot.transform);
+                }
+
+                
+                
             }
             else
             {
@@ -110,7 +147,7 @@ public class SpellNodeBehavior : MonoBehaviour
             }
 
         }
-
+        GetComponent<Image>().raycastTarget = true;
     }
 
     /// <summary>
@@ -131,8 +168,18 @@ public class SpellNodeBehavior : MonoBehaviour
         if (dragging)
         {
             notebookSpellNode.Equip(true);
-            Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
+            Vector2 localPoint = Vector2.zero;
+
+            try
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
+
+            }
+            catch
+            {
+                Debug.Log(gameObject.name);
+            }
+
             rectTransform.localPosition = localPoint - offset;
         }
         

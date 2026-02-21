@@ -95,6 +95,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        PublicEvents.RuneUnequipped += UnequipSpell;
+
         //sets the spell menu active
         //SkillTreeContainer.SetActive(false);
         //EquipMenuContainer.SetActive(true);
@@ -107,6 +109,28 @@ public class SkillAndArtifactManager : MonoBehaviour
                 equippedSpells.Add(null);
             }
         }
+    }
+
+    /// <summary>
+    /// unsubscribes from public events
+    /// </summary>
+    private void OnDisable()
+    {
+        PublicEvents.RuneUnequipped -= UnequipSpell;
+    }
+
+    /// <summary>
+    /// Unequips a spell from the equipped spell list
+    /// </summary>
+    /// <param name="data"></param>
+    private void UnequipSpell(RuneData data)
+    {
+        if (equippedSpells.Contains(data))
+        {
+            SetIndexOfEquippedSpells(GetIndexFromRuneData(data), null);
+        }
+
+        
     }
 
     /// <summary>
@@ -173,6 +197,24 @@ public class SkillAndArtifactManager : MonoBehaviour
     public RuneData GetIndexOfEquippedSpells(int index)
     {
         return equippedSpells[index];
+    }
+
+    /// <summary>
+    /// gets the index of a specific runedata in the equipped spells list
+    /// </summary>
+    /// <param name="runeData"></param>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
+    public int GetIndexFromRuneData(RuneData runeData)
+    {
+        if (equippedSpells.Contains(runeData))
+        {
+            return (equippedSpells.IndexOf(runeData));
+        }
+        else
+        {
+            throw new System.Exception("equipped spells does not contain " + runeData + ".");
+        }
     }
 
     /// <summary>
