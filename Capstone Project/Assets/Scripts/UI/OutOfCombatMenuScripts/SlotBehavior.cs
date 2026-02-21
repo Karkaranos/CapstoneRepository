@@ -18,7 +18,11 @@ public class SlotBehavior : MonoBehaviour
     public ArtifactData artifact;
     
     [SerializeField] private SlotType slotType;
+
+    public SpellNodeBehavior heldSpellObject;
+
     [SerializeField] public int slotNumber;
+
     
     /// <summary>
     /// this retuens true if this is an artifact slot

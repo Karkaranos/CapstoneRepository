@@ -73,7 +73,10 @@ public static class PublicEvents
 
     public static Action NewLevel;
 
-    public static Action<int> LoadingGrid; 
+    public static Action<int> LoadingGrid;
+
+
+    public static Action<RuneData> RuneUnequipped;
 
     #region RUNE EVENTS
 

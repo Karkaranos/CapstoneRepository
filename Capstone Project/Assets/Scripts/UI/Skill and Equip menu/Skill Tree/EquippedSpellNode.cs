@@ -43,7 +43,7 @@ public class EquippedSpellNode : MonoBehaviour
 
     //the index of this node - same as the index in the list of spells in SkillAndEquipManager
     [SerializeField, ShowIf(nameof(currentlyShowingSettings), Settings.References)] 
-    private int index;
+    public int index;
 
     [SerializeField, ShowIf(nameof(currentlyShowingSettings), Settings.References)] private TMP_Text buttonText;
 

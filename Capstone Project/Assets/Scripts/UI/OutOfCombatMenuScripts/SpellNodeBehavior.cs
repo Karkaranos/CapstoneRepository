@@ -8,6 +8,7 @@ click on the Notebook spell slot
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SpellNodeBehavior : MonoBehaviour
 {
@@ -19,9 +20,11 @@ public class SpellNodeBehavior : MonoBehaviour
     [HideInInspector] public NotebookSpellNodeBehavior notebookSpellNode;
 
     private bool dragging = true;
-    private bool equiped = false;
     private Vector2 offset;
+    private bool holding = false;
     private Vector2 mPos;
+    private bool locationSet = false;
+    private SkillTreeManager skillTreeManager;
 
     /// <summary>
     /// initialization
@@ -29,6 +32,11 @@ public class SpellNodeBehavior : MonoBehaviour
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+
+        Debug.Log(runeData.RuneName);
+        skillTreeManager.SelectNode(runeData);
+
     }
 
 
@@ -59,17 +67,23 @@ public class SpellNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-            equiped = false;
+            //transform.parent = null;
+            holding = true;
             dragging = true;
 
             UIAudioManager.Instance.UIPickUp(transform);
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            PublicEvents.RuneUnequipped?.Invoke(runeData);
             if (slotBehavior != null)
             {
                 slotBehavior.rune = null;
-                EquipedRunesAndArtifacts.UnequipSpell(slotBehavior.slotNumber);
+                
             }
+        }
+        else
+        {
+            GetComponent<Image>().raycastTarget = false;
         }
     }
 
@@ -78,32 +92,62 @@ public class SpellNodeBehavior : MonoBehaviour
     /// </summary>
     private void LeftClickReleased()
     {
+       
         if (IsPointerOverThisUI())
         {
+            holding = false;
+
+            dragging = false;
+
             GameObject slot = SpellOverSnapLocation();
+            
             if (slot != null)
             {
-                equiped = true;
-                
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
-                slotBehavior.rune = runeData;
-                transform.SetParent(GameObject.Find("NewOutOfCombatMenu").transform);
+
+                if (slotBehavior.rune == null)
+                {
+                    slotBehavior.rune = runeData;
+                    slotBehavior.heldSpellObject = this;
+                    //slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                    FindFirstObjectByType<SkillAndArtifactManager>().SetIndexOfEquippedSpells(slot.GetComponent<EquippedSpellNode>().index, runeData);
+
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                    transform.SetParent(slot.transform);
+
+
+                }
+                else
+                {
+                    PublicEvents.RuneUnequipped?.Invoke(slotBehavior.heldSpellObject.runeData);
+                    slotBehavior.heldSpellObject.notebookSpellNode.Equip(false);
+                    Destroy(slotBehavior.heldSpellObject);
+
+                    slotBehavior.rune = runeData;
+                    slotBehavior.heldSpellObject = this;
+                    //slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                    FindFirstObjectByType<SkillAndArtifactManager>().SetIndexOfEquippedSpells(slot.GetComponent<EquippedSpellNode>().index, runeData);
+
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                    transform.SetParent(slot.transform);
+                }
+
                 
-                UIAudioManager.Instance.UIDrop(transform);
-               
-                EquipedRunesAndArtifacts.EquipSpell(runeData, slotBehavior.slotNumber);
+                
             }
             else
             {
-                if (!equiped && dragging) {
-                    notebookSpellNode.Equip(false);
-                    Destroy(gameObject);
-                }
+                notebookSpellNode.Equip(false);
+                Destroy(gameObject);
             }
-            
+
         }
-        dragging = false;
+        GetComponent<Image>().raycastTarget = true;
     }
 
     /// <summary>
@@ -124,8 +168,18 @@ public class SpellNodeBehavior : MonoBehaviour
         if (dragging)
         {
             notebookSpellNode.Equip(true);
-            Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
+            Vector2 localPoint = Vector2.zero;
+
+            try
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
+
+            }
+            catch
+            {
+                Debug.Log(gameObject.name);
+            }
+
             rectTransform.localPosition = localPoint - offset;
         }
         
@@ -138,7 +192,7 @@ public class SpellNodeBehavior : MonoBehaviour
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = mPos;
+        pointerData.position = Input.mousePosition;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
@@ -159,7 +213,7 @@ public class SpellNodeBehavior : MonoBehaviour
     private GameObject SpellOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = mPos;
+        pointerData.position = Input.mousePosition;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
