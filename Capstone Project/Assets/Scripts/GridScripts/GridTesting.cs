@@ -135,6 +135,7 @@ public class GridTesting : MonoBehaviour
     {
 
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
+        PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
@@ -152,6 +153,7 @@ public class GridTesting : MonoBehaviour
             i = gridPrefabs.Count-1;
         }
         gridIndex = i;
+        PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
