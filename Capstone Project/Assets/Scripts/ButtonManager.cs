@@ -135,6 +135,7 @@ public class ButtonManager : MonoBehaviour
         if(playerBehavior.MovementLeft > 0)
         {
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
+            playerBehavior.UpdateEnemyPositions();
             confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
             GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].entityOnGrid = -1;
