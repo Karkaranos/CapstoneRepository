@@ -20,9 +20,9 @@ public class ArtifactNodeBehavior : MonoBehaviour
     [HideInInspector] public NotebookArtifactNodeBehavior notebookArtifactNode;
 
     private bool dragging = true;
+    private bool equiped = false;
     private Vector2 offset;
     private Vector2 mPos;
-    ArtifactMenuManager artifactManager;
 
     /// <summary>
     /// initialization
@@ -30,10 +30,6 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
-        artifactManager = FindFirstObjectByType<ArtifactMenuManager>();
-
-        Debug.Log(artifactData.Name);
-        artifactManager.ArtifactPickedUp(artifactData);
     }
 
     /// <summary>
@@ -64,7 +60,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-            transform.parent = null;
+            equiped = false;
             dragging = true;
 
             UIAudioManager.Instance.UIPickUp(transform);
@@ -73,6 +69,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
             if (slotBehavior != null)
             {
                 slotBehavior.artifact = null;
+                EquipedRunesAndArtifacts.UnequipArtifact(slotBehavior.slotNumber);
             }
         }
     }
@@ -93,29 +90,30 @@ public class ArtifactNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-
-            dragging = false;
-
             GameObject slot = ArtifactOverSnapLocation();
             if (slot != null)
             {
+                equiped = true;
+
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
                 slotBehavior.artifact = artifactData;
-                slot.GetComponent<EquippedArtifactButton>()?.ButtonClicked();
+                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
 
                 UIAudioManager.Instance.UIDrop(transform);
 
-                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                EquipedRunesAndArtifacts.EquipArtifact(artifactData, slotBehavior.slotNumber);
             }
             else
             {
-                notebookArtifactNode.Equip(false);
-                Destroy(gameObject);
+                if (!equiped && dragging) {
+                    notebookArtifactNode.Equip(false);
+                    Destroy(gameObject);
+                }
             }
-
+            
         }
-
+        dragging = false;
     }
 
     /// <summary>
@@ -143,7 +141,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
@@ -164,7 +162,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private GameObject ArtifactOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);

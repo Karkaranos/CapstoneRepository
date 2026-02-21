@@ -19,11 +19,9 @@ public class SpellNodeBehavior : MonoBehaviour
     [HideInInspector] public NotebookSpellNodeBehavior notebookSpellNode;
 
     private bool dragging = true;
+    private bool equiped = false;
     private Vector2 offset;
-    private bool holding = false;
     private Vector2 mPos;
-    private bool locationSet = false;
-    private SkillTreeManager skillTreeManager;
 
     /// <summary>
     /// initialization
@@ -31,11 +29,6 @@ public class SpellNodeBehavior : MonoBehaviour
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
-        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
-
-        Debug.Log(runeData.RuneName);
-        skillTreeManager.SelectNode(runeData);
-
     }
 
 
@@ -66,8 +59,7 @@ public class SpellNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-            transform.parent = null;
-            holding = true;
+            equiped = false;
             dragging = true;
 
             UIAudioManager.Instance.UIPickUp(transform);
@@ -76,6 +68,7 @@ public class SpellNodeBehavior : MonoBehaviour
             if (slotBehavior != null)
             {
                 slotBehavior.rune = null;
+                EquipedRunesAndArtifacts.UnequipSpell(slotBehavior.slotNumber);
             }
         }
     }
@@ -87,30 +80,30 @@ public class SpellNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-            holding = false;
-
-            dragging = false;
-
             GameObject slot = SpellOverSnapLocation();
             if (slot != null)
             {
+                equiped = true;
+                
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
                 slotBehavior.rune = runeData;
-                slot.GetComponent<EquippedSpellNode>()?.OnClick();
-
+                transform.SetParent(GameObject.Find("NewOutOfCombatMenu").transform);
+                
                 UIAudioManager.Instance.UIDrop(transform);
-
-                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+               
+                EquipedRunesAndArtifacts.EquipSpell(runeData, slotBehavior.slotNumber);
             }
             else
             {
-                notebookSpellNode.Equip(false);
-                Destroy(gameObject);
+                if (!equiped && dragging) {
+                    notebookSpellNode.Equip(false);
+                    Destroy(gameObject);
+                }
             }
-
+            
         }
-
+        dragging = false;
     }
 
     /// <summary>
@@ -145,7 +138,7 @@ public class SpellNodeBehavior : MonoBehaviour
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
@@ -166,7 +159,7 @@ public class SpellNodeBehavior : MonoBehaviour
     private GameObject SpellOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
