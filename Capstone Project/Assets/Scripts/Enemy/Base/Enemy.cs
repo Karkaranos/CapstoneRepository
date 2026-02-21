@@ -279,6 +279,9 @@ public class Enemy : MonoBehaviour
 
         GridManager.RemoveEntity(gridPathfinding.MyPosition);
 
+        PlayerBehavior pb = FindFirstObjectByType<PlayerBehavior>();
+        pb.RemoveEnemyPosition(gridPathfinding.MyPosition);
+
         if (gameObject != null)
         {
             Destroy(this.gameObject);

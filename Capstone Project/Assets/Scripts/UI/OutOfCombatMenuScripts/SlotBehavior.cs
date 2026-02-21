@@ -20,6 +20,7 @@ public class SlotBehavior : MonoBehaviour
     [SerializeField] private SlotType slotType;
 
     public SpellNodeBehavior heldSpellObject;
+    public ArtifactNodeBehavior heldArtifactObject;
 
     [SerializeField] public int slotNumber;
 

@@ -8,7 +8,7 @@ click on the Notebook Artifact slot
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static Unity.Cinemachine.CinemachineOrbitalTransposer;
+using UnityEngine.UI;
 
 public class ArtifactNodeBehavior : MonoBehaviour
 {
@@ -20,9 +20,10 @@ public class ArtifactNodeBehavior : MonoBehaviour
     [HideInInspector] public NotebookArtifactNodeBehavior notebookArtifactNode;
 
     private bool dragging = true;
-    private bool equiped = false;
     private Vector2 offset;
     private Vector2 mPos;
+    ArtifactMenuManager artifactManager;
+    private bool holding;
 
     /// <summary>
     /// initialization
@@ -30,6 +31,10 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        artifactManager = FindFirstObjectByType<ArtifactMenuManager>();
+
+        Debug.Log(artifactData.Name);
+        artifactManager.ArtifactPickedUp(artifactData);
     }
 
     /// <summary>
@@ -60,17 +65,22 @@ public class ArtifactNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
-            equiped = false;
+            //transform.parent = null;
             dragging = true;
+            holding = true;
 
             UIAudioManager.Instance.UIPickUp(transform);
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            ArtifactManager.RemoveArtifact(artifactData);
             if (slotBehavior != null)
             {
                 slotBehavior.artifact = null;
-                EquipedRunesAndArtifacts.UnequipArtifact(slotBehavior.slotNumber);
             }
+        }
+        else
+        {
+            GetComponent<Image>().raycastTarget = false;
         }
     }
 
@@ -90,30 +100,55 @@ public class ArtifactNodeBehavior : MonoBehaviour
     {
         if (IsPointerOverThisUI())
         {
+
+            dragging = false;
+
             GameObject slot = ArtifactOverSnapLocation();
             if (slot != null)
             {
-                equiped = true;
-
+                holding = false;
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
-                slotBehavior.artifact = artifactData;
-                transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
 
-                UIAudioManager.Instance.UIDrop(transform);
+                if (slotBehavior.artifact == null)
+                {
+                    slotBehavior.artifact = artifactData;
+                    slotBehavior.heldArtifactObject = this;
+                    ArtifactManager.ApplyArtifact(artifactData);
 
-                EquipedRunesAndArtifacts.EquipArtifact(artifactData, slotBehavior.slotNumber);
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    transform.SetParent(slot.transform);
+                }
+                else
+                {
+                    ArtifactManager.RemoveArtifact(artifactData);
+                    slotBehavior.heldArtifactObject.notebookArtifactNode.Equip(false);
+                    Destroy(slotBehavior.heldArtifactObject);
+
+                    slotBehavior.artifact = artifactData;
+                    slotBehavior.heldArtifactObject = this;
+                    ArtifactManager.ApplyArtifact(artifactData);
+
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    transform.SetParent(slot.transform);
+                }
+                
+                
             }
             else
             {
-                if (!equiped && dragging) {
-                    notebookArtifactNode.Equip(false);
-                    Destroy(gameObject);
-                }
+                notebookArtifactNode.Equip(false);
+                Destroy(gameObject);
             }
-            
+            if (holding)
+            {
+                notebookArtifactNode.Equip(false);
+                Destroy(gameObject);
+            }
         }
-        dragging = false;
+        GetComponent<Image>().raycastTarget = true;
     }
 
     /// <summary>
@@ -126,8 +161,15 @@ public class ArtifactNodeBehavior : MonoBehaviour
         if (dragging)
         {
             notebookArtifactNode.Equip(true);
-            Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, Input.mousePosition, canvas.worldCamera, out localPoint);
+            Vector2 localPoint = Vector2.zero;
+            try
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, Input.mousePosition, canvas.worldCamera, out localPoint);
+            }
+            catch
+            {
+                Debug.Log("error");
+            }
             rectTransform.localPosition = localPoint - offset;
         }
 
@@ -141,7 +183,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = mPos;
+        pointerData.position = Input.mousePosition;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
@@ -162,7 +204,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private GameObject ArtifactOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = mPos;
+        pointerData.position = Input.mousePosition;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
