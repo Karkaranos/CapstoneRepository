@@ -142,6 +142,7 @@ public class TileBehaviour : MonoBehaviour
         //spawns a hazard if theres one to spawn
         if (TileHasHazards && hazardObject != null)
         {
+            PipManager.Instance.hazardTiles.Add(this); 
             GameObject obj = Instantiate(hazardObject, transform);
         }
     }
