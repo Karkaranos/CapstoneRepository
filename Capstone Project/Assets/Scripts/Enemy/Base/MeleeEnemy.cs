@@ -82,8 +82,10 @@ public class MeleeEnemy : Enemy
     [Button("Start Enemy Turn")]
     public override void StartEnemyTurn()
     {
+       // enemyAtk.SetBool("enemyIdle", true); //check for beta
 
-        if(turnDelayed)
+
+        if (turnDelayed)
         {
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(endTurnState));
             return;
@@ -102,6 +104,7 @@ public class MeleeEnemy : Enemy
         if(GetPlayerInAttackRange())
         {
             Debug.Log("Wait -> Attack");
+            enemyAtk.SetBool("enemyATKing", true);      //check for beta
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
@@ -109,9 +112,11 @@ public class MeleeEnemy : Enemy
         {
             Debug.Log("Wait -> Move");
             hasMovedForTurn = true;
+          //  enemyAtk.SetBool("enemyIdle", true);   //check for beta
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveToPlayerState));
             return;
         }
+
     }
 
     /// <summary>
