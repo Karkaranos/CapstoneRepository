@@ -49,6 +49,8 @@ public class MeleeEnemy : Enemy
     [HideInInspector]public bool hasMovedForTurn = false;
     [HideInInspector]public bool hasAttackedTwice = false;
 
+    [SerializeField] private Animator enemyAtk;      //check during Beta
+
     #endregion
     #endregion
 
