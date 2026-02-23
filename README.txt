@@ -21,12 +21,14 @@ Some spells will teleport you to a tile you select within range
 
 --Known Functional Bugs--
 - The ranged enemy has a large range
+- In some scenarios, the player will not be able to move to/through certain tiles
 
 
 
 --Known Visual Bugs--
 - Sprites layer incorrectly
 - Damage feedback will sometimes double up
+- Background art assets do not line up properly with level 2 and 3
 
 
 
