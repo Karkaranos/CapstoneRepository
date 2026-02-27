@@ -31,6 +31,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
+    public Color BlockedHighlight;
     public Color LightningHighlight;
     public Color LightningSecondaryHighlight;
     public Color WindHighlight;
@@ -416,16 +417,29 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         }
 
-        SetHighlight(true);
+        SetHighlight(true, tilesInRange);
 
     }
 
-    void SetHighlight(bool runeSelected)
+    void SetHighlight(bool runeSelected, List<TileBehaviour> tilesInRange = null)
     {
 
         GridManager.RemoveHighlight();
 
-        if(runeSelected)
+        if (tilesInRange != null)
+        {
+
+            foreach (TileBehaviour tile in tilesInRange)
+            {
+
+                tile.SetHighlightColor(BlockedHighlight);
+                tile.ShowHighlight(true);
+
+            }
+
+        }
+
+        if (runeSelected)
 
         {
 
