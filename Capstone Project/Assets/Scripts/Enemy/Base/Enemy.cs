@@ -194,6 +194,16 @@ public class Enemy : MonoBehaviour
         turnIndicator.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        PublicEvents.NewLevel += SetPlayerStats; 
+    }
+
+    private void OnDisable()
+    {
+        PublicEvents.NewLevel -= SetPlayerStats;
+    }
+
     /// <summary>
     /// Damage function for enemy. Public so states can call it
     /// </summary>
@@ -205,7 +215,10 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        spriteRen.material = flashColor;
+        if (spriteRen != null)
+        {
+            spriteRen.material = flashColor;
+        }
 
         //int casting truncates instead of rounds so this if there is extra damage it rounds up
         if(damage % 1 != 0)
@@ -250,7 +263,11 @@ public class Enemy : MonoBehaviour
         
 
         await Task.Delay(flashTime);
-        spriteRen.material = baseMat;
+        if(spriteRen != null)
+        {
+            spriteRen.material = baseMat;
+        }
+        
     }
 
     /// <summary>
@@ -262,7 +279,13 @@ public class Enemy : MonoBehaviour
 
         GridManager.RemoveEntity(gridPathfinding.MyPosition);
 
-        Destroy(this.gameObject);
+        PlayerBehavior pb = FindFirstObjectByType<PlayerBehavior>();
+        pb.RemoveEnemyPosition(gridPathfinding.MyPosition);
+
+        if (gameObject != null)
+        {
+            Destroy(this.gameObject);
+        }
         print("Enemy is dead!");
     }
 
@@ -348,6 +371,11 @@ public class Enemy : MonoBehaviour
 
         turnDelayed = isTurnDelayed;
 
+    }
+
+    private void SetPlayerStats()
+    {
+        playerStats = FindFirstObjectByType<PlayerStats>();
     }
 
     #endregion

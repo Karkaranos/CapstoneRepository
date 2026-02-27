@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Hayes, Jay Embry
+Author Names : 		Tyler Hayes, Jay Embry, Tyler Bouchard
 Date Created : 		09/30/2025
-Date Last Modified : 11/23/2025
+Date Last Modified : 2/12/2026
 Brief Description : This is the data container for what nodes have
                     been unlocked on the skill tree
 External Resources : 	
@@ -9,6 +9,7 @@ External Resources :
 
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.UI;
 
 //this is the general enum for the rune type
 public enum RuneType
@@ -77,6 +78,10 @@ public class RuneData : ScriptableObject
     public int RuneRange;
 
     [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
+    //How far the rune's aoe will reach
+    public int RuneAOE;
+
+    [ShowIf(nameof(currentInspectorShowing), Data.Stats)]
     //How many action points this rune will cost to play in combat
     public int RuneActionPoints;
 
@@ -100,6 +105,10 @@ public class RuneData : ScriptableObject
     [ShowIf(nameof(currentInspectorShowing), Data.VFX)]
     //for chain/burst lightning, but can be used for more in the future
     public GameObject SecondaryRuneVFX;
+
+    [ShowIf(nameof(currentInspectorShowing), Data.VFX)]
+    //Drop the image for the rune in here
+    public Sprite runeImage;
 
     #endregion VFX
 

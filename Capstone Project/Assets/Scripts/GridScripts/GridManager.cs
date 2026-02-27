@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
     // -3 is a player occupied tile
     // -4 is an obstacle occupied tile
     // -5 is a pip occupied tile
+    // -6 is a hazard occupied tile
     public static TileBehaviour[,] combatGrid;
 
     public static Vector2Int playerPosition;
@@ -83,9 +84,11 @@ public class GridManager : MonoBehaviour
         if(isPlayer)
         {
             return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 || 
-                combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5;
+                combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
+                combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
         }
-        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1;
+        return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
+            combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
     }
 
     /// <summary>
@@ -136,6 +139,35 @@ public class GridManager : MonoBehaviour
             validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
         }
         
+        return validTiles;
+    }
+
+    /// <summary>
+    /// Returns a list of all the adjacent tiles
+    /// </summary>
+    /// <param name="currentTile"></param> The provided tile
+    /// <returns></returns> The list of available adjacent tiles
+    public static List<Vector2Int> GetAllAdjacentTiles(Vector2Int currentTile)
+    {
+        List<Vector2Int> validTiles = new List<Vector2Int>();
+
+        if (TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
+        }
+        if (TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)))
+        {
+            validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
+        }
+
         return validTiles;
     }
 

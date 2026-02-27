@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe, Tyler Hayes, Brad Dixon, Cade Naylor
 Date Created : 		    10/1/2025
-Date Last Modified : 	2/10/2026 (Brad Dixon)
+Date Last Modified : 	2/19/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
@@ -59,16 +59,34 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [Tooltip("Total amount of movement the player has on their turn.")]
     [SerializeField] private int movementRange;
-    [HideInInspector] public int movementLeft;
+    private int movementLeft;
+    [HideInInspector]
+    public int MovementLeft
+    {
+        get { return movementLeft; }
+        set { movementLeft = value; }
+    }
     private Vector3 ghostPosition;
     [Tooltip("If true, the player will not have to use all of their movement in order to move.")]
     [SerializeField] bool allowLeftoverMovement;
+    [Tooltip("If enabled, the player will only be allowed to move once on their turn.")]
+    [SerializeField, ShowIf("allowLeftoverMovement")] bool onlyMoveOnce;
     Vector2Int posBeforeMovement;
     private int movementUsed;
 
     private BoxCollider myCol;
     [SerializeField] Vector3 previousColliderPos;
     private List<Vector2Int> enemyPositions = new List<Vector2Int>();
+    [SerializeField] private bool underEffect;
+
+
+    [Header("Child References")]
+    [Tooltip("A reference to the player's Canvas"), SerializeField, Required]
+    private Transform pTransform;
+    [Tooltip("A reference to the player's Sprite Renderer"), SerializeField, Required]
+    private SpriteRenderer pSprite;
+
+    private ButtonManager bm;
 
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -86,6 +104,10 @@ public class PlayerBehavior : MonoBehaviour
         previousPositions.Add(myPosition);
         myCol = GetComponent<BoxCollider>();
         previousColliderPos = myCol.center;
+        underEffect = false;
+        bm = FindFirstObjectByType<ButtonManager>();
+
+        PublicEvents.NewPlayerCreated?.Invoke(pTransform, pSprite);
     }
 
     #region player input
@@ -127,6 +149,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     private void StartPlayerTurn()
     {
+        enemyPositions.Clear();
         movementLeft = movementRange;
         canMove = true;
         posBeforeMovement = myPosition;
@@ -136,6 +159,71 @@ public class PlayerBehavior : MonoBehaviour
         {
             enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
         }
+
+        ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
+        if(allShields.Length >= 1)
+        {
+
+            foreach(ShieldBehavior shield in allShields)
+            {
+
+                GridManager.RemoveEntity(shield.GetComponentInParent<TileBehaviour>().IndexInGrid);
+                shield.GetDestroyed();
+
+            }
+
+        }
+
+        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+        if (allCurrents.Length >= 1)
+        {
+
+            foreach (WindCurrentTracker current in allCurrents)
+            {
+
+                current.DestroyCurrents();
+
+            }
+
+        }
+
+        VisualizeEnemyPaths();
+
+    }
+
+    /// <summary>
+    /// Removes the enemy position from the list when an enemy dies. This fixes the 
+    /// bug where the player couldn't move the an enemy tile on the same turn it died.
+    /// </summary>
+    /// <param name="pos"></param>
+    public void RemoveEnemyPosition(Vector2Int pos)
+    {
+        enemyPositions.Remove(pos);
+    }
+
+    /// <summary>
+    /// Updates the player's reference to the enemies positions when an enemy is moved to a new tile by a spell
+    /// </summary>
+    public void UpdateEnemyPositions()
+    {
+        enemyPositions.Clear();
+        {
+            foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
+            {
+                enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
+            }
+        }
+    }
+
+    /// <summary>
+    /// ensures that the player won't trigger movement while the player is pathing an attack
+    /// </summary>
+    /// <param name="canThePlayerMove"></param>
+    public void SetPlayerMovementStatus(bool canThePlayerMove)
+    {
+
+        canMove = canThePlayerMove;
+
     }
 
     /// <summary>
@@ -225,7 +313,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             if (movementLeft > 0)
             {
-                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.black);
+                GridManager.combatGrid[v.x, v.y].SetHighlightColor(Color.yellow);
                 GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                 previousPositions.Add(v);
                 movementPositions.Add(t);
@@ -274,12 +362,22 @@ public class PlayerBehavior : MonoBehaviour
     IEnumerator MovePlayer()
     {
         canMove = false;
+
+        if(bm==null)
+        {
+            bm = FindFirstObjectByType<ButtonManager>();
+        }
+
+        
+
         for(int i = 0; i < movementPositions.Count; ++i)
         {
             Vector2Int nextPosition = previousPositions[i + 1];
             bool isMoving = true;
-            while(isMoving)
+            bm.HideAllCanvas();
+            while (isMoving)
             {
+                anim.SetBool("Walk", true);
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
                 if (transform.position == movementPositions[i])
                 {
@@ -288,8 +386,20 @@ public class PlayerBehavior : MonoBehaviour
                     myPosition = nextPosition;
                 }
                 yield return new WaitForSeconds(.1f / movementSpeed);
+                bm.HideAllCanvas();
             }
             GridManager.combatGrid[previousPositions[i].x, previousPositions[i].y].ShowHighlight(false);
+
+            TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
+            if (tileOn.CanApplyTileEffects() && !underEffect)
+            {
+                tileOn.ApplyTileEffects();
+                underEffect = true;
+            }
+            else if (!tileOn.CanApplyTileEffects() && underEffect)
+            {
+                underEffect = false;
+            }
         }
         GridManager.combatGrid[myPosition.x, myPosition.y].ShowHighlight(false);
         GridManager.MoveToTile(posBeforeMovement, myPosition, -3);
@@ -302,6 +412,36 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
+        anim.SetBool("Walk", false);
+        anim.SetBool("Idle", true);
+        bm.ReEnableActionCanvas();
+    }
+
+
+    /// <summary>
+    /// Updates the variables for the new movement system when the player teleports
+    /// </summary>
+    public void TeleportPlayer()
+    {
+        previousPositions.Clear();
+        myPosition = GridManager.playerPosition;
+        posBeforeMovement = myPosition;
+        previousPositions.Add(myPosition);
+        ghostPosition = transform.position;
+        VisualizeEnemyPaths();
+
+        //Damages the player if they teleport onto an electrified tile
+        TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
+        if (tileOn.CanApplyTileEffects() && !underEffect)
+        {
+            Debug.Log("MY POSITION IS " + myPosition);
+            tileOn.ApplyTileEffects();
+            underEffect = true;
+        }
+        else if (!tileOn.CanApplyTileEffects() && underEffect)
+        {
+            underEffect = false;
+        }
     }
 
     /// <summary>
@@ -313,6 +453,10 @@ public class PlayerBehavior : MonoBehaviour
         buttonManager = FindFirstObjectByType<ButtonManager>();
         if (allowLeftoverMovement)
         {
+            if (onlyMoveOnce)
+            {
+                movementLeft = 0;
+            }
             StartCoroutine(MovePlayer());
             gm.GetComponent<PlayerInputHandler>().enableMovement = false;
             buttonManager.ResetCanvas();
@@ -346,6 +490,7 @@ public class PlayerBehavior : MonoBehaviour
         ghostPosition = transform.position;
         myCol.center = new Vector3(0, myCol.center.y, 0);
         previousColliderPos = myCol.center;
+        VisualizeEnemyPaths();
     }
 
     /// <summary>
@@ -357,7 +502,7 @@ public class PlayerBehavior : MonoBehaviour
         gm.UpdateActionPoints(gm.MoveActionPoints);
         buttonManager.ReEnableActionCanvas();
         //EnableMovableTiles();
-        anim.SetTrigger("Idle");
+        //anim.SetTrigger("Idle");
     }
 
     /// <summary>

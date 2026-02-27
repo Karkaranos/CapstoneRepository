@@ -2,30 +2,53 @@
 Author Names : 		Clare Grady, 
 Date Created : 		2/10/2026
 Date Last Modified : 	2/10/2026
-Brief Description : 		Ranged enemy move state
+Brief Description : 		Pip system manager
 External Resources : 	
 ***************************************************/
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.VFX;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.VFX;
 
 public class PipManager : MonoBehaviour
 {
-    private int currentPipsOnField;
+
+    [System.Serializable]
+    public class SpawnLocations
+    {
+        public List<TileBehaviour> spawningLocations;
+    }
 
     [SerializeField] private int maxNumberOfPipsOnField;
-    [SerializeField] private List<TileBehaviour> spawnableTiles;
+    [SerializeField] private List<TileBehaviour> currentSpawnableTiles;
     [SerializeField] private GameObject pip;
+    [SerializeField] private List<SpawnLocations> spawningLocationsPerLevel;
 
-    [HideInInspector] public PipManager Instance; 
+    [SerializeField] int currentLevel = 0;
 
+    [HideInInspector] public static PipManager Instance { get; private set; }
+    [HideInInspector] public int currentPipsOnField;
+ public List<TileBehaviour> hazardTiles = new List<TileBehaviour>(); 
+
+    private void OnEnable()
+    {
+        TurnPublicEvents.BeginPlayerTurn += SpawnPips;
+        PublicEvents.LoadingGrid += SetCurrentSpawnLocations;
+    }
+
+    private void OnDisable()
+    {
+        TurnPublicEvents.BeginPlayerTurn -= SpawnPips;
+        PublicEvents.LoadingGrid -= SetCurrentSpawnLocations;
+    }
     /// <summary>
     /// Ensure singleton
     /// Sets currentPipsOnField to 0
     /// Spawn pips 
     /// </summary>
-    private async void Start()
+    private void Start()
     {
         if (Instance == null)
         {
@@ -35,10 +58,10 @@ public class PipManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        currentLevel = 0; 
         currentPipsOnField = 0;
-        await Task.Delay(25);
-        SpawnPips();
+        currentSpawnableTiles = spawningLocationsPerLevel[0].spawningLocations;
+        
     }
 
     /// <summary>
@@ -47,25 +70,39 @@ public class PipManager : MonoBehaviour
     /// </summary>
     public void SpawnPips()
     {
+        Debug.Log("SPAWNING PIPS");
         List<TileBehaviour> temp = new List<TileBehaviour>(); 
         while(currentPipsOnField < maxNumberOfPipsOnField)
         {
-            int index = Random.Range(0, spawnableTiles.Count);
-            if(!GridManager.TileIsEmpty(spawnableTiles[index].IndexInGrid))
+            int index = Random.Range(0, currentSpawnableTiles.Count);
+            if(!GridManager.TileIsEmpty(currentSpawnableTiles[index].IndexInGrid) 
+                || hazardTiles.Contains(currentSpawnableTiles[index]))
             {
                 continue; 
             }
-            temp.Add(spawnableTiles[index]);
-            spawnableTiles[index].AddPip(pip);
-            spawnableTiles.Remove(spawnableTiles[index]);
+            temp.Add(currentSpawnableTiles[index]);
+            currentSpawnableTiles[index].AddPip(pip);
+            currentSpawnableTiles.Remove(currentSpawnableTiles[index]);
             
             ++currentPipsOnField;
         }
 
-        foreach (TileBehaviour tileBehaviour in spawnableTiles)
+        foreach (TileBehaviour tileBehaviour in currentSpawnableTiles)
         {
             temp.Add(tileBehaviour);
         }
-        spawnableTiles = temp; 
+        currentSpawnableTiles = temp;
+        spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
+        TurnPublicEvents.TurnActionComplete?.Invoke(); 
+    }
+
+    private async void SetCurrentSpawnLocations(int i)
+    {
+        spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
+        currentLevel = i; 
+        currentSpawnableTiles = spawningLocationsPerLevel[i].spawningLocations;
+        currentPipsOnField = 0;
+        await Task.Delay(500);
+        SpawnPips();
     }
 }

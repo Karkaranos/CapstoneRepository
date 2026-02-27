@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,14 +14,29 @@ public class SettingsMenuBehavior : MenuBehavior
     [SerializeField] private TMP_InputField MusicInputFieldText;
     [SerializeField] private Slider MusicSlider;
 
-    private void OnEnable()
-    {
-        //update volumes from fmod, then call both functions with the fmod default values
+    [SerializeField] private Bus masterBus;
+    [SerializeField] private Bus soundEffectsBus;
+    [SerializeField] private Bus backgroundMusicBus;
 
+
+    private void Awake()
+    {
+        GetBusses();
         UpdateSFXVolume("50");
         UpdateMusicVolume("50");
     }
 
+    private void Update()
+    {
+        
+    }
+
+    public void GetBusses()
+    {
+        backgroundMusicBus = RuntimeManager.GetBus("bus:/BGM");
+        soundEffectsBus = RuntimeManager.GetBus("bus:/SFX");
+        masterBus = RuntimeManager.GetBus("bus:/");
+    }
 
     public void UpdateSFXVolume(string s)
     {
@@ -38,6 +55,7 @@ public class SettingsMenuBehavior : MenuBehavior
 
             SFXInputFieldText.text = percentage.ToString() + "%";
             SFXSlider.value = ((float)percentage / 100);
+            soundEffectsBus.setVolume(SfxVolumePercentage / 100f);
         }
         catch
         {
@@ -47,9 +65,9 @@ public class SettingsMenuBehavior : MenuBehavior
             
             SFXSlider.value = ((float)SfxVolumePercentage / 100);
         }
-        
 
-        
+
+
     }
 
     public void UpdateSFXFromSlider()
@@ -59,6 +77,8 @@ public class SettingsMenuBehavior : MenuBehavior
         SfxVolumePercentage = percent;
 
         SFXInputFieldText.text = percent.ToString() + "%";
+
+        soundEffectsBus.setVolume(SfxVolumePercentage / 100f);
     }
 
 
@@ -79,6 +99,7 @@ public class SettingsMenuBehavior : MenuBehavior
 
             MusicInputFieldText.text = percentage.ToString() + "%";
             MusicSlider.value = ((float)percentage / 100);
+            backgroundMusicBus.setVolume(MusicVolumePercentage / 100f);
         }
         catch
         {
@@ -100,5 +121,7 @@ public class SettingsMenuBehavior : MenuBehavior
         MusicVolumePercentage = percent;
 
         MusicInputFieldText.text = percent.ToString() + "%";
+
+        backgroundMusicBus.setVolume(MusicVolumePercentage / 100f);
     }
 }

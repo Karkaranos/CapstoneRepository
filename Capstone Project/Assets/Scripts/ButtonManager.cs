@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes
+Author Names : 		    Aidan Ratcliffe, Cade Naylor, Tyler Hayes, Brad Dixon
 Date Created : 		    10/1/2025
-Date Last Modified : 	1/26/2026 Aidan Ratcliffe
+Date Last Modified : 	2/12/2026 (Brad Dixon)
 Brief Description : 	All Buttons will be managed within this script
 External Resources : 	N/A
 ***************************************************/
@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Cinemachine;
+using System.Threading.Tasks;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class ButtonManager : MonoBehaviour
     private GameManager gm; // temp variable
 
     private bool isPlayersTurn;
+    private bool castingSpell;
     #endregion
 
     /// <summary>
@@ -71,6 +73,7 @@ public class ButtonManager : MonoBehaviour
     {
         TurnPublicEvents.BeginPlayerTurn += PlayerStartTurn;
         TurnPublicEvents.BeginEnemyTurn += EnemyTurnStarted;
+        PublicEvents.NewLevel += SetPlayerReference;
     }
 
     /// <summary>
@@ -80,6 +83,7 @@ public class ButtonManager : MonoBehaviour
     {
         TurnPublicEvents.BeginPlayerTurn -= PlayerStartTurn;
         TurnPublicEvents.BeginEnemyTurn -= EnemyTurnStarted;
+        PublicEvents.NewLevel -= SetPlayerReference;
     }
 
     /// <summary>
@@ -92,6 +96,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = true;
         playerCanvas.SetActive(true);
+        castingSpell = false;
     }
 
     /// <summary>
@@ -123,9 +128,14 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        if(playerBehavior.movementLeft > 0)
+        if(playerBehavior == null)
+        {
+            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        }
+        if(playerBehavior.MovementLeft > 0)
         {
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
+            playerBehavior.UpdateEnemyPositions();
             confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
             GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].entityOnGrid = -1;
@@ -156,6 +166,7 @@ public class ButtonManager : MonoBehaviour
 
         runeCanvas.SetActive(true);
         playerCanvas.SetActive(false);
+        castingSpell = true;
 
     }
 
@@ -168,12 +179,12 @@ public class ButtonManager : MonoBehaviour
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
         playerBehavior.DeleteMovement();
-        runeCanvas.SetActive(false);
+        //runeCanvas.SetActive(false);
         //Debug.Log("goin back!");
         //playerCanvas.SetActive(true);
         //moveCanvas.SetActive(false);
         //cameraManager.SwitchCamera(cameraManager.Level1playcam);
-        //PublicEvents.EndCast.Invoke();
+        PublicEvents.EndCast?.Invoke();
         //runeCanvas.SetActive(false);
         //confirmCanvas.SetActive(false);
 
@@ -232,6 +243,15 @@ public class ButtonManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Hides the player and confirm canvas
+    /// </summary>
+    public void HideAllCanvas()
+    {
+        playerCanvas.SetActive(false);
+        confirmCanvas.SetActive(false);
+    }
+
+    /// <summary>
     /// Enables the endButtonClicked bool to true
     /// Ends Player Turn once clicked
     /// </summary>
@@ -247,6 +267,12 @@ public class ButtonManager : MonoBehaviour
 
         TurnPublicEvents.ForceEndCurrentPhase();
      }
+
+    private async void SetPlayerReference()
+    {
+        //await Task.Delay(500);
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+    }
 
     #endregion
 }

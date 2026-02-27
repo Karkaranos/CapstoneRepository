@@ -1,13 +1,14 @@
 /*************************************************
-Author Names : 		Tyler Bouchard
+Author Names : 		Tyler Bouchard, Cade Naylor
 Date Created : 		2/2/2026
-Date Last Modified : 2/10/2026
+Date Last Modified : 2/16/2026
 Brief Description : this is the behavior of an spell node, this gets spawned when you 
 click on the Notebook spell slot
 ***************************************************/
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SpellNodeBehavior : MonoBehaviour
 {
@@ -20,13 +21,142 @@ public class SpellNodeBehavior : MonoBehaviour
 
     private bool dragging = true;
     private Vector2 offset;
+    private bool holding = false;
+    private Vector2 mPos;
+    private bool locationSet = false;
+    private SkillTreeManager skillTreeManager;
 
     /// <summary>
     /// initialization
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
+
+        Debug.Log(runeData.RuneName);
+        skillTreeManager.SelectNode(runeData);
+
+    }
+
+
+    /// <summary>
+    /// Assigns event listeners on enable
+    /// </summary>
+    private void OnEnable()
+    {
+        PublicEvents.LeftClicked += LeftClickStarted;
+        PublicEvents.LeftClickReleased += LeftClickReleased;
+        PublicEvents.MousePosition += GetMousePos;
+    }
+
+    /// <summary>
+    /// Assigns event listeners on enable
+    /// </summary>
+    private void OnDisable()
+    {
+        PublicEvents.LeftClicked -= LeftClickStarted;
+        PublicEvents.LeftClickReleased -= LeftClickReleased;
+        PublicEvents.MousePosition -= GetMousePos;
+    }
+
+    /// <summary>
+    /// Sets holding to true
+    /// </summary>
+    private void LeftClickStarted()
+    {
+        if (IsPointerOverThisUI())
+        {
+            //transform.parent = null;
+            holding = true;
+            dragging = true;
+
+            UIAudioManager.Instance.UIPickUp(transform);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            PublicEvents.RuneUnequipped?.Invoke(runeData);
+            if (slotBehavior != null)
+            {
+                slotBehavior.rune = null;
+                
+            }
+        }
+        else
+        {
+            GetComponent<Image>().raycastTarget = false;
+        }
+    }
+
+    /// <summary>
+    /// Sets holding to false
+    /// </summary>
+    private void LeftClickReleased()
+    {
+       
+        if (IsPointerOverThisUI())
+        {
+            holding = false;
+
+            dragging = false;
+
+            GameObject slot = SpellOverSnapLocation();
+            
+            if (slot != null)
+            {
+                rectTransform.position = slot.GetComponent<RectTransform>().position;
+                slotBehavior = slot.GetComponent<SlotBehavior>();
+
+                if (slotBehavior.rune == null)
+                {
+                    slotBehavior.rune = runeData;
+                    slotBehavior.heldSpellObject = this;
+                    //slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                    FindFirstObjectByType<SkillAndArtifactManager>().SetIndexOfEquippedSpells(slot.GetComponent<EquippedSpellNode>().index, runeData);
+
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                    transform.SetParent(slot.transform);
+
+
+                }
+                else
+                {
+                    PublicEvents.RuneUnequipped?.Invoke(slotBehavior.heldSpellObject.runeData);
+                    slotBehavior.heldSpellObject.notebookSpellNode.Equip(false);
+                    Destroy(slotBehavior.heldSpellObject);
+
+                    slotBehavior.rune = runeData;
+                    slotBehavior.heldSpellObject = this;
+                    //slot.GetComponent<EquippedSpellNode>()?.OnClick();
+                    FindFirstObjectByType<SkillAndArtifactManager>().SetIndexOfEquippedSpells(slot.GetComponent<EquippedSpellNode>().index, runeData);
+
+                    UIAudioManager.Instance.UIDrop(transform);
+
+                    //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
+                    transform.SetParent(slot.transform);
+                }
+
+                
+                
+            }
+            else
+            {
+                notebookSpellNode.Equip(false);
+                Destroy(gameObject);
+            }
+
+        }
+        GetComponent<Image>().raycastTarget = true;
+    }
+
+    /// <summary>
+    /// Constantly gets the mouse position
+    /// </summary>
+    /// <param name="m"></param>
+    private void GetMousePos(Vector2 m)
+    {
+        mPos = m;
     }
 
     /// <summary>
@@ -34,43 +164,25 @@ public class SpellNodeBehavior : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (IsPointerOverThisUI())
-            {
-                dragging = true;
-                
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, canvas.worldCamera, out offset);
-                if (slotBehavior != null)
-                {
-                    slotBehavior.rune = null;
-                }
-            }
-        }
-        if (dragging && Input.GetMouseButton(0))
+       
+        if (dragging)
         {
             notebookSpellNode.Equip(true);
-            Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, Input.mousePosition, canvas.worldCamera, out localPoint);
+            Vector2 localPoint = Vector2.zero;
+
+            try
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, mPos, canvas.worldCamera, out localPoint);
+
+            }
+            catch
+            {
+                Debug.Log(gameObject.name);
+            }
+
             rectTransform.localPosition = localPoint - offset;
         }
-        if (Input.GetMouseButtonUp(0) && dragging)
-        {
-            dragging = false;
-           
-            GameObject slot = SpellOverSnapLocation();
-            if (slot != null)
-            {
-                rectTransform.position = slot.GetComponent<RectTransform>().position;
-                slotBehavior = slot.GetComponent<SlotBehavior>();
-                slotBehavior.rune = runeData;
-                
-            }
-            else {
-                notebookSpellNode.Equip(false);
-                Destroy(gameObject);
-            }
-        }
+        
     }
 
     /// <summary>

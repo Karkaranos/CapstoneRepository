@@ -16,12 +16,15 @@ MonoBehaviour:
   TypeOfRune: 1
   NumberOnSkillTree: 1
   RuneName: Knockback Wind
-  RuneDescription: 'A spell used to knock enemies into environmental hazards, into
-    other spells at play on the field, or off the grid. Can be cast 3 grid spaces
-    away. '
+  RuneDescription: Select an enemy and an adjacent tile. The enemy will be pushed
+    onto the adjacent tile and take damage. Enemies pushed into obstacles or other
+    enemies take additional damage.
   RuneDamage: 10
+  SecondaryRuneDamage: 8
   RuneRange: 3
+  RuneAOE: 0
   RuneActionPoints: 1
   RuneSecondaryEffectChance: 0
   RuneVFX: {fileID: 1962794573230982746, guid: 14c479d3890d0c028a91c0c498649c80, type: 3}
   SecondaryRuneVFX: {fileID: 0}
+  runeImage: {fileID: 21300000, guid: 03bf49533c38fee468032fb6528965ff, type: 3}

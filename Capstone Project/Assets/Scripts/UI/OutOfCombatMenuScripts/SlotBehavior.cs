@@ -14,10 +14,16 @@ public class SlotBehavior : MonoBehaviour
         spell
     }
     
-    [HideInInspector] public RuneData rune;
-    [HideInInspector] public ArtifactData artifact;
+    public RuneData rune;
+    public ArtifactData artifact;
     
     [SerializeField] private SlotType slotType;
+
+    public SpellNodeBehavior heldSpellObject;
+    public ArtifactNodeBehavior heldArtifactObject;
+
+    [SerializeField] public int slotNumber;
+
     
     /// <summary>
     /// this retuens true if this is an artifact slot

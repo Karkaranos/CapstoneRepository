@@ -25,6 +25,7 @@ public class SkillAndArtifactManager : MonoBehaviour
 
     [SerializeField] private Settings InspectorSettings;
 
+    [SerializeField] private EventReference bgmEventRefSFX;
     [SerializeField] private EventReference ambienceEventRefSFX;
     [SerializeField] private GameObject audioListenerObject;
 
@@ -33,8 +34,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
 
     //all the containers for the different menus
-    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
-    [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
+    //[ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject SkillTreeContainer;
+    //[ShowIf(nameof(InspectorSettings), Settings.References), SerializeField] private GameObject EquipMenuContainer;
     [ShowIf(nameof(InspectorSettings), Settings.References), SerializeField]
     private GameObject OutOfCombatMenuContainer;
 
@@ -94,9 +95,11 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        PublicEvents.RuneUnequipped += UnequipSpell;
+
         //sets the spell menu active
-        SkillTreeContainer.SetActive(false);
-        EquipMenuContainer.SetActive(true);
+        //SkillTreeContainer.SetActive(false);
+        //EquipMenuContainer.SetActive(true);
 
         //sets the spell slots
         if (equippedSpells.Count < NumOfSpellSlots)
@@ -109,6 +112,28 @@ public class SkillAndArtifactManager : MonoBehaviour
     }
 
     /// <summary>
+    /// unsubscribes from public events
+    /// </summary>
+    private void OnDisable()
+    {
+        PublicEvents.RuneUnequipped -= UnequipSpell;
+    }
+
+    /// <summary>
+    /// Unequips a spell from the equipped spell list
+    /// </summary>
+    /// <param name="data"></param>
+    private void UnequipSpell(RuneData data)
+    {
+        if (equippedSpells.Contains(data))
+        {
+            SetIndexOfEquippedSpells(GetIndexFromRuneData(data), null);
+        }
+
+        
+    }
+
+    /// <summary>
     /// swaps the menus between the spell and equip menu
     /// </summary>
     /// <param name="isSkill"> if youre turning on the spell menu </param>
@@ -116,13 +141,13 @@ public class SkillAndArtifactManager : MonoBehaviour
     {
         if (isSkill)
         {
-            SkillTreeContainer.SetActive(true);
-            EquipMenuContainer.SetActive(false);
+            //SkillTreeContainer.SetActive(true);
+            //EquipMenuContainer.SetActive(false);
         }
         else
         {
-            SkillTreeContainer.SetActive(false);
-            EquipMenuContainer.SetActive(true);
+            //SkillTreeContainer.SetActive(false);
+            //EquipMenuContainer.SetActive(true);
         }
 
         if (spawnedCursorBox != null)
@@ -137,6 +162,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     public void ContinueToNextLevel()
     {
+
         OutOfCombatMenuContainer.SetActive(false);
         FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
 
@@ -145,7 +171,11 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         AudioManager.instance.CreateEventInstance(ambienceEventRefSFX);
         AudioManager.instance.PlayOneShot(ambienceEventRefSFX, audioListenerObject.transform.position);
+
+        AudioManager.instance.CreateEventInstance(bgmEventRefSFX);
+        AudioManager.instance.PlayOneShot(bgmEventRefSFX, audioListenerObject.transform.position);
     }
+
 
     /// <summary>
     /// sets the given spell to the equipped master list
@@ -167,6 +197,24 @@ public class SkillAndArtifactManager : MonoBehaviour
     public RuneData GetIndexOfEquippedSpells(int index)
     {
         return equippedSpells[index];
+    }
+
+    /// <summary>
+    /// gets the index of a specific runedata in the equipped spells list
+    /// </summary>
+    /// <param name="runeData"></param>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
+    public int GetIndexFromRuneData(RuneData runeData)
+    {
+        if (equippedSpells.Contains(runeData))
+        {
+            return (equippedSpells.IndexOf(runeData));
+        }
+        else
+        {
+            throw new System.Exception("equipped spells does not contain " + runeData + ".");
+        }
     }
 
     /// <summary>
