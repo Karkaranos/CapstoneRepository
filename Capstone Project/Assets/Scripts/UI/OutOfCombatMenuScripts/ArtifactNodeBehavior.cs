@@ -183,7 +183,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = (Vector3)mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
@@ -204,7 +204,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private GameObject ArtifactOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = (Vector3)mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
