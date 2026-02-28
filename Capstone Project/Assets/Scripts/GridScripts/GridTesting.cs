@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Cade Naylor
  * Creation Date: 9/26/2025
- * Last Modified: 2/16/2026
+ * Last Modified: 2/26/2026 (Brad Dixon)
  * Brief: Controls grid loading and handling
  * External Resources: N/A
  * ***************************************************************************/
@@ -12,48 +12,22 @@ using System.Collections;
 
 public class GridTesting : MonoBehaviour
 {
-    private enum GridSettings
-    {
-        GridLoading,
-        GridMovement
-    }
-
-    [SerializeField] private GridSettings selectedSetting;
-
     #region Grid variables
     [HorizontalLine(4, EColor.Red)]
 
     [Tooltip("Used to determine which grid is being used")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField]
-    private int gridIndex;
+    [SerializeField] private int gridIndex;
 
     [Tooltip("The list of the different combat grids")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
-    private List<GameObject> gridPrefabs = new List<GameObject>();
+    [SerializeField] private List<GameObject> gridPrefabs = new List<GameObject>();
 
     [Tooltip("The list that contains how big each grid is")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
-    private List<Vector2Int> gridDimensions = new List<Vector2Int>();
+    [SerializeField] private List<Vector2Int> gridDimensions = new List<Vector2Int>();
 
     public int gridToLoad;
     #endregion
 
-    #region Grid movement variables
-    [HorizontalLine(4, EColor.Blue)]
-
-    //Temporary variables for testing purposes
-    [Tooltip("The tile that would be where an object starts from")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridMovement), SerializeField] 
-    private Vector2Int currentMovementTestingTile;
-
-    [Tooltip("The tile that on object would move to")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridMovement), SerializeField] 
-    private Vector2Int newMovementTestingTile;
-    #endregion
-
     #region Buttons
-    //[HorizontalLine(4, EColor.Green)]
-    //[Space]
     /// <summary>
     /// Testing button that shows the grid in the console
     /// </summary>
@@ -70,19 +44,6 @@ public class GridTesting : MonoBehaviour
     private void LoadGrid()
     {
         LoadNextGrid();
-    }
-
-    /// <summary>
-    /// Testing button that shows in the console which stats are being affected and by how much
-    /// </summary>
-    [Button("Show Terrain Affects")]
-    private void DisplayTerrainAffectsInConsole()
-    {
-        TileStatTester[] testers = FindObjectsByType<TileStatTester>(FindObjectsSortMode.None);
-        foreach(TileStatTester t in testers)
-        {
-            t.DisplayStatChange();
-        }
     }
 
     /// <summary>
@@ -133,13 +94,11 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     public void LoadNextGrid()
     {
-
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
-        
     }
 
     /// <summary>
@@ -157,7 +116,6 @@ public class GridTesting : MonoBehaviour
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
-        
     }
 
     /// <summary>
