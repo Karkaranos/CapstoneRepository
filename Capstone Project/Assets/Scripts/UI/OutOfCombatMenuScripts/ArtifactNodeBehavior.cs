@@ -119,7 +119,8 @@ public class ArtifactNodeBehavior : MonoBehaviour
                     UIAudioManager.Instance.UIDrop(transform);
 
                     transform.SetParent(slot.transform);
-                    //event
+                    //PublicEvents.AddToStatBox.Invoke(artifactData.Name);
+                    // PublicEvents.AddToStatBox(artifactData.Name); 
                 }
                 else
                 {
