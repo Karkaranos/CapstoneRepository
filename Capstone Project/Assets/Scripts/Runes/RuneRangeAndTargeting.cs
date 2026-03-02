@@ -300,6 +300,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// checks which tiles are actually targetable
+    /// </summary>
+    /// <param name="tilesInRange"> tiles that the player may target </param>
     void TargetCheck(List<TileBehaviour> tilesInRange)
     {
 

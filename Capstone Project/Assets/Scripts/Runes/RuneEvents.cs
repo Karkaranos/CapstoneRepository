@@ -846,15 +846,8 @@ public class RuneEvents : MonoBehaviour
                     enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
                     FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
-                    if (kbChain)
-                    {
-
-                        kbChain = false;
-
-                    }
-
                 }
-                else if (newTile.entityOnGrid == -2 && kbChain)
+                else if (newTile.entityOnGrid == -2)
                 {
 
                     if (CanMoveBackwards(enemyTile, newTile))
@@ -872,12 +865,6 @@ public class RuneEvents : MonoBehaviour
 
                         enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
                         FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
-
-                    }
-                    else
-                    {
-
-                        kbChain = false;
 
                     }
 
@@ -967,7 +954,9 @@ public class RuneEvents : MonoBehaviour
 
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
-        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
 
     }
 
@@ -1241,7 +1230,6 @@ public class RuneEvents : MonoBehaviour
 
     //used for certain wind attacks
     float currentSecondaryDamage;
-    bool kbChain = false;
 
     List<Enemy> targetedEnemies = new List<Enemy>();
 
@@ -1333,8 +1321,6 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
-
-                        kbChain = true;
 
                         SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
                         GridManager.combatGrid[nextPos.x, nextPos.y],
