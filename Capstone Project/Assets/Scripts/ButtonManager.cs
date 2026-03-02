@@ -106,7 +106,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = false;
         playerCanvas.SetActive(false);
-        runeCanvas.SetActive(false);
+        //runeCanvas.SetActive(false);
         moveButton.interactable = true;
 
         //playerBehavior = FindFirstObjectByType<PlayerBehavior>();
@@ -128,7 +128,8 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        if(playerBehavior.MovementLeft > 0)
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        if (playerBehavior.MovementLeft > 0)
         {
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
             confirmCanvas.SetActive(true);
@@ -255,7 +256,7 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("button clicked");
         endButtonClicked = true;
 
-        playerCanvas.SetActive(false);
+        //playerCanvas.SetActive(false);
         
         if(playerBehavior == null) { playerBehavior = FindFirstObjectByType<PlayerBehavior>(); }
 

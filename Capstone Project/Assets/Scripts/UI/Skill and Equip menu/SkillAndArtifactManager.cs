@@ -164,7 +164,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     {
 
         OutOfCombatMenuContainer.SetActive(false);
-        FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
+        //FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
 
         PublicEvents.StartBattle.Invoke();
         //GameObject.Find("Move Confirmation").SetActive(false);
