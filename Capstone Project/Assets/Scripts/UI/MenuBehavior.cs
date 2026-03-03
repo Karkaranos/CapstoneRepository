@@ -58,6 +58,15 @@ public class MenuBehavior : MonoBehaviour
     /// <param name="sceneToLoad"></param>
     public void LoadScene(int sceneToLoad)
     {
+        FindFirstObjectByType<TransitionManager>().StartSceneTransition();
+        //SceneManager.LoadScene(sceneToLoad);
+
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //stops all audio
+    }
+
+    public void LoadSceneNoTransition(int sceneToLoad)
+    {
         SceneManager.LoadScene(sceneToLoad);
 
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);

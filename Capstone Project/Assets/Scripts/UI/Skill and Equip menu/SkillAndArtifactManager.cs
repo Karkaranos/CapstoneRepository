@@ -176,6 +176,11 @@ public class SkillAndArtifactManager : MonoBehaviour
         AudioManager.instance.PlayOneShot(bgmEventRefSFX, audioListenerObject.transform.position);
     }
 
+    public void ContinueToNextLevelButton()
+    {
+        FindFirstObjectByType<TransitionManager>().LevelTransition();
+    }
+
 
     /// <summary>
     /// sets the given spell to the equipped master list
