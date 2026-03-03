@@ -1,3 +1,11 @@
+/*************************************************
+Author Names : 		Tyler Hayes
+Date Created : 		3/3/2026
+Date Last Modified : 3/3/2026 (Tyler Hayes)
+Brief Description : handles the controller's connection to the in combat UI Menu
+External Resources : 	
+***************************************************/
+
 using System.Collections;
 using System.Threading;
 using UnityEngine;
