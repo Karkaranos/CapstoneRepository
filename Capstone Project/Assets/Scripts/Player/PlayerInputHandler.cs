@@ -80,11 +80,20 @@ public class PlayerInputHandler : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Triggers when the player presses button west (for now)
+    /// swaps from the incombat ui menu to the grid
+    /// </summary>
+    /// <param name="obj"></param>
     private void ToggleGridView_started(InputAction.CallbackContext obj)
     {
         PublicEvents.ToggleGridView?.Invoke();
     }
 
+    /// <summary>
+    /// triggers when the player presses left click
+    /// </summary>
+    /// <param name="obj"></param>
     private void LeftClick_canceled(InputAction.CallbackContext obj)
     {
         PublicEvents.LeftClickReleased?.Invoke();
@@ -124,6 +133,10 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calls public event to tell the script when the player enables or disables controller
+    /// </summary>
+    /// <param name="obj"></param>
     private void PInput_onControlsChanged(PlayerInput obj)
     {
 

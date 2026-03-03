@@ -30,24 +30,22 @@ public class InCombatControllerManager : MonoBehaviour
         PublicEvents.ControllerMoveInGrid -= MoveInGrid;
     }*/
 
-    private void OpenCombat()
+    /// <summary>
+    /// triggers whenever the player goes back to the incombat menu
+    /// this includes when the player is done moving and done casting a spell
+    /// </summary>
+    private void OpenUIMenu()
     {
+        PlayerIsInUIMenu = true;
         lastSelectedButton = firstCombatUIButton;
         lastSelectedGridTile = defaultGridSelectCoords;
 
         EventSystem.current.SetSelectedGameObject(firstCombatUIButton);
     }
 
-    private void StartPlottingPath()
-    {
-        isPlottingPath = true;
-    }
-
-    private void EndPlottingPath()
-    {
-        isPlottingPath = false;
-    }
-
+    /// <summary>
+    /// Swaps between the player moving around in the grid and the UI
+    /// </summary>
     private void ToggleBetweenGridAndUI()
     {
         //dont do this if you aren't in the default ui menu
@@ -56,6 +54,7 @@ public class InCombatControllerManager : MonoBehaviour
             return;
         }
 
+        //if we are currently in the ui, go to grid
         if (controllerOnUIMenu)
         {
             lastSelectedButton = EventSystem.current.currentSelectedGameObject;
@@ -65,6 +64,8 @@ public class InCombatControllerManager : MonoBehaviour
         }
         else
         {
+            //go back to ui
+
             EventSystem.current.SetSelectedGameObject(lastSelectedButton);
             controllerOnUIMenu = true;
 
@@ -72,6 +73,10 @@ public class InCombatControllerManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Allows the player to move around in the grid
+    /// </summary>
+    /// <param name="dir"> the direction the player moves in </param>
     private void MoveInGrid(Vector2 dir)
     {
         //if we aren't moving in grid, don't do this
@@ -87,15 +92,14 @@ public class InCombatControllerManager : MonoBehaviour
         }
 
         //move in grid
+        
         Debug.Log("Moving: " + dir);
     }
 
-    public void SaveCurrentTile(Vector2Int tile)
-    {
-        lastSelectedGridTile = tile;
-    }
-
     #region Hover over spell funcs
+    /// <summary>
+    /// calls a delayed coroutine to hover over the spell
+    /// </summary>
     public void DelayHoverOverSpell()
     {
         //if theres already a spell trying to hover, cancel it
@@ -108,11 +112,15 @@ public class InCombatControllerManager : MonoBehaviour
         hoverSpellCoroutine = StartCoroutine(DelayedHoverSpell());
     }
 
+    /// <summary>
+    /// Actual logic to show the popup
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
     private IEnumerator DelayedHoverSpell()
     {
         //save the obj you're hovered over
         GameObject hoveredObj = EventSystem.current.currentSelectedGameObject;
-        float timer = 0;
 
         //if the time to wait for is less than or equal to 0, it'll cause an infinite loop
         if (delayBeforeSpellPopup <= 0)
@@ -122,11 +130,7 @@ public class InCombatControllerManager : MonoBehaviour
         }
 
         //wait for the delay
-        while (timer < delayBeforeSpellPopup)
-        {
-            yield return null;
-            timer += Time.deltaTime;
-        }
+        yield return new WaitForSeconds(delayBeforeSpellPopup);
 
         //if we are no longer selecting the ui menu, we don't show the hover
         if (!controllerOnUIMenu)
@@ -140,7 +144,7 @@ public class InCombatControllerManager : MonoBehaviour
             yield break;
         }
 
-        //TRIGGER THE SHOW HOVER BOX NOW
+        //LOGIC TO TRIGGER THE INFO BOX GOES HERE
     }
 
     #endregion
