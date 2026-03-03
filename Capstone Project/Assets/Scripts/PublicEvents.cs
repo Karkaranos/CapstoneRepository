@@ -57,9 +57,11 @@ public static class PublicEvents
 
     public static Action ToggleConsole;
 
+    public static Action ToggleGridView;
     public static Action ControllerEnabled;
     public static Action ControllerDisabled;
 
+    public static Action<Vector2> ControllerMoveInGrid;
     public static Action<Vector2> PanCamera;
     public static Action<Vector2> MovementDirection;
     public static Action<Vector2> MousePosition;

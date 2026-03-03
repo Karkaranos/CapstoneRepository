@@ -22,6 +22,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction toggleConsole;
     private InputAction panCam;
     private InputAction movePlayer;
+    private InputAction toggleGridView;
 
     //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
     private bool mousePressed = false;
@@ -50,6 +51,7 @@ public class PlayerInputHandler : MonoBehaviour
         toggleConsole = pInput.currentActionMap.FindAction ("ToggleConsole");
         panCam = pInput.currentActionMap.FindAction("PanCamera");
         movePlayer = pInput.currentActionMap.FindAction("Move");
+        toggleGridView = pInput.currentActionMap.FindAction("ToggleGridView");
 
 
         mousePressed = false;
@@ -67,12 +69,20 @@ public class PlayerInputHandler : MonoBehaviour
         rightClick.started += RightClick_started;
         leftClick.started += LeftClick_started;
         leftClick.canceled += LeftClick_canceled;
-        toggleConsole.started += Toggle_started;
+        toggleConsole.started += Toggle_Console_started;
         panCam.performed += PanCam_performed;
         movePlayer.performed += MovePlayer_performed;
         movePlayer.canceled += MovePlayer_canceled;
+        toggleGridView.started += ToggleGridView_started;
+
 
         pInput.onControlsChanged += PInput_onControlsChanged;
+        
+    }
+
+    private void ToggleGridView_started(InputAction.CallbackContext obj)
+    {
+        PublicEvents.ToggleGridView?.Invoke();
     }
 
     private void LeftClick_canceled(InputAction.CallbackContext obj)
@@ -93,7 +103,7 @@ public class PlayerInputHandler : MonoBehaviour
         movePlayer.performed -= MovePlayer_performed;
         movePlayer.canceled -= MovePlayer_canceled;
 
-        toggleConsole.started -= Toggle_started;
+        toggleConsole.started -= Toggle_Console_started;
 
         pInput.onControlsChanged -= PInput_onControlsChanged;
     }
@@ -159,9 +169,8 @@ public class PlayerInputHandler : MonoBehaviour
     /// </summary>
     /// <param name="obj"></param>
     /// <exception cref="System.NotImplementedException"></exception>
-    private void Toggle_started(InputAction.CallbackContext obj)
+    private void Toggle_Console_started(InputAction.CallbackContext obj)
     {
-        Debug.Log("sending public event");
         PublicEvents.ToggleConsole?.Invoke();
     }
 
@@ -269,6 +278,10 @@ public class PlayerInputHandler : MonoBehaviour
             if (enableMovement)
             {
                 PublicEvents.MovementDirection?.Invoke(movementDirection);
+            }
+            else
+            {
+                PublicEvents.ControllerMoveInGrid?.Invoke(movementDirection);
             }
         }
     }
