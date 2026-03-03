@@ -119,8 +119,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
                     UIAudioManager.Instance.UIDrop(transform);
 
                     transform.SetParent(slot.transform);
-                    //PublicEvents.AddToStatBox.Invoke(artifactData.Name);
-                    // PublicEvents.AddToStatBox(artifactData.Name); 
+                    PublicEvents.AddToStatBox(artifactData.Name);
                 }
                 else
                 {
@@ -135,7 +134,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
                     UIAudioManager.Instance.UIDrop(transform);
 
                     transform.SetParent(slot.transform);
-                    //event
+                    PublicEvents.RemoveFromStatBox(artifactData.Name);
                 }
                 
                 
@@ -143,11 +142,13 @@ public class ArtifactNodeBehavior : MonoBehaviour
             else
             {
                 notebookArtifactNode.Equip(false);
+                PublicEvents.RemoveFromStatBox(artifactData.Name);
                 Destroy(gameObject);
             }
             if (holding)
             {
                 notebookArtifactNode.Equip(false);
+                PublicEvents.RemoveFromStatBox(artifactData.Name);
                 Destroy(gameObject);
             }
         }

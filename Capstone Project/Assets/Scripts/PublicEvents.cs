@@ -104,9 +104,9 @@ public static class PublicEvents
 
     #region UI EVENTS
 
-    public static Action<ArtifactData> AddToStatBox;
+    public static Action<string> AddToStatBox;
 
-    public static Action<ArtifactData> RemoveFromStatBox;
+    public static Action<string> RemoveFromStatBox;
 
     #endregion
 }
