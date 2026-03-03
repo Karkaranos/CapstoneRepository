@@ -259,14 +259,14 @@ public class PlayerInputHandler : MonoBehaviour
                 if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() != null)
                 {
 
-                    if (hit.transform.gameObject.GetComponent<Enemy>() != null || hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
+                    if (hit.transform.gameObject.GetComponent<Enemy>() != null)
                     {
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
                             hit.transform.gameObject.GetComponent<Enemy>(), null);
 
                     }
-                    else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null || hit.transform.gameObject.GetComponentInChildren<PlayerBehavior>() != null)
+                    else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
                     {
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
@@ -276,7 +276,17 @@ public class PlayerInputHandler : MonoBehaviour
                     else
                     {
 
-                        PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), null, null);
+                        if(hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), 
+                            hit.transform.gameObject.GetComponentInChildren<Enemy>(), null);
+
+                        }
+                        else
+                        {
+                            PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), null, null);
+                        }
 
                     }
 
