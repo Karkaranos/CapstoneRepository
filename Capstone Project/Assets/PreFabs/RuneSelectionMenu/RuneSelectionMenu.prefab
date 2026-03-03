@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 8412862100945554124}
   - component: {fileID: 8915949164886092388}
   - component: {fileID: 3396462473703421213}
+  - component: {fileID: 5604555379154641702}
   m_Layer: 0
   m_Name: RuneSet2
   m_TagString: Untagged
@@ -270,6 +271,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5604555379154641702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777144544014618115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4419c7b1549cedd41bc548f243e2cbe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
 --- !u!1 &1401568452704356754
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,6 +371,7 @@ GameObject:
   - component: {fileID: 171079347092763710}
   - component: {fileID: 1696477287885797461}
   - component: {fileID: 2129849071022347961}
+  - component: {fileID: 7042040299477436437}
   m_Layer: 0
   m_Name: RuneSet4
   m_TagString: Untagged
@@ -465,6 +480,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7042040299477436437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552686949978944420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4419c7b1549cedd41bc548f243e2cbe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
 --- !u!1 &1745991764249744145
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +504,7 @@ GameObject:
   - component: {fileID: 6329985379473905189}
   - component: {fileID: 8690938392344116210}
   - component: {fileID: 5346486511877798458}
+  - component: {fileID: 2823749961647222177}
   m_Layer: 0
   m_Name: Container1
   m_TagString: Untagged
@@ -541,6 +570,63 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2823749961647222177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745991764249744145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: PopOut
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: SetupInfoBox
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 4434628808919459194}
+            m_ObjectArgumentAssemblyTypeName: InCombatSpellSlotBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: Retact
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2236102010899834307
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,6 +676,7 @@ GameObject:
   - component: {fileID: 5355840097838054449}
   - component: {fileID: 6321400496940893685}
   - component: {fileID: 3100152663538584201}
+  - component: {fileID: 8700352034854495944}
   m_Layer: 0
   m_Name: Container4
   m_TagString: Untagged
@@ -655,6 +742,63 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8700352034854495944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915754758453177886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: PopOut
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: SetupInfoBox
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7042040299477436437}
+            m_ObjectArgumentAssemblyTypeName: InCombatSpellSlotBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: Retact
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3560920828327436811
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +810,7 @@ GameObject:
   - component: {fileID: 5728749614213554157}
   - component: {fileID: 7251691400717199117}
   - component: {fileID: 2562630148698496162}
+  - component: {fileID: 3681373967660819368}
   m_Layer: 0
   m_Name: Container2
   m_TagString: Untagged
@@ -731,6 +876,63 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3681373967660819368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560920828327436811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: PopOut
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: SetupInfoBox
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 5604555379154641702}
+            m_ObjectArgumentAssemblyTypeName: InCombatSpellSlotBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: Retact
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4653630277975459063
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,7 +998,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: name
+  m_text: Tornado
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ff30cee1b345caa459b16d8d347b865d, type: 2}
   m_sharedMaterial: {fileID: -7081043665667326173, guid: ff30cee1b345caa459b16d8d347b865d, type: 2}
@@ -880,6 +1082,7 @@ GameObject:
   - component: {fileID: 3818118676456484002}
   - component: {fileID: 4948172320376942482}
   - component: {fileID: 1343304447585763981}
+  - component: {fileID: 4434628808919459194}
   m_Layer: 0
   m_Name: RuneSet1
   m_TagString: Untagged
@@ -988,6 +1191,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4434628808919459194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4877500098415942096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4419c7b1549cedd41bc548f243e2cbe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
 --- !u!1 &4879087755078198448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,6 +1216,7 @@ GameObject:
   - component: {fileID: 7634095312111593943}
   - component: {fileID: 6952229476173737666}
   - component: {fileID: 2542888215959494323}
+  - component: {fileID: 4098161166063277514}
   m_Layer: 0
   m_Name: RuneSet3
   m_TagString: Untagged
@@ -1108,6 +1325,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4098161166063277514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4879087755078198448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4419c7b1549cedd41bc548f243e2cbe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune: {fileID: 0}
 --- !u!1 &5097510653777568330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,6 +1349,7 @@ GameObject:
   - component: {fileID: 1286338812512621301}
   - component: {fileID: 396038620760051153}
   - component: {fileID: 2686519934049655427}
+  - component: {fileID: 2466384718473561577}
   m_Layer: 0
   m_Name: InfoBox
   m_TagString: Untagged
@@ -1145,7 +1376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 160, y: 253}
+  m_AnchoredPosition: {x: 160, y: -97}
   m_SizeDelta: {x: 716.798, y: 314.317}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &396038620760051153
@@ -1171,7 +1402,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: 0, y: 30, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1186,6 +1417,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2466384718473561577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5097510653777568330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4de0048f906f746961cc3b42cdc121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellName: {fileID: 4366907209259159382}
+  spellDescription: {fileID: 2420911019394843562}
+  moveAmount: 360
 --- !u!1 &5819153524938610956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,7 +1497,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  m_text: Select a starting tile. Click and drag to summon a tornado that will move
+    along the path in the chosen direction, dealing damage to nearby enemies and
+    dragging them with it.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ff30cee1b345caa459b16d8d347b865d, type: 2}
   m_sharedMaterial: {fileID: -7081043665667326173, guid: ff30cee1b345caa459b16d8d347b865d, type: 2}
@@ -1278,8 +1526,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1334,6 +1582,7 @@ GameObject:
   - component: {fileID: 7374901779721330990}
   - component: {fileID: 215196257824655544}
   - component: {fileID: 1839981711263439184}
+  - component: {fileID: 7150216723476384671}
   m_Layer: 0
   m_Name: Container3
   m_TagString: Untagged
@@ -1399,6 +1648,63 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7150216723476384671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6477106994949101700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: PopOut
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: SetupInfoBox
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 4098161166063277514}
+            m_ObjectArgumentAssemblyTypeName: InCombatSpellSlotBehavior, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2466384718473561577}
+          m_TargetAssemblyTypeName: SpellDisplayBoxBehavior, Assembly-CSharp
+          m_MethodName: Retact
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7244982722216816855
 GameObject:
   m_ObjectHideFlags: 0

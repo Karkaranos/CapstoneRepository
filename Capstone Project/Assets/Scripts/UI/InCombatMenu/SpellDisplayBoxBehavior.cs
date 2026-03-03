@@ -11,15 +11,23 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
 {
     public TextMeshProUGUI spellName;
     public TextMeshProUGUI spellDescription;
+    public GameObject[] pips = new GameObject[3];
     public float moveAmount;
 
     /// <summary>
     /// sets up the spellInfoBox
     /// </summary>
     /// <param name="stb"></param>
-    public void SetupInfoBox(SpellTabBehavior stb) {
-        spellName.text = stb.runeData.name;
-        spellDescription.text = stb.runeData.RuneDescription;
+    public void SetupInfoBox(InCombatSpellSlotBehavior icsb) {
+        spellName.text = icsb.rune.name;
+        spellDescription.text = icsb.rune.RuneDescription;
+
+        int attackPoints = icsb.rune.RuneActionPoints;
+        foreach (GameObject p in pips )
+        {
+            p.SetActive(true);
+        }
+
     }
 
     /// <summary>
