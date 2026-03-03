@@ -11,7 +11,7 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
 {
     public TextMeshProUGUI spellName;
     public TextMeshProUGUI spellDescription;
-    public GameObject[] pips = new GameObject[3];
+    public GameObject[] pips;
     public float moveAmount;
 
     /// <summary>
@@ -25,7 +25,12 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
         int attackPoints = icsb.rune.RuneActionPoints;
         foreach (GameObject p in pips )
         {
-            p.SetActive(true);
+            p.SetActive(false);
+        }
+
+        for (int i = 0; i < attackPoints; i++)
+        {
+            pips[i].SetActive(true);
         }
 
     }
