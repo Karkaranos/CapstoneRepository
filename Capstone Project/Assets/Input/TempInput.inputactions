@@ -68,6 +68,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleGridView",
+                    "type": "Button",
+                    "id": "add2ecaa-240b-47a1-bf1d-263e3d42a47b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -389,6 +398,17 @@
                     "action": "PanCamera",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "22621faa-3149-4509-ba57-7f2cfd3cdb9e",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Controller",
+                    "action": "ToggleGridView",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
