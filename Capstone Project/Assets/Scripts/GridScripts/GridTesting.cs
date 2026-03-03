@@ -58,7 +58,7 @@ public class GridTesting : MonoBehaviour
     [Button]
     public void LoadGridAtIndex()
     {
-        LoadSpecificGrid(gridToLoad);
+        LoadSpecificGrid(gridToLoad+1);
     }
     #endregion
 
@@ -107,11 +107,12 @@ public class GridTesting : MonoBehaviour
     /// <param name="i"></param>
     public void LoadSpecificGrid(int i) 
     {
-        if(i > gridPrefabs.Count-1)
+        if(i > gridPrefabs.Count || i <= 0)
         {
-            i = gridPrefabs.Count-1;
+            Logger.Error("Invalid grid index entered. Returning function", true);
+            return;
         }
-        gridIndex = i;
+        gridIndex = i-1;
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
