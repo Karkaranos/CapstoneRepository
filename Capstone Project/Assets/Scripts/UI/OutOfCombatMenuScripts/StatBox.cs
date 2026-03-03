@@ -37,27 +37,33 @@ public class StatBox : MonoBehaviour
     /// Updates text UI to 20% when equiping an artifact
     /// </summary>
     /// <param name="data"></param>
-    private void AddToStatBox(string data)
+    private void AddToStatBox(ArtifactData data)
     {
+        string name = data.Name;
         string previousInfo;
-        switch (data)
+        float mult; 
+        switch (name)
         {
             case "Wind +":
                 previousInfo = windDamange.text.Split(':', System.StringSplitOptions.None)[0];
-                windDamange.text = previousInfo + ": 20%";
+                mult =  (data.Effects[0].StatChangeAmount % 1) * 100;
+                windDamange.text = previousInfo + ": " + mult + "%";
                 break;
 
             case "Lightning +":
                 previousInfo = lightningDamage.text.Split(":", System.StringSplitOptions.None)[0];
-                lightningDamage.text = previousInfo + ": 20%";
+                mult = (data.Effects[0].StatChangeAmount % 1) * 100;
+                lightningDamage.text = previousInfo + ": " + mult + "%";
                 break;
             case "Ranged Resist":
                 previousInfo = rangeResist.text.Split(":", System.StringSplitOptions.None)[0];
-                rangeResist.text = previousInfo + ": 20%";
+                mult = (1 - data.Effects[0].StatChangeAmount) * 100;
+                rangeResist.text = previousInfo + ": " + mult + "%";
                 break;
             case "Melee Resist":
                 previousInfo = meleeResist.text.Split(":", System.StringSplitOptions.None)[0];
-                meleeResist.text = previousInfo + ": 20%";
+                mult = (1 - data.Effects[0].StatChangeAmount) * 100;
+                meleeResist.text = previousInfo + ": " + mult + "%";
                 break;
             default:
                 break;
@@ -69,10 +75,11 @@ public class StatBox : MonoBehaviour
     /// Resets the UI text to 0% when unequiping an artifact
     /// </summary>
     /// <param name="data"></param>
-    private void RemoveFromStatBox(string data)
+    private void RemoveFromStatBox(ArtifactData data)
     {
+        string name = data.Name;
         string previousInfo;
-        switch (data)
+        switch (name)
         {
             case "Wind +":
                 previousInfo = windDamange.text.Split(':', System.StringSplitOptions.None)[0];
