@@ -520,9 +520,13 @@ public class RuneEvents : MonoBehaviour
                     selectedRune = rune;
                     originalSelectedTile = tile.IndexInGrid;
                     selectedTile = originalSelectedTile;
-                    selectedEnemy = enemy;
+                    if(enemy != null)
+                    {
+                        selectedEnemy = enemy;
+                    }
+                    else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
 
-                    PreviousPos.Add(selectedTile);
+                        PreviousPos.Add(selectedTile);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
@@ -665,7 +669,11 @@ public class RuneEvents : MonoBehaviour
                     selectedRune = rune;
                     originalSelectedTile = tile.IndexInGrid;
                     selectedTile = originalSelectedTile;
-                    selectedEnemy = enemy;
+                    if (enemy != null)
+                    {
+                        selectedEnemy = enemy;
+                    }
+                    else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
 
                     PreviousPos.Add(selectedTile);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
