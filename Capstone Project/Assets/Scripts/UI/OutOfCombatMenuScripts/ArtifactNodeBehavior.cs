@@ -119,6 +119,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
                     UIAudioManager.Instance.UIDrop(transform);
 
                     transform.SetParent(slot.transform);
+                    PublicEvents.AddToStatBox(artifactData);
                 }
                 else
                 {
@@ -133,6 +134,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
                     UIAudioManager.Instance.UIDrop(transform);
 
                     transform.SetParent(slot.transform);
+                    PublicEvents.RemoveFromStatBox(artifactData);
                 }
                 
                 
@@ -140,11 +142,13 @@ public class ArtifactNodeBehavior : MonoBehaviour
             else
             {
                 notebookArtifactNode.Equip(false);
+                PublicEvents.RemoveFromStatBox(artifactData);
                 Destroy(gameObject);
             }
             if (holding)
             {
                 notebookArtifactNode.Equip(false);
+                PublicEvents.RemoveFromStatBox(artifactData);
                 Destroy(gameObject);
             }
         }
@@ -183,7 +187,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = (Vector3)mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
@@ -204,7 +208,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
     private GameObject ArtifactOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = (Vector3)mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);

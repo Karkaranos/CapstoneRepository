@@ -103,4 +103,12 @@ public static class PublicEvents
     public static Action<int> RuneCast;
 
     #endregion RUNE EVENTS
+
+    #region UI EVENTS
+
+    public static Action<ArtifactData> AddToStatBox;
+
+    public static Action<ArtifactData> RemoveFromStatBox;
+
+    #endregion
 }
