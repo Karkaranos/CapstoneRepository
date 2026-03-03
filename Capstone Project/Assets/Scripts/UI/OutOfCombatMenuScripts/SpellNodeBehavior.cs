@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Tyler Bouchard, Cade Naylor
+Author Names : 		Tyler Bouchard, Cade Naylor, Clare Grady
 Date Created : 		2/2/2026
-Date Last Modified : 2/16/2026
+Date Last Modified : 2//2026
 Brief Description : this is the behavior of an spell node, this gets spawned when you 
 click on the Notebook spell slot
 ***************************************************/
@@ -192,7 +192,8 @@ public class SpellNodeBehavior : MonoBehaviour
     private bool IsPointerOverThisUI()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = (Vector3)mPos;
+
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
@@ -213,7 +214,7 @@ public class SpellNodeBehavior : MonoBehaviour
     private GameObject SpellOverSnapLocation()
     {
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
-        pointerData.position = Input.mousePosition;
+        pointerData.position = (Vector3)mPos;
 
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);

@@ -106,7 +106,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = false;
         playerCanvas.SetActive(false);
-        //runeCanvas.SetActive(false);
+        runeCanvas.SetActive(false);
         moveButton.interactable = true;
 
         //playerBehavior = FindFirstObjectByType<PlayerBehavior>();
@@ -128,10 +128,14 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
-        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        if (playerBehavior.MovementLeft > 0)
+        if(playerBehavior == null)
+        {
+            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        }
+        if(playerBehavior.MovementLeft > 0)
         {
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
+            playerBehavior.UpdateEnemyPositions();
             confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
             GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].entityOnGrid = -1;
@@ -180,7 +184,7 @@ public class ButtonManager : MonoBehaviour
         //playerCanvas.SetActive(true);
         //moveCanvas.SetActive(false);
         //cameraManager.SwitchCamera(cameraManager.Level1playcam);
-        PublicEvents.EndCast.Invoke();
+        PublicEvents.EndCast?.Invoke();
         //runeCanvas.SetActive(false);
         //confirmCanvas.SetActive(false);
 
@@ -256,7 +260,7 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("button clicked");
         endButtonClicked = true;
 
-        //playerCanvas.SetActive(false);
+        playerCanvas.SetActive(false);
         
         if(playerBehavior == null) { playerBehavior = FindFirstObjectByType<PlayerBehavior>(); }
 
