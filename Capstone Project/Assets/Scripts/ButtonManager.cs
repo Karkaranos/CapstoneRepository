@@ -96,6 +96,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = true;
         playerCanvas.SetActive(true);
+        runeCanvas.SetActive(true);
         castingSpell = false;
     }
 

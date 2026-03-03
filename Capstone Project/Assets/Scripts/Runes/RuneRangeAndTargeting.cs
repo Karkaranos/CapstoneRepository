@@ -611,7 +611,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         GridManager.RemoveHighlight();
 
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
 
     }
 
