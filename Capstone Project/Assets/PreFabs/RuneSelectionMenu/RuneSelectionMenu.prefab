@@ -1753,22 +1753,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d02e00acd81d54391fd2ad05163172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInspectorShowing: 0
-  lightningDamageTierOne: 5
-  lightningMasteredDamageTierOne: 5
-  windPrimaryDamageTierOne: 10
-  windSecondaryDamageTierOne: 5
-  windMasteredTempHealthTierOne: 10
-  lightningDamageTierTwo: 10
-  lightningMasteredDamageTierTwo: 10
-  windPrimaryDamageTierTwo: 15
-  windSecondaryDamageTierTwo: 10
-  windMasteredTempHealthTierTwo: 15
-  lightningDamageTierThree: 15
-  lightningMasteredDamageTierThree: 15
-  windPrimaryDamageTierThree: 20
-  windSecondaryDamageTierThree: 15
-  windMasteredTempHealthTierThree: 20
+  currentInspectorShowing: 2
+  PreviousPos: []
+  WaitingOnPath: 0
   lightningSpellSFX_1:
     Guid:
       Data1: 0
@@ -1826,6 +1813,8 @@ MonoBehaviour:
       Data4: 0
     Path: 
   audioListenerObject: {fileID: 0}
+  PlayerVisual: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
+  anim: {fileID: 0}
 --- !u!114 &777831614356197974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1839,11 +1828,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMenu: {fileID: 0}
-  defaultHighlight: {r: 1, g: 0, b: 0, a: 0.5019608}
-  lightningHighlight: {r: 1, g: 0.9558593, b: 0, a: 0.5019608}
-  lightningSecondaryHighlight: {r: 1, g: 0.95686275, b: 0, a: 0.2509804}
-  windHighlight: {r: 0.15568483, g: 1, b: 0, a: 0.5019608}
-  windSecondaryHighlight: {r: 0.15686275, g: 1, b: 0, a: 0.2509804}
+  DefaultHighlight: {r: 0, g: 0, b: 0, a: 0}
+  BlockedHighlight: {r: 0, g: 0, b: 0, a: 0}
+  LightningHighlight: {r: 0, g: 0, b: 0, a: 0}
+  LightningSecondaryHighlight: {r: 0, g: 0, b: 0, a: 0}
+  WindHighlight: {r: 0, g: 0, b: 0, a: 0}
+  WindSecondaryHighlight: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &8226518431940055128
 GameObject:
   m_ObjectHideFlags: 0
