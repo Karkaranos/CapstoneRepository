@@ -26,6 +26,6 @@ public class CutSceneSkipButton : MonoBehaviour
     /// </summary>
     public void SkipBook()
     {
-        SceneManager.LoadScene(2);
+        FindFirstObjectByType<TransitionManager>().SceneTransition(2);
     }
 }

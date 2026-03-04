@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 public class TransitionManager : MonoBehaviour
 {
     [SerializeField] private Animator transitionAnimator;
-    [SerializeField, Scene] private string gameplayScene;
+    private int sceneToLoad;
     public static TransitionManager instance;
 
     /// <summary>
@@ -35,18 +35,18 @@ public class TransitionManager : MonoBehaviour
     /// <summary>
     /// Public call so we can tell it when we want a scene transition to play
     /// </summary>
-    public void StartSceneTransition()
+    public void SceneTransition(int s)
     {
-        transitionAnimator.SetTrigger("SceneStart");
+        sceneToLoad = s;
+        transitionAnimator.SetTrigger("SceneTransition");
     }
 
     /// <summary>
     /// Used for a animation event to load the next scene while the transition is happening
     /// </summary>
-    public void EndSceneTransition()
+    public void LoadSceneDuringTransition()
     {
-        SceneManager.LoadScene(gameplayScene);
-        transitionAnimator.SetTrigger("SceneEnd");
+        SceneManager.LoadScene(sceneToLoad);
     }
 
     /// <summary>
