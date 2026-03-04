@@ -158,11 +158,18 @@ public class SkillAndArtifactManager : MonoBehaviour
     }
 
     /// <summary>
-    /// moves on to the next level
+    /// Starts the transition for moving to the level
     /// </summary>
     public void ContinueToNextLevel()
     {
+        FindFirstObjectByType<TransitionManager>().LevelTransition();
+    }
 
+    /// <summary>
+    /// Moves on to the next level
+    /// </summary>
+    public void ShowNextLevel()
+    {
         OutOfCombatMenuContainer.SetActive(false);
         FindFirstObjectByType<RuneEvents>().gameObject.SetActive(false);
 

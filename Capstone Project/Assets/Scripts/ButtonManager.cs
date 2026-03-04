@@ -41,13 +41,13 @@ public class ButtonManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button endButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button skipcutButton;
     public bool playerCanMove;
-    public bool cutsceneSkipped;
     public bool playerIsGoingToMove;
     public bool backButtonClicked;
     public bool confirmButtonClicked;
     public bool endButtonClicked;
 
     private GameManager gm; // temp variable
+    private TransitionManager tm;
 
     private bool isPlayersTurn;
     private bool castingSpell;
@@ -58,9 +58,9 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-
         cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
+        tm = FindFirstObjectByType<TransitionManager>();
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
     }
 
@@ -109,16 +109,6 @@ public class ButtonManager : MonoBehaviour
         runeCanvas.SetActive(false);
         moveButton.interactable = true;
 
-        //playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-
-        //if (playerBehavior.tilesInRange.Count > 0)
-        //{
-        //    foreach (TileBehaviour t in playerBehavior.tilesInRange)
-        //    {
-        //        t.ShowHighlight(true);
-        //    }
-        //}
-
         TurnPublicEvents.TurnActionComplete();
     }
 
@@ -139,23 +129,7 @@ public class ButtonManager : MonoBehaviour
             confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
             GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].entityOnGrid = -1;
-        }
-        ////cameraManager.SwitchCamera(cameraManager.PlayerZcam);
-        //if (gm.CurrentActionPoints >= gm.MoveActionPoints)
-        //{
-        //    Debug.Log("The player can move!");
-        //    if (playerBehavior == null)
-        //    {
-        //        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        //    }
-        //    //playerBehavior.PlayerCanMove = true;
-        //    //confirmCanvas.SetActive(true);
-        //    playerCanvas.SetActive(false);
-        //}
-        //else
-        //{
-        //    Logger.Warning("Not enough Action Points!");
-        //}    
+        }   
     }
 
     /// <summary>
@@ -179,19 +153,7 @@ public class ButtonManager : MonoBehaviour
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
         playerBehavior.DeleteMovement();
-        //runeCanvas.SetActive(false);
-        //Debug.Log("goin back!");
-        //playerCanvas.SetActive(true);
-        //moveCanvas.SetActive(false);
-        //cameraManager.SwitchCamera(cameraManager.Level1playcam);
         PublicEvents.EndCast?.Invoke();
-        //runeCanvas.SetActive(false);
-        //confirmCanvas.SetActive(false);
-
-        //if (playerBehavior != null)
-        //{
-        //    //playerBehavior.PlayerCanMove = false;
-        //}
     }
 
     /// <summary>
@@ -200,11 +162,32 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void SkipCutscene()
     {
-        cutsceneSkipped = true;
-        if (cutsceneSkipped)
+        if(tm == null)
         {
-            videoCanvas.SetActive(false);
+            tm = FindFirstObjectByType<TransitionManager>();
         }
+        tm.SkipButtonTransition();
+    }
+
+    /// <summary>
+    /// Disables the video canvas at a specific spot in the transition
+    /// </summary>
+    public void DisableVideoCanvas()
+    {
+        videoCanvas.SetActive(false);
+    }
+
+    /// <summary>
+    /// Public call for when the cutscene ends naturally
+    /// </summary>
+    public void CutsceneEnd()
+    {
+        if (tm == null)
+        {
+            tm = FindFirstObjectByType<TransitionManager>();
+        }
+        //videoCanvas.SetActive(false);
+        tm.CutsceneTransition();
     }
 
 
