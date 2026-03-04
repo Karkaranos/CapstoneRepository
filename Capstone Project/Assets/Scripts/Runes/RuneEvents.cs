@@ -58,69 +58,6 @@ public class RuneEvents : MonoBehaviour
 
 
 
-    #region COMBO VARIABLES
-
-    [HorizontalLine(4, EColor.Red)]
-
-    [Header("Lightning/Wind")]
-
-    [Space(10)]
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningMasteredDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windPrimaryDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windSecondaryDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windMasteredTempHealthTierOne;
-
-
-    [Space(10)]
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningMasteredDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windPrimaryDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windSecondaryDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windMasteredTempHealthTierTwo;
-
-
-    [Space(10)]
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningMasteredDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windPrimaryDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windSecondaryDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windMasteredTempHealthTierThree;
-
-    #endregion COMBO VARIABLES
-
-
-
     #region AUDIO
 
     [HorizontalLine(4, EColor.Orange)]
@@ -271,9 +208,6 @@ public class RuneEvents : MonoBehaviour
                 {
                     await Task.Delay(1200);
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
-
-                    //CheckRuneCombination(rune, enemy);
-
                 }
 
                 FindAdjacentTiles(tile);
@@ -286,8 +220,6 @@ public class RuneEvents : MonoBehaviour
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
                         .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
-
-                        //CheckRuneCombination(rune, enemy);
 
                         adjacentTile.ElectrifyAdTiles();
 
@@ -346,8 +278,6 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
-                        //CheckRuneCombination(rune, potentialTarget.GetComponentInChildren<Enemy>());
-
                     }
 
                 }
@@ -381,8 +311,6 @@ public class RuneEvents : MonoBehaviour
                         await Task.Delay(1200);
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
-
-                        //CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
 
                         SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
 
@@ -592,9 +520,13 @@ public class RuneEvents : MonoBehaviour
                     selectedRune = rune;
                     originalSelectedTile = tile.IndexInGrid;
                     selectedTile = originalSelectedTile;
-                    selectedEnemy = enemy;
+                    if(enemy != null)
+                    {
+                        selectedEnemy = enemy;
+                    }
+                    else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
 
-                    PreviousPos.Add(selectedTile);
+                        PreviousPos.Add(selectedTile);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
@@ -623,7 +555,6 @@ public class RuneEvents : MonoBehaviour
 
                     await Task.Delay(1200);
                     selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
-                    //CheckRuneCombination(rune, enemy);
 
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
@@ -738,7 +669,11 @@ public class RuneEvents : MonoBehaviour
                     selectedRune = rune;
                     originalSelectedTile = tile.IndexInGrid;
                     selectedTile = originalSelectedTile;
-                    selectedEnemy = enemy;
+                    if (enemy != null)
+                    {
+                        selectedEnemy = enemy;
+                    }
+                    else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
 
                     PreviousPos.Add(selectedTile);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
@@ -919,15 +854,8 @@ public class RuneEvents : MonoBehaviour
                     enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
                     FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
-                    if (kbChain)
-                    {
-
-                        kbChain = false;
-
-                    }
-
                 }
-                else if (newTile.entityOnGrid == -2 && kbChain)
+                else if (newTile.entityOnGrid == -2)
                 {
 
                     if (CanMoveBackwards(enemyTile, newTile))
@@ -945,12 +873,6 @@ public class RuneEvents : MonoBehaviour
 
                         enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
                         FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
-
-                    }
-                    else
-                    {
-
-                        kbChain = false;
 
                     }
 
@@ -1040,7 +962,9 @@ public class RuneEvents : MonoBehaviour
 
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
-        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
 
     }
 
@@ -1314,7 +1238,6 @@ public class RuneEvents : MonoBehaviour
 
     //used for certain wind attacks
     float currentSecondaryDamage;
-    bool kbChain = false;
 
     List<Enemy> targetedEnemies = new List<Enemy>();
 
@@ -1407,8 +1330,6 @@ public class RuneEvents : MonoBehaviour
 
                         GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
 
-                        kbChain = true;
-
                         SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
                         GridManager.combatGrid[nextPos.x, nextPos.y],
                         GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>());
@@ -1493,7 +1414,6 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
-                        //CheckRuneCombination(rune, GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
 
                         targetedEnemies.Add(GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
 
@@ -1583,278 +1503,6 @@ public class RuneEvents : MonoBehaviour
     }
 
     #endregion PATHING
-
-
-
-    #region COMBO FUNCTIONS
-
-    /// <summary>
-    /// checks if the enemy has been hit by a spell prior
-    /// if so, a combo is triggered
-    /// </summary>
-    /// <param name="enemy"> target </param>
-    void CheckRuneCombination(RuneData rune, Enemy enemy)
-    {
-        if (enemy != null)
-        {
-            if (!enemy.HasStatusEffect)
-            {
-
-                enemy.RuneStatusEffect = rune.TypeOfRune;
-                enemy.RuneStatusEffectNumber = rune.NumberOnSkillTree;
-
-                enemy.HasStatusEffect = true;
-
-                Debug.Log("Status effect added!");
-
-            }
-            else if (enemy.HasStatusEffect && enemy.RuneStatusEffect != rune.TypeOfRune)
-            {
-
-                switch (rune.TypeOfRune, enemy.RuneStatusEffect)
-                {
-
-                    case (RuneType.Lightning, RuneType.Wind):
-
-                        LightningAndWindCombo(enemy, rune.NumberOnSkillTree, enemy.RuneStatusEffectNumber);
-                        Debug.Log("Combo called!");
-
-                        break;
-
-                    case (RuneType.Wind, RuneType.Lightning):
-
-                        LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, rune.NumberOnSkillTree);
-                        Debug.Log("Combo called!");
-
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                enemy.HasStatusEffect = false;
-
-            }
-        }
-    }
-
-    /// <summary>
-    /// calls lightning and wind combo effect
-    /// </summary>
-    /// <param name="enemy"> initial target </param>
-    /// <param name="lightningTier"> which lightning rune was last used on this enemy </param>
-    /// <param name="windTier"> which wind rune was last used on this enemy </param>
-    void LightningAndWindCombo(Enemy enemy, int lightningTier, int windTier)
-    {
-
-        //PART 1: FINDING TARGETS
-
-        PublicEvents.CheckRange.Invoke(true, 2, enemy.GetComponentInParent<TileBehaviour>());
-
-        List<Enemy> validEnemies = new List<Enemy>();
-
-        foreach (TileBehaviour tile in targetedTiles)
-        {
-
-            if (tile == enemy.GetComponentInParent<TileBehaviour>())
-            {
-
-                continue;
-
-            }
-
-            if(tile.GetComponentInChildren<Enemy>() != null)
-            {
-
-                validEnemies.Add(tile.GetComponentInChildren<Enemy>());
-
-            }
-
-        }
-
-
-        //PART 2: LIGHTNING DAMAGE
-
-        int lightningDamage;
-        int lightningMasteredDamage;
-
-        switch (lightningTier)
-        {
-
-            case (1):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            case (2):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            case (3):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            case (4):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            default:
-
-                lightningDamage = 0;
-
-                lightningMasteredDamage = 0;
-
-                break;
-        }
-
-        for (int i = 0; i < validEnemies.Count; i++)
-        {
-
-            validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
-
-            validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyAdTiles();
-
-        }
-
-        if (lightningMastered)
-        {
-
-            if (enemy != null)
-            {
-
-                enemy.Damage(lightningMasteredDamage, Enemy.DamageType.Lightning);
-
-            }
-
-            for (int i = 0; i < validEnemies.Count; i++)
-            {
-
-                if (validEnemies[i] != null)
-                {
-
-                    validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
-
-                }
-
-            }
-
-
-
-        }
-
-
-        //PART 3: WIND DAMAGE
-
-        int windPrimaryDamage;
-
-        int windSecondaryDamage;
-
-        int windTempHealth;
-
-        switch (windTier)
-        {
-
-            case (1):
-
-                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windTempHealth = windMasteredTempHealthTierOne;
-
-                break;
-
-            case (2):
-
-                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windTempHealth = windMasteredTempHealthTierTwo;
-
-                break;
-
-            case (4):
-
-                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windTempHealth = windMasteredTempHealthTierThree;
-
-                break;
-
-            default:
-
-                windPrimaryDamage = 0;
-
-                windSecondaryDamage = 0;
-
-                windTempHealth = 0;
-
-                break;
-        }
-
-        if (enemy != null)
-        {
-
-            enemy.Damage(windPrimaryDamage, Enemy.DamageType.Wind);
-
-        }
-
-        for (int i = 0; i < validEnemies.Count; i++)
-        {
-
-
-            if (validEnemies[i] != null)
-            {
-
-                validEnemies[i].Damage(windSecondaryDamage, Enemy.DamageType.Wind);
-
-            }
-
-        }
-
-        if (windMastered)
-        {
-
-            FindFirstObjectByType<PlayerStats>().AddTempHealth(windTempHealth);
-
-        }
-
-    }
-
-    #endregion COMBO FUNCTIONS
 
 
 

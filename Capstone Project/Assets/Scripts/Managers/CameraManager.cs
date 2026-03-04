@@ -91,6 +91,7 @@ public class CameraManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         OutOfCombatCanvas.SetActive(true);
+        VideoCanvas.SetActive(false);
     }
 
     /// <summary>
