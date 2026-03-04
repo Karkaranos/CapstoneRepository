@@ -10,6 +10,7 @@ using UnityEngine.Video;
 
 public class VideoManager : MonoBehaviour
 {
+    [Tooltip("The video player for the cutscene.")]
     [SerializeField] private VideoPlayer vp;
     private ButtonManager bm;
 
