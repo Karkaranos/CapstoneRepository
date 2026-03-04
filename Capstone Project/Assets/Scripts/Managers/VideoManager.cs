@@ -24,6 +24,10 @@ public class VideoManager : MonoBehaviour
         vp.loopPointReached += VideoEnd;
     }
 
+    /// <summary>
+    /// Plays the transition and runs code to load the gameplay scene. This is run when the video ends.
+    /// </summary>
+    /// <param name="source"></param>
     private void VideoEnd(VideoPlayer source)
     {
         if(bm == null)
