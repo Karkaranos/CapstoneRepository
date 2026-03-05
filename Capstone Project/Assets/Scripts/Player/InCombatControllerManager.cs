@@ -23,9 +23,9 @@ public class InCombatControllerManager : MonoBehaviour
     private bool controllerOnUIMenu;
     private bool PlayerIsInUIMenu;
 
-    private bool isPlottingPath;
+
     private Coroutine hoverSpellCoroutine;
-    private GridManager gridMan;
+
 
     //UNCOMMENT THIS WHEN YOU WANT TO ACTUALLY START TESTING
     /*private void OnEnable()
