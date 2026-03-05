@@ -13,11 +13,7 @@ public class NotebookManager : MonoBehaviour
     [SerializeField] private Canvas canvas;
     
     // text boxes
-    [SerializeField] private TextMeshProUGUI lightningTitle;
-    [SerializeField] private TextMeshProUGUI windTitle;
     [SerializeField] private TextMeshProUGUI artifactTitle;
-    [SerializeField] private TextMeshProUGUI lightningDescription;
-    [SerializeField] private TextMeshProUGUI windDescription;
     [SerializeField] private TextMeshProUGUI artifactDescription;
 
     //idk if this is gonna be needed but it here if I do
@@ -63,18 +59,6 @@ public class NotebookManager : MonoBehaviour
             currentPage--;
         }
         LoadPage(currentPage);
-    }
-
-    /// <summary>
-    /// updated the spell desctiption box on both the wind and lightning page
-    /// </summary>
-    /// <param name="node"></param>
-    public void UpdateTextDescription(NotebookSpellNodeBehavior node)
-    {
-        lightningTitle.text = node.runeData.RuneName;
-        lightningDescription.text = node.runeData.RuneDescription;
-        windTitle.text = node.runeData.RuneName;
-        windDescription.text = node.runeData.RuneDescription;
     }
 
     /// <summary>
