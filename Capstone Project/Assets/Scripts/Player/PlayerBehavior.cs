@@ -98,7 +98,8 @@ public class PlayerBehavior : MonoBehaviour
     {
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
         re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
-        anim = animObj.GetComponent<Animator>();
+        anim = animObj.GetComponentInChildren<Animator>();
+        re.AssignAnim(anim);
         myPosition = GridManager.playerPosition;
         canMove = true;
         ghostPosition = transform.position;

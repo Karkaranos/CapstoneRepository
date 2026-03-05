@@ -101,7 +101,6 @@ public class RuneEvents : MonoBehaviour
     [ShowIf(nameof(currentInspectorShowing), Variables.Animations), SerializeField]
     private GameObject PlayerVisual;
     private Animator anim;
-    public bool PlayerAttack;
 
 
     #endregion ANIMATIONS
@@ -109,12 +108,17 @@ public class RuneEvents : MonoBehaviour
 
     #region INITIALIZATION
 
+    public void AssignAnim(Animator animator)
+    {
+        anim = animator;
+    }
+
     /// <summary>
     /// Runs whenever this script is loaded into a scene
     /// </summary>
     private void OnEnable()
     {
-        anim = PlayerVisual.GetComponentInChildren<Animator>();
+        //anim = PlayerVisual.GetComponent<Animator>();
 
         PublicEvents.LightningCast += SelectedLightningRuneCast;
         PublicEvents.WindCast += SelectedWindRuneCast;
@@ -206,6 +210,11 @@ public class RuneEvents : MonoBehaviour
             return;
         }
 
+        if (anim == null)
+        {
+            anim = FindFirstObjectByType<PlayerBehavior>().gameObject.GetComponentInChildren<Animator>();
+        }
+
         float damageDealt = Mathf.CeilToInt(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
         * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
@@ -242,15 +251,9 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 tile.ElectrifyAdTiles();
-                PlayerAttack = true;
-                if (PlayerAttack == true)
-                {
-                    anim.SetBool("Attack", true);
-                }
-                else
-                {
-                    anim.SetBool("Idle", true);
-                }
+                anim.SetBool("Attack", true);
+                anim.SetBool("Idle", false);
+                Debug.Log("I am tottaly being called");
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
                 Debug.Log("I am attacking");
@@ -344,6 +347,7 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 anim.SetBool("Attack", true);
+                anim.SetBool("Idle", false);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
@@ -392,6 +396,7 @@ public class RuneEvents : MonoBehaviour
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                     anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                     AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
@@ -408,7 +413,6 @@ public class RuneEvents : MonoBehaviour
             default:
                 break;
         }
-
     }
 
     //variable that stores targets for an aoe attack
@@ -581,6 +585,8 @@ public class RuneEvents : MonoBehaviour
                     await Task.Delay(1200);
                     selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
 
@@ -626,6 +632,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
                     AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
 
@@ -675,6 +683,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_2);
                     AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
 
@@ -721,6 +731,8 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                     AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
@@ -1542,17 +1554,18 @@ public class RuneEvents : MonoBehaviour
 
         int timer = 0;
 
-        while (timer <= 2)
+        while (timer <= 4)
         {
 
             timer++;
 
-            if (timer == 2)
+            if (timer == 4)
             {
 
                 PublicEvents.EndCast.Invoke();
                 casting = false;
-
+                anim.SetBool("Attack", false);
+                anim.SetBool("Idle", true);
             }
 
             yield return new WaitForSeconds(1);
