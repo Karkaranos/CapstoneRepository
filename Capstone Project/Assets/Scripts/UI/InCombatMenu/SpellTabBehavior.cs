@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class SpellTabBehavior : MonoBehaviour
 {
-    [HideInInspector] public RuneData runeData = null;
+    public RuneData runeData = null;
     [SerializeField] private float moveAmount = 20f;
     public GameObject[] pips;
     public TextMeshProUGUI spellName;
@@ -18,37 +18,6 @@ public class SpellTabBehavior : MonoBehaviour
     public bool selected = false;
 
     public bool poppedOut = false;
-
-    /// <summary>
-    /// sets up the spell tab with the runeData that it will be responsible for
-    /// </summary>
-    /// <param name="rd"></param>
-    public void SetUp(RuneData rd) {
-        gameObject.SetActive(true);
-        runeData = rd;
-        
-        runeImage.sprite = runeData.runeImage;
-        spellName.text = runeData.name;
-
-        //showing the pip cost value
-        foreach (GameObject pip in pips)
-        {
-            pip.SetActive(true);
-        }
-        for (int i = 0; i < pips.Length - runeData.RuneActionPoints; i++)
-        {
-            pips[i].SetActive(false);
-        }
-    }
-
-    /// <summary>
-    /// deactiveates the spell tab and resets what it is storing
-    /// </summary>
-    public void Deactivate() {
-        gameObject.SetActive(false);
-        runeImage.sprite = null;
-        runeData = null;
-    }
 
     /// <summary>
     /// moves the spell tab to the right (called with an event trigger on the spell tab)
