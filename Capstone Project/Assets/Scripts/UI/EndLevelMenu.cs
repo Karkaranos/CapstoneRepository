@@ -44,6 +44,15 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi()
     {
+        FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+    }
+
+    /// <summary>
+    /// This function is used for enabling the UI during the transition. 
+    /// The place I wanted to intially call the transition from is currently check out.
+    /// </summary>
+    public void ShowTheEndMenuUI()
+    {
         endMenuUi.alpha = 1;
         endMenuUi.interactable = true;
         endMenuUi.blocksRaycasts = true;
@@ -73,13 +82,21 @@ public class EndLevelMenu : MonoBehaviour
     }
     
     /// <summary>
-    /// Loads the next level in the scene
+    /// Call the transition to go to the equip menu
     /// </summary>
     public void NextLevel()
     {
+        FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
+    }
+
+    /// <summary>
+    /// Loads the next level
+    /// </summary>
+    public void LoadNextLevel()
+    {
         FindFirstObjectByType<GridTesting>().LoadNextGrid();
         SkillMenu.SetActive(true);
-        FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive:FindObjectsInactive.Include).gameObject.SetActive(true);
+        FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
         endMenuUi.alpha = 0;
         endMenuUi.interactable = false;
         endMenuUi.blocksRaycasts = false;
