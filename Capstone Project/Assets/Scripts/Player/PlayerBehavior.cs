@@ -87,6 +87,7 @@ public class PlayerBehavior : MonoBehaviour
     private SpriteRenderer pSprite;
 
     private ButtonManager bm;
+    private RuneEvents re;
 
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -96,7 +97,9 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
-        anim = animObj.GetComponent<Animator>();
+        re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
+        anim = animObj.GetComponentInChildren<Animator>();
+        re.AssignAnim(anim);
         myPosition = GridManager.playerPosition;
         canMove = true;
         ghostPosition = transform.position;
