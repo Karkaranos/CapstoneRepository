@@ -63,7 +63,9 @@ public class TurnManager : MonoBehaviour
 
     [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject playerCanvas;
     [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject turnIndicatorPrefab;
-    private TMP_Text turnIndicatorText;
+
+    private GameObject playerBanner;
+    private GameObject enemyBanner; 
 
     #endregion
 
@@ -131,7 +133,10 @@ public class TurnManager : MonoBehaviour
 
         //attaching the turn indicator to the button manager because its on the main canvas and doesnt get disabled
         GameObject turnIndic = Instantiate(turnIndicatorPrefab, FindFirstObjectByType<ButtonManager>().transform);
-        turnIndicatorText = turnIndic.GetComponentInChildren<TMP_Text>();
+        //turnIndicatorText = turnIndic.GetComponentInChildren<TMP_Text>();
+        playerBanner = turnIndic.transform.GetChild(0).gameObject;
+        enemyBanner = turnIndic.transform.GetChild(1).gameObject;
+        enemyBanner.SetActive(false);
 
         SetPhase(TurnStates.Start);
     }
@@ -236,7 +241,7 @@ public class TurnManager : MonoBehaviour
                 throw new System.Exception("Check NextPhase() in TurnManager, the switch statement is broken or is missing cases");
         }
 
-        UpdateText();
+        SetTurnBanner();
     }
 
     /// <summary>
@@ -369,7 +374,7 @@ public class TurnManager : MonoBehaviour
                 throw new System.Exception("Check NextPhase() in TurnManager, the switch statement is broken or is missing cases");
         }
 
-        UpdateText();
+        SetTurnBanner();
     }
 
 
@@ -412,21 +417,25 @@ public class TurnManager : MonoBehaviour
     /// Updates the text for the turn indicator. Will also call other between turn stuff eventually
     /// </summary>
     /// <exception cref="System.Exception"></exception>
-    private void UpdateText()
+    private void SetTurnBanner()
     {
         switch (currentStatus)
         {
             case TurnStates.Start:
-                turnIndicatorText.text = "Start Turn";
+                playerBanner.SetActive(true);
+                enemyBanner.SetActive(false);
                 break;
             case TurnStates.PlayerTurn:
-                turnIndicatorText.text = "Player's Turn";
+                playerBanner.SetActive(true);
+                enemyBanner.SetActive(false);
                 break;
             case TurnStates.EnemyTurn:
-                turnIndicatorText.text = "Enemy's Turn";
+                enemyBanner.SetActive(true);
+                playerBanner.SetActive(false);
                 break;
             case TurnStates.End:
-                turnIndicatorText.text = "End of Turn";
+                enemyBanner.SetActive(true);
+                playerBanner.SetActive(false);
                 break;
             default:
                 throw new System.Exception("Check UpdateText() in TurnManager, the switch statement is broken or is missing cases");

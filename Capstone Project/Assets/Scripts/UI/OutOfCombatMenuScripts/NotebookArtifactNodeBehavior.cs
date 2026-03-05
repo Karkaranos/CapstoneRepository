@@ -27,7 +27,7 @@ public class NotebookArtifactNodeBehavior : MonoBehaviour
         AllCanvas = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
         foreach (Canvas c in AllCanvas)
         {
-            if (c.gameObject.name == "UICanvas")
+            if (c.gameObject.name == "UICanvas2")
             {
                 canvas = c;
                 break;

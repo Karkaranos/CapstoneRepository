@@ -13,37 +13,12 @@ public class NotebookManager : MonoBehaviour
     [SerializeField] private Canvas canvas;
     
     // text boxes
-    [SerializeField] private TextMeshProUGUI lightningTitle;
-    [SerializeField] private TextMeshProUGUI windTitle;
     [SerializeField] private TextMeshProUGUI artifactTitle;
-    [SerializeField] private TextMeshProUGUI lightningDescription;
-    [SerializeField] private TextMeshProUGUI windDescription;
     [SerializeField] private TextMeshProUGUI artifactDescription;
-
-    [SerializeField] private GameObject readyButton;
 
     //idk if this is gonna be needed but it here if I do
     private int currentPage;
     
-
-    private void Update()
-    {
-        bool ready = false;
-        foreach (RuneData runeData in EquipedRunesAndArtifacts.runes)
-        {
-            if (runeData != null)
-            {
-                ready = true;
-            }
-        }
-        if (!ready)
-        {
-            readyButton.SetActive(false);
-        }
-        else {
-            readyButton.SetActive(true);
-        }
-    }
 
     /// <summary>
     /// loads a page based of its index in the pages list
@@ -84,18 +59,6 @@ public class NotebookManager : MonoBehaviour
             currentPage--;
         }
         LoadPage(currentPage);
-    }
-
-    /// <summary>
-    /// updated the spell desctiption box on both the wind and lightning page
-    /// </summary>
-    /// <param name="node"></param>
-    public void UpdateTextDescription(NotebookSpellNodeBehavior node)
-    {
-        lightningTitle.text = node.runeData.RuneName;
-        lightningDescription.text = node.runeData.RuneDescription;
-        windTitle.text = node.runeData.RuneName;
-        windDescription.text = node.runeData.RuneDescription;
     }
 
     /// <summary>
