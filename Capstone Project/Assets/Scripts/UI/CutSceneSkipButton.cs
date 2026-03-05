@@ -8,6 +8,7 @@
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CutSceneSkipButton : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class CutSceneSkipButton : MonoBehaviour
     /// </summary>
     public void SkipBook()
     {
+        gameObject.GetComponent<Button>().interactable = false;
         FindFirstObjectByType<TransitionManager>().SceneTransition(2);
     }
 }
