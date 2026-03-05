@@ -30,7 +30,7 @@ public class InCombatControllerManager : MonoBehaviour
     private GridManager gridMan;
 
     //UNCOMMENT THIS WHEN YOU WANT TO ACTUALLY START TESTING
-    private void OnEnable()
+    /*private void OnEnable()
     {
         PublicEvents.ToggleGridView += ToggleBetweenGridAndUI;
         PublicEvents.ControllerMoveInGrid += PlayerMovedController;
@@ -42,7 +42,7 @@ public class InCombatControllerManager : MonoBehaviour
         PublicEvents.ToggleGridView -= ToggleBetweenGridAndUI;
         PublicEvents.ControllerMoveInGrid -= PlayerMovedController;
         PublicEvents.NewLevel -= OpenUIMenu;
-    }
+    }*/
 
     #region Toggles
 
