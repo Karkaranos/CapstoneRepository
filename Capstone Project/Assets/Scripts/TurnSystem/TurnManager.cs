@@ -45,6 +45,7 @@ public class TurnManager : MonoBehaviour
 
     //current state of the turn
     [ShowIf(nameof(shownSettings), ShownSettings.Debug)] public static TurnStates currentStatus;
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug)] public TurnStates debugState;
 
     //how many instances this script has heard back from after 
     //sending out a new phase public event
@@ -53,6 +54,8 @@ public class TurnManager : MonoBehaviour
     //how many instances this script needs to hear back from
     //before sending out the next public event
     [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private int targetHearBackNum;
+
+    [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool AutomaticallyGoToNextPhase = true;
 
     [ShowIf(nameof(shownSettings), ShownSettings.Debug), SerializeField] private bool breakInfLoop = false;
 
@@ -113,6 +116,7 @@ public class TurnManager : MonoBehaviour
     {
         breakInfLoop = false;
         currentStatus = TurnStates.Start;
+        debugState = currentStatus;
     }
 
     /// <summary>
@@ -150,6 +154,9 @@ public class TurnManager : MonoBehaviour
     private void SetPhase(TurnStates phaseToSetTo)
     {
         currentHearBackNum = 0;
+
+        currentStatus = phaseToSetTo;
+        debugState = phaseToSetTo;
 
         switch (phaseToSetTo)
         {
@@ -259,7 +266,11 @@ public class TurnManager : MonoBehaviour
         {
             //goes to next phase if it has
 
-            NextPhase();
+            if (AutomaticallyGoToNextPhase)
+            {
+                NextPhase();
+            }
+            
         }
 
 
@@ -279,6 +290,7 @@ public class TurnManager : MonoBehaviour
 
         //determines what phase it is going to next
         currentStatus = DetermineNextState();
+        debugState = currentStatus;
 
         //sends out a diff public event for each diff state
         switch (currentStatus)
