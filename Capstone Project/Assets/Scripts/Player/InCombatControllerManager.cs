@@ -7,10 +7,8 @@ External Resources :
 ***************************************************/
 
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering.Universal;
 
 public class InCombatControllerManager : MonoBehaviour
 {
