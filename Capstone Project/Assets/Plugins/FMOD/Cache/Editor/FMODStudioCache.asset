@@ -174,21 +174,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
-  Path: event:/Wind Spell 1
-  Guid:
-    Data1: 1060338092
-    Data2: 1299841897
-    Data3: 902278826
-    Data4: 37291530
-  Banks:
-  - {fileID: -1787175155768720076}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 2500
+  EditorBanks: []
+  EditorEvents: []
+  EditorParameters: []
+  MasterBanks: []
+  StringsBanks: []
+  cacheTime: 0
+  cacheVersion: 0
 --- !u!114 &-2197389106695900500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +200,7 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 1340
-  Exists: 1
+  Exists: 0
 --- !u!114 &-2089124742332662566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +247,7 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 1928736
-  Exists: 1
+  Exists: 0
 --- !u!114 &-1367322340005219022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +321,7 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 1262272
-  Exists: 1
+  Exists: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,12 +343,12 @@ MonoBehaviour:
   - {fileID: 8638797458960744255}
   EditorEvents:
   - {fileID: 5997834229071359049}
-  - {fileID: 7031083859915874310}
+  - {fileID: 0}
   - {fileID: 5890221625853330558}
   - {fileID: -1367322340005219022}
   - {fileID: 7527872622592122118}
   - {fileID: -5971620052285885642}
-  - {fileID: -2212134076952097994}
+  - {fileID: 0}
   - {fileID: 965309398976416515}
   - {fileID: 3565882310396123791}
   - {fileID: 8255070182700927328}
@@ -376,7 +368,7 @@ MonoBehaviour:
   - {fileID: -2197389106695900500}
   StringsBanks:
   - {fileID: 7501199246301639232}
-  cacheTime: 639077286452846780
+  cacheTime: 639071174851377061
   cacheVersion: 131633
 --- !u!114 &43389398017116261
 MonoBehaviour:
@@ -558,8 +550,7 @@ MonoBehaviour:
     Data2: 1326648716
     Data3: 524229821
     Data4: -1636008025
-  Banks:
-  - {fileID: 7728566853632946596}
+  Banks: []
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
@@ -580,20 +571,11 @@ MonoBehaviour:
   m_Name: bank:/Master.bank
   m_EditorClassIdentifier: 
   Path: event:/Moody_Pond_BGM
-  Guid:
-    Data1: 2047674551
-    Data2: 1121622183
-    Data3: -787592283
-    Data4: 1609639083
-  Banks:
-  - {fileID: -160433777206529845}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 101400
+  Name: 
+  StudioPath: 
+  lastModified: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &7501199246301639232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,7 +591,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639070446799263917
+  lastModified: 639067773311306842
   FileSizes:
   - Name: Desktop
     Value: 1892
@@ -656,7 +638,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639070446799263917
+  lastModified: 639067773311209588
   FileSizes:
   - Name: Desktop
     Value: 2351936
@@ -734,4 +716,4 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 922944
-  Exists: 1
+  Exists: 0
