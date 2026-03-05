@@ -706,8 +706,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9, y: 1, z: 0.9}
-  m_Center: {x: 0, y: 0.64, z: 0}
+  m_Size: {x: 0.9, y: 0.13305065, z: 0.9}
+  m_Center: {x: 0, y: 0.32771146, z: 0}
 --- !u!114 &3309745930933566544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,7 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a00d9d1fddac5f47b04199a462a0b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 2
   healthBarSlider: {fileID: 8534701960708135817}
   maxHealth: 35
   lowHealthPercentage: 0.2
@@ -819,11 +819,11 @@ MonoBehaviour:
   RuneStatusEffectNumber: 0
   movementRange: 1
   movementSpeed: 4
-  moveStateDelay: 0
+  moveStateDelay: 0.2
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
-  secondsBetweenStateTransitions: 4
+  secondsBetweenStateTransitions: 0.05
   minimumAttackDistance: 0
   maxAttackDistance: 4
   canAttackTwice: 0
