@@ -418,11 +418,19 @@ public class GridPathfinding : MonoBehaviour
         return targetPosition;
     }
 
+    /// <summary>
+    /// Sets the move coroutine speed
+    /// </summary>
+    /// <param name="time"></param>
     public void SetMoveCoroSpeed(float time)
     {
         moveCorutineTime = time;
     }
 
+    /// <summary>
+    /// Get the move coroutine speed
+    /// </summary>
+    /// <returns></returns>
     public float GetMoveCoroSpeed()
     {
         return moveCorutineTime;
