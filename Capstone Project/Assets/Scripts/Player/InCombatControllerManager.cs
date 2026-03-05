@@ -10,33 +10,41 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 
 public class InCombatControllerManager : MonoBehaviour
 {
     [SerializeField] private GameObject firstCombatUIButton;
     [SerializeField] private Vector2Int defaultGridSelectCoords;
-    [SerializeField] private float delayBeforeSpellPopup;
+    [SerializeField] private float delayBeforeSpellPopup = 0.5f;
+    [SerializeField] private Color highlightColor;
 
     private GameObject lastSelectedButton;
-    private Vector2Int lastSelectedGridTile;
+    private Vector2Int currentSelectedGridTile;
+    private Vector2Int prevSelectedGridTile;
     private bool controllerOnUIMenu;
     private bool PlayerIsInUIMenu;
 
     private bool isPlottingPath;
     private Coroutine hoverSpellCoroutine;
+    private GridManager gridMan;
 
     //UNCOMMENT THIS WHEN YOU WANT TO ACTUALLY START TESTING
-    /*private void OnEnable()
+    private void OnEnable()
     {
         PublicEvents.ToggleGridView += ToggleBetweenGridAndUI;
-        PublicEvents.ControllerMoveInGrid += MoveInGrid;
+        PublicEvents.ControllerMoveInGrid += PlayerMovedController;
+        PublicEvents.NewLevel += OpenUIMenu;
     }
 
     private void OnDisable()
     {
         PublicEvents.ToggleGridView -= ToggleBetweenGridAndUI;
-        PublicEvents.ControllerMoveInGrid -= MoveInGrid;
-    }*/
+        PublicEvents.ControllerMoveInGrid -= PlayerMovedController;
+        PublicEvents.NewLevel -= OpenUIMenu;
+    }
+
+    #region Toggles
 
     /// <summary>
     /// triggers whenever the player goes back to the incombat menu
@@ -46,9 +54,14 @@ public class InCombatControllerManager : MonoBehaviour
     {
         PlayerIsInUIMenu = true;
         lastSelectedButton = firstCombatUIButton;
-        lastSelectedGridTile = defaultGridSelectCoords;
+        currentSelectedGridTile = defaultGridSelectCoords;
 
         EventSystem.current.SetSelectedGameObject(firstCombatUIButton);
+    }
+
+    private void CloseUIMenu()
+    {
+        PlayerIsInUIMenu = false;
     }
 
     /// <summary>
@@ -67,8 +80,10 @@ public class InCombatControllerManager : MonoBehaviour
         {
             lastSelectedButton = EventSystem.current.currentSelectedGameObject;
             controllerOnUIMenu = false;
+            EventSystem.current.SetSelectedGameObject(null);
 
             //swap over to grid and highlight it
+            MoveToTile(currentSelectedGridTile);
         }
         else
         {
@@ -78,14 +93,24 @@ public class InCombatControllerManager : MonoBehaviour
             controllerOnUIMenu = true;
 
             //leave grid
+
+            TileBehaviour prevTile = null;
+
+            if (GridManager.TileIsInGrid(prevSelectedGridTile))
+            {
+                prevTile = GridManager.combatGrid[prevSelectedGridTile.x, prevSelectedGridTile.y];
+                prevTile.ShowHighlight(false);
+            }
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Allows the player to move around in the grid
     /// </summary>
     /// <param name="dir"> the direction the player moves in </param>
-    private void MoveInGrid(Vector2 dir)
+    private void PlayerMovedController(Vector2 dir)
     {
         //if we aren't moving in grid, don't do this
         if (controllerOnUIMenu)
@@ -100,8 +125,16 @@ public class InCombatControllerManager : MonoBehaviour
         }
 
         //move in grid
-        
-        Debug.Log("Moving: " + dir);
+        Vector2Int newDir = new Vector2Int(Mathf.RoundToInt(dir.x), Mathf.RoundToInt(dir.y));
+
+        //only moves if the tile is in the grid
+        if (GridManager.TileIsInGrid(currentSelectedGridTile + newDir))
+        {
+            currentSelectedGridTile += newDir;
+            MoveToTile(currentSelectedGridTile);
+        }
+
+       // Debug.Log("Moving: " + dir);
     }
 
     #region Hover over spell funcs
@@ -115,7 +148,7 @@ public class InCombatControllerManager : MonoBehaviour
         {
             StopCoroutine(hoverSpellCoroutine);
         }
-        
+
         //start hovering over a new spell
         hoverSpellCoroutine = StartCoroutine(DelayedHoverSpell());
     }
@@ -153,6 +186,52 @@ public class InCombatControllerManager : MonoBehaviour
         }
 
         //LOGIC TO TRIGGER THE INFO BOX GOES HERE
+    }
+
+    /// <summary>
+    /// The logic that changes the tile's highlights when you move to a new one
+    /// </summary>
+    /// <param name="tile"></param>
+    private void MoveToTile(Vector2Int tile)
+    {
+        //make sure we r actually in the combat menu and that we r properly moving
+        if (controllerOnUIMenu)
+        {
+            return;
+        }
+
+        Debug.Log("char says hi");
+
+        if (!PlayerIsInUIMenu)
+        {
+            return;
+        }
+
+        TileBehaviour prevTile = null;
+        TileBehaviour currentTile = null;
+
+        if (GridManager.TileIsInGrid(prevSelectedGridTile))
+        {
+            prevTile = GridManager.combatGrid[prevSelectedGridTile.x, prevSelectedGridTile.y];
+        }
+
+        if (GridManager.TileIsInGrid(tile))
+        {
+            currentTile = GridManager.combatGrid[tile.x, tile.y];
+        }
+
+        if (currentTile == null)
+        {
+            return;
+        }
+
+        if (prevTile != null)
+        {
+            prevTile.ShowHighlight(false);
+        }
+
+        currentTile.SetHighlightColor(highlightColor);
+        currentTile.ShowHighlight(true);
     }
 
     #endregion

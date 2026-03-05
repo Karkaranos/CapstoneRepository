@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 3932241730522942511}
   - component: {fileID: 7056796669355282131}
   - component: {fileID: 1134159518502395643}
+  - component: {fileID: 4327118480298271500}
+  - component: {fileID: 7212040544926087521}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -98,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f1818018b30184aa867a9af6e9cc50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedSetting: 0
   gridIndex: 0
   gridPrefabs:
   - {fileID: 0}
@@ -109,8 +110,6 @@ MonoBehaviour:
   - {x: 12, y: 8}
   - {x: 9, y: 12}
   gridToLoad: 0
-  currentMovementTestingTile: {x: 0, y: 0}
-  newMovementTestingTile: {x: 0, y: 0}
 --- !u!114 &8767230653786326938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +255,7 @@ MonoBehaviour:
     - {fileID: 0}
   currentLevel: 0
   currentPipsOnField: 0
+  hazardTiles: []
 --- !u!114 &1134159518502395643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,3 +299,49 @@ MonoBehaviour:
   MissChance: 0
   InstaKillChance: 0
   NoActionPointCostChance: 0
+--- !u!114 &4327118480298271500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740814544277476685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &7212040544926087521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740814544277476685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 10865fdef87991a448e5ee8c16d91cba, type: 3}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: -8459391367398418929, guid: 10865fdef87991a448e5ee8c16d91cba, type: 3}
+  m_SubmitAction: {fileID: 0}
+  m_CancelAction: {fileID: 0}
+  m_LeftClickAction: {fileID: 8467061383550550340, guid: 10865fdef87991a448e5ee8c16d91cba, type: 3}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 4139490142301842659, guid: 10865fdef87991a448e5ee8c16d91cba, type: 3}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
