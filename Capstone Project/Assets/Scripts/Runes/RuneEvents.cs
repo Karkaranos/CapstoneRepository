@@ -101,6 +101,7 @@ public class RuneEvents : MonoBehaviour
     [ShowIf(nameof(currentInspectorShowing), Variables.Animations), SerializeField]
     private GameObject PlayerVisual;
     private Animator anim;
+    public bool PlayerAttack;
 
 
     #endregion ANIMATIONS
@@ -241,10 +242,19 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 tile.ElectrifyAdTiles();
-
+                PlayerAttack = true;
+                if (PlayerAttack == true)
+                {
+                    anim.SetBool("Attack", true);
+                }
+                else
+                {
+                    anim.SetBool("Idle", true);
+                }
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
-
+                Debug.Log("I am attacking");
+                
                 Instantiate(rune.RuneVFX, tile.transform);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
@@ -333,6 +343,7 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
+                anim.SetBool("Attack", true);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
@@ -380,6 +391,7 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
+                    anim.SetBool("Attack", true);
                     AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                     AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
@@ -581,7 +593,6 @@ public class RuneEvents : MonoBehaviour
 
                 if (!WaitingOnPath)
                 {
-
                     GridManager.RemoveHighlight();
 
                     selectedRune = rune;
