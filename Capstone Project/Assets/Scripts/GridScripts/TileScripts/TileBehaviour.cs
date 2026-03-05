@@ -47,6 +47,8 @@ public class TileBehaviour : MonoBehaviour
     [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
+    [Tooltip("The icon that shows a water tile is electrified.")]
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject ElectricIcon;
     
 
     [Header("Objects On This Tile")]
@@ -155,6 +157,7 @@ public class TileBehaviour : MonoBehaviour
         if (tileType == TileType.Water) 
         {
             isElectrified = true;
+            ElectricIcon.SetActive(isElectrified);
             turnsSinceElectrification = 0;
         }
     }
@@ -273,6 +276,7 @@ public class TileBehaviour : MonoBehaviour
                 isElectrified = false;
                 turnsSinceElectrification = 0;
             }
+            ElectricIcon.SetActive(isElectrified);
         }
         TurnPublicEvents.TurnActionComplete();
     }
