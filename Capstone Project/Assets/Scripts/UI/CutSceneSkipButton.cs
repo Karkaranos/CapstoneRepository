@@ -18,7 +18,8 @@ public class CutSceneSkipButton : MonoBehaviour
     /// </summary>
     public void SkipCutscene()
     {
-        videoCanvas.SetActive(false);
+        //videoCanvas.SetActive(false);
+        FindAnyObjectByType<TransitionManager>().SkipButtonTransition();
     }
 
     /// <summary>
