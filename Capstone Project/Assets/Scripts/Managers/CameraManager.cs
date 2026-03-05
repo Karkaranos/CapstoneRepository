@@ -31,7 +31,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] private CinemachineCamera activeCam;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public PopUpScript PopUpScript;
     [SerializeField, ShowIf(nameof(Cams), Cameras.Refs)] public VideoPlayer VideoPlayer;
-    public GameObject OutOfCombatCanvas;
+    //public GameObject OutOfCombatCanvas;
     public GameObject VideoCanvas;
     public static GameObject VideoCanvasStatic;
     #endregion
@@ -90,7 +90,7 @@ public class CameraManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1f);
-        OutOfCombatCanvas.SetActive(true);
+        //OutOfCombatCanvas.SetActive(true);
         VideoCanvas.SetActive(false);
     }
 
