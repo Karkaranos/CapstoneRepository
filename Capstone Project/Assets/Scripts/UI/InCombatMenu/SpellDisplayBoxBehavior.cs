@@ -11,15 +11,36 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
 {
     public TextMeshProUGUI spellName;
     public TextMeshProUGUI spellDescription;
+    public GameObject[] pips;
     public float moveAmount;
+    public Vector2 retractPosition;
+
+    private void Start()
+    {
+        retractPosition = GetComponent<RectTransform>().anchoredPosition;
+    }
 
     /// <summary>
     /// sets up the spellInfoBox
     /// </summary>
     /// <param name="stb"></param>
-    public void SetupInfoBox(SpellTabBehavior stb) {
-        spellName.text = stb.runeData.name;
-        spellDescription.text = stb.runeData.RuneDescription;
+    public void SetupInfoBox(InCombatSpellSlotBehavior icsb) {
+        if (icsb.rune != null) {
+            PopOut();
+            spellName.text = icsb.rune.name;
+            spellDescription.text = icsb.rune.RuneDescription;
+
+            int attackPoints = icsb.rune.RuneActionPoints;
+            foreach (GameObject p in pips)
+            {
+                p.SetActive(false);
+            }
+
+            for (int i = 0; i < attackPoints; i++)
+            {
+                pips[i].SetActive(true);
+            }
+        }
     }
 
     /// <summary>
@@ -35,6 +56,6 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
     /// </summary>
     public void Retact()
     {
-        GetComponent<RectTransform>().anchoredPosition -= new Vector2(0f, moveAmount);
+        GetComponent<RectTransform>().anchoredPosition = retractPosition;
     }
 }
