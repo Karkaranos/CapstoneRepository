@@ -31,6 +31,7 @@ public class GridPathfinding : MonoBehaviour
     protected int pathfindingLimit;
     bool isMoving = false;
     private Vector2Int ghostPos;
+    private float moveCorutineTime;
 
     [SerializeField] bool underEffect;
 
@@ -213,7 +214,7 @@ public class GridPathfinding : MonoBehaviour
         //Uses a list of directions to move an enemy along a path
         for (int i = max; i >= min; --i)
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(moveCorutineTime);
             switch (gridDirections[i])
             {
                 case "Right":
@@ -417,5 +418,14 @@ public class GridPathfinding : MonoBehaviour
         return targetPosition;
     }
 
+    public void SetMoveCoroSpeed(float time)
+    {
+        moveCorutineTime = time;
+    }
+
+    public float GetMoveCoroSpeed()
+    {
+        return moveCorutineTime;
+    }
     #endregion
 }
