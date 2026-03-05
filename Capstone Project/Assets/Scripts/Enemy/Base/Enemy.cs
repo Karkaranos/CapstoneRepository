@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField, 
         ShowIf(nameof(currentSettings), Settings.Health),
-        ReadOnly]protected float currentHealth = 5f;
+        ReadOnly]public float currentHealth = 5f;
     #endregion
 
     #region COMBAT VARS
@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Combat),
         Tooltip("Range the player must be in for the enemy to hit them")]
-    protected int attackRange;
+    public int attackRange;
 
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Combat),
@@ -119,7 +119,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public bool HasStatusEffect = false;
     [HideInInspector] public RuneType RuneStatusEffect;
     [HideInInspector] public int RuneStatusEffectNumber;
-
+    [HideInInspector] public bool isRangedEnemy = false;
     protected Material baseMat; 
 
     #endregion
