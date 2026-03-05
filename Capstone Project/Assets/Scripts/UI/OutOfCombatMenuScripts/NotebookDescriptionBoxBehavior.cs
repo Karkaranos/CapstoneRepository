@@ -20,9 +20,6 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
     /// </summary>
     /// <param name="node"></param>
     public void SetupTextBox(NotebookSpellNodeBehavior node) {
-
-        print("hear me hear me");
-
         titleText.text = node.runeData.name;
         rangeText.text = "Range: " + node.runeData.RuneRange;
         damageText.text = "Damage: " + node.runeData.RuneDamage;
