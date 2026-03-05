@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Bouchard 
 Date Created : 		9/30/2025
-Date Last Modified : 	10/2/2025
+Date Last Modified : 	3/4/2026
 Brief Description : 		Every menu gets one, these are the functions that the 
                             buttons call for menu navigation
 External Resources : 
@@ -53,10 +53,22 @@ public class MenuBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// Loads a specific scene by its name
+    /// Loads a specific scene by its name while a transition is played
     /// </summary>
     /// <param name="sceneToLoad"></param>
     public void LoadScene(int sceneToLoad)
+    {
+        FindFirstObjectByType<TransitionManager>().SceneTransition(sceneToLoad);
+
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //stops all audio
+    }
+
+    /// <summary>
+    /// Loads a scene without having a transition between it
+    /// </summary>
+    /// <param name="sceneToLoad"></param>
+    public void LoadSceneNoTransition(int sceneToLoad)
     {
         SceneManager.LoadScene(sceneToLoad);
 

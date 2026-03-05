@@ -668,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 1
+  currentSettings: 4
   healthBarSlider: {fileID: 8534701960708135817}
   maxHealth: 50
   lowHealthPercentage: 0.8
@@ -691,16 +691,15 @@ MonoBehaviour:
   RuneStatusEffectNumber: 0
   movementRange: 2
   movementSpeed: 5
-  moveStateDelay: 5
+  moveStateDelay: 0.02
   gridPathfinding: {fileID: 0}
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
-  secondsBetweenStateTransitions: 1.75
+  secondsBetweenStateTransitions: 0.05
   canAttackTwice: 0
   isLowHealth: 0
   hasMovedForTurn: 0
   hasAttackedTwice: 0
-  anim: {fileID: 2781963607303633898}
 --- !u!114 &3309745930933566544
 MonoBehaviour:
   m_ObjectHideFlags: 0
