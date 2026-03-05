@@ -57,6 +57,10 @@ public class InCombatControllerManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(firstCombatUIButton);
     }
 
+    /// <summary>
+    /// Ensures we aren't in the menu anymore 
+    /// disables everything
+    /// </summary>
     private void CloseUIMenu()
     {
         PlayerIsInUIMenu = false;
