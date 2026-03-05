@@ -1,3 +1,9 @@
+/*************************************************
+Author Names : 		Tyler Bouchard
+Date Created : 		3/5/2026
+Date Last Modified : 3/5/2026
+Brief Description : for updating the description box in the notebook in the in combat menu
+***************************************************/
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +15,10 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
+    /// <summary>
+    /// updates the text
+    /// </summary>
+    /// <param name="node"></param>
     public void SetupTextBox(NotebookSpellNodeBehavior node) {
 
         print("hear me hear me");
