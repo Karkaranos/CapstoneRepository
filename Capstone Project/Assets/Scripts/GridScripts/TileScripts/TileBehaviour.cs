@@ -59,7 +59,7 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField] private bool TileHasHazards = false;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private HazardType hazardType;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private GameObject hazardObject;
-    [SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
+    //[SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
     [SerializeField, ShowIf(nameof(ShowSlowVars)), Foldout("Hazards")] private int movesLost;
 
     
@@ -262,10 +262,10 @@ public class TileBehaviour : MonoBehaviour
     /// Public call so tile effects can be applied before a turn ends
     /// </summary>
     public void ApplyTileEffects() {
-        if (hazardType == HazardType.damage && TileHasHazards)
-        {
-            DamageEntity(damageAmount);
-        }
+        //if (hazardType == HazardType.damage && TileHasHazards)
+        //{
+        //    DamageEntity(damageAmount);
+        //}
 
         if (tileType == TileType.Water && isElectrified) 
         {
@@ -278,9 +278,13 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void EndTurnTileEffects()
     {
-        if (hazardType == HazardType.damage && TileHasHazards)
+        //if (hazardType == HazardType.damage && TileHasHazards)
+        //{
+        //    DamageEntity(damageAmount);
+        //}
+        if(GetComponentInChildren<DamageHazardBehaviour>() != null && GetComponentInChildren<DamageHazardBehaviour>().canDamage)
         {
-            DamageEntity(damageAmount);
+            GetComponentInChildren<DamageHazardBehaviour>().EndTurnDamage();
         }
 
         if (tileType == TileType.Water && isElectrified)
@@ -335,7 +339,7 @@ public class TileBehaviour : MonoBehaviour
     /// applys the damage to the entities
     /// </summary>
     /// <param name="amount"></param>
-    private void DamageEntity(int amount) {
+    public void DamageEntity(int amount) {
         //calls the player damage
         if (ObjectOnTile != null) {
             if (ObjectOnTile.GetComponent<PlayerBehavior>() != null)
