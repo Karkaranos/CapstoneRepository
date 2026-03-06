@@ -48,7 +48,7 @@ public class MeleeEnemy : Enemy
     #region OTHER NON INSPECTOR VARS
     [HideInInspector]public bool hasMovedForTurn = false;
     [HideInInspector]public bool hasAttackedTwice = false;
-    [HideInInspector] public Animator anim;
+    public Animator anim;
     #endregion
     #endregion
 
