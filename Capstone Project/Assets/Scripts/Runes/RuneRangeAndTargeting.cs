@@ -28,6 +28,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
     [SerializeField] GameObject playerMenu;
     //whether or not the cast was canceled
     bool castNotCanceled = false;
+    //canvas for movement/end turn buttons
+    public GameObject endTurnButton;
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
@@ -42,6 +44,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+
+        //change this line of code to something that sucks less later
+        endTurnButton = GameObject.Find("EndTurn");
 
         PublicEvents.SelectTarget += TargetSelection;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
@@ -80,6 +85,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
         {
 
             waitingForThePlayer = true;
+
+            endTurnButton.SetActive(false);
 
             storedData = rd;
 
@@ -583,6 +590,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         waitingForThePlayer = false;
+
+        endTurnButton.SetActive(true);
 
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(true);
 

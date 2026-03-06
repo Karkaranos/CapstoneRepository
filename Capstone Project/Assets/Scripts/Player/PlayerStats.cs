@@ -119,7 +119,7 @@ public class PlayerStats : MonoBehaviour
 
         await Task.Delay(1000);
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
-        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
         turnIndicator.SetActive(true);
     }
 
@@ -332,13 +332,14 @@ public class PlayerStats : MonoBehaviour
     {
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
         endLevelMenu.SetText("You Died");
+        endLevelMenu.SetNextLevelButton(false);
         endLevelMenu.EnableEndMenuUi();
     }
 
     private void SetTurnIndicator()
     {
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
-        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
         turnIndicator.SetActive(true);
     }
 }
