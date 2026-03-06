@@ -46,7 +46,12 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi()
     {
-        FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        if (endMenuUi.alpha == 0)
+        {
+            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        }
+
+        
     }
 
     /// <summary>
