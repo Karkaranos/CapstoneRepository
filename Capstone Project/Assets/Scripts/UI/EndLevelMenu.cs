@@ -118,7 +118,10 @@ public class EndLevelMenu : MonoBehaviour
         this.text.text = text;
     }
 
-
+    /// <summary>
+    /// toggles the next level button
+    /// </summary>
+    /// <param name="isActive"></param>
     public void SetNextLevelButton(bool isActive)
     {
         nextLevelButton.SetActive(isActive);
