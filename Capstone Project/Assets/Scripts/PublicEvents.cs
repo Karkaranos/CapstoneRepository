@@ -110,5 +110,7 @@ public static class PublicEvents
 
     public static Action<ArtifactData> RemoveFromStatBox;
 
+    public static Action MoveButton; 
+
     #endregion
 }
