@@ -384,8 +384,6 @@ public class RuneEvents : MonoBehaviour
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
 
-                    Debug.Log("START PATHING");
-
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
                 !tile.GetComponentInChildren<Enemy>() && WaitingOnPath)

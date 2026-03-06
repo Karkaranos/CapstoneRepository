@@ -85,7 +85,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
         {
 
             waitingForThePlayer = true;
-
             endTurnButton.SetActive(false);
 
             storedData = rd;
@@ -156,7 +155,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
-
         List<Vector2Int> validTiles = new List<Vector2Int>();
 
         if (storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4)
@@ -164,8 +162,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
             tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
             TargetCheck(tilesInRange);
-
-            Debug.Log("GO MY STORM");
 
             return;
 
@@ -541,9 +537,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
 
-        if (waitingForThePlayer &&
-            FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints &&
-            viableTilesInRange.Contains(tile))
+        if (waitingForThePlayer && viableTilesInRange.Contains(tile))
         {
 
             switch (storedData.TypeOfRune)
