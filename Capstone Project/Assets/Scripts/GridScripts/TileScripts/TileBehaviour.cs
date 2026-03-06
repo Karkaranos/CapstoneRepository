@@ -47,6 +47,8 @@ public class TileBehaviour : MonoBehaviour
     [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
+    [Tooltip("The icon that shows a water tile is electrified.")]
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject ElectricIcon;
     
 
     [Header("Objects On This Tile")]
@@ -155,6 +157,7 @@ public class TileBehaviour : MonoBehaviour
         if (tileType == TileType.Water) 
         {
             isElectrified = true;
+            ElectricIcon.SetActive(isElectrified);
             turnsSinceElectrification = 0;
         }
     }
@@ -165,6 +168,7 @@ public class TileBehaviour : MonoBehaviour
     public void ElectrifyAdTiles()
     {
         List<TileBehaviour> adWaterTiles = new List<TileBehaviour>();
+        List<Vector2Int> t1 = new List<Vector2Int>();
         List<Vector2Int> alreadyChecked = new List<Vector2Int>();
         adWaterTiles.Add(GridManager.combatGrid[IndexInGrid.x, IndexInGrid.y]);
         alreadyChecked.Add(IndexInGrid);
@@ -177,7 +181,17 @@ public class TileBehaviour : MonoBehaviour
             {
                 adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
             }
+            else
+            {
+                t1.Add(v);
+            }
             alreadyChecked.Add(v);
+        }
+
+        //Removes tiles that aren't water to speed up calculation time
+        foreach(Vector2Int v in t1)
+        {
+            adTiles.Remove(v);
         }
 
         bool foundAll = false;
@@ -205,12 +219,13 @@ public class TileBehaviour : MonoBehaviour
                         if (GridManager.combatGrid[v.x, v.y].CanBeElectrified())
                         {
                             adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
-
-                            temp2 = GridManager.GetAllAdjacentTiles(v);
-                            foreach (Vector2Int t in temp2)
-                            {
-                                temp.Add(t);
-                            }
+                            temp.Add(v);
+                            //temp2 = GridManager.GetAllAdjacentTiles(v);
+                            //foreach (Vector2Int t in temp2)
+                            //{
+                            //    if (GridManager.combatGrid[t.x, t.y].CanBeElectrified())
+                            //        temp.Add(t);
+                            //}
                         }
                         alreadyChecked.Add(v);
                     }
@@ -221,13 +236,17 @@ public class TileBehaviour : MonoBehaviour
             {
                 adTiles.Add(v);
             }
+            temp.Clear();
         }
 
+        Debug.Log("Start Here-----");
         //Once all connected tiles are found, electrify them all
-        foreach(TileBehaviour t in adWaterTiles)
+        foreach (TileBehaviour t in adWaterTiles)
         {
+            Debug.Log(t.gameObject.name);
             t.ElectrifyTile();
         }
+        Debug.Log("End Here------");
     }
 
     /// <summary>
@@ -273,6 +292,7 @@ public class TileBehaviour : MonoBehaviour
                 isElectrified = false;
                 turnsSinceElectrification = 0;
             }
+            ElectricIcon.SetActive(isElectrified);
         }
         TurnPublicEvents.TurnActionComplete();
     }
