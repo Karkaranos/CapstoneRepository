@@ -3,6 +3,7 @@ Author Names : 		Clare
 Date Created : 		3/5/2026
 Date Last Modified : 3/5/2026
 Brief Description : controls the wasd appear and disapear
+External Resources : 	N/A
 ***************************************************/
 using UnityEngine;
 
