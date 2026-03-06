@@ -70,6 +70,7 @@ public class MeleeEnemy : Enemy
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
+        
     }
 
     /// <summary>
