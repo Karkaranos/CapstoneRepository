@@ -22,7 +22,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     {
         Debug.Log("Entered Move State");
         enemy.logText.text = "M";
-
+        enemy.anim.SetBool("IsWalking", true);
         enemy.targetingBehaviour.FindTarget();
        // enemy.gridPathfinding.PathfindThroughGrid();
         enemy.gridPathfinding.StartMoveCoroutine();
@@ -51,6 +51,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     public override void ExitState()
     {
         base.ExitState();
+        enemy.anim.SetBool("IsWalking", false);
     }
 
 }
