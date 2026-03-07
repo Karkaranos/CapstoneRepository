@@ -20,7 +20,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     public override void EnterState()
     {
         Debug.Log("Entered Attacking state");
-        enemy.anim.SetBool("Attacking", true);
+        enemy.anim.SetTrigger("Attacking");
         enemy.logText.text = "A";
 
         //damage player
@@ -47,6 +47,6 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     public override void ExitState()
     {
         base.ExitState();
-        enemy.anim.SetBool("Attacking", false);
+        
     }
 }
