@@ -17,9 +17,12 @@ public class MeleeEnemyRunState : MeleeEnemyState
     /// <summary>
     /// Enter Run State logic
     /// </summary>
+    /// 
+    
     public override void EnterState()
     {
         Debug.Log("Enter Run State");
+        enemy.anim.SetBool("IsWalking", true);
         enemy.logText.text = "R";
         //TODO run logic 
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
@@ -31,5 +34,6 @@ public class MeleeEnemyRunState : MeleeEnemyState
     public override void ExitState()
     {
         Debug.Log("Run -> End Turn");
+        enemy.anim.SetBool("IsWalking", false);
     }
 }
