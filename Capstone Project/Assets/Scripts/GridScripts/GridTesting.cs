@@ -24,6 +24,8 @@ public class GridTesting : MonoBehaviour
     [Tooltip("The list that contains how big each grid is")]
     [SerializeField] private List<Vector2Int> gridDimensions = new List<Vector2Int>();
 
+    public bool[] loadedElements;
+
     public int gridToLoad;
     #endregion
 
@@ -85,8 +87,10 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        loadedElements = new bool[gridDimensions.Count];
         gridPrefabs[gridIndex].SetActive(true);
-        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex], !loadedElements[gridIndex]);
+        loadedElements[gridIndex] = true;
     }
 
     /// <summary>
@@ -102,7 +106,8 @@ public class GridTesting : MonoBehaviour
         }
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
-        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex], !loadedElements[gridIndex]);
+        loadedElements[gridIndex] = true;
         PublicEvents.NewLevel.Invoke();
     }
 
@@ -125,7 +130,8 @@ public class GridTesting : MonoBehaviour
         }
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
-        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex], !loadedElements[gridIndex]);
+        loadedElements[gridIndex] = true;
         PublicEvents.NewLevel.Invoke();
     }
 
@@ -135,7 +141,7 @@ public class GridTesting : MonoBehaviour
     public void ReloadCurrentGrid()
     {
         LoadGridPrefab();
-        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
+        GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex], false);
         PublicEvents.NewLevel.Invoke();
     }
 
@@ -149,6 +155,7 @@ public class GridTesting : MonoBehaviour
         {
             g.SetActive(false);
         }
+        //loadedElements[gridIndex] = true;
 
 
         gridPrefabs[gridIndex].SetActive(true);

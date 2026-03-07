@@ -31,7 +31,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="gridPrefab"></param> The grid game object
     /// <param name="gridDimensions"></param> How long and wide the grid is
-    public static void SetGrid(Vector2Int gridDimensions, GameObject gridPrefab)
+    public static void SetGrid(Vector2Int gridDimensions, GameObject gridPrefab, bool spawn)
     {
         combatGrid = new TileBehaviour[gridDimensions.x, gridDimensions.y];
         TileBehaviour[] tiles = gridPrefab.GetComponentsInChildren<TileBehaviour>();
@@ -42,7 +42,10 @@ public class GridManager : MonoBehaviour
             //tile.transform.position = new Vector3(MoveDistances.x * x, tile.transform.position.y, MoveDistances.y * y);
             combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y] = tb;
             combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].entityOnGrid = -1;
-            combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].AddObjectsToTile();
+            if (spawn)
+            {
+                combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].AddObjectsToTile();
+            }
             //combatGrid[tb.IndexInGrid.x, tb.IndexInGrid.y].gameObject.name = "[" + tb.IndexInGrid.x + ", " + tb.IndexInGrid.y + "]";
         }
     }

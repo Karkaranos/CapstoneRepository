@@ -18,7 +18,7 @@ public class HighlightTesting : MonoBehaviour
 
     private void Start()
     {
-        GridManager.SetGrid(gridSize, grid);
+        GridManager.SetGrid(gridSize, grid, true);
     }
 
     /// <summary>
