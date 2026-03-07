@@ -38,7 +38,7 @@ public class TileBehaviour : MonoBehaviour
     public Vector2Int IndexInGrid;
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
-    [HideInInspector] private GameObject ObjectOnTile;
+    private GameObject ObjectOnTile;
     [HideInInspector] private GameObject tileHighlight;
     [SerializeField] private TileType tileType;
     
@@ -156,8 +156,12 @@ public class TileBehaviour : MonoBehaviour
     {
         if (tileType == TileType.Water) 
         {
-            isElectrified = true;
-            ElectricIcon.SetActive(isElectrified);
+            if (!isElectrified)
+            {
+                isElectrified = true;
+                ElectricIcon.SetActive(isElectrified);
+                ApplyTileEffects();
+            }
             turnsSinceElectrification = 0;
         }
     }
@@ -361,8 +365,23 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        collision.transform.SetParent(transform);
-        ObjectOnTile = collision.gameObject;
+        if (collision.GetComponent<Enemy>() || collision.GetComponent<PlayerBehavior>())
+        {
+            collision.transform.SetParent(transform);
+            ObjectOnTile = collision.gameObject;
+        }
+    }
+
+    /// <summary>
+    /// Updates the variable that holds what object is on the tile, if that object moves off of it
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Enemy>() || other.GetComponent<PlayerBehavior>())
+        {
+            ObjectOnTile = null;
+        }
     }
 
     /// <summary>
