@@ -98,10 +98,10 @@ public class GameManager : MonoBehaviour
         CurrentActionPoints -= amount;
         ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
         print("called");
-        if (CurrentActionPoints <= 0)
-        {
-            TurnPublicEvents.ForceEndCurrentPhase();
-        }
+        //if (CurrentActionPoints <= 0)
+        //{
+        //    TurnPublicEvents.ForceEndCurrentPhase();
+        //}
     }
 
     /// <summary>
