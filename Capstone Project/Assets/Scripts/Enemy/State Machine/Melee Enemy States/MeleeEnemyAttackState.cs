@@ -47,6 +47,6 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     public override void ExitState()
     {
         base.ExitState();
-        enemy.anim.SetBool("IsAttacking", false);
+        enemy.anim.SetBool("Attacking", false);
     }
 }
