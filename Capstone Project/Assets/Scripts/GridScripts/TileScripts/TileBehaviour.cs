@@ -38,7 +38,7 @@ public class TileBehaviour : MonoBehaviour
     public Vector2Int IndexInGrid;
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
-    private GameObject ObjectOnTile;
+    [SerializeField] private GameObject ObjectOnTile;
     [HideInInspector] private GameObject tileHighlight;
     [SerializeField] private TileType tileType;
     
@@ -352,9 +352,9 @@ public class TileBehaviour : MonoBehaviour
             }
 
             //calls the enemy damage
-            if (ObjectOnTile.GetComponent<MeleeEnemy>() != null)
+            if (ObjectOnTile.GetComponent<Enemy>() != null)
             {
-                ObjectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
+                ObjectOnTile.GetComponent<Enemy>().Damage(amount);
             }
         }
     }
