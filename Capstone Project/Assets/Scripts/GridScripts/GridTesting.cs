@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Cade Naylor
  * Creation Date: 9/26/2025
- * Last Modified: 2/26/2026 (Brad Dixon)
+ * Last Modified: 3/7/2026 (Brad Dixon)
  * Brief: Controls grid loading and handling
  * External Resources: N/A
  * ***************************************************************************/
@@ -144,11 +144,18 @@ public class GridTesting : MonoBehaviour
         PublicEvents.LoadingGrid.Invoke(gridIndex);
     }
 
+    /// <summary>
+    /// Adds entities to a list that is used for deleting them on level loading
+    /// </summary>
+    /// <param name="g"></param>
     public void AddEntityToList(GameObject g)
     {
         entityLists.Add(g);
     }
 
+    /// <summary>
+    /// Deletes all entities than resets the list
+    /// </summary>
     private void ClearEntityList()
     {
         foreach(GameObject g in entityLists)
