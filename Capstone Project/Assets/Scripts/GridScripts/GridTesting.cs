@@ -24,6 +24,7 @@ public class GridTesting : MonoBehaviour
     [Tooltip("The list that contains how big each grid is")]
     [SerializeField] private List<Vector2Int> gridDimensions = new List<Vector2Int>();
 
+    [SerializeField] private List<GameObject> entityLists = new List<GameObject>();
     public int gridToLoad;
     #endregion
 
@@ -134,11 +135,26 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     private void LoadGridPrefab()
     {
+        ClearEntityList();
         foreach(GameObject g in gridPrefabs)
         {
             g.SetActive(false);
         }
         gridPrefabs[gridIndex].SetActive(true);
         PublicEvents.LoadingGrid.Invoke(gridIndex);
+    }
+
+    public void AddEntityToList(GameObject g)
+    {
+        entityLists.Add(g);
+    }
+
+    private void ClearEntityList()
+    {
+        foreach(GameObject g in entityLists)
+        {
+            Destroy(g);
+        }
+        entityLists.Clear();
     }
 }

@@ -118,6 +118,7 @@ public class TileBehaviour : MonoBehaviour
         //spawns an Entity if theres one to spawn
         if (TileHasEntities && entityObject != null) {
             GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity, transform);
+            FindFirstObjectByType<GridTesting>().AddEntityToList(obj);
 
             // if the entity has a gridpathfinding componet
             if (obj.GetComponent<GridPathfinding>() != null)

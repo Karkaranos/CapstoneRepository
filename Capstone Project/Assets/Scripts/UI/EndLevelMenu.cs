@@ -21,8 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
     [SerializeField] private GameObject SkillMenu;
-    [SerializeField] private GameObject nextLevelButton;    
-    
+    [SerializeField] private GameObject nextLevelButton;
+    private bool retrying;
 
     #endregion
 
@@ -84,8 +84,8 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        Debug.Log("Restart Level");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        retrying = true;
+        FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
     
     /// <summary>
@@ -93,6 +93,7 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void NextLevel()
     {
+        retrying = false;
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
 
@@ -101,7 +102,14 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void LoadNextLevel()
     {
-        FindFirstObjectByType<GridTesting>().LoadNextGrid();
+        if (retrying)
+        {
+            FindFirstObjectByType<GridTesting>().ReloadCurrentGrid();
+        }
+        else
+        {
+            FindFirstObjectByType<GridTesting>().LoadNextGrid();
+        }
         SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
         endMenuUi.alpha = 0;
