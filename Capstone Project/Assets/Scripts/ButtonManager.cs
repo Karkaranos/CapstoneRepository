@@ -51,6 +51,8 @@ public class ButtonManager : MonoBehaviour
 
     private bool isPlayersTurn;
     private bool castingSpell;
+
+    private GameObject wasdObject;
     #endregion
 
     /// <summary>
@@ -62,6 +64,7 @@ public class ButtonManager : MonoBehaviour
         gm = FindFirstObjectByType<GameManager>();
         tm = FindFirstObjectByType<TransitionManager>();
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        
     }
 
     #region functions
@@ -130,6 +133,7 @@ public class ButtonManager : MonoBehaviour
             confirmCanvas.SetActive(true);
             playerCanvas.SetActive(false);
             GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y].entityOnGrid = -1;
+            PublicEvents.MoveButton();
         }   
     }
 
@@ -155,6 +159,7 @@ public class ButtonManager : MonoBehaviour
         playerCanvas.SetActive(true);
         playerBehavior.DeleteMovement();
         PublicEvents.EndCast?.Invoke();
+        PublicEvents.MoveButton();
     }
 
     /// <summary>
@@ -200,6 +205,7 @@ public class ButtonManager : MonoBehaviour
     public void ConfirmOnClick()
     {
         playerBehavior.ConfirmMovement();
+        PublicEvents.MoveButton();
     }
 
     /// <summary>

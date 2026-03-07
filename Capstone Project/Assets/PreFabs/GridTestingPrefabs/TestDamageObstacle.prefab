@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6150367883568713256}
   - component: {fileID: 1735761102670784801}
   - component: {fileID: 4973421097917060709}
+  - component: {fileID: 4629567560696819192}
   m_Layer: 6
   m_Name: TestDamageObstacle
   m_TagString: Untagged
@@ -106,5 +107,19 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4629567560696819192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848019120397988857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2272b8cb314f91b469eafc14707dc55f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDamage: 0
+  hazardDamage: 10
