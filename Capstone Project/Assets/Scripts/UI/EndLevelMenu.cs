@@ -21,6 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
     [SerializeField] private GameObject SkillMenu;
+    [SerializeField] private GameObject nextLevelButton;    
+    
 
     #endregion
 
@@ -44,7 +46,12 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi()
     {
-        FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        if (endMenuUi.alpha == 0)
+        {
+            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        }
+
+        
     }
 
     /// <summary>
@@ -109,6 +116,15 @@ public class EndLevelMenu : MonoBehaviour
     public void SetText(string text)
     {
         this.text.text = text;
+    }
+
+    /// <summary>
+    /// toggles the next level button
+    /// </summary>
+    /// <param name="isActive"></param>
+    public void SetNextLevelButton(bool isActive)
+    {
+        nextLevelButton.SetActive(isActive);
     }
     
     #endregion
