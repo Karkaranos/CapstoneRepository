@@ -47,6 +47,7 @@ public class PlayerStats : MonoBehaviour
     private SpriteRenderer playerSprite;
     [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private GameObject statChange;
+    [SerializeField] private GameObject UICanvas;
 
     private int tempHealth;
 
@@ -330,6 +331,7 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void EndLevelPopup()
     {
+        UICanvas.SetActive(false);
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
         endLevelMenu.SetText("You Died");
         endLevelMenu.SetNextLevelButton(false);
