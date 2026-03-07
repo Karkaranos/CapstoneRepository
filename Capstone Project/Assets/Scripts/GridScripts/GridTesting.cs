@@ -94,7 +94,12 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     public void LoadNextGrid()
     {
+        int temp = gridIndex;
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
+        if(temp == gridIndex)
+        {
+            return;
+        }
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
@@ -112,7 +117,12 @@ public class GridTesting : MonoBehaviour
             Logger.Error("Invalid grid index entered. Returning function", true);
             return;
         }
+        int temp = gridIndex;
         gridIndex = i-1;
+        if(temp == gridIndex)
+        {
+            return;
+        }
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
@@ -134,10 +144,13 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     private void LoadGridPrefab()
     {
+
         foreach(GameObject g in gridPrefabs)
         {
             g.SetActive(false);
         }
+
+
         gridPrefabs[gridIndex].SetActive(true);
         PublicEvents.LoadingGrid.Invoke(gridIndex);
     }
