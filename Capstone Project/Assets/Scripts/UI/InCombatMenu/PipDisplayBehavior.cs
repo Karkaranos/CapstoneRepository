@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Bouchard
 Date Created : 		2/10/2026
-Date Last Modified : 2/19/2026
+Date Last Modified : 3/18/2026
 Brief Description : displays the pips you have
 ***************************************************/
 using UnityEngine;
@@ -25,8 +25,8 @@ public class PipDisplayBehavior : MonoBehaviour
             pip.SetActive(false);
         }
 
-        for (int i = 0; i < amount; i++) { 
-            
+        for (int i = 0; i < amount; i++) {
+            pipIndicators[i].SetActive(true);
         }
     }
 }
