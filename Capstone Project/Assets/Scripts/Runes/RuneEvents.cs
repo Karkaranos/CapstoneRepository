@@ -23,6 +23,7 @@ public class RuneEvents : MonoBehaviour
 
     #region SETUP
 
+
     public enum Variables
     {
 
@@ -52,11 +53,10 @@ public class RuneEvents : MonoBehaviour
     [HideInInspector] public List<Vector2Int> PreviousPos = new List<Vector2Int>();
 
 
-    bool casting = false;
+    public bool Casting = false;
     public bool WaitingOnPath = false;
 
     #endregion SETUP
-
 
 
     #region AUDIO
@@ -205,7 +205,7 @@ public class RuneEvents : MonoBehaviour
     public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
         //this should hopefully keep the player from spamming spells
-        if (casting)
+        if (Casting)
         {
             return;
         }
@@ -225,7 +225,7 @@ public class RuneEvents : MonoBehaviour
             //targets a tile and  electrifies the tiles around it
             case (1):
 
-                casting = true;
+                Casting = true;
 
                 if (enemy != null)
                 {
@@ -238,7 +238,7 @@ public class RuneEvents : MonoBehaviour
                 foreach(TileBehaviour adjacentTile in secondaryTargets)
                 {
 
-                    if(adjacentTile.GetComponentInChildren<Enemy>() != null)
+                    if(adjacentTile.GetComponentInChildren<Enemy>() != null && adjacentTile != tile)
                     {
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
@@ -269,10 +269,12 @@ public class RuneEvents : MonoBehaviour
             //targets opponents in a cross pattern
             case (2):
 
-                casting = true;
+                Casting = true;
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+
+                enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
 
                 FindLinesOfTargets(rune, tile);
 
@@ -297,12 +299,6 @@ public class RuneEvents : MonoBehaviour
                             potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
 
                         }
-                        else
-                        {
-
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
-
-                        }
 
                     }
 
@@ -317,7 +313,7 @@ public class RuneEvents : MonoBehaviour
             //teleports the player, damages adjacent enemies, and knocks enemies backwards
             case (3):
 
-                casting = true;
+                Casting = true;
 
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
@@ -389,7 +385,7 @@ public class RuneEvents : MonoBehaviour
                 !tile.GetComponentInChildren<Enemy>() && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -525,7 +521,7 @@ public class RuneEvents : MonoBehaviour
     public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
     {
 
-        if(casting)
+        if(Casting)
         {
             return;
         }
@@ -570,7 +566,7 @@ public class RuneEvents : MonoBehaviour
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -620,7 +616,7 @@ public class RuneEvents : MonoBehaviour
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -670,7 +666,7 @@ public class RuneEvents : MonoBehaviour
                 tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -725,7 +721,7 @@ public class RuneEvents : MonoBehaviour
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -1344,7 +1340,6 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-
             case (RuneType.Wind, 1):
 
                 for (int i = 0; i < movementPos.Count; ++i)
@@ -1561,7 +1556,7 @@ public class RuneEvents : MonoBehaviour
             {
 
                 PublicEvents.EndCast.Invoke();
-                casting = false;
+                Casting = false;
                 anim.SetBool("Attack", false);
                 anim.SetBool("Idle", true);
             }

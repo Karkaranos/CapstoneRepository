@@ -12,11 +12,13 @@ public class InCombatSpellSlotBehavior : MonoBehaviour
 {
     public RuneData rune;
     private GameManager gm;
+    private RuneEvents runeEvents;
 
     private void Start()
     {
 
         gm = FindFirstObjectByType<GameManager>();
+        runeEvents = FindFirstObjectByType<RuneEvents>();
 
     }
 
@@ -24,7 +26,7 @@ public class InCombatSpellSlotBehavior : MonoBehaviour
     void Update()
     {
         
-        if(gm.CurrentActionPoints < rune.RuneActionPoints)
+        if(gm.CurrentActionPoints < rune.RuneActionPoints || runeEvents.Casting == true)
         {
 
             gameObject.GetComponent<Image>().color = Color.gray;
