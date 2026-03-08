@@ -29,7 +29,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     //whether or not the cast was canceled
     bool castNotCanceled = false;
     //canvas for movement/end turn buttons
-    public GameObject endTurnButton;
+    public GameObject combatButtonContainers;
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
@@ -46,7 +46,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         //change this line of code to something that sucks less later
-        endTurnButton = GameObject.Find("EndTurn");
+        combatButtonContainers = GameObject.Find("CombatButtonContainers");
 
         PublicEvents.SelectTarget += TargetSelection;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
@@ -85,7 +85,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
         {
 
             waitingForThePlayer = true;
-            endTurnButton.SetActive(false);
+            combatButtonContainers.SetActive(false);
 
             storedData = rd;
 
@@ -535,8 +535,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
-        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
-
         if (waitingForThePlayer && viableTilesInRange.Contains(tile))
         {
 
@@ -585,9 +583,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         waitingForThePlayer = false;
 
-        endTurnButton.SetActive(true);
-
-        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(true);
+        combatButtonContainers.SetActive(true);
 
         if (GetComponent<RuneEvents>().WaitingOnPath)
         {
