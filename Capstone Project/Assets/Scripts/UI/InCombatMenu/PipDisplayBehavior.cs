@@ -24,8 +24,9 @@ public class PipDisplayBehavior : MonoBehaviour
         {
             pip.SetActive(false);
         }
-        for (int i = 0; i < amount; i++) {
-            pipIndicators[pipIndicators.Length - i].gameObject.SetActive(false);
+
+        for (int i = 0; i < amount; i++) { 
+            
         }
     }
 }

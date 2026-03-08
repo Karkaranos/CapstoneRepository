@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     public void SetActionPointsForLevel()
     {
         CurrentActionPoints = ActionPointsPerLevel - 1;
-        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        //ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
     }
 
     /// <summary>
