@@ -277,33 +277,58 @@ public class RuneEvents : MonoBehaviour
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
+                Instantiate(rune.RuneVFX, tile.transform);
+
                 enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
+
+                await Task.Delay(1000);
 
                 FindLinesOfTargets(rune, tile);
 
-                foreach (TileBehaviour potentialTarget in secondaryTargets)
+                List<TileBehaviour> waveOfTiles = new List<TileBehaviour>();
+
+                for (int i = 1; i <= rune.RuneRange; i++)
                 {
 
-                    Instantiate(rune.RuneVFX, potentialTarget.transform);
-
-                    await Task.Delay(1200);
-
-                    potentialTarget.ElectrifyAdTiles();
-
-                    if (potentialTarget.GetComponentInChildren<Enemy>() != null)
+                    foreach(TileBehaviour target in secondaryTargets)
                     {
 
-
-                        if(potentialTarget != tile)
+                        if(Mathf.Abs(tile.IndexInGrid.x - target.IndexInGrid.x) == i || 
+                        Mathf.Abs(tile.IndexInGrid.y - target.IndexInGrid.y) == i)
                         {
 
-                            SubtractFromDamage(rune, tile, potentialTarget);
-
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
+                            waveOfTiles.Add(target);
 
                         }
 
                     }
+
+                    foreach(TileBehaviour target in waveOfTiles)
+                    {
+
+                        if(target.GetComponentInChildren<PlayerBehavior>() != null || target == tile)
+                        {
+                            continue;
+                        }
+
+                        AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                        AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+
+                        Instantiate(rune.RuneVFX, target.transform);
+
+                        if(target.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            SubtractFromDamage(rune, tile, target);
+                            target.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
+
+                        }
+
+                    }
+
+                    waveOfTiles.Clear();
+
+                    await Task.Delay(1000);
 
                 }
 
