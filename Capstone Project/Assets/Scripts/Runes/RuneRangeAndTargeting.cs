@@ -81,6 +81,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void StoreSelectedRuneData(RuneData rd)
     {
 
+        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
+
         if(!GetComponent<RuneEvents>().WaitingOnPath)
         {
 
@@ -584,6 +586,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
         waitingForThePlayer = false;
 
         combatButtonContainers.SetActive(true);
+
+        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(true);
 
         if (GetComponent<RuneEvents>().WaitingOnPath)
         {
