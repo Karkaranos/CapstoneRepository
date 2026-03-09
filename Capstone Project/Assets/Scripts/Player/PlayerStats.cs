@@ -318,10 +318,14 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void UpdateHealthBar()
     {
-
+        //for the healthbar over the players head
         healthBar = FindFirstObjectByType<PlayerBehavior>().GetComponentInChildren<Slider>();
         healthBar.maxValue = MaxHealth;
+        healthBar.value = CurrentHealth;
 
+        //for the health bar in the player profile menu in the top left of the incombat menu
+        healthBar = FindFirstObjectByType<PlayerProfileDisplayBehavior>().GetComponentInChildren<Slider>();
+        healthBar.maxValue = MaxHealth;
         healthBar.value = CurrentHealth;
     }
 
