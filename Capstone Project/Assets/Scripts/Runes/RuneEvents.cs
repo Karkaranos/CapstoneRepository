@@ -354,13 +354,11 @@ public class RuneEvents : MonoBehaviour
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
             //teleports the player, damaging all enemies in their path
-            //TODO: update to use pathfinding
             case (4):
 
                 if (!WaitingOnPath)
@@ -388,7 +386,8 @@ public class RuneEvents : MonoBehaviour
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
-                !tile.GetComponentInChildren<Enemy>() && WaitingOnPath)
+                !tile.GetComponentInChildren<Enemy>() && tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && 
+                WaitingOnPath)
                 {
 
                     Casting = true;
@@ -555,7 +554,7 @@ public class RuneEvents : MonoBehaviour
                     }
                     else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
 
-                        PreviousPos.Add(selectedTile);
+                    PreviousPos.Add(selectedTile);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
@@ -569,7 +568,8 @@ public class RuneEvents : MonoBehaviour
                     Debug.Log("START MOVING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
+                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
                     Casting = true;
@@ -619,7 +619,8 @@ public class RuneEvents : MonoBehaviour
                     Debug.Log("START PATHING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
+                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
                     Casting = true;
@@ -724,7 +725,8 @@ public class RuneEvents : MonoBehaviour
                     Debug.Log("START PATHING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
+                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
                     Casting = true;
