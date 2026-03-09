@@ -227,48 +227,50 @@ public class Enemy : MonoBehaviour
             damage += 1;
         }
 
-        currentHealth -= (int)damage;
-
-        if (statChange != null && (int)damage > 0)
+        if (currentHealth > 0)
         {
-            GameObject g = Instantiate(statChange, enemyCanvas);
-            Sprite s;
-            switch (dType)
+            currentHealth -= (int)damage;
+
+            if (statChange != null && (int)damage > 0)
             {
-                case DamageType.Lightning:
-                    s = lightningSprite;
-                    break;
-                case DamageType.Wind:
-                    s = windSprite;
-                    break;
-                default:
-                    s = null;
-                    break;
+                GameObject g = Instantiate(statChange, enemyCanvas);
+                Sprite s;
+                switch (dType)
+                {
+                    case DamageType.Lightning:
+                        s = lightningSprite;
+                        break;
+                    case DamageType.Wind:
+                        s = windSprite;
+                        break;
+                    default:
+                        s = null;
+                        break;
+                }
+                g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damage + " HP ", false, s);
             }
-            g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damage + " HP ", false, s);
-        }
 
-        print("Enemy takes damage");
-        healthBarSlider.value = currentHealth;
-        if (currentHealth <= 0)
-        {
-            await Task.Delay(500);
-            Die();
-            if (FindFirstObjectByType<GameManager>().allowArtifacts)
+            print("Enemy takes damage");
+            healthBarSlider.value = currentHealth;
+            if (currentHealth <= 0)
             {
-                TryDropItem();
+                await Task.Delay(500);
+                Die();
+                if (FindFirstObjectByType<GameManager>().allowArtifacts)
+                {
+                    TryDropItem();
+                }
+            }
+            logText.text = damage + " dmg";
+            print(currentHealth);
+
+
+            await Task.Delay(flashTime);
+            if (spriteRen != null)
+            {
+                spriteRen.material = baseMat;
             }
         }
-        logText.text = damage + " dmg";
-        print(currentHealth);
-        
-
-        await Task.Delay(flashTime);
-        if(spriteRen != null)
-        {
-            spriteRen.material = baseMat;
-        }
-        
     }
 
     /// <summary>
