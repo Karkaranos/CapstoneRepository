@@ -3,6 +3,7 @@ Author Names : 		Clare
 Date Created : 		3/5/2026
 Date Last Modified : 3/5/2026
 Brief Description : enemy stat box controler + information 
+External Resources: N/A
 ***************************************************/
 using TMPro;
 using UnityEngine;
@@ -15,25 +16,36 @@ public class EnemyStatBox : MonoBehaviour
     [SerializeField] private TMP_Text range;
     [SerializeField] private TMP_Text movement;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Make UI invisible on start
+    /// </summary>
     void Start()
     {
         canvasGroup.alpha = 0.0f;
     }
 
+    /// <summary>
+    /// subscribe to events
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.DisplayEnemyStatbox += DisplayStats;
         PublicEvents.HideEnemyStatbox += HideStats;
     }
 
+    /// <summary>
+    /// unsubscribe to events
+    /// </summary>
     private void OnDisable()
     {
        PublicEvents.DisplayEnemyStatbox -= DisplayStats;
        PublicEvents.HideEnemyStatbox -= HideStats;
     }
 
-
+    /// <summary>
+    /// Set the UI fields and then make visible
+    /// </summary>
+    /// <param name="enemy"></param>
     private void DisplayStats(Enemy enemy)
     {
         health.text = "Health: " + enemy.currentHealth;
@@ -53,6 +65,9 @@ public class EnemyStatBox : MonoBehaviour
         canvasGroup.alpha = 1; 
     }
 
+    /// <summary>
+    /// hide the UI
+    /// </summary>
     public void HideStats()
     {
         canvasGroup.alpha = 0;
