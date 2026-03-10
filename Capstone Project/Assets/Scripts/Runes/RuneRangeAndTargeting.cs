@@ -87,7 +87,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
         {
 
             waitingForThePlayer = true;
-            combatButtonContainers.SetActive(false);
+
+            if(combatButtonContainers == null)
+            {
+                combatButtonContainers = GameObject.Find("CombatButtonContainers");
+            }
+                combatButtonContainers.SetActive(false);
 
             storedData = rd;
 
