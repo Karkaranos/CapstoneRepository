@@ -39,7 +39,7 @@ public class TileBehaviour : MonoBehaviour
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
     [SerializeField] private GameObject ObjectOnTile;
-    [HideInInspector] private GameObject tileHighlight;
+    [SerializeField] private GameObject tileHighlight;
     [SerializeField] private TileType tileType;
     
     [Header("Water Tile Vars")]
@@ -94,7 +94,7 @@ public class TileBehaviour : MonoBehaviour
         //IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
 
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
-        tileHighlight = transform.GetChild(0).gameObject;
+       // tileHighlight = transform.GetChild(0).gameObject;
 
         inPlayerRange = false;
     }
