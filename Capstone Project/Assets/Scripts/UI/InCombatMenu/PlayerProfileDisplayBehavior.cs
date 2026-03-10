@@ -12,6 +12,9 @@ public class PlayerProfileDisplayBehavior : MonoBehaviour
 
     private GameManager gameManager;
 
+    /// <summary>
+    /// it shows the artifacts that are equipped
+    /// </summary>
     public void SetUpArtifactDisplay(){
 
         foreach(Image artifact in artifactDisplays) {
@@ -23,6 +26,9 @@ public class PlayerProfileDisplayBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// should really be called in an event but this works too, if it aint brok dont fix it or somthing like that.
+    /// </summary>
     private void Update()
     {
         SetUpArtifactDisplay();

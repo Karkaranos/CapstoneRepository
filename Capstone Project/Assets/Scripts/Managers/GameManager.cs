@@ -112,12 +112,19 @@ public class GameManager : MonoBehaviour
         ActionPointVisualizer.DisplayPips(CurrentActionPoints);
     }
 
+    /// <summary>
+    /// increases the amount of action points by an amount
+    /// </summary>
+    /// <param name="amount"></param>
     public void IncrementActionPoints(int amount)
     {
         CurrentActionPoints += amount;
         ActionPointVisualizer.DisplayPips(CurrentActionPoints);
     }
 
+    /// <summary>
+    /// sets the amount of action points for a level
+    /// </summary>
     public void SetActionPointsForLevel()
     {
         CurrentActionPoints = ActionPointsPerLevel - 1;
@@ -153,5 +160,4 @@ public class GameManager : MonoBehaviour
 
         ResetActionPoints();
     }
-
 }
