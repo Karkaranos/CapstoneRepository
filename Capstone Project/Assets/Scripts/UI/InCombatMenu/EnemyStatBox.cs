@@ -15,15 +15,26 @@ public class EnemyStatBox : MonoBehaviour
     [SerializeField] private TMP_Text range;
     [SerializeField] private TMP_Text movement;
 
-    private Enemy enemy;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         canvasGroup.alpha = 0.0f;
     }
 
-    private void DisplayStats()
+    private void OnEnable()
+    {
+        PublicEvents.DisplayEnemyStatbox += DisplayStats;
+        PublicEvents.HideEnemyStatbox += HideStats;
+    }
+
+    private void OnDisable()
+    {
+       PublicEvents.DisplayEnemyStatbox -= DisplayStats;
+       PublicEvents.HideEnemyStatbox -= HideStats;
+    }
+
+
+    private void DisplayStats(Enemy enemy)
     {
         health.text = "Health: " + enemy.currentHealth;
         damage.text = "Damage: " + enemy.damage;
@@ -40,5 +51,10 @@ public class EnemyStatBox : MonoBehaviour
         }
 
         canvasGroup.alpha = 1; 
+    }
+
+    public void HideStats()
+    {
+        canvasGroup.alpha = 0;
     }
 }
