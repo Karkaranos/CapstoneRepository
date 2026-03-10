@@ -551,11 +551,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 case (RuneType.Lightning):
 
+                    PublicEvents.HideEnemyStatbox.Invoke();
                     PublicEvents.LightningCast.Invoke(storedData, tile, enemy, player);
                     break;
 
                 case (RuneType.Wind):
 
+                    PublicEvents.HideEnemyStatbox.Invoke();
                     PublicEvents.WindCast.Invoke(storedData, tile, enemy, player);
                     break;
 
