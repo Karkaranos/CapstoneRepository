@@ -128,6 +128,9 @@ public class ButtonManager : MonoBehaviour
         }
         if(playerBehavior.MovementLeft > 0)
         {
+
+            playerBehavior.SetPlayerMovementStatus(true);
+
             gm.GetComponent<PlayerInputHandler>().enableMovement = true;
             playerBehavior.UpdateEnemyPositions();
             confirmCanvas.SetActive(true);
