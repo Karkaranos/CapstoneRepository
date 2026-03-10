@@ -1,11 +1,11 @@
 #ifndef UNIVERSAL_UNLIT_INPUT_INCLUDED
 #define UNIVERSAL_UNLIT_INPUT_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
+#include "SurfaceInput.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/DebugMipmapStreamingMacros.hlsl"
 
 CBUFFER_START(UnityPerMaterial)
-float4 _BaseMap_ST;
+float4 _MainTex_ST;
 float4 _BaseMap_TexelSize;
 half4 _BaseColor;
 half _Cutoff;

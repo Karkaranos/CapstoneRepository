@@ -31,7 +31,7 @@ struct Varyings
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
 #if defined(_ALPHATEST_ON)
-        output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+        output.uv = TRANSFORM_TEX(input.texcoord, MainTex);
 #endif
         output.positionCS = TransformObjectToHClip(input.position.xyz);
         return output;
@@ -43,7 +43,7 @@ struct Varyings
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
 #if defined(_ALPHATEST_ON)
-        Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
+        Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(MainTex, sampler_MainTex)).a, _BaseColor, _Cutoff);
 #endif
 
 #if defined(LOD_FADE_CROSSFADE)
