@@ -48,7 +48,7 @@ public class MeleeEnemy : Enemy
     #region OTHER NON INSPECTOR VARS
     [HideInInspector]public bool hasMovedForTurn = false;
     [HideInInspector]public bool hasAttackedTwice = false;
-
+    public Animator anim;
     #endregion
     #endregion
 
@@ -70,6 +70,7 @@ public class MeleeEnemy : Enemy
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
+        
     }
 
     /// <summary>

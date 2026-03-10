@@ -87,6 +87,7 @@ public class PlayerBehavior : MonoBehaviour
     private SpriteRenderer pSprite;
 
     private ButtonManager bm;
+    private RuneEvents re;
 
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -96,7 +97,9 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
-        anim = animObj.GetComponent<Animator>();
+        re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
+        anim = animObj.GetComponentInChildren<Animator>();
+        re.AssignAnim(anim);
         myPosition = GridManager.playerPosition;
         canMove = true;
         ghostPosition = transform.position;
@@ -187,7 +190,10 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
 
     }
 
@@ -341,7 +347,10 @@ public class PlayerBehavior : MonoBehaviour
         {
             myCol.center = previousColliderPos;
         }
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
         StartCoroutine(MovementDelay());
     }
 
@@ -428,7 +437,10 @@ public class PlayerBehavior : MonoBehaviour
         posBeforeMovement = myPosition;
         previousPositions.Add(myPosition);
         ghostPosition = transform.position;
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
 
         //Damages the player if they teleport onto an electrified tile
         TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
@@ -490,7 +502,10 @@ public class PlayerBehavior : MonoBehaviour
         ghostPosition = transform.position;
         myCol.center = new Vector3(0, myCol.center.y, 0);
         previousColliderPos = myCol.center;
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
     }
 
     /// <summary>

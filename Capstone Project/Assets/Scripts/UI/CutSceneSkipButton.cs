@@ -5,9 +5,7 @@
  * Brief: Allows skipping of the book opening animation and storybook cutscene
  * External Resources: N/A
  * ***************************************************************************/
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CutSceneSkipButton : MonoBehaviour

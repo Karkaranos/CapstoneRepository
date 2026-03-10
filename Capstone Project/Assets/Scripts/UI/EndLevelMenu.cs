@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/30/2025
-Date Last Modified : 	12/2/2025
+Date Last Modified : 	3/7/2026
 Brief Description : 		Temporary End Level Menu handler for 
                     vertical slice
 External Resources : 	
@@ -21,6 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
     [SerializeField] private GameObject SkillMenu;
+    [SerializeField] private GameObject nextLevelButton;
+    private bool retrying;
 
     #endregion
 
@@ -44,7 +46,12 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi()
     {
-        FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        if (endMenuUi.alpha == 0)
+        {
+            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        }
+
+        
     }
 
     /// <summary>
@@ -77,8 +84,8 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        Debug.Log("Restart Level");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        retrying = true;
+        FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
     
     /// <summary>
@@ -86,6 +93,7 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void NextLevel()
     {
+        retrying = false;
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
 
@@ -94,7 +102,14 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void LoadNextLevel()
     {
-        FindFirstObjectByType<GridTesting>().LoadNextGrid();
+        if (retrying)
+        {
+            FindFirstObjectByType<GridTesting>().ReloadCurrentGrid();
+        }
+        else
+        {
+            FindFirstObjectByType<GridTesting>().LoadNextGrid();
+        }
         SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
         endMenuUi.alpha = 0;
@@ -109,6 +124,15 @@ public class EndLevelMenu : MonoBehaviour
     public void SetText(string text)
     {
         this.text.text = text;
+    }
+
+    /// <summary>
+    /// toggles the next level button
+    /// </summary>
+    /// <param name="isActive"></param>
+    public void SetNextLevelButton(bool isActive)
+    {
+        nextLevelButton.SetActive(isActive);
     }
     
     #endregion

@@ -47,6 +47,7 @@ public class PlayerStats : MonoBehaviour
     private SpriteRenderer playerSprite;
     [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private GameObject statChange;
+    [SerializeField] private GameObject UICanvas;
 
     private int tempHealth;
 
@@ -119,7 +120,7 @@ public class PlayerStats : MonoBehaviour
 
         await Task.Delay(1000);
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
-        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
         turnIndicator.SetActive(true);
     }
 
@@ -330,15 +331,17 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void EndLevelPopup()
     {
+        UICanvas.SetActive(false);
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
         endLevelMenu.SetText("You Died");
+        endLevelMenu.SetNextLevelButton(false);
         endLevelMenu.EnableEndMenuUi();
     }
 
     private void SetTurnIndicator()
     {
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
-        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
         turnIndicator.SetActive(true);
     }
 }
