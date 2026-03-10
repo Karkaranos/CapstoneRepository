@@ -59,7 +59,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [Tooltip("Total amount of movement the player has on their turn.")]
     [SerializeField] private int movementRange;
-    private int movementLeft;
+    [HideInInspector] public int movementLeft;
     [HideInInspector]
     public int MovementLeft
     {
