@@ -254,6 +254,7 @@ public class Enemy : MonoBehaviour
             healthBarSlider.value = currentHealth;
             if (currentHealth <= 0)
             {
+                EnemyHandler.Instance.RemoveEnemy(this);
                 await Task.Delay(500);
                 Die();
                 if (FindFirstObjectByType<GameManager>().allowArtifacts)
@@ -278,8 +279,6 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Die()
     {
-        EnemyHandler.Instance.RemoveEnemy(this);
-
         GridManager.RemoveEntity(gridPathfinding.MyPosition);
 
         PlayerBehavior pb = FindFirstObjectByType<PlayerBehavior>();
