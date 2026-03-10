@@ -43,7 +43,7 @@ public class EnemyStatBox : MonoBehaviour
         if(enemy.isRangedEnemy)
         {
             RangedEnemy rangedEnemy = enemy.gameObject.GetComponent<RangedEnemy>();
-            range.text = "Range: " + rangedEnemy.maxAttackDistance + " - " + rangedEnemy.minimumAttackDistance + " tiles";
+            range.text = "Range: " + rangedEnemy.minimumAttackDistance + " - " + rangedEnemy.maxAttackDistance + " tiles";
         }
         else
         {
