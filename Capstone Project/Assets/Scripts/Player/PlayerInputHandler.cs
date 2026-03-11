@@ -261,14 +261,15 @@ public class PlayerInputHandler : MonoBehaviour
 
                     if (hit.transform.gameObject.GetComponent<Enemy>() != null)
                     {
+                        PublicEvents.DisplayEnemyStatbox?.Invoke(hit.transform.gameObject.GetComponent<Enemy>());
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
                             hit.transform.gameObject.GetComponent<Enemy>(), null);
-
+                       
                     }
                     else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
                     {
-
+                        PublicEvents.HideEnemyStatbox.Invoke();
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
                            null, hit.transform.gameObject.GetComponent<PlayerBehavior>());
 
@@ -278,6 +279,7 @@ public class PlayerInputHandler : MonoBehaviour
 
                         if(hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
                         {
+                            PublicEvents.DisplayEnemyStatbox?.Invoke(hit.transform.gameObject.GetComponentInChildren<Enemy>());
 
                             PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), 
                             hit.transform.gameObject.GetComponentInChildren<Enemy>(), null);
@@ -285,11 +287,16 @@ public class PlayerInputHandler : MonoBehaviour
                         }
                         else
                         {
+                            PublicEvents.HideEnemyStatbox.Invoke();
                             PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), null, null);
                         }
 
                     }
 
+                }
+                else
+                {
+                    PublicEvents.HideEnemyStatbox.Invoke();
                 }
 
             }
