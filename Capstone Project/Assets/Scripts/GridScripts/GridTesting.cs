@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Cade Naylor
  * Creation Date: 9/26/2025
- * Last Modified: 2/16/2026
+ * Last Modified: 3/7/2026 (Brad Dixon)
  * Brief: Controls grid loading and handling
  * External Resources: N/A
  * ***************************************************************************/
@@ -12,48 +12,23 @@ using System.Collections;
 
 public class GridTesting : MonoBehaviour
 {
-    private enum GridSettings
-    {
-        GridLoading,
-        GridMovement
-    }
-
-    [SerializeField] private GridSettings selectedSetting;
-
     #region Grid variables
     [HorizontalLine(4, EColor.Red)]
 
     [Tooltip("Used to determine which grid is being used")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField]
-    private int gridIndex;
+    [SerializeField] private int gridIndex;
 
     [Tooltip("The list of the different combat grids")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
-    private List<GameObject> gridPrefabs = new List<GameObject>();
+    [SerializeField] private List<GameObject> gridPrefabs = new List<GameObject>();
 
     [Tooltip("The list that contains how big each grid is")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridLoading), SerializeField] 
-    private List<Vector2Int> gridDimensions = new List<Vector2Int>();
+    [SerializeField] private List<Vector2Int> gridDimensions = new List<Vector2Int>();
 
+    [SerializeField] private List<GameObject> entityLists = new List<GameObject>();
     public int gridToLoad;
     #endregion
 
-    #region Grid movement variables
-    [HorizontalLine(4, EColor.Blue)]
-
-    //Temporary variables for testing purposes
-    [Tooltip("The tile that would be where an object starts from")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridMovement), SerializeField] 
-    private Vector2Int currentMovementTestingTile;
-
-    [Tooltip("The tile that on object would move to")]
-    [ShowIf(nameof(selectedSetting), GridSettings.GridMovement), SerializeField] 
-    private Vector2Int newMovementTestingTile;
-    #endregion
-
     #region Buttons
-    //[HorizontalLine(4, EColor.Green)]
-    //[Space]
     /// <summary>
     /// Testing button that shows the grid in the console
     /// </summary>
@@ -73,19 +48,6 @@ public class GridTesting : MonoBehaviour
     }
 
     /// <summary>
-    /// Testing button that shows in the console which stats are being affected and by how much
-    /// </summary>
-    [Button("Show Terrain Affects")]
-    private void DisplayTerrainAffectsInConsole()
-    {
-        TileStatTester[] testers = FindObjectsByType<TileStatTester>(FindObjectsSortMode.None);
-        foreach(TileStatTester t in testers)
-        {
-            t.DisplayStatChange();
-        }
-    }
-
-    /// <summary>
     /// Testing button that tells the enemies to move
     /// </summary>
     [Button("Test Pathfinding")]
@@ -97,7 +59,7 @@ public class GridTesting : MonoBehaviour
     [Button]
     public void LoadGridAtIndex()
     {
-        LoadSpecificGrid(gridToLoad);
+        LoadSpecificGrid(gridToLoad+1);
     }
     #endregion
 
@@ -133,12 +95,11 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     public void LoadNextGrid()
     {
-
         gridIndex = gridIndex + 1 < gridDimensions.Count ? ++gridIndex : gridIndex;
+        PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
-        
     }
 
     /// <summary>
@@ -147,15 +108,16 @@ public class GridTesting : MonoBehaviour
     /// <param name="i"></param>
     public void LoadSpecificGrid(int i) 
     {
-        if(i > gridPrefabs.Count-1)
+        if(i > gridPrefabs.Count || i <= 0)
         {
-            i = gridPrefabs.Count-1;
+            Logger.Error("Invalid grid index entered. Returning function", true);
+            return;
         }
-        gridIndex = i;
+        gridIndex = i-1;
+        PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
         PublicEvents.NewLevel.Invoke();
-        
     }
 
     /// <summary>
@@ -173,11 +135,33 @@ public class GridTesting : MonoBehaviour
     /// </summary>
     private void LoadGridPrefab()
     {
+        ClearEntityList();
         foreach(GameObject g in gridPrefabs)
         {
             g.SetActive(false);
         }
         gridPrefabs[gridIndex].SetActive(true);
         PublicEvents.LoadingGrid.Invoke(gridIndex);
+    }
+
+    /// <summary>
+    /// Adds entities to a list that is used for deleting them on level loading
+    /// </summary>
+    /// <param name="g"></param>
+    public void AddEntityToList(GameObject g)
+    {
+        entityLists.Add(g);
+    }
+
+    /// <summary>
+    /// Deletes all entities than resets the list
+    /// </summary>
+    private void ClearEntityList()
+    {
+        foreach(GameObject g in entityLists)
+        {
+            Destroy(g);
+        }
+        entityLists.Clear();
     }
 }

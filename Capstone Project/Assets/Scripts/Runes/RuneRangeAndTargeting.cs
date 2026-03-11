@@ -28,9 +28,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
     [SerializeField] GameObject playerMenu;
     //whether or not the cast was canceled
     bool castNotCanceled = false;
+    //canvas for movement/end turn buttons
+    public GameObject combatButtonContainers;
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
+    public Color BlockedHighlight;
     public Color LightningHighlight;
     public Color LightningSecondaryHighlight;
     public Color WindHighlight;
@@ -41,6 +44,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+
+        //change this line of code to something that sucks less later
+        combatButtonContainers = GameObject.Find("CombatButtonContainers");
 
         PublicEvents.SelectTarget += TargetSelection;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
@@ -75,10 +81,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void StoreSelectedRuneData(RuneData rd)
     {
 
+        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
+
         if(!GetComponent<RuneEvents>().WaitingOnPath)
         {
 
             waitingForThePlayer = true;
+            combatButtonContainers.SetActive(false);
 
             storedData = rd;
 
@@ -148,7 +157,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
-
         List<Vector2Int> validTiles = new List<Vector2Int>();
 
         if (storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4)
@@ -156,8 +164,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
             tilesInRange.Add(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y]);
             TargetCheck(tilesInRange);
-
-            Debug.Log("GO MY STORM");
 
             return;
 
@@ -299,6 +305,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// checks which tiles are actually targetable
+    /// </summary>
+    /// <param name="tilesInRange"> tiles that the player may target </param>
     void TargetCheck(List<TileBehaviour> tilesInRange)
     {
 
@@ -416,16 +426,29 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         }
 
-        SetHighlight(true);
+        SetHighlight(true, tilesInRange);
 
     }
 
-    void SetHighlight(bool runeSelected)
+    void SetHighlight(bool runeSelected, List<TileBehaviour> tilesInRange = null)
     {
 
         GridManager.RemoveHighlight();
 
-        if(runeSelected)
+        if (tilesInRange != null)
+        {
+
+            foreach (TileBehaviour tile in tilesInRange)
+            {
+
+                tile.SetHighlightColor(BlockedHighlight);
+                tile.ShowHighlight(true);
+
+            }
+
+        }
+
+        if (runeSelected)
 
         {
 
@@ -514,11 +537,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
-        FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
-
-        if (waitingForThePlayer &&
-            FindFirstObjectByType<GameManager>().CurrentActionPoints >= storedData.RuneActionPoints &&
-            viableTilesInRange.Contains(tile))
+        if (waitingForThePlayer && viableTilesInRange.Contains(tile))
         {
 
             switch (storedData.TypeOfRune)
@@ -566,6 +585,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         waitingForThePlayer = false;
 
+        combatButtonContainers.SetActive(true);
+
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(true);
 
         if (GetComponent<RuneEvents>().WaitingOnPath)
@@ -593,7 +614,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         GridManager.RemoveHighlight();
 
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
 
     }
 

@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Tyler Bouchard
  * Creation Date: 10/2/2025
- * Last Modified: 2/9/2026 (Brad Dixon)
+ * Last Modified: 3/7/2026 (Brad Dixon)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -38,8 +38,8 @@ public class TileBehaviour : MonoBehaviour
     public Vector2Int IndexInGrid;
     [HideInInspector] public bool inPlayerRange;
     [HideInInspector] public int entityOnGrid;
-    [HideInInspector] private GameObject ObjectOnTile;
-    [HideInInspector] private GameObject tileHighlight;
+    [SerializeField] private GameObject ObjectOnTile;
+    [SerializeField] private GameObject tileHighlight;
     [SerializeField] private TileType tileType;
     
     [Header("Water Tile Vars")]
@@ -47,6 +47,8 @@ public class TileBehaviour : MonoBehaviour
     [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
+    [Tooltip("The icon that shows a water tile is electrified.")]
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private GameObject ElectricIcon;
     
 
     [Header("Objects On This Tile")]
@@ -57,7 +59,7 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField] private bool TileHasHazards = false;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private HazardType hazardType;
     [SerializeField, ShowIf(nameof(TileHasHazards)), Foldout("Hazards")] private GameObject hazardObject;
-    [SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
+    //[SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
     [SerializeField, ShowIf(nameof(ShowSlowVars)), Foldout("Hazards")] private int movesLost;
 
     
@@ -92,7 +94,7 @@ public class TileBehaviour : MonoBehaviour
         //IndexInGrid.y = (int)(transform.position.z - parentTransform.position.z / transform.localScale.z);
 
         gameObject.name = "[" + IndexInGrid.x + ", " + IndexInGrid.y + "]";
-        tileHighlight = transform.GetChild(0).gameObject;
+       // tileHighlight = transform.GetChild(0).gameObject;
 
         inPlayerRange = false;
     }
@@ -116,6 +118,7 @@ public class TileBehaviour : MonoBehaviour
         //spawns an Entity if theres one to spawn
         if (TileHasEntities && entityObject != null) {
             GameObject obj = Instantiate(entityObject, transform.position, Quaternion.identity, transform);
+            FindFirstObjectByType<GridTesting>().AddEntityToList(obj);
 
             // if the entity has a gridpathfinding componet
             if (obj.GetComponent<GridPathfinding>() != null)
@@ -142,6 +145,7 @@ public class TileBehaviour : MonoBehaviour
         //spawns a hazard if theres one to spawn
         if (TileHasHazards && hazardObject != null)
         {
+            PipManager.Instance.hazardTiles.Add(this); 
             GameObject obj = Instantiate(hazardObject, transform);
         }
     }
@@ -153,7 +157,12 @@ public class TileBehaviour : MonoBehaviour
     {
         if (tileType == TileType.Water) 
         {
-            isElectrified = true;
+            if (!isElectrified)
+            {
+                isElectrified = true;
+                ElectricIcon.SetActive(isElectrified);
+                ApplyTileEffects();
+            }
             turnsSinceElectrification = 0;
         }
     }
@@ -164,6 +173,7 @@ public class TileBehaviour : MonoBehaviour
     public void ElectrifyAdTiles()
     {
         List<TileBehaviour> adWaterTiles = new List<TileBehaviour>();
+        List<Vector2Int> t1 = new List<Vector2Int>();
         List<Vector2Int> alreadyChecked = new List<Vector2Int>();
         adWaterTiles.Add(GridManager.combatGrid[IndexInGrid.x, IndexInGrid.y]);
         alreadyChecked.Add(IndexInGrid);
@@ -176,7 +186,17 @@ public class TileBehaviour : MonoBehaviour
             {
                 adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
             }
+            else
+            {
+                t1.Add(v);
+            }
             alreadyChecked.Add(v);
+        }
+
+        //Removes tiles that aren't water to speed up calculation time
+        foreach(Vector2Int v in t1)
+        {
+            adTiles.Remove(v);
         }
 
         bool foundAll = false;
@@ -204,12 +224,13 @@ public class TileBehaviour : MonoBehaviour
                         if (GridManager.combatGrid[v.x, v.y].CanBeElectrified())
                         {
                             adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
-
-                            temp2 = GridManager.GetAllAdjacentTiles(v);
-                            foreach (Vector2Int t in temp2)
-                            {
-                                temp.Add(t);
-                            }
+                            temp.Add(v);
+                            //temp2 = GridManager.GetAllAdjacentTiles(v);
+                            //foreach (Vector2Int t in temp2)
+                            //{
+                            //    if (GridManager.combatGrid[t.x, t.y].CanBeElectrified())
+                            //        temp.Add(t);
+                            //}
                         }
                         alreadyChecked.Add(v);
                     }
@@ -220,13 +241,17 @@ public class TileBehaviour : MonoBehaviour
             {
                 adTiles.Add(v);
             }
+            temp.Clear();
         }
 
+        Debug.Log("Start Here-----");
         //Once all connected tiles are found, electrify them all
-        foreach(TileBehaviour t in adWaterTiles)
+        foreach (TileBehaviour t in adWaterTiles)
         {
+            Debug.Log(t.gameObject.name);
             t.ElectrifyTile();
         }
+        Debug.Log("End Here------");
     }
 
     /// <summary>
@@ -242,10 +267,10 @@ public class TileBehaviour : MonoBehaviour
     /// Public call so tile effects can be applied before a turn ends
     /// </summary>
     public void ApplyTileEffects() {
-        if (hazardType == HazardType.damage && TileHasHazards)
-        {
-            DamageEntity(damageAmount);
-        }
+        //if (hazardType == HazardType.damage && TileHasHazards)
+        //{
+        //    DamageEntity(damageAmount);
+        //}
 
         if (tileType == TileType.Water && isElectrified) 
         {
@@ -258,9 +283,13 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     private void EndTurnTileEffects()
     {
-        if (hazardType == HazardType.damage && TileHasHazards)
+        //if (hazardType == HazardType.damage && TileHasHazards)
+        //{
+        //    DamageEntity(damageAmount);
+        //}
+        if(GetComponentInChildren<DamageHazardBehaviour>() != null && GetComponentInChildren<DamageHazardBehaviour>().canDamage)
         {
-            DamageEntity(damageAmount);
+            GetComponentInChildren<DamageHazardBehaviour>().EndTurnDamage();
         }
 
         if (tileType == TileType.Water && isElectrified)
@@ -272,6 +301,7 @@ public class TileBehaviour : MonoBehaviour
                 isElectrified = false;
                 turnsSinceElectrification = 0;
             }
+            ElectricIcon.SetActive(isElectrified);
         }
         TurnPublicEvents.TurnActionComplete();
     }
@@ -314,7 +344,7 @@ public class TileBehaviour : MonoBehaviour
     /// applys the damage to the entities
     /// </summary>
     /// <param name="amount"></param>
-    private void DamageEntity(int amount) {
+    public void DamageEntity(int amount) {
         //calls the player damage
         if (ObjectOnTile != null) {
             if (ObjectOnTile.GetComponent<PlayerBehavior>() != null)
@@ -323,9 +353,9 @@ public class TileBehaviour : MonoBehaviour
             }
 
             //calls the enemy damage
-            if (ObjectOnTile.GetComponent<MeleeEnemy>() != null)
+            if (ObjectOnTile.GetComponent<Enemy>() != null)
             {
-                ObjectOnTile.GetComponent<MeleeEnemy>().Damage(amount);
+                ObjectOnTile.GetComponent<Enemy>().Damage(amount);
             }
         }
     }
@@ -336,8 +366,23 @@ public class TileBehaviour : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
     {
-        collision.transform.SetParent(transform);
-        ObjectOnTile = collision.gameObject;
+        if (collision.GetComponent<Enemy>() || collision.GetComponent<PlayerBehavior>())
+        {
+            collision.transform.SetParent(transform);
+            ObjectOnTile = collision.gameObject;
+        }
+    }
+
+    /// <summary>
+    /// Updates the variable that holds what object is on the tile, if that object moves off of it
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Enemy>() || other.GetComponent<PlayerBehavior>())
+        {
+            ObjectOnTile = null;
+        }
     }
 
     /// <summary>
@@ -360,7 +405,8 @@ public class TileBehaviour : MonoBehaviour
     {
         Vector3 pos = transform.position;
         pos.y = pos.y + 1;
-        Instantiate(pip, pos, Quaternion.identity, transform);
+        Pip spawnObject = Instantiate(pip, pos, Quaternion.identity, transform).GetComponent<Pip>();
+        spawnObject.tile = this;
         GridManager.AddEntity(IndexInGrid, -5);
     }
 }

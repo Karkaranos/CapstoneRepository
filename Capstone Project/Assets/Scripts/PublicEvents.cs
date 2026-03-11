@@ -57,9 +57,11 @@ public static class PublicEvents
 
     public static Action ToggleConsole;
 
+    public static Action ToggleGridView;
     public static Action ControllerEnabled;
     public static Action ControllerDisabled;
 
+    public static Action<Vector2> ControllerMoveInGrid;
     public static Action<Vector2> PanCamera;
     public static Action<Vector2> MovementDirection;
     public static Action<Vector2> MousePosition;
@@ -73,7 +75,10 @@ public static class PublicEvents
 
     public static Action NewLevel;
 
-    public static Action<int> LoadingGrid; 
+    public static Action<int> LoadingGrid;
+
+
+    public static Action<RuneData> RuneUnequipped;
 
     #region RUNE EVENTS
 
@@ -98,4 +103,14 @@ public static class PublicEvents
     public static Action<int> RuneCast;
 
     #endregion RUNE EVENTS
+
+    #region UI EVENTS
+
+    public static Action<ArtifactData> AddToStatBox;
+
+    public static Action<ArtifactData> RemoveFromStatBox;
+
+    public static Action MoveButton; 
+
+    #endregion
 }

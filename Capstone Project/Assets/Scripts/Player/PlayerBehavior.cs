@@ -86,6 +86,9 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("A reference to the player's Sprite Renderer"), SerializeField, Required]
     private SpriteRenderer pSprite;
 
+    private ButtonManager bm;
+    private RuneEvents re;
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -94,7 +97,9 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
-        anim = animObj.GetComponent<Animator>();
+        re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
+        anim = animObj.GetComponentInChildren<Animator>();
+        re.AssignAnim(anim);
         myPosition = GridManager.playerPosition;
         canMove = true;
         ghostPosition = transform.position;
@@ -103,6 +108,9 @@ public class PlayerBehavior : MonoBehaviour
         myCol = GetComponent<BoxCollider>();
         previousColliderPos = myCol.center;
         underEffect = false;
+        bm = FindFirstObjectByType<ButtonManager>();
+
+        FindFirstObjectByType<RuneEvents>().Casting = false;
 
         PublicEvents.NewPlayerCreated?.Invoke(pTransform, pSprite);
     }
@@ -184,8 +192,35 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
 
+    }
+
+    /// <summary>
+    /// Removes the enemy position from the list when an enemy dies. This fixes the 
+    /// bug where the player couldn't move the an enemy tile on the same turn it died.
+    /// </summary>
+    /// <param name="pos"></param>
+    public void RemoveEnemyPosition(Vector2Int pos)
+    {
+        enemyPositions.Remove(pos);
+    }
+
+    /// <summary>
+    /// Updates the player's reference to the enemies positions when an enemy is moved to a new tile by a spell
+    /// </summary>
+    public void UpdateEnemyPositions()
+    {
+        enemyPositions.Clear();
+        {
+            foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
+            {
+                enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
+            }
+        }
     }
 
     /// <summary>
@@ -314,7 +349,10 @@ public class PlayerBehavior : MonoBehaviour
         {
             myCol.center = previousColliderPos;
         }
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
         StartCoroutine(MovementDelay());
     }
 
@@ -335,11 +373,20 @@ public class PlayerBehavior : MonoBehaviour
     IEnumerator MovePlayer()
     {
         canMove = false;
+
+        if(bm==null)
+        {
+            bm = FindFirstObjectByType<ButtonManager>();
+        }
+
+        
+
         for(int i = 0; i < movementPositions.Count; ++i)
         {
             Vector2Int nextPosition = previousPositions[i + 1];
             bool isMoving = true;
-            while(isMoving)
+            bm.HideAllCanvas();
+            while (isMoving)
             {
                 anim.SetBool("Walk", true);
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
@@ -350,6 +397,7 @@ public class PlayerBehavior : MonoBehaviour
                     myPosition = nextPosition;
                 }
                 yield return new WaitForSeconds(.1f / movementSpeed);
+                bm.HideAllCanvas();
             }
             GridManager.combatGrid[previousPositions[i].x, previousPositions[i].y].ShowHighlight(false);
 
@@ -377,6 +425,7 @@ public class PlayerBehavior : MonoBehaviour
         movementUsed = 0;
         anim.SetBool("Walk", false);
         anim.SetBool("Idle", true);
+        bm.ReEnableActionCanvas();
     }
 
 
@@ -390,7 +439,10 @@ public class PlayerBehavior : MonoBehaviour
         posBeforeMovement = myPosition;
         previousPositions.Add(myPosition);
         ghostPosition = transform.position;
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
 
         //Damages the player if they teleport onto an electrified tile
         TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
@@ -452,6 +504,10 @@ public class PlayerBehavior : MonoBehaviour
         ghostPosition = transform.position;
         myCol.center = new Vector3(0, myCol.center.y, 0);
         previousColliderPos = myCol.center;
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
     }
 
     /// <summary>

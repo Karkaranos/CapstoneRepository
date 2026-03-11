@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, 
 Date Created : 		10/30/2025
-Date Last Modified : 	12/2/2025
+Date Last Modified : 	3/7/2026
 Brief Description : 		Temporary End Level Menu handler for 
                     vertical slice
 External Resources : 	
@@ -21,6 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
     [SerializeField] private GameObject SkillMenu;
+    [SerializeField] private GameObject nextLevelButton;
+    private bool retrying;
 
     #endregion
 
@@ -43,6 +45,20 @@ public class EndLevelMenu : MonoBehaviour
     /// Toggles ig the EndMenuUi is on or off 
     /// </summary>
     public void EnableEndMenuUi()
+    {
+        if (endMenuUi.alpha == 0)
+        {
+            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        }
+
+        
+    }
+
+    /// <summary>
+    /// This function is used for enabling the UI during the transition. 
+    /// The place I wanted to intially call the transition from is currently check out.
+    /// </summary>
+    public void ShowTheEndMenuUI()
     {
         endMenuUi.alpha = 1;
         endMenuUi.interactable = true;
@@ -68,18 +84,34 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        Debug.Log("Restart Level");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        retrying = true;
+        FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
     
     /// <summary>
-    /// Loads the next level in the scene
+    /// Call the transition to go to the equip menu
     /// </summary>
     public void NextLevel()
     {
-        FindFirstObjectByType<GridTesting>().LoadNextGrid();
+        retrying = false;
+        FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
+    }
+
+    /// <summary>
+    /// Loads the next level
+    /// </summary>
+    public void LoadNextLevel()
+    {
+        if (retrying)
+        {
+            FindFirstObjectByType<GridTesting>().ReloadCurrentGrid();
+        }
+        else
+        {
+            FindFirstObjectByType<GridTesting>().LoadNextGrid();
+        }
         SkillMenu.SetActive(true);
-        FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive:FindObjectsInactive.Include).gameObject.SetActive(true);
+        FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
         endMenuUi.alpha = 0;
         endMenuUi.interactable = false;
         endMenuUi.blocksRaycasts = false;
@@ -92,6 +124,15 @@ public class EndLevelMenu : MonoBehaviour
     public void SetText(string text)
     {
         this.text.text = text;
+    }
+
+    /// <summary>
+    /// toggles the next level button
+    /// </summary>
+    /// <param name="isActive"></param>
+    public void SetNextLevelButton(bool isActive)
+    {
+        nextLevelButton.SetActive(isActive);
     }
     
     #endregion

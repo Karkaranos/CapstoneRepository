@@ -21,7 +21,7 @@ public class SpellTabsManager : MonoBehaviour
         //resets all of the spell tabs so there is no overlap in setup
         foreach (SpellTabBehavior spellTab in spellTabs)
         {
-            spellTab.Deactivate();
+            //spellTab.Deactivate();
         }
 
         //finds all of the equiped spells 
@@ -34,14 +34,14 @@ public class SpellTabsManager : MonoBehaviour
 
         //sets up the spell tabs with the spell that they will cast
         for (int i = 0; i < spells.Count; i++) {
-            spellTabs[i].SetUp(spells[i]);
+            //spellTabs[i].SetUp(spells[i]);
             //InCombatMenuManager.spellTabs.Add(spellTabs[i]);
         }
 
         //deactivates the spell tabs that dont have a rune data stored in them
         foreach (SpellTabBehavior spellTab in spellTabs) {
             if (spellTab.runeData == null) {
-                spellTab.Deactivate();
+                //spellTab.Deactivate();
             }
         }
     }
@@ -51,9 +51,17 @@ public class SpellTabsManager : MonoBehaviour
     /// </summary>
     /// <param name="stb"></param>
     public void SelectTab(SpellTabBehavior stb) {
-        DeselectAllTabs();
-        stb.PopOut();
-        stb.selected = true;
+
+        if (stb.selected)
+        {
+            stb.selected = false;
+            DeselectAllTabs();
+        }
+        else {
+            DeselectAllTabs();
+            stb.PopOut();
+            stb.selected = true;
+        }
     }
 
     /// <summary>

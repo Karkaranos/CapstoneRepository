@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour
     protected float movementSpeed;
     [ShowIf(nameof(currentSettings), Settings.Movement), SerializeField,
         Tooltip("Time in seconds that will delay the enemy move logic after changing to move state")]
-    public float moveStateDelay;
+    public float moveStateDelay = 0.5f;
     [HideInInspector] public GridPathfinding gridPathfinding;
     [HideInInspector] public TargetingBehaviour targetingBehaviour;
 
@@ -190,6 +190,7 @@ public class Enemy : MonoBehaviour
         gridPathfinding.SetMovementRange(movementRange);
         gridPathfinding.SetAggroRange(aggroRange);
         gridPathfinding.SetMovementSpeed(movementSpeed);
+        gridPathfinding.SetMoveCoroSpeed(moveStateDelay);
         playerStats = FindFirstObjectByType<PlayerStats>();
         turnIndicator.SetActive(false);
     }
@@ -278,6 +279,9 @@ public class Enemy : MonoBehaviour
         EnemyHandler.Instance.RemoveEnemy(this);
 
         GridManager.RemoveEntity(gridPathfinding.MyPosition);
+
+        PlayerBehavior pb = FindFirstObjectByType<PlayerBehavior>();
+        pb.RemoveEnemyPosition(gridPathfinding.MyPosition);
 
         if (gameObject != null)
         {

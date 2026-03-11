@@ -47,6 +47,7 @@ public class PlayerStats : MonoBehaviour
     private SpriteRenderer playerSprite;
     [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private GameObject statChange;
+    [SerializeField] private GameObject UICanvas;
 
     private int tempHealth;
 
@@ -119,7 +120,7 @@ public class PlayerStats : MonoBehaviour
 
         await Task.Delay(1000);
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
-        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
         turnIndicator.SetActive(true);
     }
 
@@ -317,10 +318,14 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void UpdateHealthBar()
     {
-
+        //for the healthbar over the players head
         healthBar = FindFirstObjectByType<PlayerBehavior>().GetComponentInChildren<Slider>();
         healthBar.maxValue = MaxHealth;
+        healthBar.value = CurrentHealth;
 
+        //for the health bar in the player profile menu in the top left of the incombat menu
+        healthBar = FindFirstObjectByType<PlayerProfileDisplayBehavior>().GetComponentInChildren<Slider>();
+        healthBar.maxValue = MaxHealth;
         healthBar.value = CurrentHealth;
     }
 
@@ -330,15 +335,17 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void EndLevelPopup()
     {
+        UICanvas.SetActive(false);
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
         endLevelMenu.SetText("You Died");
+        endLevelMenu.SetNextLevelButton(false);
         endLevelMenu.EnableEndMenuUi();
     }
 
     private void SetTurnIndicator()
     {
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
-        turnIndicator = player.transform.GetChild(1).GetChild(1).gameObject;
+        turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
         turnIndicator.SetActive(true);
     }
 }

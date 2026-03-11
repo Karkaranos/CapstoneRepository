@@ -13,15 +13,12 @@ public class NotebookManager : MonoBehaviour
     [SerializeField] private Canvas canvas;
     
     // text boxes
-    [SerializeField] private TextMeshProUGUI lightningTitle;
-    [SerializeField] private TextMeshProUGUI windTitle;
     [SerializeField] private TextMeshProUGUI artifactTitle;
-    [SerializeField] private TextMeshProUGUI lightningDescription;
-    [SerializeField] private TextMeshProUGUI windDescription;
     [SerializeField] private TextMeshProUGUI artifactDescription;
 
     //idk if this is gonna be needed but it here if I do
     private int currentPage;
+    
 
     /// <summary>
     /// loads a page based of its index in the pages list
@@ -65,18 +62,6 @@ public class NotebookManager : MonoBehaviour
     }
 
     /// <summary>
-    /// updated the spell desctiption box on both the wind and lightning page
-    /// </summary>
-    /// <param name="node"></param>
-    public void UpdateTextDescription(NotebookSpellNodeBehavior node)
-    {
-        lightningTitle.text = node.runeData.RuneName;
-        lightningDescription.text = node.runeData.RuneDescription;
-        windTitle.text = node.runeData.RuneName;
-        windDescription.text = node.runeData.RuneDescription;
-    }
-
-    /// <summary>
     /// updated the attifact desctiption box on the artifact page
     /// </summary>
     /// <param name="node"></param>
@@ -101,5 +86,8 @@ public class NotebookManager : MonoBehaviour
     /// </summary>
     public void printData() {
         EquipedRunesAndArtifacts.PrintSpellsAndArtifacts();
+    }
+    public void continueToLevel() {
+        PublicEvents.StartBattle.Invoke();
     }
 }   

@@ -22,7 +22,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     {
         Debug.Log("Entered Move State");
         enemy.logText.text = "M";
-
+        enemy.anim.SetBool("IsWalking", true);
         enemy.targetingBehaviour.FindTarget();
        // enemy.gridPathfinding.PathfindThroughGrid();
         enemy.gridPathfinding.StartMoveCoroutine();
@@ -31,7 +31,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         //delay in milliseconds for the grid to update
         //Based on move coroutine and how many steps an enemy takes per turn 
-        await Task.Delay((int)(enemy.GetMovementSpeed() * .5f * 1000));
+        await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 1000));
 
         if (enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition())
         {
@@ -51,6 +51,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     public override void ExitState()
     {
         base.ExitState();
+        enemy.anim.SetBool("IsWalking", false);
     }
 
 }

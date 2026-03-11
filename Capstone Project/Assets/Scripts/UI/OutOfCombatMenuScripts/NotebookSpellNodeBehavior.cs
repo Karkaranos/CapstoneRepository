@@ -26,7 +26,7 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
         //finds the out of combat menu canvas
         AllCanvas = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
         foreach (Canvas c in AllCanvas) {
-            if (c.gameObject.name == "UICanvas") {
+            if (c.gameObject.name == "UICanvas2") {
                 canvas = c; 
                 break;
             }
@@ -46,6 +46,7 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
         else { 
             equipped= false;
             gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+            //PublicEvents.RuneUnequipped?.Invoke(runeData);
         }
     }
 

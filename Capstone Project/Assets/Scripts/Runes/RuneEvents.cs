@@ -23,11 +23,13 @@ public class RuneEvents : MonoBehaviour
 
     #region SETUP
 
+
     public enum Variables
     {
 
         ComboVariables,
-        Audio
+        Audio,
+        Animations
 
     }
 
@@ -51,73 +53,10 @@ public class RuneEvents : MonoBehaviour
     [HideInInspector] public List<Vector2Int> PreviousPos = new List<Vector2Int>();
 
 
-    bool casting = false;
+    public bool Casting = false;
     public bool WaitingOnPath = false;
 
     #endregion SETUP
-
-
-
-    #region COMBO VARIABLES
-
-    [HorizontalLine(4, EColor.Red)]
-
-    [Header("Lightning/Wind")]
-
-    [Space(10)]
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningMasteredDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windPrimaryDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windSecondaryDamageTierOne;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windMasteredTempHealthTierOne;
-
-
-    [Space(10)]
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningMasteredDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windPrimaryDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windSecondaryDamageTierTwo;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windMasteredTempHealthTierTwo;
-
-
-    [Space(10)]
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int lightningMasteredDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windPrimaryDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windSecondaryDamageTierThree;
-
-    [ShowIf(nameof(currentInspectorShowing), Variables.ComboVariables), SerializeField]
-    int windMasteredTempHealthTierThree;
-
-    #endregion COMBO VARIABLES
 
 
 
@@ -157,13 +96,32 @@ public class RuneEvents : MonoBehaviour
 
 
 
+    #region ANIMATIONS
+
+    private Variables Animations;
+
+    [ShowIf(nameof(currentInspectorShowing), Variables.Animations), SerializeField]
+    private GameObject PlayerVisual;
+    private Animator anim;
+
+
+    #endregion ANIMATIONS
+
+
+
     #region INITIALIZATION
+
+    public void AssignAnim(Animator animator)
+    {
+        anim = animator;
+    }
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
     /// </summary>
     private void OnEnable()
     {
+        //anim = PlayerVisual.GetComponent<Animator>();
 
         PublicEvents.LightningCast += SelectedLightningRuneCast;
         PublicEvents.WindCast += SelectedWindRuneCast;
@@ -250,9 +208,14 @@ public class RuneEvents : MonoBehaviour
     public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
         //this should hopefully keep the player from spamming spells
-        if (casting)
+        if (Casting)
         {
             return;
+        }
+
+        if (anim == null)
+        {
+            anim = FindFirstObjectByType<PlayerBehavior>().gameObject.GetComponentInChildren<Animator>();
         }
 
         float damageDealt = Mathf.CeilToInt(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
@@ -265,15 +228,12 @@ public class RuneEvents : MonoBehaviour
             //targets a tile and  electrifies the tiles around it
             case (1):
 
-                casting = true;
+                Casting = true;
 
                 if (enemy != null)
                 {
                     await Task.Delay(1200);
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
-
-                    //CheckRuneCombination(rune, enemy);
-
                 }
 
                 FindAdjacentTiles(tile);
@@ -281,13 +241,11 @@ public class RuneEvents : MonoBehaviour
                 foreach(TileBehaviour adjacentTile in secondaryTargets)
                 {
 
-                    if(adjacentTile.GetComponentInChildren<Enemy>() != null)
+                    if(adjacentTile.GetComponentInChildren<Enemy>() != null && adjacentTile != tile)
                     {
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
                         .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
-
-                        //CheckRuneCombination(rune, enemy);
 
                         adjacentTile.ElectrifyAdTiles();
 
@@ -296,10 +254,13 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 tile.ElectrifyAdTiles();
-
+                anim.SetBool("Attack", true);
+                anim.SetBool("Idle", false);
+                Debug.Log("I am tottaly being called");
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
-
+                Debug.Log("I am attacking");
+                
                 Instantiate(rune.RuneVFX, tile.transform);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
@@ -311,44 +272,63 @@ public class RuneEvents : MonoBehaviour
             //targets opponents in a cross pattern
             case (2):
 
-                casting = true;
+                Casting = true;
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
+                Instantiate(rune.RuneVFX, tile.transform);
+
+                enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
+
+                await Task.Delay(1000);
+
                 FindLinesOfTargets(rune, tile);
 
-                foreach (TileBehaviour potentialTarget in secondaryTargets)
+                List<TileBehaviour> waveOfTiles = new List<TileBehaviour>();
+
+                for (int i = 1; i <= rune.RuneRange; i++)
                 {
 
-                    Instantiate(rune.RuneVFX, potentialTarget.transform);
-
-                    await Task.Delay(1200);
-
-                    potentialTarget.ElectrifyAdTiles();
-
-                    if (potentialTarget.GetComponentInChildren<Enemy>() != null)
+                    foreach(TileBehaviour target in secondaryTargets)
                     {
 
-
-                        if(potentialTarget != tile)
+                        if(Mathf.Abs(tile.IndexInGrid.x - target.IndexInGrid.x) == i || 
+                        Mathf.Abs(tile.IndexInGrid.y - target.IndexInGrid.y) == i)
                         {
 
-                            SubtractFromDamage(rune, tile, potentialTarget);
-
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
+                            waveOfTiles.Add(target);
 
                         }
-                        else
-                        {
-
-                            potentialTarget.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
-
-                        }
-
-                        //CheckRuneCombination(rune, potentialTarget.GetComponentInChildren<Enemy>());
 
                     }
+
+                    foreach(TileBehaviour target in waveOfTiles)
+                    {
+
+                        if(target.GetComponentInChildren<PlayerBehavior>() != null || target == tile)
+                        {
+                            continue;
+                        }
+
+                        AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                        AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+
+                        Instantiate(rune.RuneVFX, target.transform);
+
+                        if(target.GetComponentInChildren<Enemy>() != null)
+                        {
+
+                            SubtractFromDamage(rune, tile, target);
+                            target.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
+
+                        }
+
+                    }
+
+                    waveOfTiles.Clear();
+
+                    await Task.Delay(1000);
 
                 }
 
@@ -361,30 +341,31 @@ public class RuneEvents : MonoBehaviour
             //teleports the player, damages adjacent enemies, and knocks enemies backwards
             case (3):
 
-                casting = true;
+                Casting = true;
 
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
                 GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
 
+                tile.ElectrifyAdTiles();
+
                 FindAdjacentTiles(tile);
 
-                tile.ElectrifyAdTiles();
                 Invoke("PlayerTeleport", .1f);
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
 
-                    if (adjacentTile.GetComponentInChildren<Enemy>() != null)
+                    if (adjacentTile.GetComponentInChildren<Enemy>() != null && 
+                    CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
                     {
 
                         await Task.Delay(1200);
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
-                        //CheckRuneCombination(rune, adjacentTile.GetComponentInChildren<Enemy>());
-
-                        SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+                        SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], 
+                        adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
 
                     }
 
@@ -392,17 +373,17 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
+                anim.SetBool("Attack", true);
+                anim.SetBool("Idle", false);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
 
             //teleports the player, damaging all enemies in their path
-            //TODO: update to use pathfinding
             case (4):
 
                 if (!WaitingOnPath)
@@ -428,17 +409,18 @@ public class RuneEvents : MonoBehaviour
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
 
-                    Debug.Log("START PATHING");
-
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
-                !tile.GetComponentInChildren<Enemy>() && WaitingOnPath)
+                !tile.GetComponentInChildren<Enemy>() && tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && 
+                WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                     AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
@@ -455,7 +437,6 @@ public class RuneEvents : MonoBehaviour
             default:
                 break;
         }
-
     }
 
     //variable that stores targets for an aoe attack
@@ -512,8 +493,8 @@ public class RuneEvents : MonoBehaviour
         foreach(TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if (Mathf.Abs(tile.transform.position.x - target.transform.position.x) <= 1 &&
-                Mathf.Abs(tile.transform.position.z - target.transform.position.z) <= 1)
+            if (Mathf.Abs(tile.IndexInGrid.x - target.IndexInGrid.x) <= 1 &&
+            Mathf.Abs(tile.IndexInGrid.y - target.IndexInGrid.y) <= 1 && !tile.GetComponentInChildren<PlayerBehavior>())
             {
 
                 secondaryTargets.Add(tile);
@@ -570,7 +551,7 @@ public class RuneEvents : MonoBehaviour
     public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
     {
 
-        if(casting)
+        if(Casting)
         {
             return;
         }
@@ -592,7 +573,11 @@ public class RuneEvents : MonoBehaviour
                     selectedRune = rune;
                     originalSelectedTile = tile.IndexInGrid;
                     selectedTile = originalSelectedTile;
-                    selectedEnemy = enemy;
+                    if(enemy != null)
+                    {
+                        selectedEnemy = enemy;
+                    }
+                    else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
 
                     PreviousPos.Add(selectedTile);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
@@ -608,10 +593,11 @@ public class RuneEvents : MonoBehaviour
                     Debug.Log("START MOVING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
+                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -623,8 +609,9 @@ public class RuneEvents : MonoBehaviour
 
                     await Task.Delay(1200);
                     selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
-                    //CheckRuneCombination(rune, enemy);
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
 
@@ -637,7 +624,6 @@ public class RuneEvents : MonoBehaviour
 
                 if (!WaitingOnPath)
                 {
-
                     GridManager.RemoveHighlight();
 
                     selectedRune = rune;
@@ -658,10 +644,11 @@ public class RuneEvents : MonoBehaviour
                     Debug.Log("START PATHING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
+                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -671,6 +658,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
                     AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
 
@@ -709,7 +698,7 @@ public class RuneEvents : MonoBehaviour
                 tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
@@ -720,6 +709,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_2);
                     AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
 
@@ -738,7 +729,11 @@ public class RuneEvents : MonoBehaviour
                     selectedRune = rune;
                     originalSelectedTile = tile.IndexInGrid;
                     selectedTile = originalSelectedTile;
-                    selectedEnemy = enemy;
+                    if (enemy != null)
+                    {
+                        selectedEnemy = enemy;
+                    }
+                    else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
 
                     PreviousPos.Add(selectedTile);
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
@@ -755,13 +750,16 @@ public class RuneEvents : MonoBehaviour
                     Debug.Log("START PATHING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
+                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
                 {
 
-                    casting = true;
+                    Casting = true;
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                     AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
 
@@ -779,32 +777,45 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    #endregion WIND FUNCTIONS
+
+
+
+    #region KNOCKBACK FUNCTIONS
+
     //is this messed up or what
-    public static bool CanMoveBackwards(TileBehaviour originTile, TileBehaviour enemyTile)
+    /// <summary>
+    /// checks whether or not an enemy can be knocked backwards
+    /// </summary>
+    /// <param name="kbSource"> where the target is being pushed from </param>
+    /// <param name="kbTarget"> the target tile </param>
+    /// <returns> whether or not the enemy can be knocked backwards </returns>
+    public static bool CanMoveBackwards(TileBehaviour kbSource, TileBehaviour kbTarget)
     {
 
-        Vector2Int newTilePos = enemyTile.IndexInGrid;
+        Vector2Int newTilePos = kbTarget.IndexInGrid;
 
-        if (originTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
+        //finds where the target should go
+        if (kbSource.IndexInGrid.x < kbTarget.IndexInGrid.x)
         {
 
             newTilePos.x += 1;
 
         }
-        else if (originTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
+        else if (kbSource.IndexInGrid.x > kbTarget.IndexInGrid.x)
         {
 
             newTilePos.x -= 1;
 
         }
 
-        if (originTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
+        if (kbSource.IndexInGrid.y < kbTarget.IndexInGrid.y)
         {
 
             newTilePos.y += 1;
 
         }
-        else if (originTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
+        else if (kbSource.IndexInGrid.y > kbTarget.IndexInGrid.y)
         {
 
             newTilePos.y -= 1;
@@ -813,10 +824,11 @@ public class RuneEvents : MonoBehaviour
 
         TileBehaviour newTile = null;
 
-        foreach(TileBehaviour viableTile in GridManager.combatGrid)
+        //checks if the tile exists
+        foreach (TileBehaviour viableTile in GridManager.combatGrid)
         {
 
-            if(viableTile.IndexInGrid == newTilePos)
+            if (viableTile.IndexInGrid == newTilePos)
             {
 
                 newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
@@ -827,16 +839,19 @@ public class RuneEvents : MonoBehaviour
 
         }
 
-        if(newTile != null)
+        //skipped if the tile is not in the grid
+        if (newTile != null)
         {
 
             if (newTile.GetComponentInChildren<Enemy>())
             {
 
-                if (CanMoveBackwards(enemyTile, newTile))
+                //if there's an enemy on the target tile, this checks if it can be moved backwards as well
+                //loops, ideally
+                if (CanMoveBackwards(kbTarget, newTile))
                 {
 
-                    return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2;
+                    return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2 || newTile.entityOnGrid == -20;
 
                 }
                 else
@@ -850,13 +865,13 @@ public class RuneEvents : MonoBehaviour
             else
             {
 
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2 || newTile.entityOnGrid == -20;
 
             }
 
         }
         else
-        { 
+        {
             return false;
         }
 
@@ -865,92 +880,78 @@ public class RuneEvents : MonoBehaviour
     /// <summary>
     /// shoves the enemy backwards relative from where wind 1 was initially cast
     /// </summary>
-    /// <param name="originTile"> tile that the player occupies </param>
-    /// <param name="enemyTile"> tile that the enemy occupies </param>
-    /// <param name="enemy"> the target </param>
-    void SendEnemyBackwards(TileBehaviour originTile, TileBehaviour enemyTile, Enemy enemy)
+    /// <param name="kbSource"> tile that the player occupies </param>
+    /// <param name="kbTarget"> tile that the enemy occupies </param>
+    /// <param name="target"> the target </param>
+    void SendEnemyBackwards(TileBehaviour kbSource, TileBehaviour kbTarget, Enemy target)
     {
 
-        Vector2Int newTilePos = enemyTile.IndexInGrid;
+        Vector2Int newTilePos = kbTarget.IndexInGrid;
 
-        if (originTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
+        if (kbSource.IndexInGrid.x < kbTarget.IndexInGrid.x)
         {
 
             newTilePos.x += 1;
 
         }
-        else if (originTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
+        else if (kbSource.IndexInGrid.x > kbTarget.IndexInGrid.x)
         {
 
             newTilePos.x -= 1;
 
         }
 
-        if (originTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
+        if (kbSource.IndexInGrid.y < kbTarget.IndexInGrid.y)
         {
 
             newTilePos.y += 1;
 
         }
-        else if (originTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
+        else if (kbSource.IndexInGrid.y > kbTarget.IndexInGrid.y)
         {
 
             newTilePos.y -= 1;
 
         }
 
-        foreach(TileBehaviour viableTile in GridManager.combatGrid)
+        TileBehaviour newTile = null;
+
+        foreach (TileBehaviour viableTile in GridManager.combatGrid)
         {
 
-            if(viableTile.IndexInGrid == newTilePos)
+            if (viableTile.IndexInGrid == newTilePos)
             {
 
-                TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
+                newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-                if (newTile.entityOnGrid == -1)
+                if (newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20)
                 {
 
-                    enemy.transform.SetParent(newTile.transform);
+                    target.transform.SetParent(newTile.transform);
 
-                    enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+                    target.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
 
-                    GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+                    GridManager.MoveToTile(kbTarget.IndexInGrid, newTilePos, -2);
 
-                    enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
-
-                    if (kbChain)
-                    {
-
-                        kbChain = false;
-
-                    }
+                    target.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                 }
-                else if (newTile.entityOnGrid == -2 && kbChain)
+                else if (newTile.entityOnGrid == -2)
                 {
 
-                    if (CanMoveBackwards(enemyTile, newTile))
-                    {
+                    newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
 
-                        newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
+                    SendEnemyBackwards(kbTarget, newTile, newTile.GetComponentInChildren<Enemy>());
 
-                        SendEnemyBackwards(enemyTile, newTile, newTile.GetComponentInChildren<Enemy>());
+                    target.transform.SetParent(newTile.transform);
 
-                        enemy.transform.SetParent(newTile.transform);
+                    target.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
 
-                        enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+                    GridManager.MoveToTile(kbTarget.IndexInGrid, newTilePos, -2);
 
-                        GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
-
-                        enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
-
-                    }
-                    else
-                    {
-
-                        kbChain = false;
-
-                    }
+                    target.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                 }
 
@@ -1004,7 +1005,7 @@ public class RuneEvents : MonoBehaviour
 
             TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-            if(newTile.entityOnGrid == -1 && newTile != originTile)
+            if (newTile.entityOnGrid == -1 && newTile != originTile)
             {
 
                 enemy.transform.SetParent(newTile.transform);
@@ -1014,6 +1015,7 @@ public class RuneEvents : MonoBehaviour
                 GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
 
                 enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
             }
 
@@ -1021,7 +1023,7 @@ public class RuneEvents : MonoBehaviour
 
     }
 
-    #endregion WIND FUNCTIONS
+    #endregion KNOCKBACK FUNCTIONS
 
 
 
@@ -1037,7 +1039,9 @@ public class RuneEvents : MonoBehaviour
 
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
-        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
 
     }
 
@@ -1311,7 +1315,6 @@ public class RuneEvents : MonoBehaviour
 
     //used for certain wind attacks
     float currentSecondaryDamage;
-    bool kbChain = false;
 
     List<Enemy> targetedEnemies = new List<Enemy>();
 
@@ -1384,7 +1387,6 @@ public class RuneEvents : MonoBehaviour
 
                 break;
 
-
             case (RuneType.Wind, 1):
 
                 for (int i = 0; i < movementPos.Count; ++i)
@@ -1392,16 +1394,26 @@ public class RuneEvents : MonoBehaviour
 
                     Vector2Int nextPos = PreviousPos[i + 1];
 
+                    if(i == 0)
+                    {
+
+                        Instantiate(rune.RuneVFX, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform);
+
+                    }
+
                     if (GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>())
                     {
 
                         GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
 
-                        kbChain = true;
+                        if(CanMoveBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y], GridManager.combatGrid[nextPos.x, nextPos.y]))
+                        {
 
-                        SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
-                        GridManager.combatGrid[nextPos.x, nextPos.y],
-                        GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>());
+                            SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
+                            GridManager.combatGrid[nextPos.x, nextPos.y],
+                            GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>());
+
+                        }
 
                     }
 
@@ -1416,6 +1428,7 @@ public class RuneEvents : MonoBehaviour
                         GridManager.MoveToTile(PreviousPos[i], nextPos, -2);
 
                         selectedEnemy.GetComponent<GridPathfinding>().SetPosition(nextPos);
+                        FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                     }
 
@@ -1482,7 +1495,6 @@ public class RuneEvents : MonoBehaviour
                     {
 
                         GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
-                        //CheckRuneCombination(rune, GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
 
                         targetedEnemies.Add(GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>());
 
@@ -1498,7 +1510,8 @@ public class RuneEvents : MonoBehaviour
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
 
-                        if(i != 0)
+                        if(i != 0 && CanMoveBackwards(GridManager.combatGrid[PreviousPos[i - 1].x, PreviousPos[i - 1].y],
+                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y]))
                         {
 
                             SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i - 1].x, PreviousPos[i - 1].y],
@@ -1575,278 +1588,6 @@ public class RuneEvents : MonoBehaviour
 
 
 
-    #region COMBO FUNCTIONS
-
-    /// <summary>
-    /// checks if the enemy has been hit by a spell prior
-    /// if so, a combo is triggered
-    /// </summary>
-    /// <param name="enemy"> target </param>
-    void CheckRuneCombination(RuneData rune, Enemy enemy)
-    {
-        if (enemy != null)
-        {
-            if (!enemy.HasStatusEffect)
-            {
-
-                enemy.RuneStatusEffect = rune.TypeOfRune;
-                enemy.RuneStatusEffectNumber = rune.NumberOnSkillTree;
-
-                enemy.HasStatusEffect = true;
-
-                Debug.Log("Status effect added!");
-
-            }
-            else if (enemy.HasStatusEffect && enemy.RuneStatusEffect != rune.TypeOfRune)
-            {
-
-                switch (rune.TypeOfRune, enemy.RuneStatusEffect)
-                {
-
-                    case (RuneType.Lightning, RuneType.Wind):
-
-                        LightningAndWindCombo(enemy, rune.NumberOnSkillTree, enemy.RuneStatusEffectNumber);
-                        Debug.Log("Combo called!");
-
-                        break;
-
-                    case (RuneType.Wind, RuneType.Lightning):
-
-                        LightningAndWindCombo(enemy, enemy.RuneStatusEffectNumber, rune.NumberOnSkillTree);
-                        Debug.Log("Combo called!");
-
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                enemy.HasStatusEffect = false;
-
-            }
-        }
-    }
-
-    /// <summary>
-    /// calls lightning and wind combo effect
-    /// </summary>
-    /// <param name="enemy"> initial target </param>
-    /// <param name="lightningTier"> which lightning rune was last used on this enemy </param>
-    /// <param name="windTier"> which wind rune was last used on this enemy </param>
-    void LightningAndWindCombo(Enemy enemy, int lightningTier, int windTier)
-    {
-
-        //PART 1: FINDING TARGETS
-
-        PublicEvents.CheckRange.Invoke(true, 2, enemy.GetComponentInParent<TileBehaviour>());
-
-        List<Enemy> validEnemies = new List<Enemy>();
-
-        foreach (TileBehaviour tile in targetedTiles)
-        {
-
-            if (tile == enemy.GetComponentInParent<TileBehaviour>())
-            {
-
-                continue;
-
-            }
-
-            if(tile.GetComponentInChildren<Enemy>() != null)
-            {
-
-                validEnemies.Add(tile.GetComponentInChildren<Enemy>());
-
-            }
-
-        }
-
-
-        //PART 2: LIGHTNING DAMAGE
-
-        int lightningDamage;
-        int lightningMasteredDamage;
-
-        switch (lightningTier)
-        {
-
-            case (1):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierOne * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            case (2):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            case (3):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierTwo * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            case (4):
-
-                lightningDamage = Mathf.CeilToInt(lightningDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                lightningMasteredDamage = Mathf.CeilToInt(lightningMasteredDamageTierThree * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                break;
-
-            default:
-
-                lightningDamage = 0;
-
-                lightningMasteredDamage = 0;
-
-                break;
-        }
-
-        for (int i = 0; i < validEnemies.Count; i++)
-        {
-
-            validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
-
-            validEnemies[i].GetComponentInParent<TileBehaviour>().ElectrifyAdTiles();
-
-        }
-
-        if (lightningMastered)
-        {
-
-            if (enemy != null)
-            {
-
-                enemy.Damage(lightningMasteredDamage, Enemy.DamageType.Lightning);
-
-            }
-
-            for (int i = 0; i < validEnemies.Count; i++)
-            {
-
-                if (validEnemies[i] != null)
-                {
-
-                    validEnemies[i].Damage(lightningDamage, Enemy.DamageType.Lightning);
-
-                }
-
-            }
-
-
-
-        }
-
-
-        //PART 3: WIND DAMAGE
-
-        int windPrimaryDamage;
-
-        int windSecondaryDamage;
-
-        int windTempHealth;
-
-        switch (windTier)
-        {
-
-            case (1):
-
-                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierOne * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windTempHealth = windMasteredTempHealthTierOne;
-
-                break;
-
-            case (2):
-
-                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierTwo * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windTempHealth = windMasteredTempHealthTierTwo;
-
-                break;
-
-            case (4):
-
-                windPrimaryDamage = Mathf.CeilToInt(windPrimaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windSecondaryDamage = Mathf.CeilToInt(windSecondaryDamageTierThree * FindFirstObjectByType<PlayerStats>().WindAttackMultiplier
-                    * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
-
-                windTempHealth = windMasteredTempHealthTierThree;
-
-                break;
-
-            default:
-
-                windPrimaryDamage = 0;
-
-                windSecondaryDamage = 0;
-
-                windTempHealth = 0;
-
-                break;
-        }
-
-        if (enemy != null)
-        {
-
-            enemy.Damage(windPrimaryDamage, Enemy.DamageType.Wind);
-
-        }
-
-        for (int i = 0; i < validEnemies.Count; i++)
-        {
-
-
-            if (validEnemies[i] != null)
-            {
-
-                validEnemies[i].Damage(windSecondaryDamage, Enemy.DamageType.Wind);
-
-            }
-
-        }
-
-        if (windMastered)
-        {
-
-            FindFirstObjectByType<PlayerStats>().AddTempHealth(windTempHealth);
-
-        }
-
-    }
-
-    #endregion COMBO FUNCTIONS
-
-
-
     #region END TURN
 
     /// <summary>
@@ -1859,17 +1600,18 @@ public class RuneEvents : MonoBehaviour
 
         int timer = 0;
 
-        while (timer <= 2)
+        while (timer <= 4)
         {
 
             timer++;
 
-            if (timer == 2)
+            if (timer == 4)
             {
 
                 PublicEvents.EndCast.Invoke();
-                casting = false;
-
+                Casting = false;
+                anim.SetBool("Attack", false);
+                anim.SetBool("Idle", true);
             }
 
             yield return new WaitForSeconds(1);
