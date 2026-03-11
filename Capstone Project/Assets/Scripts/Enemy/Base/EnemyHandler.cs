@@ -89,10 +89,14 @@ public class EnemyHandler : MonoBehaviour
 
             if (index == enemies.Count)
             {
-                enemies[index - 1].turnIndicator.SetActive(false);
-                index = 0;
-                TurnPublicEvents.TurnActionComplete();
-                enemies[0].playerStats.turnIndicator.SetActive(true);
+                try
+                {
+                    enemies[index - 1].turnIndicator.SetActive(false);
+                    index = 0;
+                    TurnPublicEvents.TurnActionComplete();
+                    enemies[0].playerStats.turnIndicator.SetActive(true);
+                }
+                catch { }
                 return;
             }
 
