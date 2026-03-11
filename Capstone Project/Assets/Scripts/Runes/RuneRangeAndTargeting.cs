@@ -113,7 +113,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
             GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
-            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5;
 
     }
 
