@@ -110,6 +110,8 @@ public class PlayerBehavior : MonoBehaviour
         underEffect = false;
         bm = FindFirstObjectByType<ButtonManager>();
 
+        FindFirstObjectByType<RuneEvents>().Casting = false;
+
         PublicEvents.NewPlayerCreated?.Invoke(pTransform, pSprite);
     }
 
@@ -190,7 +192,10 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
 
     }
 
@@ -344,7 +349,10 @@ public class PlayerBehavior : MonoBehaviour
         {
             myCol.center = previousColliderPos;
         }
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
         StartCoroutine(MovementDelay());
     }
 
@@ -431,7 +439,10 @@ public class PlayerBehavior : MonoBehaviour
         posBeforeMovement = myPosition;
         previousPositions.Add(myPosition);
         ghostPosition = transform.position;
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
 
         //Damages the player if they teleport onto an electrified tile
         TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
@@ -493,7 +504,10 @@ public class PlayerBehavior : MonoBehaviour
         ghostPosition = transform.position;
         myCol.center = new Vector3(0, myCol.center.y, 0);
         previousColliderPos = myCol.center;
-        VisualizeEnemyPaths();
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
     }
 
     /// <summary>
