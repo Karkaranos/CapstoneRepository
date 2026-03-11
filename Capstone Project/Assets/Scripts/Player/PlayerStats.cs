@@ -141,6 +141,7 @@ public class PlayerStats : MonoBehaviour
     public void FullHeal()
     {
         CurrentHealth = MaxHealth;
+        UpdateHealthBar();
     }
 
     /// <summary>
