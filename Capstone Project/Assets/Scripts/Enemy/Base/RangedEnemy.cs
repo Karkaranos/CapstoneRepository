@@ -72,6 +72,7 @@ public class RangedEnemy : Enemy
         enemyStateMachine.Initialized(waitState, secondsBetweenStateTransitions);
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
+        isRangedEnemy = true;
     }
 
     /// <summary>
