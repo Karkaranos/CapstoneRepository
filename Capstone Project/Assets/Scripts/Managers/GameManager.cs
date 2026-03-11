@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     // Should be relocated to PlayerBehavior
     #region ActionPoints
-    [SerializeField] public TMP_Text ActionPointVisualizer;
+    [SerializeField] public PipDisplayBehavior ActionPointVisualizer;
     public int CurrentActionPoints;
     public int MoveActionPoints = 2;
     public int ActionPointsPerTurn = 1;
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     /// <param name="amount"></param>
     public void UpdateActionPoints(int amount) {
         CurrentActionPoints -= amount;
-        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        ActionPointVisualizer.DisplayPips(CurrentActionPoints);
         print("called");
         //if (CurrentActionPoints <= 0)
         //{
@@ -109,19 +109,26 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ResetActionPoints() {
         CurrentActionPoints += ActionPointsPerTurn;
-        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        ActionPointVisualizer.DisplayPips(CurrentActionPoints);
     }
 
+    /// <summary>
+    /// increases the amount of action points by an amount
+    /// </summary>
+    /// <param name="amount"></param>
     public void IncrementActionPoints(int amount)
     {
         CurrentActionPoints += amount;
-        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        ActionPointVisualizer.DisplayPips(CurrentActionPoints);
     }
 
+    /// <summary>
+    /// sets the amount of action points for a level
+    /// </summary>
     public void SetActionPointsForLevel()
     {
         CurrentActionPoints = ActionPointsPerLevel - 1;
-        ActionPointVisualizer.text = "Action Points: " + CurrentActionPoints;
+        ActionPointVisualizer.DisplayPips(CurrentActionPoints);
     }
 
     /// <summary>
@@ -153,5 +160,4 @@ public class GameManager : MonoBehaviour
 
         ResetActionPoints();
     }
-
 }
