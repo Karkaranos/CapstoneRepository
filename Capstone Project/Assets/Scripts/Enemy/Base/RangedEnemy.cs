@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Clare Grady, 
+Author Names : 		Clare Grady, Brad Dixon
 Date Created : 		11/18/2025
-Date Last Modified : 	12/02/2025 (Clare)
+Date Last Modified : 	3/11/2026 (Brad)
 Brief Description : 		Base class for Range enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -14,6 +14,7 @@ using static TargetingBehaviour;
 public class RangedEnemy : Enemy
 {
     #region VARS
+    public Animator rangedAnimator;
 
     #region COMBAT VARS
     [Header("Ranged Enemy Specfic")]
@@ -73,6 +74,10 @@ public class RangedEnemy : Enemy
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
         isRangedEnemy = true;
+        if(rangedAnimator == null)
+        {
+            rangedAnimator = GetComponent<Animator>();
+        }
     }
 
     /// <summary>
