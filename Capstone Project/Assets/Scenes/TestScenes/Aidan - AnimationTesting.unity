@@ -6930,7 +6930,6 @@ MonoBehaviour:
   activeCam: {fileID: 0}
   PopUpScript: {fileID: 435388736}
   VideoPlayer: {fileID: 1213691772}
-  OutOfCombatCanvas: {fileID: 1749978569}
   VideoCanvas: {fileID: 1213691773}
 --- !u!4 &989069643
 Transform:
@@ -15008,6 +15007,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 76538ab430d14304b88c1c94a6c374a9, type: 3}
+    - target: {fileID: 3633388798614339870, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633388798614339870, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633388798614339870, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3633388798614339870, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3902259720308289139, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -15164,12 +15179,44 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 3292117156080991678, guid: a43681091f4bbae49aed2884738babec, type: 2}
+    - target: {fileID: 5925570829698157761, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5925570829698157761, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5925570829698157761, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5925570829698157761, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6076259879724596183, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 3292117156080991678, guid: a43681091f4bbae49aed2884738babec, type: 2}
     - target: {fileID: 6076259879724596183, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079851627832085060, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079851627832085060, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079851627832085060, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079851627832085060, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6598146045407044948, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
@@ -15554,11 +15601,6 @@ RectTransform:
 --- !u!224 &1749978568 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2616512549231734354, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 1749978559}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1749978569 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 620523869765722690, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
   m_PrefabInstance: {fileID: 1749978559}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1749978570

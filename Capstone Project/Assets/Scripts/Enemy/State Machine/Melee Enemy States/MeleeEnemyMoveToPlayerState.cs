@@ -51,7 +51,6 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     public override void ExitState()
     {
         base.ExitState();
-        enemy.anim.SetBool("IsWalking", false);
     }
 
 }
