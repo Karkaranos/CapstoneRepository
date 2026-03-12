@@ -141,7 +141,6 @@ public class GridTesting : MonoBehaviour
             g.SetActive(false);
         }
         gridPrefabs[gridIndex].SetActive(true);
-        FindFirstObjectByType<PlayerStats>().FullHeal();
         PublicEvents.LoadingGrid.Invoke(gridIndex);
     }
 
