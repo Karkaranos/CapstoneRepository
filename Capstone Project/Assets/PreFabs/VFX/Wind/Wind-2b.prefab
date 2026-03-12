@@ -868,6 +868,7 @@ GameObject:
   - component: {fileID: 6173344937797565468}
   - component: {fileID: 8365675025973984600}
   - component: {fileID: 5842771059572537008}
+  - component: {fileID: 5816465241387923286}
   m_Layer: 0
   m_Name: Wind-2b
   m_TagString: Untagged
@@ -981,3 +982,24 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: -0.5}
+--- !u!65 &5816465241387923286
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9075514561500158969}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4147577, y: 1.9038204, z: 2.4717047}
+  m_Center: {x: 0.016294122, y: 2.53176, z: 1.343467}
