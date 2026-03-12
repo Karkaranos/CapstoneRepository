@@ -328,7 +328,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: 21300000, guid: 470085341704a0348bad3414b70d27a3, type: 3}
+  m_Sprite: {fileID: 489930086, guid: 30985795f9ea062488b29ac8c2860b11, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -609,6 +609,7 @@ GameObject:
   - component: {fileID: 5895380928361199476}
   - component: {fileID: 2465258453013156434}
   - component: {fileID: 4721381181989642948}
+  - component: {fileID: 5126663506745782353}
   m_Layer: 0
   m_Name: Ranged Enemy
   m_TagString: Untagged
@@ -817,6 +818,7 @@ MonoBehaviour:
   HasStatusEffect: 0
   RuneStatusEffect: 0
   RuneStatusEffectNumber: 0
+  isRangedEnemy: 0
   movementRange: 1
   movementSpeed: 4
   moveStateDelay: 0.2
@@ -824,12 +826,35 @@ MonoBehaviour:
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
   secondsBetweenStateTransitions: 0.2
+  rangedAnimator: {fileID: 0}
   minimumAttackDistance: 0
   maxAttackDistance: 4
   canAttackTwice: 0
   playerInLineOfSight: 1
   hasMovedForTurn: 0
   hasAttackedTwice: 0
+--- !u!95 &5126663506745782353
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e10768b77ab49b544a3b30fb6273e22a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7016158846762269064
 GameObject:
   m_ObjectHideFlags: 0

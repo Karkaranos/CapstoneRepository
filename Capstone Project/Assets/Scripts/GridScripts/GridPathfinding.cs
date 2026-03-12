@@ -302,6 +302,10 @@ public class GridPathfinding : MonoBehaviour
         {
             GetComponent<MeleeEnemy>().anim.SetBool("IsWalking", false);
         }
+        else
+        {
+            GetComponent<RangedEnemy>().rangedAnimator.SetBool("IsWalking", false);
+        }
     }
 
     /// <summary>
