@@ -74,6 +74,10 @@ public class RangedEnemy : Enemy
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
         isRangedEnemy = true;
+        if(rangedAnimator == null)
+        {
+            rangedAnimator = GetComponent<Animator>();
+        }
     }
 
     /// <summary>
