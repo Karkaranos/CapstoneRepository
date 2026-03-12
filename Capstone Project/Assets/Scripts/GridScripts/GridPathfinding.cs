@@ -298,10 +298,10 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
-        //if(!isEnemy)
-        //{
-        //    ReEnableActionCanvas();
-        //}
+        if (GetComponent<MeleeEnemy>() != null)
+        {
+            GetComponent<MeleeEnemy>().anim.SetBool("IsWalking", false);
+        }
     }
 
     /// <summary>
