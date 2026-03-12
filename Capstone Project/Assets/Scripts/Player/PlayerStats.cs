@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 	    	Tyler Bouchard, Cade Naylor, Clare Grady
+Author Names : 	    	Tyler Bouchard, Cade Naylor, Clare Grady, Brad Dixon
 Date Created : 		    10/16/2025
-Date Last Modified : 	2/5/2026 (Cade)
+Date Last Modified : 	3/10/2026 (Brad)
 Brief Description : 	This class controls the player stats like health 
                         resistance and baseDamage
 External Resources : 
@@ -135,6 +135,14 @@ public class PlayerStats : MonoBehaviour
         PublicEvents.NewLevel -= SetTurnIndicator;
     }
 
+    /// <summary>
+    /// Sets the player's health to max
+    /// </summary>
+    public void FullHeal()
+    {
+        CurrentHealth = MaxHealth;
+        UpdateHealthBar();
+    }
 
     /// <summary>
     /// Sets player variables when a new player is created
