@@ -102,8 +102,6 @@ public class TransitionManager : MonoBehaviour
     public void LevelToEndScreen()
     {
         transitionAnimator.SetTrigger("EndScreen");
-
-        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     /// <summary>
@@ -112,6 +110,9 @@ public class TransitionManager : MonoBehaviour
     public void ShowEndUI()
     {
         FindFirstObjectByType<EndLevelMenu>().ShowTheEndMenuUI();
+
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
     }
 
     /// <summary>
