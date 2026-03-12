@@ -43,7 +43,7 @@ public class TileBehaviour : MonoBehaviour
     [SerializeField] private TileType tileType;
     
     [Header("Water Tile Vars")]
-    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private bool isElectrified;
+    [SerializeField, ShowIf(nameof(tileType), TileType.Water)] public bool isElectrified;
     [HideInInspector, ShowIf(nameof(tileType), TileType.Water)] private int turnsSinceElectrification;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int damageWhenElectrified;
     [SerializeField, ShowIf(nameof(tileType), TileType.Water)] private int electrificationDuration;
@@ -151,6 +151,15 @@ public class TileBehaviour : MonoBehaviour
     }
 
     /// <summary>
+    /// Makes an electrified tile not electrified
+    /// </summary>
+    public void DelectrifyTile()
+    {
+        isElectrified = false;
+        ElectricIcon.SetActive(isElectrified);
+    }
+
+    /// <summary>
     /// This is what should be called whenever the tile is struck with electricity
     /// </summary>
     public void ElectrifyTile()
@@ -225,12 +234,6 @@ public class TileBehaviour : MonoBehaviour
                         {
                             adWaterTiles.Add(GridManager.combatGrid[v.x, v.y]);
                             temp.Add(v);
-                            //temp2 = GridManager.GetAllAdjacentTiles(v);
-                            //foreach (Vector2Int t in temp2)
-                            //{
-                            //    if (GridManager.combatGrid[t.x, t.y].CanBeElectrified())
-                            //        temp.Add(t);
-                            //}
                         }
                         alreadyChecked.Add(v);
                     }
@@ -267,11 +270,6 @@ public class TileBehaviour : MonoBehaviour
     /// Public call so tile effects can be applied before a turn ends
     /// </summary>
     public void ApplyTileEffects() {
-        //if (hazardType == HazardType.damage && TileHasHazards)
-        //{
-        //    DamageEntity(damageAmount);
-        //}
-
         if (tileType == TileType.Water && isElectrified) 
         {
             DamageEntity(damageWhenElectrified);
