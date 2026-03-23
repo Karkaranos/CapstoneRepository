@@ -111,7 +111,7 @@ public class PlayerBehavior : MonoBehaviour
         bm = FindFirstObjectByType<ButtonManager>();
 
         FindFirstObjectByType<RuneEvents>().Casting = false;
-
+        FindFirstObjectByType<PlayerStats>().FullHeal();
         PublicEvents.NewPlayerCreated?.Invoke(pTransform, pSprite);
     }
 
