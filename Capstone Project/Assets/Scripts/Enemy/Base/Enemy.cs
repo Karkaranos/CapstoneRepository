@@ -351,6 +351,15 @@ public class Enemy : MonoBehaviour
     /// that will start their individual state machine
     /// </summary>
     public virtual void StartEnemyTurn() {  }
+
+    /// <summary>
+    /// Shows the damage preview 
+    /// </summary>
+    /// <param name="damage"></param>
+    public void ShowDamagePreview(float damage)
+    {
+
+    }
     #endregion
 
     #region GETTERS AND SETTERS
