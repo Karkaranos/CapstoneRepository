@@ -120,7 +120,7 @@ public class Commands
     /// </summary>
     public static void Greet()
     {
-        Logger.Log("Char says hi");
+        Logger.Log("Charlie says hi");
     }
 
     /// <summary>
