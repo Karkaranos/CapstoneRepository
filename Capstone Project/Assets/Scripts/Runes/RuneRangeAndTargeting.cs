@@ -87,7 +87,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
         {
 
             waitingForThePlayer = true;
-            combatButtonContainers.SetActive(false);
+
+            if(combatButtonContainers == null)
+            {
+                combatButtonContainers = GameObject.Find("CombatButtonContainers");
+            }
+                combatButtonContainers.SetActive(false);
 
             storedData = rd;
 
@@ -113,7 +118,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
             GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
-            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3;
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5;
 
     }
 
@@ -545,11 +551,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 case (RuneType.Lightning):
 
+                    PublicEvents.HideEnemyStatbox.Invoke();
                     PublicEvents.LightningCast.Invoke(storedData, tile, enemy, player);
                     break;
 
                 case (RuneType.Wind):
 
+                    PublicEvents.HideEnemyStatbox.Invoke();
                     PublicEvents.WindCast.Invoke(storedData, tile, enemy, player);
                     break;
 

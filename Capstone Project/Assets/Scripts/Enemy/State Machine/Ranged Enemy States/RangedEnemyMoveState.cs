@@ -19,7 +19,7 @@ public class RangedEnemyMoveState : RangedEnemyState
     public async override void EnterState()
     {
         enemy.logText.text = "M";
-
+        enemy.rangedAnimator.SetBool("IsWalking", true);
         enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.StartMoveCoroutine();
 

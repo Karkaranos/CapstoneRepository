@@ -10514,11 +10514,9 @@ MonoBehaviour:
   player: {fileID: 6675322036123795430, guid: da8ace7a070012e4da7bafe07e4d8b66, type: 3}
   Level1cam: {fileID: 885457679}
   Level1playcam: {fileID: 1126529812}
-  PlayerZcam: {fileID: 1707130111}
   activeCam: {fileID: 0}
   PopUpScript: {fileID: 1254061661}
   VideoPlayer: {fileID: 1786945992}
-  OutOfCombatCanvas: {fileID: 1391332723}
   VideoCanvas: {fileID: 1006210447}
 --- !u!4 &1342440076
 Transform:
@@ -11363,19 +11361,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_1.Path
-      value: event:/Lightning Spell
+      value: event:/LightningShock
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_2.Path
-      value: event:/Lightning Spell 2
+      value: event:/Stormstrider
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_3.Path
-      value: event:/Lightning Spell 3
+      value: event:/ElectricFlux
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_4.Path
-      value: event:/Lightning Spell 4
+      value: event:/ZapStep
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: windSecondaryHighlight.a
@@ -14789,17 +14787,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83741a7a2c2d44843a7642e65a554c7f, type: 3}
---- !u!114 &1707130111 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4829654765111000487, guid: 83741a7a2c2d44843a7642e65a554c7f, type: 3}
-  m_PrefabInstance: {fileID: 1707130110}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1747530311
 GameObject:
   m_ObjectHideFlags: 0

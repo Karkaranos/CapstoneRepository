@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon, Cade Naylor
  * Creation Date: 9/26/2025
- * Last Modified: 3/7/2026 (Brad Dixon)
+ * Last Modified: 3/10/2026 (Brad Dixon)
  * Brief: Controls grid loading and handling
  * External Resources: N/A
  * ***************************************************************************/
@@ -24,7 +24,8 @@ public class GridTesting : MonoBehaviour
     [Tooltip("The list that contains how big each grid is")]
     [SerializeField] private List<Vector2Int> gridDimensions = new List<Vector2Int>();
 
-    [SerializeField] private List<GameObject> entityLists = new List<GameObject>();
+    private List<GameObject> entityLists = new List<GameObject>();
+
     public int gridToLoad;
     #endregion
 
@@ -136,6 +137,15 @@ public class GridTesting : MonoBehaviour
     private void LoadGridPrefab()
     {
         ClearEntityList();
+
+        TileBehaviour[] waterTiles = FindObjectsByType<TileBehaviour>(FindObjectsSortMode.None);
+        foreach(TileBehaviour t in waterTiles)
+        {
+            if(t.isElectrified)
+            {
+                t.DelectrifyTile();
+            }
+        }
         foreach(GameObject g in gridPrefabs)
         {
             g.SetActive(false);

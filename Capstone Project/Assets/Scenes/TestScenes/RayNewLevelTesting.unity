@@ -388,7 +388,7 @@ PrefabInstance:
     - target: {fileID: 1811043680911905760, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: 'OppositeNodes.Array.data[0]'
       value: 
-      objectReference: {fileID: 264860458}
+      objectReference: {fileID: 0}
     - target: {fileID: 2499975720421042139, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
@@ -607,19 +607,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_1.Path
-      value: event:/Lightning Spell
+      value: event:/LightningShock
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_2.Path
-      value: event:/Lightning Spell 2
+      value: event:/Stormstrider
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_3.Path
-      value: event:/Lightning Spell 3
+      value: event:/ElectricFlux
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_4.Path
-      value: event:/Lightning Spell 4
+      value: event:/ZapStep
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: windSecondaryHighlight.a
@@ -1371,7 +1371,6 @@ MonoBehaviour:
   activeCam: {fileID: 0}
   PopUpScript: {fileID: 2033830988}
   VideoPlayer: {fileID: 2136757675}
-  OutOfCombatCanvas: {fileID: 391706313}
   VideoCanvas: {fileID: 1607784304}
 --- !u!4 &240610418
 Transform:
@@ -1388,17 +1387,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &264860458 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4728952043206888803, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 52050015}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c8d37b104fc4df4ca35f45cf4b6ef51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &266733637 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4611817465619221784, guid: 96e7ebaa656e8c4d98c8e52bba899b48, type: 3}
@@ -1817,11 +1805,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380786270}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &391706313 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 620523869765722690, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 52050015}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &456323112
 PrefabInstance:
   m_ObjectHideFlags: 0

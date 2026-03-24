@@ -2164,7 +2164,7 @@ Transform:
   m_GameObject: {fileID: 338496249}
   serializedVersion: 2
   m_LocalRotation: {x: 0.21807115, y: 0.010439828, z: -0.0023329083, w: 0.97587425}
-  m_LocalPosition: {x: 9.154138, y: 8.532094, z: -16.166254}
+  m_LocalPosition: {x: 9.154138, y: 8.143831, z: -14.717373}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4545,19 +4545,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_1.Path
-      value: event:/Lightning Spell
+      value: event:/LightningShock
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_2.Path
-      value: event:/Lightning Spell 2
+      value: event:/Stormstrider
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_3.Path
-      value: event:/Lightning Spell 3
+      value: event:/ElectricFlux
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_4.Path
-      value: event:/Lightning Spell 4
+      value: event:/ZapStep
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: windSecondaryHighlight.a
@@ -4820,11 +4820,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
---- !u!1 &1023090265 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 620523869765722690, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 1023090264}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1023090266 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5301338134315096522, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
@@ -6227,7 +6222,6 @@ MonoBehaviour:
   activeCam: {fileID: 0}
   PopUpScript: {fileID: 548293944}
   VideoPlayer: {fileID: 1609479572}
-  OutOfCombatCanvas: {fileID: 1023090265}
   VideoCanvas: {fileID: 1609479573}
 --- !u!4 &1590337614
 Transform:
