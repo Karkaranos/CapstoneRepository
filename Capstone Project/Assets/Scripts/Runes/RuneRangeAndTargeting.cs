@@ -105,6 +105,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             foreach(Enemy enemy in enemiesInRange)
             {
                 enemy.ShowDamagePreview(rd.RuneDamage);
+                enemy.isShowingPreview = true;
             }
         }
 
