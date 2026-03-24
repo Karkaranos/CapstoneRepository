@@ -74,34 +74,41 @@ public class EnemyHandler : MonoBehaviour
     /// </summary>
     public void RunNextEnemyTurn()
     {
-        if(index == 0)
+        if (enemies.Count > 0)
         {
-            GridManager.ClearGhostEntities();
-            //GridManager.RemoveHighlight();
+            if (index == 0)
+            {
+                GridManager.ClearGhostEntities();
+                //GridManager.RemoveHighlight();
+            }
+
+            if (enemies[0].playerStats.turnIndicator.activeSelf)
+            {
+                enemies[0].playerStats.turnIndicator.SetActive(false);
+            }
+
+            if (index == enemies.Count)
+            {
+                try
+                {
+                    enemies[index - 1].turnIndicator.SetActive(false);
+                    index = 0;
+                    TurnPublicEvents.TurnActionComplete();
+                    enemies[0].playerStats.turnIndicator.SetActive(true);
+                }
+                catch { }
+                return;
+            }
+
+            if (index != 0)
+            {
+                enemies[index - 1].turnIndicator.SetActive(false);
+            }
+
+            enemies[index].turnIndicator.SetActive(true);
+            enemies[index].StartEnemyTurn();
+            ++index;
         }
-
-        if (enemies[0].playerStats.turnIndicator.activeSelf) 
-        { 
-            enemies[0].playerStats.turnIndicator.SetActive(false); 
-        }
-
-        if (index == enemies.Count)
-        {
-            enemies[index -1].turnIndicator.SetActive(false);
-            index = 0;
-            TurnPublicEvents.TurnActionComplete();
-            enemies[0].playerStats.turnIndicator.SetActive(true);
-            return;
-        }   
-
-        if(index != 0)
-        {
-            enemies[index - 1].turnIndicator.SetActive(false);
-        }
-
-        enemies[index].turnIndicator.SetActive(true);
-        enemies[index].StartEnemyTurn();
-        ++index;
     }
 
     /// <summary>
@@ -112,6 +119,10 @@ public class EnemyHandler : MonoBehaviour
     public void RemoveEnemy(Enemy enemy)
     {
         enemies.Remove(enemy);
+        if (index > 0)
+        {
+            --index;
+        }
 
         if(enemies.Count == 0 )
         {

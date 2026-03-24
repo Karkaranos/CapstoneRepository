@@ -1,13 +1,14 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 3/2/2026
- * Last Modified: 3/3/2026
+ * Last Modified: 3/11/2026
  * Brief: Handles the transitions between scenes and levels
  * External Resources: https://www.youtube.com/watch?v=HBEStd96UzI Used this as a starting point
  * ***************************************************************************/
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.SceneManagement;
+using FMODUnity;
 
 public class TransitionManager : MonoBehaviour
 {
@@ -15,12 +16,19 @@ public class TransitionManager : MonoBehaviour
     private int sceneToLoad;
     public static TransitionManager instance;
 
+    [SerializeField] private EventReference bgmEventRefSFX;
+    [SerializeField] private EventReference ambienceEventRefSFX;
+    [SerializeField] private GameObject audioListenerObject;
+
+    [SerializeField] private FMOD.Studio.Bus MasterBus;
+
+
     /// <summary>
     /// Ensures there is only one instance of this manager and allows it to persist through scenes
     /// </summary>
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this);
         }
@@ -30,6 +38,7 @@ public class TransitionManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+        MasterBus = RuntimeManager.GetBus("Bus:/");
     }
 
     /// <summary>
@@ -79,6 +88,12 @@ public class TransitionManager : MonoBehaviour
     public void LevelTransition()
     {
         transitionAnimator.SetTrigger("LevelTransition");
+
+        AudioManager.instance.CreateEventInstance(ambienceEventRefSFX);
+        AudioManager.instance.PlayOneShot(ambienceEventRefSFX, audioListenerObject.transform.position);
+
+        AudioManager.instance.CreateEventInstance(bgmEventRefSFX);
+        AudioManager.instance.PlayOneShot(bgmEventRefSFX, audioListenerObject.transform.position);
     }
 
     /// <summary>
@@ -95,6 +110,9 @@ public class TransitionManager : MonoBehaviour
     public void ShowEndUI()
     {
         FindFirstObjectByType<EndLevelMenu>().ShowTheEndMenuUI();
+
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
     }
 
     /// <summary>

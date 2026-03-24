@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField, 
         ShowIf(nameof(currentSettings), Settings.Health),
-        ReadOnly]protected float currentHealth = 5f;
+        ReadOnly]public float currentHealth = 5f;
     #endregion
 
     #region COMBAT VARS
@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Combat),
         Tooltip("Range the player must be in for the enemy to hit them")]
-    protected int attackRange;
+    public int attackRange;
 
     [SerializeField,
         ShowIf(nameof(currentSettings), Settings.Combat),
@@ -119,7 +119,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public bool HasStatusEffect = false;
     [HideInInspector] public RuneType RuneStatusEffect;
     [HideInInspector] public int RuneStatusEffectNumber;
-
+    [HideInInspector] public bool isRangedEnemy = false;
     protected Material baseMat; 
 
     #endregion
@@ -227,48 +227,51 @@ public class Enemy : MonoBehaviour
             damage += 1;
         }
 
-        currentHealth -= (int)damage;
-
-        if (statChange != null && (int)damage > 0)
+        if (currentHealth > 0)
         {
-            GameObject g = Instantiate(statChange, enemyCanvas);
-            Sprite s;
-            switch (dType)
+            currentHealth -= (int)damage;
+
+            if (statChange != null && (int)damage > 0)
             {
-                case DamageType.Lightning:
-                    s = lightningSprite;
-                    break;
-                case DamageType.Wind:
-                    s = windSprite;
-                    break;
-                default:
-                    s = null;
-                    break;
+                GameObject g = Instantiate(statChange, enemyCanvas);
+                Sprite s;
+                switch (dType)
+                {
+                    case DamageType.Lightning:
+                        s = lightningSprite;
+                        break;
+                    case DamageType.Wind:
+                        s = windSprite;
+                        break;
+                    default:
+                        s = null;
+                        break;
+                }
+                g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damage + " HP ", false, s);
             }
-            g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damage + " HP ", false, s);
-        }
 
-        print("Enemy takes damage");
-        healthBarSlider.value = currentHealth;
-        if (currentHealth <= 0)
-        {
-            await Task.Delay(500);
-            Die();
-            if (FindFirstObjectByType<GameManager>().allowArtifacts)
+            print("Enemy takes damage");
+            healthBarSlider.value = currentHealth;
+            if (currentHealth <= 0)
             {
-                TryDropItem();
+                EnemyHandler.Instance.RemoveEnemy(this);
+                await Task.Delay(500);
+                Die();
+                if (FindFirstObjectByType<GameManager>().allowArtifacts)
+                {
+                    TryDropItem();
+                }
+            }
+            logText.text = damage + " dmg";
+            print(currentHealth);
+
+
+            await Task.Delay(flashTime);
+            if (spriteRen != null)
+            {
+                spriteRen.material = baseMat;
             }
         }
-        logText.text = damage + " dmg";
-        print(currentHealth);
-        
-
-        await Task.Delay(flashTime);
-        if(spriteRen != null)
-        {
-            spriteRen.material = baseMat;
-        }
-        
     }
 
     /// <summary>
@@ -276,8 +279,6 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Die()
     {
-        EnemyHandler.Instance.RemoveEnemy(this);
-
         GridManager.RemoveEntity(gridPathfinding.MyPosition);
 
         PlayerBehavior pb = FindFirstObjectByType<PlayerBehavior>();
@@ -384,7 +385,7 @@ public class Enemy : MonoBehaviour
     #region GETTERS/SETTERS
     public float GetMovementSpeed()
     {
-        return movementSpeed;
+        return movementRange;
     }
     #endregion
 }

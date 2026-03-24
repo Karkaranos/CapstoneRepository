@@ -831,19 +831,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_1.Path
-      value: event:/Lightning Spell
+      value: event:/LightningShock
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_2.Path
-      value: event:/Lightning Spell 2
+      value: event:/Stormstrider
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_3.Path
-      value: event:/Lightning Spell 3
+      value: event:/ElectricFlux
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: lightningSpellSFX_4.Path
-      value: event:/Lightning Spell 4
+      value: event:/ZapStep
       objectReference: {fileID: 0}
     - target: {fileID: 7864726706514854221, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
       propertyPath: windSecondaryHighlight.a
@@ -2608,7 +2608,6 @@ MonoBehaviour:
   activeCam: {fileID: 0}
   PopUpScript: {fileID: 2033830988}
   VideoPlayer: {fileID: 2136757675}
-  OutOfCombatCanvas: {fileID: 391706313}
   VideoCanvas: {fileID: 1607784304}
 --- !u!4 &240610418
 Transform:
@@ -3438,11 +3437,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380786270}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &391706313 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 620523869765722690, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
-  m_PrefabInstance: {fileID: 52050015}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &391706314 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8363220424127069783, guid: d2e14aa4dddf2234c98e62156ed54605, type: 3}
