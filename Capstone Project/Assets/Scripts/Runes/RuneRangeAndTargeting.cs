@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 	Jay Embry
+Author Names : 	Jay Embry, Clare Grady
 Date Created : 	10/07/2025
-Date Last Modified : 02/15/2026
+Date Last Modified : 03/12/2026
 Brief Description : Determines viable targets whenever a spell is selected
 External Resources : 	
 	***************************************************/
@@ -30,6 +30,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
     bool castNotCanceled = false;
     //canvas for movement/end turn buttons
     public GameObject combatButtonContainers;
+
+    private List<Enemy> enemiesInRange = new List<Enemy>();
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
@@ -80,7 +82,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="rd"> Rune Data </param>
     public void StoreSelectedRuneData(RuneData rd)
     {
-
+        PublicEvents.HideDamagePreview();
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
 
         if(!GetComponent<RuneEvents>().WaitingOnPath)
@@ -92,12 +94,19 @@ public class RuneRangeAndTargeting : MonoBehaviour
             {
                 combatButtonContainers = GameObject.Find("CombatButtonContainers");
             }
-                combatButtonContainers.SetActive(false);
+            combatButtonContainers.SetActive(false);
 
             storedData = rd;
 
             RangeCheck(false);
-
+            //in range check get all enemies in range via tiles entities 
+            //then add to enemies in range list 
+            //call show damage preview here with 
+            foreach(Enemy enemy in enemiesInRange)
+            {
+                enemy.ShowDamagePreview(rd.RuneDamage);
+                enemy.isShowingPreview = true;
+            }
         }
 
     }
@@ -235,6 +244,15 @@ public class RuneRangeAndTargeting : MonoBehaviour
             {
 
                 tilesInRange.Add(GridManager.combatGrid[tile.x, tile.y]);
+
+                if (GridManager.combatGrid[tile.x, tile.y].entityOnGrid == -2)
+                {
+                    Enemy enemy = GridManager.combatGrid[tile.x, tile.y].gameObject.GetComponentInChildren<Enemy>();
+                    if(enemy != null)
+                    {
+                        enemiesInRange.Add(enemy);
+                    }
+                }
 
             }
 

@@ -43,6 +43,11 @@ public class Enemy : MonoBehaviour
         Tooltip("Max health of enemy")]
     protected Slider healthBarSlider;
 
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Health),
+        Tooltip("Preview health of enemy")]
+    protected Slider previewHealthBar;
+
     [SerializeField, 
         ShowIf(nameof(currentSettings), Settings.Health),
         Tooltip("Max health of enemy")] protected float maxHealth;
@@ -56,6 +61,8 @@ public class Enemy : MonoBehaviour
     [SerializeField, 
         ShowIf(nameof(currentSettings), Settings.Health),
         ReadOnly]public float currentHealth = 5f;
+
+    public bool isShowingPreview; 
     #endregion
 
     #region COMBAT VARS
@@ -185,6 +192,7 @@ public class Enemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBarSlider.maxValue = maxHealth;
+        previewHealthBar.maxValue = maxHealth;
         gridPathfinding = GetComponent<GridPathfinding>();
         targetingBehaviour = GetComponent<TargetingBehaviour>();
         gridPathfinding.SetMovementRange(movementRange);
@@ -193,6 +201,7 @@ public class Enemy : MonoBehaviour
         gridPathfinding.SetMoveCoroSpeed(moveStateDelay);
         playerStats = FindFirstObjectByType<PlayerStats>();
         turnIndicator.SetActive(false);
+        isShowingPreview = false;
     }
 
     private void OnEnable()
@@ -252,6 +261,7 @@ public class Enemy : MonoBehaviour
 
             print("Enemy takes damage");
             healthBarSlider.value = currentHealth;
+            PublicEvents.HideDamagePreview.Invoke();
             if (currentHealth <= 0)
             {
                 EnemyHandler.Instance.RemoveEnemy(this);
@@ -351,6 +361,27 @@ public class Enemy : MonoBehaviour
     /// that will start their individual state machine
     /// </summary>
     public virtual void StartEnemyTurn() {  }
+
+    /// <summary>
+    /// Shows the damage preview 
+    /// </summary>
+    /// <param name="damage"></param>
+    public void ShowDamagePreview(float damage)
+    {
+        if (!isShowingPreview)
+        {
+            previewHealthBar.value -= damage;
+        }
+    }
+
+    /// <summary>
+    /// Hides the preview damage
+    /// </summary>
+    public void HideDamagePreivew()
+    {
+        previewHealthBar.value = healthBarSlider.value;
+        isShowingPreview = false;
+    }
     #endregion
 
     #region GETTERS AND SETTERS
