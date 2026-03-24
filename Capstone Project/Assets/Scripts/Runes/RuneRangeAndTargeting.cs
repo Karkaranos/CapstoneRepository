@@ -82,7 +82,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="rd"> Rune Data </param>
     public void StoreSelectedRuneData(RuneData rd)
     {
-
+        PublicEvents.HideDamagePreview();
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
 
         if(!GetComponent<RuneEvents>().WaitingOnPath)
