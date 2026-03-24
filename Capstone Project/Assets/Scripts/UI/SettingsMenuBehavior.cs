@@ -30,10 +30,14 @@ public class SettingsMenuBehavior : MenuBehavior
         UpdateMusicVolume("50");
     }
 
+    /// <summary>
+    /// cooldown for the sfx
+    /// </summary>
     private void Update()
     {
         if (!canPlaySfx)
         {
+
             currentCooldown += Time.deltaTime;
             if (currentCooldown >= SFXTestCooldown)
             {
@@ -50,6 +54,10 @@ public class SettingsMenuBehavior : MenuBehavior
         masterBus = RuntimeManager.GetBus("bus:/");
     }
 
+    /// <summary>
+    /// updates the sfx volume from the input field
+    /// </summary>
+    /// <param name="s"></param>
     public void UpdateSFXVolume(string s)
     {
         if (s.EndsWith("%"))
@@ -82,6 +90,9 @@ public class SettingsMenuBehavior : MenuBehavior
         
     }
 
+    /// <summary>
+    /// updates the sfx volume from the slider
+    /// </summary>
     public void UpdateSFXFromSlider()
     {
         int percent = Mathf.RoundToInt(SFXSlider.value * 100);
@@ -95,7 +106,10 @@ public class SettingsMenuBehavior : MenuBehavior
         PlaySoundEffect();
     }
 
-
+    /// <summary>
+    /// updates the music volume when the player inputs in the input field
+    /// </summary>
+    /// <param name="s"></param>
     public void UpdateMusicVolume(string s)
     {
         if (s.EndsWith("%"))
@@ -128,6 +142,9 @@ public class SettingsMenuBehavior : MenuBehavior
 
     }
 
+    /// <summary>
+    /// Updates the music volume when the player moves the slider
+    /// </summary>
     public void UpdateMusicFromSlider()
     {
         int percent = Mathf.RoundToInt(MusicSlider.value * 100);
@@ -147,6 +164,7 @@ public class SettingsMenuBehavior : MenuBehavior
         if (canPlaySfx)
         {
             //PLAY TEST SFX HERE
+            Debug.Log("playing sfx");
             canPlaySfx = false;
         }
     }
