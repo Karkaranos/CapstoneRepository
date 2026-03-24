@@ -261,7 +261,7 @@ public class Enemy : MonoBehaviour
 
             print("Enemy takes damage");
             healthBarSlider.value = currentHealth;
-            HideDamagePreivew();
+            PublicEvents.HideDamagePreview.Invoke();
             if (currentHealth <= 0)
             {
                 EnemyHandler.Instance.RemoveEnemy(this);

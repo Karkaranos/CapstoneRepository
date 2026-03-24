@@ -55,6 +55,7 @@ public class EnemyHandler : MonoBehaviour
     {
         TurnPublicEvents.BeginEnemyTurn += RunNextEnemyTurn;
         PublicEvents.NewLevel += GetNewEnemies;
+        PublicEvents.HideDamagePreview += HideDamagePreview;
     }
 
     /// <summary>
@@ -64,6 +65,7 @@ public class EnemyHandler : MonoBehaviour
     {
         TurnPublicEvents.BeginEnemyTurn -= RunNextEnemyTurn;
         PublicEvents.NewLevel -= GetNewEnemies;
+        PublicEvents.HideDamagePreview -= HideDamagePreview;
     }
 
     /// <summary>
@@ -139,5 +141,16 @@ public class EnemyHandler : MonoBehaviour
     {
         enemies.Clear();
         SetEnemyList();
+    }
+
+    private void HideDamagePreview()
+    {
+        foreach(Enemy enemy in enemies)
+        {
+            if(enemy.isShowingPreview)
+            {
+                enemy.HideDamagePreivew();
+            }
+        }
     }
 }
