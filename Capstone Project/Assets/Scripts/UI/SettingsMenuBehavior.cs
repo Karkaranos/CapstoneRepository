@@ -10,6 +10,10 @@ public class SettingsMenuBehavior : MenuBehavior
     [SerializeField] private TMP_InputField SFXInputFieldText;
     [SerializeField] private Slider SFXSlider;
 
+    [SerializeField, Range(0.01f, 5f)] private float SFXTestCooldown = 0.5f;
+    private float currentCooldown;
+    private bool canPlaySfx;
+
     [Range(0, 100)] public int MusicVolumePercentage;
     [SerializeField] private TMP_InputField MusicInputFieldText;
     [SerializeField] private Slider MusicSlider;
@@ -18,7 +22,7 @@ public class SettingsMenuBehavior : MenuBehavior
     [SerializeField] private Bus soundEffectsBus;
     [SerializeField] private Bus backgroundMusicBus;
 
-
+    
     private void Awake()
     {
         GetBusses();
@@ -28,7 +32,15 @@ public class SettingsMenuBehavior : MenuBehavior
 
     private void Update()
     {
-        
+        if (!canPlaySfx)
+        {
+            currentCooldown += Time.deltaTime;
+            if (currentCooldown >= SFXTestCooldown)
+            {
+                currentCooldown = 0;
+                canPlaySfx = true;
+            }
+        }
     }
 
     public void GetBusses()
@@ -66,8 +78,8 @@ public class SettingsMenuBehavior : MenuBehavior
             SFXSlider.value = ((float)SfxVolumePercentage / 100);
         }
 
-
-
+        PlaySoundEffect();
+        
     }
 
     public void UpdateSFXFromSlider()
@@ -79,6 +91,8 @@ public class SettingsMenuBehavior : MenuBehavior
         SFXInputFieldText.text = percent.ToString() + "%";
 
         soundEffectsBus.setVolume(SfxVolumePercentage / 100f);
+
+        PlaySoundEffect();
     }
 
 
@@ -123,5 +137,17 @@ public class SettingsMenuBehavior : MenuBehavior
         MusicInputFieldText.text = percent.ToString() + "%";
 
         backgroundMusicBus.setVolume(MusicVolumePercentage / 100f);
+    }
+
+    /// <summary>
+    /// Plays a test sound effect when changing sfx volume
+    /// </summary>
+    private void PlaySoundEffect()
+    {
+        if (canPlaySfx)
+        {
+            //PLAY TEST SFX HERE
+            canPlaySfx = false;
+        }
     }
 }
