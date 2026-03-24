@@ -31,7 +31,7 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
 
         //delay in milliseconds for the grid to update
         //Based on move coroutine and how many steps an enemy takes per turn 
-        await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 1000));
+        await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 1000 + 250 ));
 
         if (enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition())
         {
