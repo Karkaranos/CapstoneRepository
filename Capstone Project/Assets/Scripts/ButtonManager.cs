@@ -160,8 +160,17 @@ public class ButtonManager : MonoBehaviour
     {
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
+
+        if (FindFirstObjectByType<RuneRangeAndTargeting>().WaitingForThePlayer)
+        {
+
+            PublicEvents.EndCast.Invoke();
+
+            return;
+
+        }
+
         playerBehavior.DeleteMovement();
-        PublicEvents.EndCast?.Invoke();
         PublicEvents.MoveButton();
     }
 
@@ -207,8 +216,30 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void ConfirmOnClick()
     {
-        playerBehavior.ConfirmMovement();
-        PublicEvents.MoveButton();
+
+        if(FindFirstObjectByType<RuneRangeAndTargeting>().WaitingForThePlayer)
+        {
+
+            if(FindFirstObjectByType<RuneEvents>().WaitingOnPath)
+            {
+
+                FindFirstObjectByType<RuneRangeAndTargeting>().selectedTile =
+                GridManager.combatGrid[FindFirstObjectByType<RuneEvents>().selectedTile.x, 
+                FindFirstObjectByType<RuneEvents>().selectedTile.y];
+
+            }
+
+            PublicEvents.SpellConfirmed.Invoke();
+
+        }
+        else
+        {
+
+            playerBehavior.ConfirmMovement();
+            PublicEvents.MoveButton();
+
+        }
+      
     }
 
     /// <summary>
