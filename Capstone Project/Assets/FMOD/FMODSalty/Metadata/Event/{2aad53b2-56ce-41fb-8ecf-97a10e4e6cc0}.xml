@@ -110,7 +110,7 @@
 	</object>
 	<object class="EventMixerMaster" id="{39299b4b-8fc3-4b45-b2cc-3412cc9079bc}">
 		<property name="volume">
-			<value>1</value>
+			<value>-8</value>
 		</property>
 		<property name="pitch">
 			<value>0.699999988</value>
@@ -393,7 +393,11 @@
 	</object>
 	<object class="MixerBusPanner" id="{be8add40-11e9-4a72-afbe-c4c747eb4ea8}" />
 	<object class="MixerBusFader" id="{d8b7ba38-dbef-434b-8952-5250a73d91ac}" />
-	<object class="SpatialiserEffect" id="{9a963fc2-8722-4f08-9f3b-1dbd9019e54a}" />
+	<object class="SpatialiserEffect" id="{9a963fc2-8722-4f08-9f3b-1dbd9019e54a}">
+		<property name="distanceRolloffType">
+			<value>3</value>
+		</property>
+	</object>
 	<object class="FlangerEffect" id="{2a0d72c9-9649-4298-a276-8a8680934c90}">
 		<property name="rate">
 			<value>0.680000007</value>
@@ -404,16 +408,16 @@
 	</object>
 	<object class="SFXReverbEffect" id="{0f7f186a-183c-4ea6-99ca-7ad7d102bb8d}">
 		<property name="decayTime">
-			<value>2500</value>
+			<value>900</value>
 		</property>
 		<property name="HFDecayRatio">
-			<value>52.5</value>
+			<value>39.5</value>
 		</property>
 		<property name="diffusion">
-			<value>75</value>
+			<value>56</value>
 		</property>
 		<property name="density">
-			<value>71</value>
+			<value>53</value>
 		</property>
 		<property name="wetLevel">
 			<value>3</value>
