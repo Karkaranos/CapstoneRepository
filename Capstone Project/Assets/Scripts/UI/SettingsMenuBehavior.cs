@@ -10,6 +10,10 @@ public class SettingsMenuBehavior : MenuBehavior
     [SerializeField] private TMP_InputField SFXInputFieldText;
     [SerializeField] private Slider SFXSlider;
 
+    [SerializeField, Range(0.01f, 5f)] private float SFXTestCooldown = 0.5f;
+    private float currentCooldown;
+    private bool canPlaySfx;
+
     [Range(0, 100)] public int MusicVolumePercentage;
     [SerializeField] private TMP_InputField MusicInputFieldText;
     [SerializeField] private Slider MusicSlider;
@@ -18,7 +22,7 @@ public class SettingsMenuBehavior : MenuBehavior
     [SerializeField] private Bus soundEffectsBus;
     [SerializeField] private Bus backgroundMusicBus;
 
-
+    
     private void Awake()
     {
         GetBusses();
@@ -26,9 +30,21 @@ public class SettingsMenuBehavior : MenuBehavior
         UpdateMusicVolume("50");
     }
 
+    /// <summary>
+    /// cooldown for the sfx
+    /// </summary>
     private void Update()
     {
-        
+        if (!canPlaySfx)
+        {
+
+            currentCooldown += Time.deltaTime;
+            if (currentCooldown >= SFXTestCooldown)
+            {
+                currentCooldown = 0;
+                canPlaySfx = true;
+            }
+        }
     }
 
     public void GetBusses()
@@ -38,6 +54,10 @@ public class SettingsMenuBehavior : MenuBehavior
         masterBus = RuntimeManager.GetBus("bus:/");
     }
 
+    /// <summary>
+    /// updates the sfx volume from the input field
+    /// </summary>
+    /// <param name="s"></param>
     public void UpdateSFXVolume(string s)
     {
         if (s.EndsWith("%"))
@@ -66,10 +86,13 @@ public class SettingsMenuBehavior : MenuBehavior
             SFXSlider.value = ((float)SfxVolumePercentage / 100);
         }
 
-
-
+        PlaySoundEffect();
+        
     }
 
+    /// <summary>
+    /// updates the sfx volume from the slider
+    /// </summary>
     public void UpdateSFXFromSlider()
     {
         int percent = Mathf.RoundToInt(SFXSlider.value * 100);
@@ -79,9 +102,14 @@ public class SettingsMenuBehavior : MenuBehavior
         SFXInputFieldText.text = percent.ToString() + "%";
 
         soundEffectsBus.setVolume(SfxVolumePercentage / 100f);
+
+        PlaySoundEffect();
     }
 
-
+    /// <summary>
+    /// updates the music volume when the player inputs in the input field
+    /// </summary>
+    /// <param name="s"></param>
     public void UpdateMusicVolume(string s)
     {
         if (s.EndsWith("%"))
@@ -114,6 +142,9 @@ public class SettingsMenuBehavior : MenuBehavior
 
     }
 
+    /// <summary>
+    /// Updates the music volume when the player moves the slider
+    /// </summary>
     public void UpdateMusicFromSlider()
     {
         int percent = Mathf.RoundToInt(MusicSlider.value * 100);
@@ -123,5 +154,18 @@ public class SettingsMenuBehavior : MenuBehavior
         MusicInputFieldText.text = percent.ToString() + "%";
 
         backgroundMusicBus.setVolume(MusicVolumePercentage / 100f);
+    }
+
+    /// <summary>
+    /// Plays a test sound effect when changing sfx volume
+    /// </summary>
+    private void PlaySoundEffect()
+    {
+        if (canPlaySfx)
+        {
+            //PLAY TEST SFX HERE
+            Debug.Log("playing sfx");
+            canPlaySfx = false;
+        }
     }
 }
