@@ -116,5 +116,7 @@ public static class PublicEvents
 
     public static Action HideEnemyStatbox;
 
+    public static Action HideDamagePreview;
+
     #endregion
 }

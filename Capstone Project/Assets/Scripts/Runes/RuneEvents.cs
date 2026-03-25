@@ -207,6 +207,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="player"> when the player has selected themself </param>
     public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
+        PublicEvents.HideDamagePreview.Invoke();
         //this should hopefully keep the player from spamming spells
         if (Casting)
         {
@@ -550,7 +551,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="player"> when the player has selected themself </param>
     public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
     {
-
+        PublicEvents.HideDamagePreview.Invoke();
         if(Casting)
         {
             return;
