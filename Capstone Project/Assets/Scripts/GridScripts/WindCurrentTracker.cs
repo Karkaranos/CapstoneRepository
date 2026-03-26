@@ -115,7 +115,7 @@ public class WindCurrentTracker : MonoBehaviour
 
         }
 
-        if (GridManager.combatGrid[newTilePos.x, newTilePos.y])
+        if (GridManager.TileIsInGrid(newTilePos))
         {
 
             TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
@@ -191,7 +191,7 @@ public class WindCurrentTracker : MonoBehaviour
 
         }
 
-        if (GridManager.combatGrid[newTilePos.x, newTilePos.y])
+        if (GridManager.TileIsInGrid(newTilePos))
         {
 
             TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
@@ -229,7 +229,19 @@ public class WindCurrentTracker : MonoBehaviour
                 }
 
             }
+            else if(newTile.entityOnGrid != -6)
+            {
+                enemy.Damage(CurrentKBDamage, Enemy.DamageType.Wind);
+            }
+        }
+        else
+        {
+            enemy.Damage(CurrentKBDamage, Enemy.DamageType.Wind);
 
+            if(GridManager.TileIsInGrid(newTilePos) && GridManager.combatGrid[newTilePos.x, newTilePos.y].entityOnGrid == -2)
+            {
+                GridManager.combatGrid[newTilePos.x, newTilePos.y].GetComponentInChildren<Enemy>().Damage(CurrentKBDamage, Enemy.DamageType.Wind);
+            }
         }
 
     }
