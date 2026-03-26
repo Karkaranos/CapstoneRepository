@@ -28,6 +28,7 @@ public class PopUpScript : MonoBehaviour
     [Button]
     public IEnumerator Flip()//objects that are laying down get flipped up. 
     {
+        backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();
         foreach (var obj in backgrounds)
         {
             Animator anim = obj.GetComponent<Animator>();
