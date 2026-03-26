@@ -160,7 +160,6 @@ public class ButtonManager : MonoBehaviour
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
 
-<<<<<<< Changing-Spell-Confirmation
         if (FindFirstObjectByType<RuneRangeAndTargeting>().WaitingForThePlayer)
         {
 
@@ -173,13 +172,10 @@ public class ButtonManager : MonoBehaviour
 
         }
 
-        playerBehavior.DeleteMovement();
-=======
         playerBehavior = FindFirstObjectByType<PlayerBehavior>();
         playerBehavior.DeleteMovement();
 
         PublicEvents.EndCast?.Invoke();
->>>>>>> working
         PublicEvents.MoveButton();
     }
 
