@@ -63,8 +63,7 @@ public class ButtonManager : MonoBehaviour
         cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
         tm = FindFirstObjectByType<TransitionManager>();
-        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();        
     }
 
     #region functions
@@ -161,6 +160,7 @@ public class ButtonManager : MonoBehaviour
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
 
+<<<<<<< Changing-Spell-Confirmation
         if (FindFirstObjectByType<RuneRangeAndTargeting>().WaitingForThePlayer)
         {
 
@@ -174,6 +174,12 @@ public class ButtonManager : MonoBehaviour
         }
 
         playerBehavior.DeleteMovement();
+=======
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        playerBehavior.DeleteMovement();
+
+        PublicEvents.EndCast?.Invoke();
+>>>>>>> working
         PublicEvents.MoveButton();
     }
 
