@@ -869,6 +869,7 @@ GameObject:
   - component: {fileID: 8365675025973984600}
   - component: {fileID: 5842771059572537008}
   - component: {fileID: 5816465241387923286}
+  - component: {fileID: 8916305067605658896}
   m_Layer: 0
   m_Name: Wind-2b
   m_TagString: Untagged
@@ -1001,5 +1002,32 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.6887584, y: 2.7963269, z: 2.4717047}
-  m_Center: {x: 0.05803123, y: 2.4071984, z: 1.343467}
+  m_Size: {x: 2.8175504, y: 2.9999998, z: 1.9293672}
+  m_Center: {x: -0.031771112, y: 2.5089405, z: 1.2150677}
+--- !u!54 &8916305067605658896
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9075514561500158969}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
