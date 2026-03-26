@@ -272,7 +272,7 @@ public class Commands
     /// Handles Navigation commands
     /// </summary>
     /// <param name="command">the entered command</param>
-    public static void Navigation(string command, GridTesting g)
+    public static void Navigation(string command, GridTesting g, RuneSelectionMenu r)
     {
         if(command.Contains("lvl"))
         {
@@ -285,6 +285,8 @@ public class Commands
             Logger.Log("Reloading level");
             g.ReloadCurrentGrid();
         }
+
+        r.gameObject.SetActive(true);
     }
 
     #endregion
