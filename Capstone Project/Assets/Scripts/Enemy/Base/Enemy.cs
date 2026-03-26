@@ -302,6 +302,9 @@ public class Enemy : MonoBehaviour
         print("Enemy is dead!");
     }
 
+    /// <summary>
+    /// Makes sure the health bars are acuratley reflecting
+    /// </summary>
     private void Update()
     {
         if (!isShowingPreview)
