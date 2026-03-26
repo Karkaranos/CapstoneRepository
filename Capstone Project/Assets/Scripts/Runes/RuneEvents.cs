@@ -40,7 +40,7 @@ public class RuneEvents : MonoBehaviour
     //for pathing certain attacks
     RuneData selectedRune;
     Vector2Int originalSelectedTile;
-    Vector2Int selectedTile;
+    [HideInInspector] public Vector2Int selectedTile;
     Enemy selectedEnemy;
 
     Vector3 ghostPos;

@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Bouchard
 Date Created : 		2/10/2026
-Date Last Modified : 3/9/2026
+Date Last Modified : 3/25/2026
 Brief Description : displays the pips you have
 ***************************************************/
 using TMPro;
@@ -10,7 +10,7 @@ using UnityEngine;
 public class PipDisplayBehavior : MonoBehaviour
 {
     public GameObject[] pipIndicators;
-    public bool dislpaysNumber = false;
+    public bool usesImageDisplay;
     public TextMeshProUGUI pipDisplayText;
 
     /// <summary>
@@ -18,11 +18,8 @@ public class PipDisplayBehavior : MonoBehaviour
     /// </summary>
     /// <param name="amount"></param>
     public void DisplayPips(int amount) {
-        if (dislpaysNumber)
+        if (usesImageDisplay)
         {
-            pipDisplayText.text = "" + amount;
-        }
-        else {
             if (amount > pipIndicators.Length)
             {
                 amount = pipIndicators.Length;
@@ -37,6 +34,9 @@ public class PipDisplayBehavior : MonoBehaviour
             {
                 pipIndicators[i].SetActive(true);
             }
-        } 
+        }
+        else {
+            pipDisplayText.text = "" + amount;
+        }
     }
 }
