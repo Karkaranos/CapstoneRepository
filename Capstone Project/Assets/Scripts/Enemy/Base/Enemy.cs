@@ -302,6 +302,14 @@ public class Enemy : MonoBehaviour
         print("Enemy is dead!");
     }
 
+    private void Update()
+    {
+        if (!isShowingPreview)
+        {
+            previewHealthBar.value = currentHealth;
+        }
+    }
+
     /// <summary>
     /// Generates a random number and checks if an item will drop
     /// Optional overload to force drops
