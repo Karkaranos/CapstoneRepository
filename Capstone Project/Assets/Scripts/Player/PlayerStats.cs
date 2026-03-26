@@ -197,6 +197,7 @@ public class PlayerStats : MonoBehaviour
         if (playerSprite != null)
         {
             playerSprite.material = flashColor;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/EnemyDamage");
         }
 
         float damageToTake = (amount * (1 - Resistance) * DamageTakenMultiplier);

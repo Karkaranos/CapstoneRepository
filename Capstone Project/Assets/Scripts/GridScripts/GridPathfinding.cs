@@ -35,6 +35,8 @@ public class GridPathfinding : MonoBehaviour
 
     [SerializeField] bool underEffect;
 
+    [SerializeField] private FMOD.Studio.EventInstance enemyWalkingSFX;
+
     /// <summary>
     /// Testing function that gets the target location and has the enemy pathfind to it
     /// </summary>
@@ -52,6 +54,7 @@ public class GridPathfinding : MonoBehaviour
     {
         isEnemy = true;
         underEffect = false;
+        enemyWalkingSFX = FMODUnity.RuntimeManager.CreateInstance("event:/WalkingEnemyLoop");
     }
 
     /// <summary>
@@ -254,6 +257,7 @@ public class GridPathfinding : MonoBehaviour
         {
             nextPosition = nextPos[gridDirections.Count - 1 - i];
             isMoving = true;
+            enemyWalkingSFX.start();
             //Loops until they finish moving to the adjacent tile
             while (isMoving)
             {
@@ -297,6 +301,8 @@ public class GridPathfinding : MonoBehaviour
                 underEffect = false;
             }
         }
+
+        enemyWalkingSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
         if (GetComponent<MeleeEnemy>() != null)
         {
