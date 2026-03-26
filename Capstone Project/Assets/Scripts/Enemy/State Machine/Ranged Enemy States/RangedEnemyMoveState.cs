@@ -23,7 +23,7 @@ public class RangedEnemyMoveState : RangedEnemyState
         enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.StartMoveCoroutine();
 
-        await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 1000));
+        await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 1000 + 1000));
 
         if(enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition() && enemy.GetPlayerInLineOfSight())
         {
