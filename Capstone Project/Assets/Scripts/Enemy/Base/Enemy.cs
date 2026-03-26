@@ -228,6 +228,7 @@ public class Enemy : MonoBehaviour
         if (spriteRen != null)
         {
             spriteRen.material = flashColor;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/EnemyDamage");
         }
 
         //int casting truncates instead of rounds so this if there is extra damage it rounds up
