@@ -6014,8 +6014,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1273209454}
     - target: {fileID: 2905219398406974002, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2905219398406974002, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadScene
+      value: PlayTimeline
       objectReference: {fileID: 0}
     - target: {fileID: 2943404894095823471, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
       propertyPath: m_IsActive
@@ -20885,6 +20889,7 @@ MonoBehaviour:
   previousMenu: {fileID: 0}
   startingSelectedGO: {fileID: 723183684}
   isActiveMenu: 0
+  timeline: {fileID: 0}
 --- !u!114 &929972431
 MonoBehaviour:
   m_ObjectHideFlags: 0

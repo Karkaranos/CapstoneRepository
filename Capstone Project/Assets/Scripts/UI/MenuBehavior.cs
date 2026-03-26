@@ -9,7 +9,9 @@ External Resources :
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class MenuBehavior : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class MenuBehavior : MonoBehaviour
     [HideInInspector] public bool isActiveMenu;
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
+    [SerializeField] private PlayableDirector timeline;
 
 
     /// <summary>
@@ -50,6 +53,11 @@ public class MenuBehavior : MonoBehaviour
         PublicEvents.ControllerEnabled -= ControllerEnabled;
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
         // Grabs bus manager for audio
+    }
+
+    public void PlayTimeline()
+    {
+        timeline.Play();
     }
 
     /// <summary>
