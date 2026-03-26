@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class MeleeEnemyAttackState : MeleeEnemyState
 {
+    [SerializeField] private FMOD.Studio.EventInstance meleeAttackSFX;
+
     public MeleeEnemyAttackState(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     { }
 
@@ -26,6 +28,8 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         //damage player
         enemy.playerStats.TakeDamage(enemy.damage);
 
+        meleeAttackSFX = FMODUnity.RuntimeManager.CreateInstance("event:/MeleeAttack");
+        FMODUnity.RuntimeManager.PlayOneShot("event:/MeleeAttack");
 
         //If enemy can attack twice and hasn't yet call Attack state again 
         if (enemy.canAttackTwice && !enemy.hasAttackedTwice)

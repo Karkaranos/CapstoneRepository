@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes 
 Date Created : 		10/2/2025
-Date Last Modified : 11/24/2025
+Date Last Modified : 3/11/2026
 Brief Description : This manages the player's current 
                     equipped spells. Does not hold the 
                     final list of spells, however
@@ -24,10 +24,6 @@ public class SkillAndArtifactManager : MonoBehaviour
     }
 
     [SerializeField] private Settings InspectorSettings;
-
-    [SerializeField] private EventReference bgmEventRefSFX;
-    [SerializeField] private EventReference ambienceEventRefSFX;
-    [SerializeField] private GameObject audioListenerObject;
 
     #region REFS
 
@@ -175,12 +171,6 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         PublicEvents.StartBattle.Invoke();
         //GameObject.Find("Move Confirmation").SetActive(false);
-
-        AudioManager.instance.CreateEventInstance(ambienceEventRefSFX);
-        AudioManager.instance.PlayOneShot(ambienceEventRefSFX, audioListenerObject.transform.position);
-
-        AudioManager.instance.CreateEventInstance(bgmEventRefSFX);
-        AudioManager.instance.PlayOneShot(bgmEventRefSFX, audioListenerObject.transform.position);
     }
 
 
