@@ -55,6 +55,9 @@ public class MenuBehavior : MonoBehaviour
         // Grabs bus manager for audio
     }
 
+    /// <summary>
+    /// Starts the timeline/opening cutscene from the beginning of the clip
+    /// </summary>
     public void PlayTimeline()
     {
         timeline.Play();
