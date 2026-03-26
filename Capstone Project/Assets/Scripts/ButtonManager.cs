@@ -63,8 +63,7 @@ public class ButtonManager : MonoBehaviour
         cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
         tm = FindFirstObjectByType<TransitionManager>();
-        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();        
     }
 
     #region functions
@@ -160,7 +159,10 @@ public class ButtonManager : MonoBehaviour
     {
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
+
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
         playerBehavior.DeleteMovement();
+
         PublicEvents.EndCast?.Invoke();
         PublicEvents.MoveButton();
     }

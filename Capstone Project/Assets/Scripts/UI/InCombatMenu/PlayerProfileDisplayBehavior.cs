@@ -17,7 +17,11 @@ public class PlayerProfileDisplayBehavior : MonoBehaviour
     /// </summary>
     public void SetUpArtifactDisplay(){
 
-        foreach(Image artifact in artifactDisplays) {
+        //setting up the range text
+        PlayerBehavior playerScript = FindFirstObjectByType<PlayerBehavior>();
+        rangeText.text = "" + playerScript.MovementLeft;
+
+        foreach (Image artifact in artifactDisplays) {
             artifact.gameObject.SetActive(false);
         }
         for (int i = 0; i < ArtifactManager.CurrentArtifacts.Count; i++) {
