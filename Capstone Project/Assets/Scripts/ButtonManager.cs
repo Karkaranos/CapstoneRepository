@@ -164,8 +164,11 @@ public class ButtonManager : MonoBehaviour
         if (FindFirstObjectByType<RuneRangeAndTargeting>().WaitingForThePlayer)
         {
 
+            if (confirmButton.interactable == false)
+            {
+                confirmButton.interactable = true;
+            }
             PublicEvents.EndCast.Invoke();
-
             return;
 
         }

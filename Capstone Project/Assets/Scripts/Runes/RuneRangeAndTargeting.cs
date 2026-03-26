@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RuneRangeAndTargeting : MonoBehaviour
 {
@@ -84,6 +85,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="rd"> Rune Data </param>
     public void StoreSelectedRuneData(RuneData rd)
     {
+
+        SetHighlight(false);
+
         PublicEvents.HideDamagePreview();
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
 
@@ -98,6 +102,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             }
 
             confirmationMenu.SetActive(true);
+            GameObject.Find("Confirm").GetComponent<Button>().interactable = false;
 
             storedData = rd;
 
@@ -571,7 +576,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile))
         {
 
-            if(selectedTile != null && !this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
+            GameObject.Find("Confirm").GetComponent<Button>().interactable = true;
+
+            if (selectedTile != null && !this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
             {
 
                 if(storedData.TypeOfRune == RuneType.Lightning)
@@ -589,7 +596,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             selectedEnemy = enemy;
             selectedPlayer = player;
 
-            //selectedTile.SetHighlightColor(DefaultHighlight);
+            selectedTile.SetHighlightColor(DefaultHighlight);
 
             if((storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4) ||
             (storedData.TypeOfRune == RuneType.Wind))
