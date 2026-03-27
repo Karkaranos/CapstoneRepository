@@ -18,6 +18,11 @@ public class MeleeEnemyEndTurnState : MeleeEnemyState
     /// </summary>
     public override void EnterState()
     {
+        try
+        {
+            enemy.anim.SetBool("IsWalking", false);
+        }
+        catch { }
         Debug.Log("Enter End Turn");
         enemy.DelayedTurnStatus(false);
         EnemyHandler.Instance.RunNextEnemyTurn();
