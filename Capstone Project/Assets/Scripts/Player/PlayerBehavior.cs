@@ -105,9 +105,9 @@ public class PlayerBehavior : MonoBehaviour
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
         re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
         anim = animObj.GetComponentInChildren<Animator>();
-        bookanim = bookanimObj.GetComponentInChildren<Animator>();
+        bookanim = bookanimObj.GetComponent<Animator>();
         re.AssignAnim(anim);
-        re.AssignAnim(bookanim);
+        re.AssignBookAnim(bookanim);
         myPosition = GridManager.playerPosition;
         canMove = true;
         ghostPosition = transform.position;

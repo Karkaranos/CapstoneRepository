@@ -116,8 +116,13 @@ public class RuneEvents : MonoBehaviour
     public void AssignAnim(Animator animator)
     {
         anim = animator;
+    }
+
+    public void AssignBookAnim(Animator animator)
+    {
         bookanim = animator;
     }
+
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
@@ -621,7 +626,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    await Task.Delay(1200);
+                    await Task.Delay(400);
                     selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     anim.SetBool("Attack", true);
