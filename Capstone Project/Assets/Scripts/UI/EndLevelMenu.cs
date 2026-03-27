@@ -15,12 +15,13 @@ public class EndLevelMenu : MonoBehaviour
 {
     #region VARS
 
-    [SerializeField] private CanvasGroup endMenuUi;
+
     [SerializeField] private TMP_Text text;
+    [SerializeField] private GameObject EndMenu;
+
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
-    [SerializeField] private GameObject SkillMenu;
     [SerializeField] private GameObject nextLevelButton;
     private bool retrying;
 
@@ -33,12 +34,8 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        endMenuUi.alpha = 0;
-        endMenuUi.interactable = false;
-        endMenuUi.blocksRaycasts = false;
-
+        EndMenu.SetActive(false);
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
-        // Grabs bus manager for audio
     }
 
     /// <summary>
@@ -46,12 +43,10 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi()
     {
-        if (endMenuUi.alpha == 0)
+        if (!EndMenu.activeSelf)
         {
             FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
         }
-
-        
     }
 
     /// <summary>
@@ -60,9 +55,7 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void ShowTheEndMenuUI()
     {
-        endMenuUi.alpha = 1;
-        endMenuUi.interactable = true;
-        endMenuUi.blocksRaycasts = true;
+        EndMenu.SetActive(true);
 
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         //stops all audio
@@ -110,11 +103,8 @@ public class EndLevelMenu : MonoBehaviour
         {
             FindFirstObjectByType<GridTesting>().LoadNextGrid();
         }
-        SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
-        endMenuUi.alpha = 0;
-        endMenuUi.interactable = false;
-        endMenuUi.blocksRaycasts = false;
+        EndMenu.SetActive(false);
     }
 
     /// <summary>
