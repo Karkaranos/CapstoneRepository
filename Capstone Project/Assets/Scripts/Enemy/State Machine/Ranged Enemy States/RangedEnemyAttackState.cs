@@ -9,6 +9,10 @@ using UnityEngine;
 
 public class RangedEnemyAttackState : RangedEnemyState
 {
+
+    [SerializeField] private FMOD.Studio.EventInstance rangedAttackSFX;
+
+
     public RangedEnemyAttackState(RangedEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     { }
 
@@ -20,6 +24,9 @@ public class RangedEnemyAttackState : RangedEnemyState
         enemy.logText.text = "A";
 
         enemy.playerStats.TakeDamage(enemy.damage);
+
+        rangedAttackSFX = FMODUnity.RuntimeManager.CreateInstance("event:/RangedAttack");
+        FMODUnity.RuntimeManager.PlayOneShot("event:/RangedAttack");
 
         if (enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RuneRangeAndTargeting : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     #region INITIALIZATION
 
     //for waiting on player input
-    bool waitingForThePlayer;
+    [HideInInspector] public bool WaitingForThePlayer;
     //Stores the currently using rune
     private RuneData storedData;
     //updated everytime the player selects a spell
@@ -29,7 +30,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     //whether or not the cast was canceled
     bool castNotCanceled = false;
     //canvas for movement/end turn buttons
-    public GameObject combatButtonContainers;
+    GameObject confirmationMenu;
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
@@ -48,12 +49,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         //change this line of code to something that sucks less later
-        combatButtonContainers = GameObject.Find("CombatButtonContainers");
+        confirmationMenu = FindFirstObjectByType<ButtonManager>().confirmCanvas;
 
         PublicEvents.SelectTarget += TargetSelection;
         PublicEvents.RuneSelected += StoreSelectedRuneData;
         PublicEvents.CheckRange += RangeCheck;
         PublicEvents.EndCast += EndPlayerAttackPhase;
+        PublicEvents.SpellConfirmed += OnSpellCastConfirm;
 
     }
 
@@ -67,6 +69,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
         PublicEvents.RuneSelected -= StoreSelectedRuneData;
         PublicEvents.CheckRange -= RangeCheck;
         PublicEvents.EndCast -= EndPlayerAttackPhase;
+        PublicEvents.SpellConfirmed -= OnSpellCastConfirm;
 
     }
 
@@ -82,19 +85,24 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="rd"> Rune Data </param>
     public void StoreSelectedRuneData(RuneData rd)
     {
+
+        SetHighlight(false);
+
         PublicEvents.HideDamagePreview();
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
 
         if(!GetComponent<RuneEvents>().WaitingOnPath)
         {
 
-            waitingForThePlayer = true;
+            WaitingForThePlayer = true;
 
-            if(combatButtonContainers == null)
+            if(confirmationMenu == null)
             {
-                combatButtonContainers = GameObject.Find("CombatButtonContainers");
+                confirmationMenu = FindFirstObjectByType<ButtonManager>().confirmCanvas;
             }
-            combatButtonContainers.SetActive(false);
+
+            confirmationMenu.SetActive(true);
+            GameObject.Find("Confirm").GetComponent<Button>().interactable = false;
 
             storedData = rd;
 
@@ -552,8 +560,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
+    [HideInInspector] public TileBehaviour selectedTile;
+    Enemy selectedEnemy;
+    PlayerBehavior selectedPlayer;
+
     /// <summary>
-    /// triggers spells based on the tile or enemy that the player has selected
+    /// stores the tile/enemy selected
     /// </summary>
     /// <param name="tile"> the tile that the player has selected </param>
     /// <param name="enemy"> the enemy that the player has selected </param>
@@ -561,29 +573,70 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
-        if (waitingForThePlayer && viableTilesInRange.Contains(tile))
+        if (WaitingForThePlayer && viableTilesInRange.Contains(tile))
         {
 
-            switch (storedData.TypeOfRune)
+            GameObject.Find("Confirm").GetComponent<Button>().interactable = true;
+
+            if (selectedTile != null && !this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
             {
 
-                case (RuneType.Lightning):
-
-                    PublicEvents.HideEnemyStatbox.Invoke();
-                    PublicEvents.LightningCast.Invoke(storedData, tile, enemy, player);
-                    break;
-
-                case (RuneType.Wind):
-
-                    PublicEvents.HideEnemyStatbox.Invoke();
-                    PublicEvents.WindCast.Invoke(storedData, tile, enemy, player);
-                    break;
-
-                default:
-
-                    break;
+                if(storedData.TypeOfRune == RuneType.Lightning)
+                {
+                    selectedTile.SetHighlightColor(LightningHighlight);
+                }
+                else
+                {
+                    selectedTile.SetHighlightColor(WindHighlight);
+                }
 
             }
+
+            selectedTile = tile;
+            selectedEnemy = enemy;
+            selectedPlayer = player;
+
+            selectedTile.SetHighlightColor(DefaultHighlight);
+
+            if((storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4) ||
+            (storedData.TypeOfRune == RuneType.Wind))
+            {
+
+                if(!this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
+                {
+                    OnSpellCastConfirm();
+                }
+
+            }
+
+        }
+
+    }
+
+    /// <summary>
+    /// called when the confirm button is clicked
+    /// </summary>
+    public void OnSpellCastConfirm()
+    {
+
+        switch (storedData.TypeOfRune)
+        {
+
+            case (RuneType.Lightning):
+
+                PublicEvents.HideEnemyStatbox.Invoke();
+                PublicEvents.LightningCast.Invoke(storedData, selectedTile, selectedEnemy, selectedPlayer);
+                break;
+
+            case (RuneType.Wind):
+
+                PublicEvents.HideEnemyStatbox.Invoke();
+                PublicEvents.WindCast.Invoke(storedData, selectedTile, selectedEnemy, selectedPlayer);
+                break;
+
+            default:
+
+                break;
 
         }
 
@@ -609,9 +662,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
     void EndPlayerAttackPhase()
     {
 
-        waitingForThePlayer = false;
+        WaitingForThePlayer = false;
 
-        combatButtonContainers.SetActive(true);
+        confirmationMenu.SetActive(false);
 
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(true);
 

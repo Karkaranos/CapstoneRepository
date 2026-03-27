@@ -93,6 +93,9 @@ public static class PublicEvents
     //for calculating a spell's range
     public static Action<bool, int, TileBehaviour> CheckRange;
 
+    //spell confirmation
+    public static Action SpellConfirmed;
+
     //spell triggers
     public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> LightningCast;
     public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> WindCast;

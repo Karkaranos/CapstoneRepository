@@ -228,6 +228,7 @@ public class Enemy : MonoBehaviour
         if (spriteRen != null)
         {
             spriteRen.material = flashColor;
+            FMODUnity.RuntimeManager.PlayOneShot("event:/EnemyDamage");
         }
 
         //int casting truncates instead of rounds so this if there is extra damage it rounds up
@@ -261,7 +262,7 @@ public class Enemy : MonoBehaviour
 
             print("Enemy takes damage");
             healthBarSlider.value = currentHealth;
-            PublicEvents.HideDamagePreview.Invoke();
+            
             if (currentHealth <= 0)
             {
                 EnemyHandler.Instance.RemoveEnemy(this);
@@ -281,6 +282,7 @@ public class Enemy : MonoBehaviour
             {
                 spriteRen.material = baseMat;
             }
+            PublicEvents.HideDamagePreview.Invoke();
         }
     }
 
@@ -299,6 +301,17 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
         print("Enemy is dead!");
+    }
+
+    /// <summary>
+    /// Makes sure the health bars are acuratley reflecting
+    /// </summary>
+    private void Update()
+    {
+        if (!isShowingPreview)
+        {
+            previewHealthBar.value = currentHealth;
+        }
     }
 
     /// <summary>

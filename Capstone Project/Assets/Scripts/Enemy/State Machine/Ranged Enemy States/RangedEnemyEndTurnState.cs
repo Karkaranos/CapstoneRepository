@@ -17,6 +17,11 @@ public class RangedEnemyEndTurnState : RangedEnemyState
     /// </summary>
     public override void EnterState()
     {
+        try
+        {
+            enemy.rangedAnimator.SetBool("IsWalking", false);
+        }
+        catch { }
         enemy.DelayedTurnStatus(false);
         EnemyHandler.Instance.RunNextEnemyTurn();
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState(), 0f));

@@ -89,6 +89,8 @@ public class PlayerBehavior : MonoBehaviour
     private ButtonManager bm;
     private RuneEvents re;
 
+    [SerializeField] private FMOD.Studio.EventInstance walkInstance;
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -379,9 +381,10 @@ public class PlayerBehavior : MonoBehaviour
             bm = FindFirstObjectByType<ButtonManager>();
         }
 
-        
+        walkInstance = FMODUnity.RuntimeManager.CreateInstance("event:/AlmondWalk");
+        walkInstance.start();
 
-        for(int i = 0; i < movementPositions.Count; ++i)
+        for (int i = 0; i < movementPositions.Count; ++i)
         {
             Vector2Int nextPosition = previousPositions[i + 1];
             bool isMoving = true;
@@ -389,6 +392,7 @@ public class PlayerBehavior : MonoBehaviour
             while (isMoving)
             {
                 anim.SetBool("Walk", true);
+
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
                 if (transform.position == movementPositions[i])
                 {
@@ -425,6 +429,10 @@ public class PlayerBehavior : MonoBehaviour
         movementUsed = 0;
         anim.SetBool("Walk", false);
         anim.SetBool("Idle", true);
+
+        walkInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        walkInstance.release();
+
         bm.ReEnableActionCanvas();
     }
 
