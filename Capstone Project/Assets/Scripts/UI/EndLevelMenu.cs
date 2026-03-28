@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 public class EndLevelMenu : MonoBehaviour
 {
     #region VARS
-
+    [SerializeField] private GameObject SkillMenu;
     [SerializeField] private GameObject WinMenu;
     [SerializeField] private GameObject LoseMenu;
     [SerializeField] private FMOD.Studio.Bus MasterBus;
@@ -106,10 +106,25 @@ public class EndLevelMenu : MonoBehaviour
         {
             FindFirstObjectByType<GridTesting>().LoadNextGrid();
         }
-        //SkillMenu.SetActive(true);
+        SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
         WinMenu.SetActive(false);
         LoseMenu.SetActive(false);
+    }
+
+    /// <summary>
+    /// Loads a specific grid
+    /// </summary>
+    /// <param name="level"></param>
+    public void LoadSpecificLevel(int level)
+    {
+        FindFirstObjectByType<GridTesting>().LoadSpecificGrid(level);
+
+        SkillMenu.SetActive(true);
+        FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
+        WinMenu.SetActive(false);
+        LoseMenu.SetActive(false);
+
     }
 
     /// <summary>

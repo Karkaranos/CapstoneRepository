@@ -63,7 +63,7 @@ public class CameraManager : MonoBehaviour
     void SwitchesCamerasFromOutOfCombat()
     {
         VideoCanvas.SetActive(false);
-        PopUpScript.StartCoroutine(PopUpScript.Flip());
+        //PopUpScript.StartCoroutine(PopUpScript.Flip());
         SwitchCamera(Level1playcam);
         //level1cam.Priority = 10;
     }
