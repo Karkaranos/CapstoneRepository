@@ -289,6 +289,10 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                anim.SetBool("Attack", true);
+                bookanim.SetBool("LAtk", true);
+                bookanim.SetBool("Idle", false);
+                anim.SetBool("Idle", false);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
@@ -326,6 +330,7 @@ public class RuneEvents : MonoBehaviour
                             continue;
                         }
 
+                        
                         AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                         AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
