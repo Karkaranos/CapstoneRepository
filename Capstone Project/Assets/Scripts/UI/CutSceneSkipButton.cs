@@ -27,6 +27,6 @@ public class CutSceneSkipButton : MonoBehaviour
     public void SkipBook()
     {
         gameObject.GetComponent<Button>().interactable = false;
-        FindFirstObjectByType<TransitionManager>().SceneTransition(2);
+        FindFirstObjectByType<TransitionManager>().SceneTransition(1);
     }
 }
