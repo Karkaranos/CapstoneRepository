@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8596654080405250210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 12
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 12
+  Guid:
+    Data1: -465854052
+    Data2: 1283762753
+    Data3: 1968656049
+    Data4: 388501712
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8542
 --- !u!114 &-8573788131949874129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27,6 +54,87 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 10
   Length: 5000
+--- !u!114 &-8546617013539600694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/EnemyDamage
+  m_EditorClassIdentifier: 
+  Path: event:/EnemyDamage
+  Guid:
+    Data1: -1335654628
+    Data2: 1215312278
+    Data3: -1952606550
+    Data4: 970410798
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1358
+--- !u!114 &-8471381614081777715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 7
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 7
+  Guid:
+    Data1: -1136679824
+    Data2: 1325205966
+    Data3: -1288769900
+    Data4: 634297567
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10135
+--- !u!114 &-7727539507737507980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 4
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 4
+  Guid:
+    Data1: 456693726
+    Data2: 1112503023
+    Data3: -579025791
+    Data4: -1759586285
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8202
 --- !u!114 &-7704249911172437847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +216,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 110
+--- !u!114 &-6090129477042699270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voicelines.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/FMODSalty/Build/Desktop/Voicelines.bank
+  Name: Voicelines
+  StudioPath: bank:/Voicelines
+  lastModified: 639101583935417228
+  FileSizes:
+  - Name: Desktop
+    Value: 1075872
+  Exists: 1
 --- !u!114 &-5972195196826600042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +251,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639089059407642693
+  lastModified: 639086907236890989
   FileSizes:
   - Name: Desktop
     Value: 1340
@@ -155,6 +283,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 228
+--- !u!114 &-5382386537880022830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/RangedAttack
+  m_EditorClassIdentifier: 
+  Path: event:/RangedAttack
+  Guid:
+    Data1: -253531448
+    Data2: 1187745003
+    Data3: -577832035
+    Data4: 1762338952
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3500
 --- !u!114 &-5221791252628320589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,10 +352,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639089070254555301
+  lastModified: 639101583935226575
   FileSizes:
   - Name: Desktop
-    Value: 1938
+    Value: 2634
   Exists: 1
 --- !u!114 &-4430740537799125941
 MonoBehaviour:
@@ -229,6 +384,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3500
+--- !u!114 &-3876804216199163796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/WalkingEnemyLoop
+  m_EditorClassIdentifier: 
+  Path: event:/WalkingEnemyLoop
+  Guid:
+    Data1: -2030418704
+    Data2: 1087967099
+    Data3: 1926324660
+    Data4: 1671818154
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1038
 --- !u!114 &-3593242603589785387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +465,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2500
+--- !u!114 &-3054725073016746140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MeleeAttack
+  m_EditorClassIdentifier: 
+  Path: event:/MeleeAttack
+  Guid:
+    Data1: 755153082
+    Data2: 1088697067
+    Data3: 1449496215
+    Data4: -509747227
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 452
+--- !u!114 &-2815306132539729615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 2
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 2
+  Guid:
+    Data1: -1627840122
+    Data2: 1204928439
+    Data3: 460132758
+    Data4: 481392845
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7601
 --- !u!114 &-2777703390250553541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,10 +561,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639089070254701589
+  lastModified: 639101583935367910
   FileSizes:
   - Name: Desktop
-    Value: 1939360
+    Value: 2038336
   Exists: 1
 --- !u!114 &-1126716200791759097
 MonoBehaviour:
@@ -345,11 +581,38 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639086718984952879
+  lastModified: 639099423935556633
   FileSizes:
   - Name: Desktop
     Value: 922944
   Exists: 1
+--- !u!114 &-999913347335247595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 8
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 8
+  Guid:
+    Data1: -838055130
+    Data2: 1240757954
+    Data3: -775157060
+    Data4: 955328473
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 11284
 --- !u!114 &-781800427656980071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +640,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 730
+--- !u!114 &-212464337418584444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 13
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 13
+  Guid:
+    Data1: -1147493388
+    Data2: 1191166313
+    Data3: -1691439184
+    Data4: 973719637
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4754
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,6 +686,7 @@ MonoBehaviour:
   - {fileID: -5972195196826600042}
   - {fileID: -2108931520327273877}
   - {fileID: -1126716200791759097}
+  - {fileID: -6090129477042699270}
   EditorEvents:
   - {fileID: -2777703390250553541}
   - {fileID: 4218364394935660675}
@@ -419,12 +710,29 @@ MonoBehaviour:
   - {fileID: 8059135572051728790}
   - {fileID: 4185287861518099915}
   - {fileID: -6925792560950901343}
+  - {fileID: -8546617013539600694}
+  - {fileID: -3054725073016746140}
+  - {fileID: -5382386537880022830}
+  - {fileID: -3876804216199163796}
+  - {fileID: 338224257382901756}
+  - {fileID: -999913347335247595}
+  - {fileID: 8061697341832594071}
+  - {fileID: 4305976935541598095}
+  - {fileID: -8471381614081777715}
+  - {fileID: 8417424110335127591}
+  - {fileID: -2815306132539729615}
+  - {fileID: 2641726297801340331}
+  - {fileID: -8596654080405250210}
+  - {fileID: 4958286787875505702}
+  - {fileID: -7727539507737507980}
+  - {fileID: -212464337418584444}
+  - {fileID: 5692478191753305585}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5972195196826600042}
   StringsBanks:
   - {fileID: -4550152728752857814}
-  cacheTime: 639089070254701589
+  cacheTime: 639101583935417228
   cacheVersion: 131633
 --- !u!114 &230605889417824700
 MonoBehaviour:
@@ -453,6 +761,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5608
+--- !u!114 &338224257382901756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 3
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 3
+  Guid:
+    Data1: -270953961
+    Data2: 1324235185
+    Data3: 150860426
+    Data4: -1152349589
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8202
 --- !u!114 &1441077628868695269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,6 +842,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &2641726297801340331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 10
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 10
+  Guid:
+    Data1: -467271022
+    Data2: 1289095939
+    Data3: -432107626
+    Data4: 1432184671
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7758
 --- !u!114 &2648557559290943423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +884,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639088557299921510
+  lastModified: 639099423935127324
   FileSizes:
   - Name: Desktop
     Value: 2351936
@@ -596,7 +958,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639088556481105844
+  lastModified: 639099423935225027
   FileSizes:
   - Name: Desktop
     Value: 1262272
@@ -655,6 +1017,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 101400
+--- !u!114 &4305976935541598095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 11
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 11
+  Guid:
+    Data1: 996512583
+    Data2: 1263232957
+    Data3: -765456984
+    Data4: -740151721
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8359
 --- !u!114 &4582464144007456787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,6 +1071,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &4958286787875505702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 9
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 9
+  Guid:
+    Data1: -1812579913
+    Data2: 1261690793
+    Data3: 1792211632
+    Data4: -154972993
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7758
 --- !u!114 &5187848261642701077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,6 +1125,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2500
+--- !u!114 &5692478191753305585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 5
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 5
+  Guid:
+    Data1: -481391363
+    Data2: 1219045190
+    Data3: 1667604365
+    Data4: -1804766044
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 9822
 --- !u!114 &7234932453561902342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,3 +1206,57 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2650
+--- !u!114 &8061697341832594071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 1
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 1
+  Guid:
+    Data1: 1261381688
+    Data2: 1121890921
+    Data3: -672458311
+    Data4: -1405137024
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6321
+--- !u!114 &8417424110335127591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Voiceline 6
+  m_EditorClassIdentifier: 
+  Path: event:/Voiceline 6
+  Guid:
+    Data1: -283350413
+    Data2: 1287032914
+    Data3: -1612950641
+    Data4: -560598588
+  Banks:
+  - {fileID: -6090129477042699270}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7706
