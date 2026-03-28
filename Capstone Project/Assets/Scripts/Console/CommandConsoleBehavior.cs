@@ -172,7 +172,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                     {
                         if(navigationEnabled)
                         {
-                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>(), FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive:FindObjectsInactive.Include));
+                            Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                         }
                         break;
                     }
@@ -227,7 +227,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                             {
                                 if(navigationEnabled)
                                 {
-                                    Commands.Navigation(command, FindFirstObjectByType<GridTesting>(), FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include));
+                                    Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                 }
                                 break;
                             }
@@ -282,7 +282,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     {
                                         if(navigationEnabled)
                                         {
-                                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>(), FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include));
+                                            Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                         }
                                         break;
                                     }

@@ -118,6 +118,22 @@ public class EndLevelMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Loads a specific grid
+    /// </summary>
+    /// <param name="level"></param>
+    public void LoadSpecificLevel(int level)
+    {
+        FindFirstObjectByType<GridTesting>().LoadSpecificGrid(level);
+
+        SkillMenu.SetActive(true);
+        FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
+        endMenuUi.alpha = 0;
+        endMenuUi.interactable = false;
+        endMenuUi.blocksRaycasts = false;
+
+    }
+
+    /// <summary>
     /// Sets the text that will appear at the end of the level 
     /// </summary>
     /// <param name="text"></param>
