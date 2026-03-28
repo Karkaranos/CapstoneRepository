@@ -1,27 +1,23 @@
 /*************************************************
-Author Names : 		Clare Grady, 
+Author Names : 		Clare Grady, Tyler Bouchard
 Date Created : 		10/30/2025
-Date Last Modified : 	3/7/2026
+Date Last Modified : 	3/26/2026
 Brief Description : 		Temporary End Level Menu handler for 
                     vertical slice
 External Resources : 	
 ***************************************************/
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
 
 public class EndLevelMenu : MonoBehaviour
 {
     #region VARS
 
-    [SerializeField] private CanvasGroup endMenuUi;
-    [SerializeField] private TMP_Text text;
-
+    [SerializeField] private GameObject WinMenu;
+    [SerializeField] private GameObject LoseMenu;
     [SerializeField] private FMOD.Studio.Bus MasterBus;
-
-    [SerializeField] private GameObject SkillMenu;
-    [SerializeField] private GameObject nextLevelButton;
     private bool retrying;
 
     #endregion
@@ -33,9 +29,8 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        endMenuUi.alpha = 0;
-        endMenuUi.interactable = false;
-        endMenuUi.blocksRaycasts = false;
+        WinMenu.SetActive(false);
+        LoseMenu.SetActive(false);
 
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
         // Grabs bus manager for audio
@@ -44,13 +39,18 @@ public class EndLevelMenu : MonoBehaviour
     /// <summary>
     /// Toggles ig the EndMenuUi is on or off 
     /// </summary>
-    public void EnableEndMenuUi()
+    public void EnableEndMenuUi(bool win)
     {
-        if (endMenuUi.alpha == 0)
+        if (win) {
+            WinMenu.SetActive(true);
+        } else {
+            LoseMenu.SetActive(true);
+        }
+
+        if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
         {
             FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
         }
-
         
     }
 
@@ -60,10 +60,6 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void ShowTheEndMenuUI()
     {
-        endMenuUi.alpha = 1;
-        endMenuUi.interactable = true;
-        endMenuUi.blocksRaycasts = true;
-
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         //stops all audio
     }
@@ -110,11 +106,10 @@ public class EndLevelMenu : MonoBehaviour
         {
             FindFirstObjectByType<GridTesting>().LoadNextGrid();
         }
-        SkillMenu.SetActive(true);
+        //SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
-        endMenuUi.alpha = 0;
-        endMenuUi.interactable = false;
-        endMenuUi.blocksRaycasts = false;
+        WinMenu.SetActive(false);
+        LoseMenu.SetActive(false);
     }
 
     /// <summary>
@@ -139,16 +134,7 @@ public class EndLevelMenu : MonoBehaviour
     /// <param name="text"></param>
     public void SetText(string text)
     {
-        this.text.text = text;
-    }
-
-    /// <summary>
-    /// toggles the next level button
-    /// </summary>
-    /// <param name="isActive"></param>
-    public void SetNextLevelButton(bool isActive)
-    {
-        nextLevelButton.SetActive(isActive);
+        //this.text.text = text;
     }
     
     #endregion
