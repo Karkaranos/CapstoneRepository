@@ -344,11 +344,11 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void EndLevelPopup()
     {
-        UICanvas.SetActive(false);
+        //UICanvas.SetActive(false);
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
-        endLevelMenu.SetText("You Died");
-        endLevelMenu.SetNextLevelButton(false);
-        endLevelMenu.EnableEndMenuUi();
+        //endLevelMenu.SetText("You Died");
+        //endLevelMenu.SetNextLevelButton(false);
+        endLevelMenu.EnableEndMenuUi(false);
     }
 
     private void SetTurnIndicator()
