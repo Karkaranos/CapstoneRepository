@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 public class EndLevelMenu : MonoBehaviour
 {
     #region VARS
-
+    [SerializeField] private GameObject SkillMenu;
     [SerializeField] private GameObject WinMenu;
     [SerializeField] private GameObject LoseMenu;
     [SerializeField] private FMOD.Studio.Bus MasterBus;
@@ -106,7 +106,7 @@ public class EndLevelMenu : MonoBehaviour
         {
             FindFirstObjectByType<GridTesting>().LoadNextGrid();
         }
-        //SkillMenu.SetActive(true);
+        SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
         WinMenu.SetActive(false);
         LoseMenu.SetActive(false);
@@ -122,9 +122,8 @@ public class EndLevelMenu : MonoBehaviour
 
         SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
-        endMenuUi.alpha = 0;
-        endMenuUi.interactable = false;
-        endMenuUi.blocksRaycasts = false;
+        WinMenu.SetActive(false);
+        LoseMenu.SetActive(false);
 
     }
 
