@@ -11,14 +11,17 @@ using UnityEngine.UI;
 public class InCombatSpellSlotBehavior : MonoBehaviour
 {
     public RuneData rune;
+
     private GameManager gm;
     private RuneEvents runeEvents;
+    private ButtonManager buttonManager;
 
     private void Start()
     {
 
         gm = FindFirstObjectByType<GameManager>();
         runeEvents = FindFirstObjectByType<RuneEvents>();
+        buttonManager = FindFirstObjectByType<ButtonManager>();
 
     }
 
@@ -26,7 +29,7 @@ public class InCombatSpellSlotBehavior : MonoBehaviour
     void Update()
     {
         
-        if(gm.CurrentActionPoints < rune.RuneActionPoints || runeEvents.Casting == true || FindFirstObjectByType<ButtonManager>().Moving)
+        if(gm.CurrentActionPoints < rune.RuneActionPoints || runeEvents.Casting || buttonManager.Moving || runeEvents.PreviousPos.Count != 0)
         {
 
             gameObject.GetComponent<Image>().color = Color.gray;
