@@ -48,7 +48,7 @@ public class PopUpScript : MonoBehaviour
     public IEnumerator Flip()//objects that are laying down get flipped up. 
     {
         yield return new WaitForSeconds(1f);
-        Debug.LogError(backgrounds.Count);
+        Debug.Log(backgrounds.Count);
         foreach (var obj in backgrounds)
         {
             Animator anim = obj.GetComponent<Animator>();
