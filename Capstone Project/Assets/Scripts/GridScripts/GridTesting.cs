@@ -114,7 +114,7 @@ public class GridTesting : MonoBehaviour
             Logger.Error("Invalid grid index entered. Returning function", true);
             return;
         }
-        gridIndex = i-1;
+        gridIndex = i;
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);

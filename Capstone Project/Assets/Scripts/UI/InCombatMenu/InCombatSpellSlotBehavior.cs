@@ -26,7 +26,7 @@ public class InCombatSpellSlotBehavior : MonoBehaviour
     void Update()
     {
         
-        if(gm.CurrentActionPoints < rune.RuneActionPoints || runeEvents.Casting == true)
+        if(gm.CurrentActionPoints < rune.RuneActionPoints || runeEvents.Casting == true || FindFirstObjectByType<ButtonManager>().Moving)
         {
 
             gameObject.GetComponent<Image>().color = Color.gray;
