@@ -272,19 +272,20 @@ public class Commands
     /// Handles Navigation commands
     /// </summary>
     /// <param name="command">the entered command</param>
-    public static void Navigation(string command, GridTesting g)
+    public static void Navigation(string command, EndLevelMenu e)
     {
         if(command.Contains("lvl"))
         {
             int val = (int)ConvertToNumber(command.Substring(4, command.Length - 4));
             Logger.Log("Loading level " + val);
-            g.LoadSpecificGrid(val);
+            e.LoadSpecificLevel(val);
         }
         else if (command == "r")
         {
             Logger.Log("Reloading level");
-            g.ReloadCurrentGrid();
+            e.RestartLevel();
         }
+
     }
 
     #endregion

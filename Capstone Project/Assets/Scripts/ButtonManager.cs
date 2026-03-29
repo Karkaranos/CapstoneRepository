@@ -52,6 +52,8 @@ public class ButtonManager : MonoBehaviour
     private bool isPlayersTurn;
     private bool castingSpell;
 
+    [HideInInspector] public bool Moving = false;
+
     private GameObject wasdObject;
     #endregion
 
@@ -121,6 +123,9 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void MoveButtonOnClick()
     {
+
+        Moving = true;
+
         if(playerBehavior == null)
         {
             playerBehavior = FindFirstObjectByType<PlayerBehavior>();
@@ -157,6 +162,12 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void BackButtonOnClick()
     {
+
+        if(Moving)
+        {
+            Moving = false;
+        }
+
         confirmCanvas.SetActive(false);
         playerCanvas.SetActive(true);
 
@@ -261,6 +272,9 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void ReEnableActionCanvas()
     {
+
+        Moving = false;
+
         if (isPlayersTurn)
         {
             if (gm.CurrentActionPoints - gm.MoveActionPoints < 0)
