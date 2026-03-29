@@ -223,7 +223,10 @@ public class PlayerBehavior : MonoBehaviour
         {
             foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
             {
-                enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
+                if(e != null)
+                {
+                    enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
+                }
             }
         }
     }
