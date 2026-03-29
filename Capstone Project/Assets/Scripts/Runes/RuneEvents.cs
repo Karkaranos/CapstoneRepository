@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 	Jay Embry, Brad Dixon
+Author Names : 	Jay Embry, Brad Dixon, Aidan Ratcliffe
 Date Created : 	10/07/2025
-Date Last Modified : 02/16/2026 (Jay Embry)
+Date Last Modified : 03/28/2026 (Aidan Ratcliffe)
 Brief Description : Contains rune types and effects
                     I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
@@ -98,6 +98,9 @@ public class RuneEvents : MonoBehaviour
 
     #region ANIMATIONS
 
+    /// <summary>
+    /// holds animators for book & player
+    /// </summary>
     private Variables Animations;
 
     [ShowIf(nameof(currentInspectorShowing), Variables.Animations), SerializeField]
@@ -113,11 +116,19 @@ public class RuneEvents : MonoBehaviour
 
     #region INITIALIZATION
 
+    /// <summary>
+    /// references the player animator, allowing it to be called it in another script
+    /// </summary>
+    /// <param name="animator"></param>
     public void AssignAnim(Animator animator)
     {
         anim = animator;
     }
 
+    /// <summary>
+    /// references the book animator, allowing it to be called it in another script
+    /// </summary>
+    /// <param name="animator"></param>
     public void AssignBookAnim(Animator animator)
     {
         bookanim = animator;
