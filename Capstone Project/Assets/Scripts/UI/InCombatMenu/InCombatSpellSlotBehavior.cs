@@ -14,6 +14,7 @@ public class InCombatSpellSlotBehavior : MonoBehaviour
 
     private GameManager gm;
     private RuneEvents runeEvents;
+    private RuneRangeAndTargeting runeRangeAndTargeting;
     private ButtonManager buttonManager;
 
     private void Start()
@@ -21,6 +22,7 @@ public class InCombatSpellSlotBehavior : MonoBehaviour
 
         gm = FindFirstObjectByType<GameManager>();
         runeEvents = FindFirstObjectByType<RuneEvents>();
+        runeRangeAndTargeting = FindFirstObjectByType<RuneRangeAndTargeting>();
         buttonManager = FindFirstObjectByType<ButtonManager>();
 
     }
