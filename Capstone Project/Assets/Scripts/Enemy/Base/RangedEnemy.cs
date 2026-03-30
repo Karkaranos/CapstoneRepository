@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, Brad Dixon
 Date Created : 		11/18/2025
-Date Last Modified : 	3/11/2026 (Brad)
+Date Last Modified : 	3/30/2026 (Brad)
 Brief Description : 		Base class for Range enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -29,6 +29,8 @@ public class RangedEnemy : Enemy
     public int maxAttackDistance;
 
     [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
+
+    [ShowIf(nameof(currentSettings), Settings.Combat)] [SerializeField] GameObject attackPrefab;
 
     #endregion
 
@@ -107,6 +109,15 @@ public class RangedEnemy : Enemy
             return;
         }
         
+    }
+
+    /// <summary>
+    /// Unity event that spawns the attack prefab containing the attack animation
+    /// </summary>
+    public void SpawnAttack()
+    {
+        Vector3 spawnPos = FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position;
+        Instantiate(attackPrefab, (spawnPos + new Vector3(0, 1, -.2f)), Quaternion.identity);
     }
     #endregion
 
