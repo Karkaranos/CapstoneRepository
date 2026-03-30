@@ -20,6 +20,10 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
     /// </summary>
     public async override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         Debug.Log("Entered Move State");
         enemy.logText.text = "M";
         enemy.anim.SetBool("IsWalking", true);

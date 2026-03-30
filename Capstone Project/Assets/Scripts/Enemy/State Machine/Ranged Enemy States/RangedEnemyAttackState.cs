@@ -21,6 +21,10 @@ public class RangedEnemyAttackState : RangedEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         enemy.logText.text = "A";
 
         enemy.playerStats.TakeDamage(enemy.damage);
