@@ -688,7 +688,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         if (TurnManager.currentStatus == TurnStates.PlayerTurn)
         {
-            playerMenu.SetActive(true);
+            FindFirstObjectByType<ButtonManager>().ResetCanvas();
         }
 
         GridManager.RemoveHighlight();

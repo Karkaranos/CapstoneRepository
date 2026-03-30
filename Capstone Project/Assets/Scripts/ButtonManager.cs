@@ -245,6 +245,8 @@ public class ButtonManager : MonoBehaviour
 
             }
 
+            playerCanvas.SetActive(false);
+            confirmCanvas.SetActive(false);
             PublicEvents.SpellConfirmed.Invoke();
 
         }
