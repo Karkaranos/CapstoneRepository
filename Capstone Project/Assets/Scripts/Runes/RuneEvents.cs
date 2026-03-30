@@ -308,6 +308,7 @@ public class RuneEvents : MonoBehaviour
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
                 Instantiate(rune.RuneVFX, tile.transform);
+                tile.Invoke("ElectrifyAdTiles", 1.2f);
 
                 enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
 
@@ -354,6 +355,8 @@ public class RuneEvents : MonoBehaviour
                             target.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
 
                         }
+
+                        target.Invoke("ElectrifyAdTiles", 1.2f);
 
                     }
 
