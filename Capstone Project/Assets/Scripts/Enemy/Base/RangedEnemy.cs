@@ -117,7 +117,8 @@ public class RangedEnemy : Enemy
     public void SpawnAttack()
     {
         Vector3 spawnPos = FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position;
-        Instantiate(attackPrefab, (spawnPos + new Vector3(0, 1, -.2f)), Quaternion.identity);
+        GameObject g = Instantiate(attackPrefab, (spawnPos + new Vector3(0, 1, -.2f)), Quaternion.identity);
+        g.GetComponent<RangedEnemyAttackBehaviour>().SetDamage(damage);
     }
     #endregion
 
