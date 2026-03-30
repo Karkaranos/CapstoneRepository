@@ -26,6 +26,8 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private InputAction playermoveClick;
     [SerializeField, Tooltip("A reference to the object the Animator is on")] private GameObject animObj;
     private Animator anim;
+    [SerializeField, Tooltip("A reference to the object the Animator is on")] private GameObject bookanimObj;
+    private Animator bookanim;
 
     [Tooltip("references the player's game object")]
     public GameObject player;
@@ -85,6 +87,8 @@ public class PlayerBehavior : MonoBehaviour
     private Transform pTransform;
     [Tooltip("A reference to the player's Sprite Renderer"), SerializeField, Required]
     private SpriteRenderer pSprite;
+    [Tooltip("A reference to the book's Sprite Renderer"), SerializeField, Required]
+    private SpriteRenderer bSprite;
 
     private ButtonManager bm;
     private RuneEvents re;
@@ -101,7 +105,9 @@ public class PlayerBehavior : MonoBehaviour
         gm = FindFirstObjectByType<GameManager>(FindObjectsInactive.Exclude);
         re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
         anim = animObj.GetComponentInChildren<Animator>();
+        bookanim = bookanimObj.GetComponent<Animator>();
         re.AssignAnim(anim);
+        re.AssignBookAnim(bookanim);
         myPosition = GridManager.playerPosition;
         canMove = true;
         ghostPosition = transform.position;

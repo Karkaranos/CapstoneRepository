@@ -1872,7 +1872,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d02e00acd81d54391fd2ad05163172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInspectorShowing: 0
+  currentInspectorShowing: 2
+  selectedTile: {x: 0, y: 0}
   PreviousPos: []
   Casting: 0
   WaitingOnPath: 0
@@ -1946,14 +1947,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183da8210ca5e2c47a6dddd374b5e5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WaitingForThePlayer: 0
   playerMenu: {fileID: 0}
-  combatButtonContainers: {fileID: 0}
   DefaultHighlight: {r: 0, g: 0, b: 0, a: 0}
   BlockedHighlight: {r: 0, g: 0, b: 0, a: 0}
   LightningHighlight: {r: 0, g: 0, b: 0, a: 0}
   LightningSecondaryHighlight: {r: 0, g: 0, b: 0, a: 0}
   WindHighlight: {r: 0, g: 0, b: 0, a: 0}
   WindSecondaryHighlight: {r: 0, g: 0, b: 0, a: 0}
+  selectedTile: {fileID: 0}
 --- !u!1 &8962285372778944222
 GameObject:
   m_ObjectHideFlags: 0
