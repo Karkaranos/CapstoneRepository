@@ -11,6 +11,7 @@ using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
+using static Unity.Collections.Unicode;
 
 public class RuneRangeAndTargeting : MonoBehaviour
 {
@@ -107,6 +108,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             storedData = rd;
 
             RangeCheck(false);
+
             //in range check get all enemies in range via tiles entities 
             //then add to enemies in range list 
             //call show damage preview here with 
@@ -462,6 +464,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// highlights targetable tiles of a selected spell
+    /// </summary>
+    /// <param name="runeSelected"></param>
+    /// <param name="tilesInRange"></param>
     void SetHighlight(bool runeSelected, List<TileBehaviour> tilesInRange = null)
     {
 
@@ -578,25 +585,14 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
             GameObject.Find("Confirm").GetComponent<Button>().interactable = true;
 
-            if (selectedTile != null && !this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
-            {
-
-                if(storedData.TypeOfRune == RuneType.Lightning)
-                {
-                    selectedTile.SetHighlightColor(LightningHighlight);
-                }
-                else
-                {
-                    selectedTile.SetHighlightColor(WindHighlight);
-                }
-
-            }
+            SetHighlight(true);
 
             selectedTile = tile;
             selectedEnemy = enemy;
             selectedPlayer = player;
 
             selectedTile.SetHighlightColor(DefaultHighlight);
+            SetAreaOfEffectHighlight();
 
             if((storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4) ||
             (storedData.TypeOfRune == RuneType.Wind))
@@ -608,6 +604,86 @@ public class RuneRangeAndTargeting : MonoBehaviour
                 }
 
             }
+
+        }
+
+    }
+
+    /// <summary>
+    /// highlights aoe of certain spells
+    /// </summary>
+    void SetAreaOfEffectHighlight()
+    {
+
+        switch(storedData.TypeOfRune, storedData.NumberOnSkillTree)
+        {
+
+            case (RuneType.Lightning, 1):
+
+                foreach (TileBehaviour tile in GridManager.combatGrid)
+                {
+
+                    if (Mathf.Abs(tile.IndexInGrid.x - selectedTile.IndexInGrid.x) <= 1 &&
+                    Mathf.Abs(tile.IndexInGrid.y - selectedTile.IndexInGrid.y) <= 1 && !tile.GetComponentInChildren<PlayerBehavior>())
+                    {
+
+                        tile.SetHighlightColor(LightningSecondaryHighlight);
+                        tile.ShowHighlight(true);
+
+                    }
+
+                }
+
+                break;
+
+            case (RuneType.Lightning, 2):
+
+                foreach (TileBehaviour tile in GridManager.combatGrid)
+                {
+
+                    if (selectedTile.transform.position.x == tile.transform.position.x &&
+                    Mathf.Abs(selectedTile.IndexInGrid.y - tile.IndexInGrid.y) <= storedData.RuneRange)
+                    {
+
+                        tile.SetHighlightColor(LightningSecondaryHighlight);
+                        tile.ShowHighlight(true);
+
+                    }
+
+                    if (selectedTile.transform.position.z == tile.transform.position.z &&
+                    Mathf.Abs(selectedTile.IndexInGrid.x - tile.IndexInGrid.x) <= storedData.RuneRange)
+                    {
+
+                        tile.SetHighlightColor(LightningSecondaryHighlight);
+                        tile.ShowHighlight(true);
+
+                    }
+
+                }
+
+                break;
+
+            case (RuneType.Lightning, 3):
+
+                foreach (TileBehaviour tile in GridManager.combatGrid)
+                {
+
+                    if (Mathf.Abs(tile.IndexInGrid.x - selectedTile.IndexInGrid.x) <= 1 &&
+                    Mathf.Abs(tile.IndexInGrid.y - selectedTile.IndexInGrid.y) <= 1 && !tile.GetComponentInChildren<PlayerBehavior>())
+                    {
+
+                        tile.SetHighlightColor(LightningSecondaryHighlight);
+                        tile.ShowHighlight(true);
+
+                    }
+
+                }
+
+                break;
+
+            default:
+
+                break;
 
         }
 
