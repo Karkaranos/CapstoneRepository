@@ -265,9 +265,10 @@ public class Enemy : MonoBehaviour
             
             if (currentHealth <= 0)
             {
-                EnemyHandler.Instance.RemoveEnemy(this);
                 await Task.Delay(500);
+                EnemyHandler.Instance.RemoveEnemy(this);
                 Die();
+                
                 if (FindFirstObjectByType<GameManager>().allowArtifacts)
                 {
                     TryDropItem();
