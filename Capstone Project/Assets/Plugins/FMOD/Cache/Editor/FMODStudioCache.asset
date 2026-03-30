@@ -231,7 +231,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Voicelines.bank
   Name: Voicelines
   StudioPath: bank:/Voicelines
-  lastModified: 639101583935417228
+  lastModified: 639102271303029261
   FileSizes:
   - Name: Desktop
     Value: 1075872
@@ -251,7 +251,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639086907236890989
+  lastModified: 639068520686994712
   FileSizes:
   - Name: Desktop
     Value: 1340
@@ -352,10 +352,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639101583935226575
+  lastModified: 639102951973955401
   FileSizes:
   - Name: Desktop
-    Value: 2634
+    Value: 2744
   Exists: 1
 --- !u!114 &-4430740537799125941
 MonoBehaviour:
@@ -546,6 +546,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 26000
+--- !u!114 &-2707641942199266588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/NewWayward WoodsBGM
+  m_EditorClassIdentifier: 
+  Path: event:/NewWayward WoodsBGM
+  Guid:
+    Data1: -707055157
+    Data2: 1175426875
+    Data3: 189099412
+    Data4: 1871943186
+  Banks:
+  - {fileID: 3795494315145860207}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 127296
 --- !u!114 &-2108931520327273877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,7 +588,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639101583935367910
+  lastModified: 639102271302911081
   FileSizes:
   - Name: Desktop
     Value: 2038336
@@ -581,7 +608,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639099423935556633
+  lastModified: 639102271302993944
   FileSizes:
   - Name: Desktop
     Value: 922944
@@ -727,12 +754,14 @@ MonoBehaviour:
   - {fileID: -7727539507737507980}
   - {fileID: -212464337418584444}
   - {fileID: 5692478191753305585}
+  - {fileID: 2809920051782124432}
+  - {fileID: -2707641942199266588}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5972195196826600042}
   StringsBanks:
   - {fileID: -4550152728752857814}
-  cacheTime: 639101583935417228
+  cacheTime: 639103237506668797
   cacheVersion: 131633
 --- !u!114 &230605889417824700
 MonoBehaviour:
@@ -884,11 +913,38 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639099423935127324
+  lastModified: 639102271302203924
   FileSizes:
   - Name: Desktop
     Value: 2351936
   Exists: 1
+--- !u!114 &2809920051782124432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/VoicelinesWithBGM
+  m_EditorClassIdentifier: 
+  Path: event:/VoicelinesWithBGM
+  Guid:
+    Data1: 1552422025
+    Data2: 1299889059
+    Data3: -28301660
+    Data4: -1261269360
+  Banks:
+  - {fileID: 3795494315145860207}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 119352
 --- !u!114 &3033592283600421654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,10 +1014,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639099423935225027
+  lastModified: 639103237506668797
   FileSizes:
   - Name: Desktop
-    Value: 1262272
+    Value: 4465568
   Exists: 1
 --- !u!114 &4185287861518099915
 MonoBehaviour:

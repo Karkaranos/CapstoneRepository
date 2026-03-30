@@ -6,6 +6,8 @@ Brief Description : 		Temporary End Level Menu handler for
                     vertical slice
 External Resources : 	
 ***************************************************/
+using NUnit.Framework;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
@@ -61,6 +63,12 @@ public class EndLevelMenu : MonoBehaviour
     public void ShowTheEndMenuUI()
     {
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+        Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+        foreach (Pip pip in pips)
+        {
+            Destroy(pip.gameObject);
+        }
         //stops all audio
     }
 
