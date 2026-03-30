@@ -374,15 +374,17 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                Instantiate(rune.RuneVFX, tile.transform);
+
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
                 GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
 
-                tile.ElectrifyAdTiles();
+                Invoke("PlayerTeleport", .1f);
+
+                tile.Invoke("ElectrifyAdTiles", 1.2f);
 
                 FindAdjacentTiles(tile);
-
-                Invoke("PlayerTeleport", .1f);
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
@@ -399,8 +401,6 @@ public class RuneEvents : MonoBehaviour
                         adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
 
                     }
-
-                    tile.ElectrifyAdTiles();
 
                 }
 
@@ -1198,7 +1198,7 @@ public class RuneEvents : MonoBehaviour
                         if(movementLeft > 1)
                         {
 
-                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
+                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().LightningSecondaryHighlight);
                             GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                             PreviousPos.Add(v);
                             movementPos.Add(t);
@@ -1405,7 +1405,6 @@ public class RuneEvents : MonoBehaviour
 
                 GridManager.MoveToTile(originalSelectedTile, selectedTile, -3);
 
-                GridManager.combatGrid[selectedTile.x, selectedTile.y].ElectrifyAdTiles();
                 Invoke("PlayerTeleport", .2f);
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
@@ -1414,7 +1413,7 @@ public class RuneEvents : MonoBehaviour
                 for(int i = 0; i < PreviousPos.Count; i++)
                 {
 
-                    //Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
+                    Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
 
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
@@ -1424,7 +1423,7 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    GridManager.combatGrid[selectedTile.x, selectedTile.y].ElectrifyAdTiles();
+                    GridManager.combatGrid[selectedTile.x, selectedTile.y].Invoke("ElectrifyAdTiles", 1.2f);
 
                 }
 
