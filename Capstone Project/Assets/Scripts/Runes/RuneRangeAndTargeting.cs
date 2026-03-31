@@ -358,20 +358,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 break;
 
-            //targets an enemy
+            //targets any tile
             case (RuneType.Lightning, 2):
 
-                foreach (TileBehaviour tile in tilesInRange)
-                {
-
-                    if (tile.GetComponentInChildren<Enemy>())
-                    {
-
-                        viableTilesInRange.Add(tile);
-
-                    }
-
-                }
+                viableTilesInRange = tilesInRange;
 
                 break;
 
