@@ -598,10 +598,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             (storedData.TypeOfRune == RuneType.Wind))
             {
 
-                if(!this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
-                {
-                    OnSpellCastConfirm();
-                }
+                OnSpellCastConfirm();
 
             }
 
