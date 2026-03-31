@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Clare Grady
 Date Created : 	10/07/2025
-Date Last Modified : 03/12/2026
+Date Last Modified : 03/31/2026 (Jay Embry)
 Brief Description : Determines viable targets whenever a spell is selected
 External Resources : 	
 	***************************************************/
@@ -580,7 +580,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
-        if (WaitingForThePlayer && viableTilesInRange.Contains(tile))
+        if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
         {
 
             GameObject.Find("Confirm").GetComponent<Button>().interactable = true;
