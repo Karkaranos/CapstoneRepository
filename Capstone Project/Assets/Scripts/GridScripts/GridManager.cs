@@ -18,6 +18,7 @@ public class GridManager : MonoBehaviour
     // -4 is an obstacle occupied tile
     // -5 is a pip occupied tile
     // -6 is a hazard occupied tile
+    //-7 is a shield occupied tile
     public static TileBehaviour[,] combatGrid;
 
     public static Vector2Int playerPosition;

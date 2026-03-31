@@ -27,6 +27,7 @@ public class GridTesting : MonoBehaviour
     private List<GameObject> entityLists = new List<GameObject>();
 
     public int gridToLoad;
+    public PopUpScript popUp;
     #endregion
 
     #region Buttons
@@ -114,7 +115,7 @@ public class GridTesting : MonoBehaviour
             Logger.Error("Invalid grid index entered. Returning function", true);
             return;
         }
-        gridIndex = i-1;
+        gridIndex = i;
         PipManager.Instance.hazardTiles.Clear();
         LoadGridPrefab();
         GridManager.SetGrid(gridDimensions[gridIndex], gridPrefabs[gridIndex]);
@@ -152,6 +153,7 @@ public class GridTesting : MonoBehaviour
         }
         gridPrefabs[gridIndex].SetActive(true);
         PublicEvents.LoadingGrid.Invoke(gridIndex);
+        popUp.Flip();
     }
 
     /// <summary>

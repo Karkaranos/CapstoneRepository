@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3932241730522942511}
   - component: {fileID: 7056796669355282131}
   - component: {fileID: 1134159518502395643}
+  - component: {fileID: 5803831016911582192}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -53,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5e7ca3b4d52fc4eaea701120c048b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 3
+  settings: 0
   allowArtifacts: 1
   CommandConsole: {fileID: 1704929989082906118, guid: 3ad6c0ab1caa33c44ab70d8171a08f0a, type: 3}
   maxArtifacts: 3
@@ -98,19 +99,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f1818018b30184aa867a9af6e9cc50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedSetting: 0
   gridIndex: 0
   gridPrefabs:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   gridDimensions:
+  - {x: 10, y: 10}
   - {x: 8, y: 8}
   - {x: 12, y: 8}
   - {x: 9, y: 12}
   gridToLoad: 0
-  currentMovementTestingTile: {x: 0, y: 0}
-  newMovementTestingTile: {x: 0, y: 0}
 --- !u!114 &8767230653786326938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,8 +137,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shownSettings: 2
   StartCombatDelay: 0.1
+  debugState: 0
   currentHearBackNum: 0
   targetHearBackNum: 0
+  AutomaticallyGoToNextPhase: 1
   breakInfLoop: 0
   playerCanvas: {fileID: 0}
   turnIndicatorPrefab: {fileID: 4808714204469960702, guid: 38ace1e574717c043844f9d2c2d144cf, type: 3}
@@ -256,6 +258,7 @@ MonoBehaviour:
     - {fileID: 0}
   currentLevel: 0
   currentPipsOnField: 0
+  hazardTiles: []
 --- !u!114 &1134159518502395643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0c77a8c3280c54bbb52f1e32a357cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: 1
+  settings: 0
   healthBar: {fileID: 0}
   CurrentHealth: 100
   MaxHealth: 100
@@ -279,6 +282,7 @@ MonoBehaviour:
   RAPChanceModifier: 1
   turnIndicator: {fileID: 0}
   statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
+  UICanvas: {fileID: 0}
   Resistance: 0
   DamageTakenMultiplier: 1
   RangedDamageTakenMultiplier: 1
@@ -299,3 +303,15 @@ MonoBehaviour:
   MissChance: 0
   InstaKillChance: 0
   NoActionPointCostChance: 0
+--- !u!114 &5803831016911582192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740814544277476685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3c987163876e4f9c1b04dcf0522ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

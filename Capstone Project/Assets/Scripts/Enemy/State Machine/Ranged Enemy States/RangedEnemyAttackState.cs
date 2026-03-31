@@ -11,6 +11,7 @@ public class RangedEnemyAttackState : RangedEnemyState
 {
 
     [SerializeField] private FMOD.Studio.EventInstance rangedAttackSFX;
+    private GameObject aPrefab;
 
 
     public RangedEnemyAttackState(RangedEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
@@ -21,9 +22,13 @@ public class RangedEnemyAttackState : RangedEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         enemy.logText.text = "A";
 
-        enemy.playerStats.TakeDamage(enemy.damage);
+        enemy.rangedAnimator.SetTrigger("Attack");
 
         rangedAttackSFX = FMODUnity.RuntimeManager.CreateInstance("event:/RangedAttack");
         FMODUnity.RuntimeManager.PlayOneShot("event:/RangedAttack");

@@ -107,9 +107,28 @@ public class EnemyHandler : MonoBehaviour
                 enemies[index - 1].turnIndicator.SetActive(false);
             }
 
+            if (enemies[index] == null)
+            {
+                EnemyNullCheck(index);
+            }
             enemies[index].turnIndicator.SetActive(true);
             enemies[index].StartEnemyTurn();
             ++index;
+        }
+    }
+
+    /// <summary>
+    /// If enemy is null remove from enemies list 
+    /// Check if next enemy is null
+    /// repeat
+    /// </summary>
+    /// <param name="index"></param>
+    private void EnemyNullCheck(int index)
+    {
+        if (enemies[index] == null)
+        {
+            enemies.Remove(enemies[index]);
+            EnemyNullCheck(index);
         }
     }
 
@@ -130,9 +149,9 @@ public class EnemyHandler : MonoBehaviour
         {
             //TODO: End Level logic
             EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
-            endLevelMenu.SetText("You Beat the Level!");
-            endLevelMenu.SetNextLevelButton(true);
-            endLevelMenu.EnableEndMenuUi();
+            //endLevelMenu.SetText("You Beat the Level!");
+            //endLevelMenu.SetNextLevelButton(true);
+            endLevelMenu.EnableEndMenuUi(true);
             Debug.Log("Level Ended");
         }
     }

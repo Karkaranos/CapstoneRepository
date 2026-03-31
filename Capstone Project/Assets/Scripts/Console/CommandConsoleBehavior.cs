@@ -172,7 +172,12 @@ public class CommandConsoleBehavior : MonoBehaviour
                     {
                         if(navigationEnabled)
                         {
-                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
+                            Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+                            foreach (Pip pip in pips)
+                            {
+                                Destroy(pip.gameObject);
+                            }
+                            Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                         }
                         break;
                     }
@@ -227,7 +232,12 @@ public class CommandConsoleBehavior : MonoBehaviour
                             {
                                 if(navigationEnabled)
                                 {
-                                    Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
+                                    Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+                                    foreach (Pip pip in pips)
+                                    {
+                                        Destroy(pip.gameObject);
+                                    }
+                                    Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                 }
                                 break;
                             }
@@ -282,7 +292,12 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     {
                                         if(navigationEnabled)
                                         {
-                                            Commands.Navigation(command, FindFirstObjectByType<GridTesting>());
+                                            Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+                                            foreach (Pip pip in pips)
+                                            {
+                                                Destroy(pip.gameObject);
+                                            }
+                                            Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                         }
                                         break;
                                     }

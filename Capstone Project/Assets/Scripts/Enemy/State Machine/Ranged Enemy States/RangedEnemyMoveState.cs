@@ -18,6 +18,10 @@ public class RangedEnemyMoveState : RangedEnemyState
     /// </summary>
     public async override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         enemy.logText.text = "M";
         enemy.rangedAnimator.SetBool("IsWalking", true);
         enemy.targetingBehaviour.FindTarget();

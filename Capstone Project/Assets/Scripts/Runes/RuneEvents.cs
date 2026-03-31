@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 	Jay Embry, Brad Dixon
+Author Names : 	Jay Embry, Brad Dixon, Aidan Ratcliffe
 Date Created : 	10/07/2025
-Date Last Modified : 02/16/2026 (Jay Embry)
+Date Last Modified : 03/28/2026 (Aidan Ratcliffe)
 Brief Description : Contains rune types and effects
                     I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
@@ -98,11 +98,16 @@ public class RuneEvents : MonoBehaviour
 
     #region ANIMATIONS
 
+    /// <summary>
+    /// holds animators for book & player
+    /// </summary>
     private Variables Animations;
 
     [ShowIf(nameof(currentInspectorShowing), Variables.Animations), SerializeField]
     private GameObject PlayerVisual;
+    private GameObject BookVisual;
     private Animator anim;
+    private Animator bookanim;
 
 
     #endregion ANIMATIONS
@@ -111,10 +116,24 @@ public class RuneEvents : MonoBehaviour
 
     #region INITIALIZATION
 
+    /// <summary>
+    /// references the player animator, allowing it to be called it in another script
+    /// </summary>
+    /// <param name="animator"></param>
     public void AssignAnim(Animator animator)
     {
         anim = animator;
     }
+
+    /// <summary>
+    /// references the book animator, allowing it to be called it in another script
+    /// </summary>
+    /// <param name="animator"></param>
+    public void AssignBookAnim(Animator animator)
+    {
+        bookanim = animator;
+    }
+
 
     /// <summary>
     /// Runs whenever this script is loaded into a scene
@@ -218,6 +237,11 @@ public class RuneEvents : MonoBehaviour
             anim = FindFirstObjectByType<PlayerBehavior>().gameObject.GetComponentInChildren<Animator>();
         }
 
+        if (bookanim == null)
+        {
+            bookanim = FindAnyObjectByType<PlayerBehavior>().gameObject.GetComponentInChildren<Animator>();
+        }
+
         float damageDealt = Mathf.CeilToInt(rune.RuneDamage * FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
         * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier);
 
@@ -255,6 +279,8 @@ public class RuneEvents : MonoBehaviour
 
                 tile.ElectrifyAdTiles();
                 anim.SetBool("Attack", true);
+                bookanim.SetBool("LAtk", true);
+                bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
                 Debug.Log("I am tottaly being called");
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
@@ -274,10 +300,15 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                anim.SetBool("Attack", true);
+                bookanim.SetBool("LAtk", true);
+                bookanim.SetBool("Idle", false);
+                anim.SetBool("Idle", false);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
                 Instantiate(rune.RuneVFX, tile.transform);
+                tile.Invoke("ElectrifyAdTiles", 1.2f);
 
                 enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
 
@@ -311,6 +342,7 @@ public class RuneEvents : MonoBehaviour
                             continue;
                         }
 
+                        
                         AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                         AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
@@ -323,6 +355,8 @@ public class RuneEvents : MonoBehaviour
                             target.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
 
                         }
+
+                        target.Invoke("ElectrifyAdTiles", 1.2f);
 
                     }
 
@@ -343,15 +377,17 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                Instantiate(rune.RuneVFX, tile.transform);
+
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
                 GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
 
-                tile.ElectrifyAdTiles();
+                Invoke("PlayerTeleport", .1f);
+
+                tile.Invoke("ElectrifyAdTiles", 1.2f);
 
                 FindAdjacentTiles(tile);
-
-                Invoke("PlayerTeleport", .1f);
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
@@ -369,11 +405,11 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    tile.ElectrifyAdTiles();
-
                 }
 
                 anim.SetBool("Attack", true);
+                bookanim.SetBool("LAtk", true);
+                bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
@@ -420,6 +456,8 @@ public class RuneEvents : MonoBehaviour
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                     anim.SetBool("Attack", true);
+                    bookanim.SetBool("LAtk", true);
+                    bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                     AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
@@ -607,10 +645,12 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    await Task.Delay(1200);
+                    await Task.Delay(400);
                     selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                     anim.SetBool("Attack", true);
+                    bookanim.SetBool("WAtk", true);
+                    bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
@@ -659,6 +699,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
                     anim.SetBool("Attack", true);
+                    bookanim.SetBool("WAtk", true);
+                    bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
                     AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
@@ -710,6 +752,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
                     anim.SetBool("Attack", true);
+                    bookanim.SetBool("WAtk", true);
+                    bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_2);
                     AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
@@ -759,6 +803,8 @@ public class RuneEvents : MonoBehaviour
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                     anim.SetBool("Attack", true);
+                    bookanim.SetBool("WAtk", true);
+                    bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_4);
                     AudioManager.instance.PlayOneShot(windSpellSFX_4, audioListenerObject.transform.position);
@@ -1155,7 +1201,7 @@ public class RuneEvents : MonoBehaviour
                         if(movementLeft > 1)
                         {
 
-                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
+                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().LightningSecondaryHighlight);
                             GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                             PreviousPos.Add(v);
                             movementPos.Add(t);
@@ -1362,7 +1408,6 @@ public class RuneEvents : MonoBehaviour
 
                 GridManager.MoveToTile(originalSelectedTile, selectedTile, -3);
 
-                GridManager.combatGrid[selectedTile.x, selectedTile.y].ElectrifyAdTiles();
                 Invoke("PlayerTeleport", .2f);
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
@@ -1371,7 +1416,7 @@ public class RuneEvents : MonoBehaviour
                 for(int i = 0; i < PreviousPos.Count; i++)
                 {
 
-                    //Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
+                    Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
 
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
@@ -1381,7 +1426,7 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    GridManager.combatGrid[selectedTile.x, selectedTile.y].ElectrifyAdTiles();
+                    GridManager.combatGrid[selectedTile.x, selectedTile.y].Invoke("ElectrifyAdTiles", 1.2f);
 
                 }
 
@@ -1444,7 +1489,7 @@ public class RuneEvents : MonoBehaviour
                     ShieldBehavior newShield = GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].gameObject.AddComponent<ShieldBehavior>();
                     newShield.OnShieldGenerated(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform, rune.RuneVFX);
 
-                    GridManager.AddEntity(PreviousPos[i], -6);
+                    GridManager.AddEntity(PreviousPos[i], -7);
 
                 }
 
@@ -1611,6 +1656,9 @@ public class RuneEvents : MonoBehaviour
                 PublicEvents.EndCast.Invoke();
                 Casting = false;
                 anim.SetBool("Attack", false);
+                bookanim.SetBool("LAtk", false);
+                bookanim.SetBool("WAtk", false);
+                bookanim.SetBool("Idle", true);
                 anim.SetBool("Idle", true);
             }
 

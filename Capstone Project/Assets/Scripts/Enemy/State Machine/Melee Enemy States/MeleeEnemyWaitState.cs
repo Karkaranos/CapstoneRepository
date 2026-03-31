@@ -17,6 +17,10 @@ public class MeleeEnemyWaitState : MeleeEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         Debug.Log("Enter Wait State");
         enemy.logText.text = "W";
     }
