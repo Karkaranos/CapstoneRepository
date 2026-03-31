@@ -49,6 +49,7 @@ public class PopUpScript : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         Debug.Log(backgrounds.Count);
+        backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();
         foreach (var obj in backgrounds)
         {
             Animator anim = obj.GetComponent<Animator>();
