@@ -310,7 +310,12 @@ public class RuneEvents : MonoBehaviour
                 Instantiate(rune.RuneVFX, tile.transform);
                 tile.Invoke("ElectrifyAdTiles", 1.2f);
 
-                enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
+                if(tile.GetComponentInChildren<Enemy>())
+                {
+
+                    tile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
+
+                }
 
                 await Task.Delay(1000);
 
