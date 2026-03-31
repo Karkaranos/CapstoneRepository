@@ -296,11 +296,17 @@ public class Enemy : MonoBehaviour
         PlayerBehavior pb = FindFirstObjectByType<PlayerBehavior>();
         pb.RemoveEnemyPosition(gridPathfinding.MyPosition);
 
+        if (TurnManager.currentStatus == TurnStates.EnemyTurn)
+        {
+            EnemyHandler.Instance.RunNextEnemyTurn();
+        }
+
         if (gameObject != null)
         {
             Destroy(this.gameObject);
         }
         print("Enemy is dead!");
+        
     }
 
     /// <summary>

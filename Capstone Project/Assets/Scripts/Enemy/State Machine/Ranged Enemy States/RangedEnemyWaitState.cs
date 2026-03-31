@@ -17,6 +17,10 @@ public class RangedEnemyWaitState : RangedEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         enemy.logText.text = "W";
         base.EnterState();
     }

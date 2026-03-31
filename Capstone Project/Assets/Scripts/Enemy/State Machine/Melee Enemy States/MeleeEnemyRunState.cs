@@ -21,6 +21,10 @@ public class MeleeEnemyRunState : MeleeEnemyState
     
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         Debug.Log("Enter Run State");
         enemy.anim.SetBool("IsWalking", true);
         enemy.logText.text = "R";
