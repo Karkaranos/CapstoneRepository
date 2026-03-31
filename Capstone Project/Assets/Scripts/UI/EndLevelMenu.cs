@@ -67,7 +67,7 @@ public class EndLevelMenu : MonoBehaviour
         Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
         foreach (Pip pip in pips)
         {
-            Destroy(pip.gameObject);
+            pip.RemovePip();
         }
         //stops all audio
     }
@@ -89,6 +89,11 @@ public class EndLevelMenu : MonoBehaviour
     public void RestartLevel()
     {
         retrying = true;
+        Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+        foreach (Pip pip in pips)
+        {
+            pip.RemovePip();
+        }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
     
@@ -98,6 +103,11 @@ public class EndLevelMenu : MonoBehaviour
     public void NextLevel()
     {
         retrying = false;
+        Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+        foreach (Pip pip in pips)
+        {
+            pip.RemovePip();
+        }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
 
