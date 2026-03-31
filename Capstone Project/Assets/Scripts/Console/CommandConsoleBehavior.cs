@@ -175,7 +175,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                             Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
                             foreach (Pip pip in pips)
                             {
-                                Destroy(pip.gameObject);
+                                pip.RemovePip();
                             }
                             Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                         }
@@ -235,7 +235,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
                                     foreach (Pip pip in pips)
                                     {
-                                        Destroy(pip.gameObject);
+                                        pip.RemovePip();
                                     }
                                     Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                 }
@@ -295,7 +295,7 @@ public class CommandConsoleBehavior : MonoBehaviour
                                             Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
                                             foreach (Pip pip in pips)
                                             {
-                                                Destroy(pip.gameObject);
+                                                pip.RemovePip();
                                             }
                                             Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                         }

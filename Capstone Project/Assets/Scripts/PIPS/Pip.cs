@@ -22,13 +22,16 @@ public class Pip : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
+        RemovePip();
+    }
+
+    public void RemovePip()
+    {
         --PipManager.Instance.currentPipsOnField;
         gameManager.IncrementActionPoints(pipsGrantedOnPickup);
         GridManager.combatGrid[tile.IndexInGrid.x, tile.IndexInGrid.y].entityOnGrid = -1;
         Destroy(this.gameObject);
     }
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
