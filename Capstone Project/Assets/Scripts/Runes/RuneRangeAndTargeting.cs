@@ -35,6 +35,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
+    [SerializeField] private Button confirm; 
+
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
     public Color BlockedHighlight;
@@ -582,8 +584,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile))
         {
-
-            GameObject.Find("Confirm").GetComponent<Button>().interactable = true;
+            confirm.interactable = true;
 
             SetHighlight(true);
 
