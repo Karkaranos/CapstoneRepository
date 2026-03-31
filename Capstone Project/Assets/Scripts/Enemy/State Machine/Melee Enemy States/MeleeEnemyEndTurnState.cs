@@ -18,6 +18,10 @@ public class MeleeEnemyEndTurnState : MeleeEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         try
         {
             enemy.anim.SetBool("IsWalking", false);
