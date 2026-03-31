@@ -70,6 +70,7 @@ public class MenuBehavior : MonoBehaviour
     public void LoadScene(int sceneToLoad)
     {
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        Time.timeScale = 1f;
 
         FindFirstObjectByType<TransitionManager>().SceneTransition(sceneToLoad);
     }

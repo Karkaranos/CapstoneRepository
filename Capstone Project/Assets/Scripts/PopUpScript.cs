@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class PopUpScript : MonoBehaviour
 {
@@ -19,15 +20,35 @@ public class PopUpScript : MonoBehaviour
     private List<GameObject> backgrounds; //lists of all background objects.
     void Start()
     {
-        backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();//grabs all "background" objects
-
-        backgrounds = backgrounds.OrderBy(obj => Vector3.Distance(transform.position, obj.transform.position)).ToList();//orders by distance.
+       GetReferences();
 
         //StartCoroutine(Flip());
     }
+
+    /// <summary>
+    /// Gets a reference to any popup background objects
+    /// </summary>
+    private void GetReferences()
+    {
+        backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();//grabs all "background" objects
+
+        backgrounds = backgrounds.OrderBy(obj => Vector3.Distance(transform.position, obj.transform.position)).ToList();//orders by distance.
+    }
+
+    /// <summary>
+    /// Calls the Flip coroutine
+    /// </summary>
+    public void StartFlip()
+    {
+        GetReferences();
+        StartCoroutine(Flip());
+    }
+
     [Button]
     public IEnumerator Flip()//objects that are laying down get flipped up. 
     {
+        yield return new WaitForSeconds(1f);
+        Debug.Log(backgrounds.Count);
         foreach (var obj in backgrounds)
         {
             Animator anim = obj.GetComponent<Animator>();
@@ -43,6 +64,7 @@ public class PopUpScript : MonoBehaviour
             //Debug.Log("Flipping " + obj.name + " at " + delay + " seconds");
         }
     }
+
     [Button]
     public IEnumerator UnFlip()//takes the objects that are currently popped up and flattens them back out.
     {
