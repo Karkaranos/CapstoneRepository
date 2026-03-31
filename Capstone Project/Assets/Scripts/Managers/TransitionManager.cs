@@ -102,6 +102,7 @@ public class TransitionManager : MonoBehaviour
     public void LevelToEndScreen()
     {
         transitionAnimator.SetTrigger("EndScreen");
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     /// <summary>
