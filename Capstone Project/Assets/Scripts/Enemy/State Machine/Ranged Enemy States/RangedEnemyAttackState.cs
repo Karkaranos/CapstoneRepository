@@ -22,6 +22,10 @@ public class RangedEnemyAttackState : RangedEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         enemy.logText.text = "A";
 
         enemy.rangedAnimator.SetTrigger("Attack");

@@ -17,6 +17,10 @@ public class RangedEnemyEndTurnState : RangedEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         try
         {
             enemy.rangedAnimator.SetBool("IsWalking", false);
