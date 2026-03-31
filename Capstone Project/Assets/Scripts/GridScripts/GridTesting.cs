@@ -27,6 +27,7 @@ public class GridTesting : MonoBehaviour
     private List<GameObject> entityLists = new List<GameObject>();
 
     public int gridToLoad;
+    public PopUpScript popUp;
     #endregion
 
     #region Buttons
@@ -152,6 +153,7 @@ public class GridTesting : MonoBehaviour
         }
         gridPrefabs[gridIndex].SetActive(true);
         PublicEvents.LoadingGrid.Invoke(gridIndex);
+        popUp.Flip();
     }
 
     /// <summary>
