@@ -16,6 +16,10 @@ public class PauseMenuBehavoir : MonoBehaviour
 
     [SerializeField] private GameObject PauseMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject winCanvas;
+    [SerializeField] private GameObject loseCanvas;
+    private bool endCanvasActive = false;
+    private GameObject lastCanvas; 
 
     private bool gamePaused;
 
@@ -34,7 +38,6 @@ public class PauseMenuBehavoir : MonoBehaviour
     private void EscapePressed(InputAction.CallbackContext obj)
     {
         
-
         if (PauseMenu.activeSelf)
         {
             PauseMenu.SetActive(false);
@@ -43,6 +46,26 @@ public class PauseMenuBehavoir : MonoBehaviour
         }
         if (!PauseMenu.activeSelf && !gamePaused)
         {
+            if (winCanvas.activeSelf)
+            {
+                endCanvasActive = true;
+                lastCanvas = winCanvas;
+            }
+            else if (loseCanvas.activeSelf)
+            {
+                endCanvasActive = true;
+                lastCanvas = loseCanvas;
+            }
+            else
+            {
+                endCanvasActive = false;
+                lastCanvas = null;
+            }
+
+            if (lastCanvas != null)
+            {
+                lastCanvas.SetActive(false);
+            }
             PauseMenu.SetActive(true);
             PauseGame();
             return;
@@ -72,6 +95,11 @@ public class PauseMenuBehavoir : MonoBehaviour
         gamePaused = false;
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
+
+        if(endCanvasActive)
+        {
+            lastCanvas.SetActive(true);
+        }
     }
 
     /// <summary>
