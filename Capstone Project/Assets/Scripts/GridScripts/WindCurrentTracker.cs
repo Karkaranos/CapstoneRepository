@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	02/15/2026
-Date Last Modified : 02/15/2026
+Date Last Modified : 3/31/2026
 Brief Description : Create/manages wind currents
 External Resources : 	
 	***************************************************/
@@ -29,9 +29,7 @@ public class WindCurrentTracker : MonoBehaviour
 
         foreach(TileBehaviour tile in WindCurrentTiles)
         {
-
             WindCurrentVFX.Add(Instantiate(vfx, tile.transform));
-
         }
 
     }
@@ -53,9 +51,7 @@ public class WindCurrentTracker : MonoBehaviour
 
                 if (WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>() && CanMoveBackwards(WindCurrentTiles[i], WindCurrentTiles[i+1]))
                 {
-
                     SendEnemyBackwards(WindCurrentTiles[i], WindCurrentTiles[i + 1], WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>());
-
                 }
 
                 enemy.transform.SetParent(WindCurrentTiles[i + 1].transform);
@@ -69,9 +65,10 @@ public class WindCurrentTracker : MonoBehaviour
             }
             else
             {
-
-                SendEnemyBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i], enemy);
-
+                if (WindCurrentTiles[i].GetComponentInChildren<Enemy>() && CanMoveBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i]))
+                {
+                    SendEnemyBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i], enemy);
+                }
             }
 
         }
@@ -91,65 +88,60 @@ public class WindCurrentTracker : MonoBehaviour
 
         if (originTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
         {
-
             newTilePos.x += 1;
-
         }
         else if (originTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
         {
-
             newTilePos.x -= 1;
-
         }
 
         if (originTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
         {
-
             newTilePos.y += 1;
-
         }
         else if (originTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
         {
-
             newTilePos.y -= 1;
+        }
+
+        TileBehaviour newTile = null;
+
+        foreach (TileBehaviour viableTile in GridManager.combatGrid)
+        {
+
+            if (viableTile.IndexInGrid == newTilePos)
+            {
+                newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
+                break;
+            }
 
         }
 
-        if (GridManager.TileIsInGrid(newTilePos))
+        if (newTile != null)
         {
 
-            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
-
-            if (newTile.GetComponentInChildren<Enemy>())
+            if (newTile.GetComponentInChildren<Enemy>() || newTile.entityOnGrid == -2)
             {
 
                 if (CanMoveBackwards(enemyTile, newTile))
                 {
-
-                    return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2;
-
+                    return true;
                 }
                 else
                 {
-
                     return false;
-
                 }
 
             }
             else
             {
-
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2;
-
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -4 || newTile.entityOnGrid == -20;
             }
 
         }
         else
         {
-
             return false;
-
         }
 
     }
@@ -167,51 +159,42 @@ public class WindCurrentTracker : MonoBehaviour
 
         if (originTile.IndexInGrid.x < enemyTile.IndexInGrid.x)
         {
-
             newTilePos.x += 1;
-
         }
         else if (originTile.IndexInGrid.x > enemyTile.IndexInGrid.x)
         {
-
             newTilePos.x -= 1;
-
         }
 
         if (originTile.IndexInGrid.y < enemyTile.IndexInGrid.y)
         {
-
             newTilePos.y += 1;
-
         }
         else if (originTile.IndexInGrid.y > enemyTile.IndexInGrid.y)
         {
-
             newTilePos.y -= 1;
-
         }
 
-        if (GridManager.TileIsInGrid(newTilePos))
+        foreach (TileBehaviour viableTile in GridManager.combatGrid)
         {
 
-            TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
-
-            if (newTile.entityOnGrid == -1)
+            if (viableTile.IndexInGrid == newTilePos)
             {
+                TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-                enemy.transform.SetParent(newTile.transform);
+                if (newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20)
+                {
 
-                enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+                    enemy.transform.SetParent(newTile.transform);
 
-                GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+                    enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
 
-                enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                    GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
 
-            }
-            else if (newTile.entityOnGrid == -2)
-            {
+                    enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
 
-                if (CanMoveBackwards(enemyTile, newTile))
+                }
+                else if (newTile.entityOnGrid == -2)
                 {
 
                     newTile.GetComponentInChildren<Enemy>().Damage(CurrentKBDamage, Enemy.DamageType.Wind);
@@ -227,21 +210,15 @@ public class WindCurrentTracker : MonoBehaviour
                     enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
 
                 }
+                else if (newTile.entityOnGrid == -4)
+                {
+                    enemy.Damage(CurrentKBDamage, Enemy.DamageType.Wind);
+                }
+
+                break;
 
             }
-            else if(newTile.entityOnGrid != -6)
-            {
-                enemy.Damage(CurrentKBDamage, Enemy.DamageType.Wind);
-            }
-        }
-        else
-        {
-            enemy.Damage(CurrentKBDamage, Enemy.DamageType.Wind);
 
-            if(GridManager.TileIsInGrid(newTilePos) && GridManager.combatGrid[newTilePos.x, newTilePos.y].entityOnGrid == -2)
-            {
-                GridManager.combatGrid[newTilePos.x, newTilePos.y].GetComponentInChildren<Enemy>().Damage(CurrentKBDamage, Enemy.DamageType.Wind);
-            }
         }
 
     }
