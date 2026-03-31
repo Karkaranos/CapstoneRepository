@@ -247,7 +247,6 @@ public class PlayerStats : MonoBehaviour
         {
 
             tempHealth = 0;
-            Debug.Log("No more extra health! ");
 
         }
 
@@ -317,8 +316,6 @@ public class PlayerStats : MonoBehaviour
 
         //shouldn't be capped by max health iirc
         tempHealth += tempHealthAmount;
-
-        Debug.Log(tempHealth + " hit points added to the player!");
 
     }
 

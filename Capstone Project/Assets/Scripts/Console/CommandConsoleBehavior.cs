@@ -344,7 +344,6 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// </summary>
     public void ToggleConsole()
     {
-        Debug.Log("toggling console");
         if (consoleEnabled)
         {
             consoleGameObject.SetActive(!consoleGameObject.activeInHierarchy);

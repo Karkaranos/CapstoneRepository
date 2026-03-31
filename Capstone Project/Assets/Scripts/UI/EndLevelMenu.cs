@@ -78,7 +78,6 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        Debug.Log("Return to Menu");
         SceneManager.LoadScene(0);
     }
 

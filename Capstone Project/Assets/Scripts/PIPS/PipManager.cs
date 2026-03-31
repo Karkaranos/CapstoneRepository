@@ -70,7 +70,6 @@ public class PipManager : MonoBehaviour
     /// </summary>
     public void SpawnPips()
     {
-        Debug.Log("SPAWNING PIPS");
         List<TileBehaviour> temp = new List<TileBehaviour>(); 
         while(currentPipsOnField < maxNumberOfPipsOnField)
         {

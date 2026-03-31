@@ -131,7 +131,6 @@ public class Commands
     public static void Enemies(string command)
     {
         Enemy[] AllEnemies = GameObject.FindObjectsByType<Enemy>(findObjectsInactive:FindObjectsInactive.Exclude, sortMode:FindObjectsSortMode.None);
-        Debug.LogWarning(AllEnemies.Length);
         
         // Commands that affect all enemies
         if(command.Contains("enemies") || command.Contains("drop"))
@@ -143,9 +142,6 @@ public class Commands
                     case "kill-enemies":
                         e.Damage(9999999);
                         break;
-                    case "drop":
-                        e.TryDropItem(1f);
-                        break;
                     case "enemies-godmode":
                         e.ToggleInvincibility();
                         Logger.Log("Enemy invincibility has been toggled");
@@ -156,7 +152,6 @@ public class Commands
                         {
                             float newVal = ConvertToNumber(command.Substring(15, command.Length-15));
                             e.SetHealth(newVal);
-                            Debug.LogWarning("Hit");
                         }
                         else
                         {
@@ -209,7 +204,6 @@ public class Commands
             // Displays all commands
             case "menu":
                 string sb = "Available Commands: \n";
-                int n = 0;
                 foreach(string key in CommandDictionary.Keys)
                 {
                     if(AvailableCommandTypes.Contains(CommandDictionary[key]))

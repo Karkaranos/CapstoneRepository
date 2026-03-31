@@ -63,7 +63,6 @@ public class EquippedArtifactButton : MonoBehaviour, IPointerEnterHandler
     /// </summary>
     public void ButtonClicked()
     {
-        Debug.Log("CHh");
         menuManager.EquipArtifact(this);
     }
 

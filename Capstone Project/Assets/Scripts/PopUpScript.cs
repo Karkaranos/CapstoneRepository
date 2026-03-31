@@ -48,7 +48,6 @@ public class PopUpScript : MonoBehaviour
     public IEnumerator Flip()//objects that are laying down get flipped up. 
     {
         yield return new WaitForSeconds(1f);
-        Debug.Log(backgrounds.Count);
         backgrounds = GameObject.FindGameObjectsWithTag(targetTag).ToList();
         foreach (var obj in backgrounds)
         {
@@ -62,7 +61,6 @@ public class PopUpScript : MonoBehaviour
             float delay = distance * delayMultiplier;
 
             yield return new WaitForSeconds(delay);
-            //Debug.Log("Flipping " + obj.name + " at " + delay + " seconds");
         }
     }
 
@@ -83,7 +81,6 @@ public class PopUpScript : MonoBehaviour
             float invertedDelay = (maxDistance - distance) * delayMultiplier;
 
             yield return new WaitForSeconds(invertedDelay);
-            Debug.Log("Flipping " + obj.name + " at " + invertedDelay + " seconds");
         }
     }
 }
