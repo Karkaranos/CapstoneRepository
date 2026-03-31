@@ -25,6 +25,9 @@ public class Pip : MonoBehaviour
         RemovePip();
     }
 
+    /// <summary>
+    /// Remove pip from field
+    /// </summary>
     public void RemovePip()
     {
         --PipManager.Instance.currentPipsOnField;
