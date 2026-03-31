@@ -21,6 +21,10 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     /// </summary>
     public override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         Debug.Log("Entered Attacking state");
         enemy.anim.SetTrigger("Attack");
         enemy.logText.text = "A";
