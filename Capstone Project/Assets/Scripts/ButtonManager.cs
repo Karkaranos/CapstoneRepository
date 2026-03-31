@@ -100,6 +100,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = true;
         playerCanvas.SetActive(true);
+        moveButton.interactable = true;
         runeCanvas.SetActive(true);
         castingSpell = false;
     }
@@ -254,6 +255,7 @@ public class ButtonManager : MonoBehaviour
         {
 
             playerBehavior.ConfirmMovement();
+            moveButton.interactable = false;
             PublicEvents.MoveButton();
 
         }
