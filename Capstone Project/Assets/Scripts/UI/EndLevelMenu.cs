@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Clare Grady, Tyler Bouchard
+Author Names : 		Clare Grady, Tyler Bouchard, Cade Naylor
 Date Created : 		10/30/2025
-Date Last Modified : 	3/26/2026
+Date Last Modified : 	3/31/2026
 Brief Description : 		Temporary End Level Menu handler for 
                     vertical slice
 External Resources : 	
@@ -69,6 +69,10 @@ public class EndLevelMenu : MonoBehaviour
         {
             pip.RemovePip();
         }
+        foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+        {
+            d.RemoveHazard();
+        }
         //stops all audio
     }
 
@@ -93,6 +97,10 @@ public class EndLevelMenu : MonoBehaviour
         {
             pip.RemovePip();
         }
+        foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+        {
+            d.RemoveHazard();
+        }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
     
@@ -106,6 +114,10 @@ public class EndLevelMenu : MonoBehaviour
         foreach (Pip pip in pips)
         {
             pip.RemovePip();
+        }
+        foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+        {
+            d.RemoveHazard();
         }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
