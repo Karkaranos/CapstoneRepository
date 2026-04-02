@@ -136,7 +136,6 @@ public class InCombatControllerManager : MonoBehaviour
             MoveToTile(currentSelectedGridTile);
         }
 
-        // Debug.Log("Moving: " + dir);
     }
 
     #region Hover over spell funcs
@@ -202,7 +201,6 @@ public class InCombatControllerManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("char says hi");
 
         if (!PlayerIsInUIMenu)
         {

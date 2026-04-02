@@ -1,7 +1,7 @@
 /*************************************************
-Author Names : 		Clare Grady, Tyler Bouchard
+Author Names : 		Clare Grady, Tyler Bouchard, Cade Naylor
 Date Created : 		10/30/2025
-Date Last Modified : 	3/26/2026
+Date Last Modified : 	3/31/2026
 Brief Description : 		Temporary End Level Menu handler for 
                     vertical slice
 External Resources : 	
@@ -67,7 +67,11 @@ public class EndLevelMenu : MonoBehaviour
         Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
         foreach (Pip pip in pips)
         {
-            Destroy(pip.gameObject);
+            pip.RemovePip();
+        }
+        foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+        {
+            d.RemoveHazard();
         }
         //stops all audio
     }
@@ -78,7 +82,6 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        Debug.Log("Return to Menu");
         SceneManager.LoadScene(0);
     }
 
@@ -89,6 +92,15 @@ public class EndLevelMenu : MonoBehaviour
     public void RestartLevel()
     {
         retrying = true;
+        Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+        foreach (Pip pip in pips)
+        {
+            pip.RemovePip();
+        }
+        foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+        {
+            d.RemoveHazard();
+        }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
     
@@ -98,6 +110,15 @@ public class EndLevelMenu : MonoBehaviour
     public void NextLevel()
     {
         retrying = false;
+        Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+        foreach (Pip pip in pips)
+        {
+            pip.RemovePip();
+        }
+        foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+        {
+            d.RemoveHazard();
+        }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
 

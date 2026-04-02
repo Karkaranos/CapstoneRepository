@@ -92,7 +92,6 @@ public class MeleeEnemy : Enemy
         //if low health go to run state
         if(LowHealthDetection())
         {
-            Debug.Log("Wait -> Run");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemyRunState));
             return;
         }
@@ -100,13 +99,11 @@ public class MeleeEnemy : Enemy
         //Attack if player in range otherwise move towards player
         if(GetPlayerInAttackRange())
         {
-            Debug.Log("Wait -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
-            Debug.Log("Wait -> Move");
             hasMovedForTurn = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveToPlayerState));
             return;
@@ -141,13 +138,10 @@ public class MeleeEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
-        Debug.Log("PATHFIND CALLED");
         targetingBehaviour.FindTarget();
         gridPathfinding.PathfindThroughGrid();
-        Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
-        Debug.Log("Target Pos: " + gridPathfinding.GetTargetPosition().ToString());
         
-        if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { Debug.Log("In Range");  }
+        if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { }
         return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
     }
 

@@ -5,6 +5,7 @@ Date Last Modified : 	1/27/2026
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NaughtyAttributes;
@@ -268,10 +269,6 @@ public class Enemy : MonoBehaviour
                 EnemyHandler.Instance.RemoveEnemy(this);
                 await Task.Delay(500);
                 Die();
-                if (FindFirstObjectByType<GameManager>().allowArtifacts)
-                {
-                    TryDropItem();
-                }
             }
             logText.text = damage + " dmg";
             print(currentHealth);
@@ -320,28 +317,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Generates a random number and checks if an item will drop
-    /// Optional overload to force drops
-    /// </summary>
-    public void TryDropItem(float overload = -1f)
-    {
-        if (FindFirstObjectByType<GameManager>().allowArtifacts)
-        {
-
-            float dropChance = (overload > 0f ? overload : artifactDropChance);
-            Debug.Log(dropChance);
-            float randValue = Random.Range(0f, 1f);
-            if (randValue <= dropChance)
-            {
-                // this line should be replaced later. 
-                // it generates an artifact from the pool and 
-                ArtifactData ad = ArtifactManager.GetArtifactFromRAP();
-                ArtifactManager.ObtainArtifact(ad);
-                Logger.Log("Dropped " + ad.Name);
-            }
-        }
-    }
 
     /// <summary>
     /// Sets the Enemy's health
@@ -360,10 +335,6 @@ public class Enemy : MonoBehaviour
         if (currentHealth < 0)
         {
             Die();
-            if (FindFirstObjectByType<GameManager>().allowArtifacts)
-            {
-                TryDropItem();
-            }
         }
     }
 

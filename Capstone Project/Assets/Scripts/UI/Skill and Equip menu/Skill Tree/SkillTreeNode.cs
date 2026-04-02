@@ -135,7 +135,6 @@ public class SkillTreeNode : MonoBehaviour
             Status = NodeStatus.Purchased;
             //button.interactable = false;
             GetComponent<Image>().color = Color.green;
-            //Debug.Log("Node Purchased");
 
             //updates the skill tree manager with the rune that got purchased
             skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
@@ -227,7 +226,6 @@ public class SkillTreeNode : MonoBehaviour
             GetComponent<Image>().color = Color.gray;
         }
         
-        //Debug.Log("Node Locked");
     }
 
     /// <summary>
@@ -238,7 +236,6 @@ public class SkillTreeNode : MonoBehaviour
         Status = NodeStatus.Unlocked;
         button.interactable = true;
         GetComponent<Image>().color = Color.white;
-        //Debug.Log("Node Unlocked");
     }
 
     /// <summary>
@@ -254,7 +251,6 @@ public class SkillTreeNode : MonoBehaviour
                 Status = NodeStatus.Purchased;
                 //button.interactable = false;
                 GetComponent<Image>().color = Color.green;
-                //Debug.Log("Node Purchased");
 
                 //updates the skill tree manager with the rune that got purchased
                 skillTreeManager.UpdatePurchasedNodes(NodeRuneData);
@@ -274,10 +270,6 @@ public class SkillTreeNode : MonoBehaviour
 
                 //Tells all other nodes that a node was purchased
                 PublicEvents.SkillTreeNodePurchased();
-            }
-            else
-            {
-                //Debug.Log("Too Few SkillPoints to Purchase Node");
             }
         }
         
@@ -359,9 +351,6 @@ public class SkillTreeNode : MonoBehaviour
             }
         }
 
-        if (status == NodeStatus.Locked) {
-            Debug.Log("Clicked on a locked node - check logic to make sure button is uninteractable here");
-        }
         if(status == NodeStatus.Unlocked){
             if (IsInSkillTree)
             {

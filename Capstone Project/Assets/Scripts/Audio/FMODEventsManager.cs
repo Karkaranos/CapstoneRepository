@@ -51,7 +51,7 @@ public class FMODEventsManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.Log("There is more than one FMODEventsManager in the scene");
+            Debug.LogWarning("There is more than one FMODEventsManager in the scene");
             Destroy(instance);
         }
         instance = this;

@@ -87,7 +87,6 @@ public class GridPathfinding : MonoBehaviour
         gridDirections.Clear();
 
         int stepsTaken = 0;
-        Debug.Log("Movement Range = " + movementRange);
         List<Vector2Int> nextPositions = new List<Vector2Int>();
         List<Vector2Int> currentPositions = new List<Vector2Int>();
         bool reachedTarget = false;
@@ -233,7 +232,6 @@ public class GridPathfinding : MonoBehaviour
                     newPosition.z -= GridManager.MoveDistances.y;
                     break;
                 default:
-                    Debug.Log("Error!!!");
                     break;
             }
 

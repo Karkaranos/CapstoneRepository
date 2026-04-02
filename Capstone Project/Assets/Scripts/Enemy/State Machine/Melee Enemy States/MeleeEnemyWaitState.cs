@@ -21,7 +21,6 @@ public class MeleeEnemyWaitState : MeleeEnemyState
         {
             return;
         }
-        Debug.Log("Enter Wait State");
         enemy.logText.text = "W";
     }
 

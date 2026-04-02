@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/26/2025
-Date Last Modified : 	2/12/2026
+Date Last Modified : 	3/31/2026
 Brief Description : 	Handles behavior for the Command Console
                         - Reads Value
                         - Calls appropriate static functions
@@ -175,8 +175,15 @@ public class CommandConsoleBehavior : MonoBehaviour
                             Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
                             foreach (Pip pip in pips)
                             {
-                                Destroy(pip.gameObject);
+                                pip.RemovePip();
                             }
+
+                            
+                            foreach(TileBehaviour d in PipManager.Instance.hazardTiles)
+                            {
+                                d.RemoveHazard();
+                            }
+
                             Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                         }
                         break;
@@ -235,7 +242,11 @@ public class CommandConsoleBehavior : MonoBehaviour
                                     Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
                                     foreach (Pip pip in pips)
                                     {
-                                        Destroy(pip.gameObject);
+                                        pip.RemovePip();
+                                    }
+                                    foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+                                    {
+                                        d.RemoveHazard();
                                     }
                                     Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                 }
@@ -295,7 +306,11 @@ public class CommandConsoleBehavior : MonoBehaviour
                                             Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
                                             foreach (Pip pip in pips)
                                             {
-                                                Destroy(pip.gameObject);
+                                                pip.RemovePip();
+                                            }
+                                            foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+                                            {
+                                                d.RemoveHazard();
                                             }
                                             Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
                                         }
@@ -344,7 +359,6 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// </summary>
     public void ToggleConsole()
     {
-        Debug.Log("toggling console");
         if (consoleEnabled)
         {
             consoleGameObject.SetActive(!consoleGameObject.activeInHierarchy);
