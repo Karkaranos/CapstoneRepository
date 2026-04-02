@@ -282,10 +282,8 @@ public class RuneEvents : MonoBehaviour
                 bookanim.SetBool("LAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
-                Debug.Log("I am tottaly being called");
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
-                Debug.Log("I am attacking");
                 
                 Instantiate(rune.RuneVFX, tile.transform);
 
@@ -638,7 +636,6 @@ public class RuneEvents : MonoBehaviour
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
 
-                    Debug.Log("START MOVING");
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] 
@@ -697,8 +694,6 @@ public class RuneEvents : MonoBehaviour
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
 
-                    Debug.Log("START PATHING");
-
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]
                 && WaitingOnPath)
@@ -755,7 +750,6 @@ public class RuneEvents : MonoBehaviour
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
 
-                    Debug.Log("START PATHING");
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] 
@@ -818,8 +812,6 @@ public class RuneEvents : MonoBehaviour
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
-
-                    Debug.Log("START PATHING");
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]
@@ -1577,7 +1569,6 @@ public class RuneEvents : MonoBehaviour
                         foreach (TileBehaviour tileInRange in targetedTiles)
                         {
 
-                            Debug.Log(targetedTiles);
 
                             if (tileInRange.GetComponentInChildren<Enemy>() != null)
                             {

@@ -91,20 +91,17 @@ public class RangedEnemy : Enemy
     {
         if(turnDelayed)
         {
-            Debug.Log("Turn Delayed");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(endTurnState));
             return;
         }
 
         if(GetPlayerInAttackRange() && GetPlayerInLineOfSight())
         {
-            Debug.Log("Wait -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
-            Debug.Log("Wait -> Move");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveState));
             return;
         }
@@ -138,13 +135,9 @@ public class RangedEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
-        Debug.Log("PATHFIND CALLED");
         targetingBehaviour.FindTarget();
         gridPathfinding.PathfindThroughGrid();
-        Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
-        Debug.Log("Target Pos: " + gridPathfinding.GetTargetPosition().ToString());
 
-        if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { Debug.Log("In Range"); }
         return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
     }
 
