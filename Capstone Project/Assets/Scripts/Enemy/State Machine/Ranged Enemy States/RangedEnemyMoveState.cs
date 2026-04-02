@@ -31,7 +31,6 @@ public class RangedEnemyMoveState : RangedEnemyState
 
         if(enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition() && enemy.GetPlayerInLineOfSight())
         {
-            Debug.Log("Move -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
         }
         else

@@ -81,12 +81,7 @@ public class NotebookManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// test function to see if the runes and artifacts are equiping properly
-    /// </summary>
-    public void printData() {
-        EquipedRunesAndArtifacts.PrintSpellsAndArtifacts();
-    }
+
     public void continueToLevel() {
         PublicEvents.StartBattle.Invoke();
     }

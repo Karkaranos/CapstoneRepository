@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
     public void UpdateActionPoints(int amount) {
         CurrentActionPoints -= amount;
         ActionPointVisualizer.DisplayPips(CurrentActionPoints);
-        print("called");
         //if (CurrentActionPoints <= 0)
         //{
         //    TurnPublicEvents.ForceEndCurrentPhase();

@@ -46,23 +46,5 @@ public class EnemyInfoBoxBehavior : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// sets up the text boxes with the info that is needed
-    /// </summary>
-    /// <param name="tile"></param>
-    public void SetUpInfoBox(TileBehaviour tile) {
 
-        print("called");
-        MeleeEnemy meleeEnemyScript = tile?.entityObject?.GetComponent<MeleeEnemy>();
-        RangedEnemy rangedEnemyScript = tile?.entityObject?.GetComponent<RangedEnemy>();
-
-        if (meleeEnemyScript != null) {
-            print(meleeEnemyScript.gameObject.name);
-        }
-
-        if (rangedEnemyScript != null)
-        {
-            print(rangedEnemyScript.gameObject.name);
-        }
-    }
 }

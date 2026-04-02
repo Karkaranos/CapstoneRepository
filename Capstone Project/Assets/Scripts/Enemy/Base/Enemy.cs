@@ -261,7 +261,6 @@ public class Enemy : MonoBehaviour
                 g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damage + " HP ", false, s);
             }
 
-            print("Enemy takes damage");
             healthBarSlider.value = currentHealth;
             
             if (currentHealth <= 0)
@@ -271,7 +270,6 @@ public class Enemy : MonoBehaviour
                 Die();
             }
             logText.text = damage + " dmg";
-            print(currentHealth);
 
 
             await Task.Delay(flashTime);
@@ -302,7 +300,6 @@ public class Enemy : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        print("Enemy is dead!");
         
     }
 

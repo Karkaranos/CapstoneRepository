@@ -24,7 +24,6 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         {
             return;
         }
-        Debug.Log("Entered Move State");
         enemy.logText.text = "M";
         enemy.anim.SetBool("IsWalking", true);
         enemy.targetingBehaviour.FindTarget();
