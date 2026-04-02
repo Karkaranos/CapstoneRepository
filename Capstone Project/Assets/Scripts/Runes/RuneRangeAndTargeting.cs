@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Clare Grady
 Date Created : 	10/07/2025
-Date Last Modified : 03/12/2026
+Date Last Modified : 03/31/2026 (Jay Embry)
 Brief Description : Determines viable targets whenever a spell is selected
 External Resources : 	
 	***************************************************/
@@ -360,20 +360,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 break;
 
-            //targets an enemy
+            //targets any tile
             case (RuneType.Lightning, 2):
 
-                foreach (TileBehaviour tile in tilesInRange)
-                {
-
-                    if (tile.GetComponentInChildren<Enemy>())
-                    {
-
-                        viableTilesInRange.Add(tile);
-
-                    }
-
-                }
+                viableTilesInRange = tilesInRange;
 
                 break;
 
@@ -582,7 +572,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
-        if (WaitingForThePlayer && viableTilesInRange.Contains(tile))
+        if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
         {
             confirm.interactable = true;
 
@@ -599,10 +589,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             (storedData.TypeOfRune == RuneType.Wind))
             {
 
-                if(!this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
-                {
-                    OnSpellCastConfirm();
-                }
+                OnSpellCastConfirm();
 
             }
 

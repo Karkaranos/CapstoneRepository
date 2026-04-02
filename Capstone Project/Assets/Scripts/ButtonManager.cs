@@ -304,7 +304,6 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void EndTurnClick()
     {
-        Debug.Log("button clicked");
         endButtonClicked = true;
 
         playerCanvas.SetActive(false);

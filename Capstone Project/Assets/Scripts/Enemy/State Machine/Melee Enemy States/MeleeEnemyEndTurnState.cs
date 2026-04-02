@@ -27,11 +27,9 @@ public class MeleeEnemyEndTurnState : MeleeEnemyState
             enemy.anim.SetBool("IsWalking", false);
         }
         catch { }
-        Debug.Log("Enter End Turn");
         enemy.DelayedTurnStatus(false);
         EnemyHandler.Instance.RunNextEnemyTurn();
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState(), 0f));
-        Debug.Log("End -> Wait");
     }
 
     /// <summary>

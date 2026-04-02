@@ -35,7 +35,6 @@ public class EnemyStateMachine
     {
         currentState.ExitState();
         yield return new WaitForSecondsRealtime(secondsBetweenStateTransitions);
-        Debug.Log("Changing State...");
         currentState = newState;
         currentState.EnterState();
     }
@@ -51,7 +50,6 @@ public class EnemyStateMachine
     {
         currentState.ExitState();
         yield return new WaitForSecondsRealtime(seconds);
-        Debug.Log("Changing State...");
         currentState = newState;
         currentState.EnterState();
     }

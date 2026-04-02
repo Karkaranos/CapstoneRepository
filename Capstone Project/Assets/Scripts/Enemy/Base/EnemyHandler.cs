@@ -152,7 +152,6 @@ public class EnemyHandler : MonoBehaviour
             //endLevelMenu.SetText("You Beat the Level!");
             //endLevelMenu.SetNextLevelButton(true);
             endLevelMenu.EnableEndMenuUi(true);
-            Debug.Log("Level Ended");
         }
     }
 

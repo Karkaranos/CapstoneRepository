@@ -33,7 +33,6 @@ public class ArtifactNodeBehavior : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         artifactManager = FindFirstObjectByType<ArtifactMenuManager>();
 
-        Debug.Log(artifactData.Name);
         artifactManager.ArtifactPickedUp(artifactData);
     }
 
@@ -172,7 +171,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
             }
             catch
             {
-                Debug.Log("error");
+                
             }
             rectTransform.localPosition = localPoint - offset;
         }
