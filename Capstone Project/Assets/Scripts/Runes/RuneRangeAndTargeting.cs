@@ -129,7 +129,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// </summary>
     /// <param name="tileCoordinates"> the tile that the player has selected </param>
     /// <returns> whether or not the tile can be targeted </returns>
-    public static bool CanAttackTile(Vector2Int tileCoordinates)
+    public static bool CanAttackThroughTile(Vector2Int tileCoordinates)
     {
 
         if (tileCoordinates == GridManager.playerPosition)
@@ -145,6 +145,20 @@ public class RuneRangeAndTargeting : MonoBehaviour
     }
 
     /// <summary>
+    /// checks if a tile should be actually targetable with a spell
+    /// </summary>
+    /// <param name="tileCoordinates"> the tile being checked </param>
+    /// <returns> whether or not the tile can be targeted </returns>
+    public static bool CanAttackTile(Vector2Int tileCoordinates)
+    {
+
+        return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
+
+    }
+
+    /// <summary>
     /// creates a list of all targetable tiles upon selecting a spell
     /// </summary>
     /// <param name="currentTile"> the tile that the player has selected </param>
@@ -153,19 +167,19 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
         List<Vector2Int> validTiles = new List<Vector2Int>();
 
-        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)) && CanAttackTile(new Vector2Int(currentTile.x + 1, currentTile.y)))
+        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x + 1, currentTile.y)) && CanAttackThroughTile(new Vector2Int(currentTile.x + 1, currentTile.y)))
         {
             validTiles.Add(new Vector2Int(currentTile.x + 1, currentTile.y));
         }
-        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)) && CanAttackTile(new Vector2Int(currentTile.x - 1, currentTile.y)))
+        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x - 1, currentTile.y)) && CanAttackThroughTile(new Vector2Int(currentTile.x - 1, currentTile.y)))
         {
             validTiles.Add(new Vector2Int(currentTile.x - 1, currentTile.y));
         }
-        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanAttackTile(new Vector2Int(currentTile.x, currentTile.y + 1)))
+        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y + 1)) && CanAttackThroughTile(new Vector2Int(currentTile.x, currentTile.y + 1)))
         {
             validTiles.Add(new Vector2Int(currentTile.x, currentTile.y + 1));
         }
-        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanAttackTile(new Vector2Int(currentTile.x, currentTile.y - 1)))
+        if (GridManager.TileIsInGrid(new Vector2Int(currentTile.x, currentTile.y - 1)) && CanAttackThroughTile(new Vector2Int(currentTile.x, currentTile.y - 1)))
         {
             validTiles.Add(new Vector2Int(currentTile.x, currentTile.y - 1));
         }
@@ -255,7 +269,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
             foreach (Vector2Int tile in validTiles.ToList())
             {
 
-                tilesInRange.Add(GridManager.combatGrid[tile.x, tile.y]);
+                if(CanAttackTile(tile))
+                {
+                    tilesInRange.Add(GridManager.combatGrid[tile.x, tile.y]);
+                }
 
                 if (GridManager.combatGrid[tile.x, tile.y].entityOnGrid == -2)
                 {
@@ -329,7 +346,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
             foreach (Vector2Int tile in validTiles.ToList())
             {
 
-                tilesInRange.Add(GridManager.combatGrid[tile.x, tile.y]);
+                if(CanAttackTile(tile))
+                {
+                    tilesInRange.Add(GridManager.combatGrid[tile.x, tile.y]);
+                }
 
             }
 
@@ -612,7 +632,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                 {
 
                     if (Mathf.Abs(tile.IndexInGrid.x - selectedTile.IndexInGrid.x) <= 1 &&
-                    Mathf.Abs(tile.IndexInGrid.y - selectedTile.IndexInGrid.y) <= 1 && !tile.GetComponentInChildren<PlayerBehavior>())
+                    Mathf.Abs(tile.IndexInGrid.y - selectedTile.IndexInGrid.y) <= 1 && CanAttackTile(tile.IndexInGrid))
                     {
 
                         tile.SetHighlightColor(LightningSecondaryHighlight);
@@ -630,7 +650,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                 {
 
                     if (selectedTile.transform.position.x == tile.transform.position.x &&
-                    Mathf.Abs(selectedTile.IndexInGrid.y - tile.IndexInGrid.y) <= storedData.RuneRange)
+                    Mathf.Abs(selectedTile.IndexInGrid.y - tile.IndexInGrid.y) <= storedData.RuneRange && CanAttackTile(tile.IndexInGrid))
                     {
 
                         tile.SetHighlightColor(LightningSecondaryHighlight);
@@ -639,7 +659,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                     }
 
                     if (selectedTile.transform.position.z == tile.transform.position.z &&
-                    Mathf.Abs(selectedTile.IndexInGrid.x - tile.IndexInGrid.x) <= storedData.RuneRange)
+                    Mathf.Abs(selectedTile.IndexInGrid.x - tile.IndexInGrid.x) <= storedData.RuneRange && CanAttackTile(tile.IndexInGrid))
                     {
 
                         tile.SetHighlightColor(LightningSecondaryHighlight);
@@ -657,7 +677,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                 {
 
                     if (Mathf.Abs(tile.IndexInGrid.x - selectedTile.IndexInGrid.x) <= 1 &&
-                    Mathf.Abs(tile.IndexInGrid.y - selectedTile.IndexInGrid.y) <= 1 && !tile.GetComponentInChildren<PlayerBehavior>())
+                    Mathf.Abs(tile.IndexInGrid.y - selectedTile.IndexInGrid.y) <= 1 && CanAttackTile(tile.IndexInGrid))
                     {
 
                         tile.SetHighlightColor(LightningSecondaryHighlight);
