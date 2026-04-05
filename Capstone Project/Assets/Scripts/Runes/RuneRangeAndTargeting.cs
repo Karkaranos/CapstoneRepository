@@ -35,7 +35,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
-    [SerializeField] private Button confirm; 
+    [SerializeField] private Button confirm;
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
@@ -563,20 +563,14 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="newTile"> the player's selected tile </param>
     public void EditViableTiles(bool addingToTiles, TileBehaviour newTile)
     {
-
         if(addingToTiles)
         {
-
             viableTilesInRange.Add(newTile);
-
         }
         else
         {
-
             viableTilesInRange.Remove(newTile);
-
         }
-
     }
 
     [HideInInspector] public TileBehaviour selectedTile;
@@ -703,6 +697,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void OnSpellCastConfirm()
     {
 
+        //i <3 rare bugs
+        if(this.gameObject.GetComponent<RuneEvents>().Casting)
+        {
+            return;
+        }
+
         switch (storedData.TypeOfRune)
         {
 
@@ -732,11 +732,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     #region END TURN
 
+    /// <summary>
+    /// determines if the player has spent any action points
+    /// </summary>
+    /// <param name="werePointsSpent"> whether or not points were spent </param>
     public void SetCastStatus(bool werePointsSpent)
     {
-
         castNotCanceled = werePointsSpent;
-
     }
 
     /// <summary>
@@ -776,8 +778,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
         }
 
         GridManager.RemoveHighlight();
-
-        //this.gameObject.SetActive(false);
 
     }
 
