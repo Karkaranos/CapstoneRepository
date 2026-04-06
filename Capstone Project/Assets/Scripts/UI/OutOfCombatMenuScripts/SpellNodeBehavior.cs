@@ -34,7 +34,6 @@ public class SpellNodeBehavior : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         skillTreeManager = FindFirstObjectByType<SkillTreeManager>();
 
-        Debug.Log(runeData.RuneName);
         skillTreeManager.SelectNode(runeData);
 
     }
@@ -177,7 +176,7 @@ public class SpellNodeBehavior : MonoBehaviour
             }
             catch
             {
-                Debug.Log(gameObject.name);
+               
             }
 
             rectTransform.localPosition = localPoint - offset;

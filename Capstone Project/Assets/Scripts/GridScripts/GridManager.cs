@@ -248,7 +248,6 @@ public class GridManager : MonoBehaviour
             }
             row += "\n";
         }
-        Debug.Log(row);
     }
 
     /// <summary>
@@ -306,12 +305,10 @@ public class GridManager : MonoBehaviour
     {
         if(combatGrid==null)
         {
-            Debug.Log("Grid Null");
             return true ;
         }
         if(tile == null)
         {
-            Debug.Log("Tile Null");
             return true;
         }
         return combatGrid[tile.x, tile.y].entityOnGrid == -1;

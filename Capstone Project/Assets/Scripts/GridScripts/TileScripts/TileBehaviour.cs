@@ -1,7 +1,7 @@
 /******************************************************************************
- * Author: Brad Dixon, Tyler Bouchard
+ * Author: Brad Dixon, Tyler Bouchard, Cade Naylor
  * Creation Date: 10/2/2025
- * Last Modified: 3/7/2026 (Brad Dixon)
+ * Last Modified: 3/31/2026 (Cade Naylor)
  * Brief: Stores the tile's index in the grid to help with player movement and
  * stores information about what kind of tile it is
  * External Resources: N/A
@@ -11,6 +11,7 @@ using NaughtyAttributes;
 using System.Collections.Generic;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.Animations;
+using Unity.VisualScripting;
 
 public class TileBehaviour : MonoBehaviour
 {
@@ -62,6 +63,7 @@ public class TileBehaviour : MonoBehaviour
     //[SerializeField, ShowIf(nameof(ShowDamageVars)), Foldout("Hazards")] private int damageAmount;
     [SerializeField, ShowIf(nameof(ShowSlowVars)), Foldout("Hazards")] private int movesLost;
 
+    private GameObject spawnedHazard;
     
 
     /// <summary>
@@ -147,6 +149,21 @@ public class TileBehaviour : MonoBehaviour
         {
             PipManager.Instance.hazardTiles.Add(this); 
             GameObject obj = Instantiate(hazardObject, transform);
+            spawnedHazard = obj;
+        }
+    }
+
+    /// <summary>
+    /// Remove any hazard obstacles from this tile
+    /// </summary>
+    public void RemoveHazard()
+    {
+        if(TileHasHazards)
+        {
+            if(spawnedHazard!=null)
+            {
+                Destroy(spawnedHazard);
+            }
         }
     }
 
@@ -247,14 +264,11 @@ public class TileBehaviour : MonoBehaviour
             temp.Clear();
         }
 
-        Debug.Log("Start Here-----");
         //Once all connected tiles are found, electrify them all
         foreach (TileBehaviour t in adWaterTiles)
         {
-            Debug.Log(t.gameObject.name);
             t.ElectrifyTile();
         }
-        Debug.Log("End Here------");
     }
 
     /// <summary>

@@ -69,7 +69,6 @@ public class SettingsMenuBehavior : MenuBehavior
         {
             int percentage = int.Parse(s);
 
-            Debug.Log(percentage);
 
             SfxVolumePercentage = percentage;
 
@@ -121,7 +120,6 @@ public class SettingsMenuBehavior : MenuBehavior
         {
             int percentage = int.Parse(s);
 
-            Debug.Log(percentage);
 
             MusicVolumePercentage = percentage;
 

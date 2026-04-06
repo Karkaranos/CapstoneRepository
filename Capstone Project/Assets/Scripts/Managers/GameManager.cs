@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
     public int MoveActionPoints = 2;
     public int ActionPointsPerTurn = 1;
     public int ActionPointsPerLevel = 3;
+    public int ActionPointCap = 6;
     #endregion
 
     /// <summary>
@@ -97,7 +98,6 @@ public class GameManager : MonoBehaviour
     public void UpdateActionPoints(int amount) {
         CurrentActionPoints -= amount;
         ActionPointVisualizer.DisplayPips(CurrentActionPoints);
-        print("called");
         //if (CurrentActionPoints <= 0)
         //{
         //    TurnPublicEvents.ForceEndCurrentPhase();
@@ -108,8 +108,10 @@ public class GameManager : MonoBehaviour
     /// sets the current action points baclk to the max
     /// </summary>
     public void ResetActionPoints() {
-        CurrentActionPoints += ActionPointsPerTurn;
-        ActionPointVisualizer.DisplayPips(CurrentActionPoints);
+
+        IncrementActionPoints(ActionPointsPerTurn);
+        /*CurrentActionPoints += ActionPointsPerTurn;
+        ActionPointVisualizer.DisplayPips(CurrentActionPoints);*/
     }
 
     /// <summary>
@@ -119,6 +121,12 @@ public class GameManager : MonoBehaviour
     public void IncrementActionPoints(int amount)
     {
         CurrentActionPoints += amount;
+
+        if (CurrentActionPoints > ActionPointCap)
+        {
+            CurrentActionPoints = ActionPointCap;
+        }
+
         ActionPointVisualizer.DisplayPips(CurrentActionPoints);
     }
 

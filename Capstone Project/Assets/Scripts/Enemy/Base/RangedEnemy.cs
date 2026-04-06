@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Clare Grady, Brad Dixon
 Date Created : 		11/18/2025
-Date Last Modified : 	3/11/2026 (Brad)
+Date Last Modified : 	3/30/2026 (Brad)
 Brief Description : 		Base class for Range enemies
                     This is a seperate class from Enemy for 
                  sublogic of each enemy. 
@@ -29,6 +29,8 @@ public class RangedEnemy : Enemy
     public int maxAttackDistance;
 
     [ShowIf(nameof(currentSettings), Settings.Combat)] public bool canAttackTwice = true;
+
+    [ShowIf(nameof(currentSettings), Settings.Combat)] [SerializeField] GameObject attackPrefab;
 
     #endregion
 
@@ -89,24 +91,31 @@ public class RangedEnemy : Enemy
     {
         if(turnDelayed)
         {
-            Debug.Log("Turn Delayed");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(endTurnState));
             return;
         }
 
         if(GetPlayerInAttackRange() && GetPlayerInLineOfSight())
         {
-            Debug.Log("Wait -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(attackState));
             return;
         }
         else
         {
-            Debug.Log("Wait -> Move");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(moveState));
             return;
         }
         
+    }
+
+    /// <summary>
+    /// Unity event that spawns the attack prefab containing the attack animation
+    /// </summary>
+    public void SpawnAttack()
+    {
+        Vector3 spawnPos = FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position;
+        GameObject g = Instantiate(attackPrefab, (spawnPos + new Vector3(0, 1, -.2f)), Quaternion.identity);
+        g.GetComponent<RangedEnemyAttackBehaviour>().SetDamage(damage);
     }
     #endregion
 
@@ -126,13 +135,9 @@ public class RangedEnemy : Enemy
     /// <returns></returns>
     public override bool GetPlayerInAttackRange()
     {
-        Debug.Log("PATHFIND CALLED");
         targetingBehaviour.FindTarget();
         gridPathfinding.PathfindThroughGrid();
-        Debug.Log("My Pos: " + gridPathfinding.MyPosition.ToString());
-        Debug.Log("Target Pos: " + gridPathfinding.GetTargetPosition().ToString());
 
-        if (gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition()) { Debug.Log("In Range"); }
         return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
     }
 

@@ -66,6 +66,7 @@ public class TurnManager : MonoBehaviour
 
     [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject playerCanvas;
     [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject turnIndicatorPrefab;
+    [ShowIf(nameof(shownSettings), ShownSettings.Refs), SerializeField] private GameObject outOfCombatMenu;
 
     private GameObject playerBanner;
     private GameObject enemyBanner; 
@@ -233,7 +234,6 @@ public class TurnManager : MonoBehaviour
                 {
                     if (breakInfLoop)
                     {
-                        Debug.Log("No listeners to the turnmanager, had to break an inf loop");
                         break;
                     }
                     breakInfLoop = true;
@@ -256,7 +256,6 @@ public class TurnManager : MonoBehaviour
     /// </summary>
     private void ProcessTurnActionComplete()
     {
-        Debug.Log("Called");
 
         //ups the number of instances this has heard back from
         ++currentHearBackNum;
@@ -286,7 +285,6 @@ public class TurnManager : MonoBehaviour
         //resets the number of things its heard back from
         currentHearBackNum = 0;
 
-        //Debug.Log(currentHearBackNum);
 
         //determines what phase it is going to next
         currentStatus = DetermineNextState();
@@ -371,7 +369,6 @@ public class TurnManager : MonoBehaviour
                 {
                     if (breakInfLoop)
                     {
-                        Debug.Log("No listeners to the turnmanager, had to break an inf loop");
                         break;
                     }
                     breakInfLoop = true;
@@ -434,20 +431,54 @@ public class TurnManager : MonoBehaviour
         switch (currentStatus)
         {
             case TurnStates.Start:
-                playerBanner.SetActive(true);
-                enemyBanner.SetActive(false);
-                break;
+                if(outOfCombatMenu.activeSelf == false)
+                {
+                    playerBanner.SetActive(true);
+                    enemyBanner.SetActive(false);
+                }
+                else
+                {
+                    playerBanner.SetActive(false);
+                    enemyBanner.SetActive(false);
+                }
+                    break;
             case TurnStates.PlayerTurn:
-                playerBanner.SetActive(true);
-                enemyBanner.SetActive(false);
+                if(outOfCombatMenu.activeSelf == false)
+                {
+                    playerBanner.SetActive(true);
+                    enemyBanner.SetActive(false);
+                }
+                else
+                {
+                    playerBanner.SetActive(false);
+                    enemyBanner.SetActive(false);
+                }
                 break;
             case TurnStates.EnemyTurn:
-                enemyBanner.SetActive(true);
-                playerBanner.SetActive(false);
+                if(outOfCombatMenu.activeSelf == false)
+                {
+                    enemyBanner.SetActive(true);
+                    playerBanner.SetActive(false);
+                }
+                else
+                {
+                    playerBanner.SetActive(false);
+                    enemyBanner.SetActive(false);
+                }
+                
                 break;
             case TurnStates.End:
-                enemyBanner.SetActive(true);
-                playerBanner.SetActive(false);
+                if(outOfCombatMenu.activeSelf == false)
+                {
+                    enemyBanner.SetActive(true);
+                    playerBanner.SetActive(false);
+                }
+                else
+                {
+                    playerBanner.SetActive(false);
+                    enemyBanner.SetActive(false);
+                }
+                
                 break;
             default:
                 throw new System.Exception("Check UpdateText() in TurnManager, the switch statement is broken or is missing cases");

@@ -181,7 +181,6 @@ public class SkillTreeManager : MonoBehaviour
     public void SelectNode(RuneData data)
     {
         currentlySelected = data;
-        //Debug.Log("now currently holding " + currentlySelected.name);
 
         //skillAndArtifactManager.SpawnCursorBox();
     }

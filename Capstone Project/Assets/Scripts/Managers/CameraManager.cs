@@ -109,7 +109,6 @@ public class CameraManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         //PlayerZcam.LookAt = player.transform;
         //PlayerZcam.Follow = player.transform;
-        Debug.LogWarning(ActiveCamera.name);
         if(activeCam != null)
         {
             activeCam.Priority = 10;

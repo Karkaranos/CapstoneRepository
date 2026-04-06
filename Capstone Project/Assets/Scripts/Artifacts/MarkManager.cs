@@ -373,7 +373,6 @@ public class MarkManager
     public static void UpdateDictionary(MarkType key, int val)
     {
         MarkCount[key] = val;
-        Debug.LogWarning("Updated " + key.ToString() + " to " + val.ToString());
     }
 
     /// <summary>

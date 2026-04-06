@@ -5,6 +5,7 @@ Date Last Modified : 	1/27/2026
 Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NaughtyAttributes;
@@ -260,7 +261,6 @@ public class Enemy : MonoBehaviour
                 g.GetComponent<StatusIndicator>()?.Initialize("-" + (int)damage + " HP ", false, s);
             }
 
-            print("Enemy takes damage");
             healthBarSlider.value = currentHealth;
             
             if (currentHealth <= 0)
@@ -268,13 +268,8 @@ public class Enemy : MonoBehaviour
                 EnemyHandler.Instance.RemoveEnemy(this);
                 await Task.Delay(500);
                 Die();
-                if (FindFirstObjectByType<GameManager>().allowArtifacts)
-                {
-                    TryDropItem();
-                }
             }
             logText.text = damage + " dmg";
-            print(currentHealth);
 
 
             await Task.Delay(flashTime);
@@ -296,11 +291,16 @@ public class Enemy : MonoBehaviour
         PlayerBehavior pb = FindFirstObjectByType<PlayerBehavior>();
         pb.RemoveEnemyPosition(gridPathfinding.MyPosition);
 
+        if (TurnManager.currentStatus == TurnStates.EnemyTurn)
+        {
+            EnemyHandler.Instance.RunNextEnemyTurn();
+        }
+
         if (gameObject != null)
         {
             Destroy(this.gameObject);
         }
-        print("Enemy is dead!");
+        
     }
 
     /// <summary>
@@ -314,28 +314,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Generates a random number and checks if an item will drop
-    /// Optional overload to force drops
-    /// </summary>
-    public void TryDropItem(float overload = -1f)
-    {
-        if (FindFirstObjectByType<GameManager>().allowArtifacts)
-        {
-
-            float dropChance = (overload > 0f ? overload : artifactDropChance);
-            Debug.Log(dropChance);
-            float randValue = Random.Range(0f, 1f);
-            if (randValue <= dropChance)
-            {
-                // this line should be replaced later. 
-                // it generates an artifact from the pool and 
-                ArtifactData ad = ArtifactManager.GetArtifactFromRAP();
-                ArtifactManager.ObtainArtifact(ad);
-                Logger.Log("Dropped " + ad.Name);
-            }
-        }
-    }
 
     /// <summary>
     /// Sets the Enemy's health
@@ -354,10 +332,6 @@ public class Enemy : MonoBehaviour
         if (currentHealth < 0)
         {
             Die();
-            if (FindFirstObjectByType<GameManager>().allowArtifacts)
-            {
-                TryDropItem();
-            }
         }
     }
 

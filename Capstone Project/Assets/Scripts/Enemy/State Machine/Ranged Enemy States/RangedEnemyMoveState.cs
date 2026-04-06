@@ -18,6 +18,10 @@ public class RangedEnemyMoveState : RangedEnemyState
     /// </summary>
     public async override void EnterState()
     {
+        if (enemy == null)
+        {
+            return;
+        }
         enemy.logText.text = "M";
         enemy.rangedAnimator.SetBool("IsWalking", true);
         enemy.targetingBehaviour.FindTarget();
@@ -27,7 +31,6 @@ public class RangedEnemyMoveState : RangedEnemyState
 
         if(enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition() && enemy.GetPlayerInLineOfSight())
         {
-            Debug.Log("Move -> Attack");
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
         }
         else

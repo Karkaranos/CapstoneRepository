@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Brad Dixon, Aidan Ratcliffe
 Date Created : 	10/07/2025
-Date Last Modified : 03/28/2026 (Aidan Ratcliffe)
+Date Last Modified : 03/31/2026 (Jay Embry)
 Brief Description : Contains rune types and effects
                     I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
@@ -282,10 +282,8 @@ public class RuneEvents : MonoBehaviour
                 bookanim.SetBool("LAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
-                Debug.Log("I am tottaly being called");
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
-                Debug.Log("I am attacking");
                 
                 Instantiate(rune.RuneVFX, tile.transform);
 
@@ -308,8 +306,14 @@ public class RuneEvents : MonoBehaviour
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
                 Instantiate(rune.RuneVFX, tile.transform);
+                tile.Invoke("ElectrifyAdTiles", 1.2f);
 
-                enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
+                if(tile.GetComponentInChildren<Enemy>())
+                {
+
+                    tile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
+
+                }
 
                 await Task.Delay(1000);
 
@@ -355,6 +359,8 @@ public class RuneEvents : MonoBehaviour
 
                         }
 
+                        target.Invoke("ElectrifyAdTiles", 1.2f);
+
                     }
 
                     waveOfTiles.Clear();
@@ -374,15 +380,17 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                Instantiate(rune.RuneVFX, tile.transform);
+
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
                 GridManager.MoveToTile(playerOriginalTile, tile.IndexInGrid, -3);
 
-                tile.ElectrifyAdTiles();
+                Invoke("PlayerTeleport", .1f);
+
+                tile.Invoke("ElectrifyAdTiles", 1.2f);
 
                 FindAdjacentTiles(tile);
-
-                Invoke("PlayerTeleport", .1f);
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
@@ -399,8 +407,6 @@ public class RuneEvents : MonoBehaviour
                         adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
 
                     }
-
-                    tile.ElectrifyAdTiles();
 
                 }
 
@@ -443,10 +449,15 @@ public class RuneEvents : MonoBehaviour
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
-                !tile.GetComponentInChildren<Enemy>() && tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && 
-                WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]
+                && WaitingOnPath)
                 {
+
+                    if (tile == GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] || tile.GetComponentInChildren<Enemy>())
+                    {
+                        FindFirstObjectByType<ButtonManager>().confirmCanvas.SetActive(true);
+                        return;
+                    }
 
                     Casting = true;
 
@@ -625,12 +636,17 @@ public class RuneEvents : MonoBehaviour
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
 
-                    Debug.Log("START MOVING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
-                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] 
+                && WaitingOnPath)
                 {
+
+                    if(tile == GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y])
+                    {
+                        FindFirstObjectByType<ButtonManager>().confirmCanvas.SetActive(true);
+                        return;
+                    }
 
                     Casting = true;
 
@@ -678,12 +694,16 @@ public class RuneEvents : MonoBehaviour
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
 
-                    Debug.Log("START PATHING");
-
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
-                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]
+                && WaitingOnPath)
                 {
+                    
+                    if (tile == GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y])
+                    {
+                        FindFirstObjectByType<ButtonManager>().confirmCanvas.SetActive(true);
+                        return;
+                    }
 
                     Casting = true;
 
@@ -730,12 +750,17 @@ public class RuneEvents : MonoBehaviour
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
 
-                    Debug.Log("START PATHING");
 
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] && 
-                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] 
+                && WaitingOnPath)
                 {
+
+                    if (tile == GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y])
+                    {
+                        FindFirstObjectByType<ButtonManager>().confirmCanvas.SetActive(true);
+                        return;
+                    }
 
                     Casting = true;
 
@@ -788,12 +813,16 @@ public class RuneEvents : MonoBehaviour
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
 
-                    Debug.Log("START PATHING");
-
                 }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] &&
-                tile != GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y] && WaitingOnPath)
+                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]
+                && WaitingOnPath)
                 {
+
+                    if (tile == GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y])
+                    {
+                        FindFirstObjectByType<ButtonManager>().confirmCanvas.SetActive(true);
+                        return;
+                    }
 
                     Casting = true;
 
@@ -841,28 +870,20 @@ public class RuneEvents : MonoBehaviour
         //finds where the target should go
         if (kbSource.IndexInGrid.x < kbTarget.IndexInGrid.x)
         {
-
             newTilePos.x += 1;
-
         }
         else if (kbSource.IndexInGrid.x > kbTarget.IndexInGrid.x)
         {
-
             newTilePos.x -= 1;
-
         }
 
         if (kbSource.IndexInGrid.y < kbTarget.IndexInGrid.y)
         {
-
             newTilePos.y += 1;
-
         }
         else if (kbSource.IndexInGrid.y > kbTarget.IndexInGrid.y)
         {
-
             newTilePos.y -= 1;
-
         }
 
         TileBehaviour newTile = null;
@@ -873,11 +894,8 @@ public class RuneEvents : MonoBehaviour
 
             if (viableTile.IndexInGrid == newTilePos)
             {
-
                 newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
-
                 break;
-
             }
 
         }
@@ -886,30 +904,25 @@ public class RuneEvents : MonoBehaviour
         if (newTile != null)
         {
 
-            if (newTile.GetComponentInChildren<Enemy>())
+            //putting the or statement here as a bit of extra security even if it's unnecessary while i'm looking for a fix
+            if (newTile.GetComponentInChildren<Enemy>() || newTile.entityOnGrid == -2)
             {
 
                 //if there's an enemy on the target tile, this checks if it can be moved backwards as well
                 //loops, ideally
                 if (CanMoveBackwards(kbTarget, newTile))
                 {
-
-                    return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2 || newTile.entityOnGrid == -20;
-
+                    return true;
                 }
                 else
                 {
-
                     return false;
-
                 }
 
             }
             else
             {
-
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -2 || newTile.entityOnGrid == -20;
-
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20;
             }
 
         }
@@ -933,28 +946,20 @@ public class RuneEvents : MonoBehaviour
 
         if (kbSource.IndexInGrid.x < kbTarget.IndexInGrid.x)
         {
-
             newTilePos.x += 1;
-
         }
         else if (kbSource.IndexInGrid.x > kbTarget.IndexInGrid.x)
         {
-
             newTilePos.x -= 1;
-
         }
 
         if (kbSource.IndexInGrid.y < kbTarget.IndexInGrid.y)
         {
-
             newTilePos.y += 1;
-
         }
         else if (kbSource.IndexInGrid.y > kbTarget.IndexInGrid.y)
         {
-
             newTilePos.y -= 1;
-
         }
 
         TileBehaviour newTile = null;
@@ -1083,7 +1088,6 @@ public class RuneEvents : MonoBehaviour
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
-        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
 
     }
@@ -1198,7 +1202,7 @@ public class RuneEvents : MonoBehaviour
                         if(movementLeft > 1)
                         {
 
-                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
+                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().LightningSecondaryHighlight);
                             GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
                             PreviousPos.Add(v);
                             movementPos.Add(t);
@@ -1405,7 +1409,6 @@ public class RuneEvents : MonoBehaviour
 
                 GridManager.MoveToTile(originalSelectedTile, selectedTile, -3);
 
-                GridManager.combatGrid[selectedTile.x, selectedTile.y].ElectrifyAdTiles();
                 Invoke("PlayerTeleport", .2f);
 
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
@@ -1414,7 +1417,7 @@ public class RuneEvents : MonoBehaviour
                 for(int i = 0; i < PreviousPos.Count; i++)
                 {
 
-                    //Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
+                    Instantiate(rune.RuneVFX, GridManager.combatGrid[selectedTile.x, selectedTile.y].transform);
 
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
@@ -1424,7 +1427,7 @@ public class RuneEvents : MonoBehaviour
 
                     }
 
-                    GridManager.combatGrid[selectedTile.x, selectedTile.y].ElectrifyAdTiles();
+                    GridManager.combatGrid[selectedTile.x, selectedTile.y].Invoke("ElectrifyAdTiles", 1.2f);
 
                 }
 
@@ -1495,8 +1498,6 @@ public class RuneEvents : MonoBehaviour
 
             case (RuneType.Wind, 3):
 
-                //i can put this somewhere else in the future
-                //TODO: add this as another entity type
                 WindCurrentTracker currentTracker = FindFirstObjectByType<GameManager>().gameObject.AddComponent<WindCurrentTracker>();
 
                 currentTracker.CurrentDamage = damageDealt;
@@ -1509,18 +1510,13 @@ public class RuneEvents : MonoBehaviour
 
                     if(i == movementPos.Count - 1)
                     {
-
                         currentTracker.GenerateWindCurrent(rune.RuneVFX);
-
                     }
 
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
-
                         GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
-
                         currentTracker.SendThroughWindCurrent(i, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>());
-
                     }
 
                 }
@@ -1573,7 +1569,6 @@ public class RuneEvents : MonoBehaviour
                         foreach (TileBehaviour tileInRange in targetedTiles)
                         {
 
-                            Debug.Log(targetedTiles);
 
                             if (tileInRange.GetComponentInChildren<Enemy>() != null)
                             {

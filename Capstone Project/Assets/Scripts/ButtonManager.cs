@@ -100,6 +100,7 @@ public class ButtonManager : MonoBehaviour
     {
         isPlayersTurn = true;
         playerCanvas.SetActive(true);
+        moveButton.interactable = true;
         runeCanvas.SetActive(true);
         castingSpell = false;
     }
@@ -245,6 +246,8 @@ public class ButtonManager : MonoBehaviour
 
             }
 
+            playerCanvas.SetActive(false);
+            confirmCanvas.SetActive(false);
             PublicEvents.SpellConfirmed.Invoke();
 
         }
@@ -252,6 +255,7 @@ public class ButtonManager : MonoBehaviour
         {
 
             playerBehavior.ConfirmMovement();
+            moveButton.interactable = false;
             PublicEvents.MoveButton();
 
         }
@@ -300,7 +304,6 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void EndTurnClick()
     {
-        Debug.Log("button clicked");
         endButtonClicked = true;
 
         playerCanvas.SetActive(false);
