@@ -1093,6 +1093,36 @@ public class RuneEvents : MonoBehaviour
     }
 
     /// <summary>
+    /// checks if a tile is already housing a wind current
+    /// temporary solution? there's some stuff i should discuss with people in person methinks
+    /// </summary>
+    /// <param name="tileCoordinates"> tile that the player is trying to path on </param>
+    /// <returns> whether or not the tile has a wind current placed on it </returns>
+    public static bool HasWindCurrent(Vector2Int tileCoordinates)
+    {
+
+        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+
+        if(allCurrents.Length >= 1)
+        {
+            //sorry this is evil
+            foreach(WindCurrentTracker current in allCurrents)
+            {
+                foreach(TileBehaviour tile in current.WindCurrentTiles)
+                {
+                    if(tile.IndexInGrid == tileCoordinates)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    /// <summary>
     /// determines where the player is attempting to path
     /// </summary>
     /// <param name="dir"> the direction that the player moves in </param>
@@ -1317,7 +1347,8 @@ public class RuneEvents : MonoBehaviour
 
                     default:
 
-                        if (GridManager.combatGrid[v.x, v.y].GetComponentInChildren<PlayerBehavior>())
+                        if (GridManager.combatGrid[v.x, v.y].GetComponentInChildren<PlayerBehavior>() ||
+                        (selectedRune.NumberOnSkillTree == 3 && HasWindCurrent(v)))
                         {
 
                             StartCoroutine(MovementDelay());
