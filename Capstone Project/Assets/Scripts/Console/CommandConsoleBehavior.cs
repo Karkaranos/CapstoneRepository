@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Cade Naylor
 Date Created : 		    9/26/2025
-Date Last Modified : 	3/31/2026
+Date Last Modified : 	4/4/2026
 Brief Description : 	Handles behavior for the Command Console
                         - Reads Value
                         - Calls appropriate static functions
@@ -333,7 +333,7 @@ public class CommandConsoleBehavior : MonoBehaviour
             }
             else
             {   
-                Logger.Error("Could not find key" + command, false);
+                Logger.Error("Could not find key " + command, false);
             }
         }
 
@@ -348,10 +348,11 @@ public class CommandConsoleBehavior : MonoBehaviour
     /// Clears the input box
     /// </summary>
     /// <param name="s">Whatever is in the text box. Has a default value of empty.</param>
-    public void ClearCommand(string command = "")
+    public void ClearCommand()
     {
         consoleInputField.text = "";
-        consoleInputBox.text = "";
+        consoleInputField.DeactivateInputField();
+        consoleInputField.ActivateInputField();
     }
 
     /// <summary>
@@ -365,6 +366,8 @@ public class CommandConsoleBehavior : MonoBehaviour
             if (consoleGameObject.activeInHierarchy)
             {
                 Logger.Info("Type 'menu' for a list of all commands");
+                consoleInputField.DeactivateInputField();
+                consoleInputField.ActivateInputField();
             }
         }
     }
