@@ -179,7 +179,6 @@ public class PlayerBehavior : MonoBehaviour
         ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
         if(allShields.Length >= 1)
         {
-
             foreach(ShieldBehavior shield in allShields)
             {
 
@@ -187,18 +186,18 @@ public class PlayerBehavior : MonoBehaviour
                 shield.GetDestroyed();
 
             }
-
         }
 
         WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
         if (allCurrents.Length >= 1)
         {
-
             foreach (WindCurrentTracker current in allCurrents)
             {
-
+                foreach(TileBehaviour tile in current.WindCurrentTiles)
+                {
+                    GridManager.RemoveEntity(tile.IndexInGrid);
+                }
                 current.DestroyCurrents();
-
             }
 
         }

@@ -1507,6 +1507,7 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     currentTracker.WindCurrentTiles.Add(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y]);
+                    GridManager.AddEntity(PreviousPos[i], -8);
 
                     if(i == movementPos.Count - 1)
                     {
