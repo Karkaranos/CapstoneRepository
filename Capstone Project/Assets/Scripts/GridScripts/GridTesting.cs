@@ -181,4 +181,13 @@ public class GridTesting : MonoBehaviour
         }
         entityLists.Clear();
     }
+
+    /// <summary>
+    /// Gets the grid index
+    /// </summary>
+    /// <returns></returns>
+    public int GetGridIndex()
+    {
+        return gridIndex;
+    }
 }
