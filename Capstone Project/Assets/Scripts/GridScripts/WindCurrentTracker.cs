@@ -135,7 +135,8 @@ public class WindCurrentTracker : MonoBehaviour
             }
             else
             {
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -4 || newTile.entityOnGrid == -20;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -4 || newTile.entityOnGrid == -8 || 
+                newTile.entityOnGrid == -20;
             }
 
         }
@@ -154,6 +155,8 @@ public class WindCurrentTracker : MonoBehaviour
     /// <param name="enemy"> the enemy that is "hit" </param>
     void SendEnemyBackwards(TileBehaviour originTile, TileBehaviour enemyTile, Enemy enemy)
     {
+
+        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
 
         Vector2Int newTilePos = enemyTile.IndexInGrid;
 
@@ -213,6 +216,23 @@ public class WindCurrentTracker : MonoBehaviour
                 else if (newTile.entityOnGrid == -4)
                 {
                     enemy.Damage(CurrentKBDamage, Enemy.DamageType.Wind);
+                }
+                else if (newTile.entityOnGrid == -8)
+                {
+
+                    foreach (WindCurrentTracker tracker in trackers)
+                    {
+
+                        if (tracker.WindCurrentTiles.Contains(newTile) && tracker != this)
+                        {
+
+                            enemy.Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
+                            tracker.SendThroughWindCurrent(tracker.WindCurrentTiles.IndexOf(newTile), enemy);
+
+                        }
+
+                    }
+
                 }
 
                 break;

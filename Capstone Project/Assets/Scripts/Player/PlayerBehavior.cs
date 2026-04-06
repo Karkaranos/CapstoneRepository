@@ -193,6 +193,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             foreach (WindCurrentTracker current in allCurrents)
             {
+
                 foreach(TileBehaviour tile in current.WindCurrentTiles)
                 {
                     GridManager.RemoveEntity(tile.IndexInGrid);
