@@ -8,6 +8,7 @@ External Resources : 	N/A
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.Animations;
+using System.Runtime.CompilerServices;
 
 public class BushBehaviour : MonoBehaviour
 {
@@ -30,9 +31,9 @@ public class BushBehaviour : MonoBehaviour
     /// When a player or enemy collides with the bush, the animation will play
     /// </summary>
     /// <param name="collision"></param>
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Player") || (collision.gameObject.CompareTag("Enemy")))
         {
             Debug.Log("I should be triggering");
             bAnimator.SetBool("BushAnim" , true);
