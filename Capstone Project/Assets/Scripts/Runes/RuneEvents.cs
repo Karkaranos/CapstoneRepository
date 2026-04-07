@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Brad Dixon, Aidan Ratcliffe
 Date Created : 	10/07/2025
-Date Last Modified : 03/31/2026 (Jay Embry)
+Date Last Modified : 04/07/2026 (Jay Embry)
 Brief Description : Contains rune types and effects
                     I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
@@ -56,6 +56,7 @@ public class RuneEvents : MonoBehaviour
 
     public bool Casting = false;
     public bool WaitingOnPath = false;
+    public bool Pathing = false;
 
     #endregion SETUP
 
@@ -443,6 +444,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange;
@@ -474,6 +476,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -631,6 +634,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange;
@@ -656,6 +660,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -688,6 +693,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange;
@@ -713,6 +719,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -744,6 +751,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange + 1;
@@ -770,7 +778,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
-
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -807,6 +815,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange + 1;
@@ -839,6 +848,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -1659,6 +1669,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         WaitingOnPath = false;
+        Pathing = false;
 
         FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
         FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
