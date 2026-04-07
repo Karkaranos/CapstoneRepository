@@ -21,7 +21,7 @@ public class BushBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        bAnimator = GetComponent<Animator>();
+        bAnimator = GetComponentInChildren<Animator>();
     }
 
     private void OnCollisionEnter(Collision collision)
