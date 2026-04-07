@@ -16,11 +16,17 @@ public class SpellSlotHighlightBehavior : MonoBehaviour
 
     private RuneSelectionMenu RSM;
 
+    /// <summary>
+    /// finds the RuneSelectionMenu thing
+    /// </summary>
     private void Start()
     {
         RSM = FindAnyObjectByType<RuneSelectionMenu>();
     }
 
+    /// <summary>
+    /// shows highlight
+    /// </summary>
     public void showHighlight()
     {
         print("Callleeed");
@@ -28,6 +34,9 @@ public class SpellSlotHighlightBehavior : MonoBehaviour
         slotImage.sprite = highlightSprite;
     }
 
+    /// <summary>
+    /// removes highlight
+    /// </summary>
     public void RemoveHighlight()
     {
         slotImage.sprite = noramlSprite;
