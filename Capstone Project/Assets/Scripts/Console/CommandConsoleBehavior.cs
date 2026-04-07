@@ -7,6 +7,7 @@ Brief Description : 	Handles behavior for the Command Console
                         - Calls appropriate static functions
                         - Controls what commands are available in the current scene
 External Resources : 	https://www.programiz.com/csharp-programming/regex
+                        https://stackoverflow.com/questions/1408057/match-regular-expression-from-a-dictionary-in-c-sharp
 ***************************************************/
 
 using TMPro;
@@ -17,6 +18,7 @@ using UnityEngine.InputSystem;
 using System.Text.RegularExpressions;
 using System.Collections;
 using System;
+using System.Linq;
 
 public class CommandConsoleBehavior : MonoBehaviour
 {
@@ -136,6 +138,74 @@ public class CommandConsoleBehavior : MonoBehaviour
     {
         Logger.Input(command);
         command = command.ToLower();
+
+        var results = from result in Commands.AllCommands
+                      where Regex.Match(command, result.Key, RegexOptions.Singleline).Success
+                      select result;
+
+
+        foreach(var result in results)
+        {
+            Logger.Info(result.Value.ToString());
+            switch (result.Value)
+            {
+                case Commands.CommandGroup.MoveConsole:
+
+                    if (moveConsoleEnabled)
+                    {
+                        Debug.Log("YAY");
+                        Commands.SetConsoleLocation(command);
+                    }
+                    break;
+                case Commands.CommandGroup.Greet:
+                    if(greetEnabled)
+                    {
+                        Commands.Greet();
+                    }
+                    break;
+                case Commands.CommandGroup.Enemies:
+                    if(enemiesEnabled)
+                    {
+                        Commands.Enemies(command);
+                    }
+                    break;
+                case Commands.CommandGroup.Player:
+                    if(playerEnabled)
+                    {
+                        Commands.Player(command, FindFirstObjectByType<PlayerStats>());
+                    }
+                    break;
+                case Commands.CommandGroup.Navigation:
+                    if (navigationEnabled)
+                    {
+                        Pip[] pips = FindObjectsByType<Pip>(FindObjectsSortMode.None);
+                        foreach (Pip pip in pips)
+                        {
+                            pip.RemovePip();
+                        }
+
+
+                        foreach (TileBehaviour d in PipManager.Instance.hazardTiles)
+                        {
+                            d.RemoveHazard();
+                        }
+
+                        Commands.Navigation(command, FindFirstObjectByType<EndLevelMenu>(FindObjectsInactive.Include));
+                    }
+                    break;
+                case Commands.CommandGroup.None:
+                    Commands.AlwaysAvailable(command, FindFirstObjectByType<CameraManager>());
+                    break;
+                default:
+                    Logger.Warning("Command not found", false);
+                    break;
+            }
+        }
+
+
+
+        return;
+
         if (Commands.CommandDictionary.ContainsKey(command))
         {
             switch (Commands.CommandDictionary[command])
@@ -338,7 +408,7 @@ public class CommandConsoleBehavior : MonoBehaviour
         }
 
         ClearCommand();
-        
+
     }
 
 
