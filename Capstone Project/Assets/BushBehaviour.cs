@@ -26,7 +26,7 @@ public class BushBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("I should be triggering");
             bAnimator.SetBool("BushAnim" , true);
