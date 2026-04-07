@@ -67,6 +67,9 @@ public class RuneSelectionMenu : MonoBehaviour
     [ShowIf(nameof(currentInspectorShowing), Variables.Buttons), SerializeField]
     private List<GameObject> buttons;
 
+    [ShowIf(nameof(currentInspectorShowing), Variables.Buttons), SerializeField]
+    private List<GameObject> containers;
+
     #endregion BUTTONS
 
 
@@ -100,6 +103,15 @@ public class RuneSelectionMenu : MonoBehaviour
 
         }
 
+    }
+
+    /// <summary>
+    /// unhighlights all of the spell slots;
+    /// </summary>
+    public void RemoveAllContainerHighlights() { 
+        foreach (GameObject container in containers) {
+            container.GetComponent<SpellSlotHighlightBehavior>().RemoveHighlight();
+        }
     }
 
     #endregion ENABLE BUTTONS
