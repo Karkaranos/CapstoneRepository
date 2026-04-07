@@ -142,6 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseMenu: {fileID: 843333706934074402}
   settingsMenu: {fileID: 7937294276190825985, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+  winCanvas: {fileID: 0}
+  loseCanvas: {fileID: 0}
 --- !u!1 &1458558446591815613
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,6 +659,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3726693838388364799, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726693838388364799, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535431484908937207, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5131678958065142941, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.78
@@ -672,6 +686,10 @@ PrefabInstance:
     - target: {fileID: 6001252640491803105, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
       propertyPath: m_Color.a
       value: 0.9019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001252640491803105, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6585621657428070283, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
       propertyPath: m_AnchorMax.x
@@ -750,6 +768,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7991206347884141990, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927133357199402720, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927133357199402720, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927133357199402720, guid: cbce5d62391f39441bca350f149cfb37, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.78
       objectReference: {fileID: 0}

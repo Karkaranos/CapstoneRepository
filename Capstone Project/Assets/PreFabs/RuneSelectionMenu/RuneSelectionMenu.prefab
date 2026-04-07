@@ -592,6 +592,7 @@ GameObject:
   - component: {fileID: 8690938392344116210}
   - component: {fileID: 5346486511877798458}
   - component: {fileID: 2823749961647222177}
+  - component: {fileID: 5333223862960675569}
   m_Layer: 0
   m_Name: Container1
   m_TagString: Untagged
@@ -714,6 +715,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5333223862960675569}
+          m_TargetAssemblyTypeName: SpellSlotHighlightBehavior, Assembly-CSharp
+          m_MethodName: showHighlight
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &5333223862960675569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745991764249744145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82669c49d623498498b339bf4b0aea7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightSprite: {fileID: 21300000, guid: b4087c0d4e20ac846a425841093b49fe, type: 3}
+  noramlSprite: {fileID: 21300000, guid: 151f2e90e0b35cd4ea9a3bc6773ceddb, type: 3}
+  slotImage: {fileID: 5346486511877798458}
 --- !u!1 &2236102010899834307
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,6 +784,143 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2361269058769809599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2818475724228890966}
+  - component: {fileID: 8734588862655001691}
+  - component: {fileID: 4545343752622132122}
+  m_Layer: 0
+  m_Name: Damage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2818475724228890966
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361269058769809599}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1286338812512621301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 429, y: 91}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8734588862655001691
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361269058769809599}
+  m_CullTransparentMesh: 1
+--- !u!114 &4545343752622132122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361269058769809599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Damage: 0'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: ff30cee1b345caa459b16d8d347b865d, type: 2}
+  m_sharedMaterial: {fileID: -7081043665667326173, guid: ff30cee1b345caa459b16d8d347b865d, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 40
+  m_fontSizeBase: 40
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -258.21613, y: 0, z: 292.96945, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2915754758453177886
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +933,7 @@ GameObject:
   - component: {fileID: 6321400496940893685}
   - component: {fileID: 3100152663538584201}
   - component: {fileID: 8700352034854495944}
+  - component: {fileID: 5683957607526957850}
   m_Layer: 0
   m_Name: Container4
   m_TagString: Untagged
@@ -886,6 +1056,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &5683957607526957850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915754758453177886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82669c49d623498498b339bf4b0aea7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightSprite: {fileID: 21300000, guid: b4087c0d4e20ac846a425841093b49fe, type: 3}
+  noramlSprite: {fileID: 21300000, guid: 151f2e90e0b35cd4ea9a3bc6773ceddb, type: 3}
+  slotImage: {fileID: 3100152663538584201}
 --- !u!1 &3560920828327436811
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,6 +1083,7 @@ GameObject:
   - component: {fileID: 7251691400717199117}
   - component: {fileID: 2562630148698496162}
   - component: {fileID: 3681373967660819368}
+  - component: {fileID: 4085791121843081627}
   m_Layer: 0
   m_Name: Container2
   m_TagString: Untagged
@@ -1020,6 +1206,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &4085791121843081627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560920828327436811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82669c49d623498498b339bf4b0aea7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightSprite: {fileID: 21300000, guid: b4087c0d4e20ac846a425841093b49fe, type: 3}
+  noramlSprite: {fileID: 21300000, guid: 151f2e90e0b35cd4ea9a3bc6773ceddb, type: 3}
+  slotImage: {fileID: 2562630148698496162}
 --- !u!1 &4653630277975459063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,7 +1320,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1151,7 +1352,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -258.21613, y: 0, z: -44.752, w: 0}
+  m_margin: {x: -258.21613, y: 0, z: 292.96945, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1457,6 +1658,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9005087970415852159}
+  - {fileID: 2818475724228890966}
   - {fileID: 2607419059783939984}
   - {fileID: 263299610050035343}
   m_Father: {fileID: 298187998034959243}
@@ -1517,6 +1719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellName: {fileID: 4366907209259159382}
+  spellDamage: {fileID: 4545343752622132122}
   spellDescription: {fileID: 2420911019394843562}
   pips:
   - {fileID: 353687599971983047}
@@ -1675,6 +1878,7 @@ GameObject:
   - component: {fileID: 215196257824655544}
   - component: {fileID: 1839981711263439184}
   - component: {fileID: 7150216723476384671}
+  - component: {fileID: 7701781626679478762}
   m_Layer: 0
   m_Name: Container3
   m_TagString: Untagged
@@ -1797,6 +2001,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &7701781626679478762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6477106994949101700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82669c49d623498498b339bf4b0aea7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightSprite: {fileID: 21300000, guid: b4087c0d4e20ac846a425841093b49fe, type: 3}
+  noramlSprite: {fileID: 21300000, guid: 151f2e90e0b35cd4ea9a3bc6773ceddb, type: 3}
+  slotImage: {fileID: 1839981711263439184}
 --- !u!1 &7244982722216816855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1860,6 +2079,11 @@ MonoBehaviour:
   - {fileID: 777144544014618115}
   - {fileID: 4879087755078198448}
   - {fileID: 1552686949978944420}
+  containers:
+  - {fileID: 1745991764249744145}
+  - {fileID: 3560920828327436811}
+  - {fileID: 6477106994949101700}
+  - {fileID: 2915754758453177886}
 --- !u!114 &1895675801524581588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1949,6 +2173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaitingForThePlayer: 0
   playerMenu: {fileID: 0}
+  confirm: {fileID: 0}
   DefaultHighlight: {r: 0, g: 0, b: 0, a: 0}
   BlockedHighlight: {r: 0, g: 0, b: 0, a: 0}
   LightningHighlight: {r: 0, g: 0, b: 0, a: 0}

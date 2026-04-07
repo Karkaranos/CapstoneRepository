@@ -19,6 +19,7 @@ public class GridManager : MonoBehaviour
     // -5 is a pip occupied tile
     // -6 is a hazard occupied tile
     //-7 is a shield occupied tile
+    //-8 is a wind current occupied tile
     public static TileBehaviour[,] combatGrid;
 
     public static Vector2Int playerPosition;
@@ -89,7 +90,8 @@ public class GridManager : MonoBehaviour
                 combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
         }
         return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
-            combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
+            combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6 ||
+            combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -8;
     }
 
     /// <summary>
