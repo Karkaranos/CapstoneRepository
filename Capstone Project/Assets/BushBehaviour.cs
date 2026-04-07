@@ -26,10 +26,13 @@ public class BushBehaviour : MonoBehaviour
         bAnimator = GetComponentInChildren<Animator>();
     }
 
-    //When a player or enemy collides with the bush, the animation will play
+    /// <summary>
+    /// When a player or enemy collides with the bush, the animation will play
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("I should be triggering");
             bAnimator.SetBool("BushAnim" , true);
