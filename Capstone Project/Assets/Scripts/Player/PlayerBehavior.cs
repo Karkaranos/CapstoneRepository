@@ -468,7 +468,6 @@ public class PlayerBehavior : MonoBehaviour
         TileBehaviour tileOn = GridManager.combatGrid[myPosition.x, myPosition.y];
         if (tileOn.CanApplyTileEffects() && !underEffect)
         {
-            Debug.Log("MY POSITION IS " + myPosition);
             tileOn.ApplyTileEffects();
             underEffect = true;
         }

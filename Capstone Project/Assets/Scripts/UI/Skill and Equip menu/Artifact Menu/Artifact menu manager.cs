@@ -334,7 +334,6 @@ public class ArtifactMenuManager : MonoBehaviour
             }
         }
 
-        //Debug.Log("Art manager has " + ArtifactManager.CurrentArtifactWeight + " weight, while currentlyEquippedButtons is " + currentlyEquippedButtons);
 
         //sets the right number of buttons to shown/hidden depending on the difference between
         //the number of buttons that have stuff to the number of available space

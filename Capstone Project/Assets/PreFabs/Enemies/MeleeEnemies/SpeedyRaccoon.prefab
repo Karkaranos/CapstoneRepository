@@ -628,7 +628,6 @@ GameObject:
   - component: {fileID: 6509742901962675358}
   - component: {fileID: 3298837961605440976}
   - component: {fileID: 658231946167928873}
-  - component: {fileID: 3309745930933566544}
   - component: {fileID: 1926217171810170677}
   - component: {fileID: 5895380928361199476}
   - component: {fileID: 2465258453013156434}
@@ -745,9 +744,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSettings: 1
   healthBarSlider: {fileID: 8534701960708135817}
+  previewHealthBar: {fileID: 0}
   maxHealth: 60
   lowHealthPercentage: 0.8
   currentHealth: 5
+  isShowingPreview: 0
   aggroRange: 20
   attackRange: 1
   damage: 20
@@ -764,6 +765,7 @@ MonoBehaviour:
   HasStatusEffect: 0
   RuneStatusEffect: 0
   RuneStatusEffectNumber: 0
+  isRangedEnemy: 0
   movementRange: 2
   movementSpeed: 5
   moveStateDelay: 2
@@ -775,18 +777,7 @@ MonoBehaviour:
   isLowHealth: 0
   hasMovedForTurn: 0
   hasAttackedTwice: 0
---- !u!114 &3309745930933566544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6926130306899230273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4d9a42b0153cf54eb6217f6fc0098e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  anim: {fileID: 0}
 --- !u!114 &1926217171810170677
 MonoBehaviour:
   m_ObjectHideFlags: 0

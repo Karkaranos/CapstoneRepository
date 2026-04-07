@@ -152,8 +152,6 @@ public class TargetingBehaviour : MonoBehaviour
         RaycastHit hit;
         Physics.Linecast(enemyPos, endPos, out hit, ~doesNotBlockLOS);
 
-        Debug.Log(hit.collider.name);
-        Debug.Log(hit.collider.gameObject.transform.position);
         return hit.collider.tag == "Player";
     }
 }
