@@ -1477,7 +1477,16 @@ public class RuneEvents : MonoBehaviour
                     if(i == 0)
                     {
 
-                        Instantiate(rune.RuneVFX, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform);
+                        if (GridManager.playerPosition.x > PreviousPos[i].x)
+                        {
+                            Instantiate(rune.RuneVFX, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform.position,
+                            Quaternion.Euler(0, 180, 0));
+                        }
+                        else
+                        {
+                            Instantiate(rune.RuneVFX, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform.position,
+                            Quaternion.identity);
+                        }
 
                     }
 
