@@ -6,9 +6,9 @@
  * avoiding occupied tiles
  * External Resources: N/A
  * ***************************************************************************/
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class GridPathfinding : MonoBehaviour
 {
@@ -141,7 +141,7 @@ public class GridPathfinding : MonoBehaviour
                 myPosition = currentPositions[i];
                 List<Vector2Int> temp = GridManager.GetAllValidAdjacentTiles(myPosition, myPosition, !isEnemy);
 
-                foreach(Vector2Int v in temp)
+                foreach (Vector2Int v in temp)
                 {
                     nextPositions.Add(v);
                 }
@@ -221,9 +221,31 @@ public class GridPathfinding : MonoBehaviour
             {
                 case "Right":
                     newPosition.x += GridManager.MoveDistances.x;
+                    if (isEnemy)
+                    {
+                        if (GetComponent<MeleeEnemy>() != null)
+                        {
+                            GetComponent<MeleeEnemy>().anim.GetComponent<SpriteRenderer>().flipX = true;
+                        }
+                        else
+                        {
+                            GetComponentInChildren<SpriteRenderer>().flipX = true;
+                        }
+                    }
                     break;
                 case "Left":
                     newPosition.x -= GridManager.MoveDistances.x;
+                    if (isEnemy)
+                    {
+                        if (GetComponent<MeleeEnemy>() != null)
+                        {
+                            GetComponent<MeleeEnemy>().anim.GetComponent<SpriteRenderer>().flipX = false;
+                        }
+                        else
+                        {
+                            GetComponentInChildren<SpriteRenderer>().flipX = false;
+                        }
+                    }
                     break;
                 case "Up":
                     newPosition.z += GridManager.MoveDistances.y;
@@ -266,7 +288,7 @@ public class GridPathfinding : MonoBehaviour
                     GridManager.MoveToTile(myPosition, nextPosition, eType);
                     myPosition = nextPosition;
 
-                    foreach(WindCurrentTracker tracker in trackers)
+                    foreach (WindCurrentTracker tracker in trackers)
                     {
 
                         if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[myPosition.x, myPosition.y]))
@@ -289,12 +311,12 @@ public class GridPathfinding : MonoBehaviour
             }
 
             TileBehaviour tileOn = GridManager.combatGrid[nextPosition.x, nextPosition.y];
-            if(tileOn.CanApplyTileEffects() && !underEffect)
+            if (tileOn.CanApplyTileEffects() && !underEffect)
             {
                 tileOn.ApplyTileEffects();
                 underEffect = true;
             }
-            else if(!tileOn.CanApplyTileEffects() && underEffect)
+            else if (!tileOn.CanApplyTileEffects() && underEffect)
             {
                 underEffect = false;
             }
@@ -341,7 +363,7 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     private void DisplayPath()
     {
-        int max = nextPos.Count > movementRange ? movementRange + 1: 0;
+        int max = nextPos.Count > movementRange ? movementRange + 1 : 0;
         Vector2Int v = new Vector2Int();
         for (int i = 1; i <= max; ++i)
         {
