@@ -248,6 +248,7 @@ public class GridManager : MonoBehaviour
             }
             row += "\n";
         }
+        Debug.Log(row);
     }
 
     /// <summary>
