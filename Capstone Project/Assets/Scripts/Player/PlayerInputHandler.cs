@@ -27,7 +27,7 @@ public class PlayerInputHandler : MonoBehaviour
     //stores if the mouse has been rightclicked because this shit has to be done in fixedupdate for whatever fucking reason
     private bool mousePressed = false;
     [HideInInspector] public bool enableMovement;
-    private bool isMoving;
+    public bool IsMoving;
 
     //used to determine whenever the player is pathing an attack
     [HideInInspector] public bool IsPathing;
@@ -56,7 +56,7 @@ public class PlayerInputHandler : MonoBehaviour
 
         mousePressed = false;
         enableMovement = false;
-        isMoving = false;
+        IsMoving = false;
     }
 
 
@@ -207,19 +207,14 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (FindFirstObjectByType<RuneEvents>())
         {
-
             if (FindFirstObjectByType<RuneEvents>().WaitingOnPath)
             {
-
                 IsPathing = true;
-
             }
-
         }
 
         movementDirection = obj.ReadValue<Vector2>();
-
-        isMoving = true;
+        IsMoving = true;
     }
 
     /// <summary>
@@ -228,10 +223,8 @@ public class PlayerInputHandler : MonoBehaviour
     /// <param name="obj"></param>
     private void MovePlayer_canceled(InputAction.CallbackContext obj)
     {
-        isMoving = false;
-
+        IsMoving = false;
         IsPathing = false;
-
     }
 
     /// <summary>
@@ -302,7 +295,7 @@ public class PlayerInputHandler : MonoBehaviour
             }
         }
 
-        if(isMoving || IsPathing)
+        if(IsMoving || IsPathing)
         {
             //Using an if statement in case we want to call another event when not trying to move
             if (enableMovement)

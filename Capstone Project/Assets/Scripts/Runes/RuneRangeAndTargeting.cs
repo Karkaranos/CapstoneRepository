@@ -698,7 +698,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         //i <3 rare bugs
-        if(GetComponent<RuneEvents>().Casting)
+        if(GetComponent<RuneEvents>().Casting || FindFirstObjectByType<PlayerInputHandler>().IsMoving)
         {
             return;
         }
