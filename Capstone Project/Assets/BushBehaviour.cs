@@ -11,19 +11,22 @@ using UnityEngine.Animations;
 
 public class BushBehaviour : MonoBehaviour
 {
+    #region player variables
     [SerializeField, Tooltip("A reference to the object the Animator is on")] private GameObject bushAnim;
     [Tooltip("A reference to the bush's Sprite Renderer"), SerializeField, Required]
     private SpriteRenderer bushSprite;
     [Tooltip("A reference to the bush's Animator"), SerializeField]
     private Animator bAnimator;
+    #endregion
 
-
+    #region functions
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         bAnimator = GetComponentInChildren<Animator>();
     }
 
+    //When a player or enemy collides with the bush, the animation will play
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player") && collision.gameObject.CompareTag("Enemy"))
@@ -36,5 +39,6 @@ public class BushBehaviour : MonoBehaviour
             bAnimator.SetBool("BushAnim", false);
         }
     }
+    #endregion
 
 }
