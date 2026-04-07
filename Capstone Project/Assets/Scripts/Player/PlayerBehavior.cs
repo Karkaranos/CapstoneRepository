@@ -5,17 +5,11 @@ Date Last Modified : 	2/19/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
-using NUnit.Framework;
-using PlayerInputActions;
-using System;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using Unity.Cinemachine;
-using NaughtyAttributes;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -45,7 +39,7 @@ public class PlayerBehavior : MonoBehaviour
     [HideInInspector] public bool CurrentlyTryingToAttack = false;
     #endregion playervariables
     //Outdated but can't be removed because it will cause errors in RuneRangeAndTargeting
-    [HideInInspector] public List<TileBehaviour> tilesInRange = new List<TileBehaviour>(); 
+    [HideInInspector] public List<TileBehaviour> tilesInRange = new List<TileBehaviour>();
 
     [Tooltip("If true, enemy paths will be shown during the player's turn")]
     public bool TogglePathVisualizer;
@@ -124,7 +118,7 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     #region player input
-    
+
     /// <summary>
     /// Enables PlayerClick Input Action
     /// </summary>
@@ -170,35 +164,35 @@ public class PlayerBehavior : MonoBehaviour
 
         foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
         {
-            if(e != null)
+            if (e != null)
             {
                 enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
             }
         }
 
         ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
-        if(allShields.Length >= 1)
+        if (allShields.Length >= 1)
         {
-
-            foreach(ShieldBehavior shield in allShields)
+            foreach (ShieldBehavior shield in allShields)
             {
 
                 GridManager.RemoveEntity(shield.GetComponentInParent<TileBehaviour>().IndexInGrid);
                 shield.GetDestroyed();
 
             }
-
         }
 
         WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
         if (allCurrents.Length >= 1)
         {
-
             foreach (WindCurrentTracker current in allCurrents)
             {
 
+                foreach (TileBehaviour tile in current.WindCurrentTiles)
+                {
+                    GridManager.RemoveEntity(tile.IndexInGrid);
+                }
                 current.DestroyCurrents();
-
             }
 
         }
@@ -229,7 +223,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             foreach (Enemy e in gm.GetComponent<EnemyHandler>().enemies)
             {
-                if(e != null)
+                if (e != null)
                 {
                     enemyPositions.Add(e.gameObject.GetComponent<GridPathfinding>().MyPosition);
                 }
@@ -388,7 +382,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         canMove = false;
 
-        if(bm==null)
+        if (bm == null)
         {
             bm = FindFirstObjectByType<ButtonManager>();
         }
@@ -401,6 +395,18 @@ public class PlayerBehavior : MonoBehaviour
             Vector2Int nextPosition = previousPositions[i + 1];
             bool isMoving = true;
             bm.HideAllCanvas();
+
+            float flipSpRendDeterministic = transform.position.x - movementPositions[i].x;
+
+            if (flipSpRendDeterministic > 0)
+            {
+                animObj.GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else
+            {
+                animObj.GetComponent<SpriteRenderer>().flipX = false;
+            }
+
             while (isMoving)
             {
                 anim.SetBool("Walk", true);
@@ -494,7 +500,7 @@ public class PlayerBehavior : MonoBehaviour
             gm.GetComponent<PlayerInputHandler>().enableMovement = false;
             buttonManager.ResetCanvas();
         }
-        else if(movementLeft == 0)
+        else if (movementLeft == 0)
         {
             StartCoroutine(MovePlayer());
             gm.GetComponent<PlayerInputHandler>().enableMovement = false;
@@ -511,7 +517,7 @@ public class PlayerBehavior : MonoBehaviour
         myPosition = posBeforeMovement;
         GridManager.playerPosition = posBeforeMovement;
         GridManager.combatGrid[myPosition.x, myPosition.y].entityOnGrid = -3;
-        foreach(Vector2Int v in previousPositions)
+        foreach (Vector2Int v in previousPositions)
         {
             GridManager.combatGrid[v.x, v.y].ShowHighlight(false);
         }
