@@ -4,14 +4,15 @@ Date Created : 		    9/28/2025
 Date Last Modified : 	2/12/2026
 Brief Description : 	Static Commands
                         Calls the appropriate functions given inputted Commands                       
-External Resources : 	N/A
+External Resources : 	https://stackoverflow.com/questions/4758414/6-digits-regular-expression
 ***************************************************/
-using System.Collections.Generic;
-using UnityEngine;
-using System.Collections;
 using System;
-using System.Security.Cryptography;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
+using static Commands;
 
 public class Commands
 {
@@ -32,17 +33,17 @@ public class Commands
         {"kill-enemies", CommandGroup.Enemies },
         {"enemies-godmode", CommandGroup.Enemies},
         //{"drop", CommandGroup.Enemies },
-        {"kill-enemy-#", CommandGroup.Enemies},
-        {"enemies-health-#", CommandGroup.Enemies},
-        {"enemy-#-health-$", CommandGroup.Enemies},
+        //{"kill-enemy-#", CommandGroup.Enemies},
+        //{"enemies-health-#", CommandGroup.Enemies},
+        //{"enemy-#-health-$", CommandGroup.Enemies},
         //{"no-cost", CommandGroup.Player},
         //{"max-xp", CommandGroup.Player},
         //{"unlock-all-spells", CommandGroup.Player},
         {"godmode", CommandGroup.Player},
-        {"hp-#", CommandGroup.Player},
-         {"light-dmg-#", CommandGroup.Player},
-        {"wind-dmg-#", CommandGroup.Player},
-        {"lvl-#", CommandGroup.Navigation},
+        //{"hp-#", CommandGroup.Player},
+        //{"light-dmg-#", CommandGroup.Player},
+        //{"wind-dmg-#", CommandGroup.Player},
+        //{"lvl-#", CommandGroup.Navigation},
         {"r", CommandGroup.Navigation},
         {"menu", CommandGroup.None },
         {"help", CommandGroup.None},
@@ -55,7 +56,7 @@ public class Commands
     // links all commands with 1 variable to their command group
     public static Dictionary<string, CommandGroup> PartialCommands1= new Dictionary<string, CommandGroup>()
     {
-        {"kill-enemy-", CommandGroup.Enemies},
+        {"kill-enemy-(^[0-9]$)", CommandGroup.Enemies},
         {"enemies-health-", CommandGroup.Enemies},
         {"hp-", CommandGroup.Player},
         {"light-dmg-", CommandGroup.Player},
@@ -67,6 +68,30 @@ public class Commands
     public static Dictionary<string, CommandGroup> PartialCommands2 = new Dictionary<string, CommandGroup>()
     {
         {"enemy-.*-health-.*", CommandGroup.Enemies}
+    };
+
+
+    public static Dictionary<string, CommandGroup> AllCommands = new Dictionary<string, CommandGroup>()
+    {
+        {"1", CommandGroup.MoveConsole},
+        { "2", CommandGroup.MoveConsole},
+        { "3", CommandGroup.MoveConsole},
+        { "4", CommandGroup.MoveConsole},
+        { "hi", CommandGroup.Greet},
+        { "kill-enemies", CommandGroup.Enemies },
+        { "enemies-godmode", CommandGroup.Enemies},
+        { "godmode", CommandGroup.Player},
+        { "r", CommandGroup.Navigation},
+        { "menu", CommandGroup.None },
+        { "help", CommandGroup.None},
+        { "skipcut", CommandGroup.None },
+        {"kill-enemy-(^[0-9]$)", CommandGroup.Enemies},
+        {"enemies-health-(^[0-9]$)", CommandGroup.Enemies},
+        {"hp-(^0-9]$)", CommandGroup.Player},
+        {"light-dmg-(^[0-9]$)", CommandGroup.Player},
+        {"wind-dmg-(^[0-9]$)", CommandGroup.Player},
+        {"lvl-(^[0-9]{1,1}$)", CommandGroup.Navigation},
+        {"enemy-(^[0-9]$)-health-(^[0-9]$)", CommandGroup.Enemies}
     };
 
 #region Command Groups
