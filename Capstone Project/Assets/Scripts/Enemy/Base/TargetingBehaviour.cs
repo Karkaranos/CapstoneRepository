@@ -151,7 +151,6 @@ public class TargetingBehaviour : MonoBehaviour
         Vector3 endPos = endTilePos - new Vector3(0, -yDistance, 0);
         RaycastHit hit;
         Physics.Linecast(enemyPos, endPos, out hit, ~doesNotBlockLOS);
-        Debug.DrawLine(enemyPos, endPos, Color.red, 5f);
         return hit.collider.tag == "Player";
     }
 }
