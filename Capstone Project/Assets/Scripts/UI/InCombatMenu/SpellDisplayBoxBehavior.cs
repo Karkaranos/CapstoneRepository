@@ -10,6 +10,7 @@ using UnityEngine;
 public class SpellDisplayBoxBehavior : MonoBehaviour
 {
     public TextMeshProUGUI spellName;
+    public TextMeshProUGUI spellDamage;
     public TextMeshProUGUI spellDescription;
     public GameObject[] pips;
     public float moveAmount;
@@ -28,6 +29,7 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
         if (icsb.rune != null) {
             PopOut();
             spellName.text = icsb.rune.name;
+            spellDamage.text = "Damage: " + icsb.rune.RuneDamage;
             spellDescription.text = icsb.rune.RuneDescription;
 
             int attackPoints = icsb.rune.RuneActionPoints;

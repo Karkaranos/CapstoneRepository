@@ -1702,6 +1702,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &501841156 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3674428044261122241, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
+  m_PrefabInstance: {fileID: 934004769}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &502092942 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3307295131024841070, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
@@ -3631,6 +3642,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2030749425678690618, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2032109198801861038, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
       propertyPath: m_SizeDelta.y
       value: 348.375
@@ -3835,6 +3850,14 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: InCombatSpellSlotBehavior, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3096016274313329165, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 460
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096016274313329165, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 103
+      objectReference: {fileID: 0}
     - target: {fileID: 3202819543334676721, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
       propertyPath: m_text
       value: Select a starting tile. Click and drag to summon a tornado that will
@@ -3890,6 +3913,10 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3445294450957233842, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
+      propertyPath: spellDamage
+      value: 
+      objectReference: {fileID: 501841156}
+    - target: {fileID: 3445294450957233842, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
       propertyPath: 'pips.Array.data[0]'
       value: 
       objectReference: {fileID: 934004772}
@@ -3908,6 +3935,14 @@ PrefabInstance:
     - target: {fileID: 3562382632849482765, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
       propertyPath: m_margin.z
       value: -135.86626
+      objectReference: {fileID: 0}
+    - target: {fileID: 3674428044261122241, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
+      propertyPath: m_margin.x
+      value: -290.04578
+      objectReference: {fileID: 0}
+    - target: {fileID: 3674428044261122241, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4532536775883720941, guid: 8e9f009b67af2a0438cd1d3d5a694b84, type: 3}
       propertyPath: m_AnchorMax.y

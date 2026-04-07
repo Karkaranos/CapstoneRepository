@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Clare Grady
 Date Created : 	10/07/2025
-Date Last Modified : 03/31/2026 (Jay Embry)
+Date Last Modified : 04/07/2026 (Jay Embry)
 Brief Description : Determines viable targets whenever a spell is selected
 External Resources : 	
 	***************************************************/
@@ -94,7 +94,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
         PublicEvents.HideDamagePreview();
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
 
-        if(!GetComponent<RuneEvents>().WaitingOnPath)
+        if(!GetComponent<RuneEvents>().Pathing)
         {
 
             WaitingForThePlayer = true;
@@ -586,12 +586,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
 
-        if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !this.gameObject.GetComponent<RuneEvents>().WaitingOnPath)
+        if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !GetComponent<RuneEvents>().Pathing)
         {
             confirm.interactable = true;
 
             SetHighlight(true);
-
+            
             selectedTile = tile;
             selectedEnemy = enemy;
             selectedPlayer = player;
@@ -698,7 +698,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         //i <3 rare bugs
-        if(this.gameObject.GetComponent<RuneEvents>().Casting)
+        if(GetComponent<RuneEvents>().Casting)
         {
             return;
         }
@@ -754,22 +754,17 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(true);
 
-        if (GetComponent<RuneEvents>().WaitingOnPath)
+        if (GetComponent<RuneEvents>().WaitingOnPath || GetComponent<RuneEvents>().Pathing)
         {
-
             GetComponent<RuneEvents>().CancelPathing();
-
         }
 
         SetHighlight(false);
 
         if (castNotCanceled)
         {
-
             PublicEvents.RuneCast(storedData.RuneActionPoints);
-
             castNotCanceled = false;
-
         }
 
         if (TurnManager.currentStatus == TurnStates.PlayerTurn)
