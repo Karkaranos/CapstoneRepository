@@ -21,7 +21,10 @@ public class BushBehaviour : MonoBehaviour
     #endregion
 
     #region functions
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// Grabs the Animator from the Bush Prefab and defines it
+    /// </summary>
     void Start()
     {
         bAnimator = GetComponentInChildren<Animator>();
