@@ -91,6 +91,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+
         PublicEvents.RuneUnequipped += UnequipSpell;
 
         //sets the spell menu active
@@ -154,10 +155,19 @@ public class SkillAndArtifactManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Sets the ready button status when the menu is opened
+    /// </summary>
+    public void SetButton()
+    {
+        continueButton.interactable = UpdateContinueButton();
+    }
+
+    /// <summary>
     /// Starts the transition for moving to the level
     /// </summary>
     public void ContinueToNextLevel()
     {
+        continueButton.interactable = false;
         FindFirstObjectByType<TransitionManager>().LevelTransition();
     }
 
