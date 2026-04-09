@@ -61,6 +61,7 @@ public class EndLevelMenu : MonoBehaviour
             if (isWin)
             {
                 WinMenu.SetActive(true);
+                IsDemo = true;
             }
             else
             {
@@ -70,11 +71,15 @@ public class EndLevelMenu : MonoBehaviour
             {
                 FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
             }
-            IsDemo = true;
+            
         }
         else
         {
-            demoMenu.SetActive(true);
+            if (isWin)
+            {
+                demoMenu.SetActive(true);
+            }
+            
         }
     }
 
