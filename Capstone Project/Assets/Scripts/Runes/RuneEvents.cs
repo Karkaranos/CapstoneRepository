@@ -1134,7 +1134,7 @@ public class RuneEvents : MonoBehaviour
         {
             GetComponent<RuneRangeAndTargeting>().Confirm.interactable = false;
         }
-        
+
         if (WaitingOnPath)
         {
 
