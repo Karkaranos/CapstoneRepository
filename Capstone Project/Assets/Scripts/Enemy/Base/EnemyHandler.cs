@@ -99,10 +99,14 @@ public class EnemyHandler : MonoBehaviour
                 //GridManager.RemoveHighlight();
             }
 
-            if (enemies[index] == null)
+            if (index <= enemies.Count - 1)
             {
-                EnemyNullCheck(index);
+                if (enemies[index] == null)
+                {
+                    EnemyNullCheck(index);
+                }
             }
+            
 
             if (enemies[0].playerStats.turnIndicator.activeSelf)
             {
@@ -153,6 +157,10 @@ public class EnemyHandler : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// clears out all the nulls from the enemy list
+    /// </summary>
+    /// <param name="index"></param>
     private void NullCheckWholeEnemyList(int index)
     {
         if (enemies.Count > 0 && index < enemies.Count)
@@ -227,6 +235,9 @@ public class EnemyHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// called when the player dies
+    /// </summary>
     public void PlayerDied()
     {
         isPlayerDead = true;
