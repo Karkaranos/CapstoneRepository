@@ -1131,7 +1131,10 @@ public class RuneEvents : MonoBehaviour
     private void MoveDirection(Vector2 dir)
     {
 
-        if(WaitingOnPath)
+        StopCoroutine("ConfirmationDelay");
+        GetComponent<RuneRangeAndTargeting>().Confirm.interactable = false;
+
+        if (WaitingOnPath)
         {
 
             if (dir.y >= .5f)
@@ -1177,6 +1180,8 @@ public class RuneEvents : MonoBehaviour
 
         }
 
+        StartCoroutine("ConfirmationDelay");
+
     }
 
     //used specifically for wind 1
@@ -1191,9 +1196,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         StopCoroutine("MovementDelay");
-
         WaitingOnPath = false;
-        GetComponent<RuneRangeAndTargeting>().Confirm.interactable = false;
   
         if (PreviousPos.Contains(v))
         {
@@ -1394,6 +1397,10 @@ public class RuneEvents : MonoBehaviour
     {
         yield return new WaitForSeconds(.1f);
         WaitingOnPath = true;
+    }
+
+    IEnumerator ConfirmationDelay()
+    {
         yield return new WaitForSeconds(.2f);
         GetComponent<RuneRangeAndTargeting>().Confirm.interactable = true;
     }
