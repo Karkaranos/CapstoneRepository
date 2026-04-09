@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Brad Dixon, Aidan Ratcliffe
 Date Created : 	10/07/2025
-Date Last Modified : 03/31/2026 (Jay Embry)
+Date Last Modified : 04/07/2026 (Jay Embry)
 Brief Description : Contains rune types and effects
                     I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
@@ -16,6 +16,7 @@ using static Unity.Collections.Unicode;
 using FMOD.Studio;
 using FMODUnity;
 using EventReference = FMODUnity.EventReference;
+using Unity.VisualScripting;
 
 
 public class RuneEvents : MonoBehaviour
@@ -55,6 +56,7 @@ public class RuneEvents : MonoBehaviour
 
     public bool Casting = false;
     public bool WaitingOnPath = false;
+    public bool Pathing = false;
 
     #endregion SETUP
 
@@ -282,10 +284,8 @@ public class RuneEvents : MonoBehaviour
                 bookanim.SetBool("LAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
-                Debug.Log("I am tottaly being called");
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
-                Debug.Log("I am attacking");
                 
                 Instantiate(rune.RuneVFX, tile.transform);
 
@@ -444,6 +444,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange;
@@ -475,6 +476,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -632,13 +634,13 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange;
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
 
-                    Debug.Log("START MOVING");
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] 
@@ -658,6 +660,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -690,14 +693,13 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange;
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
-
-                    Debug.Log("START PATHING");
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]
@@ -717,6 +719,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -748,6 +751,7 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange + 1;
@@ -755,7 +759,6 @@ public class RuneEvents : MonoBehaviour
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
 
-                    Debug.Log("START PATHING");
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] 
@@ -775,7 +778,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
-
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -812,14 +815,13 @@ public class RuneEvents : MonoBehaviour
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
 
                     WaitingOnPath = true;
+                    Pathing = true;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
 
                     movementLeft = rune.RuneRange + 1;
 
                     ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
                     movementPos.Add(ghostPos);
-
-                    Debug.Log("START PATHING");
 
                 }
                 else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y]
@@ -846,6 +848,7 @@ public class RuneEvents : MonoBehaviour
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
+                    Pathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
@@ -930,7 +933,7 @@ public class RuneEvents : MonoBehaviour
             }
             else
             {
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20 || newTile.entityOnGrid == -8;
             }
 
         }
@@ -949,6 +952,8 @@ public class RuneEvents : MonoBehaviour
     /// <param name="target"> the target </param>
     void SendEnemyBackwards(TileBehaviour kbSource, TileBehaviour kbTarget, Enemy target)
     {
+
+        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
 
         Vector2Int newTilePos = kbTarget.IndexInGrid;
 
@@ -980,20 +985,7 @@ public class RuneEvents : MonoBehaviour
 
                 newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-                if (newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20)
-                {
-
-                    target.transform.SetParent(newTile.transform);
-
-                    target.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
-
-                    GridManager.MoveToTile(kbTarget.IndexInGrid, newTilePos, -2);
-
-                    target.GetComponent<GridPathfinding>().SetPosition(newTilePos);
-                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
-
-                }
-                else if (newTile.entityOnGrid == -2)
+                if (newTile.entityOnGrid == -2)
                 {
 
                     newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
@@ -1010,13 +1002,36 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
                 }
+                else
+                {
 
-                break;
+                    target.transform.SetParent(newTile.transform);
 
+                    target.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+
+                    GridManager.MoveToTile(kbTarget.IndexInGrid, newTilePos, -2);
+
+                    target.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
+
+                    foreach (WindCurrentTracker tracker in trackers)
+                    {
+
+                        if (tracker.WindCurrentTiles.Contains(newTile))
+                        {
+
+                            target.Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
+                            tracker.SendThroughWindCurrent(tracker.WindCurrentTiles.IndexOf(newTile), target);
+
+                        }
+
+                    }
+
+                }
+
+                    break;
             }
-
         }
-
     }
 
     /// <summary>
@@ -1090,12 +1105,21 @@ public class RuneEvents : MonoBehaviour
     /// </summary>
     /// <param name="tileCoordinates"> the tile that the player is attempting to highlight </param>
     /// <returns> status of a tile </returns>
-    public static bool CanMoveThroughTile(Vector2Int tileCoordinates)
+    bool CanMoveThroughTile(Vector2Int tileCoordinates)
     {
 
+        if(selectedRune.TypeOfRune == RuneType.Wind && selectedRune.NumberOnSkillTree == 3)
+        {
+            return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
+        }
+        
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -8 ||
         GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
 
     }
@@ -1380,6 +1404,8 @@ public class RuneEvents : MonoBehaviour
     void MoveAlongPath(RuneData rune)
     {
 
+        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+
         float damageDealt = 0;
 
         if(rune.TypeOfRune == RuneType.Wind)
@@ -1474,6 +1500,29 @@ public class RuneEvents : MonoBehaviour
                     if(i == (movementPos.Count - 1))
                     {
 
+                        foreach (WindCurrentTracker tracker in trackers)
+                        {
+
+                            if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[nextPos.x, nextPos.y]))
+                            {
+
+                                selectedEnemy.Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
+
+                                tracker.SendThroughWindCurrent(tracker.WindCurrentTiles.IndexOf
+                                (GridManager.combatGrid[nextPos.x, nextPos.y]), selectedEnemy);
+
+                                PreviousPos.Clear();
+                                movementPos.Clear();
+                                movementUsed = 0;
+
+                                StartCoroutine(UpdatePlayerStatus());
+
+                                return;
+
+                            }
+
+                        }
+
                         selectedEnemy.transform.SetParent(GridManager.combatGrid[nextPos.x, nextPos.y].transform);
 
                         selectedEnemy.transform.position = new Vector3(GridManager.combatGrid[nextPos.x, nextPos.y].transform.position.x,
@@ -1515,6 +1564,7 @@ public class RuneEvents : MonoBehaviour
                 {
 
                     currentTracker.WindCurrentTiles.Add(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y]);
+                    GridManager.AddEntity(PreviousPos[i], -8);
 
                     if(i == movementPos.Count - 1)
                     {
@@ -1577,7 +1627,6 @@ public class RuneEvents : MonoBehaviour
                         foreach (TileBehaviour tileInRange in targetedTiles)
                         {
 
-                            Debug.Log(targetedTiles);
 
                             if (tileInRange.GetComponentInChildren<Enemy>() != null)
                             {
@@ -1620,6 +1669,7 @@ public class RuneEvents : MonoBehaviour
     {
 
         WaitingOnPath = false;
+        Pathing = false;
 
         FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
         FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;

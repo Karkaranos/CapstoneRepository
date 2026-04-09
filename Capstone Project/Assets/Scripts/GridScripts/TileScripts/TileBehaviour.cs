@@ -264,14 +264,11 @@ public class TileBehaviour : MonoBehaviour
             temp.Clear();
         }
 
-        Debug.Log("Start Here-----");
         //Once all connected tiles are found, electrify them all
         foreach (TileBehaviour t in adWaterTiles)
         {
-            Debug.Log(t.gameObject.name);
             t.ElectrifyTile();
         }
-        Debug.Log("End Here------");
     }
 
     /// <summary>

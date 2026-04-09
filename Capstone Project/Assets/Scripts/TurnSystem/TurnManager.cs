@@ -234,7 +234,6 @@ public class TurnManager : MonoBehaviour
                 {
                     if (breakInfLoop)
                     {
-                        Debug.Log("No listeners to the turnmanager, had to break an inf loop");
                         break;
                     }
                     breakInfLoop = true;
@@ -257,7 +256,6 @@ public class TurnManager : MonoBehaviour
     /// </summary>
     private void ProcessTurnActionComplete()
     {
-        Debug.Log("Called");
 
         //ups the number of instances this has heard back from
         ++currentHearBackNum;
@@ -287,7 +285,6 @@ public class TurnManager : MonoBehaviour
         //resets the number of things its heard back from
         currentHearBackNum = 0;
 
-        //Debug.Log(currentHearBackNum);
 
         //determines what phase it is going to next
         currentStatus = DetermineNextState();
@@ -372,7 +369,6 @@ public class TurnManager : MonoBehaviour
                 {
                     if (breakInfLoop)
                     {
-                        Debug.Log("No listeners to the turnmanager, had to break an inf loop");
                         break;
                     }
                     breakInfLoop = true;

@@ -12,6 +12,16 @@ public class WasdUIController : MonoBehaviour
     [SerializeField] private GameObject wasdObject;
     [SerializeField] private CanvasGroup canvasGroup;
 
+    private GridTesting gridTesting;
+
+    /// <summary>
+    /// On start initialization
+    /// </summary>
+    private void Start()
+    {
+        gridTesting = FindFirstObjectByType<GridTesting>();
+    }
+
     /// <summary>
     /// Subscribe to event
     /// </summary>
@@ -30,9 +40,14 @@ public class WasdUIController : MonoBehaviour
 
     /// <summary>
     /// Toggle if the WASD prompt is showing 
+    /// && its the tutorial level
     /// </summary>
     private void ToggleWasd()
     {
-        canvasGroup.alpha = canvasGroup.alpha == 0 ? 1 : 0; 
+        if(gridTesting.GetGridIndex() == 0)
+        {
+            canvasGroup.alpha = canvasGroup.alpha == 0 ? 1 : 0;
+        }
+        
     }
 }
