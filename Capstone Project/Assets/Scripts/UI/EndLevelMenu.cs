@@ -7,10 +7,9 @@ Brief Description : 		Temporary End Level Menu handler for
 External Resources : 	
 ***************************************************/
 using NUnit.Framework;
-using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
 
 public class EndLevelMenu : MonoBehaviour
@@ -21,7 +20,9 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private GameObject LoseMenu;
     [SerializeField] private FMOD.Studio.Bus MasterBus;
     private bool retrying;
-
+    [SerializeField] private bool IsDemo;
+    [SerializeField] private GameObject demoMenu;
+    [SerializeField] private float popupDelay;
     #endregion
 
     #region FUNCTIONS
@@ -43,17 +44,38 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi(bool win)
     {
-        if (win) {
-            WinMenu.SetActive(true);
-        } else {
-            LoseMenu.SetActive(true);
-        }
+        StartCoroutine(DelayedPopup(win));
+    }
 
-        if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
+    /// <summary>
+    /// shows the end level menu after a delay
+    /// </summary>
+    /// <param name="isWin"></param>
+    /// <returns></returns>
+    private IEnumerator DelayedPopup(bool isWin)
+    {
+        yield return new WaitForSeconds(popupDelay);
+
+        if (!IsDemo)
         {
-            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+            if (isWin)
+            {
+                WinMenu.SetActive(true);
+            }
+            else
+            {
+                LoseMenu.SetActive(true);
+            }
+            if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
+            {
+                FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+            }
+            IsDemo = true;
         }
-        
+        else
+        {
+            demoMenu.SetActive(true);
+        }
     }
 
     /// <summary>
