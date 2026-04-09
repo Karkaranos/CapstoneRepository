@@ -487,7 +487,6 @@ public class RuneEvents : MonoBehaviour
             default:
                 break;
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     //variable that stores targets for an aoe attack
@@ -857,7 +856,6 @@ public class RuneEvents : MonoBehaviour
                 break;
 
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     #endregion WIND FUNCTIONS
@@ -1132,7 +1130,10 @@ public class RuneEvents : MonoBehaviour
     {
 
         StopCoroutine("ConfirmationDelay");
-        GetComponent<RuneRangeAndTargeting>().Confirm.interactable = false;
+        if(GetComponent<RuneRangeAndTargeting>().Confirm != null)
+        {
+            GetComponent<RuneRangeAndTargeting>().Confirm.interactable = false;
+        }
 
         if (WaitingOnPath)
         {
@@ -1402,7 +1403,10 @@ public class RuneEvents : MonoBehaviour
     IEnumerator ConfirmationDelay()
     {
         yield return new WaitForSeconds(.2f);
-        GetComponent<RuneRangeAndTargeting>().Confirm.interactable = true;
+        if (GetComponent<RuneRangeAndTargeting>().Confirm != null)
+        {
+            GetComponent<RuneRangeAndTargeting>().Confirm.interactable = true;
+        }
     }
 
     //used for certain wind attacks
