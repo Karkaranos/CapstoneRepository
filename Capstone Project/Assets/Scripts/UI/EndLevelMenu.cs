@@ -7,6 +7,7 @@ Brief Description : 		Temporary End Level Menu handler for
 External Resources : 	
 ***************************************************/
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -43,9 +44,18 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi(bool win)
     {
-        if (win) {
+        StartCoroutine(ExecuteAfterTime(2f, win));
+    }
+
+    IEnumerator ExecuteAfterTime(float delay, bool win)
+    {
+        yield return new WaitForSeconds(delay);
+        if (win)
+        {
             WinMenu.SetActive(true);
-        } else {
+        }
+        else
+        {
             LoseMenu.SetActive(true);
         }
 
@@ -53,7 +63,6 @@ public class EndLevelMenu : MonoBehaviour
         {
             FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
         }
-        
     }
 
     /// <summary>

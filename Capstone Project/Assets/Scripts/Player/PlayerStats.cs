@@ -345,6 +345,7 @@ public class PlayerStats : MonoBehaviour
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
         //endLevelMenu.SetText("You Died");
         //endLevelMenu.SetNextLevelButton(false);
+
         endLevelMenu.EnableEndMenuUi(false);
     }
 
