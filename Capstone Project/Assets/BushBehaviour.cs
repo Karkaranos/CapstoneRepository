@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using UnityEngine.Animations;
 using System.Runtime.CompilerServices;
 
+[System.Obsolete]
 public class BushBehaviour : MonoBehaviour
 {
     #region player variables
