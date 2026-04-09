@@ -487,7 +487,6 @@ public class RuneEvents : MonoBehaviour
             default:
                 break;
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     //variable that stores targets for an aoe attack
@@ -857,7 +856,6 @@ public class RuneEvents : MonoBehaviour
                 break;
 
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     #endregion WIND FUNCTIONS
