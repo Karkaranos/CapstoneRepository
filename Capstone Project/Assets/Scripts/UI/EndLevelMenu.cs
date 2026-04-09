@@ -21,7 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private GameObject LoseMenu;
     [SerializeField] private FMOD.Studio.Bus MasterBus;
     private bool retrying;
-
+    [SerializeField] private bool IsDemo;
+    [SerializeField] private GameObject demoMenu;
     #endregion
 
     #region FUNCTIONS
@@ -43,16 +44,28 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi(bool win)
     {
-        if (win) {
-            WinMenu.SetActive(true);
-        } else {
-            LoseMenu.SetActive(true);
+        if (!IsDemo)
+        {
+            if (win)
+            {
+                WinMenu.SetActive(true);
+            }
+            else
+            {
+                LoseMenu.SetActive(true);
+            }
+            if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
+            {
+                FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+            }
+            IsDemo = true;
+        }
+        else
+        {
+            demoMenu.SetActive(true);
         }
 
-        if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
-        {
-            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
-        }
+        
         
     }
 
