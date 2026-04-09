@@ -9,6 +9,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.SceneManagement;
 using FMODUnity;
+using System;
 
 public class TransitionManager : MonoBehaviour
 {
@@ -122,6 +123,7 @@ public class TransitionManager : MonoBehaviour
     public void EndScreenToEquipMenu()
     {
         transitionAnimator.SetTrigger("EquipMenu");
+        FindFirstObjectByType<SkillAndArtifactManager>(FindObjectsInactive.Include)?.SetButton();
     }
 
     /// <summary>
