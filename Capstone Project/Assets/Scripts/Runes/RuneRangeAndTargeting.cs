@@ -35,7 +35,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
-    [SerializeField] private Button confirm;
+    public Button Confirm;
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
@@ -91,9 +91,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         SetHighlight(false);
 
-        PublicEvents.HideDamagePreview();
         FindFirstObjectByType<PlayerBehavior>().SetPlayerMovementStatus(false);
-
         if(!GetComponent<RuneEvents>().Pathing)
         {
 
@@ -103,9 +101,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
             {
                 confirmationMenu = FindFirstObjectByType<ButtonManager>().confirmCanvas;
             }
-
             confirmationMenu.SetActive(true);
-            GameObject.Find("Confirm").GetComponent<Button>().interactable = false;
+
+            if(Confirm == null)
+            {
+                Confirm = GameObject.Find("Confirm").GetComponent<Button>();
+            }
+            Confirm.interactable = false;
 
             storedData = rd;
 
@@ -114,11 +116,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             //in range check get all enemies in range via tiles entities 
             //then add to enemies in range list 
             //call show damage preview here with 
-            foreach(Enemy enemy in enemiesInRange)
-            {
-                enemy.ShowDamagePreview(rd.RuneDamage);
-                enemy.isShowingPreview = true;
-            }
+            ShowSpecificDamagePreview();
         }
 
     }
@@ -585,10 +583,14 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="player"> for when the player is targeting themself, for whatever reason </param>
     public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
-
+        
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !GetComponent<RuneEvents>().Pathing)
         {
-            confirm.interactable = true;
+            PublicEvents.HideDamagePreview.Invoke();
+            if (storedData.TypeOfRune != RuneType.Wind && storedData.NumberOnSkillTree != 4)
+            {
+                Confirm.interactable = true;
+            }
 
             SetHighlight(true);
             
@@ -612,6 +614,52 @@ public class RuneRangeAndTargeting : MonoBehaviour
     }
 
     /// <summary>
+    /// Shows damage preview on selecting icon for specific spell
+    /// </summary>
+    void ShowSpecificDamagePreview()
+    {
+        switch (storedData.TypeOfRune, storedData.NumberOnSkillTree)
+        {
+            case (RuneType.Lightning, 4):
+                foreach(Enemy enemy in enemiesInRange)
+                {
+                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.isShowingPreview = true;
+                }
+                break;
+            case(RuneType.Wind, 1):
+                foreach (Enemy enemy in enemiesInRange)
+                {
+                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.isShowingPreview = true;
+                }
+                break;
+            case (RuneType.Wind, 2):
+                foreach (Enemy enemy in enemiesInRange)
+                {
+                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.isShowingPreview = true;
+                }
+                break;
+            case (RuneType.Wind, 3):
+                foreach (Enemy enemy in enemiesInRange)
+                {
+                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.isShowingPreview = true;
+                }
+                break;
+            case (RuneType.Wind, 4):
+                foreach (Enemy enemy in enemiesInRange)
+                {
+                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.isShowingPreview = true;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    /// <summary>
     /// highlights aoe of certain spells
     /// </summary>
     void SetAreaOfEffectHighlight()
@@ -632,7 +680,15 @@ public class RuneRangeAndTargeting : MonoBehaviour
                         tile.SetHighlightColor(LightningSecondaryHighlight);
                         tile.ShowHighlight(true);
 
+                        Enemy enemy = tile.GetComponentInChildren<Enemy>();
+                        if (enemy != null)
+                        {
+                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.isShowingPreview = true;
+                        }
                     }
+
+                    
 
                 }
 
@@ -649,6 +705,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                         tile.SetHighlightColor(LightningSecondaryHighlight);
                         tile.ShowHighlight(true);
+                        Enemy enemy = tile.GetComponentInChildren<Enemy>();
+                        if (enemy != null)
+                        {
+                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.isShowingPreview = true;
+                        }
 
                     }
 
@@ -658,6 +720,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                         tile.SetHighlightColor(LightningSecondaryHighlight);
                         tile.ShowHighlight(true);
+                        Enemy enemy = tile.GetComponentInChildren<Enemy>();
+                        if (enemy != null)
+                        {
+                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.isShowingPreview = true;
+                        }
 
                     }
 
@@ -676,6 +744,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                         tile.SetHighlightColor(LightningSecondaryHighlight);
                         tile.ShowHighlight(true);
+                        Enemy enemy = tile.GetComponentInChildren<Enemy>();
+                        if (enemy != null)
+                        {
+                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.isShowingPreview = true;
+                        }
 
                     }
 
@@ -698,7 +772,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
 
         //i <3 rare bugs
-        if(GetComponent<RuneEvents>().Casting)
+        if(GetComponent<RuneEvents>().Casting || FindFirstObjectByType<PlayerInputHandler>().IsMoving)
         {
             return;
         }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8651430638916040497
+--- !u!1 &2671265470546187361
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,51 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2357579565960922092}
-  - component: {fileID: 3911612448879154123}
-  - component: {fileID: 3182326043171774374}
-  - component: {fileID: 158762380282084429}
+  - component: {fileID: 5945804388899826058}
+  - component: {fileID: 6673671811299978697}
+  - component: {fileID: 1383384434571126341}
+  - component: {fileID: 1333939893403916356}
   m_Layer: 5
-  m_Name: WindBladesNode
+  m_Name: ThunderShock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &2357579565960922092
+--- !u!224 &5945804388899826058
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8651430638916040497}
+  m_GameObject: {fileID: 2671265470546187361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.57, y: 0.57, z: 0.57}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.3620224, y: -5.362114}
+  m_AnchoredPosition: {x: 5.3619995, y: 5.3621216}
   m_SizeDelta: {x: 178.734, y: 178.737}
-  m_Pivot: {x: 0.47, y: 0.47}
---- !u!222 &3911612448879154123
+  m_Pivot: {x: 0.5, y: 0.49999997}
+--- !u!222 &6673671811299978697
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8651430638916040497}
+  m_GameObject: {fileID: 2671265470546187361}
   m_CullTransparentMesh: 1
---- !u!114 &3182326043171774374
+--- !u!114 &1383384434571126341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8651430638916040497}
+  m_GameObject: {fileID: 2671265470546187361}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -61,12 +61,12 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 50, y: 50, z: 60, w: 60}
+  m_RaycastPadding: {x: 25, y: 30, z: 25, w: 20}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 03bf49533c38fee468032fb6528965ff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 40197b06b368c7e499a5ed2495680e8f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,13 +76,13 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &158762380282084429
+--- !u!114 &1333939893403916356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8651430638916040497}
+  m_GameObject: {fileID: 2671265470546187361}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8150b91bae67c84682a48f1c21ca767, type: 3}

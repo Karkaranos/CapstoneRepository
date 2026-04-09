@@ -13,6 +13,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class ArtifactMenuManager : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class ArtifactMenuManager : MonoBehaviour
     }
 
     [SerializeField] private Settings ShownSettings;
+    [SerializeField] private EventReference EquipmnetEventRefSFX;
+
+    [SerializeField] private GameObject audioListenerObject;
     #region REFS
     [HorizontalLine(4, EColor.Indigo)]
 
@@ -62,6 +66,11 @@ public class ArtifactMenuManager : MonoBehaviour
     void Start()
     {
         skillArtifactManager = FindFirstObjectByType<SkillAndArtifactManager>();
+
+        AudioManager.instance.CreateEventInstance(EquipmnetEventRefSFX);
+        AudioManager.instance.PlayOneShot(EquipmnetEventRefSFX, audioListenerObject.transform.position);
+
+
         //StartCoroutine(DelayedPopulate());
     }
 
