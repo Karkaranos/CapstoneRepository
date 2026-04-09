@@ -35,7 +35,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
-    [SerializeField] private Button confirm;
+    public Button Confirm;
 
     [Header("Highlight Colors")]
     public Color DefaultHighlight;
@@ -103,9 +103,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
             {
                 confirmationMenu = FindFirstObjectByType<ButtonManager>().confirmCanvas;
             }
-
             confirmationMenu.SetActive(true);
-            GameObject.Find("Confirm").GetComponent<Button>().interactable = false;
+
+            if(Confirm == null)
+            {
+                Confirm = GameObject.Find("Confirm").GetComponent<Button>();
+            }
+            Confirm.interactable = false;
 
             storedData = rd;
 
@@ -588,7 +592,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !GetComponent<RuneEvents>().Pathing)
         {
-            confirm.interactable = true;
+
+            if(storedData.TypeOfRune != RuneType.Wind && storedData.NumberOnSkillTree != 4)
+            {
+                Confirm.interactable = true;
+            }
 
             SetHighlight(true);
             

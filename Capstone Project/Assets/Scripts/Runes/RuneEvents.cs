@@ -1189,7 +1189,11 @@ public class RuneEvents : MonoBehaviour
     /// <param name="t"></param>
     private void UpdateMovement(Vector2Int v, Vector3 t)
     {
+
+        StopCoroutine("MovementDelay");
+
         WaitingOnPath = false;
+        GetComponent<RuneRangeAndTargeting>().Confirm.interactable = false;
   
         if (PreviousPos.Contains(v))
         {
@@ -1379,7 +1383,7 @@ public class RuneEvents : MonoBehaviour
             }
         }
 
-        StartCoroutine(MovementDelay());
+        StartCoroutine("MovementDelay");
     }
 
     /// <summary>
@@ -1390,6 +1394,8 @@ public class RuneEvents : MonoBehaviour
     {
         yield return new WaitForSeconds(.1f);
         WaitingOnPath = true;
+        yield return new WaitForSeconds(.2f);
+        GetComponent<RuneRangeAndTargeting>().Confirm.interactable = true;
     }
 
     //used for certain wind attacks
