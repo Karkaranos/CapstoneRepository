@@ -104,6 +104,7 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         SceneManager.LoadScene(0);
     }
 
