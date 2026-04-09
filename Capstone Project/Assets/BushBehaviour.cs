@@ -34,18 +34,18 @@ public class BushBehaviour : MonoBehaviour
     /// When a player or enemy collides with the bush, the animation will play
     /// </summary>
     /// <param name="collision"></param>
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collider)
     {
-        if (other.gameObject.CompareTag("Player") || (other.gameObject.CompareTag("Enemy")))
+        if (collider.gameObject.CompareTag("Player") || (collider.gameObject.CompareTag("Enemy")))
         {
             Debug.Log("I should be triggering");
             bAnimator.SetBool("BushAnim", true);
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision collider)
     {
-        if (other.gameObject.CompareTag("Player") || (other.gameObject.CompareTag("Enemy")))
+        if (collider.gameObject.CompareTag("Player") || (collider.gameObject.CompareTag("Enemy")))
         {
             bAnimator.SetBool("BushAnim", false);
         }
