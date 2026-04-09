@@ -15,6 +15,7 @@ public class EnemyHandler : MonoBehaviour
     [HideInInspector]public static EnemyHandler Instance { get; private set; }
     public List<Enemy> enemies = new List<Enemy>();
     private static int index = 0;
+    private bool isPlayerDead;
 
     /// <summary>
     /// Make sure that this is a Singleton 
@@ -55,6 +56,7 @@ public class EnemyHandler : MonoBehaviour
     {
         TurnPublicEvents.BeginEnemyTurn += RunNextEnemyTurn;
         PublicEvents.NewLevel += GetNewEnemies;
+        
         PublicEvents.HideDamagePreview += HideDamagePreview;
     }
 
@@ -76,12 +78,30 @@ public class EnemyHandler : MonoBehaviour
     /// </summary>
     public void RunNextEnemyTurn()
     {
-        if (enemies.Count > 0)
+        bool nullcheck = false;
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i] == null)
+            {
+                nullcheck = true;
+            }
+        }
+        if (nullcheck)
+        {
+            NullCheckWholeEnemyList(0);
+        }
+
+        if (enemies.Count > 0 && !isPlayerDead)
         {
             if (index == 0)
             {
                 GridManager.ClearGhostEntities();
                 //GridManager.RemoveHighlight();
+            }
+
+            if (enemies[index] == null)
+            {
+                EnemyNullCheck(index);
             }
 
             if (enemies[0].playerStats.turnIndicator.activeSelf)
@@ -107,10 +127,7 @@ public class EnemyHandler : MonoBehaviour
                 enemies[index - 1].turnIndicator.SetActive(false);
             }
 
-            if (enemies[index] == null)
-            {
-                EnemyNullCheck(index);
-            }
+            
             enemies[index].turnIndicator.SetActive(true);
             enemies[index].StartEnemyTurn();
             ++index;
@@ -125,10 +142,30 @@ public class EnemyHandler : MonoBehaviour
     /// <param name="index"></param>
     private void EnemyNullCheck(int index)
     {
-        if (enemies[index] == null)
+        if (enemies.Count > 0)
         {
-            enemies.Remove(enemies[index]);
-            EnemyNullCheck(index);
+            if (enemies[index] == null)
+            {
+                enemies.Remove(enemies[index]);
+                EnemyNullCheck(index);
+            }
+        }
+        
+    }
+
+    private void NullCheckWholeEnemyList(int index)
+    {
+        if (enemies.Count > 0 && index < enemies.Count)
+        {
+            if (enemies[index] == null)
+            {
+                enemies.Remove(enemies[index]);
+                NullCheckWholeEnemyList(index);
+            }
+            else
+            {
+                NullCheckWholeEnemyList(index + 1);
+            }
         }
     }
 
@@ -139,6 +176,19 @@ public class EnemyHandler : MonoBehaviour
     /// <param name="enemy"></param>
     public void RemoveEnemy(Enemy enemy)
     {
+        bool nullcheck = false;
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i] == null)
+            {
+                nullcheck = true;
+            }
+        }
+        if (nullcheck)
+        {
+            NullCheckWholeEnemyList(0);
+        }
+
         enemies.Remove(enemy);
         if (index > 0)
         {
@@ -157,6 +207,8 @@ public class EnemyHandler : MonoBehaviour
 
     private void GetNewEnemies()
     {
+        isPlayerDead = false;
+        index = 0;
         enemies.Clear();
         SetEnemyList();
     }
@@ -173,5 +225,10 @@ public class EnemyHandler : MonoBehaviour
                 enemy.HideDamagePreivew();
             }
         }
+    }
+
+    public void PlayerDied()
+    {
+        isPlayerDead = true;
     }
 }
