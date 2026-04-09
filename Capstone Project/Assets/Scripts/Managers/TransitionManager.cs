@@ -20,6 +20,7 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] private EventReference bgmEventRefSFX;
     [SerializeField] private EventReference ambienceEventRefSFX;
     [SerializeField] private GameObject audioListenerObject;
+    [SerializeField] private EventReference EquipmnetEventRefSFX;
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
@@ -124,6 +125,9 @@ public class TransitionManager : MonoBehaviour
     {
         transitionAnimator.SetTrigger("EquipMenu");
         FindFirstObjectByType<SkillAndArtifactManager>(FindObjectsInactive.Include)?.SetButton();
+
+        AudioManager.instance.CreateEventInstance(EquipmnetEventRefSFX);
+        AudioManager.instance.PlayOneShot(EquipmnetEventRefSFX, audioListenerObject.transform.position);
     }
 
     /// <summary>

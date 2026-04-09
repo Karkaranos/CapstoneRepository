@@ -487,7 +487,6 @@ public class RuneEvents : MonoBehaviour
             default:
                 break;
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     //variable that stores targets for an aoe attack
@@ -857,7 +856,6 @@ public class RuneEvents : MonoBehaviour
                 break;
 
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     #endregion WIND FUNCTIONS
@@ -1131,7 +1129,13 @@ public class RuneEvents : MonoBehaviour
     private void MoveDirection(Vector2 dir)
     {
 
-        if(WaitingOnPath)
+        StopCoroutine("ConfirmationDelay");
+        if(GetComponent<RuneRangeAndTargeting>().Confirm != null)
+        {
+            GetComponent<RuneRangeAndTargeting>().Confirm.interactable = false;
+        }
+
+        if (WaitingOnPath)
         {
 
             if (dir.y >= .5f)
@@ -1177,6 +1181,8 @@ public class RuneEvents : MonoBehaviour
 
         }
 
+        StartCoroutine("ConfirmationDelay");
+
     }
 
     //used specifically for wind 1
@@ -1189,6 +1195,8 @@ public class RuneEvents : MonoBehaviour
     /// <param name="t"></param>
     private void UpdateMovement(Vector2Int v, Vector3 t)
     {
+
+        StopCoroutine("MovementDelay");
         WaitingOnPath = false;
   
         if (PreviousPos.Contains(v))
@@ -1379,7 +1387,7 @@ public class RuneEvents : MonoBehaviour
             }
         }
 
-        StartCoroutine(MovementDelay());
+        StartCoroutine("MovementDelay");
     }
 
     /// <summary>
@@ -1390,6 +1398,15 @@ public class RuneEvents : MonoBehaviour
     {
         yield return new WaitForSeconds(.1f);
         WaitingOnPath = true;
+    }
+
+    IEnumerator ConfirmationDelay()
+    {
+        yield return new WaitForSeconds(.2f);
+        if (GetComponent<RuneRangeAndTargeting>().Confirm != null)
+        {
+            GetComponent<RuneRangeAndTargeting>().Confirm.interactable = true;
+        }
     }
 
     //used for certain wind attacks

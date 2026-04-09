@@ -366,7 +366,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void HideDamagePreivew()
     {
-        previewHealthBar.value = healthBarSlider.value;
+        previewHealthBar.value = currentHealth;
         isShowingPreview = false;
     }
     #endregion
