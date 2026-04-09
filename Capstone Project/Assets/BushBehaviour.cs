@@ -36,7 +36,7 @@ public class BushBehaviour : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collider)
     {
-        if (collider.gameObject.CompareTag("Player") || (collider.gameObject.CompareTag("Enemy")))
+        if (collider.gameObject.CompareTag("Collider") || (collider.gameObject.CompareTag("Enemy")))
         {
             Debug.Log("I should be triggering");
             bAnimator.SetBool("BushAnim", true);
@@ -45,10 +45,7 @@ public class BushBehaviour : MonoBehaviour
 
     private void OnCollisionExit(Collision collider)
     {
-        if (collider.gameObject.CompareTag("Player") || (collider.gameObject.CompareTag("Enemy")))
-        {
-            bAnimator.SetBool("BushAnim", false);
-        }
+        bAnimator.SetBool("BushAnim", false);
     }
     #endregion
 
