@@ -7,7 +7,6 @@ Brief Description : 		Temporary End Level Menu handler for
 External Resources : 	
 ***************************************************/
 using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -22,7 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private GameObject LoseMenu;
     [SerializeField] private FMOD.Studio.Bus MasterBus;
     private bool retrying;
-
+    [SerializeField] private bool IsDemo;
+    [SerializeField] private GameObject demoMenu;
     #endregion
 
     #region FUNCTIONS
@@ -44,25 +44,29 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi(bool win)
     {
-        StartCoroutine(ExecuteAfterTime(2f, win));
-    }
-
-    IEnumerator ExecuteAfterTime(float delay, bool win)
-    {
-        yield return new WaitForSeconds(delay);
-        if (win)
+        if (!IsDemo)
         {
-            WinMenu.SetActive(true);
+            if (win)
+            {
+                WinMenu.SetActive(true);
+            }
+            else
+            {
+                LoseMenu.SetActive(true);
+            }
+            if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
+            {
+                FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+            }
+            IsDemo = true;
         }
         else
         {
-            LoseMenu.SetActive(true);
+            demoMenu.SetActive(true);
         }
 
-        if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
-        {
-            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
-        }
+        
+        
     }
 
     /// <summary>
