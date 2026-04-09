@@ -234,6 +234,11 @@ public class ButtonManager : MonoBehaviour
     public void ConfirmOnClick()
     {
 
+        if(!FindFirstObjectByType<RuneEvents>().WaitingOnPath && FindFirstObjectByType<RuneEvents>().Pathing)
+        {
+            return;
+        }
+
         if(FindFirstObjectByType<RuneRangeAndTargeting>().WaitingForThePlayer)
         {
 
