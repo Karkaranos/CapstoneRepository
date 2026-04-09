@@ -52,6 +52,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(InspectorSettings), Settings.References)]
     private GameObject cursorBoxPrefab;
 
+    [SerializeField] private FMOD.Studio.Bus MasterBus;
+
     #endregion
 
     #region TESTING AND DEBUG
@@ -69,6 +71,14 @@ public class SkillAndArtifactManager : MonoBehaviour
     private GameObject spawnedCursorBox;
 
     #endregion
+
+    /// <summary>
+    /// Gets Master Bus
+    /// </summary>
+    private void Awake()
+    {
+        MasterBus = RuntimeManager.GetBus("Bus:/");
+    }
 
     /// <summary>
     /// Updates whether or not the player can move on from the menu
@@ -167,6 +177,8 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     public void ContinueToNextLevel()
     {
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
         continueButton.interactable = false;
         FindFirstObjectByType<TransitionManager>().LevelTransition();
     }
