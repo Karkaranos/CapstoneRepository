@@ -613,6 +613,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Shows damage preview on selecting icon for specific spell
+    /// </summary>
     void ShowSpecificDamagePreview()
     {
         switch (storedData.TypeOfRune, storedData.NumberOnSkillTree)
