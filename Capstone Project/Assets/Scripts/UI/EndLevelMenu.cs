@@ -6,6 +6,8 @@ Brief Description : 		Temporary End Level Menu handler for
                     vertical slice
 External Resources : 	
 ***************************************************/
+using FMOD;
+using FMOD.Studio;
 using NUnit.Framework;
 using System.Collections;
 using TMPro;
@@ -104,6 +106,7 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
+        
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         SceneManager.LoadScene(0);
     }
@@ -187,6 +190,11 @@ public class EndLevelMenu : MonoBehaviour
     {
         //this.text.text = text;
     }
-    
+
+    public void StopAllSound()
+    {
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+    }
+
     #endregion
 }
