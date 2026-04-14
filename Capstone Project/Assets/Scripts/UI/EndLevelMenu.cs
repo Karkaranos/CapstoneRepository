@@ -21,6 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private bool IsDemo;
     [SerializeField] private GameObject demoMenu;
     [SerializeField] private float popupDelay;
+    private bool endCalled = false;
+    private int levelsWon = 0;
     #endregion
 
     #region FUNCTIONS
@@ -43,7 +45,11 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi(bool win)
     {
-        StartCoroutine(DelayedPopup(win));
+        if (!AnyMenuOpen() && !endCalled)
+        {
+            endCalled = true;
+            StartCoroutine(DelayedPopup(win));
+        }
     }
 
     /// <summary>
@@ -56,7 +62,8 @@ public class EndLevelMenu : MonoBehaviour
         yield return new WaitForSeconds(popupDelay);
         if (isWin)
         {
-            if (IsDemo)
+            levelsWon++;
+            if (IsDemo && levelsWon == 2)
             {
                 demoMenu.SetActive(true);
             }
@@ -76,9 +83,17 @@ public class EndLevelMenu : MonoBehaviour
             FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
         }
 
+        endCalled = false;
     }
 
-
+    /// <summary>
+    /// Checks if a menu has been activated. Returns false if none are
+    /// </summary>
+    /// <returns></returns>
+    private bool AnyMenuOpen()
+    {
+        return LoseMenu.activeInHierarchy || WinMenu.activeInHierarchy || demoMenu.activeInHierarchy;
+    }
 
     /// <summary>
     /// This function is used for enabling the UI during the transition. 
