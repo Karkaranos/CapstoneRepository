@@ -15,6 +15,17 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     { }
 
     /// <summary>
+    /// Sets the enemy variable references 
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
+    public void SetVariables(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
+    }
+
+    /// <summary>
     /// Enter attack state logic 
     /// If can attack twice and hasn't yet calls state again
     /// else go to end turn state

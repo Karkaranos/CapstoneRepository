@@ -67,6 +67,10 @@ public class RangedEnemy : Enemy
     /// </summary>
     public override void Start()
     {
+        moveState.SetVariables(this, enemyStateMachine);
+        attackState.SetVariables(this, enemyStateMachine);
+        waitState.SetVariables(this, enemyStateMachine);
+        endTurnState.SetVariables(this, enemyStateMachine);
         enemyStateMachine.Initialized(waitState, secondsBetweenStateTransitions);
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.ranged;

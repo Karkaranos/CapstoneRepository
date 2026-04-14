@@ -13,6 +13,17 @@ public class RangedEnemyEndTurnState : RangedEnemyState
     { }
 
     /// <summary>
+    /// Sets the enemy variable references 
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
+    public void SetVariables(RangedEnemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
+    }
+
+    /// <summary>
     /// Enter end turn logic
     /// </summary>
     public override void EnterState()

@@ -11,10 +11,21 @@ using UnityEngine;
 
 public class RangedEnemyMoveState : RangedEnemyState
 {
-    private bool isActiveMoveState;
+    private bool isActiveMoveState = false;
     public RangedEnemyMoveState(RangedEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
         isActiveMoveState = false;
+    }
+
+    /// <summary>
+    /// Sets the enemy variable references 
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
+    public void SetVariables(RangedEnemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
     }
 
     /// <summary>
