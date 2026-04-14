@@ -61,12 +61,13 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
             node.transform.SetParent(canvas.transform, false);
             
             SpellNodeBehavior snb = node.GetComponent<SpellNodeBehavior>();
-            snb.canvas = canvas;
-            snb.runeData = runeData;
-            snb.notebookSpellNode = this.GetComponent<NotebookSpellNodeBehavior>();
 
             node.transform.SetParent(gameObject.transform.parent.parent.parent);//stupid but works
             node.transform.localScale *= 1.8f;
+
+            snb.notebookSpellNode = this.GetComponent<NotebookSpellNodeBehavior>();
+            snb.canvas = canvas;
+            snb.runeData = runeData;
         } 
     }
 }

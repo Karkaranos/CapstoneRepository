@@ -108,6 +108,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 10135
+--- !u!114 &-8130339158105614662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/EquipmentMenuTheme
+  m_EditorClassIdentifier: 
+  Path: event:/EquipmentMenuTheme
+  Guid:
+    Data1: -965659670
+    Data2: 1091690254
+    Data3: 319568033
+    Data4: -18610025
+  Banks:
+  - {fileID: 3795494315145860207}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 60048
 --- !u!114 &-7727539507737507980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +258,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Voicelines.bank
   Name: Voicelines
   StudioPath: bank:/Voicelines
-  lastModified: 639104798997783183
+  lastModified: 639113315763213966
   FileSizes:
   - Name: Desktop
     Value: 1075872
@@ -251,10 +278,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639068388845249060
+  lastModified: 639113315762830697
   FileSizes:
   - Name: Desktop
-    Value: 1340
+    Value: 1486
   Exists: 1
 --- !u!114 &-5748003415306049689
 MonoBehaviour:
@@ -352,10 +379,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639104798997435682
+  lastModified: 639113315762850761
   FileSizes:
   - Name: Desktop
-    Value: 2744
+    Value: 2770
   Exists: 1
 --- !u!114 &-4430740537799125941
 MonoBehaviour:
@@ -588,7 +615,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639104798997731573
+  lastModified: 639113315763025078
   FileSizes:
   - Name: Desktop
     Value: 2038336
@@ -608,10 +635,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639099413522298530
+  lastModified: 639113315763118575
   FileSizes:
   - Name: Desktop
-    Value: 922944
+    Value: 923840
   Exists: 1
 --- !u!114 &-999913347335247595
 MonoBehaviour:
@@ -640,33 +667,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11284
---- !u!114 &-781800427656980071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/LockedSpellClick
-  m_EditorClassIdentifier: 
-  Path: event:/LockedSpellClick
-  Guid:
-    Data1: -195835419
-    Data2: 1293728484
-    Data3: 829144968
-    Data4: 146085102
-  Banks:
-  - {fileID: -1126716200791759097}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 730
 --- !u!114 &-212464337418584444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,8 +730,6 @@ MonoBehaviour:
   - {fileID: -3234282230944205637}
   - {fileID: 4582464144007456787}
   - {fileID: -6753269537549638001}
-  - {fileID: 1516706760375553950}
-  - {fileID: -781800427656980071}
   - {fileID: -3593242603589785387}
   - {fileID: -7704249911172437847}
   - {fileID: 8059135572051728790}
@@ -756,12 +754,14 @@ MonoBehaviour:
   - {fileID: 5692478191753305585}
   - {fileID: 2809920051782124432}
   - {fileID: -2707641942199266588}
+  - {fileID: -8130339158105614662}
+  - {fileID: 1930196348221773082}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5972195196826600042}
   StringsBanks:
   - {fileID: -4550152728752857814}
-  cacheTime: 639110008462929352
+  cacheTime: 639113315763213966
   cacheVersion: 131633
 --- !u!114 &230605889417824700
 MonoBehaviour:
@@ -844,7 +844,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1108
---- !u!114 &1516706760375553950
+--- !u!114 &1930196348221773082
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -854,23 +854,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/New Spell Sparkle
+  m_Name: event:/LogoSound
   m_EditorClassIdentifier: 
-  Path: event:/New Spell Sparkle
+  Path: event:/LogoSound
   Guid:
-    Data1: -54946126
-    Data2: 1280679540
-    Data3: 1096999608
-    Data4: -2033717908
+    Data1: -195835419
+    Data2: 1293728484
+    Data3: 829144968
+    Data4: 146085102
   Banks:
   - {fileID: -1126716200791759097}
-  IsStream: 0
+  IsStream: 1
   Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 336
 --- !u!114 &2641726297801340331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,7 +913,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639099413521952195
+  lastModified: 639113315762428282
   FileSizes:
   - Name: Desktop
     Value: 2351936
@@ -1014,10 +1014,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639110008462929352
+  lastModified: 639113315762781487
   FileSizes:
   - Name: Desktop
-    Value: 4465696
+    Value: 5122944
   Exists: 1
 --- !u!114 &4185287861518099915
 MonoBehaviour:
