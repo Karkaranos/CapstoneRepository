@@ -6,18 +6,39 @@ Brief Description : 		Ranged enemy move state
 External Resources : 	
 ***************************************************/
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RangedEnemyMoveState : RangedEnemyState
 {
+    private bool isActiveMoveState;
     public RangedEnemyMoveState(RangedEnemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
-    {  }
+    {
+        isActiveMoveState = false;
+    }
+
+    /// <summary>
+    /// Subscribe to events
+    /// </summary>
+    private void OnEnable()
+    {
+        PublicEvents.MoveCoroFinsihed += FindNextState;
+    }
+
+    /// <summary>
+    /// Unsubscribe from events
+    /// </summary>
+    private void OnDisable()
+    {
+        PublicEvents.MoveCoroFinsihed -= FindNextState;
+    }
 
     /// <summary>
     /// Enter move state logic
     /// </summary>
-    public async override void EnterState()
+    public override void EnterState()
     {
+        isActiveMoveState = true;
         if (enemy == null)
         {
             return;
@@ -27,15 +48,22 @@ public class RangedEnemyMoveState : RangedEnemyState
         enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.StartMoveCoroutine();
 
-        await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 1000 * 2 + 1500));
+        //await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 3000 + 1000 + 50000));
+        //await Task.Delay((int)(enemy.GetMovementSpeed() * enemy.gridPathfinding.GetMoveCoroSpeed() * 1000 + 1000));
+    }
 
-        if(enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition() && enemy.GetPlayerInLineOfSight())
+    private void FindNextState()
+    {
+        if(isActiveMoveState)
         {
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
-        }
-        else
-        {
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
+            if (enemy.gridPathfinding.MyPosition == enemy.gridPathfinding.GetTargetPosition() && enemy.GetPlayerInLineOfSight())
+            {
+                CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
+            }
+            else
+            {
+                CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
+            }
         }
     }
 
@@ -44,6 +72,7 @@ public class RangedEnemyMoveState : RangedEnemyState
     /// </summary>
     public override void ExitState()
     {
+        isActiveMoveState = false;
         base.ExitState();
     }
 }

@@ -168,7 +168,7 @@ public class Enemy : MonoBehaviour
         ShowIf(nameof(currentSettings), Settings.StateMachine),
         Tooltip("Delay between each state transition")]protected float secondsBetweenStateTransitions = 1f;
 
-    protected EnemyStateMachine enemyStateMachine;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] protected EnemyStateMachine enemyStateMachine;
 
     #endregion
 

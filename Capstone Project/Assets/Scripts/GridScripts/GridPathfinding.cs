@@ -332,6 +332,7 @@ public class GridPathfinding : MonoBehaviour
         {
             GetComponent<RangedEnemy>().rangedAnimator.SetBool("IsWalking", false);
         }
+        PublicEvents.MoveCoroFinsihed.Invoke();
     }
 
     /// <summary>

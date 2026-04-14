@@ -122,4 +122,10 @@ public static class PublicEvents
     public static Action HideDamagePreview;
 
     #endregion
+
+    #region ENEMY EVENTS
+
+    public static Action MoveCoroFinsihed;
+
+    #endregion
 }
