@@ -163,7 +163,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void BackButtonOnClick()
     {
-
+        PublicEvents.HideDamagePreview.Invoke();
         if(Moving)
         {
             Moving = false;
@@ -233,6 +233,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void ConfirmOnClick()
     {
+        PublicEvents.HideDamagePreview();
 
         if(!FindFirstObjectByType<RuneEvents>().WaitingOnPath && FindFirstObjectByType<RuneEvents>().Pathing)
         {

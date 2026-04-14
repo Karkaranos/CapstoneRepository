@@ -487,7 +487,6 @@ public class RuneEvents : MonoBehaviour
             default:
                 break;
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     //variable that stores targets for an aoe attack
@@ -674,6 +673,8 @@ public class RuneEvents : MonoBehaviour
                     AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                     AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
 
+                    stoppedByEnemy = false;
+
                 }
 
                     break;
@@ -857,7 +858,6 @@ public class RuneEvents : MonoBehaviour
                 break;
 
         }
-        PublicEvents.HideDamagePreview.Invoke();
     }
 
     #endregion WIND FUNCTIONS
@@ -1223,9 +1223,7 @@ public class RuneEvents : MonoBehaviour
 
                 if(stoppedByEnemy)
                 {
-
                     stoppedByEnemy = false;
-
                 }
 
             }
@@ -1490,28 +1488,22 @@ public class RuneEvents : MonoBehaviour
 
                 for (int i = 0; i < movementPos.Count; ++i)
                 {
-
                     Vector2Int nextPos = PreviousPos[i + 1];
 
                     if(i == 0)
                     {
-
                         Instantiate(rune.RuneVFX, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform);
-
                     }
 
                     if (GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>())
                     {
-
                         GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
 
                         if(CanMoveBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y], GridManager.combatGrid[nextPos.x, nextPos.y]))
                         {
-
                             SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
                             GridManager.combatGrid[nextPos.x, nextPos.y],
                             GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>());
-
                         }
 
                     }

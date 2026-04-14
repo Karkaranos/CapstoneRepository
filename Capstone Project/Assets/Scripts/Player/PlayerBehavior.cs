@@ -452,7 +452,8 @@ public class PlayerBehavior : MonoBehaviour
         walkInstance.release();
 
         bm.ReEnableActionCanvas();
-    }
+        animObj.GetComponent<SpriteRenderer>().flipX = false;
+}
 
 
     /// <summary>

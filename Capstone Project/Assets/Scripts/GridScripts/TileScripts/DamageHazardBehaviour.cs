@@ -1,7 +1,7 @@
 /******************************************************************************
- * Author: Brad Dixon
+ * Author: Brad Dixon, Cade Naylor
  * Creation Date: 3/5/2026
- * Last Modified: 3/5/2026
+ * Last Modified: 4/9/2026
  * Brief: Damages an entity if the step into the hazard or end their turn on a hazard
  * External Resources; N/A
  * ***************************************************************************/
@@ -11,6 +11,15 @@ public class DamageHazardBehaviour : MonoBehaviour
 {
     public bool canDamage;
     [SerializeField] private int hazardDamage;
+    private Animator anim;
+
+    /// <summary>
+    /// Grabs a reference to the animator component
+    /// </summary>
+    private void Start()
+    {
+        anim = GetComponentInChildren<Animator>();    
+    }
 
     /// <summary>
     /// Damages an entity when they walk onto the hazard
@@ -22,6 +31,8 @@ public class DamageHazardBehaviour : MonoBehaviour
         {
             canDamage = true;
             GetComponentInParent<TileBehaviour>().DamageEntity(hazardDamage);
+
+            anim.SetTrigger("SteppedOn");
         }
     }
 
@@ -34,6 +45,7 @@ public class DamageHazardBehaviour : MonoBehaviour
         if (collision.gameObject.GetComponent<PlayerBehavior>()|| collision.gameObject.GetComponent<Enemy>())
         {
             canDamage = false;
+
         }
     }
 
@@ -43,5 +55,7 @@ public class DamageHazardBehaviour : MonoBehaviour
     public void EndTurnDamage()
     {
         GetComponentInParent<TileBehaviour>().DamageEntity(hazardDamage);
+
+        anim.SetTrigger("SteppedOn");
     }
 }
