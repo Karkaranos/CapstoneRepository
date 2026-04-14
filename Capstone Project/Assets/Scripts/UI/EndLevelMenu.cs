@@ -6,9 +6,7 @@ Brief Description : 		Temporary End Level Menu handler for
                     vertical slice
 External Resources : 	
 ***************************************************/
-using NUnit.Framework;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +21,8 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private bool IsDemo;
     [SerializeField] private GameObject demoMenu;
     [SerializeField] private float popupDelay;
+    private bool endCalled = false;
+    private int levelsWon = 0;
     #endregion
 
     #region FUNCTIONS
@@ -34,6 +34,7 @@ public class EndLevelMenu : MonoBehaviour
     {
         WinMenu.SetActive(false);
         LoseMenu.SetActive(false);
+        demoMenu.SetActive(false);
 
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
         // Grabs bus manager for audio
@@ -44,7 +45,11 @@ public class EndLevelMenu : MonoBehaviour
     /// </summary>
     public void EnableEndMenuUi(bool win)
     {
-        StartCoroutine(DelayedPopup(win));
+        if (!AnyMenuOpen() && !endCalled)
+        {
+            endCalled = true;
+            StartCoroutine(DelayedPopup(win));
+        }
     }
 
     /// <summary>
@@ -55,27 +60,39 @@ public class EndLevelMenu : MonoBehaviour
     private IEnumerator DelayedPopup(bool isWin)
     {
         yield return new WaitForSeconds(popupDelay);
-
-        if (!IsDemo)
+        if (isWin)
         {
-            if (isWin)
+            levelsWon++;
+            if (IsDemo && levelsWon == 2)
             {
-                WinMenu.SetActive(true);
+                demoMenu.SetActive(true);
             }
             else
             {
-                LoseMenu.SetActive(true);
+                WinMenu.SetActive(true);
             }
-            if (!WinMenu.activeSelf || !LoseMenu.activeSelf)
-            {
-                FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
-            }
-            IsDemo = true;
+
+
         }
         else
         {
-            demoMenu.SetActive(true);
+            LoseMenu.SetActive(true);
         }
+        if (!WinMenu.activeSelf || !LoseMenu.activeSelf || !demoMenu.activeSelf)
+        {
+            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        }
+
+        endCalled = false;
+    }
+
+    /// <summary>
+    /// Checks if a menu has been activated. Returns false if none are
+    /// </summary>
+    /// <returns></returns>
+    private bool AnyMenuOpen()
+    {
+        return LoseMenu.activeInHierarchy || WinMenu.activeInHierarchy || demoMenu.activeInHierarchy;
     }
 
     /// <summary>
@@ -126,7 +143,7 @@ public class EndLevelMenu : MonoBehaviour
         }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
     }
-    
+
     /// <summary>
     /// Call the transition to go to the equip menu
     /// </summary>
@@ -143,6 +160,7 @@ public class EndLevelMenu : MonoBehaviour
             d.RemoveHazard();
         }
         FindFirstObjectByType<TransitionManager>().EndScreenToEquipMenu();
+
     }
 
     /// <summary>
@@ -157,6 +175,7 @@ public class EndLevelMenu : MonoBehaviour
         else
         {
             FindFirstObjectByType<GridTesting>().LoadNextGrid();
+            IsDemo = true;
         }
         SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
@@ -187,6 +206,6 @@ public class EndLevelMenu : MonoBehaviour
     {
         //this.text.text = text;
     }
-    
+
     #endregion
 }

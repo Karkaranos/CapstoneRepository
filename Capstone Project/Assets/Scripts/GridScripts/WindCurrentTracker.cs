@@ -251,9 +251,7 @@ public class WindCurrentTracker : MonoBehaviour
 
         for(int i = 0; i < WindCurrentVFX.Count; i++)
         {
-
-            Destroy(WindCurrentVFX[i]);
-
+            WindCurrentVFX[i].GetComponent<Animator>().SetBool("KILL", true);
         }
 
         Destroy(this);

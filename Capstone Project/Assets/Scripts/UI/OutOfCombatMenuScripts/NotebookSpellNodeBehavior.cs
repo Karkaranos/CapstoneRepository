@@ -57,17 +57,19 @@ public class NotebookSpellNodeBehavior : MonoBehaviour
     public void SpawnSpellNode(GameObject nodeToSpawn)
     {
         if (!locked && !equipped) {
-            node = Instantiate(nodeToSpawn, nodeToSpawn.transform.position, Quaternion.identity);
-            node.transform.SetParent(canvas.transform, false);
+            node = Instantiate(nodeToSpawn, gameObject.transform.position, Quaternion.identity, canvas.transform);
+            node.SetActive(false);
+            //node.transform.SetParent(canvas.transform, false);
             
             SpellNodeBehavior snb = node.GetComponent<SpellNodeBehavior>();
 
-            node.transform.SetParent(gameObject.transform.parent.parent.parent);//stupid but works
+            //node.transform.SetParent(gameObject.transform.parent.parent.parent);//stupid but works
             node.transform.localScale *= 1.8f;
 
             snb.notebookSpellNode = this.GetComponent<NotebookSpellNodeBehavior>();
             snb.canvas = canvas;
             snb.runeData = runeData;
+            node.SetActive(true);
         } 
     }
 }

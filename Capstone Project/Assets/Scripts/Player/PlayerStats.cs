@@ -341,6 +341,7 @@ public class PlayerStats : MonoBehaviour
     /// </summary>
     private void EndLevelPopup()
     {
+        FindFirstObjectByType<EnemyHandler>().PlayerDied();
         //UICanvas.SetActive(false);
         EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
         //endLevelMenu.SetText("You Died");
