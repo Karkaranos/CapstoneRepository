@@ -105,6 +105,10 @@ public class TextBoxManager : MonoBehaviour
             StopAllCoroutines();
             textBoxText.text = textBoxes[textBoxIndex].TextboxContent;
             allTextPresent = true;
+            if (textBoxes[textBoxIndex].GoToNextTextbox)
+            {
+                StartCoroutine(TimeBeforeNextTextBox());
+            }
         }
     }
 
