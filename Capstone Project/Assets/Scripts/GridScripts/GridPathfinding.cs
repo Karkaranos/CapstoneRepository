@@ -343,7 +343,7 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     private async void DelayMoveCoroFinish()
     {
-        await Task.Delay(1000);
+        await Task.Delay(1500);
         PublicEvents.MoveCoroFinsihed.Invoke();
     }
     /// <summary>
