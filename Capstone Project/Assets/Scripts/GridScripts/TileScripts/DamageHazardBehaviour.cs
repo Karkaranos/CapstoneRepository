@@ -1,7 +1,7 @@
 /******************************************************************************
- * Author: Brad Dixon, Cade Naylor
+ * Author: Brad Dixon, Cade Naylor, Aidan Ratcliffe
  * Creation Date: 3/5/2026
- * Last Modified: 4/9/2026
+ * Last Modified: 4/16/2026
  * Brief: Damages an entity if the step into the hazard or end their turn on a hazard
  * External Resources; N/A
  * ***************************************************************************/
@@ -12,17 +12,19 @@ public class DamageHazardBehaviour : MonoBehaviour
     public bool canDamage;
     [SerializeField] private int hazardDamage;
     private Animator anim;
+    private ParticleSystem bushParticles;
 
     /// <summary>
-    /// Grabs a reference to the animator component
+    /// Grabs a reference to the animator component & particle system component
     /// </summary>
     private void Start()
     {
-        anim = GetComponentInChildren<Animator>();    
+        anim = GetComponentInChildren<Animator>();
+        bushParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     /// <summary>
-    /// Damages an entity when they walk onto the hazard
+    /// Damages an entity when they walk onto the hazard, activates particles on trigger
     /// </summary>
     /// <param name="collision"></param>
     private void OnTriggerEnter(Collider collision)
@@ -33,6 +35,7 @@ public class DamageHazardBehaviour : MonoBehaviour
             GetComponentInParent<TileBehaviour>().DamageEntity(hazardDamage);
 
             anim.SetTrigger("SteppedOn");
+            bushParticles.Play();
         }
     }
 
