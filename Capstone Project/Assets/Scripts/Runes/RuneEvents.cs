@@ -987,49 +987,45 @@ public class RuneEvents : MonoBehaviour
 
                 if (newTile.entityOnGrid == -2)
                 {
-
                     newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
-
                     SendEnemyBackwards(kbTarget, newTile, newTile.GetComponentInChildren<Enemy>());
+                }
 
-                    target.transform.SetParent(newTile.transform);
+                target.transform.SetParent(newTile.transform);
+                target.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+                GridManager.MoveToTile(kbTarget.IndexInGrid, newTilePos, -2);
 
-                    target.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+                target.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
-                    GridManager.MoveToTile(kbTarget.IndexInGrid, newTilePos, -2);
+                foreach (WindCurrentTracker tracker in trackers)
+                {
+                    if (tracker.WindCurrentTiles.Contains(newTile))
+                    {
+                        target.Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
+                        tracker.SendThroughWindCurrent(tracker.WindCurrentTiles.IndexOf(newTile), target);
+                    }
+                }
 
-                    target.GetComponent<GridPathfinding>().SetPosition(newTilePos);
-                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
+                //evil evil evil code
+                foreach (WindCurrentTracker tracker in trackers)
+                {
+                    if(tracker.WindCurrentTiles.Contains(kbSource))
+                    {
+                        kbSource.entityOnGrid = -8;
+                    }
+                }
 
+                if(kbSource.GetComponentInChildren<Enemy>())
+                {
+                    kbSource.entityOnGrid = -2;
                 }
                 else
                 {
-
-                    target.transform.SetParent(newTile.transform);
-
-                    target.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
-
-                    GridManager.MoveToTile(kbTarget.IndexInGrid, newTilePos, -2);
-
-                    target.GetComponent<GridPathfinding>().SetPosition(newTilePos);
-                    FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
-
-                    foreach (WindCurrentTracker tracker in trackers)
-                    {
-
-                        if (tracker.WindCurrentTiles.Contains(newTile))
-                        {
-
-                            target.Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
-                            tracker.SendThroughWindCurrent(tracker.WindCurrentTiles.IndexOf(newTile), target);
-
-                        }
-
-                    }
-
+                    kbSource.entityOnGrid = -1;
                 }
 
-                    break;
+                break;
             }
         }
     }
@@ -1544,6 +1540,15 @@ public class RuneEvents : MonoBehaviour
                         selectedEnemy.GetComponent<GridPathfinding>().SetPosition(nextPos);
                         FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
 
+                    }
+
+                    if(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponent<DamageHazardBehaviour>())
+                    {
+                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].entityOnGrid = -3;
+                    }
+                    else
+                    {
+                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].entityOnGrid = -1;
                     }
 
                 }
