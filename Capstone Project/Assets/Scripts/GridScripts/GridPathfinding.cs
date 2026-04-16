@@ -8,6 +8,7 @@
  * ***************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GridPathfinding : MonoBehaviour
@@ -332,9 +333,19 @@ public class GridPathfinding : MonoBehaviour
         {
             GetComponent<RangedEnemy>().rangedAnimator.SetBool("IsWalking", false);
         }
-        PublicEvents.MoveCoroFinsihed.Invoke();
+        DelayMoveCoroFinish();
+        //PublicEvents.MoveCoroFinsihed.Invoke();
     }
 
+    /// <summary>
+    /// Extra little delay for telling move coro finished
+    /// So the grid has time to clear all pathfinding stuff
+    /// </summary>
+    private async void DelayMoveCoroFinish()
+    {
+        await Task.Delay(1000);
+        PublicEvents.MoveCoroFinsihed.Invoke();
+    }
     /// <summary>
     /// Does nothing in the base script, because trying to overwrite coroutines causes problems
     /// </summary>
