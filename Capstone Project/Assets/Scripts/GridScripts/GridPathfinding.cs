@@ -75,10 +75,10 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     virtual public void PathfindThroughGrid()
     {
-        if (ghostPos != myPosition)
+        /*if (ghostPos != myPosition)
         {
             GridManager.combatGrid[ghostPos.x, ghostPos.y].entityOnGrid = -1;
-        }
+        }*/
         nextPos.Clear();
         if (!isEnemy)
         {
