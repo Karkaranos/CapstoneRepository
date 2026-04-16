@@ -12,6 +12,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
+using FMODUnity;
 
 public class MenuBehavior : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class MenuBehavior : MonoBehaviour
     {
         previousMenu = null;
 
-        
+        MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
     }
 
     private void OnEnable()
@@ -51,7 +52,6 @@ public class MenuBehavior : MonoBehaviour
     private void OnDisable()
     {
         PublicEvents.ControllerEnabled -= ControllerEnabled;
-        MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
         // Grabs bus manager for audio
     }
 
@@ -69,7 +69,7 @@ public class MenuBehavior : MonoBehaviour
     /// <param name="sceneToLoad"></param>
     public void LoadScene(int sceneToLoad)
     {
-        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Time.timeScale = 1f;
 
         FindFirstObjectByType<TransitionManager>().SceneTransition(sceneToLoad);
@@ -81,7 +81,7 @@ public class MenuBehavior : MonoBehaviour
     /// <param name="sceneToLoad"></param>
     public void LoadSceneNoTransition(int sceneToLoad)
     {
-        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
         SceneManager.LoadScene(sceneToLoad);
     }
