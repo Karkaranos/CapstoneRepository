@@ -60,6 +60,7 @@ public class MenuBehavior : MonoBehaviour
     /// </summary>
     public void PlayTimeline()
     {
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         timeline.Play();
     }
 
