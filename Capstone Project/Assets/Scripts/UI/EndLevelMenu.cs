@@ -175,7 +175,6 @@ public class EndLevelMenu : MonoBehaviour
         else
         {
             FindFirstObjectByType<GridTesting>().LoadNextGrid();
-            IsDemo = true;
         }
         SkillMenu.SetActive(true);
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
