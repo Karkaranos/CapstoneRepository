@@ -47,7 +47,7 @@ public class RangedEnemyMoveState : RangedEnemyState
     /// <summary>
     /// Enter move state logic
     /// </summary>
-    public override void EnterState()
+    public async override void EnterState()
     {
         isActiveMoveState = true;
         if (enemy == null)
@@ -56,7 +56,6 @@ public class RangedEnemyMoveState : RangedEnemyState
         }
         enemy.logText.text = "M";
         enemy.rangedAnimator.SetBool("IsWalking", true);
-        enemy.targetingBehaviour.FindTarget();
         enemy.gridPathfinding.StartMoveCoroutine();
 
     }

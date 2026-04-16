@@ -79,11 +79,11 @@ public class GridManager : MonoBehaviour
     /// <returns></returns> Returns true if that tile is empty
     public static bool CanMoveToTile(Vector2Int tileCoordinates, Vector2Int myPosition, bool isPlayer)
     {
-        /*if(tileCoordinates == myPosition)
+        if(tileCoordinates == myPosition)
         {
             //check here
             return true;
-        }*/
+        }
         if(isPlayer)
         {
             return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||

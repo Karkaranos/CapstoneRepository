@@ -55,7 +55,6 @@ public class MeleeEnemyMoveToPlayerState : MeleeEnemyState
         }
         enemy.logText.text = "M";
         enemy.anim.SetBool("IsWalking", true);
-        enemy.targetingBehaviour.FindTarget();
        // enemy.gridPathfinding.PathfindThroughGrid();
         enemy.gridPathfinding.StartMoveCoroutine();
 

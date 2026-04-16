@@ -90,7 +90,11 @@ public class TargetingBehaviour : MonoBehaviour
             }
             else
             {
-                GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+                if (GridManager.combatGrid[v.x, v.y].entityOnGrid != -2)
+                {
+                    GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+                }
+                
             }
             adTiles.Add(v);
         }
