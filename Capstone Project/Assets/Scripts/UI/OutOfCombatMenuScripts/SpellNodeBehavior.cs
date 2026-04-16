@@ -72,7 +72,10 @@ public class SpellNodeBehavior : MonoBehaviour
 
             UIAudioManager.Instance.UIPickUp(transform);
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            //RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+
+            rectTransform.anchoredPosition = mPos;
+
             PublicEvents.RuneUnequipped?.Invoke(runeData);
             if (slotBehavior != null)
             {
