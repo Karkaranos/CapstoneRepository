@@ -70,7 +70,10 @@ public class ArtifactNodeBehavior : MonoBehaviour
 
             UIAudioManager.Instance.UIPickUp(transform);
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+            //RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
+
+            rectTransform.anchoredPosition = mPos;
+
             ArtifactManager.RemoveArtifact(artifactData);
             if (slotBehavior != null)
             {
@@ -102,10 +105,12 @@ public class ArtifactNodeBehavior : MonoBehaviour
 
             dragging = false;
 
+            holding = false;
+
             GameObject slot = ArtifactOverSnapLocation();
             if (slot != null)
             {
-                holding = false;
+                
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
 
