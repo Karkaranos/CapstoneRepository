@@ -198,6 +198,10 @@ public class GridPathfinding : MonoBehaviour
         {
             StartCoroutine(MoveEntity());
         }
+        else
+        {
+            PublicEvents.MoveCoroFinsihed.Invoke();
+        }
     }
 
     /// <summary>
