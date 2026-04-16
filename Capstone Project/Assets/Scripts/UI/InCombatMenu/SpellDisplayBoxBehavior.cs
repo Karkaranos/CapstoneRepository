@@ -43,6 +43,10 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
                 pips[i].SetActive(true);
             }
         }
+        else
+        {
+            Retact();
+        }
     }
 
     /// <summary>
