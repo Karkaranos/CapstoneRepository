@@ -871,7 +871,7 @@ public class RuneEvents : MonoBehaviour
         }
 
         //skipped if the tile is not in the grid
-        if (newTile != null)
+        if (newTile != null && IsNotBlockedByObstacles(kbSource, kbTarget))
         {
 
             //putting the or statement here as a bit of extra security even if it's unnecessary while i'm looking for a fix
@@ -896,12 +896,46 @@ public class RuneEvents : MonoBehaviour
             }
 
         }
-        else
+
+        return false;
+
+    }
+
+    public static bool IsNotBlockedByObstacles(TileBehaviour sourceTile, TileBehaviour targetTile)
+    {
+
+        if(sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x && 
+        sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
+        {
+            return false;
+        }
+        if (sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x &&
+        sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
+        {
+            return false;
+        }
+        if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
+        sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
+        {
+            return false;
+        }
+        if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
+        sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
         {
             return false;
         }
 
-    }
+        return true;
+
+    }    
 
     /// <summary>
     /// shoves the enemy backwards relative from where wind 1 was initially cast
@@ -987,11 +1021,6 @@ public class RuneEvents : MonoBehaviour
                 break;
             }
         }
-    }
-
-    void CheckAreaAroundTheEnemy()
-    {
-
     }
 
     /// <summary>
