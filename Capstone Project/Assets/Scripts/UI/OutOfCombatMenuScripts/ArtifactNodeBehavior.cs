@@ -158,7 +158,6 @@ public class ArtifactNodeBehavior : MonoBehaviour
                 Destroy(gameObject);
             }
 
-            PublicEvents.ArtifactChanged();
         }
         GetComponent<Image>().raycastTarget = true;
     }

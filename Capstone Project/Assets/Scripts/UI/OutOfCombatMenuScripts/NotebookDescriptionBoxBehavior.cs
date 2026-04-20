@@ -15,25 +15,15 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
-    private NotebookSpellNodeBehavior nsnb;
+    [SerializeField] private NotebookSpellNodeBehavior nsnb;
 
     /// <summary>
-    /// Assigns listeners to public evemts
+    /// Initializes the Notebook Page
     /// </summary>
-    public void OnEnable()
+    private void Start()
     {
-        PublicEvents.ArtifactChanged += UpdateDamageNumber;
+        SetupTextBox(nsnb);
     }
-
-    /// <summary>
-    /// Unassigns listeners from public events
-    /// </summary>
-    public void OnDisable()
-    {
-        PublicEvents.ArtifactChanged -= UpdateDamageNumber;
-    }
-
-
 
     /// <summary>
     /// updates the text
@@ -41,34 +31,29 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
     /// <param name="node"></param>
     public void SetupTextBox(NotebookSpellNodeBehavior node) {
         nsnb = node;
-        titleText.text = node.runeData.name;
-        rangeText.text = "Range: " + node.runeData.RuneRange;
-        damageText.text = "Damage: " + (int)(node.runeData.RuneDamage * (node.runeData.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+        titleText.text = nsnb.runeData.name;
+        rangeText.text = "Range: " + nsnb.runeData.RuneRange;
+        damageText.text = "Damage: " + (int)(nsnb.runeData.RuneDamage * (nsnb.runeData.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
                 : FindFirstObjectByType<PlayerStats>().WindAttackMultiplier));
-        descriptionText.text = node.runeData.RuneDescription;
+        descriptionText.text = nsnb.runeData.RuneDescription;
 
         // setting up the pips
         foreach (GameObject pip in pips) { 
             pip.SetActive(false);
         }
 
-        for (int i = 0; i < node.runeData.RuneActionPoints; i++)
+        for (int i = 0; i < nsnb.runeData.RuneActionPoints; i++)
         {
             pips[i].SetActive(true);
         }
     }
 
     /// <summary>
-    /// Updates the spell description damage number to match artifacts
+    /// Overloaded function if using the same node
     /// </summary>
-    /// <param name="ad"></param>
-    public void UpdateDamageNumber()
+    public void SetupTextBox()
     {
-        if (nsnb != null)
-        {
-            damageText.text = "Damage: " + (int)(nsnb.runeData.RuneDamage * (nsnb.runeData.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
-                   : FindFirstObjectByType<PlayerStats>().WindAttackMultiplier));
-        }
+        SetupTextBox(nsnb);
     }
 
 }
