@@ -614,70 +614,29 @@ public class RuneEvents : MonoBehaviour
             //knocks an enemy back, as well as an enemy in their path as is chosen by the player
             case (1):
 
-                if(!WaitingOnPath)
+                Casting = true;
+
+                enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+
+                Instantiate(rune.RuneVFX, tile.transform);
+
+                if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
                 {
-
-                    GridManager.RemoveHighlight();
-
-                    selectedRune = rune;
-                    originalSelectedTile = tile.IndexInGrid;
-                    selectedTile = originalSelectedTile;
-                    if(enemy != null)
-                    {
-                        selectedEnemy = enemy;
-                    }
-                    else { selectedEnemy = tile.GetComponentInChildren<Enemy>(); }
-
-                    PreviousPos.Add(selectedTile);
-                    GridManager.combatGrid[selectedTile.x, selectedTile.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
-                    GridManager.combatGrid[selectedTile.x, selectedTile.y].ShowHighlight(true);
-
-                    WaitingOnPath = true;
-                    Pathing = true;
-                    FindFirstObjectByType<PlayerInputHandler>().enableMovement = true;
-
-                    movementLeft = rune.RuneRange;
-
-                    ghostPos = new Vector3(selectedTile.x, 0, selectedTile.y);
-
-
-                }
-                else if (tile == GridManager.combatGrid[PreviousPos[PreviousPos.Count - 1].x, PreviousPos[PreviousPos.Count - 1].y] 
-                && WaitingOnPath)
-                {
-
-                    if(tile == GridManager.combatGrid[originalSelectedTile.x, originalSelectedTile.y])
-                    {
-                        FindFirstObjectByType<ButtonManager>().confirmCanvas.SetActive(true);
-                        return;
-                    }
-
-                    Casting = true;
-
-                    gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
-                    MoveAlongPath(rune);
-
-                    WaitingOnPath = false;
-                    Pathing = false;
-                    FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
-                    FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
-
-                    await Task.Delay(400);
-                    selectedEnemy.Damage(damageDealt, Enemy.DamageType.Wind);
-
-                    anim.SetBool("Attack", true);
-                    bookanim.SetBool("WAtk", true);
-                    bookanim.SetBool("Idle", false);
-                    anim.SetBool("Idle", false);
-                    AudioManager.instance.CreateEventInstance(windSpellSFX_1);
-                    AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
-
-                    stoppedByEnemy = false;
-
+                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
                 }
 
-                    break;
+                anim.SetBool("Attack", true);
+                bookanim.SetBool("WAtk", true);
+                bookanim.SetBool("Idle", false);
+                anim.SetBool("Idle", false);
+
+                AudioManager.instance.CreateEventInstance(windSpellSFX_1);
+                AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
+
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                StartCoroutine(UpdatePlayerStatus());
+
+                break;
 
             //creates a barrier along a player's selected path
             case (2):
@@ -912,7 +871,7 @@ public class RuneEvents : MonoBehaviour
         }
 
         //skipped if the tile is not in the grid
-        if (newTile != null)
+        if (newTile != null && IsNotBlockedByObstacles(kbSource, kbTarget))
         {
 
             //putting the or statement here as a bit of extra security even if it's unnecessary while i'm looking for a fix
@@ -937,12 +896,52 @@ public class RuneEvents : MonoBehaviour
             }
 
         }
-        else
+
+        return false;
+
+    }
+
+    /// <summary>
+    /// checks if two obstacles should be blocking the trajectory of an enemy's knockback
+    /// </summary>
+    /// <param name="sourceTile"> where theh knockback is coming from </param>
+    /// <param name="targetTile"> which tile is recieving the knockback </param>
+    /// <returns> whether or not the enemy can move backwards </returns>
+    public static bool IsNotBlockedByObstacles(TileBehaviour sourceTile, TileBehaviour targetTile)
+    {
+
+        if(sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x && 
+        sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
+        {
+            return false;
+        }
+        if (sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x &&
+        sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
+        {
+            return false;
+        }
+        if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
+        sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
+        {
+            return false;
+        }
+        if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
+        sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
         {
             return false;
         }
 
-    }
+        return true;
+
+    }    
 
     /// <summary>
     /// shoves the enemy backwards relative from where wind 1 was initially cast
@@ -1274,60 +1273,6 @@ public class RuneEvents : MonoBehaviour
 
                             break;
 
-
-                    case (RuneType.Wind, 1):
-
-                        if((GridManager.playerPosition.x < originalSelectedTile.x && originalSelectedTile.x < v.x) ||
-                        (GridManager.playerPosition.x > selectedTile.x && originalSelectedTile.x > v.x) ||
-                        (GridManager.playerPosition.y < selectedTile.y && originalSelectedTile.y < v.y) ||
-                        (GridManager.playerPosition.y > selectedTile.y && originalSelectedTile.y > v.y))
-                        {
-
-                            if (GridManager.combatGrid[v.x, v.y].GetComponentInChildren<PlayerBehavior>())
-                            {
-
-                                StartCoroutine(MovementDelay());
-
-                                return;
-
-                            }
-
-                            if(GridManager.combatGrid[v.x, v.y].GetComponentInChildren<Enemy>())
-                            {
-
-                                if (!CanMoveBackwards(GridManager.combatGrid[selectedTile.x, selectedTile.y], GridManager.combatGrid[v.x, v.y]))
-                                {
-
-                                    StartCoroutine(MovementDelay());
-
-                                    return;
-
-                                }
-
-                                stoppedByEnemy = true;
-
-                            }
-
-                            GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
-                            GridManager.combatGrid[v.x, v.y].ShowHighlight(true);
-                            PreviousPos.Add(v);
-                            movementPos.Add(t);
-
-                            GetComponent<RuneRangeAndTargeting>().EditViableTiles(true, GridManager.combatGrid[v.x, v.y]);
-
-                            --movementLeft;
-                            ++movementUsed;
-
-                            selectedTile = v;
-
-                            ghostPos = t;
-
-                            
-
-                        }
-
-                        break;
-
                     case (RuneType.Wind, 2):
 
                         if (GridManager.combatGrid[v.x, v.y].entityOnGrid == -1)
@@ -1475,81 +1420,6 @@ public class RuneEvents : MonoBehaviour
                     }
 
                     GridManager.combatGrid[selectedTile.x, selectedTile.y].Invoke("ElectrifyAdTiles", 1.2f);
-
-                }
-
-                break;
-
-            case (RuneType.Wind, 1):
-
-                for (int i = 0; i < movementPos.Count; ++i)
-                {
-                    Vector2Int nextPos = PreviousPos[i + 1];
-
-                    if(i == 0)
-                    {
-                        Instantiate(rune.RuneVFX, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].transform);
-                    }
-
-                    if (GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>())
-                    {
-                        GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
-
-                        if(CanMoveBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y], GridManager.combatGrid[nextPos.x, nextPos.y]))
-                        {
-                            SendEnemyBackwards(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y],
-                            GridManager.combatGrid[nextPos.x, nextPos.y],
-                            GridManager.combatGrid[nextPos.x, nextPos.y].GetComponentInChildren<Enemy>());
-                        }
-
-                    }
-
-                    if(i == (movementPos.Count - 1))
-                    {
-
-                        foreach (WindCurrentTracker tracker in trackers)
-                        {
-
-                            if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[nextPos.x, nextPos.y]))
-                            {
-
-                                selectedEnemy.Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
-
-                                tracker.SendThroughWindCurrent(tracker.WindCurrentTiles.IndexOf
-                                (GridManager.combatGrid[nextPos.x, nextPos.y]), selectedEnemy);
-
-                                PreviousPos.Clear();
-                                movementPos.Clear();
-                                movementUsed = 0;
-
-                                StartCoroutine(UpdatePlayerStatus());
-
-                                return;
-
-                            }
-
-                        }
-
-                        selectedEnemy.transform.SetParent(GridManager.combatGrid[nextPos.x, nextPos.y].transform);
-
-                        selectedEnemy.transform.position = new Vector3(GridManager.combatGrid[nextPos.x, nextPos.y].transform.position.x,
-                        0, GridManager.combatGrid[nextPos.x, nextPos.y].transform.position.z);
-
-                        GridManager.MoveToTile(PreviousPos[i], nextPos, -2);
-
-                        selectedEnemy.GetComponent<GridPathfinding>().SetPosition(nextPos);
-                        FindFirstObjectByType<PlayerBehavior>().UpdateEnemyPositions();
-
-                    }
-
-                    if(GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponent<DamageHazardBehaviour>())
-                    {
-                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].entityOnGrid = -3;
-                    }
-                    else
-                    {
-                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].entityOnGrid = -1;
-                    }
 
                 }
 
