@@ -87,6 +87,7 @@ MonoBehaviour:
   MoveActionPoints: 1
   ActionPointsPerTurn: 1
   ActionPointsPerLevel: 3
+  ActionPointCap: 6
 --- !u!114 &7069175424404703298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +112,7 @@ MonoBehaviour:
   - {x: 12, y: 8}
   - {x: 9, y: 12}
   gridToLoad: 0
+  popUp: {fileID: 0}
 --- !u!114 &8767230653786326938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +146,7 @@ MonoBehaviour:
   breakInfLoop: 0
   playerCanvas: {fileID: 0}
   turnIndicatorPrefab: {fileID: 4808714204469960702, guid: 38ace1e574717c043844f9d2c2d144cf, type: 3}
+  outOfCombatMenu: {fileID: 0}
 --- !u!114 &7363244820257217404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableMovement: 0
+  IsMoving: 0
   IsPathing: 0
 --- !u!114 &7056796669355282131
 MonoBehaviour:
@@ -225,7 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f89f3c4608066d4aa33dc5dd0ba8489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxNumberOfPipsOnField: 3
+  pipFloor: 3
+  pipCeling: 5
   currentSpawnableTiles: []
   pip: {fileID: 5428169340248162634, guid: 7154145b032be8448968ff2838883785, type: 3}
   spawningLocationsPerLevel:
