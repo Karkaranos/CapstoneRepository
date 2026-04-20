@@ -77,6 +77,9 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Gets a reference to the player's statistcs
+    /// </summary>
     private void Start()
     {
         pStat = FindFirstObjectByType<PlayerStats>();
