@@ -394,22 +394,22 @@ public class RuneEvents : MonoBehaviour
 
                 FindAdjacentTiles(tile);
 
+                await Task.Delay(1200);
+
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
-
-                    if (adjacentTile.GetComponentInChildren<Enemy>() != null && 
-                    CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
+                    if(adjacentTile.GetComponentInChildren<Enemy>())
                     {
-
-                        await Task.Delay(1200);
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
-                        SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y], 
-                        adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+                        if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
+                        {
+                            SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y],
+                            adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+                        }
 
                     }
-
                 }
 
                 anim.SetBool("Attack", true);
