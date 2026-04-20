@@ -901,6 +901,12 @@ public class RuneEvents : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// checks if two obstacles should be blocking the trajectory of an enemy's knockback
+    /// </summary>
+    /// <param name="sourceTile"> where theh knockback is coming from </param>
+    /// <param name="targetTile"> which tile is recieving the knockback </param>
+    /// <returns> whether or not the enemy can move backwards </returns>
     public static bool IsNotBlockedByObstacles(TileBehaviour sourceTile, TileBehaviour targetTile)
     {
 
