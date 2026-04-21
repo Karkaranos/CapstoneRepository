@@ -699,7 +699,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                 foreach (TileBehaviour tile in GridManager.combatGrid)
                 {
 
-                    if (selectedTile.transform.position.x == tile.transform.position.x &&
+                    if (selectedTile.IndexInGrid.x == tile.IndexInGrid.x &&
                     Mathf.Abs(selectedTile.IndexInGrid.y - tile.IndexInGrid.y) <= storedData.RuneRange && CanAttackTile(tile.IndexInGrid))
                     {
 
@@ -714,7 +714,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                     }
 
-                    if (selectedTile.transform.position.z == tile.transform.position.z &&
+                    if (selectedTile.IndexInGrid.y == tile.IndexInGrid.y &&
                     Mathf.Abs(selectedTile.IndexInGrid.x - tile.IndexInGrid.x) <= storedData.RuneRange && CanAttackTile(tile.IndexInGrid))
                     {
 
