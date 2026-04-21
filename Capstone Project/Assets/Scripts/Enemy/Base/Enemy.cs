@@ -6,6 +6,7 @@ Brief Description : 		Base class for all enemies
 External Resources : 	
 ***************************************************/
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NaughtyAttributes;
@@ -63,7 +64,20 @@ public class Enemy : MonoBehaviour
         ShowIf(nameof(currentSettings), Settings.Health),
         ReadOnly]public float currentHealth = 5f;
 
-    public bool isShowingPreview; 
+    public bool isShowingPreview;
+
+    protected Coroutine damagePreview;
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Health),
+        Tooltip("How long it takes to fade between fully opaque and partly transluscent")]
+        protected float damagePreviewTime = 2f;
+
+    [SerializeField,
+        ShowIf(nameof(currentSettings), Settings.Health),
+        Range(0f,1f),
+        Tooltip("How transluscent the damage preview will get at its most transluscent")]
+    protected float damagePreviewOpacity = .5f;
     #endregion
 
     #region COMBAT VARS
@@ -355,19 +369,60 @@ public class Enemy : MonoBehaviour
     /// <param name="damage"></param>
     public void ShowDamagePreview(float damage)
     {
+        if(damagePreview != null)
+        {
+            StopCoroutine(damagePreview);
+            damagePreview = null;
+        }
         if (!isShowingPreview)
         {
             previewHealthBar.value -= damage;
+            damagePreview = StartCoroutine(DamagePreview());
         }
     }
+
 
     /// <summary>
     /// Hides the preview damage
     /// </summary>
     public void HideDamagePreivew()
     {
+        if (damagePreview != null)
+        {
+            StopCoroutine(damagePreview);
+            damagePreview = null;
+        }
         previewHealthBar.value = currentHealth;
         isShowingPreview = false;
+    }
+
+    /// <summary>
+    /// Gently pulses the damage health bar preview
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DamagePreview()
+    {
+        Image affectedMat = previewHealthBar.transform.GetChild(0).GetComponent<Image>();
+        float timer;
+        Color startingValue = affectedMat.color;
+        Color endingValue = startingValue;
+        endingValue.a = damagePreviewOpacity;
+        while(true)
+        {
+            timer = 0;
+            while(timer < damagePreviewTime)
+            {
+                affectedMat.color = Color.Lerp(startingValue, endingValue, timer/damagePreviewTime);
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            affectedMat.color = endingValue;
+            startingValue = affectedMat.color;
+            endingValue.a = (endingValue.a == damagePreviewOpacity ? 1 : damagePreviewOpacity);
+            yield return null;
+           
+        }
     }
     #endregion
 
