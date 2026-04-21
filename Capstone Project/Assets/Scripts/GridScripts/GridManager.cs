@@ -209,6 +209,7 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Pathfinding Cleared");
     }
 
     /// <summary>

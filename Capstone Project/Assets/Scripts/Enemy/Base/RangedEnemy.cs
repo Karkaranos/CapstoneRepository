@@ -8,6 +8,7 @@ Brief Description : 		Base class for Range enemies
 External Resources : 	
 ***************************************************/
 using NaughtyAttributes;
+using System.Threading.Tasks;
 using UnityEngine;
 using static TargetingBehaviour;
 
@@ -135,6 +136,9 @@ public class RangedEnemy : Enemy
     public override bool GetPlayerInAttackRange()
     {
         targetingBehaviour.FindTarget();
+
+        GridManager.DisplayGridAsText();
+ 
         gridPathfinding.PathfindThroughGrid();
 
         return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();

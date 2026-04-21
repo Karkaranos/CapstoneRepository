@@ -150,7 +150,7 @@ public class TargetingBehaviour : MonoBehaviour
             newLocations.Clear();
         }
 
-        GridManager.DisplayGridAsText();
+        //GridManager.DisplayGridAsText();
         GridManager.ClearPathfinding();
     }
 

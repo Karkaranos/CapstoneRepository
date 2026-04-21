@@ -48,14 +48,12 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         //If enemy can attack twice and hasn't yet call Attack state again 
         if (enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
-            Logger.Log("Enemy State: Attack -> Attack");
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
             return;
         }
 
         //Trigger Enemy end turn
-        Logger.Log("Enemy State: Attack -> EndTurn");
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
     }
 
