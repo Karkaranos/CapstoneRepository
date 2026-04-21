@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		    Aidan Ratcliffe
 Date Created : 		    4/6/2026
-Date Last Modified : 	4/6/2026
+Date Last Modified : 	4/15/2026
 Brief Description : 	Triggers bush animations
 External Resources : 	N/A
 ***************************************************/
@@ -19,6 +19,8 @@ public class BushBehaviour : MonoBehaviour
     private SpriteRenderer bushSprite;
     [Tooltip("A reference to the bush's Animator"), SerializeField]
     private Animator bAnimator;
+    [Tooltip("A reference to the bush's particle system"), SerializeField]
+    private ParticleSystem bushParticles;
     #endregion
 
     #region functions
@@ -29,6 +31,7 @@ public class BushBehaviour : MonoBehaviour
     void Start()
     {
         bAnimator = GetComponentInChildren<Animator>();
+        bushParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     /// <summary>
@@ -41,6 +44,18 @@ public class BushBehaviour : MonoBehaviour
         {
             Debug.Log("I should be triggering");
             bAnimator.SetBool("BushAnim", true);
+        }
+    }
+
+    /// <summary>
+    /// acivates Particles after collision
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.gameObject.CompareTag("Collider") || (other.gameObject.CompareTag("Enemy")))
+        {
+            bushParticles.Play();
         }
     }
 
