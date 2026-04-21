@@ -24,6 +24,8 @@ public class SlotBehavior : MonoBehaviour
 
     [SerializeField] public int slotNumber;
 
+    [SerializeField] private GameObject behindText;
+
     
     /// <summary>
     /// this retuens true if this is an artifact slot
@@ -47,5 +49,10 @@ public class SlotBehavior : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void ToggleBehindText(bool toggle)
+    {
+        behindText.SetActive(toggle);
     }
 }

@@ -75,9 +75,11 @@ public class ArtifactNodeBehavior : MonoBehaviour
             rectTransform.anchoredPosition = mPos;
 
             ArtifactManager.RemoveArtifact(artifactData);
+            
             if (slotBehavior != null)
             {
                 slotBehavior.artifact = null;
+                slotBehavior.ToggleBehindText(true);
             }
         }
         else
@@ -110,7 +112,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
             GameObject slot = ArtifactOverSnapLocation();
             if (slot != null)
             {
-                
+                slot.GetComponent<SlotBehavior>().ToggleBehindText(false);
                 rectTransform.position = slot.GetComponent<RectTransform>().position;
                 slotBehavior = slot.GetComponent<SlotBehavior>();
 
