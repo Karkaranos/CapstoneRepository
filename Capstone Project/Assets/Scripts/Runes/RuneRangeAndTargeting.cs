@@ -587,7 +587,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !GetComponent<RuneEvents>().Pathing)
         {
             PublicEvents.HideDamagePreview.Invoke();
-            if (storedData.TypeOfRune != RuneType.Wind && storedData.NumberOnSkillTree != 4)
+            if (storedData.TypeOfRune != RuneType.Wind || storedData.NumberOnSkillTree == 1)
             {
                 Confirm.interactable = true;
             }
@@ -601,8 +601,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             selectedTile.SetHighlightColor(DefaultHighlight);
             SetAreaOfEffectHighlight();
 
-            if((storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4) ||
-            (storedData.TypeOfRune == RuneType.Wind))
+            if(storedData.TypeOfRune == RuneType.Wind && storedData.NumberOnSkillTree != 1)
             {
 
                 OnSpellCastConfirm();

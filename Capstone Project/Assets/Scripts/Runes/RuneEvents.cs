@@ -506,15 +506,6 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
-                enemy.Damage(damageDealt, Enemy.DamageType.Wind);
-
-                Instantiate(rune.RuneVFX, tile.transform);
-
-                if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
-                {
-                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
-                }
-
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("WAtk", true);
                 bookanim.SetBool("Idle", false);
@@ -522,6 +513,17 @@ public class RuneEvents : MonoBehaviour
 
                 AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                 AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
+
+                Instantiate(rune.RuneVFX, tile.transform);
+
+                await Task.Delay(1000);
+
+                if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
+                {
+                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
+                }
+
+                enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
                 StartCoroutine(UpdatePlayerStatus());
