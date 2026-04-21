@@ -140,6 +140,8 @@ public class ArtifactNodeBehavior : MonoBehaviour
                     transform.SetParent(slot.transform);
                     PublicEvents.RemoveFromStatBox(artifactData);
                 }
+
+                
                 
                 
             }
@@ -155,6 +157,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
                 PublicEvents.RemoveFromStatBox(artifactData);
                 Destroy(gameObject);
             }
+
         }
         GetComponent<Image>().raycastTarget = true;
     }
