@@ -330,7 +330,17 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                anim.SetBool("Attack", true);
+                bookanim.SetBool("LAtk", true);
+                bookanim.SetBool("Idle", false);
+                anim.SetBool("Idle", false);
+
+                AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
+                AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
+
                 Instantiate(rune.RuneVFX, tile.transform);
+
+                await Task.Delay(1200);
 
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
@@ -341,8 +351,6 @@ public class RuneEvents : MonoBehaviour
                 tile.Invoke("ElectrifyAdTiles", 1.2f);
 
                 FindAdjacentTiles(tile);
-
-                await Task.Delay(1200);
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
@@ -359,13 +367,6 @@ public class RuneEvents : MonoBehaviour
 
                     }
                 }
-
-                anim.SetBool("Attack", true);
-                bookanim.SetBool("LAtk", true);
-                bookanim.SetBool("Idle", false);
-                anim.SetBool("Idle", false);
-                AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
-                AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
                 StartCoroutine(UpdatePlayerStatus());
