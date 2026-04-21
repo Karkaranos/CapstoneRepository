@@ -197,6 +197,8 @@ public class ArtifactManager
             MarkManager.EquipValueChanged(true, artifact.Mark);
             CurrentArtifactWeight += artifact.ArtifactSize;
 
+            PublicEvents.ArtifactChanged?.Invoke();
+
             return true;
         }
         else
@@ -229,6 +231,7 @@ public class ArtifactManager
             UpdateDictionary(artifact.Mark, false);
             MarkManager.EquipValueChanged(false, artifact.Mark);
             CurrentArtifactWeight -= artifact.ArtifactSize;
+            PublicEvents.ArtifactChanged?.Invoke();
         }
         else
         {

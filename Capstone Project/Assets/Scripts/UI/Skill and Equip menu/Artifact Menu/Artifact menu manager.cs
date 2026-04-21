@@ -80,6 +80,7 @@ public class ArtifactMenuManager : MonoBehaviour
     private void OnEnable()
     {
         PublicEvents.TrashHeldOOCObject += ArtifactDropped;
+        PublicEvents.ArtifactChanged += UpdateDamageValues;
     }
 
     /// <summary>
@@ -88,6 +89,7 @@ public class ArtifactMenuManager : MonoBehaviour
     private void OnDisable()
     {
         PublicEvents.TrashHeldOOCObject -= ArtifactDropped;
+        PublicEvents.ArtifactChanged -= UpdateDamageValues;
     }
     #endregion
 
@@ -376,6 +378,20 @@ public class ArtifactMenuManager : MonoBehaviour
 
 
 
+    }
+
+    /// <summary>
+    /// Called when an artifact value is changed
+    /// Updates the description text on all pages
+    /// This is a weird spot for it, but it's always active so it works
+    /// </summary>
+    private void UpdateDamageValues()
+    {
+        NotebookDescriptionBoxBehavior[] ndbb = FindObjectsByType<NotebookDescriptionBoxBehavior>(sortMode:FindObjectsSortMode.None, findObjectsInactive:FindObjectsInactive.Include);
+        foreach(NotebookDescriptionBoxBehavior n in ndbb)
+        {
+            n.SetupTextBox();
+        }
     }
 
     #endregion
