@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
+using System.Collections;
 
 public class SkillAndArtifactManager : MonoBehaviour
 {
@@ -54,6 +55,11 @@ public class SkillAndArtifactManager : MonoBehaviour
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
+    [SerializeField, Tooltip("A reference to the object the Animator is on")] private GameObject bookanimObj;
+    [SerializeField] private Animator Banim;
+
+    [SerializeField] private RuneEvents re;
+
     #endregion
 
     #region TESTING AND DEBUG
@@ -78,6 +84,13 @@ public class SkillAndArtifactManager : MonoBehaviour
     private void Awake()
     {
         MasterBus = RuntimeManager.GetBus("Bus:/");
+    }
+
+    void Start()
+    {
+        re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
+        Banim = bookanimObj.GetComponent<Animator>();
+        re.AssignBookAnim(Banim);
     }
 
     /// <summary>
@@ -181,7 +194,20 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         continueButton.interactable = false;
         FindFirstObjectByType<TransitionManager>().LevelTransition();
+        if (Banim != null)
+        {
+            Banim.SetTrigger("Fly");
+        }
+        //Banim.SetBool("Idle", false);
+        //GoBackToIdle();
     }
+
+
+    //IEnumerator GoBackToIdle()
+    //{
+    //    yield return new WaitForSeconds(3);
+    //    Banim.SetBool("Idle", true);
+    //}
 
     /// <summary>
     /// Moves on to the next level
