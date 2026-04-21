@@ -51,6 +51,10 @@ public class SlotBehavior : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// turns on and off the text on the slot for when the player equips/unequips a spell/artifact
+    /// </summary>
+    /// <param name="toggle"></param>
     public void ToggleBehindText(bool toggle)
     {
         behindText.SetActive(toggle);
