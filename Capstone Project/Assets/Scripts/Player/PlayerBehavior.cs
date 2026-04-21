@@ -5,7 +5,9 @@ Date Last Modified : 	2/19/2026 (Brad Dixon)
 Brief Description : 	This how the player will detect where the grid is
 External Resources : 	N/A
 ***************************************************/
+using FMOD.Studio;
 using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -130,6 +132,13 @@ public class PlayerBehavior : MonoBehaviour
         //PublicEvents.SelectTile += HandleTileClicked;
         TurnPublicEvents.BeginPlayerTurn += StartPlayerTurn;
         PublicEvents.MovementDirection += MoveDirection;
+        PublicEvents.ReadyClicked += BookAnimation;
+    }
+
+    private void BookAnimation()
+    {
+        bookanim.SetBool("Fly", true);
+        bookanim.SetBool("Wait", false);
     }
 
     //Sets the boolean to true when left mouse button is clicked
@@ -149,6 +158,7 @@ public class PlayerBehavior : MonoBehaviour
         //PublicEvents.SelectTile -= HandleTileClicked;
         TurnPublicEvents.BeginPlayerTurn -= StartPlayerTurn;
         PublicEvents.MovementDirection -= MoveDirection;
+        PublicEvents.ReadyClicked -= BookAnimation;
     }
 
     /// <summary>

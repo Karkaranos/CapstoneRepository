@@ -194,20 +194,8 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         continueButton.interactable = false;
         FindFirstObjectByType<TransitionManager>().LevelTransition();
-        if (Banim != null)
-        {
-            Banim.SetTrigger("Fly");
-        }
-        //Banim.SetBool("Idle", false);
-        //GoBackToIdle();
+        PublicEvents.ReadyClicked.Invoke();
     }
-
-
-    //IEnumerator GoBackToIdle()
-    //{
-    //    yield return new WaitForSeconds(3);
-    //    Banim.SetBool("Idle", true);
-    //}
 
     /// <summary>
     /// Moves on to the next level
