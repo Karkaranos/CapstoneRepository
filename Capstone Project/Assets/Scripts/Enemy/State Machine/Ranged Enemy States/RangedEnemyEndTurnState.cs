@@ -38,8 +38,9 @@ public class RangedEnemyEndTurnState : RangedEnemyState
         }
         catch { }
         enemy.DelayedTurnStatus(false);
-        EnemyHandler.Instance.RunNextEnemyTurn();
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState(), 0f));
+        EnemyHandler.Instance.RunNextEnemyTurn();
+        
     }
 
     /// <summary>
