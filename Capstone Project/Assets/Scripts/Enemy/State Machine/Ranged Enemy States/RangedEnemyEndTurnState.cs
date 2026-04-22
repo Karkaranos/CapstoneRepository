@@ -13,6 +13,17 @@ public class RangedEnemyEndTurnState : RangedEnemyState
     { }
 
     /// <summary>
+    /// Sets the enemy variable references 
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
+    public void SetVariables(RangedEnemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
+    }
+
+    /// <summary>
     /// Enter end turn logic
     /// </summary>
     public override void EnterState()
@@ -27,8 +38,9 @@ public class RangedEnemyEndTurnState : RangedEnemyState
         }
         catch { }
         enemy.DelayedTurnStatus(false);
-        EnemyHandler.Instance.RunNextEnemyTurn();
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetWaitState(), 0f));
+        EnemyHandler.Instance.RunNextEnemyTurn();
+        
     }
 
     /// <summary>

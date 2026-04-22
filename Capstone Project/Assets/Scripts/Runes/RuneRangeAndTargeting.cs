@@ -32,6 +32,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     bool castNotCanceled = false;
     //canvas for movement/end turn buttons
     GameObject confirmationMenu;
+    private PlayerStats pStat;
 
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
@@ -74,6 +75,14 @@ public class RuneRangeAndTargeting : MonoBehaviour
         PublicEvents.EndCast -= EndPlayerAttackPhase;
         PublicEvents.SpellConfirmed -= OnSpellCastConfirm;
 
+    }
+
+    /// <summary>
+    /// Gets a reference to the player's statistcs
+    /// </summary>
+    private void Start()
+    {
+        pStat = FindFirstObjectByType<PlayerStats>();
     }
 
     #endregion INITIALIZATION
@@ -623,35 +632,35 @@ public class RuneRangeAndTargeting : MonoBehaviour
             case (RuneType.Lightning, 4):
                 foreach(Enemy enemy in enemiesInRange)
                 {
-                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.ShowDamagePreview(storedData.RuneDamage * pStat.LightningAttackMultiplier);
                     enemy.isShowingPreview = true;
                 }
                 break;
             case(RuneType.Wind, 1):
                 foreach (Enemy enemy in enemiesInRange)
                 {
-                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.ShowDamagePreview(storedData.RuneDamage * pStat.WindAttackMultiplier);
                     enemy.isShowingPreview = true;
                 }
                 break;
             case (RuneType.Wind, 2):
                 foreach (Enemy enemy in enemiesInRange)
                 {
-                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.ShowDamagePreview(storedData.RuneDamage * pStat.WindAttackMultiplier);
                     enemy.isShowingPreview = true;
                 }
                 break;
             case (RuneType.Wind, 3):
                 foreach (Enemy enemy in enemiesInRange)
                 {
-                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.ShowDamagePreview(storedData.RuneDamage * pStat.WindAttackMultiplier);
                     enemy.isShowingPreview = true;
                 }
                 break;
             case (RuneType.Wind, 4):
                 foreach (Enemy enemy in enemiesInRange)
                 {
-                    enemy.ShowDamagePreview(storedData.RuneDamage);
+                    enemy.ShowDamagePreview(storedData.RuneDamage * pStat.WindAttackMultiplier);
                     enemy.isShowingPreview = true;
                 }
                 break;
@@ -683,7 +692,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                         Enemy enemy = tile.GetComponentInChildren<Enemy>();
                         if (enemy != null)
                         {
-                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.ShowDamagePreview(storedData.RuneDamage * pStat.LightningAttackMultiplier);
                             enemy.isShowingPreview = true;
                         }
                     }
@@ -708,7 +717,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                         Enemy enemy = tile.GetComponentInChildren<Enemy>();
                         if (enemy != null)
                         {
-                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.ShowDamagePreview(storedData.RuneDamage * pStat.LightningAttackMultiplier);
                             enemy.isShowingPreview = true;
                         }
 
@@ -723,7 +732,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                         Enemy enemy = tile.GetComponentInChildren<Enemy>();
                         if (enemy != null)
                         {
-                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.ShowDamagePreview(storedData.RuneDamage * pStat.LightningAttackMultiplier);
                             enemy.isShowingPreview = true;
                         }
 
@@ -747,7 +756,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                         Enemy enemy = tile.GetComponentInChildren<Enemy>();
                         if (enemy != null)
                         {
-                            enemy.ShowDamagePreview(storedData.RuneDamage);
+                            enemy.ShowDamagePreview(storedData.RuneDamage * pStat.LightningAttackMultiplier);
                             enemy.isShowingPreview = true;
                         }
 

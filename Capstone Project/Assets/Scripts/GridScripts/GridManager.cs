@@ -81,11 +81,12 @@ public class GridManager : MonoBehaviour
     {
         if(tileCoordinates == myPosition)
         {
+            //check here
             return true;
         }
         if(isPlayer)
         {
-            return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 || 
+            return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
                 combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
                 combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
         }
@@ -208,6 +209,7 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Pathfinding Cleared");
     }
 
     /// <summary>
