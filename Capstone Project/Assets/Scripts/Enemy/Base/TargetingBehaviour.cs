@@ -90,7 +90,13 @@ public class TargetingBehaviour : MonoBehaviour
             }
             else
             {
-                GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+                if (GridManager.combatGrid[v.x, v.y].entityOnGrid != -2 &&
+                    GridManager.combatGrid[v.x, v.y].entityOnGrid != -4 &&
+                    GridManager.combatGrid[v.x, v.y].entityOnGrid != -5)
+                {
+                    GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+                }
+                
             }
             adTiles.Add(v);
         }
@@ -114,8 +120,14 @@ public class TargetingBehaviour : MonoBehaviour
                     //Can remove the else and have line 108 be outside the if statement, just written this way for testing purposes
                     if (i > GetComponent<RangedEnemy>().minimumAttackDistance && HasLineOfSight(v))
                     {
-                        targetLocations.Add(v);
-                        GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+                        if (GridManager.combatGrid[v.x, v.y].entityOnGrid != -2 &&
+                             GridManager.combatGrid[v.x, v.y].entityOnGrid != -4 &&
+                             GridManager.combatGrid[v.x, v.y].entityOnGrid != -5)
+                        {
+                            targetLocations.Add(v);
+                            GridManager.combatGrid[v.x, v.y].entityOnGrid = 4;
+                        }
+                        
                     }
                     else
                     {
@@ -138,7 +150,7 @@ public class TargetingBehaviour : MonoBehaviour
             newLocations.Clear();
         }
 
-        GridManager.DisplayGridAsText();
+        //GridManager.DisplayGridAsText();
         GridManager.ClearPathfinding();
     }
 

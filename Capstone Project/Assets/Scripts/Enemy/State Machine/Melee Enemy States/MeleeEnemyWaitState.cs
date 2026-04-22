@@ -13,6 +13,17 @@ public class MeleeEnemyWaitState : MeleeEnemyState
     {}
 
     /// <summary>
+    /// Sets the enemy variable references 
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
+    public void SetVariables(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
+    }
+
+    /// <summary>
     /// logic for entering the wait state
     /// </summary>
     public override void EnterState()
