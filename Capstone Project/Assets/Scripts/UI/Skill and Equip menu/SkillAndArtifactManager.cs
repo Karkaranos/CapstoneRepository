@@ -55,10 +55,6 @@ public class SkillAndArtifactManager : MonoBehaviour
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
-    [SerializeField, Tooltip("A reference to the object the Animator is on")] private GameObject bookanimObj;
-    [SerializeField] private Animator Banim;
-
-    [SerializeField] private RuneEvents re;
 
     #endregion
 
@@ -88,9 +84,7 @@ public class SkillAndArtifactManager : MonoBehaviour
 
     void Start()
     {
-        re = FindAnyObjectByType<RuneEvents>(FindObjectsInactive.Exclude);
-        Banim = bookanimObj.GetComponent<Animator>();
-        re.AssignBookAnim(Banim);
+       
     }
 
     /// <summary>
