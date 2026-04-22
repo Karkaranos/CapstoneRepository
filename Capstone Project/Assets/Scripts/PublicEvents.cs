@@ -123,5 +123,7 @@ public static class PublicEvents
 
     public static Action HideDamagePreview;
 
+    public static Action ArtifactChanged;
+
     #endregion
 }

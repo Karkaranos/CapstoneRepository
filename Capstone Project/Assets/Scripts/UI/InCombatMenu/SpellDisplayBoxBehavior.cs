@@ -5,6 +5,7 @@ Date Last Modified : 2/19/2026
 Brief Description : This is the behavior for the spell display, It sets it up and pops it out
 ***************************************************/
 using TMPro;
+using UnityEditor.Experimental.Rendering;
 using UnityEngine;
 
 public class SpellDisplayBoxBehavior : MonoBehaviour
@@ -29,7 +30,9 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
         if (icsb.rune != null) {
             PopOut();
             spellName.text = icsb.rune.name;
-            spellDamage.text = "Damage: " + icsb.rune.RuneDamage;
+            spellDamage.text = "Damage: " + (int)(icsb.rune.RuneDamage * 
+                (icsb.rune.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
+                : FindFirstObjectByType<PlayerStats>().WindAttackMultiplier));
             spellDescription.text = icsb.rune.RuneDescription;
 
             int attackPoints = icsb.rune.RuneActionPoints;
