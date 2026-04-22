@@ -13,6 +13,17 @@ public class MeleeEnemyEndTurnState : MeleeEnemyState
     { }
 
     /// <summary>
+    /// Sets the enemy variable references 
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
+    public void SetVariables(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
+    }
+
+    /// <summary>
     /// Enter state logic
     /// Tells the enemy handler to start the next enemy turn
     /// </summary>
