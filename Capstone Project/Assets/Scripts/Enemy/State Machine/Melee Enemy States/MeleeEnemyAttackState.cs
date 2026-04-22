@@ -40,7 +40,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         enemy.logText.text = "A";
 
         //damage player
-        enemy.playerStats.TakeDamage(enemy.damage);
+        enemy.playerStats.TakeDamage(enemy.damage, PlayerStats.DamageSource.Melee);
 
         meleeAttackSFX = FMODUnity.RuntimeManager.CreateInstance("event:/MeleeAttack");
         FMODUnity.RuntimeManager.PlayOneShot("event:/MeleeAttack");
