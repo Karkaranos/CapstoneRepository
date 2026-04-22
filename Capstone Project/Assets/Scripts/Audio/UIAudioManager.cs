@@ -21,11 +21,8 @@ public class UIAudioManager : AudioManager
     [SerializeField] private EventReference uiHover;
     [SerializeField] private EventReference uiClick;
     [SerializeField] private EventReference uiSelect;
-    [SerializeField] private EventReference uiConfirm;
-    [SerializeField] private EventReference uiCancel;
-    [SerializeField] private EventReference uiPageFlip;
 
-    [SerializeField] private EventReference closePopUp;
+    [SerializeField] private EventReference uiPageFlip;
 
     [SerializeField] private EventReference spellPickUp;
     [SerializeField] private EventReference spellDrop;
@@ -45,16 +42,6 @@ public class UIAudioManager : AudioManager
     }
 
     #region UI_FUNCTIONS
-    public void PlayUIConfirm()
-    {
-        CreateEventInstance(uiConfirm);
-        PlayOneShot(uiConfirm, this.transform.position);
-    }
-    public void PlayUICancel()
-    {
-        CreateEventInstance(uiCancel);
-        PlayOneShot(uiCancel, this.transform.position);
-    }
     public void PlayUIClick()
     {
         CreateEventInstance(uiClick);
@@ -87,12 +74,6 @@ public class UIAudioManager : AudioManager
     {
         CreateEventInstance(spellPickUp);
         PlayOneShot(spellPickUp, this.transform.position);
-    }
-
-    public void PlayClosePopUp()
-    {
-        CreateEventInstance(closePopUp);
-        PlayOneShot(closePopUp, this.transform.position);
     }
 
     public void DropBackend()

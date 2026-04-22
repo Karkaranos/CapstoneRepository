@@ -21,7 +21,8 @@ public class PipManager : MonoBehaviour
         public List<TileBehaviour> spawningLocations;
     }
 
-    [SerializeField] private int maxNumberOfPipsOnField;
+    [SerializeField] private int pipFloor;
+    [SerializeField] private int pipCeling;
     [SerializeField] private List<TileBehaviour> currentSpawnableTiles;
     [SerializeField] private GameObject pip;
     [SerializeField] private List<SpawnLocations> spawningLocationsPerLevel;
@@ -70,29 +71,57 @@ public class PipManager : MonoBehaviour
     /// </summary>
     public void SpawnPips()
     {
-        List<TileBehaviour> temp = new List<TileBehaviour>(); 
-        while(currentPipsOnField < maxNumberOfPipsOnField)
+        List<TileBehaviour> temp = new List<TileBehaviour>();
+        if(currentPipsOnField < pipFloor)
         {
-            int index = Random.Range(0, currentSpawnableTiles.Count);
-            if(!GridManager.TileIsEmpty(currentSpawnableTiles[index].IndexInGrid) 
-                || hazardTiles.Contains(currentSpawnableTiles[index]))
+            while (currentPipsOnField < pipFloor)
             {
-                continue; 
-            }
-            temp.Add(currentSpawnableTiles[index]);
-            currentSpawnableTiles[index].AddPip(pip);
-            currentSpawnableTiles.Remove(currentSpawnableTiles[index]);
-            
-            ++currentPipsOnField;
-        }
+                int index = Random.Range(0, currentSpawnableTiles.Count);
+                if (!GridManager.TileIsEmpty(currentSpawnableTiles[index].IndexInGrid)
+                    || hazardTiles.Contains(currentSpawnableTiles[index]))
+                {
+                    continue;
+                }
+                temp.Add(currentSpawnableTiles[index]);
+                currentSpawnableTiles[index].AddPip(pip);
+                currentSpawnableTiles.Remove(currentSpawnableTiles[index]);
 
-        foreach (TileBehaviour tileBehaviour in currentSpawnableTiles)
-        {
-            temp.Add(tileBehaviour);
+                ++currentPipsOnField;
+            }
+
+            foreach (TileBehaviour tileBehaviour in currentSpawnableTiles)
+            {
+                temp.Add(tileBehaviour);
+            }
+            currentSpawnableTiles = temp;
+            spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
         }
-        currentSpawnableTiles = temp;
-        spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
-        TurnPublicEvents.TurnActionComplete?.Invoke(); 
+        else if(currentPipsOnField < pipCeling)
+        {
+            bool spawnedPip = false;
+            while (!spawnedPip)
+            {
+                int index = Random.Range(0, currentSpawnableTiles.Count);
+                if (!GridManager.TileIsEmpty(currentSpawnableTiles[index].IndexInGrid)
+                    || hazardTiles.Contains(currentSpawnableTiles[index]))
+                {
+                    continue;
+                }
+                temp.Add(currentSpawnableTiles[index]);
+                currentSpawnableTiles[index].AddPip(pip);
+                currentSpawnableTiles.Remove(currentSpawnableTiles[index]);
+                spawnedPip = true;
+                ++currentPipsOnField;
+            }
+
+            foreach (TileBehaviour tileBehaviour in currentSpawnableTiles)
+            {
+                temp.Add(tileBehaviour);
+            }
+            currentSpawnableTiles = temp;
+            spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
+        }
+        TurnPublicEvents.TurnActionComplete?.Invoke();
     }
 
     private async void SetCurrentSpawnLocations(int i)
