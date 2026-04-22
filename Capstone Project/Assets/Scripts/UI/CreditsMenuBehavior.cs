@@ -21,7 +21,10 @@ public class CreditsMenuBehavior : MonoBehaviour
         topPosition = rectTransform.position.y;
     }
 
-    private void Update()
+    /// <summary>
+    /// updates the position of the credits page when the scrollbar moves
+    /// </summary>
+    public void UpdatePagePosition()
     {
         Vector3 newPos = new Vector3 (rectTransform.position.x, topPosition + (scrollbar.value * screenLength), rectTransform.position.z);
         rectTransform.position = newPos;
