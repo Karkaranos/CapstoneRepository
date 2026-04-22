@@ -7,7 +7,7 @@ External Resources : 	https://www.youtube.com/watch?v=RQd44qSaqww
 ***************************************************/
 using UnityEngine;
 
-public class EnemyState 
+public class EnemyState : MonoBehaviour
 {
     public virtual void EnterState() { }
     public virtual void ExitState() { }

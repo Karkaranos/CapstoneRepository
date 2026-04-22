@@ -8,6 +8,7 @@ Brief Description : 		Base class for Range enemies
 External Resources : 	
 ***************************************************/
 using NaughtyAttributes;
+using System.Threading.Tasks;
 using UnityEngine;
 using static TargetingBehaviour;
 
@@ -37,16 +38,16 @@ public class RangedEnemy : Enemy
     #region TEST VARS
 
     [ShowIf(nameof(currentSettings), Settings.Testing), SerializeField] private bool playerInLineOfSight;
-   
+
 
     #endregion
 
     #region STATE MACHINE VARS
 
-    private RangedEnemyAttackState attackState;
-    private RangedEnemyWaitState waitState;
-    private RangedEnemyMoveState moveState;
-    private RangedEnemyEndTurnState endTurnState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private RangedEnemyAttackState attackState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private RangedEnemyWaitState waitState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private RangedEnemyMoveState moveState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private RangedEnemyEndTurnState endTurnState;
 
     #endregion
 
@@ -67,11 +68,10 @@ public class RangedEnemy : Enemy
     /// </summary>
     public override void Start()
     {
-        enemyStateMachine = new EnemyStateMachine();
-        waitState = new RangedEnemyWaitState(this, enemyStateMachine);
-        moveState = new RangedEnemyMoveState(this, enemyStateMachine);
-        attackState = new RangedEnemyAttackState(this, enemyStateMachine);
-        endTurnState = new RangedEnemyEndTurnState(this, enemyStateMachine);
+        moveState.SetVariables(this, enemyStateMachine);
+        attackState.SetVariables(this, enemyStateMachine);
+        waitState.SetVariables(this, enemyStateMachine);
+        endTurnState.SetVariables(this, enemyStateMachine);
         enemyStateMachine.Initialized(waitState, secondsBetweenStateTransitions);
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.ranged;
@@ -136,6 +136,9 @@ public class RangedEnemy : Enemy
     public override bool GetPlayerInAttackRange()
     {
         targetingBehaviour.FindTarget();
+
+        GridManager.DisplayGridAsText();
+ 
         gridPathfinding.PathfindThroughGrid();
 
         return gridPathfinding.MyPosition == gridPathfinding.GetTargetPosition();
