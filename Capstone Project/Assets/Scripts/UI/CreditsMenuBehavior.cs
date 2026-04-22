@@ -1,4 +1,9 @@
-using Unity.VisualScripting;
+/*************************************************
+Author Names : 		Tyler Bouchard 
+Date Created : 		4/21/2026
+Date Last Modified : 	4/22/2026
+Brief Description : 		controls the behavoir for the credits menu
+***************************************************/
 using UnityEngine;
 using UnityEngine.UI;
 
