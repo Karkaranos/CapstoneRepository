@@ -132,14 +132,14 @@ public class PlayerBehavior : MonoBehaviour
         //PublicEvents.SelectTile += HandleTileClicked;
         TurnPublicEvents.BeginPlayerTurn += StartPlayerTurn;
         PublicEvents.MovementDirection += MoveDirection;
-        PublicEvents.ReadyClicked += BookAnimation;
+        //PublicEvents.ReadyClicked += BookAnimation;
     }
 
-    private void BookAnimation()
-    {
-        bookanim.SetBool("Fly", true);
-        bookanim.SetBool("Wait", false);
-    }
+    //private void BookAnimation()
+    //{
+    //    bookanim.SetBool("Fly", true);
+    //    bookanim.SetBool("Wait", false);
+    //}
 
     //Sets the boolean to true when left mouse button is clicked
     private void playermoveClickPerformed(InputAction.CallbackContext context)
@@ -158,7 +158,7 @@ public class PlayerBehavior : MonoBehaviour
         //PublicEvents.SelectTile -= HandleTileClicked;
         TurnPublicEvents.BeginPlayerTurn -= StartPlayerTurn;
         PublicEvents.MovementDirection -= MoveDirection;
-        PublicEvents.ReadyClicked -= BookAnimation;
+        //PublicEvents.ReadyClicked -= BookAnimation;
     }
 
     /// <summary>
