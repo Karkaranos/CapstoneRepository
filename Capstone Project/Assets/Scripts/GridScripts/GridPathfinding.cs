@@ -292,9 +292,10 @@ public class GridPathfinding : MonoBehaviour
                         }
                     }
                 }
-
-                nextPosition = nextPos[gridDirections.Count - 1 - i];
             }
+
+            nextPosition = nextPos[gridDirections.Count - 1 - i];
+
             isMoving = true;
             enemyWalkingSFX.start();
             //Loops until they finish moving to the adjacent tile
