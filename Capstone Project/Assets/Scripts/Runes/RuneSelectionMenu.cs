@@ -103,9 +103,11 @@ public class RuneSelectionMenu : MonoBehaviour
             //Links rune effect to button based on rune type
             //creates a new event trigger to add to the container
             EventTrigger trigger = containers[index].GetComponent<EventTrigger>();
-            EventTrigger.Entry tree = new EventTrigger.Entry();
-            tree.eventID = EventTriggerType.PointerClick;
-            tree.callback = new EventTrigger.TriggerEvent();
+            EventTrigger.Entry tree = new()
+            {
+                eventID = EventTriggerType.PointerClick,
+                callback = new EventTrigger.TriggerEvent()
+            };
 
             //stops weird garbage collection
             int i = index;
@@ -114,9 +116,10 @@ public class RuneSelectionMenu : MonoBehaviour
             tree.callback.AddListener((eventData) => 
             {
                 PublicEvents.RuneSelected.Invoke(skillAndEquipManager.equippedSpells[i]);
+                FindAnyObjectByType<UIAudioManager>().PlayUIClick();
             });
 
-            containers[index].GetComponent<EventTrigger>().triggers.Add(tree);
+            trigger.triggers.Add(tree);
 
         }
 
