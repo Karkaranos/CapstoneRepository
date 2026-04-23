@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.0763, y: -150}
+  m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 733.1425, y: 715.3269}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2698315350618223516
@@ -89,10 +89,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea9e399872a173a48bcda43a3c84cad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topPosition: 150
-  bottomPosition: -150
+  startPos: {x: 0, y: -150, z: 0}
+  endPos: {x: 0, y: 150, z: 0}
   rectTransform: {fileID: 9090171469833796050}
   scrollbar: {fileID: 136329098605306345}
+  scrollDuration: 10
+  autoScroll: 1
 --- !u!1 &3708443442849404026
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 329, y: 0}
+  m_AnchoredPosition: {x: 340, y: 0}
   m_SizeDelta: {x: 20, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5758067004522317677
@@ -522,7 +524,11 @@ MonoBehaviour:
   m_text: Credits represent deferred payment for goods/services (loans/credit cards),
     an accounting entry increasing revenue/decreasing assets, or recognition of contributors
     (film/media). It also signifies student work completion in education. Key synonyms
-    include trust, belief, honor, recognition, and balance
+    include trust, belief, honor, recognition, and balanceCredits represent deferred
+    payment for goods/services (loans/credit cards), an accounting entry increasing
+    revenue/decreasing assets, or recognition of contributors (film/media). It also
+    signifies student work completion in education. Key synonyms include trust, belief,
+    honor, recognition, and balance
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -588,7 +594,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -428.51215, w: -551.01105}
+  m_margin: {x: 17.065887, y: 0, z: -464.7777, w: -551.01105}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
