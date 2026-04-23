@@ -7,6 +7,7 @@ public class PlayerProfileDisplayBehavior : MonoBehaviour
 {
     public Image[] artifactDisplays;
     public TextMeshProUGUI rangeText;
+    public TextMeshProUGUI healthText;
     public Slider healthBar;
     public PipDisplayBehavior pipDisplay;
 
@@ -21,6 +22,7 @@ public class PlayerProfileDisplayBehavior : MonoBehaviour
         PlayerBehavior playerScript = FindFirstObjectByType<PlayerBehavior>();
         rangeText.text = "" + playerScript.MovementLeft;
 
+        healthText.text = "" + healthBar.value;
         foreach (Image artifact in artifactDisplays) {
             artifact.gameObject.SetActive(false);
         }
