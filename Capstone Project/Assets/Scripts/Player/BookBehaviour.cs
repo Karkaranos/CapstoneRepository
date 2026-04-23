@@ -1,3 +1,10 @@
+/*************************************************
+Author Names : 		    Aidan Ratcliffe
+Date Created : 		    4/22/2026
+Date Last Modified : 	4/13/2026
+Brief Description : 	This is how the book accesses its animations
+External Resources : 	N/A
+***************************************************/
 using NaughtyAttributes;
 using System;
 using UnityEngine;
