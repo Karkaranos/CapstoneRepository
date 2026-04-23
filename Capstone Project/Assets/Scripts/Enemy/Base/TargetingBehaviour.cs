@@ -210,22 +210,18 @@ public class TargetingBehaviour : MonoBehaviour
             }
         }
         //If the x distance is greater than the y distance
-        else if(xDistance > yDistance)// && GridManager.TileIsEmpty(xTileCheck))
+        else if(xDistance > yDistance && (GridManager.TileIsEmpty(xTileCheck) || 
+            GridManager.combatGrid[xTileCheck.x, xTileCheck.y].entityOnGrid == -3))
         {
-            if (GridManager.TileIsEmpty(xTileCheck) || GridManager.combatGrid[xTileCheck.x, xTileCheck.y].entityOnGrid == -3)
-            {
-                ++availablePaths;
-                tilesWeCanCheck.Add(xTileCheck);
-            }
+            ++availablePaths;
+            tilesWeCanCheck.Add(xTileCheck);
         }
         //If the y distance is greater than the x distance
-        else if(yDistance > xDistance)// && GridManager.TileIsEmpty(yTileCheck))
+        else if(yDistance > xDistance && (GridManager.TileIsEmpty(yTileCheck) || 
+            GridManager.combatGrid[yTileCheck.x, yTileCheck.y].entityOnGrid == -3))
         {
-            if (GridManager.TileIsEmpty(yTileCheck) || GridManager.combatGrid[yTileCheck.x, yTileCheck.y].entityOnGrid == -3)
-            {
-                ++availablePaths;
-                tilesWeCanCheck.Add(yTileCheck);
-            }
+            ++availablePaths;
+            tilesWeCanCheck.Add(yTileCheck);
         }
 
         switch(availablePaths)
