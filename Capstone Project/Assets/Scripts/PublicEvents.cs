@@ -124,4 +124,10 @@ public static class PublicEvents
     public static Action ArtifactChanged;
 
     #endregion
+
+    #region ENEMY EVENTS
+
+    public static Action MoveCoroFinsihed;
+
+    #endregion
 }

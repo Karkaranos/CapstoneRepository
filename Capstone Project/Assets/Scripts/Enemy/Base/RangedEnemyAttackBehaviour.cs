@@ -25,7 +25,7 @@ public class RangedEnemyAttackBehaviour : MonoBehaviour
     /// </summary>
     public void DamagePlayer()
     {
-        FindFirstObjectByType<PlayerStats>().TakeDamage(attackDamage);
+        FindFirstObjectByType<PlayerStats>().TakeDamage(attackDamage, PlayerStats.DamageSource.Ranged);
     }
 
     /// <summary>
