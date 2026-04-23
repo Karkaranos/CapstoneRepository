@@ -1,7 +1,7 @@
 /******************************************************************************
- * Author: Brad Dixon, Tyler Bouchard, Clare Grady
+ * Author: Brad Dixon, Tyler Bouchard, Clare Grady, Jay Embry
  * Creation Date: 9/26/2025
- * Last Modified: 2/10/2026 (Clare Grady)
+ * Last Modified: 4/23/2026 (Jay Embry)
  * Brief: Stores an instance of the current combat grid. Also stores the positions of
  * the player, enemies, and objects in the grid. 
  * External Resources: N/A
@@ -79,12 +79,12 @@ public class GridManager : MonoBehaviour
     /// <returns></returns> Returns true if that tile is empty
     public static bool CanMoveToTile(Vector2Int tileCoordinates, Vector2Int myPosition, bool isPlayer)
     {
-        if(tileCoordinates == myPosition)
+        if (tileCoordinates == myPosition)
         {
             //check here
             return true;
         }
-        if(isPlayer)
+        if (isPlayer)
         {
             return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
                 combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5 ||
@@ -92,6 +92,7 @@ public class GridManager : MonoBehaviour
         }
         return combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
             combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6 ||
+            combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -7 ||
             combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -8;
     }
 
