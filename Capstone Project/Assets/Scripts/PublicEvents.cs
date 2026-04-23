@@ -75,6 +75,8 @@ public static class PublicEvents
 
     public static Action NewLevel;
 
+    public static Action ReadyClicked;
+
     public static Action<int> LoadingGrid;
 
 
@@ -120,6 +122,14 @@ public static class PublicEvents
     public static Action HideEnemyStatbox;
 
     public static Action HideDamagePreview;
+
+    public static Action ArtifactChanged;
+
+    #endregion
+
+    #region ENEMY EVENTS
+
+    public static Action MoveCoroFinsihed;
 
     #endregion
 }

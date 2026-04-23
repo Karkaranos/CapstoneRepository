@@ -81,6 +81,7 @@ public class GridManager : MonoBehaviour
     {
         if (tileCoordinates == myPosition)
         {
+            //check here
             return true;
         }
         if (isPlayer)
@@ -209,6 +210,7 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Pathfinding Cleared");
     }
 
     /// <summary>

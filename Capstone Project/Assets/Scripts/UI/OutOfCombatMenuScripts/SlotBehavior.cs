@@ -24,6 +24,8 @@ public class SlotBehavior : MonoBehaviour
 
     [SerializeField] public int slotNumber;
 
+    [SerializeField] private GameObject behindText;
+
     
     /// <summary>
     /// this retuens true if this is an artifact slot
@@ -47,5 +49,14 @@ public class SlotBehavior : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// turns on and off the text on the slot for when the player equips/unequips a spell/artifact
+    /// </summary>
+    /// <param name="toggle"></param>
+    public void ToggleBehindText(bool toggle)
+    {
+        behindText.SetActive(toggle);
     }
 }

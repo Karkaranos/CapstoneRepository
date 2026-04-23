@@ -32,7 +32,7 @@ public class DamageHazardBehaviour : MonoBehaviour
         if(collision.gameObject.GetComponent<PlayerBehavior>()|| collision.gameObject.GetComponent<Enemy>())
         {
             canDamage = true;
-            GetComponentInParent<TileBehaviour>().DamageEntity(hazardDamage);
+            GetComponentInParent<TileBehaviour>().DamageEntity(hazardDamage, false);
 
             anim.SetTrigger("SteppedOn");
             bushParticles.Play();
@@ -57,7 +57,7 @@ public class DamageHazardBehaviour : MonoBehaviour
     /// </summary>
     public void EndTurnDamage()
     {
-        GetComponentInParent<TileBehaviour>().DamageEntity(hazardDamage);
+        GetComponentInParent<TileBehaviour>().DamageEntity(hazardDamage, false);
 
         anim.SetTrigger("SteppedOn");
     }
