@@ -71,7 +71,7 @@ public static class PublicEvents
     //Triggers whenever a tile is selected while in wait mode(?)
     public static Action<TileBehaviour> SelectTile;
 
-    public static Action<TileBehaviour, Enemy, PlayerBehavior> SelectTarget;
+    public static Action<TileBehaviour, Enemy[], PlayerBehavior> SelectTarget;
 
     public static Action NewLevel;
 
@@ -97,8 +97,8 @@ public static class PublicEvents
     public static Action SpellConfirmed;
 
     //spell triggers
-    public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> LightningCast;
-    public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> WindCast;
+    public static Action<RuneData, TileBehaviour, Enemy[], PlayerBehavior> LightningCast;
+    public static Action<RuneData, TileBehaviour, Enemy[], PlayerBehavior> WindCast;
     public static Action EndCast;
 
 
