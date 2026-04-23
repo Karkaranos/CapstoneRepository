@@ -213,9 +213,20 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                anim.SetBool("Attack", true);
+                bookanim.SetBool("LAtk", true);
+                bookanim.SetBool("Idle", false);
+                anim.SetBool("Idle", false);
+
+                AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
+                AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
+
+                Instantiate(rune.RuneVFX, tile.transform);
+
+                await Task.Delay(1200);
+
                 if (enemy != null)
                 {
-                    await Task.Delay(1200);
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
                 }
 
@@ -237,17 +248,8 @@ public class RuneEvents : MonoBehaviour
                 }
 
                 tile.ElectrifyAdTiles();
-                anim.SetBool("Attack", true);
-                bookanim.SetBool("LAtk", true);
-                bookanim.SetBool("Idle", false);
-                anim.SetBool("Idle", false);
-                AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
-                AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
-                
-                Instantiate(rune.RuneVFX, tile.transform);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -261,29 +263,28 @@ public class RuneEvents : MonoBehaviour
                 bookanim.SetBool("LAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
+
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
                 Instantiate(rune.RuneVFX, tile.transform);
+
                 tile.Invoke("ElectrifyAdTiles", 1.2f);
 
-                if(tile.GetComponentInChildren<Enemy>())
+                await Task.Delay(1200);
+
+                if (tile.GetComponentInChildren<Enemy>())
                 {
-
                     tile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
-
                 }
 
-                await Task.Delay(1000);
-
                 FindLinesOfTargets(rune, tile);
-
                 List<TileBehaviour> waveOfTiles = new List<TileBehaviour>();
 
                 for (int i = 1; i <= rune.RuneRange; i++)
                 {
 
-                    foreach(TileBehaviour target in secondaryTargets)
+                    foreach (TileBehaviour target in secondaryTargets)
                     {
 
                         if(Mathf.Abs(tile.IndexInGrid.x - target.IndexInGrid.x) == i || 
@@ -292,30 +293,23 @@ public class RuneEvents : MonoBehaviour
 
                             waveOfTiles.Add(target);
 
+                            AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
+                            AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
+
+                            Instantiate(rune.RuneVFX, target.transform);
                         }
 
                     }
 
-                    foreach(TileBehaviour target in waveOfTiles)
+                    await Task.Delay(1200);
+
+                    foreach (TileBehaviour target in waveOfTiles)
                     {
 
-                        if(target.GetComponentInChildren<PlayerBehavior>() != null || target == tile)
+                        if (target.GetComponentInChildren<Enemy>() != null)
                         {
-                            continue;
-                        }
-
-                        
-                        AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
-                        AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
-
-                        Instantiate(rune.RuneVFX, target.transform);
-
-                        if(target.GetComponentInChildren<Enemy>() != null)
-                        {
-
                             SubtractFromDamage(rune, tile, target);
                             target.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
-
                         }
 
                         target.Invoke("ElectrifyAdTiles", 1.2f);
@@ -324,12 +318,9 @@ public class RuneEvents : MonoBehaviour
 
                     waveOfTiles.Clear();
 
-                    await Task.Delay(1000);
-
                 }
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
-
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -339,7 +330,17 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                anim.SetBool("Attack", true);
+                bookanim.SetBool("LAtk", true);
+                bookanim.SetBool("Idle", false);
+                anim.SetBool("Idle", false);
+
+                AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
+                AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
+
                 Instantiate(rune.RuneVFX, tile.transform);
+
+                await Task.Delay(1200);
 
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.SetParent(tile.transform);
                 FindFirstObjectByType<PlayerBehavior>().gameObject.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
@@ -350,8 +351,6 @@ public class RuneEvents : MonoBehaviour
                 tile.Invoke("ElectrifyAdTiles", 1.2f);
 
                 FindAdjacentTiles(tile);
-
-                await Task.Delay(1200);
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
@@ -368,13 +367,6 @@ public class RuneEvents : MonoBehaviour
 
                     }
                 }
-
-                anim.SetBool("Attack", true);
-                bookanim.SetBool("LAtk", true);
-                bookanim.SetBool("Idle", false);
-                anim.SetBool("Idle", false);
-                AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
-                AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
                 StartCoroutine(UpdatePlayerStatus());
@@ -404,19 +396,20 @@ public class RuneEvents : MonoBehaviour
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if(initialTarget.transform.position.x == tile.transform.position.x && 
-            Mathf.Abs(initialTarget.transform.position.x - tile.transform.position.x) <= rune.RuneRange)
+            if(tile.entityOnGrid == -1 || tile.entityOnGrid == -2 || tile.entityOnGrid == -8)
             {
 
-                secondaryTargets.Add(tile);
+                if (initialTarget.IndexInGrid.x == tile.IndexInGrid.x &&
+                Mathf.Abs(initialTarget.IndexInGrid.y - tile.IndexInGrid.y) <= rune.RuneRange)
+                {
+                    secondaryTargets.Add(tile);
+                }
 
-            }
-
-            if(initialTarget.transform.position.z == tile.transform.position.z &&
-            Mathf.Abs(initialTarget.transform.position.z - tile.transform.position.z) <= rune.RuneRange)
-            {
-
-                secondaryTargets.Add(tile);
+                if (initialTarget.IndexInGrid.y == tile.IndexInGrid.y &&
+                Mathf.Abs(initialTarget.IndexInGrid.x - tile.IndexInGrid.x) <= rune.RuneRange)
+                {
+                    secondaryTargets.Add(tile);
+                }
 
             }
 
@@ -513,15 +506,6 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
-                enemy.Damage(damageDealt, Enemy.DamageType.Wind);
-
-                Instantiate(rune.RuneVFX, tile.transform);
-
-                if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
-                {
-                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
-                }
-
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("WAtk", true);
                 bookanim.SetBool("Idle", false);
@@ -529,6 +513,17 @@ public class RuneEvents : MonoBehaviour
 
                 AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                 AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
+
+                Instantiate(rune.RuneVFX, tile.transform);
+
+                await Task.Delay(1000);
+
+                if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
+                {
+                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
+                }
+
+                enemy.Damage(damageDealt, Enemy.DamageType.Wind);
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
                 StartCoroutine(UpdatePlayerStatus());
