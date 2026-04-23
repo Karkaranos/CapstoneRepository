@@ -123,6 +123,7 @@ public class EnemyHandler : MonoBehaviour
                     enemies[0].playerStats.turnIndicator.SetActive(true);
                 }
                 catch { }
+                
                 return;
             }
 
@@ -136,6 +137,7 @@ public class EnemyHandler : MonoBehaviour
             enemies[index].StartEnemyTurn();
             ++index;
         }
+        
     }
 
     /// <summary>
