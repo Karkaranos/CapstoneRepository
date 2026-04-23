@@ -596,7 +596,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !GetComponent<RuneEvents>().Pathing)
         {
             PublicEvents.HideDamagePreview.Invoke();
-            if (storedData.TypeOfRune != RuneType.Wind && storedData.NumberOnSkillTree != 4)
+            if (storedData.TypeOfRune != RuneType.Wind || storedData.NumberOnSkillTree == 1)
             {
                 Confirm.interactable = true;
             }
@@ -610,8 +610,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             selectedTile.SetHighlightColor(DefaultHighlight);
             SetAreaOfEffectHighlight();
 
-            if((storedData.TypeOfRune == RuneType.Lightning && storedData.NumberOnSkillTree == 4) ||
-            (storedData.TypeOfRune == RuneType.Wind))
+            if(storedData.TypeOfRune == RuneType.Wind && storedData.NumberOnSkillTree != 1)
             {
 
                 OnSpellCastConfirm();
@@ -708,7 +707,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
                 foreach (TileBehaviour tile in GridManager.combatGrid)
                 {
 
-                    if (selectedTile.transform.position.x == tile.transform.position.x &&
+                    if (selectedTile.IndexInGrid.x == tile.IndexInGrid.x &&
                     Mathf.Abs(selectedTile.IndexInGrid.y - tile.IndexInGrid.y) <= storedData.RuneRange && CanAttackTile(tile.IndexInGrid))
                     {
 
@@ -723,7 +722,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                     }
 
-                    if (selectedTile.transform.position.z == tile.transform.position.z &&
+                    if (selectedTile.IndexInGrid.y == tile.IndexInGrid.y &&
                     Mathf.Abs(selectedTile.IndexInGrid.x - tile.IndexInGrid.x) <= storedData.RuneRange && CanAttackTile(tile.IndexInGrid))
                     {
 
