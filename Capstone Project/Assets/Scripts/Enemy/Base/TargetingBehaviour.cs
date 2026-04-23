@@ -172,6 +172,8 @@ public class TargetingBehaviour : MonoBehaviour
     /// <returns></returns>
     private bool HasLineOfSight(Vector2Int enemyTile, bool checkOtherPath)
     {
+        reachedTheEnd = false;
+
         //Find distance away
         int xDistance = Mathf.Abs(enemyTile.x - GridManager.playerPosition.x); 
         int yDistance = Mathf.Abs(enemyTile.y - GridManager.playerPosition.y);
