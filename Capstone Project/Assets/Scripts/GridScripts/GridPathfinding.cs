@@ -293,8 +293,10 @@ public class GridPathfinding : MonoBehaviour
                     }
                 }
 
-                nextPosition = nextPos[gridDirections.Count - 1 - i];
             }
+
+            nextPosition = nextPos[gridDirections.Count - 1 - i];
+
             isMoving = true;
             enemyWalkingSFX.start();
             //Loops until they finish moving to the adjacent tile
@@ -307,22 +309,22 @@ public class GridPathfinding : MonoBehaviour
                     GridManager.MoveToTile(myPosition, nextPosition, eType);
                     myPosition = nextPosition;
 
-                    foreach (WindCurrentTracker tracker in trackers)
-                    {
+                    //foreach (WindCurrentTracker tracker in trackers)
+                    //{
 
-                        if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[myPosition.x, myPosition.y]))
-                        {
+                    //    if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[myPosition.x, myPosition.y]))
+                    //    {
 
-                            this.GetComponent<Enemy>().Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
+                    //        this.GetComponent<Enemy>().Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
 
-                            tracker.SendThroughWindCurrent
-                            (tracker.WindCurrentTiles.IndexOf(GridManager.combatGrid[myPosition.x, myPosition.y]), this.GetComponent<Enemy>());
+                    //        tracker.SendThroughWindCurrent
+                    //        (tracker.WindCurrentTiles.IndexOf(GridManager.combatGrid[myPosition.x, myPosition.y]), this.GetComponent<Enemy>());
 
-                            yield break;
+                    //        yield break;
 
-                        }
+                    //    }
 
-                    }
+                    //}
 
                 }
 
