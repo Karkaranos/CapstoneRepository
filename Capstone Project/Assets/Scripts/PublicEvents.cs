@@ -75,6 +75,8 @@ public static class PublicEvents
 
     public static Action NewLevel;
 
+    public static Action ReadyClicked;
+
     public static Action<int> LoadingGrid;
 
 

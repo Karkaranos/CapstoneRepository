@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1681029667372873571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7929033254074697976
 Transform:
   m_ObjectHideFlags: 0
@@ -503,8 +503,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousMenu: {fileID: 0}
-  defaultSelectedGO: {fileID: 8625657188380489015}
+  startingSelectedGO: {fileID: 0}
   isActiveMenu: 0
+  timeline: {fileID: 0}
 --- !u!1 &8625657188380489015
 GameObject:
   m_ObjectHideFlags: 0

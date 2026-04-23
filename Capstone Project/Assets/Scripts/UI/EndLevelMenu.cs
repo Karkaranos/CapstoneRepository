@@ -43,12 +43,19 @@ public class EndLevelMenu : MonoBehaviour
     /// <summary>
     /// Toggles ig the EndMenuUi is on or off 
     /// </summary>
-    public void EnableEndMenuUi(bool win)
+    public void EnableEndMenuUi(bool win, bool delay = true)
     {
         if (!AnyMenuOpen() && !endCalled)
         {
             endCalled = true;
-            StartCoroutine(DelayedPopup(win));
+            if (delay)
+            {
+                StartCoroutine(DelayedPopup(win));
+            }
+            else
+            {
+                InstantPopup(win);
+            }
         }
     }
 
@@ -85,6 +92,39 @@ public class EndLevelMenu : MonoBehaviour
 
         endCalled = false;
     }
+
+    /// <summary>
+    /// Used to call the end level menu without a wait/delay
+    /// </summary>
+    /// <param name="won"></param>
+    private void InstantPopup(bool won)
+    {
+        if (won)
+        {
+            levelsWon++;
+            if (IsDemo && levelsWon == 2)
+            {
+                demoMenu.SetActive(true);
+            }
+            else
+            {
+                WinMenu.SetActive(true);
+            }
+
+
+        }
+        else
+        {
+            LoseMenu.SetActive(true);
+        }
+        if (!WinMenu.activeSelf || !LoseMenu.activeSelf || !demoMenu.activeSelf)
+        {
+            FindFirstObjectByType<TransitionManager>().LevelToEndScreen();
+        }
+
+        endCalled = false;
+    }
+
 
     /// <summary>
     /// Checks if a menu has been activated. Returns false if none are

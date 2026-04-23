@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
+using System.Collections;
 
 public class SkillAndArtifactManager : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     private GameObject cursorBoxPrefab;
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
+
 
     #endregion
 
@@ -181,6 +183,7 @@ public class SkillAndArtifactManager : MonoBehaviour
 
         continueButton.interactable = false;
         FindFirstObjectByType<TransitionManager>().LevelTransition();
+        PublicEvents.ReadyClicked.Invoke();
     }
 
     /// <summary>

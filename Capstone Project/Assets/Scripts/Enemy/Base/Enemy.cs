@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 
     public enum DamageType
     {
-        Lightning, Wind, None
+        Lightning, Wind, Bush, ElectricTile, None
     }
 
 
@@ -265,7 +265,7 @@ public class Enemy : MonoBehaviour
             
             if (currentHealth <= 0)
             {
-                EnemyHandler.Instance.RemoveEnemy(this);
+                EnemyHandler.Instance.RemoveEnemy(this, dType);
                 await Task.Delay(500);
                 Die();
             }
