@@ -82,11 +82,6 @@ public class SkillAndArtifactManager : MonoBehaviour
         MasterBus = RuntimeManager.GetBus("Bus:/");
     }
 
-    void Start()
-    {
-       
-    }
-
     /// <summary>
     /// Updates whether or not the player can move on from the menu
     /// </summary>
