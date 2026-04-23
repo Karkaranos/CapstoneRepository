@@ -96,7 +96,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 9064108291445684985}
           m_TargetAssemblyTypeName: NotebookArtifactNodeBehavior, Assembly-CSharp
-          m_MethodName: SpawnSpellNode
+          m_MethodName: SpawnArtifactNode
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 4191431516503350452, guid: 580e6e866ece32e4dae5bf5a04d1d26e, type: 3}
@@ -2390,7 +2390,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2288849521929039838}
           m_TargetAssemblyTypeName: NotebookArtifactNodeBehavior, Assembly-CSharp
-          m_MethodName: SpawnSpellNode
+          m_MethodName: SpawnArtifactNode
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 6984253774907990697, guid: a6ab4e4b16407254cb1724ed90454fb1, type: 3}
@@ -2737,9 +2737,9 @@ RectTransform:
   - {fileID: 3404522927973107169}
   m_Father: {fileID: 7701247186905035375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 170, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8916118591273650516
@@ -2936,7 +2936,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2905743689913782624
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3576,9 +3576,9 @@ RectTransform:
   - {fileID: 3888943572650262578}
   m_Father: {fileID: 7701247186905035375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 290, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3451102578312751627
@@ -5050,9 +5050,9 @@ RectTransform:
   - {fileID: 865993234883468375}
   m_Father: {fileID: 7701247186905035375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &381539614626760500
@@ -5731,7 +5731,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6971118396752477902}
           m_TargetAssemblyTypeName: NotebookArtifactNodeBehavior, Assembly-CSharp
-          m_MethodName: SpawnSpellNode
+          m_MethodName: SpawnArtifactNode
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 3846563480546867147, guid: 14cf3319fe3c74b489b0ad8d04843a55, type: 3}
@@ -7350,7 +7350,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 8823810504732758030}
           m_TargetAssemblyTypeName: NotebookArtifactNodeBehavior, Assembly-CSharp
-          m_MethodName: SpawnSpellNode
+          m_MethodName: SpawnArtifactNode
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 1904053401135869591, guid: 80486f0f2d5c56f4299db513c740e4ce, type: 3}
@@ -11189,7 +11189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &765472690042855582
 RectTransform:
   m_ObjectHideFlags: 0

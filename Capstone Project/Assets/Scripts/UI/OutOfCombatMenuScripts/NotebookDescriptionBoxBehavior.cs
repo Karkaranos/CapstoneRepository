@@ -39,10 +39,15 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
         damageText.text = "Damage: " + (int)(nsnb.runeData.RuneDamage * (nsnb.runeData.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
                 : FindFirstObjectByType<PlayerStats>().WindAttackMultiplier));
 
-        costText.text = "Cost: " + nsnb.runeData.RuneActionPoints;
         descriptionText.text = nsnb.runeData.RuneDescription;
-        spellExampleImage.sprite = nsnb.runeData.runeExampleImage;
 
+        //null checks because artifacts also use this script and they dont thave these
+        if (costText != null) {
+            costText.text = "Cost: " + nsnb.runeData.RuneActionPoints;
+        }
+        if (spellExampleImage != null) {
+            spellExampleImage.sprite = nsnb.runeData.runeExampleImage;
+        }
 
         // setting up the pips
         foreach (GameObject pip in pips) { 
