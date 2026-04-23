@@ -278,6 +278,8 @@ public class GridPathfinding : MonoBehaviour
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
+
+            //evil evil happenings i'm sorry
             foreach (TileBehaviour tile in GridManager.combatGrid)
             {
                 if (Mathf.Approximately(tile.transform.position.x, newPositions[i].x) &&
@@ -288,6 +290,8 @@ public class GridPathfinding : MonoBehaviour
                     {
                         if (tile.GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b"))
                         {
+                            EndOfMoveToTile();
+
                             yield break;
                         }
                     }
@@ -309,22 +313,22 @@ public class GridPathfinding : MonoBehaviour
                     GridManager.MoveToTile(myPosition, nextPosition, eType);
                     myPosition = nextPosition;
 
-                    //foreach (WindCurrentTracker tracker in trackers)
-                    //{
+                    foreach (WindCurrentTracker tracker in trackers)
+                    {
 
-                    //    if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[myPosition.x, myPosition.y]))
-                    //    {
+                        if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[myPosition.x, myPosition.y]))
+                        {
+                            this.GetComponent<Enemy>().Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
 
-                    //        this.GetComponent<Enemy>().Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
+                            tracker.SendThroughWindCurrent
+                            (tracker.WindCurrentTiles.IndexOf(GridManager.combatGrid[myPosition.x, myPosition.y]), this.GetComponent<Enemy>());
 
-                    //        tracker.SendThroughWindCurrent
-                    //        (tracker.WindCurrentTiles.IndexOf(GridManager.combatGrid[myPosition.x, myPosition.y]), this.GetComponent<Enemy>());
+                            EndOfMoveToTile();
 
-                    //        yield break;
+                            yield break;
+                        }
 
-                    //    }
-
-                    //}
+                    }
 
                 }
 
@@ -343,6 +347,15 @@ public class GridPathfinding : MonoBehaviour
             }
         }
 
+        EndOfMoveToTile();
+    }
+
+    /// <summary>
+    /// ends the enemy's animations
+    /// moved to its own function to avoid some clutter
+    /// </summary>
+    private void EndOfMoveToTile()
+    {
         enemyWalkingSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
         if (GetComponent<MeleeEnemy>() != null)
