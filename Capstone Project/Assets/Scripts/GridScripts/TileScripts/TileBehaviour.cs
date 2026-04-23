@@ -286,7 +286,7 @@ public class TileBehaviour : MonoBehaviour
     public void ApplyTileEffects() {
         if (tileType == TileType.Water && isElectrified) 
         {
-            DamageEntity(damageWhenElectrified);
+            DamageEntity(damageWhenElectrified, true);
         }
     }
 
@@ -306,7 +306,7 @@ public class TileBehaviour : MonoBehaviour
 
         if (tileType == TileType.Water && isElectrified)
         {
-            DamageEntity(damageWhenElectrified);
+            DamageEntity(damageWhenElectrified, true);
             turnsSinceElectrification++;
             if (turnsSinceElectrification >= electrificationDuration)
             {
@@ -356,7 +356,7 @@ public class TileBehaviour : MonoBehaviour
     /// applys the damage to the entities
     /// </summary>
     /// <param name="amount"></param>
-    public void DamageEntity(int amount) {
+    public void DamageEntity(int amount, bool isElectric) {
         //calls the player damage
         if (ObjectOnTile != null) {
             if (ObjectOnTile.GetComponent<PlayerBehavior>() != null)
