@@ -184,7 +184,7 @@ public class EnemyHandler : MonoBehaviour
     /// Checks if all enemies are dead if they are end battle
     /// </summary>
     /// <param name="enemy"></param>
-    public void RemoveEnemy(Enemy enemy)
+    public void RemoveEnemy(Enemy enemy, Enemy.DamageType dType)
     {
         bool nullcheck = false;
         for (int i = 0; i < enemies.Count; i++)
@@ -211,7 +211,8 @@ public class EnemyHandler : MonoBehaviour
             EndLevelMenu endLevelMenu = FindFirstObjectByType<EndLevelMenu>();
             //endLevelMenu.SetText("You Beat the Level!");
             //endLevelMenu.SetNextLevelButton(true);
-            endLevelMenu.EnableEndMenuUi(true);
+            bool callInstant = (dType == Enemy.DamageType.Lightning || dType == Enemy.DamageType.Wind);
+            endLevelMenu.EnableEndMenuUi(true, callInstant);
         }
     }
 
