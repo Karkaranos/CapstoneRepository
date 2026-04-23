@@ -33,12 +33,18 @@ public class CreditsMenuBehavior : MonoBehaviour
         {
             startPos = rectTransform.localPosition;
             scrollbar.gameObject.SetActive(false);
-            StartCoroutine(AutoScroll());
         }
         else {
             startPos = rectTransform.position;
         }
 
+    }
+
+    /// <summary>
+    /// when this function is called it starts the Acto scroll of the credits menu
+    /// </summary>
+    public void StartAutoScrolling() {
+        StartCoroutine(AutoScroll());
     }
 
     /// <summary>
@@ -50,6 +56,10 @@ public class CreditsMenuBehavior : MonoBehaviour
         rectTransform.position = newPos;
     }
 
+    /// <summary>
+    /// this is the functionality of the auto scroll behavior
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator AutoScroll()
     {
         print(startPos + " " + endPos);
