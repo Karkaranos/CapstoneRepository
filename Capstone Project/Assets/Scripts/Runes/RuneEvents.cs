@@ -1219,12 +1219,12 @@ public class RuneEvents : MonoBehaviour
 
         int timer = 0;
 
-        while (timer <= 4)
+        while (timer <= 1)
         {
 
             timer++;
 
-            if (timer == 4)
+            if (timer == 1)
             {
 
                 PublicEvents.EndCast.Invoke();
