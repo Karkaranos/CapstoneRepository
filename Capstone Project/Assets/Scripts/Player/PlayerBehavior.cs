@@ -132,6 +132,13 @@ public class PlayerBehavior : MonoBehaviour
         //PublicEvents.SelectTile += HandleTileClicked;
         TurnPublicEvents.BeginPlayerTurn += StartPlayerTurn;
         PublicEvents.MovementDirection += MoveDirection;
+        PublicEvents.TakeDamage += TakenDamage;
+    }
+
+    public void TakenDamage()
+    {
+        anim.SetBool("Idle", false);
+        anim.SetTrigger("Ouch");
     }
 
     //Sets the boolean to true when left mouse button is clicked
@@ -151,6 +158,7 @@ public class PlayerBehavior : MonoBehaviour
         //PublicEvents.SelectTile -= HandleTileClicked;
         TurnPublicEvents.BeginPlayerTurn -= StartPlayerTurn;
         PublicEvents.MovementDirection -= MoveDirection;
+        PublicEvents.TakeDamage -= TakenDamage;
     }
 
     /// <summary>

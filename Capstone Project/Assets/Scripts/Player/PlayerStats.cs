@@ -48,6 +48,7 @@ public class PlayerStats : MonoBehaviour
     [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private GameObject statChange;
     [SerializeField] private GameObject UICanvas;
+    [SerializeField] private PlayerBehavior pb;
 
     private int tempHealth;
 
@@ -118,6 +119,8 @@ public class PlayerStats : MonoBehaviour
         ArtifactManager.SetPlayerReference(this);
         MarkManager.SetPlayer(this);
 
+        pb = FindAnyObjectByType<PlayerBehavior>(FindObjectsInactive.Exclude);
+
         await Task.Delay(1000);
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
         turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
@@ -128,11 +131,13 @@ public class PlayerStats : MonoBehaviour
     {
         PublicEvents.NewLevel += SetTurnIndicator;
         PublicEvents.NewPlayerCreated += PlayerSpawned;
+        PublicEvents.TakeDamage += pb.TakenDamage;
     }
 
     private void OnDisable()
     {
         PublicEvents.NewLevel -= SetTurnIndicator;
+        PublicEvents.TakeDamage -= pb.TakenDamage;
     }
 
     /// <summary>
@@ -168,6 +173,7 @@ public class PlayerStats : MonoBehaviour
 
         if (!TakesDamage)
         {
+            pb.TakenDamage();
             return;
         }
 
@@ -196,6 +202,7 @@ public class PlayerStats : MonoBehaviour
 
         if (playerSprite != null)
         {
+            pb.TakenDamage();
             playerSprite.material = flashColor;
             FMODUnity.RuntimeManager.PlayOneShot("event:/EnemyDamage");
         }
