@@ -110,6 +110,10 @@ public class RuneData : ScriptableObject
     //Drop the image for the rune in here
     public Sprite runeImage;
 
+    [ShowIf(nameof(currentInspectorShowing), Data.VFX)]
+    //Drop the image for the rune in here
+    public Sprite runeExampleImage;
+
     #endregion VFX
 
 
