@@ -6,6 +6,7 @@ Brief Description : for updating the description box in the notebook in the in c
 ***************************************************/
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NotebookDescriptionBoxBehavior : MonoBehaviour
 { 
@@ -13,7 +14,9 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
     [SerializeField] private GameObject[] pips;
     [SerializeField] private TextMeshProUGUI rangeText;
     [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private TextMeshProUGUI descriptionText;
+    [SerializeField] private Image spellExampleImage;
 
     [SerializeField] private NotebookSpellNodeBehavior nsnb;
 
@@ -35,7 +38,16 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
         rangeText.text = "Range: " + nsnb.runeData.RuneRange;
         damageText.text = "Damage: " + (int)(nsnb.runeData.RuneDamage * (nsnb.runeData.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
                 : FindFirstObjectByType<PlayerStats>().WindAttackMultiplier));
+
         descriptionText.text = nsnb.runeData.RuneDescription;
+
+        //null checks because artifacts also use this script and they dont thave these
+        if (costText != null) {
+            costText.text = "Cost: " + nsnb.runeData.RuneActionPoints;
+        }
+        if (spellExampleImage != null) {
+            spellExampleImage.sprite = nsnb.runeData.runeExampleImage;
+        }
 
         // setting up the pips
         foreach (GameObject pip in pips) { 
