@@ -127,17 +127,21 @@ public class PlayerStats : MonoBehaviour
         turnIndicator.SetActive(true);
     }
 
+    /// <summary>
+    /// Enables NewLevel Event and NewPlayerCreated
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.NewLevel += SetTurnIndicator;
         PublicEvents.NewPlayerCreated += PlayerSpawned;
-        PublicEvents.TakeDamage += pb.TakenDamage;
     }
 
+    /// <summary>
+    /// Disables New Level Event
+    /// </summary>
     private void OnDisable()
     {
         PublicEvents.NewLevel -= SetTurnIndicator;
-        PublicEvents.TakeDamage -= pb.TakenDamage;
     }
 
     /// <summary>
@@ -202,8 +206,9 @@ public class PlayerStats : MonoBehaviour
 
         if (playerSprite != null)
         {
+            pb = FindFirstObjectByType<PlayerBehavior>();
             pb.TakenDamage();
-            playerSprite.material = flashColor;
+            //playerSprite.material = flashColor;
             FMODUnity.RuntimeManager.PlayOneShot("event:/EnemyDamage");
         }
 
@@ -356,6 +361,9 @@ public class PlayerStats : MonoBehaviour
         endLevelMenu.EnableEndMenuUi(false);
     }
 
+    /// <summary>
+    /// Finds the player and sets the turn to whomever finishes their actions
+    /// </summary>
     private void SetTurnIndicator()
     {
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;

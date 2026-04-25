@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,9 @@ public class PlayerBehavior : MonoBehaviour
     private Animator anim;
     [SerializeField, Tooltip("A reference to the object the Animator is on")] private GameObject bookanimObj;
     private Animator bookanim;
+    [SerializeField] private bool IsWalking;
+    [SerializeField] private bool IsIdle;
+    [SerializeField] private bool IsDamaged;
 
     [Tooltip("references the player's game object")]
     public GameObject player;
@@ -135,10 +139,22 @@ public class PlayerBehavior : MonoBehaviour
         PublicEvents.TakeDamage += TakenDamage;
     }
 
-    public void TakenDamage()
+
+    /// <summary>
+    /// Checks to see if player is taking damage, and runs a check to see if animations can play
+    /// </summary>
+    public async void TakenDamage()
     {
+        IsDamaged = true;
+        IsWalking = anim.GetBool("Walk");
+        IsIdle = anim.GetBool("Idle");
+        anim.SetBool("Walk" , false);
         anim.SetBool("Idle", false);
         anim.SetTrigger("Ouch");
+        await Task.Delay(1100);
+        anim.SetBool("Walk", IsWalking);
+        anim.SetBool("Idle", IsIdle);
+        IsDamaged = false;
     }
 
     //Sets the boolean to true when left mouse button is clicked
@@ -399,6 +415,7 @@ public class PlayerBehavior : MonoBehaviour
 
         walkInstance = FMODUnity.RuntimeManager.CreateInstance("event:/AlmondWalk");
         walkInstance.start();
+        anim.SetBool("Walk", true);
 
         for (int i = 0; i < movementPositions.Count; ++i)
         {
@@ -419,7 +436,7 @@ public class PlayerBehavior : MonoBehaviour
 
             while (isMoving)
             {
-                anim.SetBool("Walk", true);
+                //anim.SetBool("Walk", true);
 
                 transform.position = Vector3.MoveTowards(transform.position, movementPositions[i], .1f);
                 if (transform.position == movementPositions[i])
@@ -455,8 +472,17 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
-        anim.SetBool("Walk", false);
-        anim.SetBool("Idle", true);
+        if (IsDamaged)
+        {
+            IsWalking = false;
+            IsIdle = true;
+        }
+        else
+        {
+            anim.SetBool("Walk", false);
+            anim.SetBool("Idle", true);
+        }
+            
 
         walkInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         walkInstance.release();
