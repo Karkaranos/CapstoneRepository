@@ -30,9 +30,14 @@ public class SpellDisplayBoxBehavior : MonoBehaviour
         if (icsb.rune != null) {
             PopOut();
             spellName.text = icsb.rune.name;
-            spellDamage.text = "Damage: " + (int)(icsb.rune.RuneDamage * 
-                (icsb.rune.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier 
+            float f = (icsb.rune.RuneDamage *
+                (icsb.rune.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
                 : FindFirstObjectByType<PlayerStats>().WindAttackMultiplier));
+            if (f % 1 != 0)
+            {
+                f += 1;
+            }
+            spellDamage.text = "Damage: " + (int)f;
             spellDescription.text = icsb.rune.RuneDescription;
 
             int attackPoints = icsb.rune.RuneActionPoints;
