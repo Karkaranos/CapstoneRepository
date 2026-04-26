@@ -9,10 +9,12 @@ External Resources :
 	***************************************************/
 
 using NaughtyAttributes;
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class RuneSelectionMenu : MonoBehaviour
 {
@@ -97,9 +99,27 @@ public class RuneSelectionMenu : MonoBehaviour
 
             buttons[index].SetActive(true);
 
+
             //Links rune effect to button based on rune type
-            buttons[index].GetComponentInChildren<Button>().onClick.AddListener(() => PublicEvents.RuneSelected.Invoke
-            (skillAndEquipManager.equippedSpells[index]));
+            //creates a new event trigger to add to the container
+            EventTrigger trigger = containers[index].GetComponent<EventTrigger>();
+            EventTrigger.Entry tree = new()
+            {
+                eventID = EventTriggerType.PointerClick,
+                callback = new EventTrigger.TriggerEvent()
+            };
+
+            //stops weird garbage collection
+            int i = index;
+
+            //i fucking hate this syntax
+            tree.callback.AddListener((eventData) => 
+            {
+                PublicEvents.RuneSelected.Invoke(skillAndEquipManager.equippedSpells[i]);
+                FindAnyObjectByType<UIAudioManager>().PlayUIClick();
+            });
+
+            trigger.triggers.Add(tree);
 
         }
 
