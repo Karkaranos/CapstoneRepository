@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.Animations;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class TileBehaviour : MonoBehaviour
 {
@@ -350,6 +351,29 @@ public class TileBehaviour : MonoBehaviour
     {
         color.a = .5f;
         tileHighlight.GetComponent<SpriteRenderer>().color = color;
+    }
+
+    public void SetBlinking()
+    {
+        StartCoroutine(ShowBlinking());
+    }
+
+    [HideInInspector] public bool Blinking;
+    IEnumerator ShowBlinking()
+    {
+
+        Blinking = true; 
+
+        while(Blinking)
+        {
+            ShowHighlight(true);
+            yield return new WaitForSeconds(1f);
+            ShowHighlight(false);
+            yield return new WaitForSeconds(1f);
+        }
+
+        yield return null;
+       
     }
 
     /// <summary>

@@ -297,6 +297,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public static void RemoveHighlight() {
         foreach (TileBehaviour tile in combatGrid) {
+            tile.Blinking = false;
             tile.ShowHighlight(false);
         }
     }
