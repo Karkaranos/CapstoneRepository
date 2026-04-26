@@ -283,7 +283,6 @@ public class GridPathfinding : MonoBehaviour
             foreach (TileBehaviour tile in GridManager.combatGrid)
             {
                 if (Mathf.Approximately(tile.transform.position.x, newPositions[i].x) &&
-                Mathf.Approximately(tile.transform.position.y, newPositions[i].y) &&
                 Mathf.Approximately(tile.transform.position.z, newPositions[i].z))
                 {
                     if (tile.GetComponentInChildren<VFXBehavior>())
