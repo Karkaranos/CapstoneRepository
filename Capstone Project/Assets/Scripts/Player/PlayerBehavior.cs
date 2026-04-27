@@ -147,15 +147,14 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (IsDamaged == true)
         {
-            return;
+            IsWalking = anim.GetBool("Walk");
+            IsIdle = anim.GetBool("Idle");
+            anim.SetBool("Walk", false);
+            anim.SetBool("Idle", false);
         }
         IsDamaged = true;
-        IsWalking = anim.GetBool("Walk");
-        IsIdle = anim.GetBool("Idle");
-        anim.SetBool("Walk" , false);
-        anim.SetBool("Idle", false);
         anim.SetTrigger("Ouch");
-        await Task.Delay(800);
+        await Task.Delay(733);
         anim.SetBool("Walk", IsWalking);
         anim.SetBool("Idle", IsIdle);
         IsDamaged = false;
