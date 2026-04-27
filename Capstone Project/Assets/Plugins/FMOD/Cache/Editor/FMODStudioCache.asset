@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9145937485470865078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LoseJingle
+  m_EditorClassIdentifier: 
+  Path: event:/LoseJingle
+  Guid:
+    Data1: -1326223010
+    Data2: 1155334747
+    Data3: -892339579
+    Data4: 453999834
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8376
 --- !u!114 &-8596654080405250210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +337,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1486
   Exists: 1
+--- !u!114 &-5905922235915978799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BushSound
+  m_EditorClassIdentifier: 
+  Path: event:/BushSound
+  Guid:
+    Data1: -1386977953
+    Data2: 1296209879
+    Data3: -452126319
+    Data4: 810592855
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2038
 --- !u!114 &-5748003415306049689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,11 +460,38 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639125328878139298
+  lastModified: 639129111902619634
   FileSizes:
   - Name: Desktop
-    Value: 2980
+    Value: 3120
   Exists: 1
+--- !u!114 &-4459629830379835679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/WinJingle
+  m_EditorClassIdentifier: 
+  Path: event:/WinJingle
+  Guid:
+    Data1: 1260547953
+    Data2: 1102755148
+    Data3: -115898198
+    Data4: -1339169817
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4056
 --- !u!114 &-4430740537799125941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,10 +750,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639125328878224123
+  lastModified: 639129111902711920
   FileSizes:
   - Name: Desktop
-    Value: 2066528
+    Value: 2285152
   Exists: 1
 --- !u!114 &-1126716200791759097
 MonoBehaviour:
@@ -689,7 +770,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639125328878326084
+  lastModified: 639129111902822321
   FileSizes:
   - Name: Desktop
     Value: 942016
@@ -747,7 +828,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1300
+  Length: 1380
 --- !u!114 &-212464337418584444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,12 +923,15 @@ MonoBehaviour:
   - {fileID: 102808505540346515}
   - {fileID: -2397073318968904563}
   - {fileID: -7664149575102777489}
+  - {fileID: -9145937485470865078}
+  - {fileID: -5905922235915978799}
+  - {fileID: -4459629830379835679}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5972195196826600042}
   StringsBanks:
   - {fileID: -4550152728752857814}
-  cacheTime: 639125328878326084
+  cacheTime: 639129111902822321
   cacheVersion: 131633
 --- !u!114 &102808505540346515
 MonoBehaviour:
@@ -1154,7 +1238,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639125328878109136
+  lastModified: 639129111902585574
   FileSizes:
   - Name: Desktop
     Value: 5390560

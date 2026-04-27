@@ -49,7 +49,7 @@ public class UIAudioManager : AudioManager
     private void Awake()
     {
         Instance = this;
-        _masterBus = RuntimeManager.GetBus("bus:/Master");
+        _masterBus = RuntimeManager.GetBus("bus:/");
     }
 
     #region UI_FUNCTIONS
