@@ -581,7 +581,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     }
 
     [HideInInspector] public TileBehaviour selectedTile;
-    Enemy selectedEnemy;
+    Enemy[] selectedEnemies;
     PlayerBehavior selectedPlayer;
 
     /// <summary>
@@ -590,7 +590,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="tile"> the tile that the player has selected </param>
     /// <param name="enemy"> the enemy that the player has selected </param>
     /// <param name="player"> for when the player is targeting themself, for whatever reason </param>
-    public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
+    public void TargetSelection(TileBehaviour tile, Enemy[] enemies, PlayerBehavior player)
     {
         
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !GetComponent<RuneEvents>().Pathing)
@@ -604,7 +604,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
             SetHighlight(true);
             
             selectedTile = tile;
-            selectedEnemy = enemy;
+            selectedEnemies = enemies;
+
             selectedPlayer = player;
 
             selectedTile.SetHighlightColor(DefaultHighlight);
@@ -791,13 +792,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
             case (RuneType.Lightning):
 
                 PublicEvents.HideEnemyStatbox.Invoke();
-                PublicEvents.LightningCast.Invoke(storedData, selectedTile, selectedEnemy, selectedPlayer);
+                PublicEvents.LightningCast.Invoke(storedData, selectedTile, selectedEnemies, selectedPlayer);
                 break;
 
             case (RuneType.Wind):
 
                 PublicEvents.HideEnemyStatbox.Invoke();
-                PublicEvents.WindCast.Invoke(storedData, selectedTile, selectedEnemy, selectedPlayer);
+                PublicEvents.WindCast.Invoke(storedData, selectedTile, selectedEnemies, selectedPlayer);
                 break;
 
             default:
