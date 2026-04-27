@@ -18,6 +18,12 @@ public class SettingsMenuBehavior : MenuBehavior
     [SerializeField] private TMP_InputField MusicInputFieldText;
     [SerializeField] private Slider MusicSlider;
 
+    [Range(0, 100)] public int MasterVolumePercentage;
+    [SerializeField] private TMP_InputField MasterInputFieldText;
+    [SerializeField] private Slider MasterSlider;
+
+    [SerializeField] private Toggle fullscreenToggle;
+
     [SerializeField] private Bus masterBus;
     [SerializeField] private Bus soundEffectsBus;
     [SerializeField] private Bus backgroundMusicBus;
@@ -28,6 +34,8 @@ public class SettingsMenuBehavior : MenuBehavior
         GetBusses();
         UpdateSFXVolume("50");
         UpdateMusicVolume("50");
+        UpdateMasterVolume("50");
+        fullscreenToggle.isOn = Screen.fullScreen;
     }
 
     /// <summary>
@@ -106,6 +114,52 @@ public class SettingsMenuBehavior : MenuBehavior
     }
 
     /// <summary>
+    /// updates the master volume from the input field
+    /// </summary>
+    /// <param name="s"></param>
+    public void UpdateMasterVolume(string s)
+    {
+        if (s.EndsWith("%"))
+        {
+            s = s.Substring(0, s.Length - 1);
+        }
+
+        try
+        {
+            int percentage = int.Parse(s);
+
+
+            MasterVolumePercentage = percentage;
+
+            MasterInputFieldText.text = percentage.ToString() + "%";
+            MasterSlider.value = ((float)percentage / 100);
+            masterBus.setVolume(MasterVolumePercentage / 100f);
+        }
+        catch
+        {
+            MasterInputFieldText.text = "";
+
+            MasterInputFieldText.text = MasterVolumePercentage.ToString() + "%";
+
+            MasterSlider.value = ((float)MasterVolumePercentage / 100);
+        }
+    }
+
+    /// <summary>
+    /// updates the sfx volume from the slider
+    /// </summary>
+    public void UpdateMasterFromSlider()
+    {
+        int percent = Mathf.RoundToInt(MasterSlider.value * 100);
+
+        MasterVolumePercentage = percent;
+
+        MasterInputFieldText.text = percent.ToString() + "%";
+
+        masterBus.setVolume(MasterVolumePercentage / 100f);
+    }
+
+    /// <summary>
     /// updates the music volume when the player inputs in the input field
     /// </summary>
     /// <param name="s"></param>
@@ -165,5 +219,10 @@ public class SettingsMenuBehavior : MenuBehavior
             Debug.Log("playing sfx");
             canPlaySfx = false;
         }
+    }
+
+    public void ToggleFullscreen(bool toggle)
+    {
+        Screen.fullScreen = toggle;
     }
 }
