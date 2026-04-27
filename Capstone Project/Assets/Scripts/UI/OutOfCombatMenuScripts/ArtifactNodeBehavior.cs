@@ -124,7 +124,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
 
                     UIAudioManager.Instance.UIDrop(transform);
 
-                    transform.SetParent(slot.transform);
+                    //transform.SetParent(slot.transform);
                     PublicEvents.AddToStatBox(artifactData);
                 }
                 else
@@ -139,7 +139,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
 
                     UIAudioManager.Instance.UIDrop(transform);
 
-                    transform.SetParent(slot.transform);
+                    //transform.SetParent(slot.transform);
                     PublicEvents.RemoveFromStatBox(artifactData);
                 }
 
