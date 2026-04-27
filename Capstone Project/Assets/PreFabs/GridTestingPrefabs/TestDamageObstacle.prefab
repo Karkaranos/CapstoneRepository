@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5326473425098927898}
   - component: {fileID: 4973421097917060709}
   - component: {fileID: 4629567560696819192}
+  - component: {fileID: 3044582590324964579}
   m_Layer: 6
   m_Name: TestDamageObstacle
   m_TagString: Untagged
@@ -69,6 +70,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canDamage: 0
   hazardDamage: 10
+--- !u!114 &3044582590324964579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848019120397988857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1386977953
+      Data2: 1296209879
+      Data3: -452126319
+      Data4: 810592855
+    Path: event:/BushSound
+  Event: 
+  EventPlayTrigger: 3
+  EventStopTrigger: 4
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &5295814169804927015
 GameObject:
   m_ObjectHideFlags: 0

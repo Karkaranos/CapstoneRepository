@@ -11,6 +11,8 @@ using EventReference = FMODUnity.EventReference;
 using System.Collections.Generic;
 using UnityEngine;
 using static SkillTreeNode;
+using UnityEngine.Playables;
+
 
 public class UIAudioManager : AudioManager
 {
@@ -32,6 +34,11 @@ public class UIAudioManager : AudioManager
 
     [SerializeField] private EventReference lockedSpellCLick;
 
+    [SerializeField] private FMOD.Studio.Bus _masterBus;
+
+    [SerializeField] private PlayableDirector timelineMainMenu;
+
+
     //NodeStatus _nodeStatus = NodeStatus.Purchased;
 
 
@@ -42,6 +49,7 @@ public class UIAudioManager : AudioManager
     private void Awake()
     {
         Instance = this;
+        _masterBus = RuntimeManager.GetBus("bus:/");
     }
 
     #region UI_FUNCTIONS
@@ -99,6 +107,12 @@ public class UIAudioManager : AudioManager
     {
         CreateEventInstance(spellDrop);
         PlayOneShot(spellDrop, this.transform.position);
+    }
+
+    public void StopSounds()
+    {
+        timelineMainMenu.Stop();
+        _masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     public void UIPickUp(Transform target)
