@@ -151,7 +151,7 @@ public class PlayerBehavior : MonoBehaviour
         anim.SetBool("Walk" , false);
         anim.SetBool("Idle", false);
         anim.SetTrigger("Ouch");
-        await Task.Delay(1100);
+        await Task.Delay(800);
         anim.SetBool("Walk", IsWalking);
         anim.SetBool("Idle", IsIdle);
         IsDamaged = false;
