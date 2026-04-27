@@ -145,6 +145,10 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     public async void TakenDamage()
     {
+        if (IsDamaged == true)
+        {
+            return;
+        }
         IsDamaged = true;
         IsWalking = anim.GetBool("Walk");
         IsIdle = anim.GetBool("Idle");
