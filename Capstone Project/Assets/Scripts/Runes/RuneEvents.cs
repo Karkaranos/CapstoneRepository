@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Brad Dixon, Aidan Ratcliffe
 Date Created : 	10/07/2025
-Date Last Modified : 04/07/2026 (Jay Embry)
+Date Last Modified : 04/28/2026 (Jay Embry)
 Brief Description : Contains rune types and effects
                     I promise that I'll clean this up sometime soon. I'm so sorry
 External Resources : 	
@@ -17,6 +17,7 @@ using FMOD.Studio;
 using FMODUnity;
 using EventReference = FMODUnity.EventReference;
 using Unity.VisualScripting;
+using System.Linq;
 
 
 public class RuneEvents : MonoBehaviour
@@ -183,7 +184,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy[] enemies, PlayerBehavior player)
+    public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
         //this should hopefully keep the player from spamming spells
         if (Casting)
@@ -212,6 +213,7 @@ public class RuneEvents : MonoBehaviour
             case (1):
 
                 Casting = true;
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("LAtk", true);
@@ -225,35 +227,27 @@ public class RuneEvents : MonoBehaviour
 
                 await Task.Delay(1200);
 
-                foreach(Enemy enemy in enemies)
+                if (enemy != null)
                 {
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
                 }
-                /*if (enemy != null)
-                {
-                    enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
-                }*/
 
                 FindAdjacentTiles(tile);
 
                 foreach(TileBehaviour adjacentTile in secondaryTargets)
                 {
-                    Enemy[] adjEnemies = adjacentTile.GetComponentsInChildren<Enemy>();
-                    foreach(Enemy enemyTwo in adjEnemies)
-                    {
-                        if(adjacentTile != tile)
-                        {
-                            adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
-                            .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
+                    adjacentTile.ElectrifyAdTiles();
 
-                            adjacentTile.ElectrifyAdTiles();
-                        }
+                    if(adjacentTile.GetComponentInChildren<Enemy>() && adjacentTile != tile)
+                    {
+                        adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType
+                        <PlayerStats>().LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
                     }
                 }
 
                 tile.ElectrifyAdTiles();
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -262,6 +256,7 @@ public class RuneEvents : MonoBehaviour
             case (2):
 
                 Casting = true;
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("LAtk", true);
@@ -279,11 +274,7 @@ public class RuneEvents : MonoBehaviour
 
                 if (tile.GetComponentInChildren<Enemy>())
                 {
-                    Enemy[] tileEnemies = tile.GetComponentsInChildren<Enemy>();
-                    foreach(Enemy enemy in tileEnemies)
-                    {
-                        enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
-                    }
+                    enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
                 }
 
                 FindLinesOfTargets(rune, tile);
@@ -316,12 +307,12 @@ public class RuneEvents : MonoBehaviour
 
                         if (target.GetComponentInChildren<Enemy>() != null)
                         {
+
                             SubtractFromDamage(rune, tile, target);
-                            Enemy[] secondarytargets = target.GetComponentsInChildren<Enemy>();
-                            foreach (Enemy target2 in secondarytargets)
-                            {
-                                target2.Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
-                            }
+                            target.GetComponentInChildren<Enemy>().Damage
+
+                            (damageDealt - subtraction, Enemy.DamageType.Lightning);
+
                         }
 
                         target.Invoke("ElectrifyAdTiles", 1.2f);
@@ -332,7 +323,6 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -341,6 +331,7 @@ public class RuneEvents : MonoBehaviour
             case (3):
 
                 Casting = true;
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("LAtk", true);
@@ -366,20 +357,8 @@ public class RuneEvents : MonoBehaviour
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
-                    Enemy[] adjEnemies = adjacentTile.GetComponentsInChildren<Enemy>();
-                    foreach(Enemy enemy in adjEnemies)
+                    if (adjacentTile.GetComponentInChildren<Enemy>())
                     {
-                        enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
-
-                        if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
-                        {
-                            SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y],
-                            adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
-                        }
-                    }
-                    /*if (adjacentTile.GetComponentInChildren<Enemy>())
-                    {
-
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                         if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
@@ -387,11 +366,9 @@ public class RuneEvents : MonoBehaviour
                             SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y],
                             adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
                         }
-
-                    }*/
+                    }
                 }
-
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -472,7 +449,6 @@ public class RuneEvents : MonoBehaviour
 
     //for lightning 2a
     float subtraction;
-
     float SubtractFromDamage(RuneData rune, TileBehaviour originalTarget, TileBehaviour nextTarget)
     {
 
@@ -511,7 +487,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy[] enemies = null, PlayerBehavior player = null)
+    public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
     {
         if(Casting)
         {
@@ -529,6 +505,8 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("WAtk", true);
                 bookanim.SetBool("Idle", false);
@@ -541,18 +519,13 @@ public class RuneEvents : MonoBehaviour
 
                 await Task.Delay(1000);
 
-                foreach(Enemy enemy in enemies)
+                if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
                 {
-                    if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
-                    {
-                        SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
-                    }
-
-                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
                 }
-                
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
