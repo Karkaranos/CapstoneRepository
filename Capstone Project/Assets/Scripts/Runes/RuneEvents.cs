@@ -183,7 +183,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy, PlayerBehavior player)
+    public async void SelectedLightningRuneCast(RuneData rune, TileBehaviour tile, Enemy[] enemies, PlayerBehavior player)
     {
         //this should hopefully keep the player from spamming spells
         if (Casting)
@@ -225,26 +225,30 @@ public class RuneEvents : MonoBehaviour
 
                 await Task.Delay(1200);
 
-                if (enemy != null)
+                foreach(Enemy enemy in enemies)
                 {
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
                 }
+                /*if (enemy != null)
+                {
+                    enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
+                }*/
 
                 FindAdjacentTiles(tile);
 
                 foreach(TileBehaviour adjacentTile in secondaryTargets)
                 {
-
-                    if(adjacentTile.GetComponentInChildren<Enemy>() != null && adjacentTile != tile)
+                    Enemy[] adjEnemies = adjacentTile.GetComponentsInChildren<Enemy>();
+                    foreach(Enemy enemyTwo in adjEnemies)
                     {
+                        if(adjacentTile != tile)
+                        {
+                            adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
+                            .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
 
-                        adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
-                        .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
-
-                        adjacentTile.ElectrifyAdTiles();
-
+                            adjacentTile.ElectrifyAdTiles();
+                        }
                     }
-
                 }
 
                 tile.ElectrifyAdTiles();
@@ -275,7 +279,11 @@ public class RuneEvents : MonoBehaviour
 
                 if (tile.GetComponentInChildren<Enemy>())
                 {
-                    tile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
+                    Enemy[] tileEnemies = tile.GetComponentsInChildren<Enemy>();
+                    foreach(Enemy enemy in tileEnemies)
+                    {
+                        enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
+                    }
                 }
 
                 FindLinesOfTargets(rune, tile);
@@ -309,7 +317,11 @@ public class RuneEvents : MonoBehaviour
                         if (target.GetComponentInChildren<Enemy>() != null)
                         {
                             SubtractFromDamage(rune, tile, target);
-                            target.GetComponentInChildren<Enemy>().Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
+                            Enemy[] secondarytargets = target.GetComponentsInChildren<Enemy>();
+                            foreach (Enemy target2 in secondarytargets)
+                            {
+                                target2.Damage(damageDealt - subtraction, Enemy.DamageType.Lightning);
+                            }
                         }
 
                         target.Invoke("ElectrifyAdTiles", 1.2f);
@@ -354,7 +366,18 @@ public class RuneEvents : MonoBehaviour
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
-                    if(adjacentTile.GetComponentInChildren<Enemy>())
+                    Enemy[] adjEnemies = adjacentTile.GetComponentsInChildren<Enemy>();
+                    foreach(Enemy enemy in adjEnemies)
+                    {
+                        enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
+
+                        if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
+                        {
+                            SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y],
+                            adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+                        }
+                    }
+                    /*if (adjacentTile.GetComponentInChildren<Enemy>())
                     {
 
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
@@ -365,7 +388,7 @@ public class RuneEvents : MonoBehaviour
                             adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
                         }
 
-                    }
+                    }*/
                 }
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
@@ -488,7 +511,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="tile"> tile that the player has selected </param>
     /// <param name="enemy"> enemy that the player has selected </param>
     /// <param name="player"> when the player has selected themself </param>
-    public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy enemy = null, PlayerBehavior player = null)
+    public async void SelectedWindRuneCast(RuneData rune, TileBehaviour tile, Enemy[] enemies = null, PlayerBehavior player = null)
     {
         if(Casting)
         {
@@ -518,12 +541,16 @@ public class RuneEvents : MonoBehaviour
 
                 await Task.Delay(1000);
 
-                if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
+                foreach(Enemy enemy in enemies)
                 {
-                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
-                }
+                    if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
+                    {
+                        SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
+                    }
 
-                enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+                    enemy.Damage(damageDealt, Enemy.DamageType.Wind);
+                }
+                
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
                 StartCoroutine(UpdatePlayerStatus());
@@ -1192,12 +1219,12 @@ public class RuneEvents : MonoBehaviour
 
         int timer = 0;
 
-        while (timer <= 4)
+        while (timer <= 1)
         {
 
             timer++;
 
-            if (timer == 4)
+            if (timer == 1)
             {
 
                 PublicEvents.EndCast.Invoke();
