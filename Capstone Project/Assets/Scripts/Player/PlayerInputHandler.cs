@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes, Jay Embry
 Date Created : 		10/27/2025
-Date Last Modified : 2/15/2026 (Jay Embry)
+Date Last Modified : 4/27/2026 (Jay Embry)
 Brief Description : Handles all of the player's inputs
 External Resources : 	
 ***************************************************/
@@ -34,6 +34,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     private Vector2 movementDirection;
 
+    RuneRangeAndTargeting runeRangeAndTargeting;
+    RuneEvents runeEvents;
+
     #endregion VARS
 
     #region INITIALIZATION
@@ -53,6 +56,8 @@ public class PlayerInputHandler : MonoBehaviour
         movePlayer = pInput.currentActionMap.FindAction("Move");
         toggleGridView = pInput.currentActionMap.FindAction("ToggleGridView");
 
+        runeRangeAndTargeting = FindFirstObjectByType<RuneRangeAndTargeting>();
+        runeEvents = FindFirstObjectByType<RuneEvents>();
 
         mousePressed = false;
         enableMovement = false;
@@ -204,13 +209,14 @@ public class PlayerInputHandler : MonoBehaviour
     /// <param name="obj"></param>
     private void MovePlayer_performed(InputAction.CallbackContext obj)
     {
-
-        if (FindFirstObjectByType<RuneEvents>())
+        if(runeRangeAndTargeting.WaitingForThePlayer && !runeEvents.WaitingOnPath)
         {
-            if (FindFirstObjectByType<RuneEvents>().WaitingOnPath)
-            {
-                IsPathing = true;
-            }
+            return;
+        }
+
+        if (runeEvents.WaitingOnPath)
+        {
+            IsPathing = true;
         }
 
         movementDirection = obj.ReadValue<Vector2>();
