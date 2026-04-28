@@ -821,7 +821,12 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="werePointsSpent"> whether or not points were spent </param>
     public void SetCastStatus(bool werePointsSpent)
     {
-        castNotCanceled = werePointsSpent;
+        if (werePointsSpent)
+        {
+            PublicEvents.RuneCast(storedData.RuneActionPoints);
+        }
+        
+        
     }
 
     /// <summary>
@@ -844,11 +849,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
         SetHighlight(false);
 
-        if (castNotCanceled)
+        /*if (castNotCanceled)
         {
             PublicEvents.RuneCast(storedData.RuneActionPoints);
             castNotCanceled = false;
-        }
+        }*/
 
         if (TurnManager.currentStatus == TurnStates.PlayerTurn)
         {
