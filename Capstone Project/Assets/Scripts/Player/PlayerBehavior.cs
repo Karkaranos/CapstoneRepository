@@ -145,6 +145,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     public async void TakenDamage()
     {
+        IsDamaged = true;
         if (IsDamaged == true)
         {
             IsWalking = anim.GetBool("Walk");
@@ -152,7 +153,6 @@ public class PlayerBehavior : MonoBehaviour
             anim.SetBool("Walk", false);
             anim.SetBool("Idle", false);
         }
-        IsDamaged = true;
         anim.SetTrigger("Ouch");
         await Task.Delay(733);
         anim.SetBool("Walk", IsWalking);
@@ -485,7 +485,7 @@ public class PlayerBehavior : MonoBehaviour
             anim.SetBool("Walk", false);
             anim.SetBool("Idle", true);
         }
-            
+
 
         walkInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         walkInstance.release();
