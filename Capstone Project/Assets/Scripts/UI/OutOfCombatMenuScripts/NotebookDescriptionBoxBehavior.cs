@@ -36,8 +36,13 @@ public class NotebookDescriptionBoxBehavior : MonoBehaviour
         nsnb = node;
         titleText.text = nsnb.runeData.name;
         rangeText.text = "Range: " + nsnb.runeData.RuneRange;
-        damageText.text = "Damage: " + (int)(nsnb.runeData.RuneDamage * (nsnb.runeData.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
+        float f = (nsnb.runeData.RuneDamage * (nsnb.runeData.TypeOfRune == RuneType.Lightning ? FindFirstObjectByType<PlayerStats>().LightningAttackMultiplier
                 : FindFirstObjectByType<PlayerStats>().WindAttackMultiplier));
+        if (f % 1 != 0)
+        {
+            f += 1;
+        }
+        damageText.text = "Damage: " + (int)f;
 
         descriptionText.text = nsnb.runeData.RuneDescription;
 

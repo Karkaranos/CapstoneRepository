@@ -49,6 +49,9 @@ public class ButtonManager : MonoBehaviour
     private GameManager gm; // temp variable
     private TransitionManager tm;
 
+    RuneEvents runeEvents;
+    RuneRangeAndTargeting runeRangeAndTargeting;
+
     private bool isPlayersTurn;
     private bool castingSpell;
 
@@ -65,7 +68,10 @@ public class ButtonManager : MonoBehaviour
         cameraManager = FindFirstObjectByType<CameraManager>();
         gm = FindFirstObjectByType<GameManager>();
         tm = FindFirstObjectByType<TransitionManager>();
-        playerBehavior = FindFirstObjectByType<PlayerBehavior>();        
+        playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+
+        runeEvents = FindFirstObjectByType<RuneEvents>();
+        runeRangeAndTargeting = FindFirstObjectByType<RuneRangeAndTargeting>();
     }
 
     #region functions
@@ -233,22 +239,22 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void ConfirmOnClick()
     {
-        PublicEvents.HideDamagePreview();
 
-        if(!FindFirstObjectByType<RuneEvents>().WaitingOnPath && FindFirstObjectByType<RuneEvents>().Pathing)
+        if ((!runeEvents.WaitingOnPath && runeEvents.Pathing) || runeEvents.Casting)
         {
             return;
         }
 
-        if(FindFirstObjectByType<RuneRangeAndTargeting>().WaitingForThePlayer)
+        PublicEvents.HideDamagePreview();
+
+        if(runeRangeAndTargeting.WaitingForThePlayer)
         {
 
-            if(FindFirstObjectByType<RuneEvents>().WaitingOnPath)
+            if(runeEvents.WaitingOnPath)
             {
 
-                FindFirstObjectByType<RuneRangeAndTargeting>().selectedTile =
-                GridManager.combatGrid[FindFirstObjectByType<RuneEvents>().selectedTile.x, 
-                FindFirstObjectByType<RuneEvents>().selectedTile.y];
+                runeRangeAndTargeting.selectedTile = 
+                GridManager.combatGrid[runeEvents.selectedTile.x, runeEvents.selectedTile.y];
 
             }
 
