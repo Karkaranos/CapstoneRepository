@@ -146,6 +146,9 @@ public class PipManager : MonoBehaviour
         SpawnPips();
     }
 
+    /// <summary>
+    /// TOOGLES IF YOU"VE SPAWNED FOR TURN 
+    /// </summary>
     private void ToggleHasSpawned()
     {
         hasSpawnedForTurn = false;
