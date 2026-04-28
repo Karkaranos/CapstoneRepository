@@ -172,6 +172,7 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
+    [SerializeField] public HitAnimator hitAnimator;
    
     #endregion
 
@@ -228,7 +229,7 @@ public class Enemy : MonoBehaviour
 
         if (spriteRen != null)
         {
-            spriteRen.material = flashColor;
+            //spriteRen.material = flashColor;
             FMODUnity.RuntimeManager.PlayOneShot("event:/EnemyDamage");
         }
 
@@ -249,9 +250,11 @@ public class Enemy : MonoBehaviour
                 switch (dType)
                 {
                     case DamageType.Lightning:
+                        hitAnimator.ShockHit();
                         s = lightningSprite;
                         break;
                     case DamageType.Wind:
+                        hitAnimator.WindHit();
                         s = windSprite;
                         break;
                     default:
