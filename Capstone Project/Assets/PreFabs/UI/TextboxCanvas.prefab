@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 318.353, y: 181.77399}
-  m_SizeDelta: {x: 500, y: 100}
+  m_SizeDelta: {x: 700, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &886381837407899256
 CanvasRenderer:
@@ -255,14 +255,139 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textBoxes:
-  - TextboxContent: Woop de doop da wop bop maop
+  - TextboxContent: Welcome to the Equipment Menu! Here you can equip new artifacts
+      and spells that will make your journey though wayward woods easier!
     FontSize: 32
-    HorizontalSize: 500
-    VerticleSize: 0
+    HorizontalSize: 700
+    VerticleSize: 200
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
-  textSpeed: 1
-  autoTextLingerTime: 0
+  - TextboxContent: "First let\u2019s take a look at the spells at your disposal.
+      This is your Lightning spell section. Click and drag Thunder Shock into the
+      open spell slot"
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 200
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: "Great! Let\u2019s look at the wind spells next"
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 50
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Take Gale Barricade and KnockBack Wind!
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Next, let's take a look at your artifacts. Click on this tag
+      to see all of them
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Click and drag an artifact to the open spot
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: "Excellent!!! Let\u2019s start the journey! "
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 50
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: "In order to move, press the \u201CMove\u201D tag in this corner
+      and then use W/A/S/D in order to make a path. You have six squares at your
+      disposal. When you are done press confirm"
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 250
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Choose wisely since you can move only ONCE per turn
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: While moving try to collect pips(Pink floating orbs) in your
+      way. They will let you cast more spells per turn. But remember you can only
+      have a max of six
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 250
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: At the beginning of each turn you restore one pip
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Now pick Knockback Wind and click on the Racoon in your range
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: You can end your turn by pressing this tag
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: "Let\u2019s move up to the water to finish off the last foe!"
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Tree stumps around the map block your path, and prevent you from
+      casting spells through them. They can also protect you from enemy attacks
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 200
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Target the enemy in the water with Thunder Shock and see what
+      happens!
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Electrifying! Now use Gale Barricade to prevent them from getting
+      to you
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: End your turn
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 50
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Finish them off now
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 50
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  - TextboxContent: Congratulations on the flawless win wizard!
+    FontSize: 32
+    HorizontalSize: 700
+    VerticleSize: 100
+    TextboxLocation: {x: 0, y: 0}
+    GoToNextTextbox: 0
+  textSpeed: 0.1
+  autoTextLingerTime: 1
   textBoxTestingIndex: 0
   textBoxImage: {fileID: 5191163656407825873}
   textBoxText: {fileID: 1004568589115182399}

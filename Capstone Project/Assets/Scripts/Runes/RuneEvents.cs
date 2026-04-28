@@ -17,6 +17,7 @@ using FMOD.Studio;
 using FMODUnity;
 using EventReference = FMODUnity.EventReference;
 using Unity.VisualScripting;
+using System.Linq;
 
 
 public class RuneEvents : MonoBehaviour
@@ -212,6 +213,7 @@ public class RuneEvents : MonoBehaviour
             case (1):
 
                 Casting = true;
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("LAtk", true);
@@ -239,21 +241,25 @@ public class RuneEvents : MonoBehaviour
                 foreach(TileBehaviour adjacentTile in secondaryTargets)
                 {
                     Enemy[] adjEnemies = adjacentTile.GetComponentsInChildren<Enemy>();
-                    foreach(Enemy enemyTwo in adjEnemies)
-                    {
-                        if(adjacentTile != tile)
-                        {
-                            adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
-                            .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
 
-                            adjacentTile.ElectrifyAdTiles();
+                    if (adjEnemies.Length > 0)
+                    {
+                        foreach (Enemy enemyTwo in adjEnemies)
+                        {
+                            if (adjacentTile != tile)
+                            {
+                                adjacentTile.GetComponentInChildren<Enemy>().Damage(Mathf.CeilToInt(rune.SecondaryRuneDamage * FindFirstObjectByType<PlayerStats>()
+                                .LightningAttackMultiplier * FindFirstObjectByType<PlayerStats>().BaseAttackMultiplier), Enemy.DamageType.Lightning);
+
+                                adjacentTile.ElectrifyAdTiles();
+                            }
                         }
                     }
                 }
 
                 tile.ElectrifyAdTiles();
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -262,6 +268,7 @@ public class RuneEvents : MonoBehaviour
             case (2):
 
                 Casting = true;
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("LAtk", true);
@@ -332,7 +339,7 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -341,6 +348,7 @@ public class RuneEvents : MonoBehaviour
             case (3):
 
                 Casting = true;
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("LAtk", true);
@@ -391,7 +399,7 @@ public class RuneEvents : MonoBehaviour
                     }*/
                 }
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
@@ -529,6 +537,8 @@ public class RuneEvents : MonoBehaviour
 
                 Casting = true;
 
+                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+
                 anim.SetBool("Attack", true);
                 bookanim.SetBool("WAtk", true);
                 bookanim.SetBool("Idle", false);
@@ -552,7 +562,7 @@ public class RuneEvents : MonoBehaviour
                 }
                 
 
-                gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
+                
                 StartCoroutine(UpdatePlayerStatus());
 
                 break;
