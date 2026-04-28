@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes, Jay Embry
 Date Created : 		10/27/2025
-Date Last Modified : 4/27/2026 (Jay Embry)
+Date Last Modified : 4/28/2026 (Jay Embry)
 Brief Description : Handles all of the player's inputs
 External Resources : 	
 ***************************************************/
@@ -263,7 +263,7 @@ public class PlayerInputHandler : MonoBehaviour
                         PublicEvents.DisplayEnemyStatbox?.Invoke(hit.transform.gameObject.GetComponent<Enemy>());
 
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
-                            hit.transform.gameObject.GetComponents<Enemy>(), null);
+                            hit.transform.gameObject.GetComponentInChildren<Enemy>(), null);
                        
                     }
                     else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
@@ -281,7 +281,7 @@ public class PlayerInputHandler : MonoBehaviour
                             PublicEvents.DisplayEnemyStatbox?.Invoke(hit.transform.gameObject.GetComponentInChildren<Enemy>());
 
                             PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), 
-                            hit.transform.gameObject.GetComponentsInChildren<Enemy>(), null);
+                            hit.transform.gameObject.GetComponentInChildren<Enemy>(), null);
 
                         }
                         else
