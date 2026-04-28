@@ -12,6 +12,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using FMODUnity;
+using System.Threading.Tasks;
 
 public class MenuBehavior : MonoBehaviour
 {
@@ -67,12 +68,15 @@ public class MenuBehavior : MonoBehaviour
     /// Loads a specific scene by its name while a transition is played
     /// </summary>
     /// <param name="sceneToLoad"></param>
-    public void LoadScene(int sceneToLoad)
+    public async void LoadScene(int sceneToLoad)
     {
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Time.timeScale = 1f;
 
         FindFirstObjectByType<TransitionManager>().SceneTransition(sceneToLoad);
+
+        await Task.Delay(100);
+        gameObject.SetActive(false);
     }
 
     /// <summary>
