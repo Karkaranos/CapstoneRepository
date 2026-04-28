@@ -103,6 +103,11 @@ public class UIAudioManager : AudioManager
         PlayOneShot(closePopUp, this.transform.position);
     }
 
+    public void PlayStartUI()
+    {
+       FMODUnity.RuntimeManager.PlayOneShot("event:/StartUI", this.transform.position);
+    }
+
     public void DropBackend()
     {
         CreateEventInstance(spellDrop);
