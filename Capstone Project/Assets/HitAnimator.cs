@@ -1,5 +1,5 @@
 /*************************************************
-Author Names : 		Jake Gorski, 
+Author Names : 		 
 Date Created : 		4/28/2026
 Date Last Modified : 	4/28/2026
 Brief Description : 		An intermediate between Enemy.CS and the animator of the enemies.
@@ -16,12 +16,17 @@ public class HitAnimator : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-
-    public void ShockHit() //forces the enemy to play the shocked animation.
+    /// <summary>
+    /// Forces the enemy to play the shocked animation.
+    /// </summary>
+    public void ShockHit()
     {
         animator.SetTrigger("Shocked");
     }
-    public void WindHit() //forces the enemy to play the Damaged animation.
+    /// <summary>
+    /// Forces the enemy to play the Damaged animation.
+    /// </summary>
+    public void WindHit() 
     {
         animator.SetTrigger("Damaged");
     }
