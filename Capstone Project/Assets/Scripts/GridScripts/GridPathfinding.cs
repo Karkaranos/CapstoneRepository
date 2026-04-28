@@ -8,6 +8,7 @@
  * ***************************************************************************/
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GridPathfinding : MonoBehaviour
@@ -74,10 +75,7 @@ public class GridPathfinding : MonoBehaviour
     /// </summary>
     virtual public void PathfindThroughGrid()
     {
-        if (ghostPos != myPosition)
-        {
-            GridManager.combatGrid[ghostPos.x, ghostPos.y].entityOnGrid = -1;
-        }
+        
         nextPos.Clear();
         if (!isEnemy)
         {
@@ -196,6 +194,10 @@ public class GridPathfinding : MonoBehaviour
         else if (GetComponent<TargetingBehaviour>().targetLocations.Count > 0)
         {
             StartCoroutine(MoveEntity());
+        }
+        else
+        {
+            PublicEvents.MoveCoroFinsihed.Invoke();
         }
     }
 
@@ -332,8 +334,18 @@ public class GridPathfinding : MonoBehaviour
         {
             GetComponent<RangedEnemy>().rangedAnimator.SetBool("IsWalking", false);
         }
+        DelayMoveCoroFinish();
     }
 
+    /// <summary>
+    /// Extra little delay for telling move coro finished
+    /// So the grid has time to clear all pathfinding stuff
+    /// </summary>
+    private async void DelayMoveCoroFinish()
+    {
+        await Task.Delay(1750);
+        PublicEvents.MoveCoroFinsihed.Invoke();
+    }
     /// <summary>
     /// Does nothing in the base script, because trying to overwrite coroutines causes problems
     /// </summary>

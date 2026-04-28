@@ -57,7 +57,7 @@ public class NotebookArtifactNodeBehavior : MonoBehaviour
     /// this is where the artifact node gets spawned
     /// </summary>
     /// <param name="nodeToSpawn"></param>
-    public void SpawnSpellNode(GameObject nodeToSpawn)
+    public void SpawnArtifactNode(GameObject nodeToSpawn)
     {
         if (!locked && !equipped)
         {

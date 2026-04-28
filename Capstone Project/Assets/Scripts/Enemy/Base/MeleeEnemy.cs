@@ -36,11 +36,10 @@ public class MeleeEnemy : Enemy
     //Vars related to the state machine
     #region STATE MACHINE VARS
 
-    private MeleeEnemyWaitState enemyWaitState;
-    private MeleeEnemyRunState enemyRunState; 
-    private MeleeEnemyMoveToPlayerState moveToPlayerState;
-    private MeleeEnemyAttackState attackState;
-    private MeleeEnemyEndTurnState endTurnState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private MeleeEnemyWaitState enemyWaitState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private MeleeEnemyMoveToPlayerState moveToPlayerState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private MeleeEnemyAttackState attackState;
+    [ShowIf(nameof(currentSettings), Settings.StateMachine), SerializeField] private MeleeEnemyEndTurnState endTurnState;
 
     #endregion
 
@@ -61,12 +60,10 @@ public class MeleeEnemy : Enemy
     /// </summary>
     public override void Start()
     {
-        enemyStateMachine = new EnemyStateMachine();
-        enemyWaitState = new MeleeEnemyWaitState(this, enemyStateMachine);
-        enemyRunState = new MeleeEnemyRunState(this, enemyStateMachine);
-        moveToPlayerState = new MeleeEnemyMoveToPlayerState(this, enemyStateMachine);
-        attackState = new MeleeEnemyAttackState(this, enemyStateMachine);
-        endTurnState = new MeleeEnemyEndTurnState(this, enemyStateMachine);
+        enemyWaitState.SetVariables(this, enemyStateMachine);
+        moveToPlayerState.SetVariables(this, enemyStateMachine);
+        attackState.SetVariables(this, enemyStateMachine);
+        endTurnState.SetVariables(this, enemyStateMachine);
         enemyStateMachine.Initialized(enemyWaitState, secondsBetweenStateTransitions);
         base.Start();
         targetingBehaviour.behaviours = TargetingBehaviour.TargetingBehaviours.melee;
@@ -88,14 +85,6 @@ public class MeleeEnemy : Enemy
             return;
 
         }
-
-        //if low health go to run state
-        if(LowHealthDetection())
-        {
-            CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemyRunState));
-            return;
-        }
-
         //Attack if player in range otherwise move towards player
         if(GetPlayerInAttackRange())
         {

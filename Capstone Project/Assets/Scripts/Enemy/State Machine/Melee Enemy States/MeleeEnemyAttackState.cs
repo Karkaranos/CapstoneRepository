@@ -15,6 +15,17 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     { }
 
     /// <summary>
+    /// Sets the enemy variable references 
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="enemyStateMachine"></param>
+    public void SetVariables(MeleeEnemy enemy, EnemyStateMachine enemyStateMachine)
+    {
+        this.enemy = enemy;
+        this.enemyStateMachine = enemyStateMachine;
+    }
+
+    /// <summary>
     /// Enter attack state logic 
     /// If can attack twice and hasn't yet calls state again
     /// else go to end turn state
@@ -29,7 +40,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         enemy.logText.text = "A";
 
         //damage player
-        enemy.playerStats.TakeDamage(enemy.damage);
+        enemy.playerStats.TakeDamage(enemy.damage, PlayerStats.DamageSource.Melee);
 
         meleeAttackSFX = FMODUnity.RuntimeManager.CreateInstance("event:/MeleeAttack");
         FMODUnity.RuntimeManager.PlayOneShot("event:/MeleeAttack");
@@ -37,14 +48,12 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         //If enemy can attack twice and hasn't yet call Attack state again 
         if (enemy.canAttackTwice && !enemy.hasAttackedTwice)
         {
-            Logger.Log("Enemy State: Attack -> Attack");
             enemy.hasAttackedTwice = true;
             CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetAttackState()));
             return;
         }
 
         //Trigger Enemy end turn
-        Logger.Log("Enemy State: Attack -> EndTurn");
         CoroutineHandler.Instance.RunCoroutine(enemyStateMachine.ChangeState(enemy.GetEndTurnState()));
     }
 

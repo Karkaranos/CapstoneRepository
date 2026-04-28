@@ -189,6 +189,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1816
+--- !u!114 &-7664149575102777489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UICancel
+  m_EditorClassIdentifier: 
+  Path: event:/UICancel
+  Guid:
+    Data1: -629594426
+    Data2: 1270124928
+    Data3: -1736300909
+    Data4: 1347084671
+  Banks:
+  - {fileID: -1126716200791759097}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6925792560950901343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +285,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Voicelines.bank
   Name: Voicelines
   StudioPath: bank:/Voicelines
-  lastModified: 639113520871892607
+  lastModified: 639124134979416434
   FileSizes:
   - Name: Desktop
     Value: 1075872
@@ -278,7 +305,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639113520871448972
+  lastModified: 639124134979097091
   FileSizes:
   - Name: Desktop
     Value: 1486
@@ -379,10 +406,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639123646346049106
+  lastModified: 639125328878139298
   FileSizes:
   - Name: Desktop
-    Value: 2812
+    Value: 2980
   Exists: 1
 --- !u!114 &-4430740537799125941
 MonoBehaviour:
@@ -600,6 +627,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 127296
+--- !u!114 &-2397073318968904563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ClosePopUp
+  m_EditorClassIdentifier: 
+  Path: event:/ClosePopUp
+  Guid:
+    Data1: 1161098175
+    Data2: 1164429680
+    Data3: 49945010
+    Data4: 362801661
+  Banks:
+  - {fileID: -1126716200791759097}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 520
 --- !u!114 &-2108931520327273877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,10 +669,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639123646346310300
+  lastModified: 639125328878224123
   FileSizes:
   - Name: Desktop
-    Value: 2038336
+    Value: 2066528
   Exists: 1
 --- !u!114 &-1126716200791759097
 MonoBehaviour:
@@ -635,10 +689,10 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639113520871782588
+  lastModified: 639125328878326084
   FileSizes:
   - Name: Desktop
-    Value: 923840
+    Value: 942016
   Exists: 1
 --- !u!114 &-999913347335247595
 MonoBehaviour:
@@ -667,6 +721,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11284
+--- !u!114 &-676680473077043561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Pip Pickup
+  m_EditorClassIdentifier: 
+  Path: event:/Pip Pickup
+  Guid:
+    Data1: -242284094
+    Data2: 1322070687
+    Data3: 1276966792
+    Data4: 1285600693
+  Banks:
+  - {fileID: -2108931520327273877}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1300
 --- !u!114 &-212464337418584444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,13 +838,44 @@ MonoBehaviour:
   - {fileID: -8130339158105614662}
   - {fileID: 1930196348221773082}
   - {fileID: 2534768705831602366}
+  - {fileID: -676680473077043561}
+  - {fileID: 102808505540346515}
+  - {fileID: -2397073318968904563}
+  - {fileID: -7664149575102777489}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5972195196826600042}
   StringsBanks:
   - {fileID: -4550152728752857814}
-  cacheTime: 639123646346310300
+  cacheTime: 639125328878326084
   cacheVersion: 131633
+--- !u!114 &102808505540346515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UIConfirm
+  m_EditorClassIdentifier: 
+  Path: event:/UIConfirm
+  Guid:
+    Data1: -1517814126
+    Data2: 1324789875
+    Data3: 394363811
+    Data4: -2144503519
+  Banks:
+  - {fileID: -1126716200791759097}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
 --- !u!114 &230605889417824700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,7 +1053,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639113520870858535
+  lastModified: 639124134978976280
   FileSizes:
   - Name: Desktop
     Value: 2351936
@@ -1042,7 +1154,7 @@ MonoBehaviour:
   Path: Assets/FMOD/FMODSalty/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639123646346033983
+  lastModified: 639125328878109136
   FileSizes:
   - Name: Desktop
     Value: 5390560

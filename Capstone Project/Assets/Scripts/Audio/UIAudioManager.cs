@@ -11,6 +11,8 @@ using EventReference = FMODUnity.EventReference;
 using System.Collections.Generic;
 using UnityEngine;
 using static SkillTreeNode;
+using UnityEngine.Playables;
+
 
 public class UIAudioManager : AudioManager
 {
@@ -21,13 +23,21 @@ public class UIAudioManager : AudioManager
     [SerializeField] private EventReference uiHover;
     [SerializeField] private EventReference uiClick;
     [SerializeField] private EventReference uiSelect;
-
+    [SerializeField] private EventReference uiConfirm;
+    [SerializeField] private EventReference uiCancel;
     [SerializeField] private EventReference uiPageFlip;
+
+    [SerializeField] private EventReference closePopUp;
 
     [SerializeField] private EventReference spellPickUp;
     [SerializeField] private EventReference spellDrop;
 
     [SerializeField] private EventReference lockedSpellCLick;
+
+    [SerializeField] private FMOD.Studio.Bus _masterBus;
+
+    [SerializeField] private PlayableDirector timelineMainMenu;
+
 
     //NodeStatus _nodeStatus = NodeStatus.Purchased;
 
@@ -39,9 +49,20 @@ public class UIAudioManager : AudioManager
     private void Awake()
     {
         Instance = this;
+        _masterBus = RuntimeManager.GetBus("bus:/Master");
     }
 
     #region UI_FUNCTIONS
+    public void PlayUIConfirm()
+    {
+        CreateEventInstance(uiConfirm);
+        PlayOneShot(uiConfirm, this.transform.position);
+    }
+    public void PlayUICancel()
+    {
+        CreateEventInstance(uiCancel);
+        PlayOneShot(uiCancel, this.transform.position);
+    }
     public void PlayUIClick()
     {
         CreateEventInstance(uiClick);
@@ -76,10 +97,22 @@ public class UIAudioManager : AudioManager
         PlayOneShot(spellPickUp, this.transform.position);
     }
 
+    public void PlayClosePopUp()
+    {
+        CreateEventInstance(closePopUp);
+        PlayOneShot(closePopUp, this.transform.position);
+    }
+
     public void DropBackend()
     {
         CreateEventInstance(spellDrop);
         PlayOneShot(spellDrop, this.transform.position);
+    }
+
+    public void StopSounds()
+    {
+        timelineMainMenu.Stop();
+        _masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     public void UIPickUp(Transform target)

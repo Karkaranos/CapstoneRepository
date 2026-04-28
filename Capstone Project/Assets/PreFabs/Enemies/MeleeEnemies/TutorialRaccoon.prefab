@@ -540,7 +540,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
   m_Sprite: {fileID: -2141899767, guid: cfdad9ae37a23fd49af15328ca4f24cf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -767,6 +767,11 @@ GameObject:
   - component: {fileID: 5895380928361199476}
   - component: {fileID: 2465258453013156434}
   - component: {fileID: 960742045829579127}
+  - component: {fileID: 4212824801948935183}
+  - component: {fileID: 8995186754114223658}
+  - component: {fileID: 3467053005662390056}
+  - component: {fileID: 1752740038958203068}
+  - component: {fileID: 6523883096700805134}
   m_Layer: 0
   m_Name: TutorialRaccoon
   m_TagString: Enemy
@@ -879,7 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2872e0d9bf55844b827c12a7d8a9a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSettings: 0
+  currentSettings: 4
   healthBarSlider: {fileID: 1144343922908964499}
   previewHealthBar: {fileID: 8534701960708135817}
   maxHealth: 1
@@ -910,8 +915,13 @@ MonoBehaviour:
   targetingBehaviour: {fileID: 0}
   logText: {fileID: 8140776847588935570}
   secondsBetweenStateTransitions: 0.7
+  enemyStateMachine: {fileID: 4212824801948935183}
   canAttackTwice: 0
   isLowHealth: 0
+  enemyWaitState: {fileID: 6523883096700805134}
+  moveToPlayerState: {fileID: 1752740038958203068}
+  attackState: {fileID: 8995186754114223658}
+  endTurnState: {fileID: 3467053005662390056}
   hasMovedForTurn: 0
   hasAttackedTwice: 0
   anim: {fileID: 2781963607303633898}
@@ -1000,6 +1010,66 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9, y: 1, z: 0.9}
   m_Center: {x: 0, y: 0.74, z: 0}
+--- !u!114 &4212824801948935183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47bc54950a2b83b46957cc9b0f8629c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8995186754114223658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd8fb95448539f4bade05c4882a32b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3467053005662390056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52300d5d12b3c954ebcd88a331d86596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1752740038958203068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acc35ef5f05d28d4dba84130ebeb50a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6523883096700805134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926130306899230273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85e9dbad1e3c6a542a036eed2d787b32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7016158846762269064
 GameObject:
   m_ObjectHideFlags: 0
