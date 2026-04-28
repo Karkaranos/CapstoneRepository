@@ -5,7 +5,6 @@ Date Last Modified : 2/19/2026
 Brief Description : This is the behavior for the spell display, It sets it up and pops it out
 ***************************************************/
 using TMPro;
-using UnityEditor.Experimental.Rendering;
 using UnityEngine;
 
 public class SpellDisplayBoxBehavior : MonoBehaviour
