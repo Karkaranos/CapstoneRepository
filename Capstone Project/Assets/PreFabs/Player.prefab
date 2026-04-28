@@ -980,6 +980,9 @@ MonoBehaviour:
     m_Flags: 0
   animObj: {fileID: 574336995632580795}
   bookanimObj: {fileID: 8692562609108776154, guid: 5f2cb97df75ba4042850ad19475d144c, type: 3}
+  IsWalking: 0
+  IsIdle: 0
+  IsDamaged: 0
   player: {fileID: 6675322036123795430}
   MouseIsClicked: 0
   CurrentlyTryingToAttack: 0
@@ -1449,15 +1452,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8094946162259277570}
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
-  m_LocalScale: {x: 0.009518571, y: 0.009518571, z: 0.009518571}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0, z: -0.083}
+  m_LocalScale: {x: 0.03, y: 0.02, z: 0.02}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6895680415729585072}
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.070007324, y: 1.4199982}
+  m_AnchoredPosition: {x: 0.070007324, y: 1.451004}
   m_SizeDelta: {x: 12.5, y: 12.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1912497257012163179
@@ -1488,7 +1491,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 42e9c59b974eea846a48290b9ddddbe1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f111795b002213948b0cc6b37f0e92f9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
