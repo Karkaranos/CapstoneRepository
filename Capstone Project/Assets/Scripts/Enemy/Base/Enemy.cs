@@ -358,9 +358,13 @@ public class Enemy : MonoBehaviour
     /// <param name="damage"></param>
     public void ShowDamagePreview(float damage)
     {
+        if (damage % 1 != 0)
+        {
+            damage += 1;
+        }
         if (!isShowingPreview)
         {
-            previewHealthBar.value -= damage;
+            previewHealthBar.value -= (int)damage;
         }
     }
 

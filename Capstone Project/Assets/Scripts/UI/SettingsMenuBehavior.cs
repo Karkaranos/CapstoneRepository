@@ -32,9 +32,14 @@ public class SettingsMenuBehavior : MenuBehavior
     private void Awake()
     {
         GetBusses();
-        UpdateSFXVolume("50");
-        UpdateMusicVolume("50");
-        UpdateMasterVolume("50");
+        soundEffectsBus.getVolume(out float volume);
+        UpdateSFXVolume((volume * 100).ToString());
+
+        backgroundMusicBus.getVolume(out float bgmVolume);
+        UpdateMusicVolume((bgmVolume * 100).ToString());
+
+        masterBus.getVolume(out float masterVol);
+        UpdateMasterVolume((masterVol * 100).ToString());
         fullscreenToggle.isOn = Screen.fullScreen;
     }
 
@@ -82,7 +87,7 @@ public class SettingsMenuBehavior : MenuBehavior
 
             SFXInputFieldText.text = percentage.ToString() + "%";
             SFXSlider.value = ((float)percentage / 100);
-            soundEffectsBus.setVolume(SfxVolumePercentage / 100f);
+            soundEffectsBus.setVolume((float)SfxVolumePercentage / 100f);
         }
         catch
         {
@@ -92,7 +97,6 @@ public class SettingsMenuBehavior : MenuBehavior
             
             SFXSlider.value = ((float)SfxVolumePercentage / 100);
         }
-
         PlaySoundEffect();
         
     }
@@ -108,8 +112,7 @@ public class SettingsMenuBehavior : MenuBehavior
 
         SFXInputFieldText.text = percent.ToString() + "%";
 
-        soundEffectsBus.setVolume(SfxVolumePercentage / 100f);
-
+        soundEffectsBus.setVolume((float)SfxVolumePercentage / 100f);
         PlaySoundEffect();
     }
 
@@ -133,7 +136,7 @@ public class SettingsMenuBehavior : MenuBehavior
 
             MasterInputFieldText.text = percentage.ToString() + "%";
             MasterSlider.value = ((float)percentage / 100);
-            masterBus.setVolume(MasterVolumePercentage / 100f);
+            masterBus.setVolume((float)MasterVolumePercentage / 100f);
         }
         catch
         {
@@ -156,7 +159,7 @@ public class SettingsMenuBehavior : MenuBehavior
 
         MasterInputFieldText.text = percent.ToString() + "%";
 
-        masterBus.setVolume(MasterVolumePercentage / 100f);
+        masterBus.setVolume((float)MasterVolumePercentage / 100f);
     }
 
     /// <summary>

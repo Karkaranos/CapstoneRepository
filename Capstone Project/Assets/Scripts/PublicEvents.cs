@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 		Tyler Hayes, Jay Embry , Cade Naylor, Clare
 Date Created : 		09/28/2025
-Date Last Modified : 2/12/2026
+Date Last Modified : 4/28/2026 (Jay Embry)
 Brief Description : Stores all of the public events used.
 External Resources : 	
 	***************************************************/
@@ -71,7 +71,7 @@ public static class PublicEvents
     //Triggers whenever a tile is selected while in wait mode(?)
     public static Action<TileBehaviour> SelectTile;
 
-    public static Action<TileBehaviour, Enemy[], PlayerBehavior> SelectTarget;
+    public static Action<TileBehaviour, Enemy, PlayerBehavior> SelectTarget;
 
     public static Action NewLevel;
 
@@ -101,8 +101,8 @@ public static class PublicEvents
     public static Action SpellConfirmed;
 
     //spell triggers
-    public static Action<RuneData, TileBehaviour, Enemy[], PlayerBehavior> LightningCast;
-    public static Action<RuneData, TileBehaviour, Enemy[], PlayerBehavior> WindCast;
+    public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> LightningCast;
+    public static Action<RuneData, TileBehaviour, Enemy, PlayerBehavior> WindCast;
     public static Action EndCast;
 
 
