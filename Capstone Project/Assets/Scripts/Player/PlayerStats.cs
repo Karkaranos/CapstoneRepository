@@ -48,6 +48,7 @@ public class PlayerStats : MonoBehaviour
     [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private GameObject statChange;
     [SerializeField] private GameObject UICanvas;
+    [SerializeField] private PlayerBehavior pb;
 
     private int tempHealth;
 
@@ -118,18 +119,26 @@ public class PlayerStats : MonoBehaviour
         ArtifactManager.SetPlayerReference(this);
         MarkManager.SetPlayer(this);
 
+        pb = FindAnyObjectByType<PlayerBehavior>(FindObjectsInactive.Exclude);
+
         await Task.Delay(1000);
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
         turnIndicator = player.transform.GetChild(2).GetChild(1).gameObject;
         turnIndicator.SetActive(true);
     }
 
+    /// <summary>
+    /// Enables NewLevel Event and NewPlayerCreated
+    /// </summary>
     private void OnEnable()
     {
         PublicEvents.NewLevel += SetTurnIndicator;
         PublicEvents.NewPlayerCreated += PlayerSpawned;
     }
 
+    /// <summary>
+    /// Disables New Level Event
+    /// </summary>
     private void OnDisable()
     {
         PublicEvents.NewLevel -= SetTurnIndicator;
@@ -168,6 +177,7 @@ public class PlayerStats : MonoBehaviour
 
         if (!TakesDamage)
         {
+            pb.TakenDamage();
             return;
         }
 
@@ -196,7 +206,9 @@ public class PlayerStats : MonoBehaviour
 
         if (playerSprite != null)
         {
-            playerSprite.material = flashColor;
+            pb = FindFirstObjectByType<PlayerBehavior>();
+            pb.TakenDamage();
+            //playerSprite.material = flashColor;
             FMODUnity.RuntimeManager.PlayOneShot("event:/EnemyDamage");
         }
 
@@ -349,6 +361,9 @@ public class PlayerStats : MonoBehaviour
         endLevelMenu.EnableEndMenuUi(false);
     }
 
+    /// <summary>
+    /// Finds the player and sets the turn to whomever finishes their actions
+    /// </summary>
     private void SetTurnIndicator()
     {
         GameObject player = FindFirstObjectByType<PlayerBehavior>().gameObject;
