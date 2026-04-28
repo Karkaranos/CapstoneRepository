@@ -11,7 +11,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
-using UnityEngine.Playables;
 using FMODUnity;
 
 public class MenuBehavior : MonoBehaviour

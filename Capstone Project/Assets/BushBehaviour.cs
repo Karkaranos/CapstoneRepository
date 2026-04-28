@@ -59,6 +59,10 @@ public class BushBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets animation to false once an entity exits the bush's collider
+    /// </summary>
+    /// <param name="collider"></param>
     private void OnCollisionExit(Collision collider)
     {
         bAnimator.SetBool("BushAnim", false);
