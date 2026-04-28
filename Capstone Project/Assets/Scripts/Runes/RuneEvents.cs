@@ -357,8 +357,12 @@ public class RuneEvents : MonoBehaviour
 
                 foreach (TileBehaviour adjacentTile in secondaryTargets)
                 {
+
+                    adjacentTile.Invoke("ElectrifyAdTiles", 1.2f);
+
                     if (adjacentTile.GetComponentInChildren<Enemy>())
                     {
+
                         adjacentTile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Lightning);
 
                         if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
@@ -366,7 +370,9 @@ public class RuneEvents : MonoBehaviour
                             SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y],
                             adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
                         }
+
                     }
+
                 }
                 
                 StartCoroutine(UpdatePlayerStatus());
