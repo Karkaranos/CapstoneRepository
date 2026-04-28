@@ -127,7 +127,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
 
                     UIAudioManager.Instance.UIDrop(transform);
 
-                    //transform.SetParent(slot.transform);
+                    transform.SetParent(slot.transform);
                     PublicEvents.AddToStatBox(artifactData);
                 }
                 else
@@ -142,7 +142,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
 
                     UIAudioManager.Instance.UIDrop(transform);
 
-                    //transform.SetParent(slot.transform);
+                    transform.SetParent(slot.transform);
                     PublicEvents.RemoveFromStatBox(artifactData);
                 }
 
@@ -176,6 +176,7 @@ public class ArtifactNodeBehavior : MonoBehaviour
         //what happens the its being dragged (mouse button is held)
         if (dragging)
         {
+            transform.SetParent(canvas.transform);
             notebookArtifactNode.Equip(true);
             Vector2 localPoint = Vector2.zero;
             try

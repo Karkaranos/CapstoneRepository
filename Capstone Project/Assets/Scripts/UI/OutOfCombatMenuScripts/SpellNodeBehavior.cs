@@ -120,7 +120,7 @@ public class SpellNodeBehavior : MonoBehaviour
                     UIAudioManager.Instance.UIDrop(transform);
 
                     //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
-                    //transform.SetParent(slot.transform);
+                    transform.SetParent(slot.transform);
 
 
                 }
@@ -138,7 +138,7 @@ public class SpellNodeBehavior : MonoBehaviour
                     UIAudioManager.Instance.UIDrop(transform);
 
                     //transform.parent = GameObject.Find("NewOutOfCombatMenu").transform;
-                    //transform.SetParent(slot.transform);
+                    transform.SetParent(slot.transform);
                 }
 
                 
@@ -171,6 +171,8 @@ public class SpellNodeBehavior : MonoBehaviour
        
         if (dragging)
         {
+            transform.SetParent(canvas.transform);
+
             notebookSpellNode.Equip(true);
             Vector2 localPoint = Vector2.zero;
 
