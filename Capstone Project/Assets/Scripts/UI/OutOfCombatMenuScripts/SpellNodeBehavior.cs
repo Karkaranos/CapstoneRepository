@@ -76,6 +76,8 @@ public class SpellNodeBehavior : MonoBehaviour
 
             rectTransform.anchoredPosition = mPos;
 
+            
+
             PublicEvents.RuneUnequipped?.Invoke(runeData);
             if (slotBehavior != null)
             {
@@ -169,6 +171,8 @@ public class SpellNodeBehavior : MonoBehaviour
        
         if (dragging)
         {
+            transform.SetParent(canvas.transform);
+
             notebookSpellNode.Equip(true);
             Vector2 localPoint = Vector2.zero;
 
@@ -183,6 +187,8 @@ public class SpellNodeBehavior : MonoBehaviour
             }
 
             rectTransform.localPosition = localPoint - offset;
+            //to fix a bug there they appear off the mouse i turned this off by default that why this here
+            GetComponent<Image>().color = Color.white;
         }
         
     }
