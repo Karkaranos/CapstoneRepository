@@ -72,6 +72,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     
     private GameObject spawnedCursorBox;
 
+
     #endregion
 
     /// <summary>
@@ -179,6 +180,7 @@ public class SkillAndArtifactManager : MonoBehaviour
     /// </summary>
     public void ContinueToNextLevel()
     {
+
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
         continueButton.interactable = false;
