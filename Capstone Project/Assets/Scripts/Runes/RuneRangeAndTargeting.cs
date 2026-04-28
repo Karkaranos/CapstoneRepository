@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry, Clare Grady
 Date Created : 	10/07/2025
-Date Last Modified : 04/07/2026 (Jay Embry)
+Date Last Modified : 04/28/2026 (Jay Embry)
 Brief Description : Determines viable targets whenever a spell is selected
 External Resources : 	
 	***************************************************/
@@ -581,7 +581,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     }
 
     [HideInInspector] public TileBehaviour selectedTile;
-    Enemy[] selectedEnemies;
+    Enemy selectedEnemy;
     PlayerBehavior selectedPlayer;
 
     /// <summary>
@@ -590,7 +590,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
     /// <param name="tile"> the tile that the player has selected </param>
     /// <param name="enemy"> the enemy that the player has selected </param>
     /// <param name="player"> for when the player is targeting themself, for whatever reason </param>
-    public void TargetSelection(TileBehaviour tile, Enemy[] enemies, PlayerBehavior player)
+    public void TargetSelection(TileBehaviour tile, Enemy enemy, PlayerBehavior player)
     {
         
         if (WaitingForThePlayer && viableTilesInRange.Contains(tile) && !GetComponent<RuneEvents>().Pathing)
@@ -604,7 +604,7 @@ public class RuneRangeAndTargeting : MonoBehaviour
             SetHighlight(true);
             
             selectedTile = tile;
-            selectedEnemies = enemies;
+            selectedEnemy = enemy;
 
             selectedPlayer = player;
 
@@ -792,13 +792,13 @@ public class RuneRangeAndTargeting : MonoBehaviour
             case (RuneType.Lightning):
 
                 PublicEvents.HideEnemyStatbox.Invoke();
-                PublicEvents.LightningCast.Invoke(storedData, selectedTile, selectedEnemies, selectedPlayer);
+                PublicEvents.LightningCast.Invoke(storedData, selectedTile, selectedEnemy, selectedPlayer);
                 break;
 
             case (RuneType.Wind):
 
                 PublicEvents.HideEnemyStatbox.Invoke();
-                PublicEvents.WindCast.Invoke(storedData, selectedTile, selectedEnemies, selectedPlayer);
+                PublicEvents.WindCast.Invoke(storedData, selectedTile, selectedEnemy, selectedPlayer);
                 break;
 
             default:
