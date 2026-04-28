@@ -6,11 +6,14 @@ Brief Description : this holds the references and functions for the notebook in 
 ***************************************************/
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class NotebookManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] pages;
     [SerializeField] private Canvas canvas;
+    [SerializeField] List<Button> tabButtons = new List<Button>();
     
     // text boxes
     [SerializeField] private TextMeshProUGUI artifactTitle;
@@ -18,6 +21,8 @@ public class NotebookManager : MonoBehaviour
 
     //idk if this is gonna be needed but it here if I do
     private int currentPage;
+
+    TextBoxManager tm;
     
 
     /// <summary>
@@ -28,6 +33,12 @@ public class NotebookManager : MonoBehaviour
         HideAllPages();
         pages[page].SetActive(true);
         currentPage = page;
+
+        if(tm != null)
+        {
+            tm.CanClick = true;
+            tm.ShowTextBox();
+        }
     }
     
     /// <summary>
@@ -81,8 +92,44 @@ public class NotebookManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// I believe this is the ready button
+    /// </summary>
     public void continueToLevel() {
         PublicEvents.StartBattle.Invoke();
+    }
+
+    /// <summary>
+    /// Creates a reference to the text box manager used in the tutorial
+    /// </summary>
+    /// <param name="tm"></param>
+    public void CreateTutorialReference(TextBoxManager tm)
+    {
+        this.tm = tm;
+    }
+
+    /// <summary>
+    /// Determines if the buttons hover state should show
+    /// </summary>
+    private void FixedUpdate()
+    {
+        if(tm != null)
+        {
+            switch(tm.tutorialCheck)
+            {
+                //Go to lightning tab
+                case 1:
+                    tabButtons[1].interactable = true;
+                    break;
+                //Go to artifact tab
+                case 2:
+                    tabButtons[2].interactable = true;
+                    break;
+                //Ready up
+                case 3:
+                    tabButtons[0].interactable = true;
+                    break;
+            }
+        }
     }
 }   

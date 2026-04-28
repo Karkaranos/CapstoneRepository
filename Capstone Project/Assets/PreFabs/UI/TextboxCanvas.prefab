@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 318.353, y: 181.77399}
-  m_SizeDelta: {x: 700, y: 200}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &886381837407899256
 CanvasRenderer:
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -163,7 +163,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &2512978711776935572
 MonoBehaviour:
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!1 &8071843590566777840
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1476741922074116025}
   - component: {fileID: 7882153830560901098}
+  - component: {fileID: 5953583566148601615}
   m_Layer: 0
   m_Name: TextboxManager
   m_TagString: Untagged
@@ -254,53 +255,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f6bbd4645fe074a84d19b212381cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canClick: 0
+  showFirstBoxOnStart: 1
   textBoxes:
   - TextboxContent: Welcome to the Equipment Menu! Here you can equip new artifacts
       and spells that will make your journey though wayward woods easier!
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 200
-    TextboxLocation: {x: 0, y: 0}
-    GoToNextTextbox: 0
+    TextboxLocation: {x: 420, y: 100}
+    GoToNextTextbox: 1
+    disableClick: 0
   - TextboxContent: "First let\u2019s take a look at the spells at your disposal.
-      This is your Lightning spell section. Click and drag Thunder Shock into the
-      open spell slot"
+      This is your Lightning spell section. Click and drag both Gale Barricade and
+      Knockback Wind into open spell slots."
     FontSize: 32
-    HorizontalSize: 700
+    HorizontalSize: 800
     VerticleSize: 200
-    TextboxLocation: {x: 0, y: 0}
-    GoToNextTextbox: 0
-  - TextboxContent: "Great! Let\u2019s look at the wind spells next"
+    TextboxLocation: {x: 420, y: 100}
+    GoToNextTextbox: 1
+    disableClick: 0
+  - TextboxContent: "Great! Let\u2019s look at the lightning spells next."
     FontSize: 32
-    HorizontalSize: 700
+    HorizontalSize: 750
     VerticleSize: 50
-    TextboxLocation: {x: 0, y: 0}
+    TextboxLocation: {x: 420, y: 100}
     GoToNextTextbox: 0
-  - TextboxContent: Take Gale Barricade and KnockBack Wind!
+    disableClick: 1
+  - TextboxContent: Let's take Thunder Shock!
     FontSize: 32
-    HorizontalSize: 700
-    VerticleSize: 100
-    TextboxLocation: {x: 0, y: 0}
-    GoToNextTextbox: 0
+    HorizontalSize: 600
+    VerticleSize: 50
+    TextboxLocation: {x: 420, y: 100}
+    GoToNextTextbox: 1
+    disableClick: 0
   - TextboxContent: Next, let's take a look at your artifacts. Click on this tag
       to see all of them
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
-    TextboxLocation: {x: 0, y: 0}
+    TextboxLocation: {x: 420, y: 100}
     GoToNextTextbox: 0
+    disableClick: 1
   - TextboxContent: Click and drag an artifact to the open spot
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
-    TextboxLocation: {x: 0, y: 0}
-    GoToNextTextbox: 0
+    TextboxLocation: {x: 420, y: 100}
+    GoToNextTextbox: 1
+    disableClick: 0
   - TextboxContent: "Excellent!!! Let\u2019s start the journey! "
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 50
-    TextboxLocation: {x: 0, y: 0}
+    TextboxLocation: {x: 420, y: 100}
     GoToNextTextbox: 0
+    disableClick: 1
   - TextboxContent: "In order to move, press the \u201CMove\u201D tag in this corner
       and then use W/A/S/D in order to make a path. You have six squares at your
       disposal. When you are done press confirm"
@@ -309,12 +319,14 @@ MonoBehaviour:
     VerticleSize: 250
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: Choose wisely since you can move only ONCE per turn
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: While moving try to collect pips(Pink floating orbs) in your
       way. They will let you cast more spells per turn. But remember you can only
       have a max of six
@@ -323,30 +335,35 @@ MonoBehaviour:
     VerticleSize: 250
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: At the beginning of each turn you restore one pip
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: Now pick Knockback Wind and click on the Racoon in your range
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: You can end your turn by pressing this tag
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: "Let\u2019s move up to the water to finish off the last foe!"
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: Tree stumps around the map block your path, and prevent you from
       casting spells through them. They can also protect you from enemy attacks
     FontSize: 32
@@ -354,6 +371,7 @@ MonoBehaviour:
     VerticleSize: 200
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: Target the enemy in the water with Thunder Shock and see what
       happens!
     FontSize: 32
@@ -361,6 +379,7 @@ MonoBehaviour:
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: Electrifying! Now use Gale Barricade to prevent them from getting
       to you
     FontSize: 32
@@ -368,29 +387,65 @@ MonoBehaviour:
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: End your turn
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 50
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: Finish them off now
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 50
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   - TextboxContent: Congratulations on the flawless win wizard!
     FontSize: 32
     HorizontalSize: 700
     VerticleSize: 100
     TextboxLocation: {x: 0, y: 0}
     GoToNextTextbox: 0
+    disableClick: 0
   textSpeed: 0.1
   autoTextLingerTime: 1
   textBoxTestingIndex: 0
   textBoxImage: {fileID: 5191163656407825873}
   textBoxText: {fileID: 1004568589115182399}
+  inTutorial: 0
+  tutorialCheck: 0
+--- !u!114 &5953583566148601615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8071843590566777840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &8281882472768022281
 GameObject:
   m_ObjectHideFlags: 0

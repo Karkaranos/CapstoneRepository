@@ -12,12 +12,25 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class TextBoxManager : MonoBehaviour
 {
     const float LEFT_PADDING_PERCENTAGE = .13f;
     const float RIGHT_PADDING_PERCENTAGE = .11f;
     const float VERTICAL_PADDING_PERCENTAGE = .1f;
+
+    PlayerInput pInput;
+    InputAction click;
+
+    [SerializeField] private bool canClick;
+    public bool CanClick
+    {
+        get => canClick;
+        set => canClick = value;
+    }
+    [SerializeField] bool showFirstBoxOnStart;
+
 
     [SerializeField] List<TextBox> textBoxes = new List<TextBox>();
 
@@ -35,6 +48,9 @@ public class TextBoxManager : MonoBehaviour
     private RectTransform rectForm;
 
     private bool allTextPresent;
+
+    [HideInInspector] public bool inTutorial;
+    [HideInInspector] public int tutorialCheck;
 
     [Button("Test Text Box")]
     /// <summary>
@@ -58,20 +74,68 @@ public class TextBoxManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Initializes the input system
+    /// </summary>
+    private void Awake()
+    {
+        pInput = GetComponent<PlayerInput>();
+        pInput.currentActionMap.Enable();
+        click = pInput.currentActionMap.FindAction("Click");
+    }
+
+    /// <summary>
+    /// Enables the click function
+    /// </summary>
+    private void OnEnable()
+    {
+        click.started += Click_started;
+    }
+
+    /// <summary>
+    /// Disables the click function
+    /// </summary>
+    private void OnDisable()
+    {
+        click.started -= Click_started;
+    }
+
+    /// <summary>
+    /// Moves through the text boxes when the left mouse button is clicked
+    /// </summary>
+    /// <param name="obj"></param>
+    private void Click_started(InputAction.CallbackContext obj)
+    {
+        if(canClick)
+        {
+            ClickTextBox();
+        }
+    }
+
+    /// <summary>
     /// Sets the index to 0 and sets components
     /// </summary>
     private void Start()
     {
         textBoxIndex = 0;
+        tutorialCheck = 0;
         layoutGroup = textBoxImage.GetComponent<HorizontalLayoutGroup>();
         rectForm = textBoxImage.GetComponent<RectTransform>();
+
+        if(showFirstBoxOnStart)
+        {
+            canClick = true;
+            ShowTextBox();
+        }
     }
     
     /// <summary>
     /// Sets the textbox size and padding. Also shows the text for the text box.
     /// </summary>
-    private void ShowTextBox()
+    public void ShowTextBox()
     {
+        textBoxImage.SetActive(true);
+        textBoxImage.transform.position = new Vector3(textBoxes[textBoxIndex].TextboxLocation.x,
+            textBoxes[textBoxIndex].TextboxLocation.y, transform.position.z);
         textBoxText.fontSize = textBoxes[textBoxIndex].FontSize;
         rectForm.sizeDelta = new Vector2(textBoxes[textBoxIndex].HorizontalSize, textBoxes[textBoxIndex].VerticleSize);
 
@@ -86,7 +150,12 @@ public class TextBoxManager : MonoBehaviour
         layoutGroup.padding.bottom = verticlePadding;
 
         allTextPresent = false;
-        StartCoroutine(DisplayText(textBoxes[textBoxIndex].GoToNextTextbox));
+
+        if(textBoxIndex == 0)
+        {
+            FindFirstObjectByType<NotebookManager>().CreateTutorialReference(this);
+        }
+        StartCoroutine(DisplayText());
     }
 
     /// <summary>
@@ -98,25 +167,37 @@ public class TextBoxManager : MonoBehaviour
         {
             ++textBoxIndex;
             textBoxText.text = "";
-            ShowTextBox();
+            if (textBoxes[textBoxIndex - 1].GoToNextTextbox)
+            {
+                ShowTextBox();
+            }
+            else
+            {
+                textBoxImage.SetActive(false);
+                canClick = false;
+            }
         }
         else
         {
             StopAllCoroutines();
             textBoxText.text = textBoxes[textBoxIndex].TextboxContent;
             allTextPresent = true;
-            if (textBoxes[textBoxIndex].GoToNextTextbox)
+            if(textBoxes[textBoxIndex].disableClick)
             {
-                StartCoroutine(TimeBeforeNextTextBox());
+                canClick = false;
+                ++textBoxIndex;
+                ++tutorialCheck;
             }
         }
     }
+
+
 
     /// <summary>
     /// Displays the text one letter at a time so you can watch it appear
     /// </summary>
     /// <returns></returns>
-    private IEnumerator DisplayText(bool autoContinue)
+    private IEnumerator DisplayText()
     {
         string displayedText = "";
         int textContentIndex = 0;
@@ -129,20 +210,12 @@ public class TextBoxManager : MonoBehaviour
             ++textContentIndex;
         }
 
-        allTextPresent = true;
-        if(autoContinue)
+        if (textBoxes[textBoxIndex].disableClick)
         {
-            StartCoroutine(TimeBeforeNextTextBox());
+            canClick = false;
+            ++tutorialCheck;
         }
-    }
 
-    /// <summary>
-    /// How long the code should wait when auto continuing
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator TimeBeforeNextTextBox()
-    {
-        yield return new WaitForSeconds(autoTextLingerTime);
-        ClickTextBox();
+        allTextPresent = true;
     }
 }

@@ -24,4 +24,6 @@ public class TextBox
     public Vector2 TextboxLocation;
     [Tooltip("If true, will show the next textbox after this.")]
     public bool GoToNextTextbox;
+    [Tooltip("If true, will keep the text box present while preventing it from going forward")]
+    public bool disableClick;
 }
