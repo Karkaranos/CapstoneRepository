@@ -6,6 +6,7 @@ Brief Description : this is the behavior of an artifact node, this gets spawned 
 click on the Notebook Artifact slot
 ***************************************************/
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -73,6 +74,8 @@ public class ArtifactNodeBehavior : MonoBehaviour
             //RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mPos, canvas.worldCamera, out offset);
 
             rectTransform.anchoredPosition = mPos;
+
+           
 
             ArtifactManager.RemoveArtifact(artifactData);
             
@@ -178,12 +181,16 @@ public class ArtifactNodeBehavior : MonoBehaviour
             try
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform.parent as RectTransform, Input.mousePosition, canvas.worldCamera, out localPoint);
+                
+                
             }
             catch
             {
                 
             }
             rectTransform.localPosition = localPoint - offset;
+            //to fix a bug there they appear off the mouse i turned this off by default that why this here
+            GetComponent<Image>().color = Color.white;
         }
 
 
