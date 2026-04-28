@@ -36,8 +36,11 @@ public class NotebookManager : MonoBehaviour
 
         if(tm != null)
         {
-            tm.CanClick = true;
-            tm.ShowTextBox();
+            if (tm.tutorialCheck == 1 && page == 0 || tm.tutorialCheck == 2 && page == 2)
+            {
+                tm.CanClick = true;
+                tm.ShowTextBox();
+            }
         }
     }
     
@@ -117,6 +120,13 @@ public class NotebookManager : MonoBehaviour
         {
             switch(tm.tutorialCheck)
             {
+                case 0:
+                    foreach(Button b in tabButtons)
+                    {
+                        b.interactable = false;
+                        tabButtons[0].interactable = true;
+                    }
+                    break;
                 //Go to lightning tab
                 case 1:
                     tabButtons[1].interactable = true;
@@ -124,10 +134,6 @@ public class NotebookManager : MonoBehaviour
                 //Go to artifact tab
                 case 2:
                     tabButtons[2].interactable = true;
-                    break;
-                //Ready up
-                case 3:
-                    tabButtons[0].interactable = true;
                     break;
             }
         }
