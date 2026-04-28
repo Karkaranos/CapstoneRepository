@@ -154,6 +154,7 @@ public class TextBoxManager : MonoBehaviour
         if(textBoxIndex == 0)
         {
             FindFirstObjectByType<NotebookManager>().CreateTutorialReference(this);
+            //Hey look, you found a hidden hex tile
         }
         StartCoroutine(DisplayText());
     }
