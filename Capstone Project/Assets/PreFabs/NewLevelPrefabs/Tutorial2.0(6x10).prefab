@@ -205,7 +205,7 @@ Transform:
   m_GameObject: {fileID: 3501264215427939839}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -42.24, y: -4.14, z: -57.8}
+  m_LocalPosition: {x: -27.9, y: 22, z: -55.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -254,7 +254,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: aaf96105e3d4218478f4d8542c5b1833, type: 3}
   m_Color: {r: 0.19607845, g: 0.5254902, b: 0.60784316, a: 1}
   m_FlipX: 0
@@ -327,7 +327,7 @@ Transform:
   m_GameObject: {fileID: 7005958793617703143}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 76.5, y: -4.6, z: -40}
+  m_LocalPosition: {x: 71.3, y: 2.1, z: -40.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -501,7 +501,7 @@ Transform:
   m_GameObject: {fileID: 9098379897722507471}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 64.2, y: -3.1, z: -55.22}
+  m_LocalPosition: {x: 61.8, y: 5.8, z: -55.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -550,7 +550,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: b004da59059abcd46af71fd9a64e0dfd, type: 3}
   m_Color: {r: 0.2784314, g: 0.6745098, b: 0.77647066, a: 1}
   m_FlipX: 0
@@ -1549,6 +1549,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: e9d07fe8f25f9434280bc4bd5c18cc77, type: 2}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: IndexInGrid.x
       value: 6
       objectReference: {fileID: 0}
@@ -1562,7 +1574,7 @@ PrefabInstance:
       objectReference: {fileID: 2935241519547290226}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: TileHasEntities
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6523422096402511679, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2419,7 +2431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.521
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2427,11 +2439,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.953
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9996635
+      value: 0.9986295
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2439,7 +2451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.025941348
+      value: 0.052335896
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalRotation.z
@@ -2451,7 +2463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -2.973
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2549,10 +2561,10 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
-      insertIndex: 57
+      insertIndex: -1
       addedObject: {fileID: 1637213846148880471}
     - targetCorrespondingSourceObject: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
-      insertIndex: 59
+      insertIndex: -1
       addedObject: {fileID: 6448294741120857748}
     - targetCorrespondingSourceObject: {fileID: 4394218242363639723, guid: ca3baf060c2a1694a8a1d32df1cc7bdf, type: 3}
       insertIndex: -1
@@ -2842,6 +2854,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 185ce79413b0b9241b37ebfe197d1b2e, type: 2}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: IndexInGrid.x
       value: 5
       objectReference: {fileID: 0}
@@ -2855,7 +2879,7 @@ PrefabInstance:
       objectReference: {fileID: 1510966114889746171}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: TileHasEntities
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6523422096402511679, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3463,12 +3487,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4406038969369528828, guid: 928a20b64ccd9b84c935adfa736d89e5, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406038969369528828, guid: 928a20b64ccd9b84c935adfa736d89e5, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 4406038969369528828, guid: 928a20b64ccd9b84c935adfa736d89e5, type: 3}
       propertyPath: IndexInGrid.x
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4406038969369528828, guid: 928a20b64ccd9b84c935adfa736d89e5, type: 3}
       propertyPath: IndexInGrid.y
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406038969369528828, guid: 928a20b64ccd9b84c935adfa736d89e5, type: 3}
+      propertyPath: TileHasEntities
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5845730849051104331, guid: 928a20b64ccd9b84c935adfa736d89e5, type: 3}
       propertyPath: m_Name
@@ -3973,6 +4009,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 185ce79413b0b9241b37ebfe197d1b2e, type: 2}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: IndexInGrid.x
       value: 6
       objectReference: {fileID: 0}
@@ -3986,7 +4034,7 @@ PrefabInstance:
       objectReference: {fileID: 9022784796690570339}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: TileHasEntities
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6523422096402511679, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4684,7 +4732,7 @@ PrefabInstance:
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: entityObject
       value: 
-      objectReference: {fileID: 6926130306899230273, guid: 79a8d22c65d9f05469d1092c80a29f2e, type: 3}
+      objectReference: {fileID: 6926130306899230273, guid: d87472e3e8c773041829d05d66a23c7b, type: 3}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: IndexInGrid.x
       value: 4
@@ -4843,6 +4891,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: e9d07fe8f25f9434280bc4bd5c18cc77, type: 2}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: entityObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
+      propertyPath: hazardObject
+      value: 
+      objectReference: {fileID: 6675322036123795430, guid: 88900608b7f0db64bbf65567b8d76e8c, type: 3}
+    - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: IndexInGrid.x
       value: 5
       objectReference: {fileID: 0}
@@ -4856,7 +4916,7 @@ PrefabInstance:
       objectReference: {fileID: 6813693679475630069}
     - target: {fileID: 5623008568112998880, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: TileHasEntities
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6523422096402511679, guid: ac506b7531a6b8a4ea5a67ed444a907a, type: 3}
       propertyPath: m_LocalPosition.x
