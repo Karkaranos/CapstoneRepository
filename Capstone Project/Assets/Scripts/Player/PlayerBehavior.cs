@@ -380,7 +380,14 @@ public class PlayerBehavior : MonoBehaviour
             VisualizeEnemyPaths();
         }
         StartCoroutine(MovementDelay());
-
+        if(movementPositions.Count == 0)
+        {
+            bm.confirmButton.interactable = false;
+        }
+        else
+        {
+            bm.confirmButton.interactable = true;
+        }
     }
 
     /// <summary>
