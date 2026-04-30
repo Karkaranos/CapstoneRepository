@@ -17,6 +17,9 @@ public class PauseMenuBehavoir : MonoBehaviour
     [SerializeField] private GameObject PauseMenu;
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject confirmMainMenuPopup;
+    [SerializeField] private GameObject backButton;
+    [SerializeField] private GameObject settingsButton;
+    [SerializeField] private GameObject mainMenuButton;
     [SerializeField] private GameObject winCanvas;
     [SerializeField] private GameObject loseCanvas;
     private bool endCanvasActive = false;
@@ -129,5 +132,8 @@ public class PauseMenuBehavoir : MonoBehaviour
     public void ToggleMainMenuPopup(bool isActive)
     {
         confirmMainMenuPopup.SetActive(isActive);
+        settingsButton.SetActive(!isActive);
+        backButton.SetActive(!isActive);
+        mainMenuButton.SetActive(!isActive);
     }
 }
