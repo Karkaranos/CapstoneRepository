@@ -402,7 +402,7 @@ public class RuneEvents : MonoBehaviour
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if(tile.entityOnGrid == -1 || tile.entityOnGrid == -2 || tile.entityOnGrid == -8)
+            if(tile.entityOnGrid == -1 || tile.GetComponentInChildren<Enemy>() || tile.entityOnGrid == -8)
             {
 
                 if (initialTarget.IndexInGrid.x == tile.IndexInGrid.x &&
@@ -714,7 +714,7 @@ public class RuneEvents : MonoBehaviour
         {
 
             //putting the or statement here as a bit of extra security even if it's unnecessary while i'm looking for a fix
-            if (newTile.GetComponentInChildren<Enemy>() || newTile.entityOnGrid == -2)
+            if (newTile.GetComponentInChildren<Enemy>())
             {
 
                 //if there's an enemy on the target tile, this checks if it can be moved backwards as well
@@ -731,7 +731,7 @@ public class RuneEvents : MonoBehaviour
             }
             else
             {
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20 || newTile.entityOnGrid == -8;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -8;
             }
 
         }
@@ -751,29 +751,37 @@ public class RuneEvents : MonoBehaviour
 
         if(sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x && 
         sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
         {
             return false;
         }
         if (sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x &&
         sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
         {
             return false;
         }
         if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
         sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
         {
             return false;
         }
         if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
         sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].GetComponentInChildren
+        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
         {
             return false;
         }
