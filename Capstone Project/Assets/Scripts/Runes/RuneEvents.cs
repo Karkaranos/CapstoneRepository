@@ -402,9 +402,7 @@ public class RuneEvents : MonoBehaviour
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if(tile.GetComponentInChildren<Enemy>() || (!tile.GetComponentInChildren<Rigidbody>() &&
-            !tile.GetComponentInChildren<Pip>() && 
-            !tile.GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b")))
+            if(tile.entityOnGrid == -1 || tile.GetComponentInChildren<Enemy>() || tile.entityOnGrid == -8)
             {
 
                 if (initialTarget.IndexInGrid.x == tile.IndexInGrid.x &&
@@ -731,10 +729,9 @@ public class RuneEvents : MonoBehaviour
                 }
 
             }
-            else if(!newTile.GetComponentInChildren<Rigidbody>() && !newTile.GetComponentInChildren<Pip>() &&
-            !newTile.GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b"))
+            else
             {
-                return true;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -8;
             }
 
         }
@@ -834,7 +831,7 @@ public class RuneEvents : MonoBehaviour
 
                 newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-                if (newTile.GetComponentInChildren<Enemy>())
+                if (newTile.entityOnGrid == -2)
                 {
                     newTile.GetComponentInChildren<Enemy>().Damage(damage/2, Enemy.DamageType.None);
                     SendEnemyBackwards(kbTarget, newTile, newTile.GetComponentInChildren<Enemy>(), damage);
@@ -893,24 +890,19 @@ public class RuneEvents : MonoBehaviour
     bool CanMoveThroughTile(Vector2Int tileCoordinates)
     {
 
-        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
-
-        if (selectedRune.TypeOfRune == RuneType.Wind && selectedRune.NumberOnSkillTree == 3)
+        if(selectedRune.TypeOfRune == RuneType.Wind && selectedRune.NumberOnSkillTree == 3)
         {
-
-            foreach(WindCurrentTracker tracker in trackers)
-            {
-                if(tracker.WindCurrentTiles.Contains(GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y]))
-                {
-                    return false;
-                }
-            }
-
+            return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
         }
         
-        return !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<Rigidbody>() &&
-            !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<Pip>() &&
-            !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b");
+        return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -8 ||
+        GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -20;
 
     }
 
@@ -988,8 +980,6 @@ public class RuneEvents : MonoBehaviour
     private void UpdateMovement(Vector2Int v, Vector3 t)
     {
 
-        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
-
         StopCoroutine("MovementDelay");
         WaitingOnPath = false;
   
@@ -1031,21 +1021,8 @@ public class RuneEvents : MonoBehaviour
 
                     case (2):
 
-                        if (!GridManager.combatGrid[v.x, v.y].GetComponentInChildren<PlayerBehavior>() &&
-                            !GridManager.combatGrid[v.x, v.y].GetComponentInChildren<Enemy>() &&
-                            !GridManager.combatGrid[v.x, v.y].GetComponentInChildren<Rigidbody>() &&
-                            !GridManager.combatGrid[v.x, v.y].GetComponentInChildren<Pip>() &&
-                            !GridManager.combatGrid[v.x, v.y].GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b"))
+                        if (GridManager.combatGrid[v.x, v.y].entityOnGrid == -1)
                         {
-
-                            foreach (WindCurrentTracker tracker in trackers)
-                            {
-                                if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[v.x, v.y]))
-                                {
-                                    StartCoroutine(MovementDelay());
-                                    return;
-                                }
-                            }
 
                             GridManager.combatGrid[v.x, v.y].SetHighlightColor(GetComponent<RuneRangeAndTargeting>().WindSecondaryHighlight);
                             GridManager.combatGrid[v.x, v.y].ShowHighlight(true);

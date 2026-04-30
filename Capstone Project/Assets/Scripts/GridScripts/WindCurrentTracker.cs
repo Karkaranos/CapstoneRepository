@@ -120,7 +120,7 @@ public class WindCurrentTracker : MonoBehaviour
         if (newTile != null)
         {
 
-            if (newTile.GetComponentInChildren<Enemy>())
+            if (newTile.GetComponentInChildren<Enemy>() || newTile.entityOnGrid == -2)
             {
 
                 if (CanMoveBackwards(enemyTile, newTile))
@@ -135,10 +135,8 @@ public class WindCurrentTracker : MonoBehaviour
             }
             else
             {
-                return !newTile.GetComponentInChildren<Pip>() &&
-                !newTile.GetComponentInChildren<Enemy>() &&
-                !newTile.GetComponentInChildren<PlayerBehavior>() &&
-                !newTile.GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b");
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -4 || newTile.entityOnGrid == -8 || 
+                newTile.entityOnGrid == -20;
             }
 
         }
@@ -187,7 +185,19 @@ public class WindCurrentTracker : MonoBehaviour
             {
                 TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-                if (newTile.GetComponentInChildren<Enemy>())
+                if (newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20)
+                {
+
+                    enemy.transform.SetParent(newTile.transform);
+
+                    enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+
+                    GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+
+                    enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+
+                }
+                else if (newTile.entityOnGrid == -2)
                 {
 
                     newTile.GetComponentInChildren<Enemy>().Damage(CurrentKBDamage, Enemy.DamageType.Wind);
@@ -203,33 +213,27 @@ public class WindCurrentTracker : MonoBehaviour
                     enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
 
                 }
-                else if (newTile.GetComponentInChildren<Rigidbody>().gameObject.name.Contains("TestObstacle"))
+                else if (newTile.entityOnGrid == -4)
                 {
                     enemy.Damage(CurrentKBDamage, Enemy.DamageType.Wind);
                 }
-                else
+                else if (newTile.entityOnGrid == -8)
                 {
 
-                    enemy.transform.SetParent(newTile.transform);
-
-                    enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
-
-                    GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
-
-                    enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
-
-                }
-
-                foreach (WindCurrentTracker tracker in trackers)
+                    foreach (WindCurrentTracker tracker in trackers)
                     {
 
                         if (tracker.WindCurrentTiles.Contains(newTile) && tracker != this)
                         {
+
                             enemy.Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
                             tracker.SendThroughWindCurrent(tracker.WindCurrentTiles.IndexOf(newTile), enemy);
+
                         }
 
                     }
+
+                }
 
                 break;
 
