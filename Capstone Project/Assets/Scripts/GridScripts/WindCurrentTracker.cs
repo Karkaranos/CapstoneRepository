@@ -133,6 +133,10 @@ public class WindCurrentTracker : MonoBehaviour
                 }
 
             }
+            else if(newTile.GetComponentInChildren<PlayerBehavior>())
+            {
+                return false;
+            }
             else
             {
                 return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -4 || newTile.entityOnGrid == -8;
