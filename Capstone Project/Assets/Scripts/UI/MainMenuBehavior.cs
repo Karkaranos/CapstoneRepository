@@ -44,6 +44,10 @@ public class MainMenuBehavior : MonoBehaviour
     /// <param name="obj"></param>
     private void EscapePressed(InputAction.CallbackContext obj)
     {
+        if(TransitionManager.instance.TransitioningBetweenLevels)
+        {
+            return;
+        }
         if (mainMenu.activeSelf)
         {
             mainMenu.GetComponent<MenuBehavior>().ActivateSubMenu(confirmQuit);
