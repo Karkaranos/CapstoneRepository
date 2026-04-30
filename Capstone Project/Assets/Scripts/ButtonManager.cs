@@ -132,10 +132,14 @@ public class ButtonManager : MonoBehaviour
     {
 
         Moving = true;
-        if(playerBehavior.movementPositions.Count == 0)
+        if(playerBehavior.movementPositions != null)
         {
-            confirmButton.interactable = false;
+            if (playerBehavior.movementPositions.Count == 0)
+            {
+                confirmButton.interactable = false;
+            }
         }
+        
         if(playerBehavior == null)
         {
             playerBehavior = FindFirstObjectByType<PlayerBehavior>();
