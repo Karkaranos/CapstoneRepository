@@ -6,7 +6,6 @@ Brief Description : this is the behavior of an artifact node, this gets spawned 
 click on the Notebook Artifact slot
 ***************************************************/
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
