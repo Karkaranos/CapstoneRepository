@@ -360,10 +360,20 @@ public class GridPathfinding : MonoBehaviour
         if (GetComponent<MeleeEnemy>() != null)
         {
             GetComponent<MeleeEnemy>().anim.SetBool("IsWalking", false);
+
+            if (GetComponent<Enemy>().currentHealth <= 0)
+            {
+                return;
+            }
         }
         else
         {
             GetComponent<RangedEnemy>().rangedAnimator.SetBool("IsWalking", false);
+
+            if (GetComponent<Enemy>().currentHealth <= 0)
+            {
+                return;
+            }
         }
         DelayMoveCoroFinish();
     }
