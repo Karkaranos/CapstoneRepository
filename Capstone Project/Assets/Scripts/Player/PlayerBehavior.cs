@@ -199,6 +199,11 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
 
+        if (TogglePathVisualizer)
+        {
+            VisualizeEnemyPaths();
+        }
+
         ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
         foreach (ShieldBehavior shield in allShields)
         {
@@ -215,12 +220,6 @@ public class PlayerBehavior : MonoBehaviour
             }
             current.DestroyCurrents();
         }
-
-        if (TogglePathVisualizer)
-        {
-            VisualizeEnemyPaths();
-        }
-
     }
 
     /// <summary>

@@ -278,7 +278,6 @@ public class GridPathfinding : MonoBehaviour
         //How many tiles the enemy has to move to
         for (int i = 0; i < newPositions.Count; ++i)
         {
-
             //evil evil happenings i'm sorry
             foreach (TileBehaviour tile in GridManager.combatGrid)
             {
@@ -290,7 +289,6 @@ public class GridPathfinding : MonoBehaviour
                         if (tile.GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b"))
                         {
                             EndOfMoveToTile();
-
                             yield break;
                         }
                     }
@@ -314,7 +312,6 @@ public class GridPathfinding : MonoBehaviour
 
                     foreach (WindCurrentTracker tracker in trackers)
                     {
-
                         if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[myPosition.x, myPosition.y]))
                         {
                             this.GetComponent<Enemy>().Damage(tracker.CurrentDamage, Enemy.DamageType.Wind);
@@ -326,9 +323,7 @@ public class GridPathfinding : MonoBehaviour
 
                             yield break;
                         }
-
                     }
-
                 }
 
                 yield return new WaitForSeconds(.1f / movementSpeed);
