@@ -37,10 +37,7 @@ public class PauseMenuBehavoir : MonoBehaviour
     /// <param name="obj"></param>
     private void EscapePressed(InputAction.CallbackContext obj)
     {
-        if(FindFirstObjectByType<TransitionManager>().TransitioningBetweenLevels)
-        {
-            return;
-        }
+        
         if (PauseMenu.activeSelf)
         {
             PauseMenu.SetActive(false);
