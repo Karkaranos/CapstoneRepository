@@ -94,6 +94,7 @@ public class PlayerBehavior : MonoBehaviour
     private RuneEvents re;
 
     [SerializeField] private FMOD.Studio.EventInstance walkInstance;
+    [SerializeField] private PlayerAnimator pAnim;
 
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -145,6 +146,8 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     public async void TakenDamage()
     {
+        pAnim.Damage();
+        return;
         IsDamaged = true;
         if (IsDamaged == true)
         {
@@ -159,6 +162,8 @@ public class PlayerBehavior : MonoBehaviour
         anim.SetBool("Idle", IsIdle);
         IsDamaged = false;
     }
+
+
 
     //Sets the boolean to true when left mouse button is clicked
     private void playermoveClickPerformed(InputAction.CallbackContext context)
