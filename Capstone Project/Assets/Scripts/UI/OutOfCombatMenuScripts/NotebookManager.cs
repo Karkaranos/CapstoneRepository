@@ -4,6 +4,7 @@ Date Created : 		2/2/2026
 Date Last Modified : 2/10/2026
 Brief Description : this holds the references and functions for the notebook in the out of combat menu
 ***************************************************/
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +19,22 @@ public class NotebookManager : MonoBehaviour
 
     //idk if this is gonna be needed but it here if I do
     private int currentPage;
-    
+
+    /// <summary>
+    /// this gets rid of the artifact carry over bug
+    /// </summary>
+    private void Start()
+    {
+        List<ArtifactData> artifactsToRemove = new List<ArtifactData>();
+        foreach (ArtifactData artifact in ArtifactManager.CurrentArtifacts) {
+            artifactsToRemove.Add(artifact);
+        }
+        foreach (ArtifactData artifact in artifactsToRemove)
+        {
+            //print("Removed " + artifact.name);
+            ArtifactManager.RemoveArtifact(artifact);
+        }
+    }
 
     /// <summary>
     /// loads a page based of its index in the pages list
