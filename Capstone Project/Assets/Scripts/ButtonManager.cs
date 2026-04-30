@@ -37,7 +37,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button moveButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button attackButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button backButton;
-    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button confirmButton;
+    [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] public Button confirmButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button endButton;
     [SerializeField, ShowIf(nameof(showingButtons), Buttons.Refs)] private Button skipcutButton;
     public bool playerCanMove;
@@ -132,7 +132,10 @@ public class ButtonManager : MonoBehaviour
     {
 
         Moving = true;
-
+        if(playerBehavior.movementPositions.Count == 0)
+        {
+            confirmButton.interactable = false;
+        }
         if(playerBehavior == null)
         {
             playerBehavior = FindFirstObjectByType<PlayerBehavior>();
@@ -265,11 +268,12 @@ public class ButtonManager : MonoBehaviour
         }
         else
         {
-
-            playerBehavior.ConfirmMovement();
-            moveButton.interactable = false;
-            PublicEvents.MoveButton();
-
+            if(playerBehavior.movementPositions.Count > 0)
+            {
+                playerBehavior.ConfirmMovement();
+                moveButton.interactable = false;
+                PublicEvents.MoveButton();
+            }
         }
       
     }
