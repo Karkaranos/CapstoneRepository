@@ -28,20 +28,24 @@ public class PipManager : MonoBehaviour
     [SerializeField] private List<SpawnLocations> spawningLocationsPerLevel;
 
     [SerializeField] int currentLevel = 0;
-
+    private bool hasSpawnedForTurn;
     [HideInInspector] public static PipManager Instance { get; private set; }
     [HideInInspector] public int currentPipsOnField;
- public List<TileBehaviour> hazardTiles = new List<TileBehaviour>(); 
+    public List<TileBehaviour> hazardTiles = new List<TileBehaviour>(); 
+
+    
 
     private void OnEnable()
     {
         TurnPublicEvents.BeginPlayerTurn += SpawnPips;
+        TurnPublicEvents.BeginEndTurn += ToggleHasSpawned;
         PublicEvents.LoadingGrid += SetCurrentSpawnLocations;
     }
 
     private void OnDisable()
     {
         TurnPublicEvents.BeginPlayerTurn -= SpawnPips;
+        TurnPublicEvents.BeginEndTurn -= ToggleHasSpawned;
         PublicEvents.LoadingGrid -= SetCurrentSpawnLocations;
     }
     /// <summary>
@@ -62,7 +66,7 @@ public class PipManager : MonoBehaviour
         currentLevel = 0; 
         currentPipsOnField = 0;
         currentSpawnableTiles = spawningLocationsPerLevel[0].spawningLocations;
-        
+        hasSpawnedForTurn = false;
     }
 
     /// <summary>
@@ -72,6 +76,12 @@ public class PipManager : MonoBehaviour
     public void SpawnPips()
     {
         List<TileBehaviour> temp = new List<TileBehaviour>();
+        if(hasSpawnedForTurn)
+        {
+            TurnPublicEvents.TurnActionComplete?.Invoke();
+            return;
+        }
+
         if(currentPipsOnField < pipFloor)
         {
             while (currentPipsOnField < pipFloor)
@@ -121,6 +131,7 @@ public class PipManager : MonoBehaviour
             currentSpawnableTiles = temp;
             spawningLocationsPerLevel[currentLevel].spawningLocations = currentSpawnableTiles;
         }
+        hasSpawnedForTurn = true;
         TurnPublicEvents.TurnActionComplete?.Invoke();
     }
 
@@ -131,6 +142,16 @@ public class PipManager : MonoBehaviour
         currentSpawnableTiles = spawningLocationsPerLevel[i].spawningLocations;
         currentPipsOnField = 0;
         await Task.Delay(500);
+        hasSpawnedForTurn = false;
         SpawnPips();
+    }
+
+    /// <summary>
+    /// TOOGLES IF YOU"VE SPAWNED FOR TURN 
+    /// </summary>
+    private void ToggleHasSpawned()
+    {
+        hasSpawnedForTurn = false;
+        TurnPublicEvents.TurnActionComplete?.Invoke();
     }
 }
