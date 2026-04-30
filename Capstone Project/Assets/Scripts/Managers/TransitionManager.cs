@@ -50,6 +50,7 @@ public class TransitionManager : MonoBehaviour
     /// </summary>
     public void SceneTransition(int s)
     {
+        TransitioningBetweenLevels = true;
         sceneToLoad = s;
         transitionAnimator.SetTrigger("SceneTransition");
     }
