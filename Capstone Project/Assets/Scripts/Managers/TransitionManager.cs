@@ -1,7 +1,7 @@
 /******************************************************************************
  * Author: Brad Dixon
  * Creation Date: 3/2/2026
- * Last Modified: 3/11/2026
+ * Last Modified: 4/30/2026
  * Brief: Handles the transitions between scenes and levels
  * External Resources: https://www.youtube.com/watch?v=HBEStd96UzI Used this as a starting point
  * ***************************************************************************/
@@ -23,6 +23,7 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] private EventReference EquipmnetEventRefSFX;
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
+    [HideInInspector] public bool TransitioningBetweenLevels;
 
 
     /// <summary>
@@ -57,6 +58,7 @@ public class TransitionManager : MonoBehaviour
     /// </summary>
     public void LoadSceneDuringTransition()
     {
+        TransitioningBetweenLevels = false;
         SceneManager.LoadScene(sceneToLoad);
     }
 
@@ -89,6 +91,7 @@ public class TransitionManager : MonoBehaviour
     /// </summary>
     public void LevelTransition()
     {
+        TransitioningBetweenLevels = true;
         transitionAnimator.SetTrigger("LevelTransition");
 
         AudioManager.instance.CreateEventInstance(ambienceEventRefSFX);
