@@ -199,38 +199,27 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
 
-        ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
-        if (allShields.Length >= 1)
-        {
-            foreach (ShieldBehavior shield in allShields)
-            {
-
-                GridManager.RemoveEntity(shield.GetComponentInParent<TileBehaviour>().IndexInGrid);
-                shield.GetDestroyed();
-
-            }
-        }
-
-        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
-        if (allCurrents.Length >= 1)
-        {
-            foreach (WindCurrentTracker current in allCurrents)
-            {
-
-                foreach (TileBehaviour tile in current.WindCurrentTiles)
-                {
-                    GridManager.RemoveEntity(tile.IndexInGrid);
-                }
-                current.DestroyCurrents();
-            }
-
-        }
-
         if (TogglePathVisualizer)
         {
             VisualizeEnemyPaths();
         }
 
+        ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
+        foreach (ShieldBehavior shield in allShields)
+        {
+            shield.GetComponent<TileBehaviour>().entityOnGrid = -1;
+            shield.GetDestroyed();
+        }
+
+        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+        foreach (WindCurrentTracker current in allCurrents)
+        {
+            foreach (TileBehaviour tile in current.WindCurrentTiles)
+            {
+                tile.entityOnGrid = -1;
+            }
+            current.DestroyCurrents();
+        }
     }
 
     /// <summary>
@@ -391,14 +380,7 @@ public class PlayerBehavior : MonoBehaviour
             VisualizeEnemyPaths();
         }
         StartCoroutine(MovementDelay());
-        if(movementPositions.Count == 0)
-        {
-            bm.confirmButton.interactable = false;
-        }
-        else
-        {
-            bm.confirmButton.interactable = true;
-        }
+
     }
 
     /// <summary>

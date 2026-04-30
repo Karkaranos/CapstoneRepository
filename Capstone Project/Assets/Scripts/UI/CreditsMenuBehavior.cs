@@ -21,6 +21,15 @@ public class CreditsMenuBehavior : MonoBehaviour
     private float screenLength;
 
     public bool autoScroll;
+    private Coroutine scrollCoroutine;
+
+    /// <summary>
+    /// sets the starting phase
+    /// </summary>
+    private void Awake()
+    {
+        startPos = rectTransform.localPosition;
+    }
 
     /// <summary>
     /// runs on start
@@ -28,23 +37,45 @@ public class CreditsMenuBehavior : MonoBehaviour
     private void Start()
     {
         screenLength = startPos.y - endPos.y;
+    }
 
+    /// <summary>
+    /// scrolls when the screen gets set active
+    /// </summary>
+    private void OnEnable()
+    {
         if (autoScroll)
         {
-            startPos = rectTransform.localPosition;
+            rectTransform.localPosition = startPos;
             scrollbar.gameObject.SetActive(false);
+            StartAutoScrolling();
         }
-        else {
+        else
+        {
             startPos = rectTransform.position;
         }
+    }
 
+    /// <summary>
+    /// stops scrolling when you leave the screen
+    /// </summary>
+    private void OnDisable()
+    {
+        if (scrollCoroutine != null)
+        {
+            StopCoroutine(scrollCoroutine);
+            scrollCoroutine = null;
+        }
     }
 
     /// <summary>
     /// when this function is called it starts the Acto scroll of the credits menu
     /// </summary>
     public void StartAutoScrolling() {
-        StartCoroutine(AutoScroll());
+        if (scrollCoroutine == null) {
+            scrollCoroutine = StartCoroutine(AutoScroll());
+        }
+        
     }
 
     /// <summary>
