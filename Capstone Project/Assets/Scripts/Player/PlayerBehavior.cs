@@ -55,7 +55,7 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("How long in seconds the code should wait before moving in the same direction if a player holds down the direction.")]
     [SerializeField] private float continuousMoveDelay;
     private bool canMove;
-    private List<Vector3> movementPositions = new List<Vector3>();
+    public List<Vector3> movementPositions = new List<Vector3>();
     private List<Vector2Int> previousPositions = new List<Vector2Int>();
     [Tooltip("How fast the player moves from tile to tile.")]
     [SerializeField] private float movementSpeed;
@@ -199,38 +199,27 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
 
-        ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
-        if (allShields.Length >= 1)
-        {
-            foreach (ShieldBehavior shield in allShields)
-            {
-
-                GridManager.RemoveEntity(shield.GetComponentInParent<TileBehaviour>().IndexInGrid);
-                shield.GetDestroyed();
-
-            }
-        }
-
-        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
-        if (allCurrents.Length >= 1)
-        {
-            foreach (WindCurrentTracker current in allCurrents)
-            {
-
-                foreach (TileBehaviour tile in current.WindCurrentTiles)
-                {
-                    GridManager.RemoveEntity(tile.IndexInGrid);
-                }
-                current.DestroyCurrents();
-            }
-
-        }
-
         if (TogglePathVisualizer)
         {
             VisualizeEnemyPaths();
         }
 
+        ShieldBehavior[] allShields = FindObjectsByType<ShieldBehavior>(FindObjectsSortMode.None);
+        foreach (ShieldBehavior shield in allShields)
+        {
+            shield.GetComponent<TileBehaviour>().entityOnGrid = -1;
+            shield.GetDestroyed();
+        }
+
+        WindCurrentTracker[] allCurrents = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+        foreach (WindCurrentTracker current in allCurrents)
+        {
+            foreach (TileBehaviour tile in current.WindCurrentTiles)
+            {
+                tile.entityOnGrid = -1;
+            }
+            current.DestroyCurrents();
+        }
     }
 
     /// <summary>
@@ -391,6 +380,7 @@ public class PlayerBehavior : MonoBehaviour
             VisualizeEnemyPaths();
         }
         StartCoroutine(MovementDelay());
+
     }
 
     /// <summary>
