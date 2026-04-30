@@ -751,37 +751,29 @@ public class RuneEvents : MonoBehaviour
 
         if(sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x && 
         sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
         {
             return false;
         }
         if (sourceTile.IndexInGrid.x > targetTile.IndexInGrid.x &&
         sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
+        GridManager.combatGrid[targetTile.IndexInGrid.x - 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
         {
             return false;
         }
         if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
         sourceTile.IndexInGrid.y > targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y - 1].entityOnGrid == -4)
         {
             return false;
         }
         if (sourceTile.IndexInGrid.x < targetTile.IndexInGrid.x &&
         sourceTile.IndexInGrid.y < targetTile.IndexInGrid.y &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle") &&
-        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].GetComponentInChildren
-        <Rigidbody>().gameObject.name.Contains("TestObstacle"))
+        GridManager.combatGrid[targetTile.IndexInGrid.x + 1, targetTile.IndexInGrid.y].entityOnGrid == -4 &&
+        GridManager.combatGrid[targetTile.IndexInGrid.x, targetTile.IndexInGrid.y + 1].entityOnGrid == -4)
         {
             return false;
         }
