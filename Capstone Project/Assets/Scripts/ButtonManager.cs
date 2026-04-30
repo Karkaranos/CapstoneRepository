@@ -132,7 +132,7 @@ public class ButtonManager : MonoBehaviour
     {
 
         Moving = true;
-        if(playerBehavior.movementPositions.Count != null)
+        if(playerBehavior.movementPositions != null)
         {
             if (playerBehavior.movementPositions.Count == 0)
             {
