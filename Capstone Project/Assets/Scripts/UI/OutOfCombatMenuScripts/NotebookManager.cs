@@ -25,7 +25,15 @@ public class NotebookManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        ArtifactManager.CurrentArtifacts = new List<ArtifactData>();
+        List<ArtifactData> artifactsToRemove = new List<ArtifactData>();
+        foreach (ArtifactData artifact in ArtifactManager.CurrentArtifacts) {
+            artifactsToRemove.Add(artifact);
+        }
+        foreach (ArtifactData artifact in artifactsToRemove)
+        {
+            //print("Removed " + artifact.name);
+            ArtifactManager.RemoveArtifact(artifact);
+        }
     }
 
     /// <summary>
