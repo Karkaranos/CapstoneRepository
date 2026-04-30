@@ -139,10 +139,17 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public static bool CanAttackThroughTile(Vector2Int tileCoordinates)
     {
 
-        return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
-            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
-            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
-            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -5;
+        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+        foreach (WindCurrentTracker tracker in trackers)
+        {
+            if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y]))
+            {
+                return false;
+            }
+        }
+
+        return !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<Rigidbody>() &&
+            !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b");
 
     }
 
@@ -154,9 +161,19 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public static bool CanAttackTile(Vector2Int tileCoordinates)
     {
 
-        return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
-            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
-            GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -6;
+        WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
+        foreach (WindCurrentTracker tracker in trackers)
+        {
+            if (tracker.WindCurrentTiles.Contains(GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y]))
+            {
+                return false;
+            }
+        }
+
+        return !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<Rigidbody>() &&
+            !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<PlayerBehavior>() &&
+            !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<Pip>() &&
+            !GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].GetComponentInChildren<VFXBehavior>().gameObject.name.Contains("Wind-2b");
 
     }
 
