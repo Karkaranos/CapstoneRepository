@@ -62,6 +62,7 @@ public class MenuBehavior : MonoBehaviour
     {
         MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         timeline.Play();
+        TransitionManager.instance.TransitioningBetweenLevels = true;
     }
 
     /// <summary>
