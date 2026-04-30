@@ -24,6 +24,8 @@ public class TransitionManager : MonoBehaviour
 
     [SerializeField] private FMOD.Studio.Bus MasterBus;
 
+    public bool TransitioningBetweenLevels = false;
+
 
     /// <summary>
     /// Ensures there is only one instance of this manager and allows it to persist through scenes
@@ -58,6 +60,7 @@ public class TransitionManager : MonoBehaviour
     public void LoadSceneDuringTransition()
     {
         SceneManager.LoadScene(sceneToLoad);
+        TransitioningBetweenLevels = false;
     }
 
     /// <summary>
@@ -66,6 +69,7 @@ public class TransitionManager : MonoBehaviour
     public void CutsceneTransition()
     {
         transitionAnimator.SetTrigger("GameBegin");
+        TransitioningBetweenLevels = true;
     }
 
     /// <summary>
@@ -74,6 +78,7 @@ public class TransitionManager : MonoBehaviour
     public void SkipButtonTransition()
     {
         transitionAnimator.SetTrigger("SkipTransition");
+        TransitioningBetweenLevels = true;
     }
 
     /// <summary>
