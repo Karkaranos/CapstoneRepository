@@ -132,7 +132,11 @@ public class ButtonManager : MonoBehaviour
     {
 
         Moving = true;
-        if(playerBehavior.movementPositions != null)
+        if (playerBehavior == null)
+        {
+            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
+        }
+        if (playerBehavior.movementPositions != null)
         {
             if (playerBehavior.movementPositions.Count == 0)
             {
@@ -140,10 +144,7 @@ public class ButtonManager : MonoBehaviour
             }
         }
         
-        if(playerBehavior == null)
-        {
-            playerBehavior = FindFirstObjectByType<PlayerBehavior>();
-        }
+        
         if(playerBehavior.MovementLeft > 0)
         {
 
