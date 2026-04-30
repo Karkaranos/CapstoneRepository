@@ -16,6 +16,7 @@ public class PauseMenuBehavoir : MonoBehaviour
 
     [SerializeField] private GameObject PauseMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject confirmMainMenuPopup;
     [SerializeField] private GameObject winCanvas;
     [SerializeField] private GameObject loseCanvas;
     private bool endCanvasActive = false;
@@ -45,6 +46,7 @@ public class PauseMenuBehavoir : MonoBehaviour
         if (PauseMenu.activeSelf)
         {
             PauseMenu.SetActive(false);
+            ToggleMainMenuPopup(false);
             UnpauseGame();
             return;
         }
@@ -118,5 +120,14 @@ public class PauseMenuBehavoir : MonoBehaviour
     {
         inputActions.MenuActions.Disable();
         inputActions.MenuActions.Escape.performed -= EscapePressed;
+    }
+
+    /// <summary>
+    /// toggles main menu popup
+    /// </summary>
+    /// <param name="isActive"></param>
+    public void ToggleMainMenuPopup(bool isActive)
+    {
+        confirmMainMenuPopup.SetActive(isActive);
     }
 }
