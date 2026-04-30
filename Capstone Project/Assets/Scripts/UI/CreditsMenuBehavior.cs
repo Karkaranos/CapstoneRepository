@@ -23,6 +23,9 @@ public class CreditsMenuBehavior : MonoBehaviour
     public bool autoScroll;
     private Coroutine scrollCoroutine;
 
+    /// <summary>
+    /// sets the starting phase
+    /// </summary>
     private void Awake()
     {
         startPos = rectTransform.localPosition;
@@ -34,11 +37,11 @@ public class CreditsMenuBehavior : MonoBehaviour
     private void Start()
     {
         screenLength = startPos.y - endPos.y;
-
-       
-
     }
 
+    /// <summary>
+    /// scrolls when the screen gets set active
+    /// </summary>
     private void OnEnable()
     {
         if (autoScroll)
@@ -53,6 +56,9 @@ public class CreditsMenuBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// stops scrolling when you leave the screen
+    /// </summary>
     private void OnDisable()
     {
         if (scrollCoroutine != null)
