@@ -1140,15 +1140,16 @@ public class RuneEvents : MonoBehaviour
                         currentTracker.GenerateWindCurrent(rune.RuneVFX);
                     }
 
-                    if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
+                }
+
+                foreach(TileBehaviour tile in currentTracker.WindCurrentTiles)
+                {
+                    if(tile.GetComponentInChildren<Enemy>())
                     {
-                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>().Damage
-                        (damageDealt, Enemy.DamageType.Wind);
-
-                        currentTracker.SendThroughWindCurrent(i,
-                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>());
+                        tile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
+                        currentTracker.SendThroughWindCurrent(currentTracker.WindCurrentTiles.IndexOf(tile),
+                        tile.GetComponentInChildren<Enemy>());
                     }
-
                 }
 
                 break;
