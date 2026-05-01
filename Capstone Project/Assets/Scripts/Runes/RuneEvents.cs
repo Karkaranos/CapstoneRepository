@@ -1212,7 +1212,7 @@ public class RuneEvents : MonoBehaviour
 
                 PublicEvents.EndCast.Invoke();
                 Casting = false;
-                anim.SetTrigger("Idle1");
+                //anim.SetTrigger("Idle1");
                 //bookanim.SetBool("LAtk", false);
                 //bookanim.SetBool("WAtk", false);
                 //bookanim.SetBool("Idle", true);
