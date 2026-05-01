@@ -8,6 +8,7 @@ External Resources :
 
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class WindCurrentTracker : MonoBehaviour
 {
@@ -34,14 +35,21 @@ public class WindCurrentTracker : MonoBehaviour
 
     }
 
+    public void SendThroughWindCurrent(int startingTile, Enemy enemy)
+    {
+        StartCoroutine(MoveThroughWindCurrent(startingTile, enemy));
+    }
+
     /// <summary>
     /// sends enemy down wind current either until they hit another enemy or reach the end of the line
     /// if they don't reach the end of the line, the enemy that they did will
     /// </summary>
     /// <param name="startingTile"> tile that the was standing on/moved into </param>
     /// <param name="enemy"> enemy hit by current </param>
-    public void SendThroughWindCurrent(int startingTile, Enemy enemy)
+    IEnumerator MoveThroughWindCurrent(int startingTile, Enemy enemy)
     {
+
+        bool isMoving = false;
 
         for(int i = startingTile; i < WindCurrentTiles.Count; i++)
         {
@@ -54,13 +62,28 @@ public class WindCurrentTracker : MonoBehaviour
                     SendEnemyBackwards(WindCurrentTiles[i], WindCurrentTiles[i + 1], WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>());
                 }
 
-                enemy.transform.SetParent(WindCurrentTiles[i + 1].transform);
+                //enemy.transform.SetParent(WindCurrentTiles[i + 1].transform);
 
-                enemy.transform.position = new Vector3(WindCurrentTiles[i + 1].transform.position.x, 0, WindCurrentTiles[i + 1].transform.position.z);
+                isMoving = true;
 
-                GridManager.MoveToTile(WindCurrentTiles[i].IndexInGrid, WindCurrentTiles[i + 1].IndexInGrid, -2);
+                while(isMoving)
+                {
+                    enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3
+                    (WindCurrentTiles[i + 1].transform.position.x, 0, WindCurrentTiles[i + 1].transform.position.z), 0.5f);
 
-                enemy.GetComponent<GridPathfinding>().SetPosition(WindCurrentTiles[i + 1].IndexInGrid);
+                    if(enemy.transform.position == new Vector3
+                    (WindCurrentTiles[i + 1].transform.position.x, 0, WindCurrentTiles[i + 1].transform.position.z))
+                    {
+                        isMoving = false;
+
+                        enemy.transform.SetParent(WindCurrentTiles[i + 1].transform);
+                        GridManager.MoveToTile(WindCurrentTiles[i].IndexInGrid, WindCurrentTiles[i + 1].IndexInGrid, -2);
+                        enemy.GetComponent<GridPathfinding>().SetPosition(WindCurrentTiles[i + 1].IndexInGrid);
+                    }
+
+                    //not redoing this "math" mb
+                    yield return new WaitForSeconds(.00001f);
+                }
 
             }
             else
@@ -72,6 +95,8 @@ public class WindCurrentTracker : MonoBehaviour
             }
 
         }
+
+        enemy.Damage(CurrentDamage, Enemy.DamageType.Wind);
 
     }
 

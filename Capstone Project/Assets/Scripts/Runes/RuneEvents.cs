@@ -1142,11 +1142,10 @@ public class RuneEvents : MonoBehaviour
 
                 }
 
-                foreach(TileBehaviour tile in currentTracker.WindCurrentTiles)
+                foreach (TileBehaviour tile in currentTracker.WindCurrentTiles)
                 {
-                    if(tile.GetComponentInChildren<Enemy>())
+                    if (tile.GetComponentInChildren<Enemy>())
                     {
-                        tile.GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
                         currentTracker.SendThroughWindCurrent(currentTracker.WindCurrentTiles.IndexOf(tile),
                         tile.GetComponentInChildren<Enemy>());
                     }
