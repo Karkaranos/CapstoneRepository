@@ -35,6 +35,11 @@ public class WindCurrentTracker : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// starts coroutine that sends the enemy down the current
+    /// </summary>
+    /// <param name="startingTile"> tile that the enemy was standing on/moved into </param>
+    /// <param name="enemy"> enemy hit by the current </param>
     public void SendThroughWindCurrent(int startingTile, Enemy enemy)
     {
         StartCoroutine(MoveThroughWindCurrent(startingTile, enemy));
