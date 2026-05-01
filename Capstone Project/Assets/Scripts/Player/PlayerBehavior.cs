@@ -95,6 +95,8 @@ public class PlayerBehavior : MonoBehaviour
 
     [SerializeField] private FMOD.Studio.EventInstance walkInstance;
 
+    private PlayerStats ps;
+
     /// <summary>
     /// Start is called once before the first execution of Update after the MonoBehaviour is created
     /// Sets player position and target position to reference the grid manager's player position and
@@ -117,6 +119,7 @@ public class PlayerBehavior : MonoBehaviour
         previousColliderPos = myCol.center;
         underEffect = false;
         bm = FindFirstObjectByType<ButtonManager>();
+        ps = FindFirstObjectByType<PlayerStats>();
 
         FindFirstObjectByType<RuneEvents>().Casting = false;
         FindFirstObjectByType<PlayerStats>().FullHeal();
@@ -158,6 +161,11 @@ public class PlayerBehavior : MonoBehaviour
         anim.SetBool("Walk", IsWalking);
         anim.SetBool("Idle", IsIdle);
         IsDamaged = false;
+        if(ps.CurrentHealth <= 0)
+        {
+            ps.playerSprite.enabled = false;
+        }
+        
     }
 
     //Sets the boolean to true when left mouse button is clicked
@@ -380,7 +388,14 @@ public class PlayerBehavior : MonoBehaviour
             VisualizeEnemyPaths();
         }
         StartCoroutine(MovementDelay());
-
+        if(movementPositions.Count == 0)
+        {
+            bm.confirmButton.interactable = false;
+        }
+        else
+        {
+            bm.confirmButton.interactable = true;
+        }
     }
 
     /// <summary>
