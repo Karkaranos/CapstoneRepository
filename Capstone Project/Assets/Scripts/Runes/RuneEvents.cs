@@ -368,7 +368,7 @@ public class RuneEvents : MonoBehaviour
                         if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
                         {
                             SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y],
-                            adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+                            adjacentTile, adjacentTile.GetComponentInChildren<Enemy>(), damageDealt);
                         }
 
                     }
@@ -402,7 +402,7 @@ public class RuneEvents : MonoBehaviour
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if(tile.entityOnGrid == -1 || tile.entityOnGrid == -2 || tile.entityOnGrid == -8)
+            if(tile.entityOnGrid == -1 || tile.GetComponentInChildren<Enemy>() || tile.entityOnGrid == -8)
             {
 
                 if (initialTarget.IndexInGrid.x == tile.IndexInGrid.x &&
@@ -527,7 +527,8 @@ public class RuneEvents : MonoBehaviour
 
                 if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
                 {
-                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
+                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(),
+                    tile, enemy, damageDealt);
                 }
 
                 enemy.Damage(damageDealt, Enemy.DamageType.Wind);
@@ -713,7 +714,7 @@ public class RuneEvents : MonoBehaviour
         {
 
             //putting the or statement here as a bit of extra security even if it's unnecessary while i'm looking for a fix
-            if (newTile.GetComponentInChildren<Enemy>() || newTile.entityOnGrid == -2)
+            if (newTile.GetComponentInChildren<Enemy>())
             {
 
                 //if there's an enemy on the target tile, this checks if it can be moved backwards as well
@@ -730,7 +731,7 @@ public class RuneEvents : MonoBehaviour
             }
             else
             {
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20 || newTile.entityOnGrid == -8;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -8;
             }
 
         }
@@ -787,7 +788,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="kbSource"> tile that the player occupies </param>
     /// <param name="kbTarget"> tile that the enemy occupies </param>
     /// <param name="target"> the target </param>
-    void SendEnemyBackwards(TileBehaviour kbSource, TileBehaviour kbTarget, Enemy target)
+    void SendEnemyBackwards(TileBehaviour kbSource, TileBehaviour kbTarget, Enemy target, float damage)
     {
 
         WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
@@ -824,8 +825,8 @@ public class RuneEvents : MonoBehaviour
 
                 if (newTile.entityOnGrid == -2)
                 {
-                    newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
-                    SendEnemyBackwards(kbTarget, newTile, newTile.GetComponentInChildren<Enemy>());
+                    newTile.GetComponentInChildren<Enemy>().Damage(damage/2, Enemy.DamageType.None);
+                    SendEnemyBackwards(kbTarget, newTile, newTile.GetComponentInChildren<Enemy>(), damage);
                 }
 
                 target.transform.SetParent(newTile.transform);
@@ -1141,8 +1142,11 @@ public class RuneEvents : MonoBehaviour
 
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
-                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
-                        currentTracker.SendThroughWindCurrent(i, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>());
+                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>().Damage
+                        (damageDealt, Enemy.DamageType.Wind);
+
+                        currentTracker.SendThroughWindCurrent(i,
+                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>());
                     }
 
                 }
