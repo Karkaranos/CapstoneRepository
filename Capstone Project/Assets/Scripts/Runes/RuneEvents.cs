@@ -215,7 +215,7 @@ public class RuneEvents : MonoBehaviour
                 Casting = true;
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
+                anim.SetTrigger("Attack1");
                 bookanim.SetBool("LAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
@@ -258,7 +258,7 @@ public class RuneEvents : MonoBehaviour
                 Casting = true;
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
+                anim.SetTrigger("Attack1");
                 bookanim.SetBool("LAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
@@ -333,7 +333,7 @@ public class RuneEvents : MonoBehaviour
                 Casting = true;
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
+                anim.SetTrigger("Attack1");
                 bookanim.SetBool("LAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
@@ -513,7 +513,7 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
+                anim.SetTrigger("Attack1");
                 bookanim.SetBool("WAtk", true);
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
@@ -582,7 +582,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    anim.SetBool("Attack", true);
+                    anim.SetTrigger("Attack1");
                     bookanim.SetBool("WAtk", true);
                     bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
@@ -641,7 +641,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    anim.SetBool("Attack", true);
+                    anim.SetTrigger("Attack1");
                     bookanim.SetBool("WAtk", true);
                     bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
@@ -1212,7 +1212,7 @@ public class RuneEvents : MonoBehaviour
 
                 PublicEvents.EndCast.Invoke();
                 Casting = false;
-                anim.SetBool("Attack", false);
+                anim.SetTrigger("Idle1");
                 bookanim.SetBool("LAtk", false);
                 bookanim.SetBool("WAtk", false);
                 bookanim.SetBool("Idle", true);
