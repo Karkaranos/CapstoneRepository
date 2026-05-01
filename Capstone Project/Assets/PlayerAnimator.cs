@@ -9,24 +9,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor.Animations;
 using UnityEngine;
+using static UnityEditor.Rendering.InspectorCurveEditor;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
+    [SerializeField] public Animator Anim;
     private string lastState;
 
     private Dictionary<string, AnimationClip> animClips;
 
-    private void Start()
-    {
-        anim = GetComponent<Animator>();
-        var clips = anim.GetCurrentAnimatorClipInfo(0);
-        foreach (var clip in clips)
-        {
-            Debug.Log(clip.clip.name);
-        }
-
-    }
 
     /// <summary>
     /// Checks if the animator is playing a specific clip
@@ -35,7 +26,7 @@ public class PlayerAnimator : MonoBehaviour
     /// <returns></returns>
     private bool CheckCurrentAnimatorState(string state)
     {
-        return anim.GetCurrentAnimatorStateInfo(0).IsName(state);
+        return Anim.GetCurrentAnimatorStateInfo(0).IsName(state);
     }
 
     /// <summary>
@@ -43,7 +34,7 @@ public class PlayerAnimator : MonoBehaviour
     /// </summary>
     public async void Damage()
     {
-        var animInfo = anim.GetCurrentAnimatorClipInfo(0);
+        var animInfo = Anim.GetCurrentAnimatorClipInfo(0);
         float wait = 10f;
         AnimatorStateInfo currState;
         if(!CheckCurrentAnimatorState("Player_Damaged"))
@@ -56,12 +47,12 @@ public class PlayerAnimator : MonoBehaviour
         }
         else
         {
-            currState = anim.GetCurrentAnimatorStateInfo(0);
+            currState = Anim.GetCurrentAnimatorStateInfo(0);
             wait = animInfo[0].clip.length * currState.normalizedTime;
             await Task.Delay((int)wait);
         }
 
-        anim.SetTrigger("Ouch");
+        Anim.SetTrigger("Ouch");
     }
 
     /// <summary>
@@ -71,26 +62,56 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (lastState == "Player_Idle")
         {
-            anim.SetTrigger("Idle1");
+            Anim.SetTrigger("Idle1");
         }
         else
         {
-            anim.SetTrigger("Walk1");
+            Anim.SetTrigger("Walk1");
         }
     }
 
-    public void StartWalk()
-    {
 
+    /// <summary>
+    /// Starts the Walk state
+    /// </summary>
+    public async void StartWalk()
+    {
+        var animInfo = Anim.GetCurrentAnimatorClipInfo(0);
+        float wait = 10f;
+        AnimatorStateInfo currState;
+        if (CheckCurrentAnimatorState("Player_Damaged"))
+        {
+            currState = Anim.GetCurrentAnimatorStateInfo(0);
+            wait = animInfo[0].clip.length * currState.normalizedTime;
+            await Task.Delay((int)wait);
+        }
+
+        Anim.SetTrigger("Walk1");
     }
 
+    /// <summary>
+    /// Starts the Attack state
+    /// </summary>
     public void StartAttack()
     {
-
+        Anim.SetTrigger("Attack1");
     }
 
-    public void StartIdle()
+    /// <summary>
+    /// Starts the Idle state
+    /// </summary>
+    public async void StartIdle()
     {
-        anim.SetTrigger("Idle");
+        var animInfo = Anim.GetCurrentAnimatorClipInfo(0);
+        float wait = 10f;
+        AnimatorStateInfo currState;
+        if (CheckCurrentAnimatorState("Player_Damaged"))
+        {
+            currState = Anim.GetCurrentAnimatorStateInfo(0);
+            wait = animInfo[0].clip.length * currState.normalizedTime;
+            await Task.Delay((int)wait);
+        }
+
+        Anim.SetTrigger("Idle1");
     }
 }
