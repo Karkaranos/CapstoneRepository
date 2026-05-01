@@ -216,7 +216,7 @@ public class RuneEvents : MonoBehaviour
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetTrigger("Attack1");
-                bookanim.SetBool("LAtk", true);
+                bookanim.SetTrigger("Lightning");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -259,7 +259,7 @@ public class RuneEvents : MonoBehaviour
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetTrigger("Attack1");
-                bookanim.SetBool("LAtk", true);
+                bookanim.SetTrigger("Lightning");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -334,7 +334,7 @@ public class RuneEvents : MonoBehaviour
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetTrigger("Attack1");
-                bookanim.SetBool("LAtk", true);
+                bookanim.SetTrigger("Lightning");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -514,7 +514,7 @@ public class RuneEvents : MonoBehaviour
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                 anim.SetTrigger("Attack1");
-                bookanim.SetBool("WAtk", true);
+                bookanim.SetTrigger("Wind");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -583,7 +583,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
                     anim.SetTrigger("Attack1");
-                    bookanim.SetBool("WAtk", true);
+                    bookanim.SetTrigger("Wind");
                     bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
@@ -642,7 +642,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
                     anim.SetTrigger("Attack1");
-                    bookanim.SetBool("WAtk", true);
+                    bookanim.SetTrigger("Wind");
                     bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_2);
@@ -1213,10 +1213,10 @@ public class RuneEvents : MonoBehaviour
                 PublicEvents.EndCast.Invoke();
                 Casting = false;
                 anim.SetTrigger("Idle1");
-                bookanim.SetBool("LAtk", false);
-                bookanim.SetBool("WAtk", false);
-                bookanim.SetBool("Idle", true);
-                anim.SetBool("Idle", true);
+                //bookanim.SetBool("LAtk", false);
+                //bookanim.SetBool("WAtk", false);
+                //bookanim.SetBool("Idle", true);
+                //anim.SetBool("Idle", true);
             }
 
             yield return new WaitForSeconds(1);
