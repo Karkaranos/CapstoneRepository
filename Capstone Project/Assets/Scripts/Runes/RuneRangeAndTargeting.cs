@@ -139,11 +139,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
     public static bool CanAttackThroughTile(Vector2Int tileCoordinates)
     {
 
-        if (tileCoordinates == GridManager.playerPosition)
-        {
-            return true;
-        }
-
         return GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -1 ||
             GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -2 ||
             GridManager.combatGrid[tileCoordinates.x, tileCoordinates.y].entityOnGrid == -3 ||
@@ -281,9 +276,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
                     tilesInRange.Add(GridManager.combatGrid[tile.x, tile.y]);
                 }
 
-                if (GridManager.combatGrid[tile.x, tile.y].entityOnGrid == -2)
+                if (GridManager.combatGrid[tile.x, tile.y].GetComponentInChildren<Enemy>())
                 {
                     Enemy enemy = GridManager.combatGrid[tile.x, tile.y].gameObject.GetComponentInChildren<Enemy>();
+
                     if(enemy != null)
                     {
                         enemiesInRange.Add(enemy);
@@ -399,22 +395,11 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 foreach (TileBehaviour tile in tilesInRange)
                 {
-
                     if (!tile.GetComponentInChildren<Enemy>())
                     {
-
                         viableTilesInRange.Add(tile);
-
                     }
-
                 }
-
-                break;
-
-            //"targets" the player
-            case (RuneType.Lightning, 4):
-
-                viableTilesInRange = tilesInRange;
 
                 break;
 
@@ -423,14 +408,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 foreach (TileBehaviour tile in tilesInRange)
                 {
-
                     if (tile.GetComponentInChildren<Enemy>())
                     {
-
                         viableTilesInRange.Add(tile);
-
                     }
-
                 }
 
                 break;
@@ -440,14 +421,10 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 foreach (TileBehaviour tile in tilesInRange)
                 {
-
                     if (!tile.GetComponentInChildren<Enemy>())
                     {
-
                         viableTilesInRange.Add(tile);
-
                     }
-
                 }
 
                 break;
@@ -458,25 +435,16 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
                 foreach (TileBehaviour tile in tilesInRange)
                 {
-
                     if (!tile.GetComponentInChildren<Enemy>())
                     {
-
                         viableTilesInRange.Add(tile);
-
                     }
-
                 }
 
                 break;
 
-            //targets any tile
-            case (RuneType.Wind, 4):
-
-                viableTilesInRange = tilesInRange;
-
+            default:
                 break;
-
         }
 
         SetHighlight(true, tilesInRange);
@@ -498,10 +466,8 @@ public class RuneRangeAndTargeting : MonoBehaviour
 
             foreach (TileBehaviour tile in tilesInRange)
             {
-
                 tile.SetHighlightColor(BlockedHighlight);
                 tile.ShowHighlight(true);
-
             }
 
         }
