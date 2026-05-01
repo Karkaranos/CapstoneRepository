@@ -30,4 +30,13 @@ public class HitAnimator : MonoBehaviour
     {
         animator.SetTrigger("Damaged");
     }
+
+    /// <summary>
+    /// Calls the damage function at the appropriate point in the animation
+    /// </summary>
+    public void CallPlayerDamage()
+    {
+        GetComponentInParent<MeleeEnemyAttackState>().DealDamage();
+        
+    }
 }
