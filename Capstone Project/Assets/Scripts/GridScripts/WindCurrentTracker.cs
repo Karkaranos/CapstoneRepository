@@ -64,10 +64,8 @@ public class WindCurrentTracker : MonoBehaviour
 
                 if (WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>() && CanMoveBackwards(WindCurrentTiles[i], WindCurrentTiles[i+1]))
                 {
-                    SendEnemyBackwards(WindCurrentTiles[i], WindCurrentTiles[i + 1], WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>());
+                    StartCoroutine(SendEnemyBackwards(WindCurrentTiles[i], WindCurrentTiles[i + 1], WindCurrentTiles[i + 1].GetComponentInChildren<Enemy>()));
                 }
-
-                //enemy.transform.SetParent(WindCurrentTiles[i + 1].transform);
 
                 isMoving = true;
 
@@ -95,7 +93,7 @@ public class WindCurrentTracker : MonoBehaviour
             {
                 if (WindCurrentTiles[i].GetComponentInChildren<Enemy>() && CanMoveBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i]))
                 {
-                    SendEnemyBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i], enemy);
+                    StartCoroutine(SendEnemyBackwards(WindCurrentTiles[i - 1], WindCurrentTiles[i], enemy));
                 }
             }
 
@@ -186,8 +184,10 @@ public class WindCurrentTracker : MonoBehaviour
     /// <param name="originTile"> where the enemy is being "hit" from </param>
     /// <param name="enemyTile"> where the enemy is "hit" </param>
     /// <param name="enemy"> the enemy that is "hit" </param>
-    void SendEnemyBackwards(TileBehaviour originTile, TileBehaviour enemyTile, Enemy enemy)
+    IEnumerator SendEnemyBackwards(TileBehaviour originTile, TileBehaviour enemyTile, Enemy enemy)
     {
+
+        bool isMoving = false;
 
         WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
 
@@ -221,29 +221,52 @@ public class WindCurrentTracker : MonoBehaviour
                 if (newTile.entityOnGrid == -1)
                 {
 
-                    enemy.transform.SetParent(newTile.transform);
+                    isMoving = true;
 
-                    enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+                    while (isMoving)
+                    {
+                        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3
+                        (newTile.transform.position.x, 0, newTile.transform.position.z), 0.5f);
 
-                    GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+                        if (enemy.transform.position == new Vector3(newTile.transform.position.x, 0,
+                        newTile.transform.position.z))
+                        {
+                            isMoving = false;
 
-                    enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                            enemy.transform.SetParent(newTile.transform);
+                            GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+                            enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                        }
+
+                        yield return new WaitForSeconds(.00001f);
+                    }
 
                 }
-                else if (newTile.entityOnGrid == -2)
+                else if (newTile.entityOnGrid == -2 || newTile.GetComponentInChildren<Enemy>())
                 {
 
                     newTile.GetComponentInChildren<Enemy>().Damage(CurrentKBDamage, Enemy.DamageType.Wind);
+                    StartCoroutine(SendEnemyBackwards(enemyTile, newTile, newTile.GetComponentInChildren<Enemy>()));
 
-                    SendEnemyBackwards(enemyTile, newTile, newTile.GetComponentInChildren<Enemy>());
+                    isMoving = true;
 
-                    enemy.transform.SetParent(newTile.transform);
+                    while (isMoving)
+                    {
+                        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3
+                        (newTile.transform.position.x, 0, newTile.transform.position.z), 0.5f);
 
-                    enemy.transform.position = new Vector3(newTile.transform.position.x, 0, newTile.transform.position.z);
+                        if (enemy.transform.position == new Vector3(newTile.transform.position.x, 0,
+                        newTile.transform.position.z))
+                        {
+                            isMoving = false;
 
-                    GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+                            enemy.transform.SetParent(newTile.transform);
+                            GridManager.MoveToTile(enemyTile.IndexInGrid, newTilePos, -2);
+                            enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                        }
 
-                    enemy.GetComponent<GridPathfinding>().SetPosition(newTilePos);
+                        yield return new WaitForSeconds(.00001f);
+                    }
 
                 }
                 else if (newTile.entityOnGrid == -4)
