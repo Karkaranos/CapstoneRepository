@@ -105,7 +105,10 @@ public class HitAnimator : MonoBehaviour
     /// </summary>
     public void CallDeathCheck()
     {
-        GetComponentInParent<Enemy>()?.CallDie();
-        GetComponent<Enemy>()?.CallDie();
+        if (this != null)
+        {
+            GetComponentInParent<Enemy>()?.CallDie();
+            GetComponent<Enemy>()?.CallDie();
+        }
     }
 }
