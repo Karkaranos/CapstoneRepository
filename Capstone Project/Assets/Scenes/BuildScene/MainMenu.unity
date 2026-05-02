@@ -7647,12 +7647,42 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8224575524619555743, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1892524498}
+    - targetCorrespondingSourceObject: {fileID: 2497576583266396422, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 274264948}
   m_SourcePrefab: {fileID: 100100000, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
 --- !u!224 &274264946 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8321075489976924995, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
   m_PrefabInstance: {fileID: 274264945}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &274264947 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2497576583266396422, guid: fc0efa5d21cae7046aef127ba768df0c, type: 3}
+  m_PrefabInstance: {fileID: 274264945}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &274264948
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274264947}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &280315814
 GameObject:
   m_ObjectHideFlags: 0
@@ -13435,6 +13465,8 @@ PlayableDirector:
     value: {fileID: 997409730}
   - key: {fileID: -8411960370715244845, guid: 7518d1c711218164e86fb96df77caa2b, type: 2}
     value: {fileID: 178645274}
+  - key: {fileID: 2472412988255690283, guid: 7518d1c711218164e86fb96df77caa2b, type: 2}
+    value: {fileID: 274264948}
   m_ExposedReferences:
     m_References:
     - 2abd2292ad7df2c4a85b74b91ffe271e: {fileID: 1450877639}
@@ -38492,7 +38524,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2885681151
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
