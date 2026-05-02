@@ -295,7 +295,7 @@ public class Enemy : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            Debug.Log("hsjdkjjghsdjghadsjhgsdgjksdg");
+            //Debug.Log("hsjdkjjghsdjghadsjhgsdgjksdg");
             EnemyHandler.Instance.RemoveEnemy(this, dType);
             Die();
         }
