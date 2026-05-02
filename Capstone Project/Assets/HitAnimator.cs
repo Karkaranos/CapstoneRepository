@@ -7,7 +7,6 @@ External Resources :
 ***************************************************/
 
 using UnityEngine;
-using UnityEditor.Animations;
 using System.Threading.Tasks;
 
 public class HitAnimator : MonoBehaviour
