@@ -279,6 +279,7 @@ public class RuneEvents : MonoBehaviour
 
                 if (tile.GetComponentInChildren<Enemy>())
                 {
+                    enemy = tile.GetComponentInChildren<Enemy>();
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
                 }
 
