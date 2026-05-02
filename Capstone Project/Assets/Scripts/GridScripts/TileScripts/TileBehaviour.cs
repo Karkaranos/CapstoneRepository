@@ -198,6 +198,11 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     public void ElectrifyAdTiles()
     {
+        if(tileType != TileType.Water)
+        {
+            return;
+        }
+
         List<TileBehaviour> adWaterTiles = new List<TileBehaviour>();
         List<Vector2Int> t1 = new List<Vector2Int>();
         List<Vector2Int> alreadyChecked = new List<Vector2Int>();
@@ -367,7 +372,7 @@ public class TileBehaviour : MonoBehaviour
             //calls the enemy damage
             if (ObjectOnTile.GetComponent<Enemy>() != null)
             {
-                ObjectOnTile.GetComponent<Enemy>().Damage(amount);
+                ObjectOnTile.GetComponent<Enemy>().Damage(amount, (isElectric ? Enemy.DamageType.ElectricTile : Enemy.DamageType.Bush));
             }
         }
     }

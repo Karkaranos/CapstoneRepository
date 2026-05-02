@@ -595,13 +595,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
     {
         switch (storedData.TypeOfRune, storedData.NumberOnSkillTree)
         {
-            case (RuneType.Lightning, 4):
-                foreach(Enemy enemy in enemiesInRange)
-                {
-                    enemy.ShowDamagePreview(storedData.RuneDamage * pStat.LightningAttackMultiplier);
-                    enemy.isShowingPreview = true;
-                }
-                break;
             case(RuneType.Wind, 1):
                 foreach (Enemy enemy in enemiesInRange)
                 {
@@ -617,13 +610,6 @@ public class RuneRangeAndTargeting : MonoBehaviour
                 }
                 break;
             case (RuneType.Wind, 3):
-                foreach (Enemy enemy in enemiesInRange)
-                {
-                    enemy.ShowDamagePreview(storedData.RuneDamage * pStat.WindAttackMultiplier);
-                    enemy.isShowingPreview = true;
-                }
-                break;
-            case (RuneType.Wind, 4):
                 foreach (Enemy enemy in enemiesInRange)
                 {
                     enemy.ShowDamagePreview(storedData.RuneDamage * pStat.WindAttackMultiplier);
