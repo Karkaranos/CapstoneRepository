@@ -44,6 +44,10 @@ public class HitAnimator : MonoBehaviour
 
 
         animator.SetTrigger("Shocked");
+
+        await Task.Delay(1100);
+
+        CallDeathCheck();
     }
 
 
@@ -81,6 +85,10 @@ public class HitAnimator : MonoBehaviour
         }
 
         animator.SetTrigger("Damaged");
+
+        await Task.Delay(1100);
+
+        CallDeathCheck();
     }
 
 
@@ -97,6 +105,10 @@ public class HitAnimator : MonoBehaviour
     /// </summary>
     public void CallDeathCheck()
     {
-        GetComponentInParent<Enemy>().CallDie();
+        if (this != null)
+        {
+            GetComponentInParent<Enemy>()?.CallDie();
+            GetComponent<Enemy>()?.CallDie();
+        }
     }
 }
