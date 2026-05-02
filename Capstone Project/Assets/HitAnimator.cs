@@ -90,6 +90,13 @@ public class HitAnimator : MonoBehaviour
     public void CallPlayerDamage()
     {
         GetComponentInParent<MeleeEnemyAttackState>().DealDamage();
-        
+    }
+
+    /// <summary>
+    /// Used for the melee enemy
+    /// </summary>
+    public void CallDeathCheck()
+    {
+        GetComponentInParent<Enemy>().CallDie();
     }
 }
