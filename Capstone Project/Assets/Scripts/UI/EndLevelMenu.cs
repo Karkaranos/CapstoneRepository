@@ -80,6 +80,7 @@ public class EndLevelMenu : MonoBehaviour
             else
             {
                 WinMenu.SetActive(true);
+                FMODUnity.RuntimeManager.PlayOneShot("event:/WinJingle");
             }
 
 
@@ -87,6 +88,7 @@ public class EndLevelMenu : MonoBehaviour
         else
         {
             LoseMenu.SetActive(true);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/LoseJingle");
         }
         if (!WinMenu.activeSelf || !LoseMenu.activeSelf || !demoMenu.activeSelf)
         {
@@ -112,6 +114,7 @@ public class EndLevelMenu : MonoBehaviour
             else
             {
                 WinMenu.SetActive(true);
+                FMODUnity.RuntimeManager.PlayOneShot("event:/WinJingle");
             }
 
 
@@ -119,6 +122,7 @@ public class EndLevelMenu : MonoBehaviour
         else
         {
             LoseMenu.SetActive(true);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/LoseJingle");
         }
         if (!WinMenu.activeSelf || !LoseMenu.activeSelf || !demoMenu.activeSelf)
         {

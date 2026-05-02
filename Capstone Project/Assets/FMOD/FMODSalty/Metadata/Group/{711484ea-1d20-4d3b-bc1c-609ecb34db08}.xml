@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerGroup" id="{711484ea-1d20-4d3b-bc1c-609ecb34db08}">
+		<property name="name">
+			<value>Jingles</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{75e12bff-c7ab-4459-a10d-0beb13496ab3}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{75c2e36d-1287-4f4a-a5e3-431cd3b04282}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{626115c2-44de-49fb-b311-01f89554ac9e}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{75e12bff-c7ab-4459-a10d-0beb13496ab3}">
+		<relationship name="effects">
+			<destination>{1b26a206-e763-4259-9815-1ff7a75317fb}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{75c2e36d-1287-4f4a-a5e3-431cd3b04282}" />
+	<object class="MixerBusFader" id="{1b26a206-e763-4259-9815-1ff7a75317fb}" />
+</objects>
