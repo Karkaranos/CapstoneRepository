@@ -521,7 +521,13 @@ public class RuneEvents : MonoBehaviour
                 AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                 AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
 
-                Instantiate(rune.RuneVFX, tile.transform);
+                GameObject vfx = Instantiate(rune.RuneVFX, tile.transform);
+
+                if(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>().IndexInGrid.x >
+                tile.IndexInGrid.x)
+                {
+                    vfx.transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
 
                 await Task.Delay(1000);
 
