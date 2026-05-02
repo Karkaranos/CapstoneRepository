@@ -217,6 +217,9 @@ MonoBehaviour:
   enableMovement: 0
   IsMoving: 0
   IsPathing: 0
+  EnemyLayer:
+    serializedVersion: 2
+    m_Bits: 484
 --- !u!114 &7056796669355282131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,8 +289,10 @@ MonoBehaviour:
   XPMultiplier: 1
   RAPChanceModifier: 1
   turnIndicator: {fileID: 0}
+  playerSprite: {fileID: 0}
   statChange: {fileID: 4928990455551846258, guid: 35600f2e1436bdc49a9a91833121fc9d, type: 3}
   UICanvas: {fileID: 0}
+  pb: {fileID: 0}
   Resistance: 0
   DamageTakenMultiplier: 1
   RangedDamageTakenMultiplier: 1
