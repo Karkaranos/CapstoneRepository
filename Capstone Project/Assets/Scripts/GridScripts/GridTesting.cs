@@ -16,7 +16,7 @@ public class GridTesting : MonoBehaviour
     [HorizontalLine(4, EColor.Red)]
 
     [Tooltip("Used to determine which grid is being used")]
-    [SerializeField] private int gridIndex;
+    [SerializeField] public int gridIndex;
 
     [Tooltip("The list of the different combat grids")]
     [SerializeField] private List<GameObject> gridPrefabs = new List<GameObject>();
