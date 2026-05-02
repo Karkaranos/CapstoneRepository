@@ -367,7 +367,7 @@ public class TileBehaviour : MonoBehaviour
             //calls the enemy damage
             if (ObjectOnTile.GetComponent<Enemy>() != null)
             {
-                ObjectOnTile.GetComponent<Enemy>().Damage(amount);
+                ObjectOnTile.GetComponent<Enemy>().Damage(amount, (isElectric ? Enemy.DamageType.ElectricTile : Enemy.DamageType.Bush));
             }
         }
     }
