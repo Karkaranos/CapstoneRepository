@@ -7,9 +7,7 @@ External Resources : 	N/A
 ***************************************************/
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEditor.Animations;
 using UnityEngine;
-using static UnityEditor.Rendering.InspectorCurveEditor;
 
 public class PlayerAnimator : MonoBehaviour
 {

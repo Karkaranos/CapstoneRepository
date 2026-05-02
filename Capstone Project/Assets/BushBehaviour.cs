@@ -7,7 +7,6 @@ External Resources : 	N/A
 ***************************************************/
 using UnityEngine;
 using NaughtyAttributes;
-using UnityEngine.Animations;
 using System.Runtime.CompilerServices;
 
 [System.Obsolete]

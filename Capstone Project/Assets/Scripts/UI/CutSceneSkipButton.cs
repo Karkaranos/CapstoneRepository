@@ -5,6 +5,7 @@
  * Brief: Allows skipping of the book opening animation and storybook cutscene
  * External Resources: N/A
  * ***************************************************************************/
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class CutSceneSkipButton : MonoBehaviour
     {
         //videoCanvas.SetActive(false);
         FindAnyObjectByType<TransitionManager>().SkipButtonTransition();
+        RuntimeManager.GetBus("Bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     /// <summary>
@@ -28,5 +30,6 @@ public class CutSceneSkipButton : MonoBehaviour
     {
         gameObject.GetComponent<Button>().interactable = false;
         FindFirstObjectByType<TransitionManager>().SceneTransition(1);
+        RuntimeManager.GetBus("Bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 }
