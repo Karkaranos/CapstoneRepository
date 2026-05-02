@@ -279,6 +279,7 @@ public class RuneEvents : MonoBehaviour
 
                 if (tile.GetComponentInChildren<Enemy>())
                 {
+                    enemy = tile.GetComponentInChildren<Enemy>();
                     enemy.Damage(damageDealt, Enemy.DamageType.Lightning);
                 }
 
@@ -1239,6 +1240,7 @@ public class RuneEvents : MonoBehaviour
                 //bookanim.SetBool("WAtk", false);
                 //bookanim.SetBool("Idle", true);
                 //anim.SetBool("Idle", true);
+                FindFirstObjectByType<PlayerAnimator>()?.ChangeSavedState("Player_Idle");
             }
 
             yield return new WaitForSeconds(1);

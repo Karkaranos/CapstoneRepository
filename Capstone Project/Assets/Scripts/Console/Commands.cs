@@ -161,6 +161,14 @@ public class Commands
                         break;
                 }
             }
+
+            if(command == "kill-enemies")
+            {
+                foreach(Enemy e in AllEnemies)
+                {
+                    e.CallDie();
+                }
+            }
         }
         // Commands that affect a single enemy
         else

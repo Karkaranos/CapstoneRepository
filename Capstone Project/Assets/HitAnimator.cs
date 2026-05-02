@@ -7,7 +7,6 @@ External Resources :
 ***************************************************/
 
 using UnityEngine;
-using UnityEditor.Animations;
 using System.Threading.Tasks;
 
 public class HitAnimator : MonoBehaviour
@@ -44,6 +43,10 @@ public class HitAnimator : MonoBehaviour
 
 
         animator.SetTrigger("Shocked");
+
+        await Task.Delay(1100);
+
+        CallDeathCheck();
     }
 
 
@@ -81,6 +84,10 @@ public class HitAnimator : MonoBehaviour
         }
 
         animator.SetTrigger("Damaged");
+
+        await Task.Delay(1100);
+
+        CallDeathCheck();
     }
 
 
@@ -90,6 +97,17 @@ public class HitAnimator : MonoBehaviour
     public void CallPlayerDamage()
     {
         GetComponentInParent<MeleeEnemyAttackState>().DealDamage();
-        
+    }
+
+    /// <summary>
+    /// Used for the melee enemy
+    /// </summary>
+    public void CallDeathCheck()
+    {
+        if (this != null)
+        {
+            GetComponentInParent<Enemy>()?.CallDie();
+            GetComponent<Enemy>()?.CallDie();
+        }
     }
 }

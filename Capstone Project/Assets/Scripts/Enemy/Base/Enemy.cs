@@ -63,7 +63,8 @@ public class Enemy : MonoBehaviour
         ShowIf(nameof(currentSettings), Settings.Health),
         ReadOnly]public float currentHealth = 5f;
 
-    public bool isShowingPreview; 
+    public bool isShowingPreview;
+    private DamageType dType;
     #endregion
 
     #region COMBAT VARS
@@ -220,8 +221,9 @@ public class Enemy : MonoBehaviour
     /// Damage function for enemy. Public so states can call it
     /// </summary>
     /// <param name="damage"></param>
-    public async void Damage(float damage, DamageType dType = DamageType.None)
+    public async void Damage(float damage, DamageType dTypel = DamageType.None)
     {
+        dType = dTypel;
         if(invincible)
         {
             return;
@@ -273,13 +275,7 @@ public class Enemy : MonoBehaviour
             }
 
             healthBarSlider.value = currentHealth;
-            
-            if (currentHealth <= 0)
-            {
-                EnemyHandler.Instance.RemoveEnemy(this, dType);
-                await Task.Delay(500);
-                Die();
-            }
+
             logText.text = damage + " dmg";
 
 
@@ -289,6 +285,19 @@ public class Enemy : MonoBehaviour
                 spriteRen.material = baseMat;
             }
             PublicEvents.HideDamagePreview.Invoke();
+        }
+    }
+
+    /// <summary>
+    /// Calls enemy death
+    /// </summary>
+    public void CallDie()
+    {
+        if (currentHealth <= 0)
+        {
+            //Debug.Log("hsjdkjjghsdjghadsjhgsdgjksdg");
+            EnemyHandler.Instance.RemoveEnemy(this, dType);
+            Die();
         }
     }
 
