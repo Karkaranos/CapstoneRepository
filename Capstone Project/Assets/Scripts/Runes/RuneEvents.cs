@@ -215,11 +215,15 @@ public class RuneEvents : MonoBehaviour
                 Casting = true;
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetTrigger("Attack1");
+                
                 bookanim.SetTrigger("Lightning");
+                anim.SetTrigger("Attack1");
+
+                
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
+                await Task.Delay(500);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_1);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_1, audioListenerObject.transform.position);
 
@@ -263,6 +267,7 @@ public class RuneEvents : MonoBehaviour
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
+                await Task.Delay(500);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_4);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_4, audioListenerObject.transform.position);
 
@@ -338,6 +343,7 @@ public class RuneEvents : MonoBehaviour
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
+                await Task.Delay(500);
                 AudioManager.instance.CreateEventInstance(lightningSpellSFX_3);
                 AudioManager.instance.PlayOneShot(lightningSpellSFX_3, audioListenerObject.transform.position);
 
@@ -518,6 +524,7 @@ public class RuneEvents : MonoBehaviour
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
+                await Task.Delay(500);
                 AudioManager.instance.CreateEventInstance(windSpellSFX_1);
                 AudioManager.instance.PlayOneShot(windSpellSFX_1, audioListenerObject.transform.position);
 
@@ -579,6 +586,13 @@ public class RuneEvents : MonoBehaviour
 
                     Casting = true;
 
+                    anim.SetTrigger("Attack1");
+                    bookanim.SetTrigger("Wind");
+                    bookanim.SetBool("Idle", false);
+                    anim.SetBool("Idle", false);
+
+                    await Task.Delay(500);
+
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
                     MoveAlongPath(rune);
@@ -588,10 +602,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    anim.SetTrigger("Attack1");
-                    bookanim.SetTrigger("Wind");
-                    bookanim.SetBool("Idle", false);
-                    anim.SetBool("Idle", false);
+                    
                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
                     AudioManager.instance.PlayOneShot(windSpellSFX_3, audioListenerObject.transform.position);
 
@@ -640,6 +651,13 @@ public class RuneEvents : MonoBehaviour
 
                     gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
+                    anim.SetTrigger("Attack1");
+                    bookanim.SetTrigger("Wind");
+                    bookanim.SetBool("Idle", false);
+                    anim.SetBool("Idle", false);
+
+                    await Task.Delay(500);
+
                     MoveAlongPath(rune);
 
                     WaitingOnPath = false;
@@ -647,10 +665,7 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    anim.SetTrigger("Attack1");
-                    bookanim.SetTrigger("Wind");
-                    bookanim.SetBool("Idle", false);
-                    anim.SetBool("Idle", false);
+                    
                     AudioManager.instance.CreateEventInstance(windSpellSFX_2);
                     AudioManager.instance.PlayOneShot(windSpellSFX_2, audioListenerObject.transform.position);
 
