@@ -45,9 +45,7 @@ public class HitAnimator : MonoBehaviour
 
         animator.SetTrigger("Shocked");
 
-        currState = animator.GetCurrentAnimatorStateInfo(0);
-        wait = animInfo[0].clip.length * currState.normalizedTime;
-        await Task.Delay((int)wait);
+        await Task.Delay(1100);
 
         CallDeathCheck();
     }
@@ -88,9 +86,7 @@ public class HitAnimator : MonoBehaviour
 
         animator.SetTrigger("Damaged");
 
-        currState = animator.GetCurrentAnimatorStateInfo(0);
-        wait = animInfo[0].clip.length * currState.normalizedTime;
-        await Task.Delay((int)wait);
+        await Task.Delay(1100);
 
         CallDeathCheck();
     }
