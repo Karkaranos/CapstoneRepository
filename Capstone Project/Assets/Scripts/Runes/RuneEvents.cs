@@ -215,8 +215,8 @@ public class RuneEvents : MonoBehaviour
                 Casting = true;
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
-                bookanim.SetBool("LAtk", true);
+                anim.SetTrigger("Attack1");
+                bookanim.SetTrigger("Lightning");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -258,8 +258,8 @@ public class RuneEvents : MonoBehaviour
                 Casting = true;
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
-                bookanim.SetBool("LAtk", true);
+                anim.SetTrigger("Attack1");
+                bookanim.SetTrigger("Lightning");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -333,8 +333,8 @@ public class RuneEvents : MonoBehaviour
                 Casting = true;
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
-                bookanim.SetBool("LAtk", true);
+                anim.SetTrigger("Attack1");
+                bookanim.SetTrigger("Lightning");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -368,7 +368,7 @@ public class RuneEvents : MonoBehaviour
                         if (CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), adjacentTile))
                         {
                             SendEnemyBackwards(GridManager.combatGrid[GridManager.playerPosition.x, GridManager.playerPosition.y],
-                            adjacentTile, adjacentTile.GetComponentInChildren<Enemy>());
+                            adjacentTile, adjacentTile.GetComponentInChildren<Enemy>(), damageDealt);
                         }
 
                     }
@@ -402,7 +402,7 @@ public class RuneEvents : MonoBehaviour
         foreach (TileBehaviour tile in GridManager.combatGrid)
         {
 
-            if(tile.entityOnGrid == -1 || tile.entityOnGrid == -2 || tile.entityOnGrid == -8)
+            if(tile.entityOnGrid == -1 || tile.GetComponentInChildren<Enemy>() || tile.entityOnGrid == -8)
             {
 
                 if (initialTarget.IndexInGrid.x == tile.IndexInGrid.x &&
@@ -513,8 +513,8 @@ public class RuneEvents : MonoBehaviour
 
                 gameObject.GetComponent<RuneRangeAndTargeting>().SetCastStatus(true);
 
-                anim.SetBool("Attack", true);
-                bookanim.SetBool("WAtk", true);
+                anim.SetTrigger("Attack1");
+                bookanim.SetTrigger("Wind");
                 bookanim.SetBool("Idle", false);
                 anim.SetBool("Idle", false);
 
@@ -527,7 +527,8 @@ public class RuneEvents : MonoBehaviour
 
                 if(CanMoveBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile))
                 {
-                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(), tile, enemy);
+                    SendEnemyBackwards(FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<TileBehaviour>(),
+                    tile, enemy, damageDealt);
                 }
 
                 enemy.Damage(damageDealt, Enemy.DamageType.Wind);
@@ -581,8 +582,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    anim.SetBool("Attack", true);
-                    bookanim.SetBool("WAtk", true);
+                    anim.SetTrigger("Attack1");
+                    bookanim.SetTrigger("Wind");
                     bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_3);
@@ -640,8 +641,8 @@ public class RuneEvents : MonoBehaviour
                     FindFirstObjectByType<PlayerInputHandler>().IsPathing = false;
                     FindFirstObjectByType<PlayerInputHandler>().enableMovement = false;
 
-                    anim.SetBool("Attack", true);
-                    bookanim.SetBool("WAtk", true);
+                    anim.SetTrigger("Attack1");
+                    bookanim.SetTrigger("Wind");
                     bookanim.SetBool("Idle", false);
                     anim.SetBool("Idle", false);
                     AudioManager.instance.CreateEventInstance(windSpellSFX_2);
@@ -713,7 +714,7 @@ public class RuneEvents : MonoBehaviour
         {
 
             //putting the or statement here as a bit of extra security even if it's unnecessary while i'm looking for a fix
-            if (newTile.GetComponentInChildren<Enemy>() || newTile.entityOnGrid == -2)
+            if (newTile.GetComponentInChildren<Enemy>())
             {
 
                 //if there's an enemy on the target tile, this checks if it can be moved backwards as well
@@ -730,7 +731,7 @@ public class RuneEvents : MonoBehaviour
             }
             else
             {
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20 || newTile.entityOnGrid == -8;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -8;
             }
 
         }
@@ -787,7 +788,7 @@ public class RuneEvents : MonoBehaviour
     /// <param name="kbSource"> tile that the player occupies </param>
     /// <param name="kbTarget"> tile that the enemy occupies </param>
     /// <param name="target"> the target </param>
-    void SendEnemyBackwards(TileBehaviour kbSource, TileBehaviour kbTarget, Enemy target)
+    void SendEnemyBackwards(TileBehaviour kbSource, TileBehaviour kbTarget, Enemy target, float damage)
     {
 
         WindCurrentTracker[] trackers = FindObjectsByType<WindCurrentTracker>(FindObjectsSortMode.None);
@@ -824,8 +825,8 @@ public class RuneEvents : MonoBehaviour
 
                 if (newTile.entityOnGrid == -2)
                 {
-                    newTile.GetComponentInChildren<Enemy>().Damage(currentSecondaryDamage, Enemy.DamageType.Wind);
-                    SendEnemyBackwards(kbTarget, newTile, newTile.GetComponentInChildren<Enemy>());
+                    newTile.GetComponentInChildren<Enemy>().Damage(damage/2, Enemy.DamageType.None);
+                    SendEnemyBackwards(kbTarget, newTile, newTile.GetComponentInChildren<Enemy>(), damage);
                 }
 
                 target.transform.SetParent(newTile.transform);
@@ -1141,8 +1142,11 @@ public class RuneEvents : MonoBehaviour
 
                     if (GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>())
                     {
-                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>().Damage(damageDealt, Enemy.DamageType.Wind);
-                        currentTracker.SendThroughWindCurrent(i, GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>());
+                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>().Damage
+                        (damageDealt, Enemy.DamageType.Wind);
+
+                        currentTracker.SendThroughWindCurrent(i,
+                        GridManager.combatGrid[PreviousPos[i].x, PreviousPos[i].y].GetComponentInChildren<Enemy>());
                     }
 
                 }
@@ -1208,11 +1212,11 @@ public class RuneEvents : MonoBehaviour
 
                 PublicEvents.EndCast.Invoke();
                 Casting = false;
-                anim.SetBool("Attack", false);
-                bookanim.SetBool("LAtk", false);
-                bookanim.SetBool("WAtk", false);
-                bookanim.SetBool("Idle", true);
-                anim.SetBool("Idle", true);
+                //anim.SetTrigger("Idle1");
+                //bookanim.SetBool("LAtk", false);
+                //bookanim.SetBool("WAtk", false);
+                //bookanim.SetBool("Idle", true);
+                //anim.SetBool("Idle", true);
             }
 
             yield return new WaitForSeconds(1);

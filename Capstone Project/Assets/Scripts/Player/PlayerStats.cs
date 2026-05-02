@@ -44,7 +44,7 @@ public class PlayerStats : MonoBehaviour
     [Header("References to different canvases or objects")]
     [Tooltip("UI Object for the turn indicator"), ShowIf(nameof(settings), Settings.GeneralStats)] public GameObject turnIndicator;
     private Transform playerCanvas;
-    private SpriteRenderer playerSprite;
+    public SpriteRenderer playerSprite;
     [Tooltip("In-Combat Stat Update prefab. Has a text and image component"), ShowIf(nameof(settings), Settings.GeneralStats), SerializeField]
     private GameObject statChange;
     [SerializeField] private GameObject UICanvas;
@@ -284,6 +284,7 @@ public class PlayerStats : MonoBehaviour
         {
             playerSprite.material = baseMat;
         }
+        
     }
 
     /// <summary>
