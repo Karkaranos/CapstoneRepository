@@ -22,7 +22,11 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] private GameObject audioListenerObject;
     [SerializeField] private EventReference EquipmnetEventRefSFX;
 
-    [SerializeField] private FMOD.Studio.Bus MasterBus;
+    [SerializeField] private FMOD.Studio.Bus masterBus;
+   [SerializeField] private FMOD.Studio.Bus bgmBus;
+    [SerializeField] private FMOD.Studio.Bus sfxBus;
+    [SerializeField] private FMOD.Studio.Bus ambBus;
+
 
     public bool TransitioningBetweenLevels = false;
 
@@ -42,7 +46,11 @@ public class TransitionManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
-        MasterBus = RuntimeManager.GetBus("Bus:/");
+
+        masterBus = RuntimeManager.GetBus("bus:/");
+        bgmBus = RuntimeManager.GetBus("bus:/BGM");
+        sfxBus = RuntimeManager.GetBus("bus:/SFX");
+        ambBus = RuntimeManager.GetBus("bus:/Ambience");
     }
 
     /// <summary>
@@ -110,7 +118,9 @@ public class TransitionManager : MonoBehaviour
     public void LevelToEndScreen()
     {
         transitionAnimator.SetTrigger("EndScreen");
-        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        bgmBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        sfxBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        ambBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 
     /// <summary>
@@ -120,7 +130,9 @@ public class TransitionManager : MonoBehaviour
     {
         FindFirstObjectByType<EndLevelMenu>().ShowTheEndMenuUI();
 
-        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        bgmBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        sfxBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        ambBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
     }
 
@@ -131,6 +143,8 @@ public class TransitionManager : MonoBehaviour
     {
         transitionAnimator.SetTrigger("EquipMenu");
         FindFirstObjectByType<SkillAndArtifactManager>(FindObjectsInactive.Include)?.SetButton();
+
+        masterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
         AudioManager.instance.CreateEventInstance(EquipmnetEventRefSFX);
         AudioManager.instance.PlayOneShot(EquipmnetEventRefSFX, audioListenerObject.transform.position);
