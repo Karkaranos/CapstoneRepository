@@ -96,7 +96,7 @@ public class CreditsMenuBehavior : MonoBehaviour
         print(startPos + " " + endPos);
         float time = 0f;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         while (time < scrollDuration)
         {
