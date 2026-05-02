@@ -450,8 +450,8 @@ public class TurnManager : MonoBehaviour
                 }
                 else
                 {
-                    playerBanner.SetActive(false);
-                    enemyBanner.SetActive(false);
+                    playerBanner?.SetActive(false);
+                    enemyBanner?.SetActive(false);
                 }
                 break;
             case TurnStates.EnemyTurn:
