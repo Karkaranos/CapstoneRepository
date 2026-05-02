@@ -1,7 +1,7 @@
 /*************************************************
 Author Names : 	Jay Embry
 Date Created : 	02/15/2026
-Date Last Modified : 3/31/2026
+Date Last Modified : 4/30/2026
 Brief Description : Create/manages wind currents
 External Resources : 	
 	***************************************************/
@@ -133,10 +133,13 @@ public class WindCurrentTracker : MonoBehaviour
                 }
 
             }
+            else if(newTile.GetComponentInChildren<PlayerBehavior>())
+            {
+                return false;
+            }
             else
             {
-                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -4 || newTile.entityOnGrid == -8 || 
-                newTile.entityOnGrid == -20;
+                return newTile.entityOnGrid == -1 || newTile.entityOnGrid == -4 || newTile.entityOnGrid == -8;
             }
 
         }
@@ -185,7 +188,7 @@ public class WindCurrentTracker : MonoBehaviour
             {
                 TileBehaviour newTile = GridManager.combatGrid[newTilePos.x, newTilePos.y];
 
-                if (newTile.entityOnGrid == -1 || newTile.entityOnGrid == -20)
+                if (newTile.entityOnGrid == -1)
                 {
 
                     enemy.transform.SetParent(newTile.transform);

@@ -40,7 +40,7 @@ public class MeleeEnemyAttackState : MeleeEnemyState
         enemy.logText.text = "A";
 
         //damage player
-        enemy.playerStats.TakeDamage(enemy.damage, PlayerStats.DamageSource.Melee);
+        //enemy.playerStats.TakeDamage(enemy.damage, PlayerStats.DamageSource.Melee);
 
         meleeAttackSFX = FMODUnity.RuntimeManager.CreateInstance("event:/MeleeAttack");
         FMODUnity.RuntimeManager.PlayOneShot("event:/MeleeAttack");
@@ -64,5 +64,13 @@ public class MeleeEnemyAttackState : MeleeEnemyState
     {
         base.ExitState();
         enemy.anim.SetBool("IsAttacking", false);
+    }
+
+    /// <summary>
+    /// Okay i know this is bad form with state machines but i needed access to the variables
+    /// </summary>
+    public void DealDamage()
+    {
+        enemy.playerStats.TakeDamage(enemy.damage, PlayerStats.DamageSource.Melee);
     }
 }

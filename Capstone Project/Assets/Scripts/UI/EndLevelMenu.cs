@@ -16,6 +16,7 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private GameObject SkillMenu;
     [SerializeField] private GameObject WinMenu;
     [SerializeField] private GameObject LoseMenu;
+    [SerializeField] private GameObject controlsButton;
     [SerializeField] private FMOD.Studio.Bus MasterBus;
     private bool retrying;
     [SerializeField] private bool IsDemo;
@@ -35,6 +36,7 @@ public class EndLevelMenu : MonoBehaviour
         WinMenu.SetActive(false);
         LoseMenu.SetActive(false);
         demoMenu.SetActive(false);
+        controlsButton.SetActive(true);
 
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
         // Grabs bus manager for audio
@@ -47,6 +49,7 @@ public class EndLevelMenu : MonoBehaviour
     {
         if (!AnyMenuOpen() && !endCalled)
         {
+            controlsButton.SetActive(false);
             endCalled = true;
             if (delay)
             {
@@ -221,6 +224,7 @@ public class EndLevelMenu : MonoBehaviour
         FindFirstObjectByType<RuneSelectionMenu>(findObjectsInactive: FindObjectsInactive.Include).gameObject.SetActive(true);
         WinMenu.SetActive(false);
         LoseMenu.SetActive(false);
+        controlsButton.SetActive(true);
     }
 
     /// <summary>
