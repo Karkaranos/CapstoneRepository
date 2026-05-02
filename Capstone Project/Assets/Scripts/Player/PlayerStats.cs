@@ -177,7 +177,6 @@ public class PlayerStats : MonoBehaviour
 
         if (!TakesDamage)
         {
-            pb.TakenDamage();
             return;
         }
 
@@ -191,10 +190,11 @@ public class PlayerStats : MonoBehaviour
 
         //i could move this to a different script if that would be more efficient
         //for now, this checks if the player's tile will "take damage" for them
-        if (FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<ShieldBehavior>() != null)
+        pb = FindFirstObjectByType<PlayerBehavior>();
+        if (pb.GetComponentInParent<ShieldBehavior>() != null)
         {
 
-            FindFirstObjectByType<PlayerBehavior>().GetComponentInParent<ShieldBehavior>().TakeDamage();
+            pb.GetComponentInParent<ShieldBehavior>().TakeDamage();
 
             //how much damage is this negating?? is this negating damage, or simply taking a hit for the player??
             //discuss this more later
@@ -203,6 +203,7 @@ public class PlayerStats : MonoBehaviour
 
         }
 
+        pb.TakenDamage();
 
         if (playerSprite != null)
         {
