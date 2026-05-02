@@ -250,11 +250,17 @@ public class Enemy : MonoBehaviour
                 switch (dType)
                 {
                     case DamageType.Lightning:
+                        hitAnimator.ShockHit();
+                        s = lightningSprite;
+                        break;
                     case DamageType.ElectricTile:
                         hitAnimator.ShockHit();
                         s = lightningSprite;
                         break;
                     case DamageType.Bush:
+                        hitAnimator.WindHit();
+                        s = windSprite;
+                        break;
                     case DamageType.Wind:
                         hitAnimator.WindHit();
                         s = windSprite;
