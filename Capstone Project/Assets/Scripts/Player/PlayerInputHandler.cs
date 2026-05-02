@@ -6,6 +6,7 @@ Brief Description : Handles all of the player's inputs
 External Resources : 	
 ***************************************************/
 
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -36,6 +37,8 @@ public class PlayerInputHandler : MonoBehaviour
 
     RuneRangeAndTargeting runeRangeAndTargeting;
     RuneEvents runeEvents;
+
+    public LayerMask EnemyLayer;
 
     #endregion VARS
 
@@ -252,52 +255,58 @@ public class PlayerInputHandler : MonoBehaviour
             RaycastHit hit;
 
             //if it hits something
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~EnemyLayer))
             {
-                //if it hits a tilebehavior, sends the publicevent
+                Debug.Log(hit.transform.gameObject.name);
+                TileBehaviour hitBehav = null;
                 if (hit.transform.gameObject.GetComponentInParent<TileBehaviour>() != null)
                 {
+                    hitBehav = hit.transform.gameObject.GetComponentInParent<TileBehaviour>();
+                }
+                else if (hit.transform.gameObject.GetComponent<TileBehaviour>() != null)
+                {
+                    hitBehav = hit.transform.gameObject.GetComponent<TileBehaviour>();
+                }
+                else
+                {
+                    return;
+                }
 
-                    if (hit.transform.gameObject.GetComponent<Enemy>() != null)
-                    {
-                        PublicEvents.DisplayEnemyStatbox?.Invoke(hit.transform.gameObject.GetComponent<Enemy>());
+                if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
+                {
+                    PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
+                       null, hit.transform.gameObject.GetComponent<PlayerBehavior>());
 
-                        PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
-                            hit.transform.gameObject.GetComponentInChildren<Enemy>(), null);
-                       
-                    }
-                    else if (hit.transform.gameObject.GetComponent<PlayerBehavior>() != null)
+                }
+                else
+                {
+
+                    if (hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
                     {
-                        PublicEvents.HideEnemyStatbox.Invoke();
                         PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(),
-                           null, hit.transform.gameObject.GetComponent<PlayerBehavior>());
+                        hit.transform.gameObject.GetComponentInChildren<Enemy>(), null);
 
                     }
                     else
                     {
-
-                        if(hit.transform.gameObject.GetComponentInChildren<Enemy>() != null)
-                        {
-                            PublicEvents.DisplayEnemyStatbox?.Invoke(hit.transform.gameObject.GetComponentInChildren<Enemy>());
-
-                            PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), 
-                            hit.transform.gameObject.GetComponentInChildren<Enemy>(), null);
-
-                        }
-                        else
-                        {
-                            PublicEvents.HideEnemyStatbox.Invoke();
-                            PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), null, null);
-                        }
-
+                        PublicEvents.SelectTarget?.Invoke(hit.transform.gameObject.GetComponentInParent<TileBehaviour>(), null, null);
                     }
 
+                }
+
+            }
+
+            RaycastHit hit2;
+            if (Physics.Raycast(ray, out hit2))
+            {
+                if (hit2.transform.GetComponentInChildren<Enemy>() != null)
+                {
+                    PublicEvents.DisplayEnemyStatbox?.Invoke(hit2.transform.gameObject.GetComponentInChildren<Enemy>());
                 }
                 else
                 {
                     PublicEvents.HideEnemyStatbox.Invoke();
                 }
-
             }
         }
 
