@@ -466,6 +466,7 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         posBeforeMovement = myPosition;
         movementUsed = 0;
+        pAnim.ChangeSavedState("Player_Idle");
         pAnim.StartIdle();
 
 

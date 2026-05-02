@@ -70,6 +70,15 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes the last saved state
+    /// </summary>
+    /// <param name="newState"></param>
+    public void ChangeSavedState(string newState)
+    {
+        lastState = newState;
+    }
+
 
     /// <summary>
     /// Starts the Walk state
