@@ -17,6 +17,10 @@ public class EndLevelMenu : MonoBehaviour
     [SerializeField] private GameObject WinMenu;
     [SerializeField] private GameObject LoseMenu;
     [SerializeField] private GameObject controlsButton;
+   
+    [SerializeField] private GameObject creditsbutton;
+    [SerializeField] private GameObject nextLevelButton;
+
     [SerializeField] private FMOD.Studio.Bus MasterBus;
     private bool retrying;
     [SerializeField] private bool IsDemo;
@@ -37,6 +41,11 @@ public class EndLevelMenu : MonoBehaviour
         LoseMenu.SetActive(false);
         demoMenu.SetActive(false);
         controlsButton.SetActive(true);
+        
+        //redunency check
+        creditsbutton.SetActive(false);
+        nextLevelButton.SetActive(true);
+
 
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
         // Grabs bus manager for audio
@@ -80,6 +89,16 @@ public class EndLevelMenu : MonoBehaviour
             else
             {
                 WinMenu.SetActive(true);
+                print(GameObject.FindAnyObjectByType<GridTesting>().gridIndex);
+                if (GameObject.FindAnyObjectByType<GridTesting>().gridIndex == 3)
+                {
+                    creditsbutton.SetActive(true);
+                    nextLevelButton.SetActive(false);
+                }
+                else {
+                    creditsbutton.SetActive(false);
+                    nextLevelButton.SetActive(true);
+                }
                 FMODUnity.RuntimeManager.PlayOneShot("event:/WinJingle");
             }
 
@@ -114,6 +133,17 @@ public class EndLevelMenu : MonoBehaviour
             else
             {
                 WinMenu.SetActive(true);
+                print(GameObject.FindAnyObjectByType<GridTesting>().gridIndex);
+                if (GameObject.FindAnyObjectByType<GridTesting>().gridIndex == 3)
+                {
+                    creditsbutton.SetActive(true);
+                    nextLevelButton.SetActive(false);
+                }
+                else
+                {
+                    creditsbutton.SetActive(false);
+                    nextLevelButton.SetActive(true);
+                }
                 FMODUnity.RuntimeManager.PlayOneShot("event:/WinJingle");
             }
 
